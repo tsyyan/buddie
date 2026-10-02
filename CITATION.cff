@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use verbatim or its results, please cite it as below."
+title: "verbatim: checking quotations in AI agent reports against byte snapshots of the cited sources"
+type: software
+authors:
+  - alias: tsyyan
+repository-code: "https://github.com/tsyyan/verbatim"
+license: Apache-2.0
+version: 0.3.2
+date-released: 2026-10-02
+keywords:
+  - AI agents
+  - deep research
+  - faithfulness
+  - scalable oversight
+  - citation verification

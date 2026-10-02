@@ -1,0 +1,232 @@
+{
+ "G001": {
+  "closest": {
+   "ratio": 0.933,
+   "text": "ations Whole-Home Gesture Recognition Using Wireless Signals",
+   "visible_offset": 1502
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "7786589c962ad62f2cccd7458d612634f6fea94fa807c4ad234ce992780721e0",
+  "url": "https://wisee.cs.washington.edu/#:~:text=proof,an%20average%20accuracy%20of%2094",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G002": {
+  "closest": {
+   "ratio": 0.318,
+   "text": "r browser settings. Please check your connection, disable any ad blockers, or try usin",
+   "visible_offset": 118
+  },
+  "doubts": [
+   "unattributed",
+   "thin_page"
+  ],
+  "miss": null,
+  "not_quote": null,
+  "note": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/s41524-019-0221-0",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "G003": {
+  "closest": {
+   "ratio": 0.538,
+   "text": "otypes born out of 3D tech",
+   "visible_offset": 4523
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "6f810ad7faa627a3f3bc2a8c0196ba29f9ada0dfbc3d807463c8979c8a8c7098",
+  "url": "https://amchronicle.com/insights/is-3d-printing-the-next-big-thing-in-high-jewellery/#:~:text=digitalised%20customer%20experience",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G004": {
+  "closest": {
+   "ratio": 0.556,
+   "text": "ntial for “universalisation” beyond “transcending” BL and gender, e",
+   "visible_offset": 803
+  },
+  "doubts": [
+   "abstract_only"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "2d13ac9c4fda0303a4b88eb66290a2eb7eb0fbdd9d81f52fc60251cd065fd8f6",
+  "url": "https://www.tandfonline.com/doi/full/10.1080/14680777.2024.2361042",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "open_access openalex abstract"
+ },
+ "G005": {
+  "closest": {
+   "ratio": 0.611,
+   "text": "ow Can Teachers Implement Goal-Setting Strategies in t",
+   "visible_offset": 4307
+  },
+  "doubts": null,
+  "miss": "NOT_FOUND",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "70c4b89c5c69b6006790faedb9673e95d2332bba581100d078d753b1bc682acb",
+  "url": "https://www.acacia.edu/blog/why-are-goal-setting-strategies-important-for-students-and-how-can-they-be-implemented/#:~:text=Research%20indicates%20that%20goal%20setting,confidence",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G006": {
+  "closest": {
+   "ratio": 0.682,
+   "text": " with ultrasound technology. Occupancy Routin",
+   "visible_offset": 2099
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "32dc3a8fee39500fabfb2a0761f87b2890e4868083be41499fe215dc742c487f",
+  "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GSR22RYDWS3KBUYW#:~:text=Service%20www,Alexa",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G007": {
+  "closest": {
+   "ratio": 0.576,
+   "text": " 中文 HOME NEWS INSTITUTIONS POLICIES ARCHIVE 中文 China to expand REITs pilot program into more fields",
+   "visible_offset": 96
+  },
+  "doubts": null,
+  "miss": null,
+  "not_quote": null,
+  "note": null,
+  "sha256": "300d82dfc4d22e5672b1facccbb75ce11891d6c8d367c3b642e923b65201fe2f",
+  "url": "https://english.www.gov.cn/statecouncil/ministries/202212/08/content_WS6391a9a8c6d0a757729e41b5.html#:~:text=China%20will%20accelerate%20the%20development,real%20estate%20sectors%2C%20Li%20added",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "G008": {
+  "closest": {
+   "ratio": 0.7,
+   "text": ".. Applied Materials enables cobalt contact & inter",
+   "visible_offset": 6543
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": null,
+  "not_quote": null,
+  "note": null,
+  "sha256": "026b08ade8c4996c49a563b5e207c02baa7a81d6004716cb561a37973a1506de",
+  "url": "https://www.blog.baldengineering.com/2018/06/applied-materials-enables-cobalt.html#:~:text=At%20IEDM%202017%20in%20December,you%20will%20finde%20here%3A%20LINK",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "G009": {
+  "closest": {
+   "ratio": 0.47,
+   "text": "search into inorganic crystals, and unlock the promise of machine learning tools as",
+   "visible_offset": 5959
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "b987cf670be32edfbed06617cd9ffab8738b09302943e261c888489d283474d1",
+  "url": "https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G010": {
+  "closest": {
+   "ratio": 0.641,
+   "text": "A Herbie Hancock Listening Guide — LA Phil Skip to main content ",
+   "visible_offset": 0
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": null,
+  "not_quote": null,
+  "note": null,
+  "sha256": "1e054f8447081a4c59bd7d8e6c6b51d01c949757603d42e5fff61fdc25f69e4d",
+  "url": "https://www.laphil.com/about/watch-and-listen/herbie-listening-guide#:~:text=Over%20the%20course%20of%20his,It%E2%80%99s%20no%20accident",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "G011": {
+  "closest": {
+   "ratio": 0.707,
+   "text": "communiqué of the Bandung Conference endo",
+   "visible_offset": 9862
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "miss": "UNCERTAIN",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "97337f1039391d761aa9fd0dce39db0f5301c6e042fb2dd94b48790ad8720f46",
+  "url": "https://carnegieendowment.org/research/2024/05/global-south-colonialism-imperialism#:~:text=In%20his%20opening%20address%2C%20Indonesian,nations%20remained%20in%20subordinate%20positions",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ },
+ "G012": {
+  "closest": {
+   "ratio": 0.053,
+   "text": "讯新闻 《抗日战争研究论集》出版座谈会在京召开 商务印书馆 2024-12-23 07:59发布于北京 2024年12月21日，《抗日战争研究论集》出版座谈会在北京师范大学举行。会议由北京师范大学历史学院和商务印书馆共同主办。 为铭记抗战历史，弘扬伟大抗战精神，商务印书馆于近日出版了由已故北京师范大学历史系教授、抗日战争史研究专家郭大钧教授所著的《抗日战争研究论集》一书。该书的出版对于深入研究抗日战争在中国近现代史及世界近现代史中的作用和地位，有着重要的学术价值和现实意义。 北京师范大学副校长孙红培，中国出版集团副总经理、党组成员陈永刚，商务印书馆执行董事、党委书记顾青出席座谈会并致辞。会议由北京师范大学历史学院院长刘林海教授主持。 ",
+   "visible_offset": 21
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "miss": null,
+  "not_quote": null,
+  "note": null,
+  "sha256": "85876286625610b2c7fe55e670d3096098b451063a41d3f16ecf88f16bcc4220",
+  "url": "https://news.qq.com/rain/a/20241223A01KL500#:~:text=%E5%8C%97%E4%BA%AC%E5%B8%88%E8%8C%83%E5%A4%A7%E5%AD%A6%E5%8E%86%E5%8F%B2%E5%AD%A6%E9%99%A2%E6%95%99%E6%8E%88%E6%9C%B1%E6%B1%89%E5%9B%BD%20%E5%8C%97%E4%BA%AC%E5%B8%88%E8%8C%83%E5%A4%A7%E5%AD%A6%E5%8E%86%E5%8F%B2%E5%AD%A6%E9%99%A2%E6%95%99%E6%8E%88%E6%9C%B1%E6%B1%89%E5%9B%BD%E5%9B%9E%E9%A1%BE%E4%BA%86%E6%94%B9%E9%9D%A9%E5%BC%80%E6%94%BE%E4%BB%A5%E6%9D%A5%E6%88%91%E5%9B%BD%E5%AD%A6%E6%9C%AF%E7%95%8C%E5%85%B3%E4%BA%8E%E6%8A%97%E6%88%98%E5%8F%B2%E7%A0%94%E7%A9%B6%E7%BB%8F%E8%BF%87%E7%9A%84%E4%B8%8D%E5%90%8C%E9%98%B6%E6%AE%B5%E3%80%82%E6%9C%80%E5%A4%A7%E7%9A%84%E5%8F%98%E5%8C%96%E6%98%AF%E2%80%9C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%8A%97%E6%88%98%E2%80%9D%E8%A7%82%E5%BF%B5%E7%9A%84%E6%8F%90%E5%87%BA%EF%BC%8C%E4%BD%BF%20%E5%BE%97%E4%B8%AD%E5%9B%BD%E6%8A%97%E6%88%98%E5%8F%B2%E7%A0%94%E7%A9%B6%E7%9A%84%E8%8C%83%E5%9B%B4%E6%9B%B4%E5%A4%A7%E3%80%82%E9%83%AD%E5%A4%A7%E9%92%A7%E6%95%99%E6%8E%88%E6%98%AF%E5%9C%A8%E6%8A%97%E6%88%98%E5%8F%B2%E7%A0%94%E7%A9%B6%E6%97%A9%E6%9C%9F%E5%B4%AD%E9%9C%B2%E5%A4%B4%E8%A7%92%E7%9A%84%E5%AD%A6%E8%80%85%E4%B9%8B%E4%B8%80%EF%BC%8C%E5%9C%A8%E6%96%B0%E6%97%A7%E6%80%9D%E6%83%B3%E7%A2%B0%E6%92%9E%E4%B8%AD%EF%BC%8C%E4%BB%A5%E9%83%AD%E5%A4%A7%E9%92%A7%E6%95%99%E6%8E%88%E4%B8%BA%E4%BB%A3%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BB%A3%E5%AD%A6%E4%BA%BA%E7%95%99%E4%B8%8B%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%BC%8C%E6%97%A2%E5%8F%8D%E6%98%A0%E4%BA%86%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E6%9C%AF%E8%A7%82%E7%82%B9%20%EF%BC%8C%E5%8F%88%E6%88%90%E4%B8%BA%E4%BB%8A%E5%A4%A9%E7%A0%94%E7%A9%B6%E6%8A%97%E6%88%98%E5%8F%B2%E7%9A%84%E9%87%8D%E8%A6%81%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%EF%BC%8C%E5%AF%B9%E4%BA%8E%E6%B7%B1%E5%8C%96%E4%BB%8A%E5%A4%A9%E6%8A%97%E6%88%98%E5%8F%B2%E7%A0%94%E7%A9%B6%E5%85%B7%E6%9C%89%E8%BE%83%E9%AB%98%E7%9A%84%E5%AD%A6%E6%9C%AF%E4%BB%B7%E5%80%BC%E3%80%82%E6%9C%B1%E6%B1%89%E5%9B%BD%E6%95%99%E6%8E%88%E8%AE%A4%E4%B8%BA%E8%BF%99%E9%83%A8%E3%80%8A%E6%8A%97%E6%97%A5%E6%88%98%E4%BA%89%E7%A0%94%E7%A9%B6%E8%AE%BA%E9%9B%86%E3%80%8B%E5%AE%A2%E8%A7%82%E5%8F%8D%E6%98%A0%E4%BA%86%E6%88%91%E5%9B%BD%E5%AD%A6%E6%9C%AF%E7%95%8C%E5%85%B3%E4%BA%8E%E6%8A%97%E6%97%A5%E6%88%98%E4%BA%89%E7%A0%94%E7%A9%B6%E7%9A%84%E5%8F%98%E5%8C%96%20%E5%92%8C%E8%BF%9B%E5%B1%95%E3%80%82%E5%85%B6%E4%B8%AD%E6%9C%89%E4%BA%9B%E5%85%B3%E4%BA%8E%E6%8A%97%E6%88%98%E5%8F%B2%E5%AD%A6%E7%9A%84%E8%AE%BA%E8%BF%B0%E3%80%81%E8%AF%84%E4%BB%B7%E5%85%B7%E6%9C%89%E6%96%B0%E6%84%8F%EF%BC%8C%E5%B8%B8%E8%AF%BB%E5%B8%B8%E6%96%B0%E3%80%82",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "G013": {
+  "closest": {
+   "ratio": 0.768,
+   "text": "Gartner Forecasts for the Low‑Code development Market Growth (2026) E",
+   "visible_offset": 0
+  },
+  "doubts": null,
+  "miss": "NOT_FOUND",
+  "not_quote": "title",
+  "note": null,
+  "sha256": "4feb042a040b27de8e53c0125e3c4cec223561e66ae23c9f44da492e29197549",
+  "url": "https://kissflow.com/low-code/gartner-forecasts-on-low-code-development-market/#:~:text=Gartner%20says%20that%20by%202024%2C,percent%20of%20application%20development%20operations",
+  "v031_locate": "NOT_FOUND",
+  "verdict": "NOT_A_QUOTE",
+  "via": "direct"
+ }
+}

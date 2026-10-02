@@ -1,0 +1,30 @@
+{
+ "E006": {
+  "labelled": 63,
+  "no_snapshot": 0,
+  "misses_031": 61,
+  "agent_errors_in_misses": 25,
+  "found_by_032": [],
+  "hidden_agent_errors": [],
+  "pages_repaired": 1
+ },
+ "E008": {
+  "labelled": 309,
+  "no_snapshot": 0,
+  "misses_031": 260,
+  "agent_errors_in_misses": 152,
+  "found_by_032": [
+   {
+    "key": "F048",
+    "label": "IN_SOURCE",
+    "v031": "NOT_FOUND",
+    "v032": "FOUND_NORMALIZED",
+    "note": "speech_tag",
+    "tag": "Tonooka recalled.",
+    "repaired": null
+   }
+  ],
+  "hidden_agent_errors": [],
+  "pages_repaired": 1
+ }
+}

@@ -1,0 +1,162 @@
+{
+ "n": 97,
+ "checked_quotes": 147,
+ "pool": {
+  "checked_misses_and_punctuation_finds": 67,
+  "checked_finds": 80,
+  "controls": 30
+ },
+ "agreement": {
+  "same": 94,
+  "n": 97,
+  "disagreements": [
+   "F039",
+   "F067",
+   "F093"
+  ],
+  "pairs": {
+   "F039": [
+    "IN_SOURCE",
+    "AGENT_ALTERED"
+   ],
+   "F067": [
+    "AGENT_ALTERED",
+    "IN_SOURCE"
+   ],
+   "F093": [
+    "UNVERIFIABLE",
+    "AGENT_ALTERED"
+   ]
+  }
+ },
+ "verdicts": {
+  "NOT_FOUND": 38,
+  "FOUND": 15,
+  "FOUND_NORMALIZED": 18,
+  "UNCERTAIN": 16,
+  "NOT_A_QUOTE": 10
+ },
+ "labels": {
+  "NOT_A_QUOTE": 16,
+  "UNVERIFIABLE": 6,
+  "IN_SOURCE": 32,
+  "AGENT_ALTERED": 39,
+  "DISAGREE": 3,
+  "AGENT_ABSENT": 1
+ },
+ "table": {
+  "AGENT_ABSENT": {
+   "NOT_FOUND": 1
+  },
+  "AGENT_ALTERED": {
+   "NOT_FOUND": 24,
+   "UNCERTAIN": 12,
+   "NOT_A_QUOTE": 3
+  },
+  "DISAGREE": {
+   "NOT_FOUND": 3
+  },
+  "IN_SOURCE": {
+   "FOUND": 14,
+   "FOUND_NORMALIZED": 18
+  },
+  "NOT_A_QUOTE": {
+   "NOT_FOUND": 5,
+   "FOUND": 1,
+   "UNCERTAIN": 3,
+   "NOT_A_QUOTE": 7
+  },
+  "UNVERIFIABLE": {
+   "NOT_FOUND": 5,
+   "UNCERTAIN": 1
+  }
+ },
+ "false_not_found_of_checked": {
+  "v0.3": {
+   "k": 5,
+   "k_with_disagreements": 8,
+   "n": 147,
+   "rate": 0.034,
+   "rate_with_disagreements": 0.0544,
+   "ci95": [
+    0.0146,
+    0.0771
+   ],
+   "keys": [
+    "F001",
+    "F009",
+    "F059",
+    "F080",
+    "F096"
+   ],
+   "disagreements": [
+    "F039",
+    "F067",
+    "F093"
+   ]
+  },
+  "before_0.3": {
+   "k": 9,
+   "k_with_disagreements": 12,
+   "n": 147,
+   "rate": 0.0612,
+   "rate_with_disagreements": 0.0816,
+   "ci95": [
+    0.0325,
+    0.1123
+   ],
+   "keys": [
+    "F001",
+    "F009",
+    "F046",
+    "F059",
+    "F061",
+    "F080",
+    "F081",
+    "F087",
+    "F096"
+   ],
+   "disagreements": [
+    "F039",
+    "F067",
+    "F093"
+   ]
+  }
+ },
+ "not_a_quote": {
+  "n": 10,
+  "by_kind": {
+   "example": 10
+  },
+  "labels": {
+   "NOT_A_QUOTE": 7,
+   "AGENT_ALTERED": 3
+  },
+  "hidden_agent_errors": [
+   "F014",
+   "F049",
+   "F094"
+  ],
+  "agent_errors_in_sample": 40
+ },
+ "not_a_quote_left_in_not_found": [
+  "F001",
+  "F009",
+  "F059",
+  "F080",
+  "F096"
+ ],
+ "punctuation_finds": {
+  "n": 3,
+  "labels": {
+   "IN_SOURCE": 3
+  }
+ },
+ "controls": {
+  "n": 30,
+  "labels": {
+   "IN_SOURCE": 29,
+   "NOT_A_QUOTE": 1
+  }
+ }
+}

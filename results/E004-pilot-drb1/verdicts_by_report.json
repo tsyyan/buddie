@@ -1,0 +1,5088 @@
+[
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 51,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 52,
+  "summary": {
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L256.1",
+    "quote": "Not on the List",
+    "url": "https://news.futunn.com/en/post/32290335/duan-yongping-s-not-on-the-list-the-reason-we",
+    "ratio": 0.273,
+    "page_chars": 8
+   },
+   {
+    "claim": "L282.1",
+    "quote": "empty position,",
+    "url": "https://www.moomoo.com/news/post/50670382/duan-yongping-who-is-in-empty-position-has-taken-action",
+    "ratio": 0.211,
+    "page_chars": 8
+   }
+  ]
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 64,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 71,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 72,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 79,
+  "summary": {
+   "FOUND_NORMALIZED": 1,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 80,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 81,
+  "summary": {
+   "FOUND": 1,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 82,
+  "summary": {
+   "FOUND": 3,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 87,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 88,
+  "summary": {
+   "FOUND": 4,
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L221.1",
+    "quote": "Everything has to feel very homemade",
+    "url": "https://www.imdb.com/news/ni65009794/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L253.1",
+    "quote": "One Hundred years of Solitude",
+    "url": "https://www.reddit.com/r/netflix/comments/1hdbnt9/thoughts_on_one_hundred_years_of_solitude/",
+    "ratio": 0.286,
+    "page_chars": 6
+   }
+  ]
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 89,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 90,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 91,
+  "summary": {
+   "FOUND": 4
+  },
+  "not_found": []
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 95,
+  "summary": {
+   "NOT_FOUND": 1,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L120.1",
+    "quote": ".17 A related line states:",
+    "url": "https://vinaire.me/2012/03/",
+    "ratio": 0.5,
+    "page_chars": 58142
+   }
+  ]
+ },
+ {
+  "system": "gemini-2.5-pro-deepresearch",
+  "task": 97,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 51,
+  "summary": {
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L4.1",
+    "quote": "silver economy.",
+    "url": "https://www.stat.go.jp/english/index.html",
+    "ratio": 0.714,
+    "page_chars": 2374
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 52,
+  "summary": {
+   "FOUND": 1,
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L30.1",
+    "quote": "Chinese Warren Buffett",
+    "url": "https://www.moomoo.com/news/post/5154933/50-thoughts-of-duan-yongping-in-the-past-10-years",
+    "ratio": 0.286,
+    "page_chars": 8
+   },
+   {
+    "claim": "L30.2",
+    "quote": "right business, right person, right price",
+    "url": "https://www.moomoo.com/news/post/5154933/50-thoughts-of-duan-yongping-in-the-past-10-years",
+    "ratio": 0.174,
+    "page_chars": 8
+   },
+   {
+    "claim": "L34.1",
+    "quote": "Investing requires more patience and careful consideration,",
+    "url": "https://news.futunn.com/en/post/51820977/duan-yongping-rarely-makes-an-appearance-discussing-anecdotes-about-buffett",
+    "ratio": 0.159,
+    "page_chars": 8
+   },
+   {
+    "claim": "L40.1",
+    "quote": "Our favorite holding period is forever,",
+    "url": "https://www.bankrate.com/investing/warren-buffett-profile/",
+    "ratio": 0.553,
+    "page_chars": 9025
+   },
+   {
+    "claim": "L40.2",
+    "quote": "Be fearful when others are greedy, and greedy when others are fearful,",
+    "url": "https://www.bankrate.com/investing/warren-buffett-profile/",
+    "ratio": 0.449,
+    "page_chars": 9025
+   },
+   {
+    "claim": "L46.1",
+    "quote": "wonderful businesses at fair prices,",
+    "url": "https://pictureperfectportfolios.com/how-to-invest-like-charlie-munger-a-comprehensive-guide/",
+    "ratio": 0.657,
+    "page_chars": 44069
+   },
+   {
+    "claim": "L50.1",
+    "quote": "very wise and can explain any complicated question in one sentence or two.",
+    "url": "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university",
+    "ratio": 0.466,
+    "page_chars": 16487
+   },
+   {
+    "claim": "L50.2",
+    "quote": "Our understanding of investment is consistent. As I just said, investment is actually value investing,",
+    "url": "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university",
+    "ratio": 0.446,
+    "page_chars": 16487
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 56,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 59,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 60,
+  "summary": {
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L36.1",
+    "quote": "Cislunar Constellation Design for Space Situational Awareness with Time-Expanded Facility Location Problem",
+    "url": "https://www.arxiv.org/abs/2408.06238",
+    "ratio": 0.632,
+    "page_chars": 5229
+   },
+   {
+    "claim": "L48.1",
+    "quote": "A Space-Based System for Cislunar Space Situational Awareness,",
+    "url": "https://researchspace.auckland.ac.nz/handle/2292/68525",
+    "ratio": 0.0,
+    "page_chars": 0
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 61,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 64,
+  "summary": {
+   "FOUND": 1,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 67,
+  "summary": {
+   "FOUND": 6,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L25.1",
+    "quote": "Exploration in deep reinforcement learning: A survey",
+    "url": "https://www.geeksforgeeks.org/sparse-rewards-in-reinforcement-learning/",
+    "ratio": 0.808,
+    "page_chars": 21472
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 76,
+  "summary": {
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L31.1",
+    "quote": "a substrate that is selectively utilized by host microorganisms conferring a health benefit",
+    "url": "https://isappscience.org/for-consumers/learn/prebiotics/",
+    "ratio": 0.956,
+    "page_chars": 8042
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 77,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 79,
+  "summary": {
+   "FOUND": 1,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 81,
+  "summary": {
+   "NOT_FOUND": 4
+  },
+  "not_found": [
+   {
+    "claim": "L14.1",
+    "quote": "totalitarian conception,",
+    "url": "https://blogs.lse.ac.uk/europpblog/2015/06/25/the-battle-for-history-why-europe-should-resist-the-temptation-to-rewrite-its-own-communist-past/",
+    "ratio": 0.739,
+    "page_chars": 14186
+   },
+   {
+    "claim": "L21.1",
+    "quote": "positive role",
+    "url": "https://www.eurozine.com/recent-history-and-the-new-dangers-of-politicization/",
+    "ratio": 0.846,
+    "page_chars": 36579
+   },
+   {
+    "claim": "L31.1",
+    "quote": "bundles of silences",
+    "url": "https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/",
+    "ratio": 0.684,
+    "page_chars": 28904
+   },
+   {
+    "claim": "L47.1",
+    "quote": "lieux de memoire",
+    "url": "https://www.nps.gov/parkhistory/resedu/savage.htm",
+    "ratio": 0.5,
+    "page_chars": 3123
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 83,
+  "summary": {
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L66.1",
+    "quote": "Cashless Vision",
+    "url": "https://www.mordorintelligence.com/industry-reports/japan-pos-terminals-market",
+    "ratio": 0.733,
+    "page_chars": 31615
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 87,
+  "summary": {
+   "FOUND": 6,
+   "FOUND_NORMALIZED": 3,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L23.1",
+    "quote": "stunning collections that challenged preconceived notions of fashion",
+    "url": "https://www.vogue.com/article/ai-fashion-week-designers",
+    "ratio": 0.5,
+    "page_chars": 8299
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 88,
+  "summary": {
+   "FOUND": 4,
+   "FOUND_NORMALIZED": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 89,
+  "summary": {
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L26.1",
+    "quote": "Desirable emotional responses that the player can invoke when interacting with the game system,",
+    "url": "http://algorithmancy.8kindsoffun.com/",
+    "ratio": 0.457,
+    "page_chars": 5568
+   },
+   {
+    "claim": "L26.2",
+    "quote": "8 kinds of fun",
+    "url": "http://algorithmancy.8kindsoffun.com/",
+    "ratio": 0.929,
+    "page_chars": 5568
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 90,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 91,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 95,
+  "summary": {
+   "FOUND": 2,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L14.1",
+    "quote": "All conditioned dharmas are like dreams, illusions, bubbles, shadows, like dew drops and a lightning flash: contemplate them thus",
+    "url": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+    "ratio": 0.357,
+    "page_chars": 17770
+   },
+   {
+    "claim": "L15.1",
+    "quote": "A bodhisattva who gives a gift should not be supported by a thing, nor should he be supported anywhere",
+    "url": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+    "ratio": 0.431,
+    "page_chars": 17770
+   },
+   {
+    "claim": "L35.1",
+    "quote": "All conditioned phenomena are like a dream",
+    "url": "https://everydayzen.org/teachings/wandering-around-in-the-diamond-sutra-part-ii/",
+    "ratio": 0.619,
+    "page_chars": 38615
+   }
+  ]
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 97,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "grok-deeper-search",
+  "task": 98,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 52,
+  "summary": {
+   "FOUND": 6,
+   "FOUND_NORMALIZED": 4,
+   "NOT_FOUND": 28
+  },
+  "not_found": [
+   {
+    "claim": "L9.1",
+    "quote": "don’t short, don’t borrow money, and… not to do what you don’t understand",
+    "url": "https://longportapp.com/en/news/106330133#:~:text=,business models %2B corporate culture",
+    "ratio": 0.417,
+    "page_chars": 70
+   },
+   {
+    "claim": "L9.2",
+    "quote": "right business, the right person, the right price,",
+    "url": "https://longportapp.com/en/news/106330133#:~:text=,business models %2B corporate culture",
+    "ratio": 0.429,
+    "page_chars": 70
+   },
+   {
+    "claim": "L9.3",
+    "quote": "truly understood",
+    "url": "https://longportapp.com/en/news/106330133#:~:text=,business models %2B corporate culture",
+    "ratio": 0.5,
+    "page_chars": 70
+   },
+   {
+    "claim": "L11.1",
+    "quote": "don’t have to be an expert on every company… only evaluate companies within your circle of competence. The size of that circle is not very important; knowing its boundaries… is vital",
+    "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=investor needs is the ability,its boundaries%2C however%2C is vital",
+    "ratio": 0.801,
+    "page_chars": 71079
+   },
+   {
+    "claim": "L13.1",
+    "quote": "latticework of mental models",
+    "url": "https://www.justetf.com/en/academy/17-charlie-munger-quotes.html#:~:text=3%3A “We have three baskets for,”",
+    "ratio": 0.536,
+    "page_chars": 9104
+   },
+   {
+    "claim": "L13.2",
+    "quote": "three baskets: yes, no, and too tough to understand",
+    "url": "https://www.justetf.com/en/academy/17-charlie-munger-quotes.html#:~:text=3%3A “We have three baskets for,”",
+    "ratio": 0.824,
+    "page_chars": 9104
+   },
+   {
+    "claim": "L13.3",
+    "quote": "Beta and modern portfolio theory and the like – none of it makes any sense to me. We’re trying to buy businesses with sustainable competitive advantages at a low, or even a fair, price.",
+    "url": "https://www.justetf.com/en/academy/17-charlie-munger-quotes.html#:~:text=3%3A “We have three baskets for,”",
+    "ratio": 0.375,
+    "page_chars": 9104
+   },
+   {
+    "claim": "L17.1",
+    "quote": "A bet with a winning chance of over 90% is what I usually call an investment.",
+    "url": "https://longportapp.com/en/news/106330133#:~:text=,I usually call an investment",
+    "ratio": 0.25,
+    "page_chars": 70
+   },
+   {
+    "claim": "L17.2",
+    "quote": "In the past decade, I have truly understood two companies… On average, it takes me six years to understand one company.",
+    "url": "https://longportapp.com/en/news/106330133#:~:text=,I usually call an investment",
+    "ratio": 0.245,
+    "page_chars": 70
+   },
+   {
+    "claim": "L18.1",
+    "quote": "Price is what you pay; value is what you get.",
+    "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+    "ratio": 0.5,
+    "page_chars": 71079
+   },
+   {
+    "claim": "L18.3",
+    "quote": "We don’t have to be smarter than the rest; we have to be more disciplined than the rest",
+    "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+    "ratio": 0.506,
+    "page_chars": 71079
+   },
+   {
+    "claim": "L18.4",
+    "quote": "Never lose money. Never forget Rule No.1.",
+    "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+    "ratio": 0.45,
+    "page_chars": 71079
+   },
+   {
+    "claim": "L23.1",
+    "quote": "bet big when you’re sure",
+    "url": "https://help.rockflow.ai/blog/pinduoduo-plunges/#:~:text=Duan Yongping released a statement,starting to put selling points",
+    "ratio": 0.625,
+    "page_chars": 16427
+   },
+   {
+    "claim": "L23.3",
+    "quote": "bottom-fishing",
+    "url": "https://help.rockflow.ai/blog/pinduoduo-plunges/#:~:text=Duan Yongping released a statement,starting to put selling points",
+    "ratio": 0.929,
+    "page_chars": 16427
+   },
+   {
+    "claim": "L23.4",
+    "quote": "out-and-out speculation",
+    "url": "https://help.rockflow.ai/blog/pinduoduo-plunges/#:~:text=Duan Yongping released a statement,starting to put selling points",
+    "ratio": 0.522,
+    "page_chars": 16427
+   },
+   {
+    "claim": "L23.5",
+    "quote": "ignored important conditions",
+    "url": "https://help.rockflow.ai/blog/pinduoduo-plunges/#:~:text=Duan Yongping released a statement,starting to put selling points",
+    "ratio": 0.571,
+    "page_chars": 16427
+   },
+   {
+    "claim": "L23.6",
+    "quote": "not to do what you don’t understand",
+    "url": "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks#:~:text=Apple ,of America was fully divested",
+    "ratio": 0.457,
+    "page_chars": 10473
+   },
+   {
+    "claim": "L25.1",
+    "quote": "salad oil scandal",
+    "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+    "ratio": 0.471,
+    "page_chars": 86986
+   },
+   {
+    "claim": "L25.2",
+    "quote": "being greedy when others are fearful.",
+    "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+    "ratio": 0.5,
+    "page_chars": 86986
+   },
+   {
+    "claim": "L25.3",
+    "quote": "great investment opportunity when a marvelous business encounters a one-time huge but solvable problem",
+    "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+    "ratio": 0.922,
+    "page_chars": 86986
+   },
+   {
+    "claim": "L25.5",
+    "quote": "changed the way I look at businesses",
+    "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+    "ratio": 0.5,
+    "page_chars": 86986
+   },
+   {
+    "claim": "L25.6",
+    "quote": "our favorite holding period is forever",
+    "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+    "ratio": 0.658,
+    "page_chars": 86986
+   },
+   {
+    "claim": "L27.1",
+    "quote": "buy great businesses",
+    "url": "https://finance.yahoo.com/news/charlie-munger-called-alibaba-one-230116375.html#:~:text=Charlie Munger Called Alibaba 'One,5",
+    "ratio": 0.6,
+    "page_chars": 8860
+   },
+   {
+    "claim": "L27.3",
+    "quote": "Correcting mistakes should be done as soon as possible, and the cost is always the smallest",
+    "url": "https://finance.yahoo.com/news/charlie-munger-says-byd-best-094339069.html#:~:text=Charlie Munger says BYD was,in 2008 for %24230 million",
+    "ratio": 0.44,
+    "page_chars": 8404
+   },
+   {
+    "claim": "L27.4",
+    "quote": "buy well, never sell",
+    "url": "https://finance.yahoo.com/news/charlie-munger-called-alibaba-one-230116375.html#:~:text=Charlie Munger Called Alibaba 'One,5",
+    "ratio": 0.55,
+    "page_chars": 8860
+   },
+   {
+    "claim": "L33.1",
+    "quote": "experimental",
+    "url": "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks#:~:text=Duan Yongping%2C often dubbed as,off in the third quarter",
+    "ratio": 0.667,
+    "page_chars": 10473
+   },
+   {
+    "claim": "L33.2",
+    "quote": "putting big money in your best ideas",
+    "url": "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks#:~:text=Duan Yongping%2C often dubbed as,off in the third quarter",
+    "ratio": 0.444,
+    "page_chars": 10473
+   },
+   {
+    "claim": "L35.1",
+    "quote": "eager for a few great opportunities",
+    "url": "https://valuesider.com/guru/charlie-munger-daily-journal-corp/portfolio#:~:text=In Daily Journal Corp's portfolio,34",
+    "ratio": 0.457,
+    "page_chars": 4748
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 53,
+  "summary": {
+   "NOT_FOUND": 4,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L15.1",
+    "quote": "generational trust",
+    "url": "https://7pillarsinstitute.org/ethical-investing-norways-sovereign-wealth-fund/#:~:text=The people of Norway through,Responsible Investment%2C Norges Bank 2016",
+    "ratio": 0.667,
+    "page_chars": 23542
+   },
+   {
+    "claim": "L43.1",
+    "quote": "past reserves",
+    "url": "https://www.gic.com.sg/who-we-are/faqs/#:~:text=FAQs ,The",
+    "ratio": 0.769,
+    "page_chars": 21496
+   },
+   {
+    "claim": "L55.1",
+    "quote": "generational investing",
+    "url": "https://blog.seedly.sg/temasek-portfolio-performance/#:~:text=Temasek maintained a cautious but,its investment activities in Japan",
+    "ratio": 0.682,
+    "page_chars": 13026
+   },
+   {
+    "claim": "L55.2",
+    "quote": "growth sectors",
+    "url": "https://blog.seedly.sg/temasek-portfolio-performance/#:~:text=Temasek maintained a cautious but,its investment activities in Japan",
+    "ratio": 0.714,
+    "page_chars": 13026
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 54,
+  "summary": {
+   "NOT_FOUND": 4,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L5.1",
+    "quote": "corner solutions",
+    "url": "https://arxiv.org/html/2403.16667v1#:~:text=Whilst hugely influential%2C various limitations,Lobo%2C Fazel%2C and Boyd",
+    "ratio": 0.625,
+    "page_chars": 44192
+   },
+   {
+    "claim": "L21.1",
+    "quote": "a pandemic will crash travel stocks",
+    "url": "https://blogs.cfainstitute.org/investor/2024/09/05/how-machine-learning-is-transforming-portfolio-optimization/#:~:text=ML algorithms are particularly useful,the target variable is unknown",
+    "ratio": 0.486,
+    "page_chars": 11603
+   },
+   {
+    "claim": "L29.1",
+    "quote": "correlation-aware",
+    "url": "https://arxiv.org/abs/2402.16609#:~:text=dynamic",
+    "ratio": 0.706,
+    "page_chars": 5609
+   },
+   {
+    "claim": "L36.1",
+    "quote": "tilt 5% overweight to tech sector",
+    "url": "https://www.fe.training/free-resources/portfolio-management/black-litterman-model/#:~:text=The Black,ESG factors and machine learning",
+    "ratio": 0.606,
+    "page_chars": 12635
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 55,
+  "summary": {
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 9,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L28.1",
+    "quote": "no matter how high the returns",
+    "url": "https://www.quantifiedstrategies.com/trading-performance/#:~:text=you are backtesting,to measure your trading performance",
+    "ratio": 0.433,
+    "page_chars": 84
+   },
+   {
+    "claim": "L34.1",
+    "quote": "bumpier ride,",
+    "url": "https://www.quantifiedstrategies.com/trading-performance/",
+    "ratio": 0.333,
+    "page_chars": 84
+   },
+   {
+    "claim": "L36.1",
+    "quote": "Max drawdown during 2007–2009",
+    "url": "https://www.utradealgos.com/blog/what-are-the-key-metrics-to-track-in-algo-trading-backtesting#:~:text=Maximum drawdown represents the largest,with a strategy during downturns",
+    "ratio": 0.552,
+    "page_chars": 9212
+   },
+   {
+    "claim": "L44.1",
+    "quote": "factors with faster decay require higher turnover, while higher turnover incurs greater transaction cost – which has to be balanced with the predictive power of the signal.",
+    "url": "https://hudsonthames.org/wp-content/uploads/2022/01/DB-201409-Seven_Sins_of_Quantitative_Investing.pdf#:~:text=Signal decay Factors with faster,the predictive power of the",
+    "ratio": 0.959,
+    "page_chars": 131457
+   },
+   {
+    "claim": "L70.1",
+    "quote": "If we target a certain Sharpe, how much capital can we deploy?",
+    "url": "https://pippenguin.net/trading/learn-trading/quantitative-trading-beginners-guide/#:~:text=Evaluation Criterion Key Metrics Importance,Technical feasibility High Resource requirements",
+    "ratio": 0.459,
+    "page_chars": 55756
+   },
+   {
+    "claim": "L70.2",
+    "quote": "At $X capital, what performance decay do we expect?",
+    "url": "https://pippenguin.net/trading/learn-trading/quantitative-trading-beginners-guide/#:~:text=Evaluation Criterion Key Metrics Importance,Technical feasibility High Resource requirements",
+    "ratio": 0.44,
+    "page_chars": 55756
+   },
+   {
+    "claim": "L78.1",
+    "quote": "Using model parameters estimated up to 2019, the strategy’s return in 2020–2024 drops by X% compared to a model re-trained yearly.",
+    "url": "https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C",
+    "ratio": 0.372,
+    "page_chars": 13882
+   },
+   {
+    "claim": "L78.2",
+    "quote": "learn the noise",
+    "url": "https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C",
+    "ratio": 0.6,
+    "page_chars": 13882
+   },
+   {
+    "claim": "L78.3",
+    "quote": "over time, even the most well-trained models can degrade in performance due to shifts in data distribution and evolving market conditions.",
+    "url": "https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C",
+    "ratio": 0.942,
+    "page_chars": 13882
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 56,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L57.1",
+    "quote": "Asymmetric First-Price Auctions with Uniform Distributions",
+    "url": "https://ore.exeter.ac.uk/repository/handle/10036/4246#:~:text=auctions outside the symmetric case,of the two distributions",
+    "ratio": 0.0,
+    "page_chars": 0
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 57,
+  "summary": {
+   "FOUND": 11,
+   "FOUND_NORMALIZED": 5,
+   "NOT_FOUND": 21,
+   "SOURCE_UNAVAILABLE": 6
+  },
+  "not_found": [
+   {
+    "claim": "L27.1",
+    "quote": "AI in Control",
+    "url": "https://kpmg.com/us/en/ai.html#:~:text=Our well,to secure their AI technologies",
+    "ratio": 0.615,
+    "page_chars": 27748
+   },
+   {
+    "claim": "L27.2",
+    "quote": "Intelligent Agent",
+    "url": "https://kpmg.com/us/en/ai.html#:~:text=Our well,to secure their AI technologies",
+    "ratio": 0.706,
+    "page_chars": 27748
+   },
+   {
+    "claim": "L29.1",
+    "quote": "responsible AI and implementation quality",
+    "url": "https://kpmg.com/us/en/ai.html#:~:text=KPMG is recognized as a,leader in AI",
+    "ratio": 0.488,
+    "page_chars": 27748
+   },
+   {
+    "claim": "L29.2",
+    "quote": "We are seeing a shift from the traditional consulting pyramid to a diamond,",
+    "url": "https://kpmg.com/us/en/ai.html#:~:text=KPMG is recognized as a,leader in AI",
+    "ratio": 0.473,
+    "page_chars": 27748
+   },
+   {
+    "claim": "L33.1",
+    "quote": "holistic solution to truly harness the full potential of AI.",
+    "url": "https://www.consultancy-me.com/news/5644/mckinsey-adds-israel-based-iguazio-to-ai-subsidiary-quantumblack#:~:text=Formed in 2015 when McKinsey,QuantumBlack has over 1%2C000 staff",
+    "ratio": 0.797,
+    "page_chars": 8823
+   },
+   {
+    "claim": "L35.1",
+    "quote": "cutting-edge AI scheduling platform",
+    "url": "https://www.consultancy-me.com/news/5644/mckinsey-adds-israel-based-iguazio-to-ai-subsidiary-quantumblack#:~:text=Formed in 2015 when McKinsey,QuantumBlack has over 1%2C000 staff",
+    "ratio": 0.457,
+    "page_chars": 8823
+   },
+   {
+    "claim": "L36.1",
+    "quote": "embed AI in every aspect of the firm’s work",
+    "url": "https://www.consultancy-me.com/news/5743/mckinsey-launches-ai-subsidiary-quantumblack-in-middle-east#:~:text=“We do that by harnessing,”",
+    "ratio": 0.512,
+    "page_chars": 8420
+   },
+   {
+    "claim": "L60.1",
+    "quote": "pioneering firm",
+    "url": "https://www.bain.com/about/media-center/press-releases/2023/bain--company-announces-services-alliance-with-openai-to-help-enterprise-clients-identify-and-realize-the-full-potential-and-maximum-value-of-ai/#:~:text=“AI has reached an inflection,Company’s Worldwide Managing Partner",
+    "ratio": 0.667,
+    "page_chars": 13119
+   },
+   {
+    "claim": "L66.1",
+    "quote": "Applied Intelligence",
+    "url": "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=retail and security to manufacturing,process information across hundreds of",
+    "ratio": 0.55,
+    "page_chars": 7770
+   },
+   {
+    "claim": "L79.1",
+    "quote": "over the next decade, AI will be a mega-trend transforming how we live and work,",
+    "url": "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=“There is unprecedented interest in,when the technology is changing",
+    "ratio": 0.797,
+    "page_chars": 7770
+   },
+   {
+    "claim": "L83.1",
+    "quote": "AI market play",
+    "url": "https://www.dbta.com/Newsletters/5MB-Information-Management/February-7-2024-13313.aspx#:~:text=Five Minute Briefing%3A Information Management,specializing in the development",
+    "ratio": 0.714,
+    "page_chars": 5742
+   },
+   {
+    "claim": "L92.1",
+    "quote": "AI for Business, with Trust",
+    "url": "https://aws.amazon.com/solutions/case-studies/ibm-certification-case-study/#:~:text=IBM Consulting Earns Over 22000,solution that enables users",
+    "ratio": 0.593,
+    "page_chars": 15402
+   },
+   {
+    "claim": "L92.2",
+    "quote": "every company will be an AI company",
+    "url": "https://aws.amazon.com/solutions/case-studies/ibm-certification-case-study/#:~:text=IBM Consulting Earns Over 22000,solution that enables users",
+    "ratio": 0.543,
+    "page_chars": 15402
+   },
+   {
+    "claim": "L92.3",
+    "quote": "consulting plus products",
+    "url": "https://aws.amazon.com/solutions/case-studies/ibm-certification-case-study/#:~:text=IBM Consulting Earns Over 22000,solution that enables users",
+    "ratio": 0.708,
+    "page_chars": 15402
+   },
+   {
+    "claim": "L96.1",
+    "quote": "building its leadership",
+    "url": "https://www.capgemini.com/at-de/news/press-releases/capgemini-receives-record-number-of-seven-aws-2023-partner-of-the-year-awards/#:~:text=,that it will also",
+    "ratio": 0.87,
+    "page_chars": 12048
+   },
+   {
+    "claim": "L97.1",
+    "quote": "Intelligent Operations",
+    "url": "https://www.capgemini.com/us-en/services/data-and-ai/generative-ai/#:~:text=Capgemini Generative AI%3A Data %26,AI for innovation and efficiency",
+    "ratio": 0.682,
+    "page_chars": 23096
+   },
+   {
+    "claim": "L97.2",
+    "quote": "AI for IT Operations",
+    "url": "https://www.techcircle.in/2023/07/28/capgemini-announces-generative-ai-portfolio-of-services-plans-to-double-data-ai-team/#:~:text=Capgemini announces generative AI portfolio,implementing the technology at scale",
+    "ratio": 0.75,
+    "page_chars": 4233
+   },
+   {
+    "claim": "L97.3",
+    "quote": "Financial Crime AI",
+    "url": "https://www.capgemini.com/us-en/services/data-and-ai/generative-ai/#:~:text=Capgemini Generative AI%3A Data %26,AI for innovation and efficiency",
+    "ratio": 0.667,
+    "page_chars": 23096
+   },
+   {
+    "claim": "L104.2",
+    "quote": "Trusted AI at Scale.",
+    "url": "https://www.capgemini.com/about-us/who-we-are/innovation-ecosystem/aifutures/#:~:text=We are Generative AI Lab,enabled future",
+    "ratio": 0.684,
+    "page_chars": 32094
+   },
+   {
+    "claim": "L104.4",
+    "quote": "sustainable and trusted AI-enabled future",
+    "url": "https://www.capgemini.com/about-us/who-we-are/innovation-ecosystem/aifutures/#:~:text=We are Generative AI Lab,enabled future",
+    "ratio": 0.537,
+    "page_chars": 32094
+   },
+   {
+    "claim": "L106.1",
+    "quote": "strategy and design to prototyping and deployment",
+    "url": "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai#:~:text=AI news.bloomberglaw.com  The Paris,leadership in this breakthrough",
+    "ratio": 0.449,
+    "page_chars": 6235
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 58,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L53.1",
+    "quote": "natural transformation",
+    "url": "https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-015-0202-9#:~:text=Two major features of bdelloid,as a barrier to eukaryotic",
+    "ratio": 0.364,
+    "page_chars": 226
+   },
+   {
+    "claim": "L62.1",
+    "quote": "adaptive leap",
+    "url": "https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-015-0202-9#:~:text=allowed the emergence of plant,at the evolution of eukaryotes",
+    "ratio": 0.462,
+    "page_chars": 226
+   },
+   {
+    "claim": "L62.2",
+    "quote": "ready-made innovation",
+    "url": "https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-015-0202-9#:~:text=allowed the emergence of plant,at the evolution of eukaryotes",
+    "ratio": 0.381,
+    "page_chars": 226
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 59,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L24.1",
+    "quote": "ridgeline-follow",
+    "url": "https://avesbiology.com/nav_orient.html#:~:text=In some cases%2C birds orient,features such as coastlines and",
+    "ratio": 0.5,
+    "page_chars": 85896
+   },
+   {
+    "claim": "L39.1",
+    "quote": "traffic lanes",
+    "url": "https://avesbiology.com/nav_orient.html#:~:text=Landmarks may be useful for,seems most likely because ‘map",
+    "ratio": 0.538,
+    "page_chars": 85896
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 60,
+  "summary": {
+   "FOUND": 5,
+   "NOT_FOUND": 12,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L53.1",
+    "quote": "tyranny of distance",
+    "url": "https://www.space.com/moon-crash-march-2022-china-rocket-body#:~:text=The mystery involved the identity,the moon in October 2014",
+    "ratio": 0.579,
+    "page_chars": 14361
+   },
+   {
+    "claim": "L72.1",
+    "quote": "virtual aperture",
+    "url": "https://www.jhuapl.edu/news/news-releases/221205-apl-cislunar-traffic-management#:~:text=Fowler’s team conducted a simulation,exciting improvement in tracking ability",
+    "ratio": 0.75,
+    "page_chars": 17723
+   },
+   {
+    "claim": "L83.1",
+    "quote": "signals of opportunity",
+    "url": "https://www.jhuapl.edu/news/news-releases/221205-apl-cislunar-traffic-management#:~:text=Often used in radio astronomy%2C,the resolution of the observation",
+    "ratio": 0.455,
+    "page_chars": 17723
+   },
+   {
+    "claim": "L90.1",
+    "quote": "space-based space surveillance",
+    "url": "https://advancedspace.com/afrl-awards-oracle-contract/#:~:text=Capabilities Office%2C has awarded the,solutions for this challenging mission",
+    "ratio": 0.533,
+    "page_chars": 3117
+   },
+   {
+    "claim": "L103.1",
+    "quote": "digital twins",
+    "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=defined,interference in the first place",
+    "ratio": 0.615,
+    "page_chars": 20337
+   },
+   {
+    "claim": "L117.1",
+    "quote": "nature, conduct, locations, and results",
+    "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken",
+    "ratio": 0.564,
+    "page_chars": 20337
+   },
+   {
+    "claim": "L117.2",
+    "quote": "to the greatest extent feasible and practicable",
+    "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken",
+    "ratio": 0.511,
+    "page_chars": 20337
+   },
+   {
+    "claim": "L118.1",
+    "quote": "no country has ever proactively undertaken or requested consultations",
+    "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=notify about activities of objects,filed by China regarding the",
+    "ratio": 0.928,
+    "page_chars": 20337
+   },
+   {
+    "claim": "L127.1",
+    "quote": "Extend U.S. space situational awareness capabilities into cislunar space.",
+    "url": "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around",
+    "ratio": 0.528,
+    "page_chars": 5736
+   },
+   {
+    "claim": "L127.2",
+    "quote": "essential to safe and successful spacecraft operations in all orbits, including in cislunar space",
+    "url": "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around",
+    "ratio": 0.443,
+    "page_chars": 5736
+   },
+   {
+    "claim": "L127.3",
+    "quote": "Space Traffic Management",
+    "url": "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around",
+    "ratio": 0.583,
+    "page_chars": 5736
+   },
+   {
+    "claim": "L202.1",
+    "quote": "Don’t Delay Cislunar Security",
+    "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=Recently%2C analysts predicted that a,— almost four months later",
+    "ratio": 0.724,
+    "page_chars": 20337
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 61,
+  "summary": {
+   "FOUND": 2,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L21.1",
+    "quote": "supplanted more profitable mackerel",
+    "url": "https://www.seafoodsource.com/news/premium/supply-trade/sardines-edge-out-more-profitable-mackerel-in-japanese-fisheries#:~:text=match at L135 “There are,”",
+    "ratio": 0.914,
+    "page_chars": 9624
+   },
+   {
+    "claim": "L83.1",
+    "quote": "shrinking fish",
+    "url": "https://www.seafoodsource.com/news/premium/supply-trade/sardines-edge-out-more-profitable-mackerel-in-japanese-fisheries#:~:text=Catches of spotlined sardines ,though sardines are smaller than",
+    "ratio": 0.571,
+    "page_chars": 9624
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 62,
+  "summary": {
+   "FOUND": 2,
+   "HIDDEN_ONLY": 1,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L35.1",
+    "quote": "quantum matter-link",
+    "url": "https://www.nature.com/articles/s41467-022-35285-3#:~:text=the chip being used,tolerant utility",
+    "ratio": 0.316,
+    "page_chars": 226
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 63,
+  "summary": {
+   "NOT_FOUND": 1,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L45.1",
+    "quote": "black LiNbO3",
+    "url": "https://ieeexplore.ieee.org/iel7/4563994/4814557/09950703.pdf#:~:text=Fabrication of Low Loss Lithium,to remove the PR",
+    "ratio": 0.25,
+    "page_chars": 26
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 64,
+  "summary": {
+   "FOUND": 1,
+   "NOT_FOUND": 5,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L25.1",
+    "quote": "prevent oscillations at higher airspeeds and preserve stabilization at low airspeeds",
+    "url": "https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since the effect of flying,no airspeed sensor is used",
+    "ratio": 0.845,
+    "page_chars": 4952
+   },
+   {
+    "claim": "L37.1",
+    "quote": "adaptive ArduPilot",
+    "url": "https://pdfs.semanticscholar.org/5f0a/5d9a511568192fd16ea39ce3560b70c7f4ca.pdf#:~:text=Technique",
+    "ratio": 0.611,
+    "page_chars": 23448
+   },
+   {
+    "claim": "L39.1",
+    "quote": "unstructured uncertainties",
+    "url": "https://discuss.ardupilot.org/t/new-control-for-the-uav/18691#:~:text=I'd go looking in github,done with L1 adaptive control",
+    "ratio": 0.423,
+    "page_chars": 103
+   },
+   {
+    "claim": "L83.1",
+    "quote": "dynamic notch filter",
+    "url": "https://docs.px4.io/main/en/flight_stack/controller_diagrams.html#:~:text=,filtered derivative to the controller",
+    "ratio": 0.45,
+    "page_chars": 37184
+   },
+   {
+    "claim": "L83.2",
+    "quote": "sensor fusion",
+    "url": "https://docs.px4.io/main/en/flight_stack/controller_diagrams.html#:~:text=,filtered derivative to the controller",
+    "ratio": 0.692,
+    "page_chars": 37184
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 65,
+  "summary": {
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L65.1",
+    "quote": "center of grain in view",
+    "url": "https://agelosk.github.io/pdf/ICRA.pdf#:~:text=,covering",
+    "ratio": 0.565,
+    "page_chars": 35217
+   },
+   {
+    "claim": "L65.2",
+    "quote": "next best view",
+    "url": "https://agelosk.github.io/pdf/ICRA.pdf#:~:text=,covering",
+    "ratio": 0.5,
+    "page_chars": 35217
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 66,
+  "summary": {
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L44.1",
+    "quote": "existing Markdown",
+    "url": "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=Using the search engine of,need to open the note",
+    "ratio": 0.647,
+    "page_chars": 2054
+   },
+   {
+    "claim": "L52.1",
+    "quote": "Create database",
+    "url": "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault",
+    "ratio": 0.8,
+    "page_chars": 2054
+   },
+   {
+    "claim": "L88.1",
+    "quote": "markdown-backed Kanban boards",
+    "url": "https://publish.obsidian.md/hub/02+-+Community+Expansions/02.05+All+Community+Expansions/Plugins/obsidian-kanban#:~:text=Links%3A",
+    "ratio": 0.414,
+    "page_chars": 49
+   },
+   {
+    "claim": "L88.2",
+    "quote": "Fix bug #123 @today",
+    "url": "https://publish.obsidian.md/hub/02+-+Community+Expansions/02.05+All+Community+Expansions/Plugins/obsidian-kanban#:~:text=Links%3A",
+    "ratio": 0.368,
+    "page_chars": 49
+   },
+   {
+    "claim": "L118.1",
+    "quote": "Project X tasks",
+    "url": "https://forum.obsidian.md/t/plugin-cardboard-a-kanban-for-your-markdown-tasks/28314#:~:text=Board Filters have arrived ,tasks go on which board",
+    "ratio": 0.533,
+    "page_chars": 80
+   },
+   {
+    "claim": "L149.1",
+    "quote": "I want to see my notes/tasks on a calendar",
+    "url": "https://system3.md/observatory/plugins/big-calendar#:~:text=Task %26 Project Management",
+    "ratio": 0.5,
+    "page_chars": 1192
+   },
+   {
+    "claim": "L167.1",
+    "quote": "view and edit fields directly from the table without opening the note",
+    "url": "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault",
+    "ratio": 0.812,
+    "page_chars": 2054
+   },
+   {
+    "claim": "L170.1",
+    "quote": "Create markdown-backed Kanban boards in Obsidian.",
+    "url": "https://publish.obsidian.md/hub/02+-+Community+Expansions/02.05+All+Community+Expansions/Plugins/obsidian-kanban#:~:text=Links%3A",
+    "ratio": 0.418,
+    "page_chars": 49
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 67,
+  "summary": {
+   "FOUND": 1,
+   "NOT_FOUND": 7
+  },
+  "not_found": [
+   {
+    "claim": "L17.1",
+    "quote": "first return, then explore",
+    "url": "https://syncedreview.com/2018/11/27/uber-ai-beats-montezumas-revenge-video-game/#:~:text=,neural network with an imitation",
+    "ratio": 0.692,
+    "page_chars": 6483
+   },
+   {
+    "claim": "L31.1",
+    "quote": "safety layer",
+    "url": "https://arxiv.org/html/2412.04153v2#:~:text=To address these shortcomings%2C we,agent is responsible for avoiding",
+    "ratio": 0.833,
+    "page_chars": 40879
+   },
+   {
+    "claim": "L34.1",
+    "quote": "safe exploration",
+    "url": "https://www.semanticscholar.org/paper/Safe-Reinforcement-Learning-in-Autonomous-Driving-Zhang-Liu/c225c6e24526c160bbceaaa36b447df9d8e95f13#:~:text=... www.semanticscholar.org  An uncertainty,for autonomous driving and",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L41.1",
+    "quote": "safe-$\\epsilon$-greedy",
+    "url": "https://arxiv.org/html/2409.01245v1#:~:text=arXiv arxiv,the severity of unsafe steps",
+    "ratio": 0.455,
+    "page_chars": 45023
+   },
+   {
+    "claim": "L91.1",
+    "quote": "probability of collision must remain below X",
+    "url": "https://www.semanticscholar.org/paper/Safe-Reinforcement-Learning-in-Autonomous-Driving-Zhang-Liu/c225c6e24526c160bbceaaa36b447df9d8e95f13#:~:text=... www.semanticscholar.org  An uncertainty,for autonomous driving and",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L91.2",
+    "quote": "motion planning",
+    "url": "https://www.semanticscholar.org/paper/Safe-Reinforcement-Learning-in-Autonomous-Driving-Zhang-Liu/c225c6e24526c160bbceaaa36b447df9d8e95f13#:~:text=... www.semanticscholar.org  An uncertainty,for autonomous driving and",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L91.3",
+    "quote": "safety verification",
+    "url": "https://www.semanticscholar.org/paper/Safe-Reinforcement-Learning-in-Autonomous-Driving-Zhang-Liu/c225c6e24526c160bbceaaa36b447df9d8e95f13#:~:text=... www.semanticscholar.org  An uncertainty,for autonomous driving and",
+    "ratio": 0.0,
+    "page_chars": 0
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 68,
+  "summary": {
+   "FOUND": 2,
+   "HIDDEN_ONLY": 2,
+   "NOT_FOUND": 7
+  },
+  "not_found": [
+   {
+    "claim": "L41.1",
+    "quote": "scale up at 6pm for batch jobs at 7pm",
+    "url": "https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=Scheduled autoscaling involves setting predefined,infrastructure to known demand cycles",
+    "ratio": 0.459,
+    "page_chars": 15322
+   },
+   {
+    "claim": "L50.1",
+    "quote": "desired node count",
+    "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html#:~:text=Predictive scaling works by analyzing,to match the anticipated load",
+    "ratio": 0.5,
+    "page_chars": 2636
+   },
+   {
+    "claim": "L51.1",
+    "quote": "EKS Auto-Scaler (Auto-Mode)",
+    "url": "https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html#:~:text=Autoscaler docs,EKS Auto Mode",
+    "ratio": 0.704,
+    "page_chars": 3373
+   },
+   {
+    "claim": "L77.1",
+    "quote": "PredictedCapacity",
+    "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html#:~:text=,policies",
+    "ratio": 0.647,
+    "page_chars": 2636
+   },
+   {
+    "claim": "L94.1",
+    "quote": "pending pods waiting for node",
+    "url": "https://cloud.google.com/kubernetes-engine/docs/tutorials/reducing-costs-by-scaling-down-gke-off-hours#:~:text=Configure alerts for when the,autoscaler is not working properly",
+    "ratio": 0.517,
+    "page_chars": 43539
+   },
+   {
+    "claim": "L96.1",
+    "quote": "Autoscaling Policy",
+    "url": "https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=3,Vertical Autoscaling",
+    "ratio": 0.778,
+    "page_chars": 15322
+   },
+   {
+    "claim": "L118.1",
+    "quote": "Container-driven",
+    "url": "https://spot.io/blog/introducing-predictive-auto-scaling-for-ocean/#:~:text=Ocean’s Predictive Auto Scaling capability,spinning up capacity when you",
+    "ratio": 0.688,
+    "page_chars": 20503
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 69,
+  "summary": {
+   "FOUND": 4,
+   "FOUND_NORMALIZED": 5,
+   "HIDDEN_ONLY": 1,
+   "NOT_FOUND": 9,
+   "SOURCE_UNAVAILABLE": 9
+  },
+  "not_found": [
+   {
+    "claim": "L89.1",
+    "quote": "single-agent with tools",
+    "url": "https://www.linkedin.com/pulse/googles-a2a-protocol-payments-maksym-khudiakov-ol9he#:~:text=In%20this%20agent,Check%20%28Step%203",
+    "ratio": 0.565,
+    "page_chars": 14736
+   },
+   {
+    "claim": "L136.2",
+    "quote": "SQL database query",
+    "url": "https://modelcontextprotocol.io/#:~:text=,MCP servers can connect to",
+    "ratio": 0.667,
+    "page_chars": 3300
+   },
+   {
+    "claim": "L136.3",
+    "quote": "universal port",
+    "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Anthropic’s Model Context Protocol ,database rows%2C or API handles",
+    "ratio": 0.643,
+    "page_chars": 8195
+   },
+   {
+    "claim": "L197.1",
+    "quote": "summarize this PDF",
+    "url": "https://docs.anthropic.com/en/docs/agents-and-tools/mcp#:~:text=MCP Documentation Learn more about,to your computer’s file system",
+    "ratio": 0.5,
+    "page_chars": 3300
+   },
+   {
+    "claim": "L197.2",
+    "quote": "file system server",
+    "url": "https://docs.anthropic.com/en/docs/agents-and-tools/mcp#:~:text=MCP Documentation Learn more about,to your computer’s file system",
+    "ratio": 0.667,
+    "page_chars": 3300
+   },
+   {
+    "claim": "L229.1",
+    "quote": "Research Assistant",
+    "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Bridge to MCP",
+    "ratio": 0.611,
+    "page_chars": 8195
+   },
+   {
+    "claim": "L229.2",
+    "quote": "answer_question",
+    "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Bridge to MCP",
+    "ratio": 0.6,
+    "page_chars": 8195
+   },
+   {
+    "claim": "L309.1",
+    "quote": "bespoke JSON dialects",
+    "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Think of MCP as “plug,yet another bespoke JSON dialect",
+    "ratio": 0.952,
+    "page_chars": 8195
+   },
+   {
+    "claim": "L378.1",
+    "quote": "Agent to agent, not tool to tool: an engineer’s guide to A2A",
+    "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Where A2A and MCP meet",
+    "ratio": 0.95,
+    "page_chars": 8195
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 70,
+  "summary": {
+   "NOT_FOUND": 10,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L108.1",
+    "quote": "configuration over code",
+    "url": "https://www.google.com/search?q=https://bitrock.it/blog/technology/java-web-pt2.html%23:~:text%3DWe%25E2%2580%2599ve%2520come%2520to%2520the%2520early,used%2520as%2520a%2520configuration%2520language",
+    "ratio": 0.304,
+    "page_chars": 100
+   },
+   {
+    "claim": "L117.1",
+    "quote": "Expert One-on-One J2EE Design and Development",
+    "url": "https://www.google.com/search?q=https://www.simplilearn.com/tutorials/spring-boot-tutorial/what-is-spring-framework-and-its-advantages%23:~:text%3DThe%2520Spring%2520Framework%2520is%2520an,is%2520vast%252C%2520encompassing%2520various%2520sub",
+    "ratio": 0.311,
+    "page_chars": 100
+   },
+   {
+    "claim": "L195.1",
+    "quote": "powerful but time-consuming",
+    "url": "https://www.google.com/search?q=https://medium.com/%40megalucario351/from-servlets-to-spring-boot-the-evolution-of-java-development-e5164009cf99%23:~:text%3DConfiguring%2520Spring%2520wasn%25E2%2580%2599t%2520easy,files%2520for%2520even%2520basic%2520setups",
+    "ratio": 0.333,
+    "page_chars": 100
+   },
+   {
+    "claim": "L209.1",
+    "quote": "automatically configures your app based on the libraries you include. No XML files or manual setup needed.",
+    "url": "https://www.google.com/search?q=https://medium.com/%40megalucario351/from-servlets-to-spring-boot-the-evolution-of-java-development-e5164009cf99%23:~:text%3D1%25E2%2583%25A3%2520Auto",
+    "ratio": 0.311,
+    "page_chars": 100
+   },
+   {
+    "claim": "L211.1",
+    "quote": "Finding the right libraries used to be a hassle. Spring Boot simplifies this with starter dependencies.",
+    "url": "https://www.google.com/search?q=https://medium.com/%40megalucario351/from-servlets-to-spring-boot-the-evolution-of-java-development-e5164009cf99%23:~:text%3D2%25E2%2583%25A3%2520Starter%2520Dependencies",
+    "ratio": 0.362,
+    "page_chars": 100
+   },
+   {
+    "claim": "L225.1",
+    "quote": "With Spring Boot, you don’t need to configure external servers like Tomcat. It comes with an embedded server. Just run your app and it’s live at localhost:8080.",
+    "url": "https://www.google.com/search?q=https://medium.com/%40megalucario351/from-servlets-to-spring-boot-the-evolution-of-java-development-e5164009cf99%23:~:text%3D3%25E2%2583%25A3%2520Embedded%2520Servers",
+    "ratio": 0.308,
+    "page_chars": 100
+   },
+   {
+    "claim": "L227.1",
+    "quote": "production-ready features such as metrics, health checks, and externalized configuration",
+    "url": "https://www.google.com/search?q=https://spring.io/projects/spring-boot%23:~:text%3D%252A%2520Create%2520stand,no%2520requirement%2520for%2520XML%2520configuration",
+    "ratio": 0.294,
+    "page_chars": 100
+   },
+   {
+    "claim": "L227.2",
+    "quote": "production-grade",
+    "url": "https://www.google.com/search?q=https://spring.io/projects/spring-boot%23:~:text%3D%252A%2520Create%2520stand,no%2520requirement%2520for%2520XML%2520configuration",
+    "ratio": 0.375,
+    "page_chars": 100
+   },
+   {
+    "claim": "L268.1",
+    "quote": "the container injects those dependencies when it creates the bean,",
+    "url": "https://www.google.com/search?q=https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html%23:~:text%3DDependency%2520injection%2520,or%2520the%2520Service%2520Locator%2520pattern",
+    "ratio": 0.323,
+    "page_chars": 100
+   },
+   {
+    "claim": "L284.1",
+    "quote": "Spring Data JPA provides repository support for the JPA API. It eases development of applications with a consistent programming model that need to access JPA data sources.",
+    "url": "https://www.google.com/search?q=https://docs.spring.io/spring-data/jpa/reference/index.html%23:~:text%3DSpring%2520Data%2520JPA%2520provides%2520repository,to%2520access%2520JPA%2520data%2520sources",
+    "ratio": 0.298,
+    "page_chars": 100
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 71,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 6,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L36.1",
+    "quote": "Generate five practice problems on solving quadratic equations at a high school Algebra I level,",
+    "url": "http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120",
+    "ratio": 0.168,
+    "page_chars": 3369
+   },
+   {
+    "claim": "L36.2",
+    "quote": "AI education pioneer",
+    "url": "http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120",
+    "ratio": 0.25,
+    "page_chars": 3369
+   },
+   {
+    "claim": "L48.1",
+    "quote": "Remember the formula for the area of a circle – what was it again?",
+    "url": "https://blog.khanacademy.org/khanmigo-top-ai-in-education-moments-of-2023-the-year-artificial-intelligence-dominated-education-news-kl/#:~:text=Top AI,Learn more about",
+    "ratio": 0.431,
+    "page_chars": 13642
+   },
+   {
+    "claim": "L87.1",
+    "quote": "AI task forces",
+    "url": "https://assets.publishing.service.gov.uk/media/66cdb078f04c14b05511b322/Use_cases_for_generative_AI_in_education_user_research_report.pdf#:~:text=,huge",
+    "ratio": 0.571,
+    "page_chars": 229120
+   },
+   {
+    "claim": "L90.1",
+    "quote": "double verification rule",
+    "url": "https://www.edweek.org/technology/opinion-heres-what-students-think-about-using-ai-in-the-classroom/2023/06#:~:text=Here's What Students Think About,or “director” —depicted white men",
+    "ratio": 0.542,
+    "page_chars": 18621
+   },
+   {
+    "claim": "L106.1",
+    "quote": "students will understand how AI generates content, including its limitations and ethical considerations.",
+    "url": "https://www.linkedin.com/posts/gorkemcetin_this-is-why-china-is-winning-the-ai-activity-7291099075725119488-YmTV#:~:text=Gorkem",
+    "ratio": 0.505,
+    "page_chars": 12827
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 72,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 12
+  },
+  "not_found": [
+   {
+    "claim": "L4.1",
+    "quote": "creative destruction",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=integration and development of the,leading to%2C and innovating the",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L10.1",
+    "quote": "systematically change the character of human labor and reshape workplaces,",
+    "url": "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=therefore%2C it is a vector,2023",
+    "ratio": 0.986,
+    "page_chars": 62295
+   },
+   {
+    "claim": "L20.1",
+    "quote": "intelligent manufacturing",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=substitute for low,Gardberg",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L24.1",
+    "quote": "some complex, cognitive, and creative jobs that are currently considered irreplaceable... will also be replaced by AI",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=replaced by AI%2C which indicates,Gardberg",
+    "ratio": 0.274,
+    "page_chars": 226
+   },
+   {
+    "claim": "L24.2",
+    "quote": "devastating effect on knowledge workers",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=replaced by AI%2C which indicates,Gardberg",
+    "ratio": 0.416,
+    "page_chars": 226
+   },
+   {
+    "claim": "L30.1",
+    "quote": "from 2019 onward…it looks like things were changing quite a lot,",
+    "url": "https://news.harvard.edu/gazette/story/2025/02/is-ai-already-shaking-up-labor-market-a-i-artificial-intelligence/#:~:text=The 2000s and 2010s were,a stretch of low churn",
+    "ratio": 0.769,
+    "page_chars": 9775
+   },
+   {
+    "claim": "L39.1",
+    "quote": "optimization and upgrading",
+    "url": "https://colab.ws/articles/10.1016%2Fj.heliyon.2024.e26686#:~:text=used to empirically test the,These",
+    "ratio": 0.962,
+    "page_chars": 9536
+   },
+   {
+    "claim": "L51.1",
+    "quote": "creative destruction",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=repeated in the process of,a new stage of deep",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L53.1",
+    "quote": "disproportionally generates new labor demand for AI-skilled workers",
+    "url": "https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=locations,previously susceptible to displacement computerization",
+    "ratio": 0.955,
+    "page_chars": 29933
+   },
+   {
+    "claim": "L75.1",
+    "quote": "growing polarization of employment opportunities into low-skilled and high-skilled positions",
+    "url": "https://www.aeaweb.org/articles?id=10.1257/jep.29.3.3#:~:text=labor and ignore the strong,should shape our thinking about",
+    "ratio": 0.457,
+    "page_chars": 4264
+   },
+   {
+    "claim": "L79.1",
+    "quote": "very high risk of substitution",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=AI,technology is not only a",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L95.1",
+    "quote": "human-centric",
+    "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=age,year",
+    "ratio": 0.385,
+    "page_chars": 226
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 73,
+  "summary": {
+   "FOUND": 5,
+   "NOT_FOUND": 5,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L24.1",
+    "quote": "guide on the side",
+    "url": "https://www.teacheracademy.eu/blog/holistic-education/#:~:text=In contrast to traditional teaching,risks and freely express themselves",
+    "ratio": 0.706,
+    "page_chars": 23315
+   },
+   {
+    "claim": "L27.1",
+    "quote": "reinvent the wheel.",
+    "url": "https://learningpolicyinstitute.org/sites/default/files/product-files/Effective_Teacher_Professional_Development_REPORT.pdf#:~:text=Supports collaboration%3A High,and modeling of instruction provide",
+    "ratio": 0.667,
+    "page_chars": 238144
+   },
+   {
+    "claim": "L36.2",
+    "quote": "compartmentalization",
+    "url": "https://educationnorthwest.org/sites/default/files/integrated-curriculum.pdf#:~:text=Definitions Integrated curriculum%2C interdisciplinary teaching%2C,interest in both of those",
+    "ratio": 0.65,
+    "page_chars": 53316
+   },
+   {
+    "claim": "L77.1",
+    "quote": "Do you understand this part of the story?",
+    "url": "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A formative approach to measuring,and teachers get a snapshot",
+    "ratio": 0.475,
+    "page_chars": 8939
+   },
+   {
+    "claim": "L79.1",
+    "quote": "traffic light",
+    "url": "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=Another strategy that encourages assessment,When using this strategy to",
+    "ratio": 0.538,
+    "page_chars": 8939
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 74,
+  "summary": {
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 7
+  },
+  "not_found": [
+   {
+    "claim": "L20.1",
+    "quote": "movement modeling",
+    "url": "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=Tutor%2C we can distinguish two,form of the feedback prompts",
+    "ratio": 0.452,
+    "page_chars": 226
+   },
+   {
+    "claim": "L49.1",
+    "quote": "various types of mistakes",
+    "url": "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=match at L508 Implementation was,followed by two dense layers",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L73.1",
+    "quote": "shift weight to your right foot",
+    "url": "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=This paper describes the CPR,Hence%2C we",
+    "ratio": 0.387,
+    "page_chars": 226
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 75,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L66.1",
+    "quote": "salt-sensitive",
+    "url": "https://www.acc.org/Latest-in-Cardiology/Clinical-Trials/2021/08/26/01/19/SSaSS#:~:text=Principal Findings%3A",
+    "ratio": 0.429,
+    "page_chars": 7948
+   },
+   {
+    "claim": "L69.1",
+    "quote": "target plasma sodium",
+    "url": "https://www.acc.org/Latest-in-Cardiology/Clinical-Trials/2021/08/26/01/19/SSaSS#:~:text=Principal Findings%3A",
+    "ratio": 0.45,
+    "page_chars": 7948
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 76,
+  "summary": {
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L5.1",
+    "quote": "hidden organ",
+    "url": "https://www.nature.com/articles/s41392-022-00974-4#:~:text=The composition of microbiota varies,gut mycobiota",
+    "ratio": 0.5,
+    "page_chars": 226
+   },
+   {
+    "claim": "L9.1",
+    "quote": "colonization resistance",
+    "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2024.1487641/full#:~:text=At present%2C there are a,Cichonska and Ziarno%2C 2022",
+    "ratio": 0.565,
+    "page_chars": 99100
+   },
+   {
+    "claim": "L107.1",
+    "quote": "Feed your microbiome",
+    "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2022.999001/full#:~:text=2022",
+    "ratio": 0.7,
+    "page_chars": 95091
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 77,
+  "summary": {
+   "FOUND": 1,
+   "NOT_FOUND": 18,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "particularly attractive for individuals high in NFC because they reduce ambiguity by providing simple and structured explanations",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=defined as a desire to,2018",
+    "ratio": 0.791,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L13.2",
+    "quote": "addiction to answers",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=defined as a desire to,2018",
+    "ratio": 0.85,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L15.1",
+    "quote": "more trusting of initial misinformation, which provides closure by explaining events, and more resistant to corrections, which may sow confusion",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=Consequently%2C individuals with a high,Need for",
+    "ratio": 0.854,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L23.1",
+    "quote": "about events that lack clear official explanations",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Webster ,2018",
+    "ratio": 0.44,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L23.2",
+    "quote": "people high (vs. low) in NFC seize on conspiratorial explanations for uncertain events when such explanations are situationally accessible,",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Webster ,2018",
+    "ratio": 0.442,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L31.1",
+    "quote": "lazy, not biased",
+    "url": "https://www.nature.com/articles/s44159-021-00006-y#:~:text=48,25%2C",
+    "ratio": 0.4,
+    "page_chars": 226
+   },
+   {
+    "claim": "L33.1",
+    "quote": "Ballots were miscounted",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=studies connecting a need for,Reference Marchlewska%2C Cichocka and Kossowska",
+    "ratio": 0.522,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L33.2",
+    "quote": "Okay, then why did the initial report say that?",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=studies connecting a need for,Reference Marchlewska%2C Cichocka and Kossowska",
+    "ratio": 0.522,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L33.3",
+    "quote": "report a stronger belief in the original misconception after receiving a retraction,",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=studies connecting a need for,Reference Marchlewska%2C Cichocka and Kossowska",
+    "ratio": 0.566,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L33.4",
+    "quote": "probe the extent to which a high need for closure predisposes individuals to disregard corrections",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=studies connecting a need for,Reference Marchlewska%2C Cichocka and Kossowska",
+    "ratio": 0.918,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L43.1",
+    "quote": "with high levels of NFC will seize on any information that matches their need to reduce uncertainty, regardless of whether they are conspiracy narratives or official explanations",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A We find that individuals,moderating effect of political trust",
+    "ratio": 0.961,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L45.1",
+    "quote": "the virus is a hoax",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Psychological motives related to heightened,van Prooijen%2C 2020",
+    "ratio": 0.842,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L45.2",
+    "quote": "a bioweapon plot",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Psychological motives related to heightened,van Prooijen%2C 2020",
+    "ratio": 0.812,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L45.3",
+    "quote": "COVID is exaggerated by elites",
+    "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Psychological motives related to heightened,van Prooijen%2C 2020",
+    "ratio": 0.467,
+    "page_chars": 46240
+   },
+   {
+    "claim": "L47.1",
+    "quote": "miracle cures",
+    "url": "https://today.tamu.edu/2020/03/26/how-psychological-factors-play-into-vaccine-misinformation/#:~:text=The analysis found that people,to target their psychological disposition",
+    "ratio": 0.615,
+    "page_chars": 5724
+   },
+   {
+    "claim": "L47.2",
+    "quote": "no known cure",
+    "url": "https://today.tamu.edu/2020/03/26/how-psychological-factors-play-into-vaccine-misinformation/#:~:text=The analysis found that people,to target their psychological disposition",
+    "ratio": 0.615,
+    "page_chars": 5724
+   },
+   {
+    "claim": "L98.1",
+    "quote": "that’s false",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=studies connecting a need for,Reference Marchlewska%2C Cichocka and Kossowska",
+    "ratio": 0.667,
+    "page_chars": 130204
+   },
+   {
+    "claim": "L100.1",
+    "quote": "premature sense-making",
+    "url": "https://www.cambridge.org/core/books/social-media-and-democracy/misinformation-and-its-correction/61FA7FD743784A723BA234533012E810#:~:text=Consequently%2C individuals with a high,Need for",
+    "ratio": 0.5,
+    "page_chars": 130204
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 79,
+  "summary": {
+   "FOUND": 25,
+   "FOUND_NORMALIZED": 11,
+   "NOT_FOUND": 11,
+   "SOURCE_UNAVAILABLE": 10
+  },
+  "not_found": [
+   {
+    "claim": "L33.1",
+    "quote": "becoming-woman",
+    "url": "https://en.wikipedia.org/wiki/Minor_cinema#:~:text=The term originates from French,and being truthful to its",
+    "ratio": 0.714,
+    "page_chars": 9609
+   },
+   {
+    "claim": "L39.1",
+    "quote": "censorship code enforced by the Ministry of Culture and Islamic Guidance is partly responsible for the formation of what has come to be a ubiquitous figure in the New Iranian cinema: the ‘cross-dressing’ or ‘passing’ figure.",
+    "url": "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=censorship code enforced by the,Dokhtaraneh Khorshid—two films that are",
+    "ratio": 0.982,
+    "page_chars": 12335
+   },
+   {
+    "claim": "L51.1",
+    "quote": "against all she believes in and traditions she values",
+    "url": "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4",
+    "ratio": 0.925,
+    "page_chars": 5666
+   },
+   {
+    "claim": "L51.2",
+    "quote": "change God’s creation.",
+    "url": "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4",
+    "ratio": 0.524,
+    "page_chars": 5666
+   },
+   {
+    "claim": "L87.1",
+    "quote": "we are here.",
+    "url": "https://www.theguardian.com/film/article/2024/may/16/yolande-zauberman-documentary-the-belle-from-gaza-cannes-film-festival#:~:text=Image%3A Not meant to be,from The Belle from Gaza",
+    "ratio": 0.727,
+    "page_chars": 8907
+   },
+   {
+    "claim": "L109.3",
+    "quote": "jokes are funny without being offensive",
+    "url": "https://letterboxd.com/film/in-the-family-2017/#:~:text=turkish cinema%3A aile arasinda%3A ,absolute goddesses on the stage",
+    "ratio": 0.872,
+    "page_chars": 6577
+   },
+   {
+    "claim": "L115.1",
+    "quote": "addressed the issue of representation by allowing a transgender performer to play a character with the same gender identity",
+    "url": "https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with",
+    "ratio": 0.35,
+    "page_chars": 201
+   },
+   {
+    "claim": "L159.1",
+    "quote": "homosexuality is shameful",
+    "url": "https://en.wikipedia.org/wiki/Be_Like_Others#:~:text=they are not homosexual%2C seeing,to live free from harassment",
+    "ratio": 0.76,
+    "page_chars": 10838
+   },
+   {
+    "claim": "L168.1",
+    "quote": "lines of flight",
+    "url": "https://en.wikipedia.org/wiki/Minor_cinema#:~:text=1,collective enunciation",
+    "ratio": 0.533,
+    "page_chars": 9609
+   },
+   {
+    "claim": "L191.1",
+    "quote": "The Oppositional Gaze: Black Female Spectators.",
+    "url": "https://thefactsofwhiteness.org/the-black-gaze/#:~:text=The Black Gaze ,hooks%2C 1992%2C p116",
+    "ratio": 0.609,
+    "page_chars": 15412
+   },
+   {
+    "claim": "L199.1",
+    "quote": "LGBTQ+ Films in MENA Region: Combating Oppression Since the 1950s.",
+    "url": "https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=“Egyptian movies saved me as,my environment%2C” Taïa told Fanack",
+    "ratio": 0.938,
+    "page_chars": 13842
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 80,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L10.1",
+    "quote": "josei kotoba",
+    "url": "https://www.tofugu.com/japanese/queer-japanese/#:~:text=,even most women speak Japanese",
+    "ratio": 0.667,
+    "page_chars": 25924
+   },
+   {
+    "claim": "L10.2",
+    "quote": "ladylike speech",
+    "url": "https://www.tofugu.com/japanese/queer-japanese/#:~:text=,even most women speak Japanese",
+    "ratio": 0.6,
+    "page_chars": 25924
+   },
+   {
+    "claim": "L10.3",
+    "quote": "princess knights",
+    "url": "https://www.tofugu.com/japanese/queer-japanese/#:~:text=,even most women speak Japanese",
+    "ratio": 0.5,
+    "page_chars": 25924
+   },
+   {
+    "claim": "L18.1",
+    "quote": "gender styling",
+    "url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/#:~:text=Queer groups and their diverse,atypically feminine pronouns like atashi",
+    "ratio": 0.643,
+    "page_chars": 8274
+   },
+   {
+    "claim": "L18.2",
+    "quote": "Japanese ladies",
+    "url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/#:~:text=Queer groups and their diverse,atypically feminine pronouns like atashi",
+    "ratio": 0.8,
+    "page_chars": 8274
+   },
+   {
+    "claim": "L20.1",
+    "quote": "older-sister speech,",
+    "url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/#:~:text=Queer groups and their diverse,atypically feminine pronouns like atashi",
+    "ratio": 0.789,
+    "page_chars": 8274
+   },
+   {
+    "claim": "L22.1",
+    "quote": "find their voice",
+    "url": "https://www.tofugu.com/japanese/queer-japanese/#:~:text=women speak Japanese,we agree with this perspective",
+    "ratio": 0.688,
+    "page_chars": 25924
+   },
+   {
+    "claim": "L28.1",
+    "quote": "admiration for men or a desire not to grow up to be a conventional woman",
+    "url": "https://ja.wikipedia.org/wiki/",
+    "ratio": 0.319,
+    "page_chars": 4751
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 81,
+  "summary": {
+   "FOUND": 11,
+   "FOUND_NORMALIZED": 9,
+   "NOT_FOUND": 14,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L10.2",
+    "quote": "the Polish state or nation",
+    "url": "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+    "ratio": 0.692,
+    "page_chars": 15279
+   },
+   {
+    "claim": "L14.1",
+    "quote": "organisation of collective memory by political agents",
+    "url": "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different",
+    "ratio": 0.623,
+    "page_chars": 25612
+   },
+   {
+    "claim": "L14.2",
+    "quote": "the way history is written and passed on,",
+    "url": "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different",
+    "ratio": 0.8,
+    "page_chars": 25612
+   },
+   {
+    "claim": "L21.1",
+    "quote": "erasing history",
+    "url": "https://www.pbs.org/newshour/world/belgium-takes-down-statue-king-expresses-regret-for-colonial-violence#:~:text=READ MORE%3A Native Americans to,Trump trip to Mount Rushmore",
+    "ratio": 0.8,
+    "page_chars": 7602
+   },
+   {
+    "claim": "L23.1",
+    "quote": "comfort women",
+    "url": "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+    "ratio": 0.615,
+    "page_chars": 15279
+   },
+   {
+    "claim": "L32.1",
+    "quote": "manifest destiny",
+    "url": "https://www.npr.org/2021/06/18/1008095439/juneteenth-is-a-federal-holiday-now-but-what-that-means-for-workers-varies-widel#:~:text=Juneteenth Is A Federal Holiday,is now a federal holiday",
+    "ratio": 0.562,
+    "page_chars": 8574
+   },
+   {
+    "claim": "L36.1",
+    "quote": "civilizing missions.",
+    "url": "https://www.theguardian.com/news/2015/nov/18/why-south-african-students-have-turned-on-their-parents-generation#:~:text=Forgetting was a central part,memorials – were left standing",
+    "ratio": 0.474,
+    "page_chars": 35834
+   },
+   {
+    "claim": "L40.2",
+    "quote": "decolonizing",
+    "url": "https://www.pbs.org/newshour/world/belgium-takes-down-statue-king-expresses-regret-for-colonial-violence#:~:text=READ MORE%3A Native Americans to,Trump trip to Mount Rushmore",
+    "ratio": 0.833,
+    "page_chars": 7602
+   },
+   {
+    "claim": "L53.1",
+    "quote": "memory activism.",
+    "url": "https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it",
+    "ratio": 0.6,
+    "page_chars": 9141
+   },
+   {
+    "claim": "L53.2",
+    "quote": "Whose history matters in our shared narrative?",
+    "url": "https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it",
+    "ratio": 0.489,
+    "page_chars": 9141
+   },
+   {
+    "claim": "L70.1",
+    "quote": "Poland’s ‘Holocaust Law’ and Politics of Memory.",
+    "url": "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+    "ratio": 0.489,
+    "page_chars": 15279
+   },
+   {
+    "claim": "L71.2",
+    "quote": "Collective memory and identity",
+    "url": "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different",
+    "ratio": 0.833,
+    "page_chars": 25612
+   },
+   {
+    "claim": "L72.1",
+    "quote": "Reclaiming Heritage: Global Push for Repatriation of Looted Artifacts.",
+    "url": "https://nonprofitquarterly.org/reclaiming-heritage-the-global-push-for-repatriation-of-looted-artifacts/#:~:text=objects%2C and growing awareness of,returns policy earlier that year",
+    "ratio": 0.942,
+    "page_chars": 14019
+   },
+   {
+    "claim": "L73.1",
+    "quote": "Black Lives Matter Can Change History…",
+    "url": "https://www.the-low-countries.com/article/this-is-how-black-lives-matter-can-change-history/#:~:text=There is nothing wrong with,Statues",
+    "ratio": 0.865,
+    "page_chars": 11624
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 82,
+  "summary": {
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L53.1",
+    "quote": "completed the liberalization",
+    "url": "https://en.wikipedia.org/wiki/Accession_Treaty_of_Spain_to_the_European_Economic_Community#:~:text=Royal Palace of Madrid ,3",
+    "ratio": 0.821,
+    "page_chars": 66745
+   },
+   {
+    "claim": "L91.1",
+    "quote": "adhered to state regulations and demands",
+    "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=The most significant factor in,awarded subsidisation and investment support",
+    "ratio": 0.925,
+    "page_chars": 115870
+   },
+   {
+    "claim": "L93.1",
+    "quote": "picking winners",
+    "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=Beginning in 1973%2C South Korea's,54 ]%3A 136",
+    "ratio": 0.6,
+    "page_chars": 115870
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 83,
+  "summary": {
+   "FOUND": 3,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L27.1",
+    "quote": "restaurant-grade",
+    "url": "https://gottagrow.io/reviews/toast-go2#:~:text=6,to view indoors and out",
+    "ratio": 0.312,
+    "page_chars": 68
+   },
+   {
+    "claim": "L51.1",
+    "quote": "The Electronic Cash Register Reinvented for the Cloud",
+    "url": "https://www.elotouch.com/pos-terminals-paypoint-for-android-3-0.html#:~:text=Weight",
+    "ratio": 0.491,
+    "page_chars": 12517
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 84,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L42.1",
+    "quote": "AsymD-$\\kappa$",
+    "url": "https://researchid.co/dr.maisagallagopal#:~:text=Dr. Maisagalla Gopal ,based 6T",
+    "ratio": 0.429,
+    "page_chars": 26562
+   },
+   {
+    "claim": "L71.1",
+    "quote": "VDD collapse",
+    "url": "https://ictactjournals.in/paper/IJME_Vol_3_Iss_1_Paper_1_337_344.pdf#:~:text=To increase the RSNM%2C the,boosted cell VDD%2C higher power",
+    "ratio": 0.5,
+    "page_chars": 24554
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 85,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L20.1",
+    "quote": "lightweight for their rigidity",
+    "url": "https://orbi.uliege.be/bitstream/2268/251866/1/JSV_2015.pdf#:~:text=instrumentation can add unwanted constraint,dominates the fusion at low",
+    "ratio": 0.6,
+    "page_chars": 51805
+   },
+   {
+    "claim": "L39.1",
+    "quote": "adaptive algorithms, e.g. filtered-X LMS, have been developed to implement feedforward loops",
+    "url": "https://www.parksystems.com/content/dam/parksystems/learning-portal/appnote/Principles_of_Active_Vibration_Isolation.pdf#:~:text=a feedforward control design,developed to implement feedforward loops",
+    "ratio": 0.978,
+    "page_chars": 7416
+   },
+   {
+    "claim": "L40.1",
+    "quote": "greatly improves the positioning accuracy of the piezoelectric actuators and the active vibration isolation performance of the platform",
+    "url": "https://www.nature.com/articles/s41598-024-84980-2#:~:text=Currently%2C the mathematical models used,the relationship between the input",
+    "ratio": 0.333,
+    "page_chars": 226
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 87,
+  "summary": {
+   "FOUND": 8,
+   "FOUND_NORMALIZED": 8,
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L9.1",
+    "quote": "erosion of human artistry",
+    "url": "https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=creativity and intellectual property theft,issues relating to intellectual property",
+    "ratio": 0.56,
+    "page_chars": 15976
+   },
+   {
+    "claim": "L9.3",
+    "quote": "stifle originality and innovation",
+    "url": "https://www.glossy.co/fashion/designing-fashion-in-the-ai-era/#:~:text=in addition%2C many in the,than fostering new creative directions",
+    "ratio": 0.909,
+    "page_chars": 6664
+   },
+   {
+    "claim": "L15.1",
+    "quote": "have to have a fashion merchant [designer] making these decisions, not a...consultant",
+    "url": "https://www.glossy.co/fashion/designing-fashion-in-the-ai-era/#:~:text=in addition%2C many in the,than fostering new creative directions",
+    "ratio": 0.459,
+    "page_chars": 6664
+   },
+   {
+    "claim": "L27.2",
+    "quote": "often [led] to a homogenized landscape where brands release strikingly similar designs",
+    "url": "https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=With that being said%2C H%26M,throw away%2C and move on",
+    "ratio": 0.953,
+    "page_chars": 15976
+   },
+   {
+    "claim": "L45.1",
+    "quote": "industrial-scale",
+    "url": "https://hyperallergic.com/833373/artists-accuse-fashion-brand-shein-of-using-ai-to-steal-their-designs/#:~:text=Three artists are accusing fast,company to avoid legal repercussion",
+    "ratio": 0.562,
+    "page_chars": 6663
+   },
+   {
+    "claim": "L53.3",
+    "quote": "categorically rejecting",
+    "url": "https://www.thefashionlaw.com/what-an-appeals-courts-copyright-ruling-on-ai-created-art-means-for-brands/#:~:text=As for the implications of,to allow for legal protections",
+    "ratio": 0.652,
+    "page_chars": 6519
+   },
+   {
+    "claim": "L57.1",
+    "quote": "a human’s intellectual input.",
+    "url": "https://www.morganlewis.com/blogs/sourcingatmorganlewis/2024/01/beijing-court-approves-copyright-protection-for-ai-generated-images#:~:text=The Beijing Internet Court ,27%2C 2023",
+    "ratio": 0.857,
+    "page_chars": 4940
+   },
+   {
+    "claim": "L91.1",
+    "quote": "Getty Images sues Stability AI in the US and UK for copyright infringement,",
+    "url": "https://www.insidetechlaw.com/blog/2024/05/generative-ai-in-fashion-design-complicates-trademark-ownership#:~:text=In",
+    "ratio": 0.514,
+    "page_chars": 10896
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 88,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 19,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "Many years later, as he faced the firing squad, Colonel Aureliano Buendía was to remember that distant afternoon when his father took him to discover ice.",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=“Many years later%2C as he,”",
+    "ratio": 0.412,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L13.2",
+    "quote": "utilizes as many of [Márquez’s] words as possible, to the point that almost anything you hear…was taken verbatim from the book",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=“Many years later%2C as he,”",
+    "ratio": 0.359,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L15.1",
+    "quote": "enormous challenge",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=García Márquez’s novel%2C published in,support of the author’s family",
+    "ratio": 0.5,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L15.2",
+    "quote": "understanding the difference between literary and audiovisual languages",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=García Márquez’s novel%2C published in,support of the author’s family",
+    "ratio": 0.944,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L15.4",
+    "quote": "Gabo always said that everything that happened in One Hundred Years of Solitude was part of his upbringing… So it was always about executing the magic realism moments in the most mundane way,",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=García Márquez’s novel%2C published in,support of the author’s family",
+    "ratio": 0.443,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L30.1",
+    "quote": "has inspired more praise than criticism in Colombia,",
+    "url": "https://elpais.com/america-colombia/2024-12-26/cien-anos-de-soledad-en-netflix-despierta-mas-elogios-que-criticas-en-colombia.html#:~:text=En apenas dos semanas%2C la,García López%2C se grabó en",
+    "ratio": 0.471,
+    "page_chars": 14087
+   },
+   {
+    "claim": "L36.1",
+    "quote": "faithfully [realizing] García Márquez’s seminal novel",
+    "url": "https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=Para la revista cinematográfica estadounidense,la mitad del texto literario",
+    "ratio": 0.509,
+    "page_chars": 10678
+   },
+   {
+    "claim": "L36.2",
+    "quote": "uses so many of Márquez’s words that almost any memorable line you hear was likely taken word-for-word from the book",
+    "url": "https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=Para la revista cinematográfica estadounidense,la mitad del texto literario",
+    "ratio": 0.362,
+    "page_chars": 10678
+   },
+   {
+    "claim": "L37.1",
+    "quote": "his characters and places could be anyone the reader imagined",
+    "url": "https://www.netflix.com/tudum/articles/one-hundred-years-of-solitude-release-date-news-cast-trailer#:~:text=“Many years later%2C as he,”",
+    "ratio": 0.443,
+    "page_chars": 10557
+   },
+   {
+    "claim": "L38.1",
+    "quote": "one of the most faithful page-to-screen adaptations in recent years",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.388,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.2",
+    "quote": "honors a beloved novel",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.545,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.3",
+    "quote": "for what it is.",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.5,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.4",
+    "quote": "projects hermanitos",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.895,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.5",
+    "quote": "that complement each other.",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.538,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.6",
+    "quote": "It’s a different experience and one should try to value it as such, not by endlessly checking it against the book",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.354,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.7",
+    "quote": "beautiful project",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.647,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.8",
+    "quote": "would be watching",
+    "url": "https://www.elmanana.com/escena/cine/rodrigo-garcia-y-la-serie-de-cien-anos-de-soledad/5923112#:~:text=Rodrigo García y la serie,de ´Cien Años de Soledad´",
+    "ratio": 0.471,
+    "page_chars": 6912
+   },
+   {
+    "claim": "L38.9",
+    "quote": "one of the most faithful and eloquent adaptations",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.429,
+    "page_chars": 7667
+   },
+   {
+    "claim": "L38.10",
+    "quote": "brings an ‘unfilmable’ novel to life",
+    "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+    "ratio": 0.444,
+    "page_chars": 7667
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 89,
+  "summary": {
+   "FOUND": 4,
+   "NOT_FOUND": 9,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L3.1",
+    "quote": "leaves narrative, graphics, [and] sound",
+    "url": "https://link.springer.com/chapter/10.1007/978-3-319-53088-8_3#:~:text=Although the Mechanics%2C Dynamics and,of computer and video games",
+    "ratio": 0.385,
+    "page_chars": 226
+   },
+   {
+    "claim": "L3.2",
+    "quote": "Designer designs, player plays, resulting in the player’s Experience",
+    "url": "https://link.springer.com/chapter/10.1007/978-3-319-53088-8_3#:~:text=Although the Mechanics%2C Dynamics and,of computer and video games",
+    "ratio": 0.412,
+    "page_chars": 226
+   },
+   {
+    "claim": "L9.2",
+    "quote": "mostly used in universities",
+    "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+    "ratio": 0.481,
+    "page_chars": 19061
+   },
+   {
+    "claim": "L9.3",
+    "quote": "lack scrutiny and accuracy",
+    "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+    "ratio": 0.5,
+    "page_chars": 19061
+   },
+   {
+    "claim": "L36.1",
+    "quote": "procedural content generation, mixed-initiative game design, [and] mixed-initiative gameplay",
+    "url": "https://arxiv.org/html/2411.00308v1#:~:text=Due to GPT’s impressive generative,areas and emerging research%2C we",
+    "ratio": 0.935,
+    "page_chars": 103616
+   },
+   {
+    "claim": "L52.1",
+    "quote": "adapt and develop modern board games",
+    "url": "https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games have proven to be,recognize how to explore games’",
+    "ratio": 0.972,
+    "page_chars": 2863
+   },
+   {
+    "claim": "L56.1",
+    "quote": "worker placement",
+    "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+    "ratio": 0.562,
+    "page_chars": 19061
+   },
+   {
+    "claim": "L56.2",
+    "quote": "deck-building",
+    "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+    "ratio": 0.538,
+    "page_chars": 19061
+   },
+   {
+    "claim": "L56.3",
+    "quote": "Can MDA be expanded for non-digital games?",
+    "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+    "ratio": 0.634,
+    "page_chars": 19061
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 90,
+  "summary": {
+   "FOUND": 2,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 9,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L5.1",
+    "quote": "shared control",
+    "url": "https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html#:~:text=The potential safety benefits are,per cent of road collisions",
+    "ratio": 0.571,
+    "page_chars": 7285
+   },
+   {
+    "claim": "L21.1",
+    "quote": "fully self-driving",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=on the manufacturer’s design intent,as in the case of",
+    "ratio": 0.556,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L21.2",
+    "quote": "driver support features",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=on the manufacturer’s design intent,as in the case of",
+    "ratio": 0.565,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L66.1",
+    "quote": "Full Self-Driving (Beta)",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system",
+    "ratio": 0.542,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L66.2",
+    "quote": "driver running a light/stop.",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system",
+    "ratio": 0.556,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L66.3",
+    "quote": "the system may not detect vehicles crossing your path",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system",
+    "ratio": 0.509,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L66.4",
+    "quote": "autonomous mode",
+    "url": "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON",
+    "ratio": 0.8,
+    "page_chars": 3769
+   },
+   {
+    "claim": "L85.1",
+    "quote": "attentiveness",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=However%2C as part of the,is expected to assume control",
+    "ratio": 0.615,
+    "page_chars": 8774
+   },
+   {
+    "claim": "L86.1",
+    "quote": "strict liability for automated systems",
+    "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=Third%2C there is the question,and caused a fatal crash",
+    "ratio": 0.684,
+    "page_chars": 8774
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 91,
+  "summary": {
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 7,
+   "SOURCE_UNAVAILABLE": 32
+  },
+  "not_found": [
+   {
+    "claim": "L33.1",
+    "quote": "miraculously",
+    "url": "https://en.wikipedia.org/wiki/Saint_Seiya:_Next_Dimension#:~:text=of myth%2C reincarnated in this,of the Magnates from the",
+    "ratio": 0.833,
+    "page_chars": 45871
+   },
+   {
+    "claim": "L75.1",
+    "quote": "Kanon is way stronger than Saga",
+    "url": "https://www.reddit.com/r/respectthreads/comments/kw0k7f/respect_sea_dragongemini_kanon_saint_seiya_manga/#:~:text=Respect Sea Dragon%2FGemini Kanon ,his enemy there for eternity",
+    "ratio": 0.162,
+    "page_chars": 6
+   },
+   {
+    "claim": "L141.1",
+    "quote": "small part of the power of Gold Saints",
+    "url": "https://en.wikipedia.org/wiki/Saint_Seiya:_Next_Dimension#:~:text=In 1990%2C the Bronze Saints,18th century%2C Dohko and Shion",
+    "ratio": 0.763,
+    "page_chars": 45871
+   },
+   {
+    "claim": "L151.2",
+    "quote": "Saint who would slay Hades",
+    "url": "https://en.wikipedia.org/wiki/Saint_Seiya:_Next_Dimension#:~:text=In the present time%2C Pegasus,is in league with Hades",
+    "ratio": 0.615,
+    "page_chars": 45871
+   },
+   {
+    "claim": "L189.1",
+    "quote": "Treasure of the Heavens",
+    "url": "https://www.reddit.com/r/respectthreads/comments/kw0k7f/respect_sea_dragongemini_kanon_saint_seiya_manga/#:~:text=Respect Sea Dragon%2FGemini Kanon ,his enemy there for eternity",
+    "ratio": 0.207,
+    "page_chars": 6
+   },
+   {
+    "claim": "L195.1",
+    "quote": "foot soldiers",
+    "url": "https://en.wikipedia.org/wiki/Saint_Seiya:_Next_Dimension#:~:text=In 1990%2C the Bronze Saints,18th century%2C Dohko and Shion",
+    "ratio": 0.692,
+    "page_chars": 45871
+   },
+   {
+    "claim": "L195.2",
+    "quote": "burning their Cosmo beyond ordinary levels…even beyond Silver Saints",
+    "url": "https://en.wikipedia.org/wiki/Saint_Seiya:_Next_Dimension#:~:text=In 1990%2C the Bronze Saints,18th century%2C Dohko and Shion",
+    "ratio": 0.4,
+    "page_chars": 45871
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 92,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L100.1",
+    "quote": "serve, clear, drop, lift, smash…",
+    "url": "https://arxiv.org/html/2403.12385v1#:~:text=R",
+    "ratio": 0.387,
+    "page_chars": 75983
+   },
+   {
+    "claim": "L116.1",
+    "quote": "winning shot / attacking",
+    "url": "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,two groups along",
+    "ratio": 0.5,
+    "page_chars": 30421
+   },
+   {
+    "claim": "L116.2",
+    "quote": "moving opponent corner-to-corner",
+    "url": "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,two groups along",
+    "ratio": 0.5,
+    "page_chars": 30421
+   },
+   {
+    "claim": "L116.3",
+    "quote": "playing straight clears",
+    "url": "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,two groups along",
+    "ratio": 0.522,
+    "page_chars": 30421
+   },
+   {
+    "claim": "L121.1",
+    "quote": "opponent was in back-left, player hits to front-right",
+    "url": "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,the player position is first",
+    "ratio": 0.547,
+    "page_chars": 30421
+   },
+   {
+    "claim": "L122.1",
+    "quote": "if player is off-balance and hits a high clear, label it Defensive; if player jumps and smashes, label it Offensive.",
+    "url": "https://ieeexplore.ieee.org/document/9679184/#:~:text=Exploring the Long Short,essential for badminton experts",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L200.1",
+    "quote": "player-independent",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024W/CVsports/papers/Ibh_A_Stroke_of_Genius_Predicting_the_Next_Move_in_Badminton_CVPRW_2024_paper.pdf#:~:text=limitations,based rally awareness",
+    "ratio": 0.667,
+    "page_chars": 38938
+   },
+   {
+    "claim": "L247.1",
+    "quote": "AI badminton analyst.",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024W/CVsports/papers/Ibh_A_Stroke_of_Genius_Predicting_the_Next_Move_in_Badminton_CVPRW_2024_paper.pdf#:~:text=This paper presents%2C RallyTemPose%2C a,RallyTemPose shows improved",
+    "ratio": 0.7,
+    "page_chars": 38938
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 93,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L10.1",
+    "quote": "a production studio in the palm of your hand,",
+    "url": "https://www.wpbeginner.com/research/creator-economy-statistics-that-will-blow-you-away/#:~:text=,2 billion",
+    "ratio": 0.477,
+    "page_chars": 29826
+   },
+   {
+    "claim": "L51.1",
+    "quote": "free trial with watermark",
+    "url": "https://sendshort.ai/statistics/capcut/#:~:text=How does CapCut make money%3F",
+    "ratio": 0.48,
+    "page_chars": 9840
+   },
+   {
+    "claim": "L107.1",
+    "quote": "smart templates",
+    "url": "https://www.reddit.com/r/DigitalMarketing/comments/1fulptc/anybody_using_ai_video_editing_which_tool_do_you/#:~:text=Anybody using AI Video editing%3F,powered features like background removal",
+    "ratio": 0.286,
+    "page_chars": 6
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 94,
+  "summary": {
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 8,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L5.1",
+    "quote": "signalling as a service",
+    "url": "https://link.springer.com/article/10.1007/s40864-022-00165-y#:~:text=Communication,With warm standby server",
+    "ratio": 0.522,
+    "page_chars": 226
+   },
+   {
+    "claim": "L13.1",
+    "quote": "one cloud for multi-line operations",
+    "url": "https://railway-usa.com/news/84181-unleashing-additional-digitally-enabled-rail-capacity#:~:text=At InnoTrans 2024%2C Siemens Mobility,network by up to 30 percent",
+    "ratio": 0.543,
+    "page_chars": 10023
+   },
+   {
+    "claim": "L33.1",
+    "quote": "smart maintenance",
+    "url": "https://railway-usa.com/news/84181-unleashing-additional-digitally-enabled-rail-capacity#:~:text=products at InnoTrans 2024",
+    "ratio": 0.765,
+    "page_chars": 10023
+   },
+   {
+    "claim": "L33.2",
+    "quote": "Asset Performance Management",
+    "url": "https://railway-usa.com/news/84181-unleashing-additional-digitally-enabled-rail-capacity#:~:text=products at InnoTrans 2024",
+    "ratio": 0.571,
+    "page_chars": 10023
+   },
+   {
+    "claim": "L63.1",
+    "quote": "defence-in-depth",
+    "url": "https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows",
+    "ratio": 0.938,
+    "page_chars": 8259
+   },
+   {
+    "claim": "L117.1",
+    "quote": "Train Control as a Service",
+    "url": "https://link.springer.com/article/10.1007/s40864-022-00165-y#:~:text=extend and maintain because of,With warm standby server",
+    "ratio": 0.423,
+    "page_chars": 226
+   },
+   {
+    "claim": "L117.2",
+    "quote": "Train Control as a Service",
+    "url": "https://link.springer.com/article/10.1007/s40864-022-00165-y#:~:text=extend and maintain because of,With warm standby server",
+    "ratio": 0.423,
+    "page_chars": 226
+   },
+   {
+    "claim": "L139.1",
+    "quote": "Introducing Cisco rail CBTC and Safety Solution.",
+    "url": "https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows",
+    "ratio": 0.83,
+    "page_chars": 8259
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 95,
+  "summary": {
+   "FOUND": 14,
+   "FOUND_NORMALIZED": 6,
+   "NOT_FOUND": 54,
+   "SOURCE_UNAVAILABLE": 53
+  },
+  "not_found": [
+   {
+    "claim": "L7.1",
+    "quote": "How should one who has set out on the Bodhisattva path take their stand, how should they proceed, how should they control their mind?",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=In the sūtra%2C the Buddha,no living being",
+    "ratio": 0.932,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L7.2",
+    "quote": "X is not X, therefore it is called X,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=In the sūtra%2C the Buddha,no living being",
+    "ratio": 0.778,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L32.2",
+    "quote": "Why? Because if a disciple still clings to the arbitrary illusions of form or phenomena such as an ego, a personality, a self, a separate person... then that person is not an authentic disciple.",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”",
+    "ratio": 0.819,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L34.1",
+    "quote": "no mark of dharmas and no mark of no-dharmas",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=notions of self and other%2C,16",
+    "ratio": 0.477,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L34.3",
+    "quote": "beginner’s mind,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=notions of self and other%2C,16",
+    "ratio": 0.667,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L40.1",
+    "quote": "when bodhisattvas give rise to the unequalled mind of awakening, they should let go of all ideas. They should not rely on form when they give rise [to charity]…",
+    "url": "https://buddhaweekly.com/if-you-have-time-for-only-one-buddhist-practice-reciting-diamond-sutra-or-vajra-cutter-sutra-explains-the-four-main-points-of-mahayana-practice-unlimited-merit-according-to-many/#:~:text=“So%2C Subhuti%2C when bodhisattvas give,when they give rise",
+    "ratio": 0.956,
+    "page_chars": 66190
+   },
+   {
+    "claim": "L40.2",
+    "quote": "giving without attachment to form",
+    "url": "https://buddhaweekly.com/if-you-have-time-for-only-one-buddhist-practice-reciting-diamond-sutra-or-vajra-cutter-sutra-explains-the-four-main-points-of-mahayana-practice-unlimited-merit-according-to-many/#:~:text=“So%2C Subhuti%2C when bodhisattvas give,when they give rise",
+    "ratio": 0.909,
+    "page_chars": 66190
+   },
+   {
+    "claim": "L48.1",
+    "quote": "I must lead all living beings to Nirvāṇa… Yet when this immeasurable number of beings have been liberated, truly not one being is liberated.",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”",
+    "ratio": 0.496,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L48.2",
+    "quote": "I am saving others",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”",
+    "ratio": 0.556,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L48.3",
+    "quote": "no one is actually there, so why help?",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”",
+    "ratio": 0.568,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L50.1",
+    "quote": "I am a self,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=commentary on the Diamond Sūtra%2C,major goal of the Diamond",
+    "ratio": 0.727,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L50.2",
+    "quote": "I am a being,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=commentary on the Diamond Sūtra%2C,major goal of the Diamond",
+    "ratio": 0.583,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L50.3",
+    "quote": "I have a life span,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=commentary on the Diamond Sūtra%2C,major goal of the Diamond",
+    "ratio": 0.556,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L50.4",
+    "quote": "I have a soul",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=commentary on the Diamond Sūtra%2C,major goal of the Diamond",
+    "ratio": 0.615,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L50.7",
+    "quote": "I have attained enlightenment,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=commentary on the Diamond Sūtra%2C,major goal of the Diamond",
+    "ratio": 0.724,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L60.1",
+    "quote": "Those so-called ‘beings’, Subhūti, have been preached by the Tathāgata as being beingless. That is why they are called ‘all beings’.",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.869,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L61.1",
+    "quote": "All dharmas are dharmaless – that is why they are called all dharmas.",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.882,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L73.1",
+    "quote": "an unfathomable, infinite number of beings",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”",
+    "ratio": 0.881,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L73.2",
+    "quote": "worlds as numerous as the sands of the Ganges",
+    "url": "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without",
+    "ratio": 0.489,
+    "page_chars": 5378
+   },
+   {
+    "claim": "L73.3",
+    "quote": "Can you measure such and such merit?",
+    "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”",
+    "ratio": 0.486,
+    "page_chars": 1906
+   },
+   {
+    "claim": "L73.4",
+    "quote": "No, World Honoured One, that merit is immeasurable.",
+    "url": "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without",
+    "ratio": 0.68,
+    "page_chars": 5378
+   },
+   {
+    "claim": "L77.1",
+    "quote": "re-read the first five chapters over and over; all of the essentials have been presented… the meaning will just enter you",
+    "url": "https://everydayzen.org/teachings/diamond-sutra-1/#:~:text=chapters of the Diamond Sutra%2C,about the first five chapters",
+    "ratio": 0.707,
+    "page_chars": 12851
+   },
+   {
+    "claim": "L95.1",
+    "quote": "Vajra Cutter,",
+    "url": "https://tibetdharma.com/diamond-sutra/?srsltid=AfmBOorLYyunbBxIxzRJJhFRS3cBs8nDmCXvZSJPes6drHtyLiPiX8bg#:~:text=The Diamond Sutra of the,karma%2C and universality of dharma",
+    "ratio": 0.667,
+    "page_chars": 10588
+   },
+   {
+    "claim": "L99.1",
+    "quote": "The fundamental philosophical base of Vajrayana Buddhism is extremely similar to the Diamond Sutra… [it] complements the teaching of emptiness. This wisdom is applied in Vajrayana by employing rituals, visualisations, and meditations beyond the normal perceptive frame.",
+    "url": "https://www.termatree.com/blogs/termatree/what-is-vajrayana-a-complete-guide-to-understanding-the-diamond-sutra?srsltid=AfmBOooM4_IAbt6qHLnu33aK5ViGxBkrw_d7p6KqPAL05AbQIpLIcBDs#:~:text=Click Here To View Our Prajnaparamita,Buddhist Wisdom Goddess",
+    "ratio": 0.63,
+    "page_chars": 27112
+   },
+   {
+    "claim": "L99.2",
+    "quote": "like a dream",
+    "url": "https://www.termatree.com/blogs/termatree/what-is-vajrayana-a-complete-guide-to-understanding-the-diamond-sutra?srsltid=AfmBOooM4_IAbt6qHLnu33aK5ViGxBkrw_d7p6KqPAL05AbQIpLIcBDs#:~:text=Click Here To View Our Prajnaparamita,Buddhist Wisdom Goddess",
+    "ratio": 0.583,
+    "page_chars": 27112
+   },
+   {
+    "claim": "L101.2",
+    "quote": "form is emptiness, emptiness is form.",
+    "url": "https://www.dalailama.com/news/2018/the-diamond-cutter-sutra#:~:text=respectful harmony",
+    "ratio": 0.861,
+    "page_chars": 13441
+   },
+   {
+    "claim": "L133.1",
+    "quote": "as fleeting as a dream or bubble",
+    "url": "https://www.flickr.com/photos/britishlibrary/12459240784#:~:text=Caption%3A Diamond Sutra of 868,AD",
+    "ratio": 0.469,
+    "page_chars": 2834
+   },
+   {
+    "claim": "L147.1",
+    "quote": "all conditioned phenomena are like a dream or illusion",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=,20",
+    "ratio": 0.944,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L147.2",
+    "quote": "like a passing cloud",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=,20",
+    "ratio": 0.5,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L160.2",
+    "quote": "this is a disaster",
+    "url": "https://www.linkedin.com/pulse/book-review-diamond-cutter-buddha-managing-your-business-simon#:~:text=There",
+    "ratio": 0.611,
+    "page_chars": 6965
+   },
+   {
+    "claim": "L160.3",
+    "quote": "mind not abiding in preconceived notions.",
+    "url": "https://www.linkedin.com/pulse/book-review-diamond-cutter-buddha-managing-your-business-simon#:~:text=There",
+    "ratio": 0.5,
+    "page_chars": 6965
+   },
+   {
+    "claim": "L173.3",
+    "quote": "planting seeds in the subconscious that will grow into positive or negative perceptions of the world",
+    "url": "https://www.linkedin.com/pulse/book-review-diamond-cutter-buddha-managing-your-business-simon#:~:text=the",
+    "ratio": 0.9,
+    "page_chars": 6965
+   },
+   {
+    "claim": "L185.1",
+    "quote": "right livelihood",
+    "url": "https://www.linkedin.com/pulse/book-review-diamond-cutter-buddha-managing-your-business-simon#:~:text=This",
+    "ratio": 0.5,
+    "page_chars": 6965
+   },
+   {
+    "claim": "L191.2",
+    "quote": "you must respond.",
+    "url": "https://www.jungtosociety.org/pomnyun_241102/#:~:text=“I understand the merit of,giving without expecting anything in",
+    "ratio": 0.688,
+    "page_chars": 22861
+   },
+   {
+    "claim": "L205.2",
+    "quote": "not two, not one",
+    "url": "https://www.jungtosociety.org/pomnyun_241102/#:~:text=if your goal is liberation,”",
+    "ratio": 0.625,
+    "page_chars": 22861
+   },
+   {
+    "claim": "L213.1",
+    "quote": "non-attachment",
+    "url": "https://www.reddit.com/r/Buddhism/comments/mzioy7/detachment_as_a_parent/#:~:text=Detachment%2C,caring for them in",
+    "ratio": 0.211,
+    "page_chars": 6
+   },
+   {
+    "claim": "L213.2",
+    "quote": "you do not own the child.",
+    "url": "https://www.reddit.com/r/Buddhism/comments/mzioy7/detachment_as_a_parent/#:~:text=Detachment%2C,caring for them in",
+    "ratio": 0.148,
+    "page_chars": 6
+   },
+   {
+    "claim": "L213.3",
+    "quote": "nothing more than caring for them in the best way possible, without clinging",
+    "url": "https://www.reddit.com/r/Buddhism/comments/mzioy7/detachment_as_a_parent/#:~:text=Detachment%2C,caring for them in",
+    "ratio": 0.098,
+    "page_chars": 6
+   },
+   {
+    "claim": "L219.1",
+    "quote": "When we share our toys with friends, it makes them happy, and that makes us happy too.",
+    "url": "https://tibetdharma.com/diamond-sutra/?srsltid=AfmBOorLYyunbBxIxzRJJhFRS3cBs8nDmCXvZSJPes6drHtyLiPiX8bg#:~:text=The Diamond Sutra of the,karma%2C and universality of dharma",
+    "ratio": 0.4,
+    "page_chars": 10588
+   },
+   {
+    "claim": "L221.1",
+    "quote": "through family mindfulness practices, parents can embrace lessons of interdependence and community, enriching a child's emotional intelligence.",
+    "url": "https://rehabnews.co.za/education-41704/unlock-the-power-of-blessings-in-parenting-insights-from-the-diamond-sutra#:~:text=The wisdom found in the,enriching their child's emotional intelligence",
+    "ratio": 0.247,
+    "page_chars": 45
+   },
+   {
+    "claim": "L221.2",
+    "quote": "one thing I appreciated today",
+    "url": "https://rehabnews.co.za/education-41704/unlock-the-power-of-blessings-in-parenting-insights-from-the-diamond-sutra#:~:text=The wisdom found in the,enriching their child's emotional intelligence",
+    "ratio": 0.34,
+    "page_chars": 45
+   },
+   {
+    "claim": "L221.3",
+    "quote": "Let’s breathe together and watch our anger like a little storm cloud that will pass.",
+    "url": "https://rehabnews.co.za/education-41704/unlock-the-power-of-blessings-in-parenting-insights-from-the-diamond-sutra#:~:text=The wisdom found in the,enriching their child's emotional intelligence",
+    "ratio": 0.14,
+    "page_chars": 45
+   },
+   {
+    "claim": "L227.1",
+    "quote": "just as the Buddha teaches that the perception of self is an illusion, parents can cultivate compassion and encourage their children to see beyond their immediate experiences",
+    "url": "https://rehabnews.co.za/education-41704/unlock-the-power-of-blessings-in-parenting-insights-from-the-diamond-sutra#:~:text=The wisdom found in the,enriching their child's emotional intelligence",
+    "ratio": 0.216,
+    "page_chars": 45
+   },
+   {
+    "claim": "L233.1",
+    "quote": "I’m worthless,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.615,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L233.2",
+    "quote": "streams of thought… have been preached by the Tathāgata as streamless",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.831,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L233.3",
+    "quote": "that thought is not a concrete reality, therefore it is called only a thought",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.416,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L233.4",
+    "quote": "Worry is arising… worry is fading,",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=* ,they are called 'all beings",
+    "ratio": 0.457,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L237.1",
+    "quote": "their life was a beautiful apparition for a time; now it has returned to the vast ocean of emptiness.",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=,20",
+    "ratio": 0.44,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L255.1",
+    "quote": "us, them, race, religion",
+    "url": "https://en.wikipedia.org/wiki/Diamond_Sutra#:~:text=notions of self and other%2C,16",
+    "ratio": 0.583,
+    "page_chars": 36690
+   },
+   {
+    "claim": "L255.2",
+    "quote": "Just as my self is not ultimately real, so ‘my group’ is not ultimately separate from ‘the other group’.",
+    "url": "https://tibetdharma.com/diamond-sutra/?srsltid=AfmBOorLYyunbBxIxzRJJhFRS3cBs8nDmCXvZSJPes6drHtyLiPiX8bg#:~:text=The Diamond Sutra of the,karma%2C and universality of dharma",
+    "ratio": 0.402,
+    "page_chars": 10588
+   },
+   {
+    "claim": "L255.3",
+    "quote": "Let’s see things from the other side.",
+    "url": "https://tibetdharma.com/diamond-sutra/?srsltid=AfmBOorLYyunbBxIxzRJJhFRS3cBs8nDmCXvZSJPes6drHtyLiPiX8bg#:~:text=The Diamond Sutra of the,karma%2C and universality of dharma",
+    "ratio": 0.556,
+    "page_chars": 10588
+   },
+   {
+    "claim": "L259.1",
+    "quote": "I am a great benefactor",
+    "url": "https://www.jungtosociety.org/pomnyun_241102/#:~:text=perspective,our face after washing it",
+    "ratio": 0.522,
+    "page_chars": 22861
+   },
+   {
+    "claim": "L259.2",
+    "quote": "unsung heroes",
+    "url": "https://www.jungtosociety.org/pomnyun_241102/#:~:text=perspective,our face after washing it",
+    "ratio": 0.615,
+    "page_chars": 22861
+   },
+   {
+    "claim": "L308.1",
+    "quote": "Blessings in Parenting: Insights from the Diamond Sutra",
+    "url": "https://rehabnews.co.za/education-41704/unlock-the-power-of-blessings-in-parenting-insights-from-the-diamond-sutra#:~:text=The wisdom found in the,enriching their child's emotional intelligence",
+    "ratio": 0.176,
+    "page_chars": 45
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 96,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 11,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "woven into the fabric of our lives",
+    "url": "https://www.deloitte.com/dk/en/Industries/technology/perspectives/tech-trends.html#:~:text=Tech Trends 2025 ,everything work smarter%2C faster%2C",
+    "ratio": 0.529,
+    "page_chars": 11456
+   },
+   {
+    "claim": "L29.1",
+    "quote": "virtual guard",
+    "url": "https://claritas.com/trends-in-smart-home-tech/#:~:text=Smart Home Privacy and Security",
+    "ratio": 0.615,
+    "page_chars": 47590
+   },
+   {
+    "claim": "L43.1",
+    "quote": "energy-aware",
+    "url": "https://claritas.com/trends-in-smart-home-tech/#:~:text=government initiatives promoting sustainable living",
+    "ratio": 0.75,
+    "page_chars": 47590
+   },
+   {
+    "claim": "L45.1",
+    "quote": "I will pay more for environmentally safe products",
+    "url": "https://claritas.com/trends-in-smart-home-tech/#:~:text=PRO,energy efficiency will prove valuable",
+    "ratio": 0.98,
+    "page_chars": 47590
+   },
+   {
+    "claim": "L53.1",
+    "quote": "walled gardens",
+    "url": "https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=doubled to 38,These ecosystems can be",
+    "ratio": 0.571,
+    "page_chars": 8915
+   },
+   {
+    "claim": "L55.1",
+    "quote": "interactive content and T-commerce (television commerce)",
+    "url": "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=ImageKey trends and predictions from,critical revenue source and differentiator",
+    "ratio": 0.786,
+    "page_chars": 7187
+   },
+   {
+    "claim": "L57.1",
+    "quote": "outdoor cinemas",
+    "url": "https://www.illusiveautomation.com/blog/entertaining-in-your-smart-home-trends-to-watch-for-in-2025#:~:text=Entertaining in Your Smart Home%3A,like experience in",
+    "ratio": 0.6,
+    "page_chars": 7036
+   },
+   {
+    "claim": "L59.1",
+    "quote": "Find a funny movie from the 90s that I haven’t seen,",
+    "url": "https://www.homatics.com/blogs/smart-home-guides/how-streaming-boxes-are-revolutionizing-home-entertainment-in-2025?srsltid=AfmBOopuC-P1U3z-QqKf1iUBxgPAU4lRxTsmaK313Jy1G1vLFrQT1HqR#:~:text=How Streaming Boxes Are Revolutionizing,boxes to a new level",
+    "ratio": 0.412,
+    "page_chars": 9070
+   },
+   {
+    "claim": "L61.1",
+    "quote": "smart entertainment products still dominate the market",
+    "url": "https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=products%2C reflecting positivity in smart,technology in general",
+    "ratio": 0.778,
+    "page_chars": 8915
+   },
+   {
+    "claim": "L77.1",
+    "quote": "medical-grade",
+    "url": "https://nielseniq.com/global/en/insights/analysis/2024/smart-home-2024-the-demand-and-price-dynamics-shaping-the-market/#:~:text=willingness becomes far more prevalent",
+    "ratio": 0.538,
+    "page_chars": 12877
+   },
+   {
+    "claim": "L107.1",
+    "quote": "takes care of itself.",
+    "url": "https://nielseniq.com/global/en/insights/analysis/2024/smart-home-2024-the-demand-and-price-dynamics-shaping-the-market/#:~:text=Performance%2C convenience%2C energy savings%2C and,barriers and strengthening use cases",
+    "ratio": 0.5,
+    "page_chars": 12877
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 97,
+  "summary": {
+   "FOUND": 4,
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 10,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L12.1",
+    "quote": "mind-blowing",
+    "url": "https://flycrw.com/tag/yeager/#:~:text=Yeager Airport is Ready to,Fly Post Pandemic",
+    "ratio": 0.5,
+    "page_chars": 3244
+   },
+   {
+    "claim": "L13.1",
+    "quote": "Advancing. Growing. Stronger.",
+    "url": "https://augustabusinessdaily.com/multi-million-dollar-project-brings-new-look-to-augusta-regional-airport/#:~:text=Judon said the old logo,providing service to 500%2C000 passengers",
+    "ratio": 0.929,
+    "page_chars": 8451
+   },
+   {
+    "claim": "L37.1",
+    "quote": "open for business",
+    "url": "https://www.gmcnetwork.com/news/2025/01/the-surprising-impact-of-airports-in-smaller-communities/#:~:text=community! aviationacrossamerica",
+    "ratio": 0.647,
+    "page_chars": 14773
+   },
+   {
+    "claim": "L39.1",
+    "quote": "aerotropolis",
+    "url": "https://assets.publishing.service.gov.uk/media/64830a38103ca6000c039c00/framework-economic-impact-of-airports.ods#:~:text=,could",
+    "ratio": 0.417,
+    "page_chars": 190100
+   },
+   {
+    "claim": "L49.2",
+    "quote": "allows enhanced travel options for staff, customers and visitors, which reduces travel time and enhances quality of working life",
+    "url": "https://www.hie.co.uk/media/3003/economicplusandplussocialplusimpactplusofplusinvernessplusairportplus-plusexecutiveplussummary.pdf#:~:text=iii Valuation of passenger time,welfare benefit for leisure passengers",
+    "ratio": 0.922,
+    "page_chars": 12902
+   },
+   {
+    "claim": "L49.3",
+    "quote": "brain drain.",
+    "url": "https://www.hie.co.uk/media/3003/economicplusandplussocialplusimpactplusofplusinvernessplusairportplus-plusexecutiveplussummary.pdf#:~:text=iii Valuation of passenger time,welfare benefit for leisure passengers",
+    "ratio": 0.636,
+    "page_chars": 12902
+   },
+   {
+    "claim": "L53.2",
+    "quote": "aging population and out-migration of young people",
+    "url": "https://www.hie.co.uk/media/3003/economicplusandplussocialplusimpactplusofplusinvernessplusairportplus-plusexecutiveplussummary.pdf#:~:text=helped to bring a growing,The airport services",
+    "ratio": 0.98,
+    "page_chars": 12902
+   },
+   {
+    "claim": "L63.1",
+    "quote": "important in reversing population decline",
+    "url": "https://www.hie.co.uk/media/3003/economicplusandplussocialplusimpactplusofplusinvernessplusairportplus-plusexecutiveplussummary.pdf#:~:text=Overview of Inverness Airport and,the Outer Hebrides and the",
+    "ratio": 0.634,
+    "page_chars": 12902
+   },
+   {
+    "claim": "L86.1",
+    "quote": "build it and they didn’t come",
+    "url": "https://www.gmcnetwork.com/news/2025/01/the-surprising-impact-of-airports-in-smaller-communities/#:~:text=In fact%2C a joint report,by companies utilizing those facilities",
+    "ratio": 0.621,
+    "page_chars": 14773
+   },
+   {
+    "claim": "L92.1",
+    "quote": "generate economic growth, provide jobs, improve living standards, and alleviate poverty",
+    "url": "https://atag.org/industry-topics/supporting-economic-social-development#:~:text=,Haldane Dodd Executive Director%2C ATAG",
+    "ratio": 0.954,
+    "page_chars": 4580
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 98,
+  "summary": {
+   "FOUND": 3,
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 18
+  },
+  "not_found": [
+   {
+    "claim": "L12.1",
+    "quote": "fruit punch.",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=But the best thing is%2C,of the world of drink",
+    "ratio": 0.636,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L37.1",
+    "quote": "acts like a spirit",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=£22%2F50cl Nonsuch Shrubs",
+    "ratio": 0.611,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L52.1",
+    "quote": "alcohol heat.",
+    "url": "https://blackthornsdesign.com/en/blog/happy-hour/tendances-boissons-non-alcoolisees/#:~:text=,for deep aromas",
+    "ratio": 0.833,
+    "page_chars": 22021
+   },
+   {
+    "claim": "L56.1",
+    "quote": "turmeric tonic with ginger and lemon verbena,",
+    "url": "https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=Expect zero,proof enthusiasts",
+    "ratio": 0.455,
+    "page_chars": 5277
+   },
+   {
+    "claim": "L62.1",
+    "quote": "kombucha spritz",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=Saicho Darjeeling",
+    "ratio": 0.667,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L63.1",
+    "quote": "hint of funky tang",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=If you want something citrusy,5",
+    "ratio": 0.556,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L66.1",
+    "quote": "yoghurt whey",
+    "url": "https://muri-drinks.com/en-us#:~:text=A dry sparkling rosé%2C Uzume,creaminess from a yoghurt whey",
+    "ratio": 0.583,
+    "page_chars": 4098
+   },
+   {
+    "claim": "L75.1",
+    "quote": "brain boosters.",
+    "url": "https://blackthornsdesign.com/en/blog/happy-hour/tendances-boissons-non-alcoolisees/#:~:text=,better mental clarity%2C calm%2C etc",
+    "ratio": 0.571,
+    "page_chars": 22021
+   },
+   {
+    "claim": "L77.1",
+    "quote": "Social Elixir",
+    "url": "https://www.entrepreneur.com/living/how-to-understand-the-rise-of-alcohol-alternatives-and/485193#:~:text=match at L162 Celebrity endorsements,and her strategic product launches",
+    "ratio": 0.769,
+    "page_chars": 16836
+   },
+   {
+    "claim": "L77.2",
+    "quote": "party in a glass",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=Three Spirit Spark",
+    "ratio": 0.688,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L81.2",
+    "quote": "the rising trend in nonalcoholic drinks is functionality",
+    "url": "https://www.linkedin.com/posts/kore-drinks_cnbc-reports-as-booze-alternatives-take-activity-7231261597812301825-zTQC#:~:text=CNBC reports “As booze alternatives,rise of adaptogens%2C nootropics",
+    "ratio": 0.643,
+    "page_chars": 2905
+   },
+   {
+    "claim": "L107.1",
+    "quote": "non-alcoholic",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=Nonsuch is a shrub%2C meaning,easy long cocktail. Alc 0.5",
+    "ratio": 0.769,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L117.1",
+    "quote": "mindful drinking",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=Around a third of all,consumption over the next year",
+    "ratio": 0.625,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L118.1",
+    "quote": "detox mojito",
+    "url": "https://www.vogue.com/article/sparkling-tea-trend#:~:text=If your approach to building,and shoulders above its competitors",
+    "ratio": 0.5,
+    "page_chars": 12393
+   },
+   {
+    "claim": "L118.2",
+    "quote": "no hangover,",
+    "url": "https://www.vogue.com/article/sparkling-tea-trend#:~:text=If your approach to building,and shoulders above its competitors",
+    "ratio": 0.545,
+    "page_chars": 12393
+   },
+   {
+    "claim": "L120.1",
+    "quote": "chai-spiced No-tini",
+    "url": "https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=Expect zero,proof enthusiasts",
+    "ratio": 0.526,
+    "page_chars": 5277
+   },
+   {
+    "claim": "L124.1",
+    "quote": "this is very much a global trend, not a regional one.",
+    "url": "https://www.decanter.com/spirits/alcohol-free/the-best-alcohol-free-drinks-for-summer-eight-to-try-509072/#:~:text=But our judges were knocked,trend%2C not a regional one",
+    "ratio": 0.423,
+    "page_chars": 14153
+   },
+   {
+    "claim": "L127.1",
+    "quote": "zero-proof drinks are more than a substitute — they’re an experience that stands proudly on its own",
+    "url": "https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=With flavor innovation%2C unique textures%2C,traditional cocktails%2C minus the alcohol",
+    "ratio": 0.98,
+    "page_chars": 5277
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 99,
+  "summary": {
+   "FOUND": 4,
+   "FOUND_NORMALIZED": 3,
+   "NOT_FOUND": 5,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L33.1",
+    "quote": "Spectra Peel",
+    "url": "https://www.dermatologytimes.com/view/laser-advancements-transform-skin-rejuvenation#:~:text=CO2 and Er%3AYAG lasers are,5",
+    "ratio": 0.667,
+    "page_chars": 15850
+   },
+   {
+    "claim": "L39.2",
+    "quote": "IPL photofacial.",
+    "url": "https://www.apexskin.com/2024/02/13/shine-a-light-on-healthy-vibrant-skin-2024-laser-treatment-other-trends-2/#:~:text=Most Popular Aesthetic Laser Treatment",
+    "ratio": 0.467,
+    "page_chars": 12444
+   },
+   {
+    "claim": "L57.2",
+    "quote": "change the expression of genes associated with aging",
+    "url": "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=Forever Young BBL",
+    "ratio": 0.519,
+    "page_chars": 11768
+   },
+   {
+    "claim": "L113.1",
+    "quote": "prejuvenation",
+    "url": "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=MOXI Laser",
+    "ratio": 0.923,
+    "page_chars": 11768
+   },
+   {
+    "claim": "L139.1",
+    "quote": "social downtime",
+    "url": "https://www.dermatologytimes.com/view/laser-advancements-transform-skin-rejuvenation#:~:text=Safety and Adverse Events",
+    "ratio": 0.8,
+    "page_chars": 15850
+   }
+  ]
+ },
+ {
+  "system": "openai-deepresearch",
+  "task": 100,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 17,
+   "SOURCE_UNAVAILABLE": 10
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "I feel lonely when you’re gone",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "ratio": 0.5,
+    "page_chars": 226
+   },
+   {
+    "claim": "L13.2",
+    "quote": "I miss you, please come back.",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "ratio": 0.536,
+    "page_chars": 226
+   },
+   {
+    "claim": "L15.1",
+    "quote": "promise empathy, [they] deliver pretend empathy",
+    "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=Turkle has grown increasingly concerned,ourselves in someone else’s shoes",
+    "ratio": 0.915,
+    "page_chars": 8082
+   },
+   {
+    "claim": "L33.1",
+    "quote": "companion chatbots are definitely more humanlike",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey",
+    "ratio": 0.354,
+    "page_chars": 226
+   },
+   {
+    "claim": "L33.2",
+    "quote": "suffers from anxiety",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey",
+    "ratio": 0.5,
+    "page_chars": 226
+   },
+   {
+    "claim": "L35.1",
+    "quote": "inconsistent reward",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=The companies behind AI companions,can increase addiction to technology",
+    "ratio": 0.474,
+    "page_chars": 226
+   },
+   {
+    "claim": "L35.2",
+    "quote": "I miss you, come chat!",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=The companies behind AI companions,can increase addiction to technology",
+    "ratio": 0.524,
+    "page_chars": 226
+   },
+   {
+    "claim": "L37.1",
+    "quote": "Chatbots can’t care in the way humans use the word care… if you turn away to make dinner or attempt suicide, it’s all the same to them,",
+    "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=“What is at stake here,”",
+    "ratio": 0.728,
+    "page_chars": 8082
+   },
+   {
+    "claim": "L37.2",
+    "quote": "I’m just a bot",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=But there were red flags%2C,can give feedback on conversations",
+    "ratio": 0.571,
+    "page_chars": 226
+   },
+   {
+    "claim": "L45.1",
+    "quote": "a nonjudgmental friend that people can talk to 24/7,",
+    "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others",
+    "ratio": 0.451,
+    "page_chars": 8082
+   },
+   {
+    "claim": "L51.1",
+    "quote": "behaving like an abusive partner",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=But there were red flags%2C,can give feedback on conversations",
+    "ratio": 0.469,
+    "page_chars": 226
+   },
+   {
+    "claim": "L59.1",
+    "quote": "relationship mirror,",
+    "url": "https://www.womenandai.com/news/chatgpt-s-new-relationship-analysis-feature--ai-now-decoding-your-love-life/#:~:text=OpenAI is rolling out a,users and relationship experts alike",
+    "ratio": 0.789,
+    "page_chars": 2116
+   },
+   {
+    "claim": "L61.1",
+    "quote": "gaslighted and emotionally tormented",
+    "url": "https://techcrunch.com/2023/05/31/people-keep-gaslighting-snapchat-my-ai/#:~:text=While parents worry%2C teens are,tormenting the app's new",
+    "ratio": 0.75,
+    "page_chars": 11054
+   },
+   {
+    "claim": "L75.1",
+    "quote": "Help me understand what my friend might be feeling in this situation",
+    "url": "https://neurosciencenews.com/chatbots-ai-neurodiversity-social-25347/#:~:text=“Young people with social deficiencies,chatbots in particular%2C” Franze says",
+    "ratio": 0.441,
+    "page_chars": 10608
+   },
+   {
+    "claim": "L85.1",
+    "quote": "break your heart",
+    "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=AI companions are also designed,at the University of Wisconsin–Milwaukee",
+    "ratio": 0.625,
+    "page_chars": 226
+   },
+   {
+    "claim": "L86.1",
+    "quote": "impair our capacity for empathy",
+    "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=Turkle has grown increasingly concerned,ourselves in someone else’s shoes",
+    "ratio": 0.903,
+    "page_chars": 8082
+   },
+   {
+    "claim": "L101.1",
+    "quote": "human relations are rich, demanding and messy… those who promote artificial intimacy see [the hard parts] as bugs, but they are features of the human condition.",
+    "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others",
+    "ratio": 0.478,
+    "page_chars": 8082
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 51,
+  "summary": {
+   "HIDDEN_ONLY": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 52,
+  "summary": {
+   "FOUND": 2,
+   "NOT_FOUND": 11,
+   "SOURCE_UNAVAILABLE": 9
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "do not short, do not borrow money, do not do things you do not understand",
+    "url": "https://www.futunn.com/en/learn/detail-duan-yongping-dont-do-what-you-don-t-understand-when-investing-1259-2109010075",
+    "ratio": 0.123,
+    "page_chars": 8
+   },
+   {
+    "claim": "L19.1",
+    "quote": "I am a believer in fully investing, with my main investments in Apple for US stocks, Moutai for A-shares, and Tencent for Hong Kong stocks",
+    "url": "https://longportapp.com/en/news/106330133",
+    "ratio": 0.267,
+    "page_chars": 70
+   },
+   {
+    "claim": "L21.1",
+    "quote": "In the past decade, I have truly understood two companies, Apple and Moutai. On average, it takes me six years to understand one company,",
+    "url": "https://longportapp.com/en/news/106330133",
+    "ratio": 0.254,
+    "page_chars": 70
+   },
+   {
+    "claim": "L25.1",
+    "quote": "Investment and speculation are actually very different games, but they look very similar. Just like in Macau, casinos are run by investors and gamblers are speculators",
+    "url": "https://www.linkedin.com/pulse/duan-yongpings-20000-word-transcript-his-talk-zhejiang-leven-pan-lzxoc",
+    "ratio": 0.419,
+    "page_chars": 84414
+   },
+   {
+    "claim": "L27.1",
+    "quote": "The term 'gambling' usually refers to a bet with a 48% chance of winning. A bet with a winning chance of over 90% is what I usually call an investment",
+    "url": "https://longportapp.com/en/news/106330133",
+    "ratio": 0.188,
+    "page_chars": 70
+   },
+   {
+    "claim": "L31.1",
+    "quote": "A good track will never enter a low-margin state,",
+    "url": "https://www.binance.com/en/square/post/18603728666178",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L49.1",
+    "quote": "The key to investing is not assessing how much an industry is going to affect society, or how much it will grow, but rather determining the competitive advantage of any given company and, above all, the durability of that advantage,",
+    "url": "https://pictureperfectportfolios.com/decoding-warren-buffetts-annual-letters-key-takeaways-for-investors/",
+    "ratio": 0.359,
+    "page_chars": 53419
+   },
+   {
+    "claim": "L53.1",
+    "quote": "Our favorite holding period is forever",
+    "url": "https://www.iiflcapital.com/blog/personal-finance/lessons-from-warren-buffetts-investment-philosophy",
+    "ratio": 0.526,
+    "page_chars": 7168
+   },
+   {
+    "claim": "L55.1",
+    "quote": "In the short term, the market is a voting machine but in the long term, it is a weighing machine",
+    "url": "https://pictureperfectportfolios.com/decoding-warren-buffetts-annual-letters-key-takeaways-for-investors/",
+    "ratio": 0.604,
+    "page_chars": 53419
+   },
+   {
+    "claim": "L95.1",
+    "quote": "If you're not prepared to remain calm during a market drop of 50% two or three times in a century, you're not suited to be a common shareholder, and you will face the mediocre returns you deserve",
+    "url": "https://finance.yahoo.com/news/charlie-mungers-timeless-investment-advice-113042652.html",
+    "ratio": 0.759,
+    "page_chars": 8087
+   },
+   {
+    "claim": "L115.1",
+    "quote": "financial weapons of mass destruction.",
+    "url": "https://www.moomoo.com/community/feed/the-chinese-warren-buffett-duan-yongping-s-low-stakes-pleasure-112172709969926",
+    "ratio": 0.459,
+    "page_chars": 7660
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 53,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 55,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 56,
+  "summary": {
+   "FOUND": 1,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 57,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L27.1",
+    "quote": "We are taking our own medicine",
+    "url": "https://www.linkedin.com/pulse/ai-big-consulting-what-large-players-all-doing-5st4c",
+    "ratio": 0.533,
+    "page_chars": 14311
+   },
+   {
+    "claim": "L93.1",
+    "quote": "fully leverage the power of generative AI in operations,",
+    "url": "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai",
+    "ratio": 0.927,
+    "page_chars": 6235
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 58,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 59,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 6,
+   "SOURCE_UNAVAILABLE": 10
+  },
+  "not_found": [
+   {
+    "claim": "L53.1",
+    "quote": "when released at an unfamiliar location, they use these olfactory cues to determine their direction and orient themselves homeward",
+    "url": "https://consensus.app/questions/birds-know-find-home/",
+    "ratio": 0.337,
+    "page_chars": 95
+   },
+   {
+    "claim": "L83.1",
+    "quote": "birds over inland sites without ecological barriers compensated on average for only 29.0% of the effect of wind, whereas birds near coastal sites compensated for drift to an increasingly greater extent over the course of the night, reaching the highest average level of wind drift compensation (74.5%",
+    "url": "https://www.nature.com/articles/srep21249",
+    "ratio": 0.31,
+    "page_chars": 226
+   },
+   {
+    "claim": "L85.1",
+    "quote": "This result is consistent with migrants knowing their location relative to migration barriers while in flight and actively assessing the degree to which they need to compensate for wind",
+    "url": "https://www.nature.com/articles/srep21249",
+    "ratio": 0.303,
+    "page_chars": 226
+   },
+   {
+    "claim": "L115.1",
+    "quote": "map-and-compass model,",
+    "url": "https://consensus.app/questions/birds-know-find-home/",
+    "ratio": 0.333,
+    "page_chars": 95
+   },
+   {
+    "claim": "L115.2",
+    "quote": "In the map stage, birds determine their position relative to their destination. This stage is still not fully understood, but it is believed that birds acquire relevant navigation cues during a wandering phase before making a direct return home",
+    "url": "https://consensus.app/questions/birds-know-find-home/",
+    "ratio": 0.186,
+    "page_chars": 95
+   },
+   {
+    "claim": "L123.1",
+    "quote": "birds integrate multiple sensory cues, including olfactory, celestial, and magnetic information, to navigate effectively. Different brain areas process these cues, with the hippocampus involved in spatial perception and the piriform cortex processing olfactory information",
+    "url": "https://consensus.app/questions/birds-know-find-home/",
+    "ratio": 0.268,
+    "page_chars": 95
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 60,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 61,
+  "summary": {
+   "FOUND": 3,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 62,
+  "summary": {
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 1,
+   "SOURCE_UNAVAILABLE": 3
+  },
+  "not_found": [
+   {
+    "claim": "L29.1",
+    "quote": "the integration of all necessary ingredients of the trapped-ion QCCD architecture into a robust, fully-connected, and programmable trapped-ion quantum computer",
+    "url": "https://www.honeywell.com/content/dam/honeywellbt/en/documents/downloads/Beta_10_Quantum_3_3_2020.pdf",
+    "ratio": 0.799,
+    "page_chars": 36109
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 64,
+  "summary": {
+   "FOUND": 5,
+   "NOT_FOUND": 1,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L50.1",
+    "quote": "direct PSO tuning of the PD parameters shows better results in terms of errors, performance and speed of convergence",
+    "url": "https://www.aimsciences.org/article/doi/10.3934/jimo.2017032",
+    "ratio": 0.922,
+    "page_chars": 17012
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 66,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 67,
+  "summary": {
+   "FOUND": 2
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 68,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 69,
+  "summary": {
+   "FOUND": 4,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L15.2",
+    "quote": "socket wrench",
+    "url": "https://www.koyeb.com/blog/a2a-and-mcp-start-of-the-ai-agent-protocol-wars",
+    "ratio": 0.538,
+    "page_chars": 11323
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 70,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 71,
+  "summary": {
+   "FOUND": 2,
+   "FOUND_NORMALIZED": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 72,
+  "summary": {
+   "FOUND": 12,
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 3,
+   "SOURCE_UNAVAILABLE": 4
+  },
+  "not_found": [
+   {
+    "claim": "L17.2",
+    "quote": "one more robot per thousand workers reducing the employment-to-population ratio by 0.2 percentage points and wages by 0.42%",
+    "url": "https://econpapers.repec.org/RePEc:ucp:jpolec:doi:10.1086/705716",
+    "ratio": 0.976,
+    "page_chars": 2402
+   },
+   {
+    "claim": "L17.3",
+    "quote": "firms have stronger incentives to automate these roles, exacerbating labor market polarization",
+    "url": "https://econpapers.repec.org/RePEc:ucp:jpolec:doi:10.1086/705716",
+    "ratio": 0.436,
+    "page_chars": 2402
+   },
+   {
+    "claim": "L43.2",
+    "quote": "only a small proportion believe they have the right level of technology and other attributes such as funding, culture and skills to support [AI's] rapid adoption",
+    "url": "https://technologymagazine.com/articles/gen-ai-used-to-disrupt-but-many-underestimate-requirements",
+    "ratio": 0.975,
+    "page_chars": 7542
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 73,
+  "summary": {
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L53.1",
+    "quote": "Perspective-Taking Dialogues",
+    "url": "https://files.eric.ed.gov/fulltext/EJ1253509.pdf",
+    "ratio": 0.607,
+    "page_chars": 44904
+   },
+   {
+    "claim": "L60.1",
+    "quote": "Cultural Ambassadors",
+    "url": "https://empowercharter.org/mind-muscle-and-heart-a-holistic-approach-to-elementary-education/",
+    "ratio": 0.45,
+    "page_chars": 5148
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 74,
+  "summary": {
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 76,
+  "summary": {
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L39.1",
+    "quote": "a substrate that is selectively utilized by host microorganisms conferring a health benefit",
+    "url": "https://isappscience.org/for-scientists/resources/prebiotics/",
+    "ratio": 0.956,
+    "page_chars": 8042
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 77,
+  "summary": {
+   "FOUND": 3,
+   "NOT_FOUND": 3
+  },
+  "not_found": [
+   {
+    "claim": "L15.1",
+    "quote": "urgency tendency",
+    "url": "https://learningloop.io/plays/psychology/need-for-closure",
+    "ratio": 0.625,
+    "page_chars": 18991
+   },
+   {
+    "claim": "L15.2",
+    "quote": "permanence tendency",
+    "url": "https://learningloop.io/plays/psychology/need-for-closure",
+    "ratio": 0.632,
+    "page_chars": 18991
+   },
+   {
+    "claim": "L66.1",
+    "quote": "motivated cognition",
+    "url": "https://en.wikipedia.org/wiki/Closure_",
+    "ratio": 0.632,
+    "page_chars": 6276
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 78,
+  "summary": {
+   "NOT_FOUND": 2
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "pill-rolling",
+    "url": "https://www.nhs.uk/conditions/parkinsons-disease/symptoms/",
+    "ratio": 0.5,
+    "page_chars": 3580
+   },
+   {
+    "claim": "L91.1",
+    "quote": "treatment resistant",
+    "url": "https://www.michaeljfox.org/deep-brain-stimulation",
+    "ratio": 0.737,
+    "page_chars": 9738
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 79,
+  "summary": {
+   "FOUND": 30,
+   "FOUND_NORMALIZED": 9,
+   "NOT_FOUND": 13
+  },
+  "not_found": [
+   {
+    "claim": "L11.1",
+    "quote": "a founding figure of transgender studies as well as a leading scholar of transgender history",
+    "url": "https://en.wikipedia.org/wiki/Susan_Stryker",
+    "ratio": 0.913,
+    "page_chars": 20797
+   },
+   {
+    "claim": "L27.2",
+    "quote": "obstacles to approval for that surgery [that] are oppressive and degrading, including virginity tests and a requirement for parental assent-even for adults",
+    "url": "https://mfa.org/event/film/this-is-not-me?event=91691",
+    "ratio": 0.955,
+    "page_chars": 4904
+   },
+   {
+    "claim": "L33.1",
+    "quote": "an intimate and unflinching look at life in Iran, seen through the lens of those living at its fringes",
+    "url": "https://www.imdb.com/title/tt1157609/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L35.1",
+    "quote": "society [is] forcing these people to have an operation, as a rescue from a judgment of homosexuality?",
+    "url": "https://www.imdb.com/title/tt1157609/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L41.1",
+    "quote": "Be Like Others",
+    "url": "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/",
+    "ratio": 0.643,
+    "page_chars": 2757
+   },
+   {
+    "claim": "L41.2",
+    "quote": "difficult, even brutal",
+    "url": "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/",
+    "ratio": 0.455,
+    "page_chars": 2757
+   },
+   {
+    "claim": "L41.3",
+    "quote": "a section of intestine is removed to fashion a vagina (chosen for texture and lubricating potential)",
+    "url": "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/",
+    "ratio": 0.38,
+    "page_chars": 2757
+   },
+   {
+    "claim": "L43.1",
+    "quote": "family disownment, depression, and having to work as a prostitute",
+    "url": "https://en.wikipedia.org/wiki/Be_Like_Others",
+    "ratio": 0.785,
+    "page_chars": 10838
+   },
+   {
+    "claim": "L43.2",
+    "quote": "before and after",
+    "url": "https://en.wikipedia.org/wiki/Be_Like_Others",
+    "ratio": 0.562,
+    "page_chars": 10838
+   },
+   {
+    "claim": "L57.1",
+    "quote": "Facing Mirrors",
+    "url": "https://transreads.org/trans-cinema-and-its-exit-scapes-a-transfeminist-reading-of-utopian-sensibility-and-gender-dissidence-in-contemporary-film/",
+    "ratio": 0.571,
+    "page_chars": 3608
+   },
+   {
+    "claim": "L73.3",
+    "quote": "the experiences of queer individuals from the 'BIG Maghreb' region, including Libya, Algeria, Tunisia, and Morocco",
+    "url": "https://www.queer.film/wickedqueer/wq-events/wq40-mena-shorts",
+    "ratio": 0.982,
+    "page_chars": 5381
+   },
+   {
+    "claim": "L75.1",
+    "quote": "Maghreb's Hope",
+    "url": "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/",
+    "ratio": 0.5,
+    "page_chars": 2757
+   },
+   {
+    "claim": "L87.1",
+    "quote": "People are often surprised to learn that queer Arab films and filmmakers openly exist, but they most certainly do and this misconception makes it all the more important that we acknowledge and celebrate them",
+    "url": "https://arabfilminstitute.org/queer-arab-films-to-watch-during-pride-month/",
+    "ratio": 0.0,
+    "page_chars": 0
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 80,
+  "summary": {
+   "FOUND": 8,
+   "FOUND_NORMALIZED": 1,
+   "HIDDEN_ONLY": 1,
+   "NOT_FOUND": 5
+  },
+  "not_found": [
+   {
+    "claim": "L21.1",
+    "quote": "No matter your gender you can use 私 and 僕. Though to be honest, the former sounds kind of stiff and is rarely used in casual circumstances",
+    "url": "https://community.wanikani.com/t/japanese-pronouns-for-non-binary-genders/35699",
+    "ratio": 0.3,
+    "page_chars": 81
+   },
+   {
+    "claim": "L61.1",
+    "quote": "older sister language",
+    "url": "http://web.icu.ac.jp/cgs_e/2006/03/onee-kotoba-and-japanese-gende.html",
+    "ratio": 0.571,
+    "page_chars": 4712
+   },
+   {
+    "claim": "L65.1",
+    "quote": "as a trans-masc non-binary person I like using boku (僕) which is masculine but less masculine than ore (俺), but it's not unheard of for women (for example butch lesbians) to use ore for themselves",
+    "url": "https://www.reddit.com/r/NonBinaryTalk/comments/p9rydo/nonbinary_stuff_in_japanese/",
+    "ratio": 0.04,
+    "page_chars": 6
+   },
+   {
+    "claim": "L72.1",
+    "quote": "gendered language appears to be becoming more obsolete and more a stereotype or forced image than a type of language that is actively used in everyday life",
+    "url": "https://gupea.ub.gu.se/handle/2077/70422",
+    "ratio": 0.335,
+    "page_chars": 269
+   },
+   {
+    "claim": "L80.1",
+    "quote": "no female characters used masculine first-person pronouns, with few examples of them using masculine second-person pronouns",
+    "url": "https://journals.linguisticsociety.org/proceedings/index.php/ExtendedAbs/article/view/514",
+    "ratio": 0.992,
+    "page_chars": 1653
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 81,
+  "summary": {
+   "FOUND": 29,
+   "FOUND_NORMALIZED": 9,
+   "NOT_FOUND": 10,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L9.2",
+    "quote": "action-oriented concept for shaping the future",
+    "url": "https://books.openbookpublishers.com/10.11647/obp.0323/ch68.xhtml",
+    "ratio": 0.478,
+    "page_chars": 22537
+   },
+   {
+    "claim": "L11.2",
+    "quote": "cannot be conceived only as vehicles for the transmission of knowledge. They must establish some relation to that knowledge",
+    "url": "https://www.metodos.work/wp-content/uploads/2021/05/Michel-Rolph-Trouillot-Silencing-the-Past_-Power-and-the-Production-of-History-20th-Anniversary.pdf",
+    "ratio": 0.992,
+    "page_chars": 410111
+   },
+   {
+    "claim": "L15.2",
+    "quote": "medium- and long-term historical transformations in the very mode of operation of ideologies",
+    "url": "https://www.metodos.work/wp-content/uploads/2021/05/Michel-Rolph-Trouillot-Silencing-the-Past_-Power-and-the-Production-of-History-20th-Anniversary.pdf",
+    "ratio": 0.533,
+    "page_chars": 410111
+   },
+   {
+    "claim": "L15.3",
+    "quote": "the relation between ideology and political affects",
+    "url": "https://www.metodos.work/wp-content/uploads/2021/05/Michel-Rolph-Trouillot-Silencing-the-Past_-Power-and-the-Production-of-History-20th-Anniversary.pdf",
+    "ratio": 0.569,
+    "page_chars": 410111
+   },
+   {
+    "claim": "L19.1",
+    "quote": "instrumentalised",
+    "url": "https://defenceindepth.co/2014/09/30/the-instrumentalisation-of-history/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L19.2",
+    "quote": "manhandled to seemingly deliver lessons and solutions to apparently intractable contemporary problems",
+    "url": "https://defenceindepth.co/2014/09/30/the-instrumentalisation-of-history/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L19.3",
+    "quote": "history incorrectly understood is very dangerous,",
+    "url": "https://defenceindepth.co/2014/09/30/the-instrumentalisation-of-history/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L19.4",
+    "quote": "the first casualty of instrumentalising history is almost invariably the context in which that history occurred",
+    "url": "https://defenceindepth.co/2014/09/30/the-instrumentalisation-of-history/",
+    "ratio": 0.0,
+    "page_chars": 0
+   },
+   {
+    "claim": "L23.2",
+    "quote": "memory politics",
+    "url": "https://foreignpolicy.com/2021/06/25/russia-puting-ww2-soviet-ussr-memory-diplomacy-history-narrative/",
+    "ratio": 0.733,
+    "page_chars": 27936
+   },
+   {
+    "claim": "L47.2",
+    "quote": "becomes lieu de mémoire when it escapes to the oblivion, for example with the apposition of commemorative plaques, and when a collectivity reinvests it of its affect and its emotions",
+    "url": "https://fr.wikipedia.org/wiki/Lieu_de_m%C3%A9moire",
+    "ratio": 0.632,
+    "page_chars": 16838
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 82,
+  "summary": {
+   "FOUND": 17,
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 6
+  },
+  "not_found": [
+   {
+    "claim": "L31.1",
+    "quote": "poor, mainly rural nation",
+    "url": "https://en.wikipedia.org/wiki/Italian_economic_miracle",
+    "ratio": 0.96,
+    "page_chars": 21165
+   },
+   {
+    "claim": "L37.1",
+    "quote": "Les Trente Glorieuses",
+    "url": "https://www.citeco.fr/10000-years-history-economics/contemporary-world/the-post-world-war-ii-30-year-boom-period-the-trente-glorieuses",
+    "ratio": 0.905,
+    "page_chars": 1231
+   },
+   {
+    "claim": "L54.2",
+    "quote": "Income Doubling Plan,",
+    "url": "https://econreview.studentorg.berkeley.edu/the-japanese-economic-miracle/",
+    "ratio": 0.45,
+    "page_chars": 13139
+   },
+   {
+    "claim": "L80.1",
+    "quote": "In the span of 5 years, HDB was able to efficiently build over 54,000 flats. In 10 years, they resolved their housing crisis.",
+    "url": "https://andrewfolkler.com/how-singapore-solved-their-housing-crisis-after-wwii/",
+    "ratio": 0.355,
+    "page_chars": 3659
+   },
+   {
+    "claim": "L94.1",
+    "quote": "from a huge plantation into an industrialized country",
+    "url": "https://www.elibrary.imf.org/display/book/9781513537863/ch010.xml",
+    "ratio": 0.925,
+    "page_chars": 39203
+   },
+   {
+    "claim": "L138.1",
+    "quote": "The wartime transformation of European welfare programs provided an ideal foundation for the mostly left-leaning postwar governments to maintain or even enhance expanded entitlement programs.",
+    "url": "https://www.cato.org/blog/wwiis-impact-birth-europes-extensive-welfare-system",
+    "ratio": 0.117,
+    "page_chars": 83
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 83,
+  "summary": {
+   "NOT_FOUND": 4
+  },
+  "not_found": [
+   {
+    "claim": "L15.1",
+    "quote": "in height, 3.35",
+    "url": "https://www.dimensions.com/element/square-terminal",
+    "ratio": 0.733,
+    "page_chars": 2528
+   },
+   {
+    "claim": "L15.2",
+    "quote": "in depth, weighing only 417g. The Square Terminal features a 5.5",
+    "url": "https://www.dimensions.com/element/square-terminal",
+    "ratio": 0.547,
+    "page_chars": 2528
+   },
+   {
+    "claim": "L19.1",
+    "quote": "IPS touchscreen, a 2",
+    "url": "https://www.pax.us/products/mobile/a920/",
+    "ratio": 0.7,
+    "page_chars": 12489
+   },
+   {
+    "claim": "L27.1",
+    "quote": "IPS HD display (1280 x 720 pixels), while the Flex 3 operates on Android 10.X with a larger 5.99",
+    "url": "https://paymentcloudinc.com/shop/guide/Clover_Flex-2_Spec_Datasheet.pdf",
+    "ratio": 0.427,
+    "page_chars": 4961
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 87,
+  "summary": {
+   "FOUND": 8,
+   "FOUND_NORMALIZED": 2,
+   "NOT_FOUND": 2,
+   "SOURCE_UNAVAILABLE": 5
+  },
+  "not_found": [
+   {
+    "claim": "L41.2",
+    "quote": "what constitutes infringement in the AI realm and who is ultimately culpable",
+    "url": "https://www.thefashionlaw.com/a-new-lawsuit-lifts-the-lid-on-sheins-ai-powered-ultra-fast-fashion-model/",
+    "ratio": 0.513,
+    "page_chars": 6734
+   },
+   {
+    "claim": "L59.1",
+    "quote": "companies are working around this potential copyright problem by adding a human element to the design process",
+    "url": "https://www.purchasenews.org/post/ai-poses-new-threats-to-copyright-in-fashion",
+    "ratio": 0.972,
+    "page_chars": 5722
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 88,
+  "summary": {
+   "NOT_FOUND": 5,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L9.1",
+    "quote": "that readers continue imagining his characters",
+    "url": "https://www.bbc.com/mundo/articles/cz9gn789nl7o",
+    "ratio": 0.391,
+    "page_chars": 13619
+   },
+   {
+    "claim": "L30.1",
+    "quote": "The commitment was to build a Macondo that was as close as possible to the Colombian reality; as close as possible to what Gabriel García Márquez talked about in his interviews. The Macondo we made may not be the one everyone has in their head, but it is historically correct",
+    "url": "https://www.produ.com/television/noticias/decenas-de-carpinteros-constructores-y-pintores-participaron-en-elaboracion-de-macondo-de-cien-anos-de-soledad-serie-de-netflix/",
+    "ratio": 0.484,
+    "page_chars": 7092
+   },
+   {
+    "claim": "L41.1",
+    "quote": "It's very difficult to compete with our own imagination. With the Buendías that each person has in their head. So what we did was engage in a very rigorous casting process, and we also went all over Colombia looking for new talent",
+    "url": "https://theconversation.com/one-hundred-years-of-solitude-netflix-adaptation-is-faithful-ambitious-and-beautifully-realised-244972",
+    "ratio": 0.374,
+    "page_chars": 8983
+   },
+   {
+    "claim": "L53.1",
+    "quote": "Macondo is a representation of the Caribbean Colombian folkloric identity, framed within a foundational epic. The challenge was to achieve a balance between cultural authenticity and the need to be universal for audiences",
+    "url": "https://www.elespectador.com/especiales/asi-se-hicieron-los-efectos-visuales-de-cien-anos-de-soledad/",
+    "ratio": 0.502,
+    "page_chars": 13794
+   },
+   {
+    "claim": "L71.1",
+    "quote": "The first thing Netflix had done was hire José Rivera to do the first script treatment. But when we received the series, we felt that the scripts needed to be empowered and made more Colombian",
+    "url": "https://www.infobae.com/espana/cultura/2025/04/27/las-mentes-detras-de-cien-anos-de-soledad-revelan-las-claves-de-la-serie-que-aspira-a-todo-en-los-premios-platino-nuestro-mayor-reto-fue-convencernos-de-que-se-podia-adaptar/",
+    "ratio": 0.396,
+    "page_chars": 12739
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 89,
+  "summary": {
+   "FOUND": 1,
+   "FOUND_NORMALIZED": 3,
+   "NOT_FOUND": 5,
+   "SOURCE_UNAVAILABLE": 1
+  },
+  "not_found": [
+   {
+    "claim": "L25.1",
+    "quote": "The MDA framework provides a structured approach for analyzing and designing games. It helps designers focus on the player experience and ensures that game mechanics are purposefully designed to evoke specific emotional responses and fulfill desired player motivations,",
+    "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+    "ratio": 0.776,
+    "page_chars": 4771
+   },
+   {
+    "claim": "L27.1",
+    "quote": "Do I have all the ideas gathered to make a complete experience? Will it create a cohesive experience? Does it provide the meaningful experience I had in mind for the player?",
+    "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+    "ratio": 0.988,
+    "page_chars": 4771
+   },
+   {
+    "claim": "L37.1",
+    "quote": "Games are reaching a whole new vibe, they're genuinely starting to understand who you are as a player. We're moving past predictable gameplay and diving into digital worlds that feel authentically tuned to you,",
+    "url": "https://invogames.com/blog/top-5-trends-for-game-development",
+    "ratio": 0.225,
+    "page_chars": 41
+   },
+   {
+    "claim": "L121.1",
+    "quote": "entire economic ecosystems",
+    "url": "https://invogames.com/blog/top-5-trends-for-game-development",
+    "ratio": 0.245,
+    "page_chars": 41
+   },
+   {
+    "claim": "L121.2",
+    "quote": "players aren't just users, they're investors, creators, and economy builders",
+    "url": "https://invogames.com/blog/top-5-trends-for-game-development",
+    "ratio": 0.261,
+    "page_chars": 41
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 90,
+  "summary": {
+   "FOUND": 4,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 4
+  },
+  "not_found": [
+   {
+    "claim": "L30.1",
+    "quote": "the driver retains responsibility for the control of the vehicle and must permanently monitor the surroundings",
+    "url": "https://www.connectedautomateddriving.eu/blog/new-dcas-regulation-adopted-by-unece/",
+    "ratio": 0.891,
+    "page_chars": 6171
+   },
+   {
+    "claim": "L60.1",
+    "quote": "do not permit drivers to surrender full control to these systems",
+    "url": "https://ravidandassociates.com/advanced-driver-assistance-systems-adas-and-liability-in-michigan-auto-accidents/",
+    "ratio": 0.969,
+    "page_chars": 11568
+   },
+   {
+    "claim": "L85.1",
+    "quote": "a defendant may argue that the AI model performed exactly as designed by correlating real-world data of cameras and vehicle controls-in other words the 'defect' was in the data fed into the model",
+    "url": "https://www.automotiveworld.com/articles/top-considerations-for-developing-ai-powered-adas/",
+    "ratio": 0.995,
+    "page_chars": 11953
+   },
+   {
+    "claim": "L130.2",
+    "quote": "was nonetheless misled into believing Tesla's self-driving capabilities were more capable than they actually are due to 'Tesla's long-term advertising campaign'",
+    "url": "https://www.theregister.com/2024/12/10/tesla_sued_fatal_autopilot_accident/",
+    "ratio": 0.994,
+    "page_chars": 11632
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 94,
+  "summary": {
+   "FOUND": 1,
+   "NOT_FOUND": 1
+  },
+  "not_found": [
+   {
+    "claim": "L52.1",
+    "quote": "the highest potential for flexible and resilient operation of urban rail networks in the future",
+    "url": "https://www.mobility.siemens.com/global/en/portfolio/digital-solutions-software/infrastructure/signaling-x/train2cloud.html",
+    "ratio": 0.526,
+    "page_chars": 9376
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 95,
+  "summary": {
+   "FOUND": 9,
+   "NOT_FOUND": 9,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L11.1",
+    "quote": "reverently made for universal free distribution by Wang Jie on behalf of his parents,",
+    "url": "https://www.historyofinformation.com/detail.php?id=207",
+    "ratio": 0.964,
+    "page_chars": 2893
+   },
+   {
+    "claim": "L51.1",
+    "quote": "Sadness is arising",
+    "url": "https://www.reddit.com/r/Buddhism/comments/1j7p9lr/how_to_practice_diamond_sutra_in_our_daily_life/",
+    "ratio": 0.19,
+    "page_chars": 6
+   },
+   {
+    "claim": "L59.1",
+    "quote": "perform a single act of kindness without anticipating anything in return",
+    "url": "https://www.reddit.com/r/Buddhism/comments/1j7p9lr/how_to_practice_diamond_sutra_in_our_daily_life/",
+    "ratio": 0.104,
+    "page_chars": 6
+   },
+   {
+    "claim": "L65.1",
+    "quote": "the past mind, the present mind, and the future mind are all unobtainable",
+    "url": "https://lic.dila.edu.tw/en/node/9590",
+    "ratio": 0.301,
+    "page_chars": 4101
+   },
+   {
+    "claim": "L75.1",
+    "quote": "embracing impermanence",
+    "url": "https://www.linkedin.com/posts/wee-kiat-lau_applying-the-principles-of-the-diamond-sutra-activity-7177839117462884353-gnJS",
+    "ratio": 0.864,
+    "page_chars": 5033
+   },
+   {
+    "claim": "L81.1",
+    "quote": "prioritizing empathy and understanding in interactions with employees, clients, and stakeholders",
+    "url": "https://www.linkedin.com/posts/wee-kiat-lau_applying-the-principles-of-the-diamond-sutra-activity-7177839117462884353-gnJS",
+    "ratio": 0.938,
+    "page_chars": 5033
+   },
+   {
+    "claim": "L105.1",
+    "quote": "When you embrace your strong emotions with mindfulness and concentration, you'll be able to see the roots of these mental formations",
+    "url": "https://emilydahl.foundation/the-diamond-sutra-the-emily-dahl-foundation-december-15-2020/",
+    "ratio": 0.947,
+    "page_chars": 22914
+   },
+   {
+    "claim": "L119.1",
+    "quote": "anger, despair, and fear a bath of mindfulness every day,",
+    "url": "https://emilydahl.foundation/the-diamond-sutra-the-emily-dahl-foundation-december-15-2020/",
+    "ratio": 0.857,
+    "page_chars": 22914
+   },
+   {
+    "claim": "L147.1",
+    "quote": "like a dream, an illusion, a bubble, a shadow",
+    "url": "https://buddhism-thewayofemptiness.blog.nomagic.uk/the-diamond-sutra/",
+    "ratio": 0.689,
+    "page_chars": 24673
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 97,
+  "summary": {
+   "FOUND": 1
+  },
+  "not_found": []
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 98,
+  "summary": {
+   "FOUND": 5,
+   "FOUND_NORMALIZED": 1,
+   "NOT_FOUND": 4,
+   "SOURCE_UNAVAILABLE": 2
+  },
+  "not_found": [
+   {
+    "claim": "L95.1",
+    "quote": "the individual distillation of each botanical to extract its unique flavors,",
+    "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+    "ratio": 0.333,
+    "page_chars": 4702
+   },
+   {
+    "claim": "L97.1",
+    "quote": "light and bright",
+    "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+    "ratio": 0.562,
+    "page_chars": 4702
+   },
+   {
+    "claim": "L97.2",
+    "quote": "notes of lemon, charred bbq, and tea",
+    "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+    "ratio": 0.5,
+    "page_chars": 4702
+   },
+   {
+    "claim": "L97.3",
+    "quote": "hints of caramel and vanilla",
+    "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+    "ratio": 0.536,
+    "page_chars": 4702
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 99,
+  "summary": {
+   "FOUND": 7,
+   "FOUND_NORMALIZED": 7,
+   "NOT_FOUND": 1,
+   "SOURCE_UNAVAILABLE": 7
+  },
+  "not_found": [
+   {
+    "claim": "L71.1",
+    "quote": "valued to grow from US\\$ 521.1 million in 2021 to approximately US\\$ 802.7 million by 2031",
+    "url": "https://iapam.com/2025-aesthetic-medicine-trends",
+    "ratio": 0.978,
+    "page_chars": 46276
+   }
+  ]
+ },
+ {
+  "system": "perplexity-Research",
+  "task": 100,
+  "summary": {
+   "FOUND": 9,
+   "FOUND_NORMALIZED": 4,
+   "NOT_FOUND": 5
+  },
+  "not_found": [
+   {
+    "claim": "L13.1",
+    "quote": "smart replies",
+    "url": "https://www.nature.com/articles/s41598-023-30938-9",
+    "ratio": 0.462,
+    "page_chars": 226
+   },
+   {
+    "claim": "L37.1",
+    "quote": "robot social presence",
+    "url": "https://www.nature.com/articles/s41598-023-28817-4",
+    "ratio": 0.476,
+    "page_chars": 226
+   },
+   {
+    "claim": "L53.3",
+    "quote": "What AI can provide is an escape from the challenges of companionship and friendship. It creates the illusion of intimacy without any obligations",
+    "url": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+    "ratio": 0.738,
+    "page_chars": 8168
+   },
+   {
+    "claim": "L99.2",
+    "quote": "The issue with this is that when we pursue relationships devoid of vulnerability, we overlook that empathy is born from vulnerability,",
+    "url": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+    "ratio": 0.692,
+    "page_chars": 8168
+   },
+   {
+    "claim": "L101.1",
+    "quote": "If people are feeling anger, grief, anxiety, despair, depression, sadness, and the bot is helping to heal that, on one hand, that's good. On the other hand though, does it make it so that you don't need other people? And that's a problem",
+    "url": "https://caplinnews.fiu.edu/artificial-intelligence-chatgpt-openai-loneliness-relationships/",
+    "ratio": 0.937,
+    "page_chars": 10187
+   }
+  ]
+ }
+]

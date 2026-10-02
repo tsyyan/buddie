@@ -1,0 +1,367 @@
+{
+ "n": 309,
+ "checked_quotes": 489,
+ "pool": {
+  "checked_misses": 269,
+  "checked_finds": 220,
+  "controls": 40
+ },
+ "verdicts": {
+  "UNCERTAIN": 115,
+  "NOT_FOUND": 154,
+  "FOUND_NORMALIZED": 11,
+  "FOUND": 29
+ },
+ "labels": {
+  "AGENT_ALTERED": 88,
+  "IN_SOURCE": 37,
+  "AGENT_ABSENT": 64,
+  "TRANSLATED": 8,
+  "UNVERIFIABLE": 15,
+  "NOT_A_QUOTE": 97
+ },
+ "table": {
+  "AGENT_ABSENT": {
+   "NOT_FOUND": 43,
+   "UNCERTAIN": 21
+  },
+  "AGENT_ALTERED": {
+   "UNCERTAIN": 37,
+   "NOT_FOUND": 51
+  },
+  "IN_SOURCE": {
+   "NOT_FOUND": 9,
+   "FOUND_NORMALIZED": 9,
+   "FOUND": 13,
+   "UNCERTAIN": 6
+  },
+  "NOT_A_QUOTE": {
+   "NOT_FOUND": 46,
+   "FOUND": 16,
+   "UNCERTAIN": 33,
+   "FOUND_NORMALIZED": 2
+  },
+  "TRANSLATED": {
+   "UNCERTAIN": 8
+  },
+  "UNVERIFIABLE": {
+   "UNCERTAIN": 10,
+   "NOT_FOUND": 5
+  }
+ },
+ "by_system": {
+  "Doubao-DeepResearch": {
+   "TRANSLATED": {
+    "UNCERTAIN": 1
+   },
+   "NOT_A_QUOTE": {
+    "NOT_FOUND": 13
+   },
+   "AGENT_ABSENT": {
+    "NOT_FOUND": 10
+   },
+   "AGENT_ALTERED": {
+    "NOT_FOUND": 6
+   },
+   "UNVERIFIABLE": {
+    "NOT_FOUND": 2
+   },
+   "IN_SOURCE": {
+    "FOUND": 1
+   }
+  },
+  "GPT-o3-DeepResearch": {
+   "AGENT_ALTERED": {
+    "UNCERTAIN": 28,
+    "NOT_FOUND": 37
+   },
+   "IN_SOURCE": {
+    "NOT_FOUND": 7,
+    "FOUND_NORMALIZED": 8,
+    "UNCERTAIN": 6,
+    "FOUND": 9
+   },
+   "TRANSLATED": {
+    "UNCERTAIN": 7
+   },
+   "NOT_A_QUOTE": {
+    "NOT_FOUND": 30,
+    "UNCERTAIN": 29,
+    "FOUND": 9,
+    "FOUND_NORMALIZED": 2
+   },
+   "AGENT_ABSENT": {
+    "UNCERTAIN": 9,
+    "NOT_FOUND": 11
+   },
+   "UNVERIFIABLE": {
+    "NOT_FOUND": 2,
+    "UNCERTAIN": 3
+   }
+  },
+  "Grok-DeepSearch": {
+   "AGENT_ABSENT": {
+    "NOT_FOUND": 2,
+    "UNCERTAIN": 2
+   },
+   "NOT_A_QUOTE": {
+    "FOUND": 5,
+    "UNCERTAIN": 1
+   },
+   "AGENT_ALTERED": {
+    "NOT_FOUND": 3,
+    "UNCERTAIN": 1
+   },
+   "IN_SOURCE": {
+    "NOT_FOUND": 1
+   }
+  },
+  "Perplexity-Research": {
+   "UNVERIFIABLE": {
+    "UNCERTAIN": 7,
+    "NOT_FOUND": 1
+   },
+   "AGENT_ABSENT": {
+    "UNCERTAIN": 10,
+    "NOT_FOUND": 20
+   },
+   "IN_SOURCE": {
+    "FOUND": 3,
+    "NOT_FOUND": 1,
+    "FOUND_NORMALIZED": 1
+   },
+   "NOT_A_QUOTE": {
+    "UNCERTAIN": 3,
+    "FOUND": 2,
+    "NOT_FOUND": 3
+   },
+   "AGENT_ALTERED": {
+    "NOT_FOUND": 5,
+    "UNCERTAIN": 8
+   }
+  }
+ },
+ "doubts": {
+  "abstract_only": {
+   "NOT_A_QUOTE": 1
+  },
+  "other_language": {
+   "TRANSLATED": 7,
+   "UNVERIFIABLE": 1,
+   "NOT_A_QUOTE": 1
+  },
+  "unattributed": {
+   "AGENT_ALTERED": 34,
+   "TRANSLATED": 6,
+   "UNVERIFIABLE": 5,
+   "AGENT_ABSENT": 21,
+   "NOT_A_QUOTE": 31,
+   "IN_SOURCE": 6
+  },
+  "unread_link": {
+   "AGENT_ALTERED": 3,
+   "UNVERIFIABLE": 5,
+   "NOT_A_QUOTE": 2,
+   "AGENT_ABSENT": 2
+  }
+ },
+ "not_found": {
+  "n": 154,
+  "agent_errors": 94,
+  "false_alarm_strict": [
+   "F002",
+   "F011",
+   "F014",
+   "F021",
+   "F022",
+   "F037",
+   "F038",
+   "F048",
+   "F053",
+   "F055",
+   "F057",
+   "F060",
+   "F061",
+   "F070",
+   "F071",
+   "F072",
+   "F077",
+   "F084",
+   "F091",
+   "F095",
+   "F102",
+   "F109",
+   "F119",
+   "F125",
+   "F134",
+   "F136",
+   "F140",
+   "F143",
+   "F146",
+   "F155",
+   "F164",
+   "F169",
+   "F177",
+   "F179",
+   "F183",
+   "F193",
+   "F195",
+   "F197",
+   "F198",
+   "F204",
+   "F206",
+   "F216",
+   "F225",
+   "F238",
+   "F239",
+   "F241",
+   "F242",
+   "F243",
+   "F255",
+   "F267",
+   "F286",
+   "F292",
+   "F298",
+   "F303",
+   "F305"
+  ],
+  "unverifiable": [
+   "F041",
+   "F049",
+   "F101",
+   "F201",
+   "F218"
+  ]
+ },
+ "false_not_found_of_checked": {
+  "strict": {
+   "k": 55,
+   "n": 489,
+   "rate": 0.1125,
+   "ci95": [
+    0.0874,
+    0.1436
+   ]
+  },
+  "with_unverifiable": {
+   "k": 60,
+   "n": 489,
+   "rate": 0.1227,
+   "ci95": [
+    0.0965,
+    0.1548
+   ]
+  }
+ },
+ "false_not_found_of_not_found": {
+  "strict": {
+   "k": 55,
+   "n": 154,
+   "rate": 0.3571,
+   "ci95": [
+    0.2858,
+    0.4355
+   ]
+  },
+  "with_unverifiable": {
+   "k": 60,
+   "n": 154,
+   "rate": 0.3896,
+   "ci95": [
+    0.3162,
+    0.4684
+   ]
+  }
+ },
+ "controls": {
+  "n": 40,
+  "in_source": 22,
+  "agent_errors": [],
+  "other": [
+   "F012",
+   "F031",
+   "F050",
+   "F059",
+   "F078",
+   "F100",
+   "F112",
+   "F113",
+   "F120",
+   "F153",
+   "F163",
+   "F165",
+   "F212",
+   "F245",
+   "F251",
+   "F268",
+   "F288",
+   "F294"
+  ]
+ },
+ "recall": {
+  "agent_errors_in_misses": 152,
+  "agent_errors_hidden_in_finds_est": 0.0,
+  "not_found": 0.618,
+  "not_found_or_uncertain": 1.0,
+  "uncertain_agent_errors": [
+   "F001",
+   "F005",
+   "F006",
+   "F013",
+   "F019",
+   "F034",
+   "F043",
+   "F045",
+   "F046",
+   "F052",
+   "F056",
+   "F062",
+   "F067",
+   "F069",
+   "F075",
+   "F090",
+   "F093",
+   "F110",
+   "F118",
+   "F122",
+   "F123",
+   "F124",
+   "F126",
+   "F138",
+   "F142",
+   "F147",
+   "F151",
+   "F154",
+   "F159",
+   "F161",
+   "F167",
+   "F170",
+   "F173",
+   "F182",
+   "F184",
+   "F187",
+   "F189",
+   "F194",
+   "F200",
+   "F203",
+   "F205",
+   "F208",
+   "F210",
+   "F214",
+   "F228",
+   "F230",
+   "F236",
+   "F247",
+   "F254",
+   "F258",
+   "F261",
+   "F266",
+   "F284",
+   "F290",
+   "F295",
+   "F304",
+   "F307",
+   "F308"
+  ]
+ }
+}

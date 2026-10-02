@@ -1,0 +1,18 @@
+verbatim
+Copyright 2026 tsyyan
+
+The code, documentation, labels, verdicts and comparison files in this repository are licensed under the Apache
+License, Version 2.0 (LICENSE).
+
+Third-party material under results/:
+
+- DeepResearch Bench (muset-ai/DeepResearch-Bench-Dataset; github.com/Ayanami0730/deep_research_bench), Apache-2.0.
+  Report excerpts in results/E004-*, E005-*, E006-*, E011-*, E012-*. Du et al., "DeepResearch Bench: A Comprehensive
+  Benchmark for Deep Research Agents", arXiv:2506.11763.
+- DeepResearch Bench II (muset-ai/DeepResearch-Bench-II-Dataset, revision 73c8b00), Apache-2.0. Report excerpts in
+  results/E008-*.
+- ydc-deep-research-evals (SaltyDuck0/ydc-deep-research-evals, revision 59ee56c): no license is stated, so no report
+  text is included. results/E010-* holds only item ids, labels, verdicts, URLs and SHA-256 hashes of the dataset files.
+
+Short passages of cited web pages appear in verdict and label files (the closest passage found, a labeller's evidence)
+for the purpose of research and criticism. Full page snapshots are not redistributed.

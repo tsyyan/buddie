@@ -1,0 +1,1076 @@
+{
+ "seed": 2029,
+ "tool": "verbatim 0.3.1, check --access default (tsyyan/lab 07b2dd0)",
+ "pool": {
+  "checked_misses_and_punctuation_finds": 46,
+  "checked_finds": 203,
+  "controls": 30
+ },
+ "verdicts_sealed_sha256": "85565f453698cf56540a5466883ec5e1ed2b776f215697ebc14ba2bc8282a4cf",
+ "items": [
+  {
+   "key": "F001",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 41,
+   "quote": "at a nonhub airport, it takes fewer than half the annual departing seats to 'result' in a regional job.",
+   "paragraph": "ACRP Research Report 218 discusses \"the contributions of air service at small-hub and non-hub airports to local economic activities.\" Researchers examined \"the relationship between annual departing seats at airports and the number of regional jobs that could be associated with this activity.\" For small hub airports, \"each departing seat was associated with 0.005 jobs,\" meaning \"for every 1,000 departing seats, there were 5 associated jobs in the area.\" This generally means that \"the addition of a daily departure with a 100-seat aircraft (36,500 annual seats) would support 182.5 jobs.\" For non-hub airports, the impact is even greater at \"0.0114 jobs per departing seat,\" which is \"over twice as strong as that shown for small hub airports.\" This means \"at a nonhub airport, it takes fewer than half the annual departing seats to 'result' in a regional job.\" [3](https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/)",
+   "urls": [
+    "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/"
+   ],
+   "block_urls": [
+    "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/"
+   ]
+  },
+  {
+   "key": "F002",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 57,
+   "quote": "check [their] Mechanics, Dynamics and Aesthetics to make sure it is complete, coherent, and providing the experience [they] had in mind. If [they] have gathered feedback or test results on [their] MDA components, [they] can iterate upon it. As [they] design or playtest, [they should] revisit each section to ensure that mechanics align with desired dynamics, and aesthetics contribute to the intended player experience.",
+   "paragraph": "In practical game design processes, designers \"check [their] Mechanics, Dynamics and Aesthetics to make sure it is complete, coherent, and providing the experience [they] had in mind. If [they] have gathered feedback or test results on [their] MDA components, [they] can iterate upon it. As [they] design or playtest, [they should] revisit each section to ensure that mechanics align with desired dynamics, and aesthetics contribute to the intended player experience.\" This leads to refining game design \"based on insights gained from analyzing and testing [the] mechanics, dynamics, and aesthetics. Adjust any elements that may not align with the desired player experience.\" [6](https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/)",
+   "urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ],
+   "block_urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ]
+  },
+  {
+   "key": "F003",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 94,
+   "quote": "From multi-lane operations to counter services, our adaptable solutions cater to the dynamic needs of your retail environments. Handle inventory management, employee tracking, and payment processing with our robust all-in-one solutions.",
+   "paragraph": "PAX Technology states that these versatile solutions can help \"take your sales anywhere your business takes you.\" For retail environments, they note: \"From multi-lane operations to counter services, our adaptable solutions cater to the dynamic needs of your retail environments. Handle inventory management, employee tracking, and payment processing with our robust all-in-one solutions.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F004",
+   "system": "Claude-3.7-DRB",
+   "task": 90,
+   "line": 137,
+   "quote": "automation has greater capabilities than it does.",
+   "paragraph": "Tesla maintains that it is not liable for the crashes because the driver is ultimately in control of the vehicle. But that contention is coming under increasing pressure, including from federal regulators. Late Thursday, the National Highway Traffic Safety Administration (NHTSA) launched a new review of Autopilot, signaling concern that a December recall failed to significantly improve misuse of the technology and that drivers are misled into thinking the \"automation has greater capabilities than it does.\" Meanwhile, in a twist, Tesla this month settled a high-profile case in Northern California that claimed Autopilot played a role in the fatal crash of an Apple engineer, Walter Huang. The company's decision to settle with Huang's family — along with a ruling from a Florida judge concluding that Tesla had \"knowledge\" that its technology was \"flawed\" under certain conditions — is giving fresh momentum to cases once seen as long shots, legal experts said. [22](https://www.washingtonpost.com/technology/2024/04/28/tesla-trial-autopilot-lawsuit/)",
+   "urls": [
+    "https://www.washingtonpost.com/technology/2024/04/28/tesla-trial-autopilot-lawsuit/"
+   ],
+   "block_urls": [
+    "https://www.washingtonpost.com/technology/2024/04/28/tesla-trial-autopilot-lawsuit/"
+   ]
+  },
+  {
+   "key": "F005",
+   "system": "Claude-3.7-DRB",
+   "task": 80,
+   "line": 63,
+   "quote": "a source of pride and an identity marker spoken with LGBTQ friends,",
+   "paragraph": "A notable linguistic phenomenon is \"onee kotoba\" (literally \"older sister speak\"), the dialect most often associated with the LGBTQ community in Japan, \"often involving flamboyant mannerisms, over-the-top feminine speech and vulgar slang.\" This dialect is similar to stylized language used by drag queens in Western contexts. For some Japanese LGBTQ individuals, onee kotoba serves as \"a source of pride and an identity marker spoken with LGBTQ friends,\" while others view it negatively \"as a source of mockery in the mainstream media to stereotype queer characters as campy, onee-speaking comics.\" [3](https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/)",
+   "urls": [
+    "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/"
+   ],
+   "block_urls": [
+    "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/"
+   ]
+  },
+  {
+   "key": "F006",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 25,
+   "quote": "the base components of the game — its rules, every basic action the player can take in the game, the algorithms and data structures in the game engine etc.",
+   "paragraph": "The framework defines mechanics as \"the base components of the game — its rules, every basic action the player can take in the game, the algorithms and data structures in the game engine etc.\" Dynamics are defined as \"the run-time behavior of the mechanics acting on player input and 'cooperating' with other mechanics.\" Aesthetics, meanwhile, are \"the emotional responses evoked in the player.\" [1](https://en.wikipedia.org/wiki/MDA_framework)",
+   "urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ]
+  },
+  {
+   "key": "F007",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 73,
+   "quote": "overtly tackl[es] the topic of homosexuality,",
+   "paragraph": "\"In Between is a film about three Palestinian women who share an apartment in Tel Aviv; each is seeking her independence and liberty in a patriarchal society. The title of the film reflects the struggle these women face, trapped and living in between tradition and modernity.\" The film is structurally similar to Labaki's \"Caramel,\" presenting \"strong women trapped in male-dominated societies, fighting for their freedom and liberty,\" with both filmmakers representing \"their lesbian characters within the female ensemble formula.\" This suggests that \"women living in a Palestinian culture face similar fate and issues to women in Lebanon.\" Like Keshavarz's \"Circumstance,\" Hamoud's film \"overtly tackl[es] the topic of homosexuality,\" with both directors representing \"boldly lesbian sexual scenes and desires in their films.\" [2](https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html)",
+   "urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ],
+   "block_urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ]
+  },
+  {
+   "key": "F008",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 85,
+   "quote": "hybrid reality titles integrate real-world objects with digital gameplay, allowing players to explore environments with greater realism. As AR and VR technologies advance, this trend is set to redefine mobile gaming in 2025 by merging physical and virtual spaces.",
+   "paragraph": "Looking ahead to 2025, \"hybrid reality titles integrate real-world objects with digital gameplay, allowing players to explore environments with greater realism. As AR and VR technologies advance, this trend is set to redefine mobile gaming in 2025 by merging physical and virtual spaces.\" [10](https://www.topdevelopers.co/blog/mobile-game-development-trends/)",
+   "urls": [
+    "https://www.topdevelopers.co/blog/mobile-game-development-trends/"
+   ],
+   "block_urls": [
+    "https://www.topdevelopers.co/blog/mobile-game-development-trends/"
+   ]
+  },
+  {
+   "key": "F009",
+   "system": "Claude-3.7-DRB",
+   "task": 92,
+   "line": 196,
+   "quote": "11 teams that perform better than ShuttleNet",
+   "paragraph": "The framework has become the foundation for many current prediction systems in badminton. In fact, in comparative studies, \"11 teams that perform better than ShuttleNet\" were actually \"built on top of ShuttleNet, which demonstrates the flexibility of ShuttleNet and some designs (e.g., hyper-parameters and activation functions) can be improved.\" The improvements primarily \"focus on the shot type prediction,\" while \"the performance of area coordinates only slightly performs better than ShuttleNet.\" [20](https://ar5iv.labs.arxiv.org/html/2306.15664)",
+   "urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ],
+   "block_urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ]
+  },
+  {
+   "key": "F010",
+   "system": "Claude-3.7-DRB",
+   "task": 80,
+   "line": 61,
+   "quote": "lesbian communities have used masculine pronouns and gay men sometimes use atypically feminine pronouns like atashi.",
+   "paragraph": "In Japan, queer groups with diverse gender and sexual identities have historically subverted language norms. For example, \"lesbian communities have used masculine pronouns and gay men sometimes use atypically feminine pronouns like atashi.\" [3](https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/)",
+   "urls": [
+    "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/"
+   ],
+   "block_urls": [
+    "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/"
+   ]
+  },
+  {
+   "key": "F011",
+   "system": "Claude-3.7-DRB",
+   "task": 92,
+   "line": 206,
+   "quote": "ShuttleNet is a position-aware fusion of rally progress and player styles framework consisting of Transformer-based architectures",
+   "paragraph": "3. **Turn-Based Analysis**: Generally, \"ShuttleNet is a position-aware fusion of rally progress and player styles framework consisting of Transformer-based architectures\" that \"has demonstrated superior performance in predicting the next strokes compared to conventional sequential\" approaches. [13](https://arxiv.org/html/2306.15664v3)",
+   "urls": [
+    "https://arxiv.org/html/2306.15664v3"
+   ],
+   "block_urls": [
+    "https://arxiv.org/html/2306.15664v3"
+   ]
+  },
+  {
+   "key": "F012",
+   "system": "Claude-3.7-DRB",
+   "task": 76,
+   "line": 49,
+   "quote": "a substrate that is selectively utilized by host microorganisms conferring a health benefit.",
+   "paragraph": "According to the International Scientific Association for Probiotics and Prebiotics (ISAPP), the current scientific consensus definition of a prebiotic is: \"a substrate that is selectively utilized by host microorganisms conferring a health benefit.\" This concept includes three essential parts: a substance, a physiologically beneficial effect, and a microbiota-mediated mechanism. [8](https://isappscience.org/for-scientists/resources/prebiotics/)",
+   "urls": [
+    "https://isappscience.org/for-scientists/resources/prebiotics/"
+   ],
+   "block_urls": [
+    "https://isappscience.org/for-scientists/resources/prebiotics/"
+   ]
+  },
+  {
+   "key": "F013",
+   "system": "Claude-3.7-DRB",
+   "task": 77,
+   "line": 77,
+   "quote": "individuals with higher levels of closed-mindedness may refuse to accept, or ignore, information that contradicts their existing beliefs.",
+   "paragraph": "A similar mechanism may be behind the relationship between fear and closed-mindedness. Given research findings, \"individuals with higher levels of closed-mindedness may refuse to accept, or ignore, information that contradicts their existing beliefs.\" [7](https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/)",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/"
+   ],
+   "block_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/"
+   ]
+  },
+  {
+   "key": "F014",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 94,
+   "quote": "take your sales anywhere your business takes you.",
+   "paragraph": "PAX Technology states that these versatile solutions can help \"take your sales anywhere your business takes you.\" For retail environments, they note: \"From multi-lane operations to counter services, our adaptable solutions cater to the dynamic needs of your retail environments. Handle inventory management, employee tracking, and payment processing with our robust all-in-one solutions.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F015",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 108,
+   "quote": "a mobile point of sale (mPOS), a sleek and secure payment solution specially designed for businesses on the go.",
+   "paragraph": "Products like the POSket from PAX are described as \"a mobile point of sale (mPOS), a sleek and secure payment solution specially designed for businesses on the go.\" For specific terminals like the Px5 and Px7, PAX offers applications like PxRetailer that \"allows for quick and easy integration with all leading electronic cash register applications.\" These systems can be easily configured to \"control access, and deliver a custom look with your own brand style.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F016",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 73,
+   "quote": "passenger activity... positively influences employment and average wages, but not the number of business establishments.",
+   "paragraph": "Research controlling for differences between regions and the potential reverse causality in traffic-development relationships found that \"passenger activity... positively influences employment and average wages, but not the number of business establishments.\" Specifically, \"adding 100 passengers per day to the volume served by the local airport creates 98 jobs at the sample mean and 314 jobs at the sample median.\" This difference between mean and median impacts occurs because \"a median airport is much smaller than a mean one, so that 100 passengers per day corresponds to 2 percent of the mean, but 20 percent of the median passenger volume.\" Importantly, the research found that \"number of destinations served by non-stop flights has robust positive impact on each of the three measures of economic development.\" [6](https://blogs.lse.ac.uk/usappblog/2015/07/03/increasing-the-number-of-destinations-and-passengers-an-airport-serves-has-a-positive-effect-on-regional-economic-development/)",
+   "urls": [
+    "https://blogs.lse.ac.uk/usappblog/2015/07/03/increasing-the-number-of-destinations-and-passengers-an-airport-serves-has-a-positive-effect-on-regional-economic-development/"
+   ],
+   "block_urls": [
+    "https://blogs.lse.ac.uk/usappblog/2015/07/03/increasing-the-number-of-destinations-and-passengers-an-airport-serves-has-a-positive-effect-on-regional-economic-development/"
+   ]
+  },
+  {
+   "key": "F017",
+   "system": "Claude-3.7-DRB",
+   "task": 80,
+   "line": 69,
+   "quote": "all the intersections of identity with the specific context of the moment.",
+   "paragraph": "Pronoun choice in Japanese is described as \"truly an art,\" requiring speakers to balance \"all the intersections of identity with the specific context of the moment.\" For Japanese language learners and speakers, understanding and using sentence enders appropriately can be challenging, requiring observation of how people speak and experimentation with different forms. [2](https://www.tofugu.com/japanese/queer-japanese/)",
+   "urls": [
+    "https://www.tofugu.com/japanese/queer-japanese/"
+   ],
+   "block_urls": [
+    "https://www.tofugu.com/japanese/queer-japanese/"
+   ]
+  },
+  {
+   "key": "F018",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 115,
+   "quote": "There were threats to me, to the actresses, also to my family... I have a question for you: Do you want the bullet in your head, in your heart or between your legs?",
+   "paragraph": "Filmmakers often face serious backlash, including threats. Hamoud recounts, \"There were threats to me, to the actresses, also to my family... I have a question for you: Do you want the bullet in your head, in your heart or between your legs?\" Yet alongside these threats, there was \"also a huge amount of loyalty for the movie. People started to write and to talk about the movie as if the movie represented them and that they had to fight against the people who are against it.\" [11](https://www.cnn.com/style/article/in-between-maysaloun-hamoud/index.html)",
+   "urls": [
+    "https://www.cnn.com/style/article/in-between-maysaloun-hamoud/index.html"
+   ],
+   "block_urls": [
+    "https://www.cnn.com/style/article/in-between-maysaloun-hamoud/index.html"
+   ]
+  },
+  {
+   "key": "F019",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 158,
+   "quote": "Ideas in Actions: Activities for developing learning strategies,",
+   "paragraph": "A current trend focusing on learner autonomy is two-fold: 1) Empowering learners to take charge of their own learning and help them develop the learning strategies necessary to learn independently – as seen in resources like \"Ideas in Actions: Activities for developing learning strategies,\" and 2) Giving learners the resources and apps to engage in own-pace learning – as seen in various digital learning platforms and interactive tools. [10](https://www.britishcouncil.org/voices-magazine/ten-trends-and-innovations-english-language-teaching-2024)",
+   "urls": [
+    "https://www.britishcouncil.org/voices-magazine/ten-trends-and-innovations-english-language-teaching-2024"
+   ],
+   "block_urls": [
+    "https://www.britishcouncil.org/voices-magazine/ten-trends-and-innovations-english-language-teaching-2024"
+   ]
+  },
+  {
+   "key": "F020",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 87,
+   "quote": "the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.",
+   "paragraph": "Airports boost local economies \"by creating jobs and increasing incomes.\" They are \"major job providers, with a diverse workforce ensuring smooth operations.\" Research indicates that \"for every million passengers, airports can create 2,000 to 4,000 jobs in various roles, from pilots and air traffic controllers to ground crews, security personnel, office staff, maintenance teams, and retail workers.\" Significantly, \"the economic impact of airports goes beyond their immediate boundaries.\" Local businesses such as \"hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport's presence, resulting in more job opportunities and higher wages in these sectors.\" Additionally, \"the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.\" [7](https://www.airportgurus.com/en/economic-impact-of-airports/)",
+   "urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ],
+   "block_urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ]
+  },
+  {
+   "key": "F021",
+   "system": "Claude-3.7-DRB",
+   "task": 92,
+   "line": 196,
+   "quote": "the performance of area coordinates only slightly performs better than ShuttleNet.",
+   "paragraph": "The framework has become the foundation for many current prediction systems in badminton. In fact, in comparative studies, \"11 teams that perform better than ShuttleNet\" were actually \"built on top of ShuttleNet, which demonstrates the flexibility of ShuttleNet and some designs (e.g., hyper-parameters and activation functions) can be improved.\" The improvements primarily \"focus on the shot type prediction,\" while \"the performance of area coordinates only slightly performs better than ShuttleNet.\" [20](https://ar5iv.labs.arxiv.org/html/2306.15664)",
+   "urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ],
+   "block_urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ]
+  },
+  {
+   "key": "F022",
+   "system": "Claude-3.7-DRB",
+   "task": 71,
+   "line": 93,
+   "quote": "An Ethical and Equitable Vision of AI in Education: Learning Across 28 Exploratory Projects,",
+   "paragraph": "Digital Promise's new report details how co-designing artificial intelligence (AI) tools and programs with education leaders, teachers, and students is crucial for ensuring these resources are relevant, ethical, and equitable. Educators must understand and trust AI tools to feel safe integrating them into schools and classrooms. Comprehensive professional development for educators around AI tools—including explicit guidance related to the benefits and risks of AI in education—is critical. Given the rapid advances in AI and the momentum in the education field to understand how these technologies can support teaching and learning, last year the Gates Foundation launched a pilot initiative to provide funding to test new AI ideas that are in support of equitable K-12 mathematics outcomes. Digital Promise's new report, \"An Ethical and Equitable Vision of AI in Education: Learning Across 28 Exploratory Projects,\" shares how a group of exploratory projects led by district, edtech developer, and researcher teams from across the country have been working to shape an equitable future for AI in schools. With support from the Bill & Melinda Gates Foundation, this group tested ways to leverage AI toward equitable outcomes for students who are Black, Latino/e, and from low-income backgrounds. The cohort teams showcased the diverse ways education organizations are applying AI to tackle challenges and support the growth of students, educators, and communities. These teams engaged in a wide range of activities: developing and studying AI tools and implementation; exploring qualitative data analysis; and personalizing student-facing materials and instructional supports. [7](https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/)",
+   "urls": [
+    "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/"
+   ],
+   "block_urls": [
+    "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/"
+   ]
+  },
+  {
+   "key": "F023",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 67,
+   "quote": "the connectivity provided by local airports is necessary for business attraction and retention.",
+   "paragraph": "Local airports provide \"valuable services that are often overlooked.\" Beyond just providing \"a runway, fuel, and a building, airports can be a hub of economic activity\" and represent \"an economic asset with the potential to produce revenue and services for the community.\" In some cases, \"the connectivity provided by local airports is necessary for business attraction and retention.\" The Cleveland Regional Jetport in Tennessee exemplifies this; built in 2013, its facilities \"are heavily utilized by corporate executives from companies like Coca-Cola, Whirlpool, and Amazon.\" Furthermore, \"an airport's economic impact increases as the activity at the airport diversifies.\" [5](https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth)",
+   "urls": [
+    "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth"
+   ],
+   "block_urls": [
+    "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth"
+   ]
+  },
+  {
+   "key": "F024",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 92,
+   "quote": "Nadine Labaki, Maryam Keshavarz and Maysaloun Hamoud, from Lebanon, Iran, and Israel/Palestine respectively",
+   "paragraph": "These films explore how directors like \"Nadine Labaki, Maryam Keshavarz and Maysaloun Hamoud, from Lebanon, Iran, and Israel/Palestine respectively\" respond to \"the abject position of Arab queer women by producing powerful films that challenge the subjugated status of sexual minorities in the Middle East.\" [2](https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html)",
+   "urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ],
+   "block_urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ]
+  },
+  {
+   "key": "F025",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 101,
+   "quote": "for speaking to each other in Arabic.",
+   "paragraph": "Hamoud's \"In Between,\" for instance, not only critiques \"traditional, patriarchal Palestinian society, threatened by modernity, feminine power, and the court of public opinion,\" but also \"highlights the casual racism of Israeli-Jewish society toward Arabs,\" from people who \"shy away from a woman in a headscarf\" to workplace discrimination, where managers yell at staff \"for speaking to each other in Arabic.\" [10](https://variety.com/2016/film/reviews/in-between-review-bar-bahar-1201863276/)",
+   "urls": [
+    "https://variety.com/2016/film/reviews/in-between-review-bar-bahar-1201863276/"
+   ],
+   "block_urls": [
+    "https://variety.com/2016/film/reviews/in-between-review-bar-bahar-1201863276/"
+   ]
+  },
+  {
+   "key": "F026",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 108,
+   "quote": "allows for quick and easy integration with all leading electronic cash register applications.",
+   "paragraph": "Products like the POSket from PAX are described as \"a mobile point of sale (mPOS), a sleek and secure payment solution specially designed for businesses on the go.\" For specific terminals like the Px5 and Px7, PAX offers applications like PxRetailer that \"allows for quick and easy integration with all leading electronic cash register applications.\" These systems can be easily configured to \"control access, and deliver a custom look with your own brand style.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F027",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 87,
+   "quote": "hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport's presence, resulting in more job opportunities and higher wages in these sectors.",
+   "paragraph": "Airports boost local economies \"by creating jobs and increasing incomes.\" They are \"major job providers, with a diverse workforce ensuring smooth operations.\" Research indicates that \"for every million passengers, airports can create 2,000 to 4,000 jobs in various roles, from pilots and air traffic controllers to ground crews, security personnel, office staff, maintenance teams, and retail workers.\" Significantly, \"the economic impact of airports goes beyond their immediate boundaries.\" Local businesses such as \"hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport's presence, resulting in more job opportunities and higher wages in these sectors.\" Additionally, \"the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.\" [7](https://www.airportgurus.com/en/economic-impact-of-airports/)",
+   "urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ],
+   "block_urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ]
+  },
+  {
+   "key": "F028",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 67,
+   "quote": "are heavily utilized by corporate executives from companies like Coca-Cola, Whirlpool, and Amazon.",
+   "paragraph": "Local airports provide \"valuable services that are often overlooked.\" Beyond just providing \"a runway, fuel, and a building, airports can be a hub of economic activity\" and represent \"an economic asset with the potential to produce revenue and services for the community.\" In some cases, \"the connectivity provided by local airports is necessary for business attraction and retention.\" The Cleveland Regional Jetport in Tennessee exemplifies this; built in 2013, its facilities \"are heavily utilized by corporate executives from companies like Coca-Cola, Whirlpool, and Amazon.\" Furthermore, \"an airport's economic impact increases as the activity at the airport diversifies.\" [5](https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth)",
+   "urls": [
+    "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth"
+   ],
+   "block_urls": [
+    "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth"
+   ]
+  },
+  {
+   "key": "F029",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 110,
+   "quote": "process payments in rugged and outdoor environments with our unattended solutions. Designed for heavy usage, our unattended devices are water resistant and rated to endure the elements.",
+   "paragraph": "Some models are designed to \"process payments in rugged and outdoor environments with our unattended solutions. Designed for heavy usage, our unattended devices are water resistant and rated to endure the elements.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F030",
+   "system": "Claude-3.7-DRB",
+   "task": 52,
+   "line": 51,
+   "quote": "Forget what you know about buying fair businesses at wonderful prices; instead, buy wonderful businesses at fair prices.",
+   "paragraph": "In his 2014 letter to Berkshire Hathaway shareholders, Buffett credited Munger with changing his perspective on value investing. Buffett quoted Munger as saying, \"Forget what you know about buying fair businesses at wonderful prices; instead, buy wonderful businesses at fair prices.\" To summarize the investment approach, Munger believed that good investment opportunities are few, and therefore, he concentrated his portfolio around only those few good ideas, provided he could buy them for a fair price. Then, after he bought these, he simply held on for the long haul. [7](https://www.fool.com/investing/how-to-invest/famous-investors/charlie-munger/)",
+   "urls": [
+    "https://www.fool.com/investing/how-to-invest/famous-investors/charlie-munger/"
+   ],
+   "block_urls": [
+    "https://www.fool.com/investing/how-to-invest/famous-investors/charlie-munger/"
+   ]
+  },
+  {
+   "key": "F031",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 96,
+   "quote": "For example, when a science teacher wants ELLs to produce a hypothesis, they might offer the sentence, 'If ___ was added, then ___ because _.' This sentence frame provides clues that empower ELLs to sound and think like scientists,",
+   "paragraph": "To support reluctant speakers, Tan Huynh, an educator who blogs at Empowering ELLs, suggests using sentence frames. \"For example, when a science teacher wants ELLs to produce a hypothesis, they might offer the sentence, 'If _____ was added, then _____ because _____.' This sentence frame provides clues that empower ELLs to sound and think like scientists,\" Huynh says. Andrea Honigsfeld, a professor of education at Molloy College in Rockville, New York, suggests that all lessons touch on every letter of the acronym SWIRL, which stands for Speak, Write, Interact, Read, Listen. The approach intentionally privileges productive language skills \"from the beginning,\" she says. Easier said than done. Still, many of the teachers I spoke to said this simple change is vital. You can record yourself speaking in class to measure your cadence, and adjust. [9](https://www.edutopia.org/article/6-essential-strategies-teaching-english-language-learners/)",
+   "urls": [
+    "https://www.edutopia.org/article/6-essential-strategies-teaching-english-language-learners/"
+   ],
+   "block_urls": [
+    "https://www.edutopia.org/article/6-essential-strategies-teaching-english-language-learners/"
+   ]
+  },
+  {
+   "key": "F032",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 56,
+   "quote": "manage touch-free payments, online sales, contactless pickup, and delivery—all with one POS.",
+   "paragraph": "Square Register is marketed as allowing businesses to \"manage touch-free payments, online sales, contactless pickup, and delivery—all with one POS.\" It is the first fully integrated point-of-sale system that lets businesses start selling right out of the box. This POS system is built to be faster, more powerful, and more reliable—no extra tablets or apps required. Square emphasizes that they designed Square Register from scratch to be one seamless system that \"just works,\" so businesses can focus on what matters most. [6](https://squareup.com/us/en/hardware/register)",
+   "urls": [
+    "https://squareup.com/us/en/hardware/register"
+   ],
+   "block_urls": [
+    "https://squareup.com/us/en/hardware/register"
+   ]
+  },
+  {
+   "key": "F033",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 51,
+   "quote": "I think it is [difficult] anywhere, not just in Tunisia, because it is a touchy subject, it is very sensitive,",
+   "paragraph": "The film's production context reflects the challenges of making such content in Tunisia. \"I think it is [difficult] anywhere, not just in Tunisia, because it is a touchy subject, it is very sensitive,\" co-producer Ziad Hamzeh notes. He emphasizes Hafaiedh's \"sense of commitment...for being able to tell stories about marginalized people or people who are not having the proper justice served to them.\" [4](https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/)",
+   "urls": [
+    "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/"
+   ],
+   "block_urls": [
+    "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/"
+   ]
+  },
+  {
+   "key": "F034",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 59,
+   "quote": "sure that [their] concept's mechanics create the expected dynamics and are supported by [their] proposed aesthetics. Later on, during playtesting, [they] make sure that the aesthetics (in terms of player emotions) match the ones [they] had originally intended. [They] can always refer back to this tool to analyze [their] game's current state and guide playtesting.",
+   "paragraph": "Modern game designers make \"sure that [their] concept's mechanics create the expected dynamics and are supported by [their] proposed aesthetics. Later on, during playtesting, [they] make sure that the aesthetics (in terms of player emotions) match the ones [they] had originally intended. [They] can always refer back to this tool to analyze [their] game's current state and guide playtesting.\" [5](https://deliberategamedesign.com/mda-framework/)",
+   "urls": [
+    "https://deliberategamedesign.com/mda-framework/"
+   ],
+   "block_urls": [
+    "https://deliberategamedesign.com/mda-framework/"
+   ]
+  },
+  {
+   "key": "F035",
+   "system": "Claude-3.7-DRB",
+   "task": 88,
+   "line": 73,
+   "quote": "Not only does the Spanish-language series breathe new life into Márquez's supposedly unfilmable novel, but it also succeeds as a triumph of filmmaking thanks to stunning cinematography and an epic story that spans across multiple generations of the ill-fated Buendía family.",
+   "paragraph": "Carly Lane of Collider called the series \"a masterpiece in its own right\" and wrote, \"Not only does the Spanish-language series breathe new life into Márquez's supposedly unfilmable novel, but it also succeeds as a triumph of filmmaking thanks to stunning cinematography and an epic story that spans across multiple generations of the ill-fated Buendía family.\" [4](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series))",
+   "urls": [
+    "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)"
+   ]
+  },
+  {
+   "key": "F036",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 37,
+   "quote": "generated from off-site economic activities that are directly related to the onsite activities (for example, travel agencies, retail, and fuel suppliers).",
+   "paragraph": "Direct employment is created by \"the activities and services generated on-site at the airport (for example, fixed-based operators).\" Indirect impact is \"generated from off-site economic activities that are directly related to the onsite activities (for example, travel agencies, retail, and fuel suppliers).\" Induced impact is \"caused by the increase in employment and income generated from direct and indirect impact.\" These induced impacts on the national or regional economy are \"estimated by multipliers based on IO [Input-Output] analysis, which is used to estimate how the change in demand for one business sector affects other sectors and the economy as a whole.\" Beyond these, airports fulfill \"important functions in regional economic development in relation to the tourism sector.\" These additional effects that materialize \"in the tourism and travel and trade industries\" are termed the \"catalytic impact.\" [1](https://pmc.ncbi.nlm.nih.gov/articles/PMC8783399/)",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8783399/"
+   ],
+   "block_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8783399/"
+   ]
+  },
+  {
+   "key": "F037",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 89,
+   "quote": "expected to grow by 68% year-on-year, with the number of active blockchain gamers surpassing 1.2 million by mid-2025. Investments in blockchain gaming exceeded $3 billion in 2024, signaling a bright future. Blockchain gaming facilitates player-centric ecosystems by allowing true ownership of in-game assets through NFTs and enabling secure, transparent transactions via decentralized networks. These features make blockchain games a preferred choice for businesses aiming to attract tech-savvy gamers.",
+   "paragraph": "The blockchain gaming market shows significant growth potential, \"expected to grow by 68% year-on-year, with the number of active blockchain gamers surpassing 1.2 million by mid-2025. Investments in blockchain gaming exceeded $3 billion in 2024, signaling a bright future. Blockchain gaming facilitates player-centric ecosystems by allowing true ownership of in-game assets through NFTs and enabling secure, transparent transactions via decentralized networks. These features make blockchain games a preferred choice for businesses aiming to attract tech-savvy gamers.\" [10](https://www.topdevelopers.co/blog/mobile-game-development-trends/)",
+   "urls": [
+    "https://www.topdevelopers.co/blog/mobile-game-development-trends/"
+   ],
+   "block_urls": [
+    "https://www.topdevelopers.co/blog/mobile-game-development-trends/"
+   ]
+  },
+  {
+   "key": "F038",
+   "system": "Claude-3.7-DRB",
+   "task": 60,
+   "line": 175,
+   "quote": "There's an opportunity to be the first to deploy capabilities in cislunar space to support NASA and Artemis, and to support the national security community and its requirements there. There are no other legacy systems there to compete with.",
+   "paragraph": "1. Begin operations at the Earth-moon L-1 point, about 60,000 kilometers from the moon in the direction of Earth, offering a \"clean sheet\" approach compared to working in Earth orbit. \"There's an opportunity to be the first to deploy capabilities in cislunar space to support NASA and Artemis, and to support the national security community and its requirements there. There are no other legacy systems there to compete with.\" Establish infrastructure platforms in operation by 2025 or 2026, with prior pathfinder missions operating small spacecraft with remote sensing payloads to test operations at the Earth-moon L-1 point. [27](https://spacenews.com/quantum-space-unveils-plans-for-cislunar-platforms/)",
+   "urls": [
+    "https://spacenews.com/quantum-space-unveils-plans-for-cislunar-platforms/"
+   ],
+   "block_urls": [
+    "https://spacenews.com/quantum-space-unveils-plans-for-cislunar-platforms/"
+   ]
+  },
+  {
+   "key": "F039",
+   "system": "Claude-3.7-DRB",
+   "task": 69,
+   "line": 60,
+   "quote": "turn wrench 4 mm to the right.",
+   "paragraph": "Google has taken deliberate steps to position A2A as a protocol that complements rather than competes with Anthropic's MCP. In its official announcement, Google states: \"A2A is an open protocol that complements Anthropic's MCP, which provides helpful tools and context to agents.\" The distinction, as Google frames it, lies in their target layers within the agent ecosystem: MCP enables tool integration, connecting agents to structured environments — APIs, databases, control systems — allowing them to take actions like \"raise platform by 2 meters\" or \"turn wrench 4 mm to the right.\" [8](https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/)",
+   "urls": [
+    "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/"
+   ],
+   "block_urls": [
+    "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/"
+   ]
+  },
+  {
+   "key": "F040",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 29,
+   "quote": "the mechanics generate dynamics which generate aesthetics.",
+   "paragraph": "From the designer's perspective, \"the mechanics generate dynamics which generate aesthetics.\" This relationship poses a unique challenge for game designers as they are only able to directly influence the mechanics and must work through them to produce meaningful dynamics and aesthetics for the player. [1](https://en.wikipedia.org/wiki/MDA_framework)",
+   "urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ]
+  },
+  {
+   "key": "F041",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 115,
+   "quote": "Develop clear, targeted mechanics that support your learning objectives. You can use gamification elements such as point systems, levels, badges or quizzes to structure the learning process and increase employee motivation. Make sure that these mechanics are easy to understand and directly target the desired learning outcomes. Starter tip: Start with simple mechanics and expand them as needed to gradually increase the complexity of the learning.",
+   "paragraph": "The MDA framework has been successfully applied in educational contexts and gamification with practical tips such as: \"Develop clear, targeted mechanics that support your learning objectives. You can use gamification elements such as point systems, levels, badges or quizzes to structure the learning process and increase employee motivation. Make sure that these mechanics are easy to understand and directly target the desired learning outcomes. Starter tip: Start with simple mechanics and expand them as needed to gradually increase the complexity of the learning.\" [12](https://masterplan.com/en-blog/mda-framework-as-gamification-checklist-for-successful-e-learning)",
+   "urls": [
+    "https://masterplan.com/en-blog/mda-framework-as-gamification-checklist-for-successful-e-learning"
+   ],
+   "block_urls": [
+    "https://masterplan.com/en-blog/mda-framework-as-gamification-checklist-for-successful-e-learning"
+   ]
+  },
+  {
+   "key": "F042",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 72,
+   "quote": "Thousands of English words are derived from Latin and Greek roots, prefixes, and suffixes. These linguistic building blocks are what give a word its meaning. With knowledge of word roots, prefixes, and suffixes, students can figure out the definitions of unfamiliar words just by breaking down their parts.",
+   "paragraph": "More and more, educators are incorporating diverse literature, including stories featuring characters from various cultures and backgrounds to reflect the diversity of the student body. This also can include other languages, surprisingly. The technique is called \"translanguaging\" and involves utilizing students' native languages alongside English. In multilingual classrooms, this approach fosters language development and builds bridges between students' home languages and English. It can also be helpful to students to learn the roots of English words, for example. \"Why teach word roots?\" asks Alana Domingo from Prestwick House. It sets readers up for success: \"Thousands of English words are derived from Latin and Greek roots, prefixes, and suffixes. These linguistic building blocks are what give a word its meaning. With knowledge of word roots, prefixes, and suffixes, students can figure out the definitions of unfamiliar words just by breaking down their parts.\" [4](https://onlinedegree.fgcu.edu/programs/med-ci-elementary-education/trends-elementary-language-arts-instruction/)",
+   "urls": [
+    "https://onlinedegree.fgcu.edu/programs/med-ci-elementary-education/trends-elementary-language-arts-instruction/"
+   ],
+   "block_urls": [
+    "https://onlinedegree.fgcu.edu/programs/med-ci-elementary-education/trends-elementary-language-arts-instruction/"
+   ]
+  },
+  {
+   "key": "F043",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 60,
+   "quote": "The all-in-one credit card terminal for payments and receipts",
+   "paragraph": "**Square Terminal:**",
+   "urls": [
+    "https://squareup.com/us/en/hardware"
+   ],
+   "block_urls": [
+    "https://squareup.com/us/en/hardware"
+   ]
+  },
+  {
+   "key": "F044",
+   "system": "Claude-3.7-DRB",
+   "task": 100,
+   "line": 138,
+   "quote": "many of our day-to-day decisions will be automated with minimal intervention by the end-user. Autonomy and/or independence will be sacrificed and replaced by convenience. Newer generations of citizens will become more and more dependent on networked AI structures and processes. There are challenges that need to be addressed in terms of critical thinking and heterogeneity. Networked interdependence will, more likely than not, increase our vulnerability to cyberattacks. There is also a real likelihood that there will exist sharper divisions between digital 'haves' and 'have-nots,' as well as among technologically dependent digital infrastructures. Finally, there is the question of the new 'commanding heights' of the digital network infrastructure's ownership and control.",
+   "paragraph": "Experts predict that \"many of our day-to-day decisions will be automated with minimal intervention by the end-user. Autonomy and/or independence will be sacrificed and replaced by convenience. Newer generations of citizens will become more and more dependent on networked AI structures and processes. There are challenges that need to be addressed in terms of critical thinking and heterogeneity. Networked interdependence will, more likely than not, increase our vulnerability to cyberattacks. There is also a real likelihood that there will exist sharper divisions between digital 'haves' and 'have-nots,' as well as among technologically dependent digital infrastructures. Finally, there is the question of the new 'commanding heights' of the digital network infrastructure's ownership and control.\" [22](https://www.pewresearch.org/internet/2018/12/10/artificial-intelligence-and-the-future-of-humans/)",
+   "urls": [
+    "https://www.pewresearch.org/internet/2018/12/10/artificial-intelligence-and-the-future-of-humans/"
+   ],
+   "block_urls": [
+    "https://www.pewresearch.org/internet/2018/12/10/artificial-intelligence-and-the-future-of-humans/"
+   ]
+  },
+  {
+   "key": "F045",
+   "system": "Claude-3.7-DRB",
+   "task": 77,
+   "line": 47,
+   "quote": "the relationship between the need for cognitive closure and fear (for example, of coronavirus) is mediated by beliefs in conspiracy theories.",
+   "paragraph": "Research has indicated that \"the relationship between the need for cognitive closure and fear (for example, of coronavirus) is mediated by beliefs in conspiracy theories.\" Studies suggest that three of the five dimensions of the need for closure may be of particular importance in this context—the need for predictability, avoiding ambiguity, and closed-mindedness—which can be considered predictors of conspiracy beliefs. For individuals with a high need for predictability, belief in conspiracy theories can reduce anxiety caused by volatility and instability. Similarly, people with high closed-mindedness may feel insecure because of the need to adapt to dynamic changes and reluctance to assume an alternative perspective. A simplified, schematic way of perceiving reality can, in turn, reduce psychological distress in people with a high level of avoidance of ambiguity. [7](https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/)",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/"
+   ],
+   "block_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/"
+   ]
+  },
+  {
+   "key": "F046",
+   "system": "Claude-3.7-DRB",
+   "task": 92,
+   "line": 196,
+   "quote": "built on top of ShuttleNet, which demonstrates the flexibility of ShuttleNet and some designs (e.g., hyper-parameters and activation functions) can be improved.",
+   "paragraph": "The framework has become the foundation for many current prediction systems in badminton. In fact, in comparative studies, \"11 teams that perform better than ShuttleNet\" were actually \"built on top of ShuttleNet, which demonstrates the flexibility of ShuttleNet and some designs (e.g., hyper-parameters and activation functions) can be improved.\" The improvements primarily \"focus on the shot type prediction,\" while \"the performance of area coordinates only slightly performs better than ShuttleNet.\" [20](https://ar5iv.labs.arxiv.org/html/2306.15664)",
+   "urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ],
+   "block_urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ]
+  },
+  {
+   "key": "F047",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 57,
+   "quote": "a 10 percent increase in passenger traffic raises total employment by 0.9 percent and service employment (defined as employment in wholesale and retail trade; finance, insurance, and real estate; services; government transportation; and public utilities) by 1.1 percent, suggesting employment gains far beyond the airport.",
+   "paragraph": "Academic researchers have documented \"the relationships between air service and economic activity.\" For example, Brueckner (2003) found that \"a 10 percent increase in passenger traffic raises total employment by 0.9 percent and service employment (defined as employment in wholesale and retail trade; finance, insurance, and real estate; services; government transportation; and public utilities) by 1.1 percent, suggesting employment gains far beyond the airport.\" In a longitudinal study, McGraw (2020) examined \"the effects of commercial airports on local economies for the 60-year period from 1950 to 2010\" and found that \"the presence of airports in these communities contributed to an average of 3.9 percent growth in total employment (and 3.4 percent growth in population) per decade.\" [3](https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/)",
+   "urls": [
+    "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/"
+   ],
+   "block_urls": [
+    "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/"
+   ]
+  },
+  {
+   "key": "F048",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 98,
+   "quote": "the most important variable in improving students' reading achievement",
+   "paragraph": "Educators often emphasize that \"the most important variable in improving students' reading achievement\" is \"the teacher.\" No matter how well researched, well designed, or thorough a core reading program or English language arts (ELA) curriculum is, in the end it's the teacher's artfulness and skill that has the greatest impact on student learning. Teachers must draw on knowledge of their students and then modify lesson plans accordingly and make in-the-moment decisions to react to the needs of the students in front of them. [13](https://www.edutopia.org/article/responsive-teaching-ela/)",
+   "urls": [
+    "https://www.edutopia.org/article/responsive-teaching-ela/"
+   ],
+   "block_urls": [
+    "https://www.edutopia.org/article/responsive-teaching-ela/"
+   ]
+  },
+  {
+   "key": "F049",
+   "system": "Claude-3.7-DRB",
+   "task": 71,
+   "line": 155,
+   "quote": "An Ethical and Equitable Vision of AI in Education,",
+   "paragraph": "While the 28 projects ranged in scope and findings, participants agreed that teachers and students must be at the heart of AI development in education to ensure these tools meet their needs. This requires a shift in mindset — from seeing AI as a standalone solution to embedding it within the real-life contexts of classrooms and communities — that can only be achieved through ongoing collaboration between developers and educators. Read the full report, \"An Ethical and Equitable Vision of AI in Education,\" for a more in-depth exploration of how to design AI tools that are accessible, ethical, and beneficial for all learners. [7](https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/)",
+   "urls": [
+    "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/"
+   ],
+   "block_urls": [
+    "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/"
+   ]
+  },
+  {
+   "key": "F050",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 31,
+   "quote": "They experience the game through the aesthetics, which the game dynamics provide, which emerged from the mechanics.",
+   "paragraph": "The perspective of the player, however, is the inverse. \"They experience the game through the aesthetics, which the game dynamics provide, which emerged from the mechanics.\" [1](https://en.wikipedia.org/wiki/MDA_framework) This dichotomy between designer and player perspectives is fundamental to understanding how games are both created and consumed.",
+   "urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/MDA_framework"
+   ]
+  },
+  {
+   "key": "F051",
+   "system": "Claude-3.7-DRB",
+   "task": 52,
+   "line": 89,
+   "quote": "There should be no compromise on matters of principle. This is not a matter of cost.",
+   "paragraph": "Duan Yongping once said: \"There should be no compromise on matters of principle. This is not a matter of cost.\" He also said: \"Persisting in doing the right things is achieved by not doing the wrong things.\" Duan Yongping once publicly stated: \"We have three types of Don't make money: don't make illegal money, don't make money that goes against morality, don't make money that exceeds your ability.\" The most important reason why Buffett is \"Buffett\" is that he can insist on doing the right things, that is, not doing things that are wrong in principle. For example: He will not do anything he thinks he doesn't understand. The most important thing I learned from Buffett is this. [12](https://www.granitefirm.com/blog/us/2024/01/15/duan-yongping/)",
+   "urls": [
+    "https://www.granitefirm.com/blog/us/2024/01/15/duan-yongping/"
+   ],
+   "block_urls": [
+    "https://www.granitefirm.com/blog/us/2024/01/15/duan-yongping/"
+   ]
+  },
+  {
+   "key": "F052",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 79,
+   "quote": "continued to disrupt the gaming industry in 2024, impacting everything from game development to marketing strategies. Tools powered by AI enhanced creative processes, user acquisition efficiencies, and data analytics, laying the groundwork for more personalized and scalable gaming experiences.",
+   "paragraph": "Artificial intelligence has \"continued to disrupt the gaming industry in 2024, impacting everything from game development to marketing strategies. Tools powered by AI enhanced creative processes, user acquisition efficiencies, and data analytics, laying the groundwork for more personalized and scalable gaming experiences.\" [9](https://upptic.com/the-games-industry-in-2024-trends-challenges-and-whats-next-for-2025/)",
+   "urls": [
+    "https://upptic.com/the-games-industry-in-2024-trends-challenges-and-whats-next-for-2025/"
+   ],
+   "block_urls": [
+    "https://upptic.com/the-games-industry-in-2024-trends-challenges-and-whats-next-for-2025/"
+   ]
+  },
+  {
+   "key": "F053",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 84,
+   "quote": "providing instruction in basic reading strategies using reciprocal teaching practice that includes predicting, visualizing, questioning, clarifying, and summarizing. As students master these strategies, have them read in small groups of three or four, applying the strategies to their readings. Students should be encouraged to rotate roles. As they interact with the text, they are making meaning and comprehending the text. Teach students to mark or highlight text for main ideas and also for answers to specific questions. Text annotation is an excellent method to make meaning and provide evidence to support answers. Challenge students to provide specific evidence to support their answers. Use t-chart graphic organizers to have them identify specific lines from a text and explain their thoughts about the lines. Provide adequate opportunity -- one to two weeks -- for students to examine text features and structures, and to read and learn from mentor texts and literature before writing.",
+   "paragraph": "Effective instruction includes \"providing instruction in basic reading strategies using reciprocal teaching practice that includes predicting, visualizing, questioning, clarifying, and summarizing. As students master these strategies, have them read in small groups of three or four, applying the strategies to their readings. Students should be encouraged to rotate roles. As they interact with the text, they are making meaning and comprehending the text. Teach students to mark or highlight text for main ideas and also for answers to specific questions. Text annotation is an excellent method to make meaning and provide evidence to support answers. Challenge students to provide specific evidence to support their answers. Use t-chart graphic organizers to have them identify specific lines from a text and explain their thoughts about the lines. Provide adequate opportunity -- one to two weeks -- for students to examine text features and structures, and to read and learn from mentor texts and literature before writing.\" [11](https://www.edutopia.org/blog/stw-expanded-learning-time-individualized-learning-hassan-mansaray)",
+   "urls": [
+    "https://www.edutopia.org/blog/stw-expanded-learning-time-individualized-learning-hassan-mansaray"
+   ],
+   "block_urls": [
+    "https://www.edutopia.org/blog/stw-expanded-learning-time-individualized-learning-hassan-mansaray"
+   ]
+  },
+  {
+   "key": "F054",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 49,
+   "quote": "I wanted to be as truthful as possible to the emotions and the experience of an intersex individual. I couldn't begin shooting without first understanding the experience up close.",
+   "paragraph": "In creating the film, Hafaiedh was committed to authenticity, explaining, \"I wanted to be as truthful as possible to the emotions and the experience of an intersex individual. I couldn't begin shooting without first understanding the experience up close.\" [4](https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/) This dedication to authentic representation is crucial given the scarcity of intersex and transgender narratives in MENA cinema.",
+   "urls": [
+    "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/"
+   ],
+   "block_urls": [
+    "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/"
+   ]
+  },
+  {
+   "key": "F055",
+   "system": "Claude-3.7-DRB",
+   "task": 77,
+   "line": 19,
+   "quote": "an answer on a subject, any answer when encountered confusion and uncertainty.",
+   "paragraph": "Kruglanski defines the need for closure as \"an answer on a subject, any answer when encountered confusion and uncertainty.\" In other words, it represents the simplification of complex knowledge and the motivation to avoid uncertainty when an individual meets a problem about \"knowledge.\" Importantly, the term \"need\" in this concept is not indicating a lack, but rather an inner motivation. [2](https://pmc.ncbi.nlm.nih.gov/articles/PMC5491669/)",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC5491669/"
+   ],
+   "block_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC5491669/"
+   ]
+  },
+  {
+   "key": "F056",
+   "system": "Claude-3.7-DRB",
+   "task": 69,
+   "line": 60,
+   "quote": "A2A is an open protocol that complements Anthropic's MCP, which provides helpful tools and context to agents.",
+   "paragraph": "Google has taken deliberate steps to position A2A as a protocol that complements rather than competes with Anthropic's MCP. In its official announcement, Google states: \"A2A is an open protocol that complements Anthropic's MCP, which provides helpful tools and context to agents.\" The distinction, as Google frames it, lies in their target layers within the agent ecosystem: MCP enables tool integration, connecting agents to structured environments — APIs, databases, control systems — allowing them to take actions like \"raise platform by 2 meters\" or \"turn wrench 4 mm to the right.\" [8](https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/)",
+   "urls": [
+    "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/"
+   ],
+   "block_urls": [
+    "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/"
+   ]
+  },
+  {
+   "key": "F057",
+   "system": "Claude-3.7-DRB",
+   "task": 80,
+   "line": 93,
+   "quote": "while in college, I began to enter more queer communities, where I started questioning everything I thought I knew about gender.",
+   "paragraph": "The relationship between shoujo manga and queer identity formation can be significant. One manga fan recounted how \"while in college, I began to enter more queer communities, where I started questioning everything I thought I knew about gender.\" The individual later viewed shoujo manga with a transgender friend (now spouse) and they \"often discussed (and sometimes disparaged) the show's portrayal of the gender binary.\" Eventually, \"reading and discussing shoujo manga with dedication and good intent\" helped the individual \"truly see how alarmingly patriarchal modern society is.\" [12](https://www.animefeminist.com/how-shoujo-manga-helps-me-grapple-with-internalized-misogyny/)",
+   "urls": [
+    "https://www.animefeminist.com/how-shoujo-manga-helps-me-grapple-with-internalized-misogyny/"
+   ],
+   "block_urls": [
+    "https://www.animefeminist.com/how-shoujo-manga-helps-me-grapple-with-internalized-misogyny/"
+   ]
+  },
+  {
+   "key": "F058",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 60,
+   "quote": "A simple way to accept contactless and card payments, with a powerful battery, and enhanced connectivity and security.",
+   "paragraph": "**Square Terminal:**",
+   "urls": [
+    "https://squareup.com/us/en/hardware"
+   ],
+   "block_urls": [
+    "https://squareup.com/us/en/hardware"
+   ]
+  },
+  {
+   "key": "F059",
+   "system": "Claude-3.7-DRB",
+   "task": 73,
+   "line": 60,
+   "quote": "Emotional check-ins help students begin to recognize the different feelings in themselves and identify triggers that lead to certain moods.",
+   "paragraph": "\"At elementary age, some students may not even be aware that their feelings have a name, or how they impact their ability to succeed in learning activities and other areas,\" notes the team at learning platform Kami. \"Emotional check-ins help students begin to recognize the different feelings in themselves and identify triggers that lead to certain moods.\" Schools ask a lot of students. Most kids don't have the luxury of mental health days and are asked to pay attention at the same level of engagement each day. Holistic learning takes into account that students won't always perform at their best — as no human can. \"I have a third grader who has to be reading to learn,\" says Elisa Villanueva Beard, CEO of Teach for America. \"But I also know that my son cannot be reading unless he is happy, in a state where his brain allows access to learning.\" [7](https://blog.planbook.com/holistic-learning-classroom/)",
+   "urls": [
+    "https://blog.planbook.com/holistic-learning-classroom/"
+   ],
+   "block_urls": [
+    "https://blog.planbook.com/holistic-learning-classroom/"
+   ]
+  },
+  {
+   "key": "F060",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 60,
+   "quote": "An easy-to-use iPad point of sale with an intuitive checkout flow and integrated chip and contactless payments.",
+   "paragraph": "**Square Terminal:**",
+   "urls": [
+    "https://squareup.com/us/en/hardware"
+   ],
+   "block_urls": [
+    "https://squareup.com/us/en/hardware"
+   ]
+  },
+  {
+   "key": "F061",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 51,
+   "quote": "generally used to study completed games, is very useful during game design to make sure that the game holistically supports the intended design.",
+   "paragraph": "The MDA framework, while \"generally used to study completed games, is very useful during game design to make sure that the game holistically supports the intended design.\" [5](https://deliberategamedesign.com/mda-framework/) This application of the framework allows designers to evaluate and refine their games during the development process rather than solely as an analytical tool after completion.",
+   "urls": [
+    "https://deliberategamedesign.com/mda-framework/"
+   ],
+   "block_urls": [
+    "https://deliberategamedesign.com/mda-framework/"
+   ]
+  },
+  {
+   "key": "F062",
+   "system": "Claude-3.7-DRB",
+   "task": 83,
+   "line": 114,
+   "quote": "get access to our latest marketing collateral, communications, and more – all in one easy location. Easily share, store, and track our vast content library.",
+   "paragraph": "These devices often serve as platforms for software distribution, with PAX noting that users can \"level up the entire payment experience with more than 2,400 Android-based apps that let you customize your terminal to suit your needs.\" Their platform PAXHUB allows users to \"get access to our latest marketing collateral, communications, and more – all in one easy location. Easily share, store, and track our vast content library.\" [14](https://www.pax.us/)",
+   "urls": [
+    "https://www.pax.us/"
+   ],
+   "block_urls": [
+    "https://www.pax.us/"
+   ]
+  },
+  {
+   "key": "F063",
+   "system": "Claude-3.7-DRB",
+   "task": 80,
+   "line": 77,
+   "quote": "the speech habits of anime and manga characters have largely remained the same due to The Coconut Effect",
+   "paragraph": "Since the 1980s, linguists and social commentators in Japan \"have noticed a gradual shift in women's speaking habits\" with younger generations using \"less joseigo than previous generations.\" Interestingly, while actual language use has evolved, \"the speech habits of anime and manga characters have largely remained the same due to The Coconut Effect\" (the tendency for media to maintain outdated portrayals that audiences have come to expect). [10](https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/GenderAndJapaneseLanguage)",
+   "urls": [
+    "https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/GenderAndJapaneseLanguage"
+   ],
+   "block_urls": [
+    "https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/GenderAndJapaneseLanguage"
+   ]
+  },
+  {
+   "key": "F064",
+   "system": "Claude-3.7-DRB",
+   "task": 88,
+   "line": 49,
+   "quote": "That was very much my vision for capturing these wonderful, unexplainable, sometimes slightly terrifying moments. There's a lot of comedy in the book.",
+   "paragraph": "García López emphasized that they were \"executing the magic realism moments in the most mundane way.\" This included elements like a bag of bones that \"is moving around the house almost like an annoying puppy and nobody cares.\" The director explained, \"That was very much my vision for capturing these wonderful, unexplainable, sometimes slightly terrifying moments. There's a lot of comedy in the book.\" [5](https://ew.com/one-hundred-years-of-solitude-netflix-adaptation-preview-alex-garcia-lopez-8714319)",
+   "urls": [
+    "https://ew.com/one-hundred-years-of-solitude-netflix-adaptation-preview-alex-garcia-lopez-8714319"
+   ],
+   "block_urls": [
+    "https://ew.com/one-hundred-years-of-solitude-netflix-adaptation-preview-alex-garcia-lopez-8714319"
+   ]
+  },
+  {
+   "key": "F065",
+   "system": "Claude-3.7-DRB",
+   "task": 88,
+   "line": 57,
+   "quote": "took more than six years to realize. The patience afforded to the production shows in its monumental scale, as well as in the movement and detail that directors Alex García López and Laura Mora achieve on screen. Each hourlong episode contains dozens, maybe hundreds, of astonishing images.",
+   "paragraph": "Netflix committed significant resources to this project. The series \"took more than six years to realize. The patience afforded to the production shows in its monumental scale, as well as in the movement and detail that directors Alex García López and Laura Mora achieve on screen. Each hourlong episode contains dozens, maybe hundreds, of astonishing images.\" [10](https://time.com/7178594/one-hundred-years-of-solitude-review-netflix/)",
+   "urls": [
+    "https://time.com/7178594/one-hundred-years-of-solitude-review-netflix/"
+   ],
+   "block_urls": [
+    "https://time.com/7178594/one-hundred-years-of-solitude-review-netflix/"
+   ]
+  },
+  {
+   "key": "F066",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 87,
+   "quote": "by creating jobs and increasing incomes.",
+   "paragraph": "Airports boost local economies \"by creating jobs and increasing incomes.\" They are \"major job providers, with a diverse workforce ensuring smooth operations.\" Research indicates that \"for every million passengers, airports can create 2,000 to 4,000 jobs in various roles, from pilots and air traffic controllers to ground crews, security personnel, office staff, maintenance teams, and retail workers.\" Significantly, \"the economic impact of airports goes beyond their immediate boundaries.\" Local businesses such as \"hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport's presence, resulting in more job opportunities and higher wages in these sectors.\" Additionally, \"the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.\" [7](https://www.airportgurus.com/en/economic-impact-of-airports/)",
+   "urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ],
+   "block_urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ]
+  },
+  {
+   "key": "F067",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 75,
+   "quote": "declared haram by the mayor of Umm al-Fahm, the conservative Arab home town of the character Nour.",
+   "paragraph": "The film faced significant backlash. It was \"declared haram by the mayor of Umm al-Fahm, the conservative Arab home town of the character Nour.\" A fatwa was issued against Hamoud, who is \"a Palestinian born in Hungary but now resident in Jaffa.\" [8](https://en.wikipedia.org/wiki/In_Between_(2016_film)) Despite this, the film had its world premiere at the 2016 Toronto International Film Festival, where it received the NETPAC Award for World or International Asian Film Premiere. At the 2016 San Sebastian Film Festival, it won three awards: the Premio EROSKI de la juventud (Eroski Youth Award), the Premio TVE - Otra Mirada (TVE Another Look Award), and the Premio Sebastiane. [8](https://en.wikipedia.org/wiki/In_Between_(2016_film))",
+   "urls": [
+    "https://en.wikipedia.org/wiki/In_Between_(2016_film)"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/In_Between_(2016_film)"
+   ]
+  },
+  {
+   "key": "F068",
+   "system": "Claude-3.7-DRB",
+   "task": 77,
+   "line": 17,
+   "quote": "a desire to give a clear and specific response to a question rather than ambiguity, confusion or irregularity.",
+   "paragraph": "Need for Closure (NFC) is a psychological construct that refers to an individual's desire for definite knowledge and aversion to ambiguity or uncertainty. The need for closure reflects the desire for clear, definite, or unambiguous knowledge that will guide perception and action, as opposed to the undesirable alternative of ambiguity and confusion. It can be described as \"a desire to give a clear and specific response to a question rather than ambiguity, confusion or irregularity.\" [1][2][3](https://pmc.ncbi.nlm.nih.gov/articles/PMC4287659/)",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC4287659/"
+   ],
+   "block_urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC4287659/"
+   ]
+  },
+  {
+   "key": "F069",
+   "system": "Claude-3.7-DRB",
+   "task": 92,
+   "line": 190,
+   "quote": "a position-aware fusion of rally progress and player styles framework consisting of Transformer-based architectures. ShuttleNet separates the contexts of both players to consider the overall playing habits for predicting the next strokes.",
+   "paragraph": "3. Using \"a position-aware fusion of rally progress and player styles framework consisting of Transformer-based architectures. ShuttleNet separates the contexts of both players to consider the overall playing habits for predicting the next strokes.\" [20](https://ar5iv.labs.arxiv.org/html/2306.15664)",
+   "urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ],
+   "block_urls": [
+    "https://ar5iv.labs.arxiv.org/html/2306.15664"
+   ]
+  },
+  {
+   "key": "F070",
+   "system": "Claude-3.7-DRB",
+   "task": 89,
+   "line": 53,
+   "quote": "the MDA framework is a game design framework that provides a structured approach for analyzing and designing games. It focuses on the interplay of the game's components by breaking down the gameplay into three main categories: mechanics, dynamics, and aesthetics.",
+   "paragraph": "Contemporary game design approaches recognize that \"the MDA framework is a game design framework that provides a structured approach for analyzing and designing games. It focuses on the interplay of the game's components by breaking down the gameplay into three main categories: mechanics, dynamics, and aesthetics.\" By understanding the relationship between these components, \"game designers can more effectively create experiences that resonate with players. It helps designers focus on the player experience and ensures that game mechanics are purposefully designed to evoke specific emotional responses and fulfill desired player motivations.\" [6](https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/)",
+   "urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ],
+   "block_urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ]
+  },
+  {
+   "key": "F071",
+   "system": "Claude-3.7-DRB",
+   "task": 91,
+   "line": 174,
+   "quote": "Saint Seiya: The Heated Battle of the Gods",
+   "paragraph": "The proud warriors of the northern lands of Asgard, they fight to defend the Norse God Odin and his hierarch, the equivalent to Athena's Pope. There are three groups of God Warriors: first, the ones introduced in the movie \"Saint Seiya: The Heated Battle of the Gods\", the seven (plus one) from the anime series, and the seven from Saint Seiya: Soul of Gold. The God Warriors are probably inspired by the Blue Warriors from the manga, and share many concepts with them, like living in a land of ice. [27](https://saintseiya.fandom.com/wiki/God_Warriors)",
+   "urls": [
+    "https://saintseiya.fandom.com/wiki/God_Warriors"
+   ],
+   "block_urls": [
+    "https://saintseiya.fandom.com/wiki/God_Warriors"
+   ]
+  },
+  {
+   "key": "F072",
+   "system": "Claude-3.7-DRB",
+   "task": 97,
+   "line": 87,
+   "quote": "major job providers, with a diverse workforce ensuring smooth operations.",
+   "paragraph": "Airports boost local economies \"by creating jobs and increasing incomes.\" They are \"major job providers, with a diverse workforce ensuring smooth operations.\" Research indicates that \"for every million passengers, airports can create 2,000 to 4,000 jobs in various roles, from pilots and air traffic controllers to ground crews, security personnel, office staff, maintenance teams, and retail workers.\" Significantly, \"the economic impact of airports goes beyond their immediate boundaries.\" Local businesses such as \"hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport's presence, resulting in more job opportunities and higher wages in these sectors.\" Additionally, \"the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.\" [7](https://www.airportgurus.com/en/economic-impact-of-airports/)",
+   "urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ],
+   "block_urls": [
+    "https://www.airportgurus.com/en/economic-impact-of-airports/"
+   ]
+  },
+  {
+   "key": "F073",
+   "system": "Claude-3.7-DRB",
+   "task": 79,
+   "line": 73,
+   "quote": "In Between is a film about three Palestinian women who share an apartment in Tel Aviv; each is seeking her independence and liberty in a patriarchal society. The title of the film reflects the struggle these women face, trapped and living in between tradition and modernity.",
+   "paragraph": "\"In Between is a film about three Palestinian women who share an apartment in Tel Aviv; each is seeking her independence and liberty in a patriarchal society. The title of the film reflects the struggle these women face, trapped and living in between tradition and modernity.\" The film is structurally similar to Labaki's \"Caramel,\" presenting \"strong women trapped in male-dominated societies, fighting for their freedom and liberty,\" with both filmmakers representing \"their lesbian characters within the female ensemble formula.\" This suggests that \"women living in a Palestinian culture face similar fate and issues to women in Lebanon.\" Like Keshavarz's \"Circumstance,\" Hamoud's film \"overtly tackl[es] the topic of homosexuality,\" with both directors representing \"boldly lesbian sexual scenes and desires in their films.\" [2](https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html)",
+   "urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ],
+   "block_urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html"
+   ]
+  },
+  {
+   "key": "F074",
+   "system": "Claude-3.7-DRB",
+   "task": 70,
+   "line": 33,
+   "quote": "The best compliment I can give Rod is that I personally observed him maintain his focus on his ideas and proposals despite the pressures he received from the big vendors to align himself with one or more of their competitive agendas. It was this dedication to what he knew was right that set him and SpringSource apart, and brought enterprise Java to a better place.",
+   "paragraph": "As Eric Newcomer, former chief architect at Credit Suisse, noted: \"The best compliment I can give Rod is that I personally observed him maintain his focus on his ideas and proposals despite the pressures he received from the big vendors to align himself with one or more of their competitive agendas. It was this dedication to what he knew was right that set him and SpringSource apart, and brought enterprise Java to a better place.\" [7](https://www.eweek.com/development/spring-creator-rod-johnson-leaves-vmware-makes-mark-on-java/)",
+   "urls": [
+    "https://www.eweek.com/development/spring-creator-rod-johnson-leaves-vmware-makes-mark-on-java/"
+   ],
+   "block_urls": [
+    "https://www.eweek.com/development/spring-creator-rod-johnson-leaves-vmware-makes-mark-on-java/"
+   ]
+  },
+  {
+   "key": "F075",
+   "system": "Claude-3.7-DRB",
+   "task": 88,
+   "line": 77,
+   "quote": "Considering the difficulty of the assignment, it's remarkable how close Netflix's splendid One Hundred Years of Solitude comes to recreating not just the substance, but also the kinetic spirit of the book.",
+   "paragraph": "Judy Berman of Time wrote, \"Considering the difficulty of the assignment, it's remarkable how close Netflix's splendid One Hundred Years of Solitude comes to recreating not just the substance, but also the kinetic spirit of the book.\" She wrote that the series successfully conveyed the story of the novel without oversimplifying its major themes, including the \"ugly but symbolically meaningful aspects of the story, from self-harm to incest\". She commended the series' production value, direction, and cinematography. [4](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series))",
+   "urls": [
+    "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)"
+   ],
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)"
+   ]
+  },
+  {
+   "key": "F076",
+   "system": "Claude-3.7-DRB",
+   "task": 75,
+   "line": 53,
+   "quote": "Trials investigating the use of magnesium supplementation have not yet found a consistent benefit to heart health. If dietary magnesium deficiency is eventually confirmed to be a risk factor for cardiovascular disease, then magnesium supplementation may represent a potential avenue to improve cardiovascular outcomes. Prospective randomized controlled trials will be necessary to evaluate any potential therapeutic benefit from magnesium supplementation.",
+   "paragraph": "\"Trials investigating the use of magnesium supplementation have not yet found a consistent benefit to heart health. If dietary magnesium deficiency is eventually confirmed to be a risk factor for cardiovascular disease, then magnesium supplementation may represent a potential avenue to improve cardiovascular outcomes. Prospective randomized controlled trials will be necessary to evaluate any potential therapeutic benefit from magnesium supplementation.\" Similarly, experts note that \"the efficacy of magnesium supplementation in reducing hard clinical outcomes such as heart attack, stroke, and peripheral artery disease remains uncertain, particularly in individuals susceptible to magnesium deficiency.\" [6](https://www.medicalnewstoday.com/articles/not-getting-enough-magnesium-could-affect-cardiovascular-risk)",
+   "urls": [
+    "https://www.medicalnewstoday.com/articles/not-getting-enough-magnesium-could-affect-cardiovascular-risk"
+   ],
+   "block_urls": [
+    "https://www.medicalnewstoday.com/articles/not-getting-enough-magnesium-could-affect-cardiovascular-risk"
+   ]
+  }
+ ]
+}

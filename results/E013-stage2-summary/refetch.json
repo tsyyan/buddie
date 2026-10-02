@@ -1,0 +1,2818 @@
+{
+ "E010": {
+  "F001": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "NOT_FOUND",
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.computer.org/publications/tech-news/community-voices/autonomous-ai-agents#:~:text=amounts%20of%20market%20data%20for,anomaly%20detection",
+    "via": "direct",
+    "sha256": "7faceb69924bbd33e2fa8bc20711556960f79a817e2d0c15b63f1004573e13ce",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F002": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.investopedia.com/terms/l/leadtime.asp#:~:text=Reducing%20lead%20time%20can%20streamline,affect%20sales%20and%20manufacturing%20processes",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F003": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fiercehealthcare.com/health-tech/how-walmart-and-optum-exiting-telehealth-signals-major-shift-virtual-care-market#:~:text=,said%20in%20an%20emailed%20comment",
+    "via": "direct",
+    "sha256": "93a525df37a7c4c987927ef8cf7d173153e8d1b2329eedb6c00e798a44df2604",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F004": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=We%20are%20not%20looking%20for,of%20operating%20resources%20to%20offer",
+    "via": "direct",
+    "sha256": "f652fb3787603da454d462c72472798f3e5a070da7c2c24b7c37541a530b0c84",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F005": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "title",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.warbyparker.com/assets/img/impact-report/Impact-Report-2023.pdf#:~:text=What%20Being%20a%20Public%20Benefit,will%20contribute%20to%20Warby%20Parker%E2%80%99s",
+    "via": "direct",
+    "sha256": "0ca6071fcfcd9f3c36219e7cf0a1ef50120ef1ebed630b44aadaf51d4cf9290c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F006": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.linkedin.com/posts/pavithran-pc_vinod-khoslas-largest-initial-investment-activity-7266013929196138496-ZytN#:~:text=Vinod%20Khosla%27s%20largest%20initial%20investment,team%20models%20at%20Indian%20VCs",
+    "via": "direct",
+    "sha256": "52a2eceb52cdc00b619303053a40fb752e93702a4088e8136a9d7af98002ab43",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F007": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1#:~:text=investment%20are%20very%20consistent%20%E2%80%94,Reasonable",
+    "via": "direct",
+    "sha256": "af5cb8306bf8603fb3fa1e6c82632443744f029bef315e4233001b3ece10c4b1",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F008": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/#:~:text=However%2C%20CVC%20programs%2C%20once%20known,iv%29%20create%20commercial%20partnerships",
+    "via": "direct",
+    "sha256": "82a33e7695e8a76fc7a856e68707ffef8f4fa385a284eddc06e555b401520909",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F009": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "NOT_FOUND",
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.mandalorepartners.com/research/key-components-for-strategic-success-in-corporate-venture-capital#:~:text=,technology%20acquisition%20or%20market%20expansion",
+    "via": "direct",
+    "sha256": "217b0f3fa2e64344e161125e4fde15a71560bd519c00adb1e9fa9775d63e2121",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F010": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.patrickrigoni.ch/material-requirement-planning/impact-lead-time-variability-supply-chain-performance-ddmrp/#:~:text=Cost%20Escalation%3A%20Excessive%20lead%20time,erode%20profit%20margins%20and%20competitiveness",
+    "via": "browser chromium",
+    "sha256": "d92dc5791ddb4a614169f9a32667561720b889e057b1f99157ddd3f48ac0bdaa",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F011": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.bvp.com/memos/pagerduty#:~:text=hit%20a%20sweet%20spot%20and,HP%20and%20BMC%20to%20newer",
+    "via": "direct",
+    "sha256": "43bf5918cfcd1a9262ca0d26c6e6b799488a592deb0ddfd95de5322d164a0732",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F012": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://time.com/7023237/vinod-khosla-interview/#:~:text=When%20Vinod%20Khosla%20had%20a,told%20TIME%20in%20an%20interview",
+    "via": "direct",
+    "sha256": "81fe574e0cfae8e5fe0ee27ef20dc70cedd76e821d201e26a0bbc5239c65b9e3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F013": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.iqvia.com/locations/united-states/blogs/2023/01/top-trends-to-watch-in-2023#:~:text=engaging%20stakeholders,time%20course%20correction",
+    "via": "direct",
+    "sha256": "7ea2c6628805eb7abb6977569e66be9b28b67f4b5b529e1cae432b1764356976",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F014": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.theverge.com/24134914/discord-ceo-gaming-chat-teens-safety-moderation-decoder-interview#:~:text=Nitro%20is%20doing%20very%20well,it%20and%20figure%20it%20out",
+    "via": "direct",
+    "sha256": "1287569191fb798d019f3e4099ca935fa822e31e4b013a243a06ab1c55b066e5",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F015": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=Unusual%20approaches%20to%20technology%2C%20ventures,contrarian%20approaches%20to%20existing%20markets",
+    "via": "direct",
+    "sha256": "f652fb3787603da454d462c72472798f3e5a070da7c2c24b7c37541a530b0c84",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F016": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www2.deloitte.com/us/en/insights/industry/manufacturing/global-supply-chain-resilience-amid-disruptions.html#:~:text=To%20mitigate%20the%20risks%20associated,challenges%20during%20uncertain%20times%20and",
+    "via": "direct",
+    "sha256": "95c4ddf376cafbff075c59e65e8bf23f200a59ba1f36324d263db1ce6a95009f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F017": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://usca.bcorporation.net/zblvz-5-key-takeaways-about-b-corp-brand-awareness-2023/#:~:text=The%20research%20shows%20that%20strong,this%20engaged%20and%20growing%20audience",
+    "via": "direct",
+    "sha256": "798423b1789701e600cd98779208fe339500ea1ad67bf909453ea140bd33729c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F018": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://stripe.com/newsroom/news/steffan-tomlinson#:~:text=,he%20was%20chief%20financial%20officer",
+    "via": "direct",
+    "sha256": "588dd7e1a888fb1239c0857ab433c23daaa840cea110f8feb5968a9380bbd6c0",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F019": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.ft.com/content/843dd19f-6761-4407-a229-2fcd56153af4#:~:text=strategy%20www,of%20his%20bets%20will%20fail",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F020": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.apmdigest.com/hpe-completes-spin-off-and-merger-of-its-enterprise-services-business-with-csc#:~:text=%E2%80%9CThe%20close%20of%20this%20transaction,%E2%80%9D",
+    "via": "direct",
+    "sha256": "f7ed7631ccb9192bdc7bcb0e8eb347b6493a8a951601420a5ec55d84e973faa6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F021": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.techbriefs.com/component/content/article/52461-7-space-sustainability-startups#:~:text=Now%2C%20imagine%20a%20scenario%20in,Kessler%20Syndrome%20becomes%20a%20reality",
+    "via": "direct",
+    "sha256": "4c88507230c55bd626ba2e3ea62d126f3ac7e8cf40f836e37462037c80abb906",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F022": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms#:~:text=BrowerStack%20in%20India%20among%20other,Slack%2C%20Spotify%2C%20Atlassian%2C%20and%20Chainanalysis",
+    "via": "direct",
+    "sha256": "00a46c230da7a3f4a5d9a4c6215d4da8b28077ff1e17ec9e1bd7019b7fa75088",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F023": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/sign-up-now-creating-consumer-and-business-value-with-subscriptions#:~:text=consumers%20who%20appreciate%20the%20convenience%2C,%E2%80%9D",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F024": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=We%20are%20not%20looking%20for,of%20operating%20resources%20to%20offer",
+    "via": "direct",
+    "sha256": "f652fb3787603da454d462c72472798f3e5a070da7c2c24b7c37541a530b0c84",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F025": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.bvp.com/memos#:~:text=For%20VCs%2C%20learning%20from%20mistakes,to%20find%20more%20of%20them",
+    "via": "direct",
+    "sha256": "05ab5a8f20162baaad49894eff28af8a6b292443da03faddc4b98afc54e786e1",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F026": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.harnesswealth.com/articles/stripe-ipo-tender-offer-what-to-know-for-2023/#:~:text=Stripe%20has%20made%20it%20clear,investors%2C%20including%20GIC%2C%20Goldman%20Sachs",
+    "via": "direct",
+    "sha256": "5681e4ca1d3703513926fe8d9b64e165de8d19a0669b78cd24ad09aa15500f10",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F027": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.privatebankerinternational.com/features/asset-management-meets-ai-smarter-faster-better/#:~:text=%E2%80%9CAI,%E2%80%9D",
+    "via": "direct",
+    "sha256": "b0af67c557351750ccb35699acb017882ec4f6619190cf173e4f2330375050b8",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F028": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "",
+    "doubts": null,
+    "url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/#:~:text=Even%20after%20the%20impressive%20fundraise%2C,%E2%80%9CAI%20bubble%2C%E2%80%9D%20as%20he%20called",
+    "via": "direct",
+    "sha256": "ad129a4ea26cf00eaed1c0920b206d3db8d23d0f7a54e9737194e0b30b36a7b9",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F029": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=We%20prefer%20bold%20bets%2C%20though,better%20investment%20partners%20for%20you",
+    "via": "direct",
+    "sha256": "f652fb3787603da454d462c72472798f3e5a070da7c2c24b7c37541a530b0c84",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F030": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://agfundernews.com/its-a-reset-not-a-catastrophe-investors-remain-upbeat-about-agrifoodtech-despite-funding-winter#:~:text=Vinod%20Khosla%20on%20cultivated%20meat%3A,not%20one%20made%20economic%20sense%E2%80%99",
+    "via": "direct",
+    "sha256": "30d35942ba7ef83eade3428f7cb2767d772ac69dd5e02ccf950a97a9708dcdc3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F031": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://elearningindustry.com/blockchain-technology-the-future-of-credentialing-in-elearning#:~:text=In%20a%20nutshell%2C%20blockchain%20is,a%20permanent%2C%20verifiable%20digital%20asset",
+    "via": "direct",
+    "sha256": "603f2553d16e170a812186701b5adb2d070854322d2162deb1fb1a36d06927d2",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F032": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fiercepharma.com/pharma/johnson-johnsons-spinoff-kenvue-provides-132b-ma-firepower#:~:text=J%26J%20also%20is%20estimating%2012.5,in%20its%20annual%20adjusted%20profit",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F033": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "bracketed",
+    "doubts": null,
+    "url": "https://www2.deloitte.com/us/en/insights/industry/manufacturing/global-supply-chain-resilience-amid-disruptions.html#:~:text=As%20M%26A%20is%20typically%20capital,technology%20transfers%20or%20financial%20investments",
+    "via": "browser chromium",
+    "sha256": "9d85727743e91757523117b049ca3e67a0f191dc5464348a692cece94ddc86b9",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F034": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=Unusual%20approaches%20to%20technology%2C%20ventures,contrarian%20approaches%20to%20existing%20markets",
+    "via": "browser chromium",
+    "sha256": "d79ec9e88f113e8190a4666ad07168409ee719cb6fffe172d9d4da335014e89b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F035": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://time.com/7023237/vinod-khosla-interview/#:~:text=through%20AI%20for%20the%20benefit,it%20was%20obviously%20very%20impactful",
+    "via": "direct",
+    "sha256": "81fe574e0cfae8e5fe0ee27ef20dc70cedd76e821d201e26a0bbc5239c65b9e3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F036": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1#:~:text=chosen%20market%2C%20problem%2C%20and%20solution,to",
+    "via": "browser chromium",
+    "sha256": "ffd8168ab2629062d568dfd7e152ffe3be522be2e95aec904fa692647bca9a7e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F037": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.investopedia.com/terms/l/leadtime.asp#:~:text=Reducing%20lead%20time%20can%20streamline,affect%20sales%20and%20manufacturing%20processes",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F038": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms#:~:text=%E2%80%9CI%20think%20the%20biggest%20collaboration,was%20just%20amazing%2C%E2%80%9D%20says%20Nelis",
+    "via": "browser chromium",
+    "sha256": "b83b3d5dc4abdce5fb4570651117819d92afb9860196be7aa5d8049c2ced6a7b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F039": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/Khosla_Ventures#:~:text=Khosla%20Ventures%20Fund%20III%20secured,6",
+    "via": "browser chromium",
+    "sha256": "ae90ee983339befe8fb8eecd26b53243cdc8df73d74986ec26f997903d137520",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F040": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://enhencer.com/blog/top-10-e-commerce-platforms-features-benefits-and-how-to-choose#:~:text=,track%20and%20understand%20consumer%20behavior",
+    "via": "direct",
+    "sha256": "b17a045f3c74662bf00233c173bb607086f8ecc912e027e82f8a335556ee738d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F041": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/how-we-decide/#:~:text=We%20differentiate%20our%20investments%20between,benefits%20if%20it%20is%20successful",
+    "via": "browser chromium",
+    "sha256": "f2161839ffb9270b506765abf5ccc81be0ecbf2d39d551e6adce0be10a8bbb4a",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F042": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/#:~:text=the%20time%20talking%20about%20cleantech,industry%2C%20even%20for%20biotech%20VCs",
+    "via": "browser chromium",
+    "sha256": "b065cfa7ff755121f2082742e74f5546d7dcd0f90010510cb2c324b7b424413c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F043": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.rho.co/blog/3-statement-financial-model#:~:text=Create%20model%20plugs%20for%20cash,and%20revolving%20credit%20lines",
+    "via": "direct",
+    "sha256": "c10b1c865fa730eb15c23dc4a88bd46b7e6a913f641f78f20b9274d3e494c1f2",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F044": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/#:~:text=match%20at%20L170%20Ghodsi%20isn%E2%80%99t,as%20he%20called%20it%2C%20bursts",
+    "via": "direct",
+    "sha256": "ad129a4ea26cf00eaed1c0920b206d3db8d23d0f7a54e9737194e0b30b36a7b9",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F045": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.investmentbankingcouncil.org/blog/a-complete-breakdown-of-the-3-statement-financial-model#:~:text=,assessment%20of%20strategic%20measures%20of",
+    "via": "direct",
+    "sha256": "8403724c52ce906fc979ae1c2b20d0c7a9514afd4e2eceabeaae35725b875588",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F046": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://www.accel.com/noteworthies/our-commitment-to-companies-in-india-and-southeast-asia#:~:text=Accel%20has%20partnered%20with%20founders,18%2C%20Zetwerk%20%2C%20%2020",
+    "via": "direct",
+    "sha256": "895df2facb724e10abaf23e7d9fbbe55d1cd8cadb845a29c27b34e4323ee9147",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F047": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs#:~:text=traditionally%20tie%20compensation%20to%20achievement,entity%20or%20other%20third%20parties",
+    "via": "direct",
+    "sha256": "5c136ba0f0d57bd92a142368d06c83d85f332e1c6825a8ae6f242a46d0af3838",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F048": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.comundo.io/blog-posts/2025-trends#:~:text=2,in%20carbon%20accounting",
+    "via": "direct",
+    "sha256": "7e34c7e3b35e9d29805c8ea5be8e1f1215706b348b00924686b4cc5bbb5a605f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F049": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/#:~:text=match%20at%20L166%20Even%20after,That%20said",
+    "via": "browser chromium",
+    "sha256": "ef5711361fa5eabf934547a256c336706fee3883a139a3189122da3364b19bc7",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F050": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "elided",
+    "doubts": null,
+    "url": "https://www.esa.int/Space_Safety/ESA_purchases_world-first_debris_removal_mission_from_start-up#:~:text=they%20have%20all%20taken%20place,ESA%20Director%20General%20Jan%20W%C3%B6rner",
+    "via": "direct",
+    "sha256": "f7775e8dc0e23b21f50013d596f7fb8470ce8fc272df36c75d789f63ba789c0e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F051": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://userpilot.com/blog/customer-feedback-loop/#:~:text=As%20the%20diagram%20below%20illustrates%2C,that%20you%E2%80%99ve%20addressed%20their%20needs",
+    "via": "direct",
+    "sha256": "9fbf40bd3f0a1945c3bdbd1644f695ecfadec5bf8660e4dfb16d08cbe8f154d1",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F052": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1#:~:text=investment%20are%20very%20consistent%20%E2%80%94,Reasonable",
+    "via": "browser chromium",
+    "sha256": "ffd8168ab2629062d568dfd7e152ffe3be522be2e95aec904fa692647bca9a7e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F053": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://investor.uber.com/news-events/news/press-release-details/2020/Uber-Announces-Results-for-Fourth-Quarter-and-Full-Year-2019/#:~:text=%E2%80%9C2019%20was%20a%20transformational%20year,%E2%80%9D",
+    "via": "direct",
+    "sha256": "bb230c9fa23725cfa989b114a169b8d92bf59762a9a6af70e3f628f5e4fa597a",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F054": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/#:~:text=As%20such%2C%20CVC%20programs%20may,the%20same%20or%20complementary%20industries",
+    "via": "browser chromium",
+    "sha256": "4e4e30245acce1fcb5f5e69cfb8444a0d70fed30d30b426410868e84d80cda95",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F055": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/#:~:text=the%20time%20talking%20about%20cleantech,industry%2C%20even%20for%20biotech%20VCs",
+    "via": "browser chromium",
+    "sha256": "b065cfa7ff755121f2082742e74f5546d7dcd0f90010510cb2c324b7b424413c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F056": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.bvp.com/memos#:~:text=sometimes%20just%20to%20nourish%20our,inspirational%20to%20us%20as%20The",
+    "via": "browser chromium",
+    "sha256": "8ef597c81670d9db3b15b334fe9e25e387adfa3aec9f8a4dc5cf0b4c1415a218",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F057": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fdic.gov/bank-examinations/nowhere-go-managing-interest-rate-risk-low-rate-environment#:~:text=Interest%20rate%20risk%20,flows%20themselves%2C%20as%20rates%20change",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 404; browser: browser: HTTP 404",
+    "repaired": null
+   }
+  },
+  "F058": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.feednavigator.com/Article/2024/08/15/single-cell-proteins-a-question-of-cost/#:~:text=She%20continued%3A%20%E2%80%9CAchieving%20economies%20of,%E2%80%9D",
+    "via": "direct",
+    "sha256": "7639dfaaa930c6d4c56607712103b5e5777be2c2361aee768736152a7277f818",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F059": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "NOT_FOUND",
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://unitedlex.com/insights/measuring-cost-no-longer-enough-for-ediscovery/#:~:text=Promotion%20Rate%20%E2%80%93%20This%20metric,while%20defensibly%20excluding%20unrelated%20materials",
+    "via": "direct",
+    "sha256": "60c16df3880ba9dc7adbb3a434541440ba8cc03215a377af3cadbb7c56dcdcde",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F060": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.patrickrigoni.ch/material-requirement-planning/impact-lead-time-variability-supply-chain-performance-ddmrp/#:~:text=Order%20Fulfilment%3A%20Inconsistent%20lead%20times,revenue%20loss%20and%20reputational%20damage",
+    "via": "browser chromium",
+    "sha256": "d92dc5791ddb4a614169f9a32667561720b889e057b1f99157ddd3f48ac0bdaa",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F061": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "NOT_FOUND",
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.computer.org/publications/tech-news/community-voices/autonomous-ai-agents#:~:text=amounts%20of%20market%20data%20for,anomaly%20detection",
+    "via": "browser chromium",
+    "sha256": "91d4ce2a0d4a74085b87e12154edbe9eef54657f54e156b4b9d21483a11b3665",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F062": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.bvp.com/memos/auth0#:~:text=generating%20%2410K%20of%20MRR%20from,1%2F3%20of%20their%20Series%20A",
+    "via": "browser chromium",
+    "sha256": "f511c2b6d479deba966ffbb448f38a2942c421835ca0bed33a546e6d4c4eb67e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F063": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms#:~:text=internationally",
+    "via": "browser chromium",
+    "sha256": "b83b3d5dc4abdce5fb4570651117819d92afb9860196be7aa5d8049c2ced6a7b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F064": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/#:~:text=As%20such%2C%20CVC%20programs%20may,the%20same%20or%20complementary%20industries",
+    "via": "browser chromium",
+    "sha256": "4e4e30245acce1fcb5f5e69cfb8444a0d70fed30d30b426410868e84d80cda95",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F065": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/managing-carbon-a-new-role-for-the-cfo#:~:text=Carbon%20emissions%20are%20a%20global,carbon%E2%80%99s%20importance%20to%20strategy%2C%20and",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F066": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/the-case-for-intelligent-failure-to-invent-the-future/#:~:text=In%20bridging%20the%20gap%20between,%E2%80%9D",
+    "via": "direct",
+    "sha256": "b6be24ac389493b66577838c4e78ca5e38be663208b61e4691cb84dd2f52b972",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F067": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/#:~:text=Here%E2%80%99s%20a%20link%20to%20our,architecting%20the%20infrastructure%20of%20society",
+    "via": "browser chromium",
+    "sha256": "b065cfa7ff755121f2082742e74f5546d7dcd0f90010510cb2c324b7b424413c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F068": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unread_link"
+    ],
+    "url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/#:~:text=At%20minute%203%3A55%2C%20he%20talks,You%20tell%20%E2%80%99em%2C%20Khosla",
+    "via": "browser chromium",
+    "sha256": "b065cfa7ff755121f2082742e74f5546d7dcd0f90010510cb2c324b7b424413c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F069": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.procurify.com/blog/supply-chain-beats-zara-spend-culture/#:~:text=In%20fashion%20parlance%2C%20turnaround%20time,store%20shelf%20in%20two%20weeks",
+    "via": "direct",
+    "sha256": "a7920f1cc6cfdf848419a85d483062b8ad233c8d7b9778c251d56c3c13988aac",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F070": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=Not%20all%20hard%20things%20are,on%20the%20key%20risks%20early",
+    "via": "browser chromium",
+    "sha256": "d79ec9e88f113e8190a4666ad07168409ee719cb6fffe172d9d4da335014e89b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F071": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.deloitte.com/ca/en/Industries/insurance/about/ifrs17.html#:~:text=Accelerate%20compliance%20to%20IFRS%2017,and%20disruption%20to%20your%20organization",
+    "via": "direct",
+    "sha256": "1713bb9bd1637c07aaae3a8f1be810f877df1ca9ce829a876eac3c8b669ca800",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F072": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.brownadvisory.com/us/spin-city-new-wave-deconglomeratization#:~:text=difficult%20for%20investors%20to%20evaluate,the%20value%20in%20their%20business",
+    "via": "browser chromium",
+    "sha256": "072f791c42cf0ba1b7821a89a24a54a5c57fa24f97c3f95f00149e7043689299",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F073": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.forecastr.co/blog/historical-financial-data-model-tips#:~:text=,making%3A%20Analyze%20the%20specific",
+    "via": "direct",
+    "sha256": "181fa87f63d156c147cbc527f1b7c0e2fd6f91820317cf4cca6e43922bc208bd",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F074": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://userpilot.com/blog/customer-feedback-loop/#:~:text=As%20the%20diagram%20below%20illustrates%2C,that%20you%E2%80%99ve%20addressed%20their%20needs",
+    "via": "browser chromium",
+    "sha256": "8215d9bc9ec57aab3d905234b0e0231ba35b1a69d8b8fc08704e3cc93792f94f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F075": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://elearningindustry.com/how-ai-is-revolutionizing-employee-training-efficiency-personalization-and-engagement#:~:text=One%20of%20the%20most%20profound,specific%20needs%20of%20each%20employee",
+    "via": "direct",
+    "sha256": "c76a0963f14d53c64a894bbfd708e7e862b195e440b4a3e7a85ff506b6271059",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F076": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.bcorporation.net/certification/#:~:text=As%20leaders%20in%20the%20movement,term%20resiliency",
+    "via": "direct",
+    "sha256": "44b14206dc11e03e48fc2ce542d087781f1cd10e842667051b32b2404860ab17",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F077": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://sifted.eu/articles/accel-vc-europe-startup-news#:~:text=Accel%20is%20banking%20on%20spotting,over%20the%20past%2024%20years",
+    "via": "direct",
+    "sha256": "b849e6fe3c6629e598807c2bf31950ec74882fb35f5c4ac8bbd23e66a61b55c4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F078": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://goatagency.com/blog/social-media-marketing/impact-of-a-tiktok-ban/#:~:text=organic%20traffic%20generated%2C%20a%20complete,economy%2C%20as%20reported%20by%20GoBankRate",
+    "via": "direct",
+    "sha256": "8cc1997405e0ef364e4854a1de4f943935c4eabcd836f12e5ee3777c33630470",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F079": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.mandalorepartners.com/research/key-components-for-strategic-success-in-corporate-venture-capital#:~:text=%2A%20Cross,strategic%20alignment%20and%20resource%20utilization",
+    "via": "browser chromium",
+    "sha256": "87e25b85860d090b610ea480db8d0940d95e4b677282bbcda5cc992a17601b9a",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F080": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://userpilot.com/blog/customer-feedback-loop/#:~:text=As%20the%20diagram%20below%20illustrates%2C,that%20you%E2%80%99ve%20addressed%20their%20needs",
+    "via": "browser chromium",
+    "sha256": "8215d9bc9ec57aab3d905234b0e0231ba35b1a69d8b8fc08704e3cc93792f94f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F081": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=We%20prefer%20bold%20bets%2C%20though,better%20investment%20partners%20for%20you",
+    "via": "browser chromium",
+    "sha256": "d79ec9e88f113e8190a4666ad07168409ee719cb6fffe172d9d4da335014e89b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F082": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs#:~:text=traditionally%20tie%20compensation%20to%20achievement,entity%20or%20other%20third%20parties",
+    "via": "direct",
+    "sha256": "5c136ba0f0d57bd92a142368d06c83d85f332e1c6825a8ae6f242a46d0af3838",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F083": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.greyb.com/blog/ai-drug-development-startups/#:~:text=therapies%2C%20and%20vaccines",
+    "via": "direct",
+    "sha256": "17495196006d62f913c1af437a7df859c5f5d9c4b0c3a858f0ca63292bdc7780",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F084": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.vktr.com/ai-disruption/5-ai-case-studies-in-law/#:~:text=%E2%80%9CIt%20doesn%27t%20take%20a%20whole,%E2%80%9D",
+    "via": "direct",
+    "sha256": "9bc7925f7842416f999aab4baab0f62da9ab2e3fc664571359b07d625b2176f2",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F085": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "UNCERTAIN",
+    "not_quote": "example",
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.highradius.com/resources/Blog/financial-forecasting-models/#:~:text=2.%20Bottom",
+    "via": "browser chromium",
+    "sha256": "0855f3dc9c3f343e48d3c6e40d20f7f1f62db9554907d03ff100801522373002",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F086": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs#:~:text=1,evaluate%2C%20close%20and%20manage%20investments",
+    "via": "browser chromium",
+    "sha256": "75f1cfe97e7cbea0af179cafa12c031319f7567c45c55b02bc6b9f5af91487ac",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F087": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://corporatefinanceinstitute.com/resources/accounting/3-financial-statements-linked/#:~:text=,closing%20cash%20balance%20on%20the",
+    "via": "direct",
+    "sha256": "aa08ee501be38202686c156bd43c2ca6e991f0479f20827691a97bfaef6d6c20",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F088": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.bvp.com/memos/auth0#:~:text=present%20from%20Menlo%20Park,developers%20first%20and%20foremost%20with",
+    "via": "browser chromium",
+    "sha256": "f511c2b6d479deba966ffbb448f38a2942c421835ca0bed33a546e6d4c4eb67e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F089": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.weforum.org/stories/2025/01/employers-prioritizing-reskilling-workforce-future-of-jobs/#:~:text=Global%20economies%20and%20societies%20run,skills%20needed%20in%20short%20supply",
+    "via": "direct",
+    "sha256": "d877a0f232f953434b923edbaf4649ebcfdaca9f3b153c577a709f8b806ce36f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F090": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.privy.com/blog/allbirds#:~:text=Allbirds%20also%20builds%20trust%20with,on%20the%20B%20Corp%20site",
+    "via": "direct",
+    "sha256": "9fd2eadf4ba9bec8e59a370913b5c7d24e383dd90ac947e1c2fc885443ccf042",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F091": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.khoslaventures.com/about/what-we-work-on/#:~:text=Our%20fundamental%20business%20is%20technology,economic%20disruption%20of%20large%20markets",
+    "via": "browser chromium",
+    "sha256": "d79ec9e88f113e8190a4666ad07168409ee719cb6fffe172d9d4da335014e89b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F092": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.works-i.com/english/item/reskilling2021.pdf#:~:text=short%20period%20of%20time,do%20these%20new%20jobs%20effectively",
+    "via": "direct",
+    "sha256": "5114714669caaa4330d23a5aad347e18608f3a9fa5de3f452b9ff633d69b2e6c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F093": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.everlaw.com/#:~:text=Insights",
+    "via": "direct",
+    "sha256": "a5ce6e01d956dca7b05c7ac335caff477f2b2783941dbee965813188b1eca497",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F094": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.theverge.com/24134914/discord-ceo-gaming-chat-teens-safety-moderation-decoder-interview#:~:text=We%20do%20have%20a%20lot,people%20who%20want%20something%20different",
+    "via": "browser chromium",
+    "sha256": "605ad1b04721f674b0a7ba701fb9a91d0f1403e0a240cdcf7e0901fc95ad0207",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F095": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.alexanderjarvis.com/wix-investment-memo-from-bessemer-venture-partners/#:~:text=Bessemer%20Venture%20Partners%20is%20a,Yelp%2C%20LinkedIn%2C%20Shopify%2C%20and%20Wix",
+    "via": "direct",
+    "sha256": "b702d86dceeed768ddc12a2c222124079be981c479faa8e0d8d6c321bfe94e23",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F096": {
+   "check_032": {
+    "verdict": "NOT_A_QUOTE",
+    "miss": "NOT_FOUND",
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://chartmogul.com/reports/saas-retention-report/#:~:text=their%20peers,per%20annum",
+    "via": "direct",
+    "sha256": "fd5eb73904c9a186de8effef4aca800018d37de140dbb1a64af0f7b9cdf72498",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F097": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://agfundernews.com/its-a-reset-not-a-catastrophe-investors-remain-upbeat-about-agrifoodtech-despite-funding-winter#:~:text=nitrogen%29%2C%20Leaft%20,innovative%2C%20you%20will%20make%20money",
+    "via": "direct",
+    "sha256": "30d35942ba7ef83eade3428f7cb2767d772ac69dd5e02ccf950a97a9708dcdc3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  }
+ },
+ "E011": {
+  "F001": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/",
+    "via": "direct",
+    "sha256": "96aa8ef3aedb59949cf8d7ab8926017abeb6316d243f763568067bcac633cd99",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F002": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+    "via": "direct",
+    "sha256": "a2534fe606a6cde803d3006f47d515f6c8dc88ac43e70de92fc554b221090157",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F003": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "direct",
+    "sha256": "c183d169b9ef157c765985e7eae82a1ad9415e747388454c9c8f21df8e42749d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F004": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.washingtonpost.com/technology/2024/04/28/tesla-trial-autopilot-lawsuit/",
+    "via": "direct",
+    "sha256": "957f8cd485e54d92429b91edb5970fbc1e3a4f503cf56d1f3ee6fb86b314bcb3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F005": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/",
+    "via": "direct",
+    "sha256": "98b2c6b63ce66c6cff371e9bf44eab015e69017da57782bdf0a844f87b94395b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F006": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/MDA_framework",
+    "via": "direct",
+    "sha256": "f1ec34290143c4dd7ac945cfe83c08fb5ce3018506fb18e5dbdfd6a8c69ca0c4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F007": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": "title",
+    "note": "bracketed",
+    "doubts": null,
+    "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+    "via": "browser chromium",
+    "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F008": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.topdevelopers.co/blog/mobile-game-development-trends/",
+    "via": "direct",
+    "sha256": "d446c4ab01f199c4f421df1fb6fbaccaa2457429d7ddbece24ea6819561b9e8b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F009": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+    "via": "direct",
+    "sha256": "3aa00d563cf39baa9fe86a02b68c4bd1a85dde77d8876374700140bea307b4d4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F010": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/",
+    "via": "direct",
+    "sha256": "98b2c6b63ce66c6cff371e9bf44eab015e69017da57782bdf0a844f87b94395b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F011": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://arxiv.org/html/2306.15664v3",
+    "via": "direct",
+    "sha256": "2da32e54ac5d4a4025d414758d356f2e524b86242402ba66fb987d74faab5011",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F012": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://isappscience.org/for-scientists/resources/prebiotics/",
+    "via": "direct",
+    "sha256": "c19825d7c43802284440777998fac3264d96e98ac25b93bcee027bb2390a7c98",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F013": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/",
+    "via": "direct",
+    "sha256": "4e50f101f3e635a0f95c01ddd85fb5d5458fbce47a1324afd36357b48a84c343",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F014": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "browser chromium",
+    "sha256": "6f8edcd42a2f611f1ff0cf473b091d49a54f4238aa085e0eb72534a69b23bd03",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F015": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "browser chromium",
+    "sha256": "6f8edcd42a2f611f1ff0cf473b091d49a54f4238aa085e0eb72534a69b23bd03",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F016": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://blogs.lse.ac.uk/usappblog/2015/07/03/increasing-the-number-of-destinations-and-passengers-an-airport-serves-has-a-positive-effect-on-regional-economic-development/",
+    "via": "direct",
+    "sha256": "e9c2f4d7e339dd9afd03dccb35141f31026908eb0c8584c5690abce451dff993",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F017": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.tofugu.com/japanese/queer-japanese/",
+    "via": "direct",
+    "sha256": "b359e39ad9b0a9c128037d2464f3e7899c97665634d2b07e5260140705d009ac",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F018": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": "example",
+    "note": "elided",
+    "doubts": null,
+    "url": "https://www.cnn.com/style/article/in-between-maysaloun-hamoud/index.html",
+    "via": "direct",
+    "sha256": "1910b97a4bcbc2fa703031c214d47979cb21da71a1e8ea27c2141109e89768a0",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F019": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.britishcouncil.org/voices-magazine/ten-trends-and-innovations-english-language-teaching-2024",
+    "via": "direct",
+    "sha256": "988123d4c33e994450ade2f70a82d8c5f0a90bb9bd9184c5b5695a6bc46cb076",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F020": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+    "via": "direct",
+    "sha256": "520e860a3419dc340e1ad2beefec75697bc13b77ab467ec0af418e28e4696d8d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F021": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+    "via": "browser chromium",
+    "sha256": "f64f46a1431faef4ba8203ea1a1ed32171bb4b86a499bf3a0651d195e481d4a6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F022": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "title",
+    "note": null,
+    "doubts": null,
+    "url": "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/",
+    "via": "direct",
+    "sha256": "3dd221ad2e1788e6226e6e0290b553121dd85f49c9172ba20f5d91014f235518",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F023": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth",
+    "via": "direct",
+    "sha256": "c729e65cad79a563c29ebdcbbfbd30817cdeb34dc6e4d37bf7e46d5cf6cec304",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F024": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "title",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+    "via": "browser chromium",
+    "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F025": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://variety.com/2016/film/reviews/in-between-review-bar-bahar-1201863276/",
+    "via": "direct",
+    "sha256": "be1a2ccd0616af68e69ad3e8571bc94752f3271cac32998021d7fa9568a21652",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F026": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "browser chromium",
+    "sha256": "6f8edcd42a2f611f1ff0cf473b091d49a54f4238aa085e0eb72534a69b23bd03",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F027": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+    "via": "direct",
+    "sha256": "520e860a3419dc340e1ad2beefec75697bc13b77ab467ec0af418e28e4696d8d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F028": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth",
+    "via": "direct",
+    "sha256": "c729e65cad79a563c29ebdcbbfbd30817cdeb34dc6e4d37bf7e46d5cf6cec304",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F029": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "browser chromium",
+    "sha256": "6f8edcd42a2f611f1ff0cf473b091d49a54f4238aa085e0eb72534a69b23bd03",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F030": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.fool.com/investing/how-to-invest/famous-investors/charlie-munger/",
+    "via": "direct",
+    "sha256": "2ed49ea72f9e2e75efe2f59b482e5a3992f28956e667c291e5c3db5b00333088",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F031": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://www.edutopia.org/article/6-essential-strategies-teaching-english-language-learners/",
+    "via": "direct",
+    "sha256": "8438dcfaccb7291c0e6fa7a1060c142c13591a93b76bf4124b0d21e2ae5ad2b6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F032": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://squareup.com/us/en/hardware/register",
+    "via": "direct",
+    "sha256": "317311a5e27fc662bb02664b05695e444bd5a5faf126d7fe4e090c2681d52a18",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F033": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "bracketed",
+    "doubts": null,
+    "url": "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/",
+    "via": "direct",
+    "sha256": "c34d4e720345fcb3f750beaea84e98843ec8091e98733083ca7387fc51b83da6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F034": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "bracketed",
+    "doubts": null,
+    "url": "https://deliberategamedesign.com/mda-framework/",
+    "via": "direct",
+    "sha256": "cc85cf1df9eb759318ad309482db1a36ddb02e0ca575c2d2a8f73e552086943f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F035": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)",
+    "via": "direct",
+    "sha256": "bcac36e2052d793daa1ae288798be931b8bc0395c7d562d1b1ac958c049aeaae",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F036": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8783399/",
+    "via": "direct",
+    "sha256": "4a1baff140be82371b841073df50f0dbf876068017c5f49bf8646bee09a62ee3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F037": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.topdevelopers.co/blog/mobile-game-development-trends/",
+    "via": "direct",
+    "sha256": "d446c4ab01f199c4f421df1fb6fbaccaa2457429d7ddbece24ea6819561b9e8b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F038": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://spacenews.com/quantum-space-unveils-plans-for-cislunar-platforms/",
+    "via": "direct",
+    "sha256": "837217e2d8c183e0a9875d3c4e0d7ae3d9377c118c3b35f2224a654f5b2c6b9c",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F039": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/",
+    "via": "direct",
+    "sha256": "320f773100d273648dc2d37fe5a99c6952da89151b4e8d8bd6cc8af4fa130de4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F040": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/MDA_framework",
+    "via": "direct",
+    "sha256": "f1ec34290143c4dd7ac945cfe83c08fb5ce3018506fb18e5dbdfd6a8c69ca0c4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F041": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "example",
+    "note": null,
+    "doubts": null,
+    "url": "https://masterplan.com/en-blog/mda-framework-as-gamification-checklist-for-successful-e-learning",
+    "via": "direct",
+    "sha256": "ce16df7714e1e686bc7d905ab9528d4d04ed41da55fb8c6ef7510cc4b41ef87a",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F042": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://onlinedegree.fgcu.edu/programs/med-ci-elementary-education/trends-elementary-language-arts-instruction/",
+    "via": "direct",
+    "sha256": "3006b25b8bbc88080781724631ab49bf929e59d5aa146aa00b8a013afc8425e2",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F043": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://squareup.com/us/en/hardware",
+    "via": "direct",
+    "sha256": "9dc17aed30e986651fafff28da444a54b9d4a85fd8f1583b33d012285dc0dd7b",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F044": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pewresearch.org/internet/2018/12/10/artificial-intelligence-and-the-future-of-humans/",
+    "via": "direct",
+    "sha256": "8d9faab2bebb91a3b43147aea8e147ef8d70b9d7a08b91e44a3640dbcec223aa",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F045": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/",
+    "via": null,
+    "sha256": null,
+    "error": "direct: gate page, not the document: 'Checking your browser'; browser: gate page, not the document: 'Checking your browser'",
+    "repaired": null
+   }
+  },
+  "F046": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+    "via": "browser chromium",
+    "sha256": "f64f46a1431faef4ba8203ea1a1ed32171bb4b86a499bf3a0651d195e481d4a6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F047": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/",
+    "via": "direct",
+    "sha256": "96aa8ef3aedb59949cf8d7ab8926017abeb6316d243f763568067bcac633cd99",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F048": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.edutopia.org/article/responsive-teaching-ela/",
+    "via": "direct",
+    "sha256": "47ad80f39df5bfb20ab18c099354b3c600357049d45a06a273e74f24b24eea7a",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F049": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": "title",
+    "note": null,
+    "doubts": null,
+    "url": "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/",
+    "via": "direct",
+    "sha256": "3dd221ad2e1788e6226e6e0290b553121dd85f49c9172ba20f5d91014f235518",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F050": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/MDA_framework",
+    "via": "direct",
+    "sha256": "f1ec34290143c4dd7ac945cfe83c08fb5ce3018506fb18e5dbdfd6a8c69ca0c4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F051": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.granitefirm.com/blog/us/2024/01/15/duan-yongping/",
+    "via": "direct",
+    "sha256": "197dc7201c689dc700d8e2a2bead1f2f1c44b88f64b67fdb1c78e6bac0a0f518",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F052": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://upptic.com/the-games-industry-in-2024-trends-challenges-and-whats-next-for-2025/",
+    "via": "direct",
+    "sha256": "0b5e59e26561d15f5caff5808d1233896bb9aef258a153eae3fd965dc6d72e1f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F053": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.edutopia.org/blog/stw-expanded-learning-time-individualized-learning-hassan-mansaray",
+    "via": "direct",
+    "sha256": "b07bd953d6c363ee501eec0a2eebd68be62255eddc41ec8cfc2b661d3907777e",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F054": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/",
+    "via": "direct",
+    "sha256": "c34d4e720345fcb3f750beaea84e98843ec8091e98733083ca7387fc51b83da6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F055": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5491669/",
+    "via": null,
+    "sha256": null,
+    "error": "direct: gate page, not the document: 'Checking your browser'; browser: gate page, not the document: 'Checking your browser'",
+    "repaired": null
+   }
+  },
+  "F056": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/",
+    "via": "direct",
+    "sha256": "320f773100d273648dc2d37fe5a99c6952da89151b4e8d8bd6cc8af4fa130de4",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F057": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.animefeminist.com/how-shoujo-manga-helps-me-grapple-with-internalized-misogyny/",
+    "via": "direct",
+    "sha256": "d70eae9f8c7b9ad3d788ca5e8a8395cf8e5218fdd292d18ca6cc6e57efcdd5f5",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F058": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://squareup.com/us/en/hardware",
+    "via": "browser chromium",
+    "sha256": "c002f0b689fb9d43081010e1dcd4108e443cc95dec58c3ef608f64eca3c7b658",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F059": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://blog.planbook.com/holistic-learning-classroom/",
+    "via": "direct",
+    "sha256": "84a3bd3929469fb8cd83fc69719f16524c44644aad39f95f3b77a20a2f0e84d3",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F060": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://squareup.com/us/en/hardware",
+    "via": "browser chromium",
+    "sha256": "c002f0b689fb9d43081010e1dcd4108e443cc95dec58c3ef608f64eca3c7b658",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F061": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://deliberategamedesign.com/mda-framework/",
+    "via": "direct",
+    "sha256": "cc85cf1df9eb759318ad309482db1a36ddb02e0ca575c2d2a8f73e552086943f",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F062": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.pax.us/",
+    "via": "browser chromium",
+    "sha256": "6f8edcd42a2f611f1ff0cf473b091d49a54f4238aa085e0eb72534a69b23bd03",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F063": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/GenderAndJapaneseLanguage",
+    "via": "direct",
+    "sha256": "fee42847efc4ce5a5a116e97d291a2f934bbcd55b791d3ebc7d59821f28ef410",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F064": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://ew.com/one-hundred-years-of-solitude-netflix-adaptation-preview-alex-garcia-lopez-8714319",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F065": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://time.com/7178594/one-hundred-years-of-solitude-review-netflix/",
+    "via": "direct",
+    "sha256": "479f61ae0957cb8531196ab0fd274c7b1c298da95d742578df748ef55fe38d38",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F066": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+    "via": "direct",
+    "sha256": "520e860a3419dc340e1ad2beefec75697bc13b77ab467ec0af418e28e4696d8d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F067": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/In_Between_(2016_film)",
+    "via": "direct",
+    "sha256": "b225abcb8d8e40208d4566167405d7be8a3e075448416585b6b2ec6842c42e94",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F068": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4287659/",
+    "via": null,
+    "sha256": null,
+    "error": "direct: gate page, not the document: 'Checking your browser'; browser: gate page, not the document: 'Checking your browser'",
+    "repaired": null
+   }
+  },
+  "F069": {
+   "check_032": {
+    "verdict": "NOT_FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+    "via": "browser chromium",
+    "sha256": "f64f46a1431faef4ba8203ea1a1ed32171bb4b86a499bf3a0651d195e481d4a6",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F070": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+    "via": "browser chromium",
+    "sha256": "d894ec40260d9e6bb599768fda34878eb4eaef116a9e6a046f4dcfec6daa04f9",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F071": {
+   "check_032": {
+    "verdict": "SOURCE_UNAVAILABLE",
+    "miss": null,
+    "not_quote": "title",
+    "note": null,
+    "doubts": null,
+    "url": "https://saintseiya.fandom.com/wiki/God_Warriors",
+    "via": null,
+    "sha256": null,
+    "error": "direct: HTTP 403; browser: browser: HTTP 403",
+    "repaired": null
+   }
+  },
+  "F072": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+    "via": "direct",
+    "sha256": "520e860a3419dc340e1ad2beefec75697bc13b77ab467ec0af418e28e4696d8d",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  },
+  "F073": {
+   "check_032": {
+    "verdict": "UNCERTAIN",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": [
+     "unattributed"
+    ],
+    "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+    "via": "browser chromium",
+    "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND"
+  },
+  "F074": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "speech_tag",
+    "doubts": null,
+    "url": "https://www.eweek.com/development/spring-creator-rod-johnson-leaves-vmware-makes-mark-on-java/",
+    "via": "direct",
+    "sha256": "da3fd06bd5df08835da13dedfe0c94ae3aa8869ea4e6cc037f8662ec6a189681",
+    "error": null,
+    "repaired": 75
+   },
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F075": {
+   "check_032": {
+    "verdict": "FOUND_NORMALIZED",
+    "miss": null,
+    "not_quote": null,
+    "note": "punctuation",
+    "doubts": null,
+    "url": "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)",
+    "via": "direct",
+    "sha256": "bcac36e2052d793daa1ae288798be931b8bc0395c7d562d1b1ac958c049aeaae",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND_NORMALIZED",
+   "v032_now": "FOUND_NORMALIZED"
+  },
+  "F076": {
+   "check_032": {
+    "verdict": "FOUND",
+    "miss": null,
+    "not_quote": null,
+    "note": null,
+    "doubts": null,
+    "url": "https://www.medicalnewstoday.com/articles/not-getting-enough-magnesium-could-affect-cardiovascular-risk",
+    "via": "direct",
+    "sha256": "403af5bd00daa6d7ff8d7d92c61f08c00900e18561466b5aa07a9be3da477c21",
+    "error": null,
+    "repaired": null
+   },
+   "v031_now": "FOUND",
+   "v032_now": "FOUND"
+  }
+ }
+}

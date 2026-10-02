@@ -1,0 +1,2562 @@
+[
+ {
+  "key": "F001",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "http://www.ecns.cn/cns-wire/2025-02-17/detail-ihenxmvs7429875.shtml",
+  "file": "0003.txt",
+  "evidence": "In the movie, every soldier from Heaven has its own unique composition, and each groundhog has to look different.",
+  "note": "\"each\" changed to \"every\""
+ },
+ {
+  "key": "F002",
+  "label": "IN_SOURCE",
+  "own_url": "https://folkways.si.edu/artists/mary-lou-williams",
+  "file": "0010.txt",
+  "evidence": "She would often say: ... and \"The blues was really important—this is your healing and love in the music.\"",
+  "note": "Folkways page read via Common Crawl archive (direct fetch 403)."
+ },
+ {
+  "key": "F003",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "file": "0011.txt",
+  "evidence": "Thesis PDF readable (633k chars); mentions zo/ze as masculine particles and Nakama 2 examples, but no \"Women using zo may sound rough\".",
+  "note": "Cited thesis does not contain the purported textbook warning."
+ },
+ {
+  "key": "F004",
+  "label": "TRANSLATED",
+  "own_url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html",
+  "file": "0014.txt",
+  "evidence": "从第一部的\"我命由我不由天...\"到第二部的\"若前方无路，我便踏出一条路，若天理不容，我就扭转这乾坤\"。\"反叛\"聚焦的点更加具象化，变为世间既定的规则",
+  "note": "Loose translation of 若天理不容，我就扭转这乾坤; source says \"I\" will overturn the universe, quote says \"we will together change the world\"."
+ },
+ {
+  "key": "F005",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.theguardian.com/tv-and-radio/2016/jan/02/foreign-tv-drama-bbc-channel4-netflix",
+  "file": "0021.txt",
+  "evidence": "Since BBC4's Danish import arrived on British screens four years ago, viewers have embraced a steady stream of foreign language dramas.",
+  "note": "\"have\" dropped"
+ },
+ {
+  "key": "F006",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1261955/full",
+  "file": "0024.txt",
+  "evidence": "It was found to enhance engagement and offer personalized learning experiences, ultimately boosting motivation and fostering self-regulated learning.",
+  "note": "Verb forms changed (boosting->boosted, fostering->fostered); in the abstract, not specifically \"interviews revealed\" feedback."
+ },
+ {
+  "key": "F007",
+  "label": "TRANSLATED",
+  "own_url": "http://rmfp.people.com.cn/n1/2017/0111/c406725-29014087.html",
+  "file": "0027.txt",
+  "evidence": "农村是个相对封闭的熟人社会，尊严是一个农民，乃至一个家庭立足的根本。低头不见抬头见的村民们的评价，以及农民对自我身份的认定都与此相关。",
+  "note": "Text layer is mojibake; raw snapshot decoded as GB18030. Faithful translation; the report frames it as about South Asia though the source is about rural China."
+ },
+ {
+  "key": "F008",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.cambridge.org/core/journals/journal-of-global-history/article/managing-the-world-the-united-nations-decolonization-and-the-strange-triumph-of-state-sovereignty-in-the-1950s-and-1960s/EC3FA990F5E7E7A017DDF035592D093A",
+  "file": "0028.txt",
+  "evidence": "Cambridge page redirects to /abs/ abstract-only page (no full text); JSTOR snapshot is a CAPTCHA page.",
+  "note": "Both footnoted sources ([^34][^35]) lack readable full text."
+ },
+ {
+  "key": "F009",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/",
+  "file": "0032.txt",
+  "evidence": "outline our concerns about the ways we are, collectively, underprepared to meet this moment.",
+  "note": "\"we are, collectively,\" replaced by \"being\""
+ },
+ {
+  "key": "F010",
+  "label": "IN_SOURCE",
+  "own_url": "https://manifold.umn.edu/read/humanitarian-violence/section/9c685530-467b-4426-b692-d653cdb353eb",
+  "file": "0035.txt",
+  "evidence": "she posits the importance of moving away from thinking of Bosnia through the lens of survival and healing and moving on to a politics of reimagination and transformation",
+  "note": "Ellipsis covers \"Bosnia through the lens of\". Words are the book author paraphrasing Husanovic, attributed to Husanovic in report."
+ },
+ {
+  "key": "F011",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2673-2688/5/4/101",
+  "file": null,
+  "evidence": "Agent's own illustrative phrasing of what precision answers in a trading context.",
+  "note": ""
+ },
+ {
+  "key": "F012",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2306-5354/11/3/251",
+  "file": "0041.txt",
+  "evidence": "Paper title (present on the MDPI page).",
+  "note": "Title."
+ },
+ {
+  "key": "F013",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://eur-lex.europa.eu/eli/dir/2019/790/oj/eng",
+  "file": "0043.txt",
+  "evidence": "EU Directive 2019/790 text (browser snapshot, readable) has no \"computer-generated\" or \"arrangements necessary\".",
+  "note": "Words are UK CDPA 1988 s.9(3), not in the cited EU directive."
+ },
+ {
+  "key": "F014",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://wulixb.iphy.ac.cn/en/article/id/3548",
+  "file": null,
+  "evidence": "Report boilerplate disclaimer, not a quote of any source.",
+  "note": ""
+ },
+ {
+  "key": "F015",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.nytimes.com/books/00/02/20/reviews/000220.20santort.html?scp=10\\&sq=Play+It+Back\\&st=cse",
+  "file": "0046.txt",
+  "evidence": "The one-time boogie-woogie queen, who hated rock 'n' roll as a commercial evil but saw jazz as spiritual",
+  "note": "NYT review of Dahl biography."
+ },
+ {
+  "key": "F016",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://quranhouse.org/en/article/1049",
+  "file": "0047.txt",
+  "evidence": "Page is a commentary on Surah 101; paraphrases v.4-5: \"this is the day when people will be like scattered moths and the mountains will be like tufts of wool\". No verse text with \"what is the striking hour?\" / \"carded wool\".",
+  "note": "Quote is a Quran translation not carried by the cited page; only a loose paraphrase of part of it is there."
+ },
+ {
+  "key": "F017",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://anabaptistworld.org/8927-2/",
+  "file": "0050.txt",
+  "evidence": "\"...that you may nurse and be satisfied from her consoling breast; that you may drink deeply with delight from her glorious bosom.\" Isaiah 66:10-11",
+  "note": "First part is verbatim; the appended \"For thus says the Lord: Behold, I will extend peace to her like a river\" (Isa 66:12) is not on the page."
+ },
+ {
+  "key": "F018",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://yaqeeninstitute.org/read/paper/perspectives-on-islamic-psychology-healing-of-emotions-in-the-quran",
+  "file": "0051.txt",
+  "evidence": "Yaqeen paper on emotions in the Quran (readable, 88k chars) has no zaqqum/murky oil/boils passage.",
+  "note": "Quran 44:43-46 translation (Sahih Intl style), not on cited page."
+ },
+ {
+  "key": "F019",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://jazztimes.com/features/profiles/mary-lou-williams-cecil-taylor-embraceable-you/",
+  "file": "0054.txt",
+  "evidence": "she accepted both musicians' work because they could still, if they wanted to, play \"within the tradition.\"",
+  "note": "\"they\" changed to \"he\"; source refers to both Taylor and Coltrane."
+ },
+ {
+  "key": "F020",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://lib.guides.umd.edu/ai-scholarly-communications/fair-use",
+  "file": "0059.txt",
+  "evidence": "UMD fair-use guide (readable) and Ropes & Gray alert (archive snapshot, readable) contain nothing about research organisations/decisive influence.",
+  "note": "Text is Recital 12 of EU DSM Directive 2019/790, not in either cited page."
+ },
+ {
+  "key": "F021",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2022.1016366/full",
+  "file": null,
+  "evidence": "Hypothetical example of what a generative model could produce for a patient.",
+  "note": ""
+ },
+ {
+  "key": "F022",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://arxiv.org/pdf/1811.09908v1",
+  "file": null,
+  "evidence": "Report boilerplate disclaimer, not a quote of any source.",
+  "note": ""
+ },
+ {
+  "key": "F023",
+  "label": "TRANSLATED",
+  "own_url": "https://www.gub.uy/ministerio-trabajo-seguridad-social/comunicacion/noticias/seguridad-social-para-los-artistas",
+  "file": "0071.txt",
+  "evidence": "\"entendiéndose por tales a todos aquellos que representen un papel, canten, reciten, declamen, interpreten o ejecuten en cualquier forma una obra artística, la dirijan o realicen cualquier actividad similar\"",
+  "note": "Spanish source; also in openedition article (0074)."
+ },
+ {
+  "key": "F024",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.abarim-publications.com/Dictionary/a/a-m-mfin.html",
+  "file": "0076.txt",
+  "evidence": "Abarim \"Motherhood in the Bible\" page and bibleinterp article (both readable) contain no \"breach\"/Perez passage.",
+  "note": "Genesis 38:29 wording; not on either cited page ([^16][^17])."
+ },
+ {
+  "key": "F025",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://journals.sagepub.com/doi/10.1177/1464700108100394",
+  "file": null,
+  "evidence": "Article title.",
+  "note": ""
+ },
+ {
+  "key": "F026",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://petrieflom.law.harvard.edu/2015/04/21/china-stops-using-executed-prisoners-as-a-source-of-organs-for-transplants/",
+  "file": "0088.txt",
+  "evidence": "After January 1, 2015, \"only voluntary donated organs from civilians can be used in transplants.\"",
+  "note": "\"civilians\"->\"citizens\", \"can be\"->\"will be\", \"After\"->\"from\"."
+ },
+ {
+  "key": "F027",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.islamreligion.com/en/articles/11414/chapter-44-ad-dukhan-smoke",
+  "file": "0090.txt",
+  "evidence": "The food for the sinners will be from the tree of Zaqqum. It is like murky oil that churns inside their bellies, like the boiling of hot water. One will be seized and dragged into the middle of the Hellfire, where scalding water will be poured over his head.",
+  "note": "\"for...will be from\" -> \"of...is only from\"; rest verbatim."
+ },
+ {
+  "key": "F028",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://en.wikipedia.org/wiki/Pharaoh",
+  "file": "0092.txt",
+  "evidence": "Wikipedia \"Pharaoh\" and faithlife Genesis 38 sermon (both readable) do not contain Numbers 11:12.",
+  "note": "Bible verse (Numbers 11:12, ESV) not on either cited page."
+ },
+ {
+  "key": "F029",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2022.1016366/full",
+  "file": null,
+  "evidence": "Hypothetical example of a guideline statement an AI might retrieve.",
+  "note": ""
+ },
+ {
+  "key": "F030",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.wma.net/policy-tags/execution/",
+  "file": "0099.txt",
+  "evidence": "the statement explicitly states that prisoners and other individuals in custody are not in a position to give consent freely",
+  "note": "\"give consent freely\" -> \"give free consent\""
+ },
+ {
+  "key": "F031",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0020091",
+  "file": "0103.txt",
+  "evidence": "Paper title in reference list.",
+  "note": ""
+ },
+ {
+  "key": "F032",
+  "label": "TRANSLATED",
+  "own_url": "https://www.infobae.com/2016/01/27/1785698-que-ganan-y-que-pierden-los-artistas-la-implementacion-la-ley-del-actor/",
+  "file": "0104.txt",
+  "evidence": "\"Los servicios se computarán como un (1) año de servicios con aportes siempre que se cuente con cuatro (4) meses de trabajo efectivo...\"",
+  "note": "Spanish source; quote is a condensed translation."
+ },
+ {
+  "key": "F033",
+  "label": "IN_SOURCE",
+  "own_url": "https://jazztimes.com/features/profiles/mary-lou-williams-mother-of-us-all/",
+  "file": "0109.txt",
+  "evidence": "did little to change her attitude toward the 'New Thing.'",
+  "note": ""
+ },
+ {
+  "key": "F034",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.arxiv.org/pdf/2508.06352",
+  "file": "0066.txt",
+  "evidence": "Unlike traditional XAI that answers \"How did the algorithm decide?\" ..., Explanatory AI addresses \"Why does this make sense?\"",
+  "note": "\"advice\" and \"here\" inserted into the source's question; could also be read as the agent's own framing."
+ },
+ {
+  "key": "F035",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "file": "0120.txt",
+  "evidence": "Judgement Day article (readable, 5k chars) has no abide/lightened/confounded passage.",
+  "note": "Quran 43:74-75 translation not on cited page."
+ },
+ {
+  "key": "F036",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.arxiv.org/pdf/2508.06352",
+  "file": null,
+  "evidence": "List heading framing the question AI reasoning addresses; source phrase is \"Why does this make sense?\".",
+  "note": "Agent's reworded framing question."
+ },
+ {
+  "key": "F037",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is",
+  "file": null,
+  "evidence": "Hypothetical teacher script for a fire drill debrief.",
+  "note": ""
+ },
+ {
+  "key": "F038",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "All three ellipsis-separated segments found verbatim in the 1977 interview page.",
+  "note": ""
+ },
+ {
+  "key": "F039",
+  "label": "IN_SOURCE",
+  "own_url": "https://jazztimes.com/features/profiles/mary-lou-williams-cecil-taylor-embraceable-you/",
+  "file": "0054.txt",
+  "evidence": "she accepted both musicians' work because they could still, if they wanted to, play \"within the tradition.\"",
+  "note": ""
+ },
+ {
+  "key": "F040",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://thebiblicalmind.org/article/biblical-matriarchs-overlooked-zilpah-bilhah/",
+  "file": "0133.txt",
+  "evidence": "Biblical Mind article on Zilpah and Bilhah (readable) does not contain Genesis 25:23.",
+  "note": "Bible verse (Gen 25:23, ESV) not on cited page."
+ },
+ {
+  "key": "F041",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://ci.nii.ac.jp/ncid/BB27630124",
+  "file": "0136.txt",
+  "evidence": "CiNii bibliographic catalogue record for a book; no full text that could hold the passage.",
+  "note": "Quote is Gen 17:7 (ESV)."
+ },
+ {
+  "key": "F042",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://jwa.org/encyclopedia/article/barren-women-in-the-bible",
+  "file": "0138.txt",
+  "evidence": "When Rachel pleads with Jacob, \"Give me children or else I die\" (30:1)",
+  "note": "\"or else I die\" -> \"or I shall die\" (other Bible translation)."
+ },
+ {
+  "key": "F043",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html",
+  "file": "0141.txt",
+  "evidence": "the right freely to determine their political status and freely to pursue their economic, social and cultural development",
+  "note": "\"to\" dropped twice (freely to determine/pursue)."
+ },
+ {
+  "key": "F044",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.abc.net.au/news/2024-01-03/nordic-noir-tv-history-inspires-other-shows/103223036",
+  "file": "0018.txt",
+  "evidence": "hiring a totally different crew for each new show. \"[They say] ... and then we have a new production with a completely new team,\" Professor Hochscherf says.",
+  "note": "Quote splices paraphrase \"for each new show\" with quoted \"a completely new team\"."
+ },
+ {
+  "key": "F045",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.animemangastudies.com/",
+  "file": "0146.txt",
+  "evidence": "When we think about how scholars typically approach Japanese animation, the approaches that come to mind",
+  "note": "\"typically\" dropped without marking."
+ },
+ {
+  "key": "F046",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://en.wikipedia.org/wiki/History_of_anime",
+  "file": "0021.txt",
+  "evidence": "None of the paragraph links (Guardian, ABC, Wikipedia History of anime; all readable) contain \"globally consumed niche media\".",
+  "note": "No link in the sentence; checked all paragraph links."
+ },
+ {
+  "key": "F047",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://autism.org/autism-and-anxiety/",
+  "file": "0152.txt",
+  "evidence": "Reducing sensory input and creating clear schedules or routines have both been shown to minimize anxiety.",
+  "note": "\"have both\" -> \"has\"; direct fetch was a 202 shell, browser snapshot readable."
+ },
+ {
+  "key": "F048",
+  "label": "IN_SOURCE",
+  "own_url": "https://jazztimes.com/features/profiles/mary-lou-williams-mother-of-us-all/",
+  "file": "0109.txt",
+  "evidence": "\"One of the ways she would have me learn was to sit literally right next to her while she played,\" Tonooka recalled. \"You're connecting with the physicality ... you're also feeling the intensity.",
+  "note": "Joins two quoted segments, omitting only the attribution tag."
+ },
+ {
+  "key": "F049",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://skywork.ai/skypage/en/MindBridge-AI:-An-Auditor",
+  "file": "0155.txt",
+  "evidence": "Both snapshots redirect to the generic skywork.ai/skypage index; no article text.",
+  "note": ""
+ },
+ {
+  "key": "F050",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://kpmg.com/xx/en/media/press-releases/2023/04/kpmg-and-mindbridge-announce-alliance-to-power-kpmg-audits-with-ai-technology.html",
+  "file": "0160.txt",
+  "evidence": "Press release title.",
+  "note": ""
+ },
+ {
+  "key": "F051",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility",
+  "file": "0163.txt",
+  "evidence": "it says that \"God remembered Rachel\" (Gen 30:22) ... Gen 30:22 notes that God \"opened her womb\"",
+  "note": "Both parts in source; joined with ellipsis."
+ },
+ {
+  "key": "F052",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://sourcebooks.web.fordham.edu/mod/1960-un-colonialism.asp",
+  "file": "0166.txt",
+  "evidence": "Immediate steps shall be taken, in Trust ... territories ..., to transfer all powers to the peoples of those territories, ... in order to enable them to enjoy complete independence and freedom.",
+  "note": "\"peoples of those\" -> \"people of these\"; ellipses otherwise fine. OHCHR/wikiwand links 403."
+ },
+ {
+  "key": "F053",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/Mission.html",
+  "file": "0169.txt",
+  "evidence": "All my life I have felt that \"the Blues\" was a special kind of music, expressing everyday expefience... It's music above racism and bitterness, and it shows heroism",
+  "note": "Source has OCR typo \"expefience\"."
+ },
+ {
+  "key": "F054",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://arxiv.org/html/2403.07909v1",
+  "file": null,
+  "evidence": "Example fuzzy rule phrasing (\"like ...\").",
+  "note": ""
+ },
+ {
+  "key": "F055",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/",
+  "file": null,
+  "evidence": "Hypothetical example of a teacher explaining an implicit rule.",
+  "note": ""
+ },
+ {
+  "key": "F056",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "1977 interview: \"they would never be a Coltrane because they don't know anything about the Basie.\" No \"people without background\" / \"trying to be Coltrane\".",
+  "note": "Downbeat page (0129) has \"these people without a knowledge of music\", similar but different."
+ },
+ {
+  "key": "F057",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://arxiv.org/pdf/2402.18485",
+  "file": null,
+  "evidence": "Report boilerplate disclaimer, not a quote of any source.",
+  "note": ""
+ },
+ {
+  "key": "F058",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.nytimes.com/2015/11/17/world/asia/china-bends-vow-using-prisoners-organs-for-transplants.html",
+  "file": null,
+  "evidence": "Footnotes [^21][^22]: NYT article 403 everywhere (likely source of Huang interview quote); NHC regulation page readable but is a 2014 regulation text without it.",
+  "note": "Own source ambiguous between two footnotes; the readable one is not the plausible source."
+ },
+ {
+  "key": "F059",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10742803/",
+  "file": "0183.txt",
+  "evidence": "Article title.",
+  "note": ""
+ },
+ {
+  "key": "F060",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://skywork.ai/skypage/en/MindBridge-AI:-An-Auditor",
+  "file": null,
+  "evidence": "Article title.",
+  "note": ""
+ },
+ {
+  "key": "F061",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "Standard title (\"P7131 Standard for Quantum Computing Performance Metrics & Performance Benchmarking\").",
+  "note": ""
+ },
+ {
+  "key": "F062",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://yaqeeninstitute.org/read/paper/perspectives-on-islamic-psychology-healing-of-emotions-in-the-quran",
+  "file": "0051.txt",
+  "evidence": "Yaqeen paper and iqs.sbu.ac.ir article (archive, readable) contain no \"Which of the favors of your Lord will you deny\".",
+  "note": "Quran 55 refrain not on cited pages."
+ },
+ {
+  "key": "F063",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://folkways.si.edu/artists/mary-lou-williams",
+  "file": "0010.txt",
+  "evidence": "Williams went a step further, and called the blues \"the spiritual feeling\" in jazz.",
+  "note": "Source quotes only \"the spiritual feeling\"; quote adds \"the blues was\" and \"in jazz\" as her words."
+ },
+ {
+  "key": "F064",
+  "label": "TRANSLATED",
+  "own_url": "https://zh.wikipedia.org/wiki/%E5%93%AA%E5%90%92%E4%B9%8B%E9%AD%94%E7%AB%A5%E9%97%B9%E6%B5%B7",
+  "file": "0197.txt",
+  "evidence": "在原作《封神演义》中，哪吒\"削肉还父，剔骨还母\"是经典的桥段",
+  "note": "Translation of 削肉还父，剔骨还母 from zh.wikipedia."
+ },
+ {
+  "key": "F065",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://downbeat.com/archives/detail/marian-mcpartland-in-conversation-with-mary-lou-williams/P1",
+  "file": "0129.txt",
+  "evidence": "Downbeat McPartland conversation and JazzTimes article (readable) contain no \"prayer\".",
+  "note": "No link in the sentence; checked paragraph links."
+ },
+ {
+  "key": "F066",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "we had kids coming from all over New York. They were going home and telling their parents that they'd discovered a new kind of music",
+  "note": "\"that\" dropped without marking; read from archive snapshot (live 404)."
+ },
+ {
+  "key": "F067",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.news.uct.ac.za/article/-2003-01-10-medical-history-biblical-texts-reveal-compelling-mysteries",
+  "file": "0203.txt",
+  "evidence": "UCT article on medical history in biblical texts (readable) has no Exodus 2:9 passage.",
+  "note": "Bible verse (Exodus 2:9) not on cited page."
+ },
+ {
+  "key": "F068",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.aljazeera.com/news/2014/12/4/china-to-end-using-executed-prisoners-organs",
+  "file": "0207.txt",
+  "evidence": "Al Jazeera Dec 2014 news item (readable) has no such sentence.",
+  "note": "Report attributes it to a Lancet commentary; not in cited page."
+ },
+ {
+  "key": "F069",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud",
+  "file": "0212.txt",
+  "evidence": "the likelihood of a new operator being able to gain market share rapidly appears limited, excluding companies who are already powerful in other digital markets.",
+  "note": "\"excluding companies who\" -> \"unless they\"."
+ },
+ {
+  "key": "F070",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.animemangastudies.com/",
+  "file": null,
+  "evidence": "Agent's framing question for the cultural approach (\"commonly asks\").",
+  "note": "Not on page either."
+ },
+ {
+  "key": "F071",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.cencenelec.eu/media/CEN-CENELEC/AreasOfWork/CEN-CENELEC_Topics/Quantum%20technologies/Documentation%20and%20Materials/fgqt_q04_standardizationroadmapquantumtechnologies_release1.pdf",
+  "file": "0215.txt",
+  "evidence": "Standard title (source: \"Information technology - Quantum computing - Terminology and vocabulary\").",
+  "note": ""
+ },
+ {
+  "key": "F072",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://typeset.io/pdf/understanding-bud-rot-development-caused-by-botrytis-cinerea-23hr6r2u.pdf",
+  "file": null,
+  "evidence": "Report boilerplate disclaimer, not a quote of any source.",
+  "note": ""
+ },
+ {
+  "key": "F073",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf",
+  "file": "0220.txt",
+  "evidence": "organizations that provide verification services are closely linked to credit ratings agencies (CRAs). Three major Chinese credit agencies ... offer verification services to green bond issuers",
+  "note": "\"ratings\" -> \"rating\"; ellipsis and [green bond] edit fine."
+ },
+ {
+  "key": "F074",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty",
+  "file": "0223.txt",
+  "evidence": "The Theatre of Cruelty aimed to hurl the spectator into the centre of the action",
+  "note": "Only spelling variant centre/center."
+ },
+ {
+  "key": "F075",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf",
+  "file": "0220.txt",
+  "evidence": "to revoke the green bond label of issuers that fail to correct instances of non-compliance highlighted in verification reports.",
+  "note": "\"instances of\" dropped; the ellipsis is placed after non-compliance, not where the cut is."
+ },
+ {
+  "key": "F076",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://houstonlawreview.org/article/92132-what-is-an-author-copyright-authorship-of-ai-art-through-a-philosophical-lens",
+  "file": "0226.txt",
+  "evidence": "like a Pollock with a paintbrush or a photographer behind a camera.",
+  "note": "\"a camera\" -> \"the camera\""
+ },
+ {
+  "key": "F077",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/Mission.html",
+  "file": null,
+  "evidence": "Song title.",
+  "note": ""
+ },
+ {
+  "key": "F078",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://dl.ifip.org/db/conf/cnsm/cnsm2017/1570382622.pdf",
+  "file": "0232.txt",
+  "evidence": "Paper title.",
+  "note": ""
+ },
+ {
+  "key": "F079",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "file": "0121.txt",
+  "evidence": "Page lists Hell torments, 'Despair and Regret: ... They will beg for relief and wish they could return...' (67:6-10); no verse about obeying leaders and dignitaries / double punishment, also not in raw HTML.",
+  "note": "Quote is Qur'an 33:67-68 (report mislabels as 2:167); not on cited page."
+ },
+ {
+  "key": "F080",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/",
+  "file": "0175.txt",
+  "evidence": "Given as an e.g. of an unwritten social rule, alongside 'Don't interrupt a teacher...'; illustrative example phrase. Page has no 'principal'/'joke' text.",
+  "note": ""
+ },
+ {
+  "key": "F081",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://quran.com/en/az-zumar/23",
+  "file": "0236.txt",
+  "evidence": "˹It is˺ Allah ˹Who˺ has sent down the best message—a Book of perfect consistency and repeated lessons—which causes the skin ˹and hearts˺ of those who fear their Lord to tremble, then their skin and hearts soften at the mention of ˹the mercy of˺ Allah.",
+  "note": "Reworded: 'Scripture consistent within itself', 'skins...to shiver', drops 'the mercy of'. Blend resembles Abdel Haleem on myislam.org (also in paragraph)."
+ },
+ {
+  "key": "F082",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://jwa.org/encyclopedia/article/barren-women-in-the-bible",
+  "file": "0138.txt",
+  "evidence": "The resolution to the woman's barrenness is often marked by the phrase: \"And God remembered/took note of [pqd/zkhr] Sarah\" (or Rachel or Hannah) (Genesis 21:1, 30:22, 1 Sam. 2:21).",
+  "note": "'God' swapped for 'The Lord'; 'remembered/' dropped."
+ },
+ {
+  "key": "F083",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://onscenes.weebly.com/philosophy/towards-a-situationist-international",
+  "file": "0242.txt",
+  "evidence": "the concrete construction of temporary settings of life and their transformation into a higher, passionate nature",
+  "note": "'temporary settings of life' -> 'temporary life settings' and 'their transformation' -> 'transformed' unmarked; ellipsis covers no omitted text."
+ },
+ {
+  "key": "F084",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2022.1016366/full",
+  "file": "0063.txt",
+  "evidence": "Hypothetical example of what a generative AI might say to a patient ('the generative AI then formulates a conversational explanation: ...'); not presented as source words.",
+  "note": ""
+ },
+ {
+  "key": "F085",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2582082/",
+  "file": "0246.txt",
+  "evidence": "PMC article on embryo status in Halakha and the Pharos PDF (0248) both readable; neither contains 'why do I exist' or Gen 25:22 text (raw checked).",
+  "note": "Footnotes [^12][^13] cite both; Genesis 25:22 verse not in either."
+ },
+ {
+  "key": "F086",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility",
+  "file": "0164.txt",
+  "evidence": "thetorah article readable; no Gen 25:21 text ('Isaac prayed to the LORD...') in text or raw HTML.",
+  "note": "Bible verse quoted with only a (Gen. 25:21) reference; paragraph links all thetorah."
+ },
+ {
+  "key": "F087",
+  "label": "IN_SOURCE",
+  "own_url": "https://resourcegovernance.org/sites/default/files/nrgi_Resource-Curse.pdf",
+  "file": "0252.txt",
+  "evidence": "Over the last 25 years, Chile, Indonesia, Norway and the UAE have largely managed to overcome Dutch disease.",
+  "note": ""
+ },
+ {
+  "key": "F088",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "See the guys that they're patterned after like Coltrane and all that, they would never be a Coltrane because they don't know anything about the Basie.",
+  "note": "Ellipsis marks 'and all that'; 'the Basie' -> 'Basie' unmarked."
+ },
+ {
+  "key": "F089",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://perrystone.org/perez-and-zerah/",
+  "file": "0254.txt",
+  "evidence": "Footnotes [^30][^31] cite a Perry Stone page on Perez and Zerah and bible.com Gen 25:24-34 (0256, readable); neither has the Deut 6:7 words (raw checked).",
+  "note": "Deuteronomy 6:7 text; not on either cited page."
+ },
+ {
+  "key": "F090",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.saverilawfirm.com/our-cases/github-copilot-intellectual-property-litigation",
+  "file": "0259.txt",
+  "evidence": "Saveri Law Firm page on GitHub Copilot litigation is readable; no Thaler, 'human authorship' or 'must be human, not machines' text (raw checked).",
+  "note": "Wording is from the D.C. Circuit Thaler v. Perlmutter opinion; footnote points to an unrelated page."
+ },
+ {
+  "key": "F091",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/",
+  "file": "0175.txt",
+  "evidence": "Illustrative example of what teachers could say to explain an implicit rule; not attributed to the source.",
+  "note": ""
+ },
+ {
+  "key": "F092",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.wma.net/policy-tags/execution/",
+  "file": "0100.txt",
+  "evidence": "fully supports China's complete prohibition on the use of organs from death penalty prisoners for transplantation, implemented on January 1st 2015",
+  "note": "Only difference: 'January 1st 2015' -> 'January 1, 2015' (ordinal suffix dropped). Borderline with IN_SOURCE."
+ },
+ {
+  "key": "F093",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty",
+  "file": "0224.txt",
+  "evidence": "Britannica describes ... \"a primitive ceremonial experience intended to liberate the human subconscious and reveal man to himself\" ... \"to subvert thought and logic and to shock the spectator into seeing the baseness of his world.\"",
+  "note": "Two separate passages spliced without ellipsis and reworded ('into awareness')."
+ },
+ {
+  "key": "F094",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://wol.jw.org/en/wol/pc/r1/lp-e/1200271326/25/0",
+  "file": "0263.txt",
+  "evidence": "Link resolves to Watchtower 1996 article 'The Law Before Christ' (readable); no Isaiah 49:15 / 'forget her nursing child' text (raw checked).",
+  "note": "Isaiah 49:15 verse; not on cited page."
+ },
+ {
+  "key": "F095",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.lboro.ac.uk/services/od-hub/topics/peer-2-peer-learning-engineering-tutorial",
+  "file": "0265.txt",
+  "evidence": "Report's own trailing disclaimer in a blockquote after the reference list; not attributed to any source.",
+  "note": ""
+ },
+ {
+  "key": "F096",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review",
+  "file": "0268.txt",
+  "evidence": "What was more, there was nothing heroic about war, which needed to be shown as sickening, repulsive and insane.",
+  "note": "Reviewer's paraphrase recast as Aleksievich's direct words ('There's nothing heroic... It's just sickening...')."
+ },
+ {
+  "key": "F097",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://legalblogs.wolterskluwer.com/copyright-blog/the-new-copyright-directive-text-and-data-mining-articles-3-and-4/",
+  "file": "0271.txt",
+  "evidence": "In conclusion, the TDM provisions ... secure considerably less freedom to text and data mine than they initially appear to do.",
+  "note": "Brackets mark [it]/appear[s], but 'secure' -> 'secures' unmarked. Borderline IN_SOURCE."
+ },
+ {
+  "key": "F098",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.rai.ox.ac.uk/event/ive-got-a-story-to-tell",
+  "file": "0229.txt",
+  "evidence": "celebrated as one of the only jazz musicians to have played through each of the eras of jazz (1920s-late 1970s).",
+  "note": "Hyphen vs en dash only."
+ },
+ {
+  "key": "F099",
+  "label": "IN_SOURCE",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "MARY LOU WILLIAMS is a lady with a mission -- to bring jazz back to the young.",
+  "note": "Live URL 404; judged from Common Crawl capture."
+ },
+ {
+  "key": "F100",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://deepdub.ai/post/netflix-international-expansion",
+  "file": "0272.txt",
+  "evidence": "Article title in a reference footnote ('From \"...\" on Deepdub').",
+  "note": ""
+ },
+ {
+  "key": "F101",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://ci.nii.ac.jp/ncid/BA86918401?l=en",
+  "file": "0274.txt",
+  "evidence": "Link is a CiNii Books catalog record (Childbirth as a metaphor for crisis... Hebrew Bible) with only bibliographic metadata; no book text that could hold the Micah 4:9-10 passage.",
+  "note": "Could be argued AGENT_ABSENT (readable page, words not there)."
+ },
+ {
+  "key": "F102",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://iridia.ulb.ac.be/IridiaTrSeries/link/IridiaTr2015-006.pdf",
+  "file": "0275.txt",
+  "evidence": "Report's own trailing disclaimer in a blockquote after the references; not attributed to any source.",
+  "note": ""
+ },
+ {
+  "key": "F103",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is",
+  "file": "0124.txt",
+  "evidence": "Hypothetical student self-talk illustrating a 'resilient stance' (contrasted with 'It must go exactly this way...'); not source words.",
+  "note": ""
+ },
+ {
+  "key": "F104",
+  "label": "IN_SOURCE",
+  "own_url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881",
+  "file": "0277.txt",
+  "evidence": "The General Assembly's Committee on Information from Non-Self-Governing Territories is a product of the interest of the majority in colonial problems.",
+  "note": ""
+ },
+ {
+  "key": "F105",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-MyLifewKoJ-1954.html",
+  "file": "0279.txt",
+  "evidence": "not bop. Personally, I have always believed that bebop was here to stay. That's one reason I tried to encourage the ori[ginal]...",
+  "note": ""
+ },
+ {
+  "key": "F106",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/",
+  "file": "0144.txt",
+  "evidence": "Presented as 'the guiding questions' of an approach; the agent's own framing of research questions, not attributed source words (not on page).",
+  "note": ""
+ },
+ {
+  "key": "F107",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/",
+  "file": "0287.txt",
+  "evidence": "No link in the quote's sentence; paragraph links (lookstein, thetorah 0284) are readable and neither has Isaiah 66:8 'As soon as Zion travailed...' (raw checked). Lookstein only cites 66:9.",
+  "note": "Isaiah 66:8 verse."
+ },
+ {
+  "key": "F108",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.utupub.fi/bitstream/10024/42449/3/dissKariSalonen091008d.2.bgt.pdf",
+  "file": "0288.txt",
+  "evidence": "Name of a problem class in quotes ('A significant body of work deals with the \"...\"'); thesis uses 'job grouping problem', 'Grouping and sequencing PCB assembly jobs'.",
+  "note": ""
+ },
+ {
+  "key": "F109",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "Title of the IEEE P3172 standard in quotes (list entry). Title appears in the PDF: 'P3172 Recommended Practice for Post-Quantum Cryptography Migration'.",
+  "note": ""
+ },
+ {
+  "key": "F110",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty",
+  "file": "0224.txt",
+  "evidence": "For Artaud, this was a cruel, yet necessary act upon the spectator, designed to shock them out of their complacency",
+  "note": "'[them]' bracketed but 'shock' -> 'shocks' unmarked. Borderline IN_SOURCE."
+ },
+ {
+  "key": "F111",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/",
+  "file": "0144.txt",
+  "evidence": "they frequently treat these animated movies as mirrors of Japanese culture, assuming the existence of a homogenous audience, and often implicitly comparing them to Disney products",
+  "note": "'the existence of' dropped without ellipsis; homogenous/homogeneous."
+ },
+ {
+  "key": "F112",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "Title of ITU-T Y.3807 standard in quotes (list entry); the title is in the PDF.",
+  "note": ""
+ },
+ {
+  "key": "F113",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first",
+  "file": "0284.txt",
+  "evidence": "Article title in a bibliography entry (Eran Viezel, \"...\" TheTorah.com).",
+  "note": ""
+ },
+ {
+  "key": "F114",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is",
+  "file": "0124.txt",
+  "evidence": "Hypothetical student self-talk ('a black-and-white prediction (\"...\")'); illustrative, not source words.",
+  "note": ""
+ },
+ {
+  "key": "F115",
+  "label": "TRANSLATED",
+  "own_url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html",
+  "file": "0014.txt",
+  "evidence": "作为主角的\"魔丸\"哪吒与\"灵珠\"敖丙不再是势不两立的敌人……却也可以打破人心中的成见，携手共抗命运的轮盘。",
+  "note": "Translation of 携手共抗命运的轮盘."
+ },
+ {
+  "key": "F116",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html",
+  "file": "0142.txt",
+  "evidence": "...respect for the sovereign rights of all peoples and their territorial integrity",
+  "note": "'respect for the' -> 'respect the' (word 'for' dropped, unmarked)."
+ },
+ {
+  "key": "F117",
+  "label": "TRANSLATED",
+  "own_url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html",
+  "file": "0014.txt",
+  "evidence": "从第一部的\"我命由我不由天，是魔是仙，我自己说了才算\"到第二部的\"若前方无路，我便踏出一条路...\"",
+  "note": "Translation of 我命由我不由天 (film line cited on the Chinese page)."
+ },
+ {
+  "key": "F118",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "Last semester, I gave the kids a blues to sing, but it sounded cold. So we moved backward and did all the spirituals again.",
+  "note": "Tense changed 'moved...did' -> 'move...do' without brackets. Live URL 404; CC capture."
+ },
+ {
+  "key": "F119",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.givewell.org/international/technical/programs/dietary-salt-modification",
+  "file": "0297.txt",
+  "evidence": "Report's own trailing disclaimer in a blockquote after the references; not attributed to any source.",
+  "note": ""
+ },
+ {
+  "key": "F120",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://manifold.umn.edu/read/humanitarian-violence/section/9c685530-467b-4426-b692-d653cdb353eb",
+  "file": "0035.txt",
+  "evidence": "Article title in a bibliography entry (Husanović, \"...\", Feminist Theory 2009). Title does appear on the page.",
+  "note": ""
+ },
+ {
+  "key": "F121",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://quranforkids.com/jahannam-hell-fire/",
+  "file": "0300.txt",
+  "evidence": "quranforkids page on Jahannam is readable; no Surah 74:1-3 text ('covers himself', 'magnify') in text or raw HTML.",
+  "note": "Qur'an 74:1-3; not on cited page."
+ },
+ {
+  "key": "F122",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://thequranblog.wordpress.com/2010/06/13/quranic-storytelling-in-dialogue/",
+  "file": "0303.txt",
+  "evidence": "Thus, the reader lives the situations, one after the other, trying to visualize the climate of the historical occurrences through the activity of the heroes of the story as though he were living then.",
+  "note": "'lives' -> 'live' unmarked to fit plural 'readers'. Borderline IN_SOURCE."
+ },
+ {
+  "key": "F123",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.bible.com/bible/compare/EXO.2.7-10",
+  "file": "0304.txt",
+  "evidence": "Footnotes cite bible.com Exodus 2:7-10 comparison (readable, verse text only) and biblehub topical page on Perez and Zerah (0306); neither has 'modest, compassionate, and dedicated leader' (raw checked).",
+  "note": "Presented as rabbinic commentary; not in either cited page."
+ },
+ {
+  "key": "F124",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh",
+  "file": "0309.txt",
+  "evidence": "jewishideas.org article on breastfeeding in Tanakh is readable; no Isaiah 49:15 'forget her nursing child' text (raw checked). It quotes other verses (e.g. 'as a mother comforts her son so I will comfort you').",
+  "note": "Isaiah 49:15; links [27][28] follow in the same sentence."
+ },
+ {
+  "key": "F125",
+  "label": "IN_SOURCE",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "\"What's missing for kids today,\" she says, \"is that they no longer have heroes -- like Babe Ruth.",
+  "note": "Live URL 404; CC capture."
+ },
+ {
+  "key": "F126",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.commerce.nc.gov/news/the-lead-feed/generative-ai-and-future-work",
+  "file": "0312.txt",
+  "evidence": "AI may increase job satisfaction by automating mundane tasks and enabling focus on meaningful work.",
+  "note": "'automating...enabling' -> 'automate...enable' unmarked."
+ },
+ {
+  "key": "F127",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://stanfordasl.github.io/wp-content/papercite-data/pdf/Bonalli.Cauligi.Bylard.Pavone.ICRA19.pdf",
+  "file": "0314.txt",
+  "evidence": "Paper title in a reference list entry. (PDF title: 'GuSTO: Guaranteed Sequential Trajectory Optimization via Sequential Convex Programming').",
+  "note": ""
+ },
+ {
+  "key": "F128",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.reformation21.org/blog/from-anguish-to-joy",
+  "file": "0317.txt",
+  "evidence": "reformation21 'From Anguish to Joy' post is readable; no Genesis 38:27-30 text, no 'scarlet', 'twins', 'Tamar' or 'Perez' anywhere (raw checked).",
+  "note": "Genesis 38:27-30 (NASB-like); not on cited page."
+ },
+ {
+  "key": "F129",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://skipmoen.com/2022/02/birth-rite/",
+  "file": "0320.txt",
+  "evidence": "We read the passage in Genesis 3:16, \"I will greatly multiply your pain in childbirth, in pain you shall deliver children;\"",
+  "note": "Verse given in another translation: 'childbirth'->'childbearing', 'deliver'->'bring forth' (same meaning)."
+ },
+ {
+  "key": "F130",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.wipo.int/en/web/wipo-magazine/articles/artificial-intelligence-and-copyright-40141",
+  "file": "0322.txt",
+  "evidence": "...will ensure that companies keep investing in the technology, safe in the knowledge that they will get a return on their investment.",
+  "note": "'that' dropped unmarked."
+ },
+ {
+  "key": "F131",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.myjewishlearning.com/article/rebecca-and-isaacs-guide-to-raising-twins-not/",
+  "file": "0325.txt",
+  "evidence": "Footnotes [^28][^29] cite a MyJewishLearning article on Rebecca's twins and biblehub Exodus 2:7 (0328); both readable, neither mentions Joash or Athaliah (raw checked).",
+  "note": "2 Kings 11:3 verse; not in either cited page."
+ },
+ {
+  "key": "F132",
+  "label": "IN_SOURCE",
+  "own_url": "https://angelusnews.com/arts-culture/mary-lou-williams-pioneer-of-sacred-jazz/",
+  "file": "0006.txt",
+  "evidence": "As Williams' popularity grew, she began to speak on jazz at churches and schools. She designed an illustration of a tree, which symbolized the history of jazz, for use at her lectures",
+  "note": ""
+ },
+ {
+  "key": "F133",
+  "label": "IN_SOURCE",
+  "own_url": "https://toynbeeprize.org/posts/un-peacekeeping-or-the-reinvention-of-colonialism-an-interview-with-margot-tudor/",
+  "file": "0331.txt",
+  "evidence": "It was a chronicle about enlightened UN officials and Western idealists thriving to maintain peace amid the turbulences of decolonisation and civil wars within the emerging nations of the Third World.",
+  "note": ""
+ },
+ {
+  "key": "F134",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "Title of ETSI GS QKD 015 in a standards list; title is in the PDF.",
+  "note": ""
+ },
+ {
+  "key": "F135",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty",
+  "file": "0224.txt",
+  "evidence": "Wikipedia only paraphrases: 'advocated, instead, for a theatre made up of a unique language, halfway between thought and gesture.' No 'in no thing, but makes use of everything – gestures, sounds, words, screams, light, darkness' (raw checked).",
+  "note": "Artaud quote from The Theatre and Its Double; the cited page only has a partial paraphrase of the last clause. Could be argued AGENT_ALTERED material."
+ },
+ {
+  "key": "F136",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "Title of ISO/IEC 23837-1 in a standards list; title is in the PDF.",
+  "note": ""
+ },
+ {
+  "key": "F137",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.saverilawfirm.com/our-cases/github-copilot-intellectual-property-litigation",
+  "file": "0259.txt",
+  "evidence": "Saveri Law Firm page on GitHub Copilot litigation is readable; no Thaler, 'traditional human authorship' or 'autonomously generated' text (raw checked).",
+  "note": "Words are from the Thaler v. Perlmutter record; footnote [^28] points to an unrelated page."
+ },
+ {
+  "key": "F138",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.nber.org/system/files/working_papers/w32140/w32140.pdf",
+  "file": "0335.txt",
+  "evidence": "The unique opportunity that AI offers to the labor market is to extend the relevance, reach, and value of human expertise.",
+  "note": "'relevance,' dropped without ellipsis."
+ },
+ {
+  "key": "F139",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.sciencealert.com/birds-see-magnetic-fields-cryptochrome-cry4-photoreceptor-2018",
+  "file": "0339.txt",
+  "evidence": "Paper title in a reference list entry (Xu et al., Current Biology 2018).",
+  "note": ""
+ },
+ {
+  "key": "F140",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.etsi.org/newsroom/press-releases/1805-2020-08-etsi-releases-migration-strategies-and-recommendations-for-quantum-safe-schemes",
+  "file": "0342.txt",
+  "evidence": "Title of ETSI TR 103 619 in a standards list.",
+  "note": ""
+ },
+ {
+  "key": "F141",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2227-7102/13/6/575",
+  "file": "0345.txt",
+  "evidence": "Hypothetical science-class question given as an example ('science experiments offer a chance to hypothesize (\"...\")').",
+  "note": ""
+ },
+ {
+  "key": "F142",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "At Duke, Mary Lou Williams tries to teach the feeling. She does it by going back to the beginnings of jazz, to spirituals and gospel and the blues.",
+  "note": "'going back' -> 'go back' unmarked. Live URL 404; CC capture."
+ },
+ {
+  "key": "F143",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/",
+  "file": "0144.txt",
+  "evidence": "Agent's own formulation of the question the media-form approach asks (paired with 'How does anime work?'); not attributed source words.",
+  "note": ""
+ },
+ {
+  "key": "F144",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://ejournal.uin-suka.ac.id/ushuluddin/esensia/article/view/5372",
+  "file": "0347.txt",
+  "evidence": "Stock Qur'anic vocative formulas given as examples of shifting address ('then to the believers or disbelievers (\"...\")'); not attributed to a cited source. Not in any paragraph source.",
+  "note": "Could be read as a Qur'an quotation, which would make it AGENT_ABSENT."
+ },
+ {
+  "key": "F145",
+  "label": "IN_SOURCE",
+  "own_url": "https://angelusnews.com/arts-culture/mary-lou-williams-pioneer-of-sacred-jazz/",
+  "file": "0006.txt",
+  "evidence": "...showing not only that jazz comes from suffering but that it can never be separated from it.",
+  "note": ""
+ },
+ {
+  "key": "F146",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://nyaspubs.onlinelibrary.wiley.com/doi/10.1111/nyas.14295",
+  "file": "0351.txt",
+  "evidence": "Report's own trailing disclaimer in a blockquote after the references; not attributed to any source.",
+  "note": ""
+ },
+ {
+  "key": "F147",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://dspace.ut.ee/bitstreams/b74f54cf-a873-4b98-9623-f91fc7590583/download",
+  "file": "0355.txt",
+  "evidence": "'Returning the history to the nation' coincided in popular rhetoric with 'returning the life history to the individual' (Merle Karusoo)",
+  "note": "'the' dropped before 'life history' (and before 'history' in the companion quote)."
+ },
+ {
+  "key": "F148",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://en.wikipedia.org/wiki/United_Nations_list_of_non-self-governing_territories",
+  "file": "0359.txt",
+  "evidence": "No link in the quote's sentence; paragraph links (Wikipedia NSGT list, FRUS 1951 d455 0362) are readable and neither contains 'equal rights and self-determination of peoples' (raw checked).",
+  "note": "Genuine UN Charter Art. 1(2) wording, but not in the cited pages."
+ },
+ {
+  "key": "F149",
+  "label": "IN_SOURCE",
+  "own_url": "https://history.state.gov/historicaldocuments/frus1951v02/d455",
+  "file": "0362.txt",
+  "evidence": "Under Article 73(b), Members agree \"to develop self-government, to take due account of the political aspirations of the peoples and to assist them in the...",
+  "note": ""
+ },
+ {
+  "key": "F150",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/",
+  "file": "0175.txt",
+  "evidence": "Given as an e.g. of an unwritten social rule; illustrative example phrase, not attributed source words.",
+  "note": ""
+ },
+ {
+  "key": "F151",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "file": "0011.txt",
+  "evidence": "Okamoto thesis (readable) discusses Genki I/II picture cards (jirojiro miru, mitai) but has no 'salaryman'/'housewife' dialogue (raw checked). Other paragraph link (sciencedirect abs page) was HTTP 403.",
+  "note": "Ambiguous: the co-cited ScienceDirect article could not be read, so UNVERIFIABLE is arguable."
+ },
+ {
+  "key": "F152",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.europarl.europa.eu/doceo/document/TA-9-2020-0277_EN.html",
+  "file": "0365.txt",
+  "evidence": "recommends that ownership of rights, if any, should only be assigned to natural or legal persons that created the work lawfully and only if authorisation has been granted",
+  "note": "Live fetch gave 202 stub / 429; judged from Common Crawl capture."
+ },
+ {
+  "key": "F153",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2079-6374/4/3/221",
+  "file": "0367.txt",
+  "evidence": "Truncated paper title in a reference list entry (Wiltschko et al., Biosensors 2014).",
+  "note": ""
+ },
+ {
+  "key": "F154",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility",
+  "file": "0164.txt",
+  "evidence": "thetorah article readable; no 'set time' / Gen 21:2 text in text or raw HTML. Paragraph links are all this article.",
+  "note": "Genesis 21:2 wording; quote's sentence has no link."
+ },
+ {
+  "key": "F155",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is",
+  "file": "0124.txt",
+  "evidence": "Hypothetical teacher script introduced with 'For instance:'; illustrative, not attributed source words.",
+  "note": ""
+ },
+ {
+  "key": "F156",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "file": "0125.txt",
+  "evidence": "See the guys that they're patterned after like Coltrane and all that, they would never be a Coltrane because they don't know anything about the Basie. It's just like you going to school starting in kindergarten, first, second grade.",
+  "note": "Ellipses/[style] fine, but 'you can't start at the top' is not in the source; added unmarked."
+ },
+ {
+  "key": "F157",
+  "label": "IN_SOURCE",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=freely%20to%20pursue%20their%20economic%2C,5",
+  "file": "0141.txt",
+  "evidence": "immediate steps shall be taken, in United Nations trust and non-self-governing territories or all other territories which have not yet attained independence, to transfer all powers to the peoples",
+  "note": ""
+ },
+ {
+  "key": "F158",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review#:~:text=A%20million%20women%20fought%20in,as%20sickening%2C%20repulsive%20and%20insane",
+  "file": "0267.txt",
+  "evidence": "what interested her were not tales of heroism, but of 'small great human beings'.",
+  "note": ""
+ },
+ {
+  "key": "F159",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://yaqeeninstitute.org/read/paper/perspectives-on-islamic-psychology-healing-of-emotions-in-the-quran",
+  "file": "0051.txt",
+  "evidence": "\"those who curb their anger, and who pardon their fellow men\" (3:134)",
+  "note": "Qur'an 3:134 quoted in a different wording; 'pardon people' vs 'who pardon their fellow men'. iqs.sbu.ac.ir archive (0193) has nothing like it."
+ },
+ {
+  "key": "F160",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "file": "0120.txt",
+  "evidence": "Readable listicle on Judgment Day (trumpet, sirat, scales...); no 'maces of iron', 'skins', 'roasted' in text or raw HTML.",
+  "note": "Qur'an verse (22:21 + 4:56 conflated, attributed to 69:30-32) not on the cited page."
+ },
+ {
+  "key": "F161",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://explaininghistory.org/2025/10/21/decolonization-and-diplomacy-how-bandung-changed-the-rules-of-global-politics/",
+  "file": "0368.txt",
+  "evidence": "The 1955 Bandung Conference marked a decisive rupture in global politics: it announced to the world that decolonized nations would no longer accept a subordinate role.",
+  "note": "Sentence restructured: subject changed from the conference to the nations."
+ },
+ {
+  "key": "F162",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.britannica.com/topic/Non-Aligned-Movement#:~:text=conflicts,concerted%20action%20in%20world%20affairs",
+  "file": "0373.txt",
+  "evidence": "from the founding of the Non-Aligned Movement, its stated aim has been to give a voice to developing countries and to encourage their concerted action in world affairs",
+  "note": "'Non-Aligned Movement' replaced by 'NAM' without brackets."
+ },
+ {
+  "key": "F163",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.shafr.org/index.php?option=com_dailyplanetblog&view=entry&year=2023&month=04&day=04&id=216:cfp-the-new-international-economic-order-lessons-and-legacies-50-years-late#:~:text=The%20New%20International%20Economic%20Order,international%20economy%20and%20world%E2%80%99s%20affairs",
+  "file": "0375.txt",
+  "evidence": "CFP: The New International Economic Order. Lessons and Legacies 50 Years Later",
+  "note": "Title of the SHAFR blog post/CFP in a source list."
+ },
+ {
+  "key": "F164",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://quranhouse.org/en/article/1049",
+  "file": "0047.txt",
+  "evidence": "Report's own trailing disclaimer, blockquoted after the reference list; not attributed to the source.",
+  "note": "Doubao boilerplate."
+ },
+ {
+  "key": "F165",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://journals.openedition.org/artelogie/10319#:~:text=Estatuto%20del%20Artista%20y%20Oficios,Conexos",
+  "file": "0074.txt",
+  "evidence": "el Estatuto del Artista y Oficios Conexos aprobado en el 2008",
+  "note": "Name of a law."
+ },
+ {
+  "key": "F166",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=freely%20to%20pursue%20their%20economic%2C,5",
+  "file": "0141.txt",
+  "evidence": "that all armed action or repressive measures of all kinds directed against dependent peoples shall cease (art. 4); that immediate steps shall be taken ... to transfer all powers",
+  "note": "Quote fuses art. 4 and art. 5 wording; reworded."
+ },
+ {
+  "key": "F167",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=The%20importance%20of%20the%20blues,technique%20but%20very%20little%20feeling",
+  "file": "0010.txt",
+  "evidence": "she'd say, \"It's all spiritual music and healing to the soul.\"",
+  "note": "'and' replaced by a dash. Live page 403; CC archive readable."
+ },
+ {
+  "key": "F168",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "file": "0163.txt",
+  "evidence": "Page only has 'The Lord took note of Sarah' (Gen 21:1); 'did for Sarah as He had promised' absent from text and raw HTML.",
+  "note": "Bible verse (Gen 21:1b) cited via paragraph links; not on the page."
+ },
+ {
+  "key": "F169",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://iidc.indiana.edu/irca/articles/making-and-keeping-friends.html",
+  "file": "0376.txt",
+  "evidence": "Think-aloud example sentence the report invents for teachers to narrate.",
+  "note": "Item paragraph field shows the preceding heading; quote is on md line 143."
+ },
+ {
+  "key": "F170",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.geeksforgeeks.org/computer-vision/deep-dream-an-in-depth-exploration/",
+  "file": "0382.txt",
+  "evidence": "Neither cited page (GeeksforGeeks Deep Dream article; Wiley Copyright Office alert) contains 'as long as necessary' or 'text and data mining' (text and raw).",
+  "note": "Words are EU DSM Directive Art. 3(2), not in the cited sources."
+ },
+ {
+  "key": "F171",
+  "label": "AGENT_ABSENT",
+  "own_url": "http://en.nhc.gov.cn/2017-02/14/c_71188.htm",
+  "file": "0385.txt",
+  "evidence": "Readable 2017 NHC news item on Huang at Rome summit; no 'death-row', 'unified allocation', 'so-called donation'.",
+  "note": "Huang 2014 interview quote; not in cited page."
+ },
+ {
+  "key": "F172",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/#:~:text=Egypt%20and%20the%20birth%20of,over%20you%2C%20and%20I%20covered",
+  "file": "0286.txt",
+  "evidence": "you are the one that drew me out of the belly; the one that secured me on my mother's breasts. Upon you I have been cast from the womb; from my mother's belly you have been my God (verses 10-11)",
+  "note": "Ps 22 in a different translation (womb/belly, made me secure/secured)."
+ },
+ {
+  "key": "F173",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "http://d-scholarship.pitt.edu/38088/",
+  "file": "0390.txt",
+  "evidence": "her notion of the \"spiritual feeling in the blues that arises out of suffering\"",
+  "note": "'in the blues' dropped without ellipsis."
+ },
+ {
+  "key": "F174",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=And%20there%20is%20the%20warning%2C,7",
+  "file": "0141.txt",
+  "evidence": "against any attempt aimed at the partial or total disruption of the national unity and the territorial integrity of a post-decolonisation country",
+  "note": "'the' before 'territorial integrity' dropped."
+ },
+ {
+  "key": "F175",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://quran.com/en/al-hajj/19-22#:~:text=,22%3A20",
+  "file": "0293.txt",
+  "evidence": "garments of Fire will be cut out for them and boiling water will be poured over their heads, melting whatever is in their bellies, along with their skin. And awaiting them are maces of iron. Whenever they try to escape from Hell—out of anguish—they will be forced back",
+  "note": "Qur'an 22:19-22 in reworded/different translation vs the Khattab text on the page."
+ },
+ {
+  "key": "F176",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7749245/",
+  "file": "0393.txt",
+  "evidence": "Paper title cited in a table (Kim et al., 2019).",
+  "note": "Title."
+ },
+ {
+  "key": "F177",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.microgreenscorner.com/watercress/",
+  "file": "0394.txt",
+  "evidence": "Report's own trailing disclaimer after the reference list.",
+  "note": "Doubao boilerplate."
+ },
+ {
+  "key": "F178",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://en.wikipedia.org/wiki/Cool_Japan#:~:text=Cool%20Japan%20,1%20%5D%5B%202",
+  "file": "0396.txt",
+  "evidence": "Hypothetical marketing phrase introduced with 'e.g.'.",
+  "note": "Example phrase."
+ },
+ {
+  "key": "F179",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://arxiv.org/pdf/2309.05934",
+  "file": "0405.txt",
+  "evidence": "Report's own trailing disclaimer after the reference list.",
+  "note": "Doubao boilerplate."
+ },
+ {
+  "key": "F180",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.jointhejourney.com/4920-god-is-sovereign-over-the-womb",
+  "file": "0407.txt",
+  "evidence": "Genesis 30:22 Then God remembered Rachel, and God listened to her and opened her womb.",
+  "note": "'listened to' replaced by 'heeded' (another Bible translation)."
+ },
+ {
+  "key": "F181",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://learn.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling",
+  "file": "0409.txt",
+  "evidence": "Paper title used as subject of the sentence.",
+  "note": "Title."
+ },
+ {
+  "key": "F182",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://en.wikipedia.org/wiki/New_International_Economic_Order",
+  "file": "0412.txt",
+  "evidence": "gained political sovereignty but felt that their de jure political colonization ended only to be replaced by a de facto economic colonization",
+  "note": "'a' dropped; 'colonization' -> 'colonialism'."
+ },
+ {
+  "key": "F183",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=clarity%20of%20understanding%20to%20enable,in%20order%20to%20dynamically%20create",
+  "file": "0190.txt",
+  "evidence": "this standard defines the Software-Defined Quantum Communication (SDQC) protocol",
+  "note": "Standard title."
+ },
+ {
+  "key": "F184",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "file": "0163.txt",
+  "evidence": "Jacob says to Rachel that God has \"denied you the fruit of the womb\" (Gen 30:2)",
+  "note": "Only a fragment of Gen 30:2 on page, in other words ('denied' vs 'withheld'); 'Am I in the place of God' absent."
+ },
+ {
+  "key": "F185",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://ci.nii.ac.jp/ncid/BA86918401?l=en",
+  "file": "0274.txt",
+  "evidence": "CiNii Books catalog record for 'Childbirth as a metaphor for crisis' (bibliographic data only); no Isaiah text.",
+  "note": "Link is a library catalog record; Isa 66:7 not on it."
+ },
+ {
+  "key": "F186",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/#:~:text=Egypt%20and%20the%20birth%20of,over%20you%2C%20and%20I%20covered",
+  "file": "0286.txt",
+  "evidence": "Lookstein page cites only Isa 66:9 ('Will I bring you to the breaking point...'); thetorah 'babies conceived' page has nothing; Isa 66:7-8 absent (text and raw).",
+  "note": "Bible verse cited via paragraph links."
+ },
+ {
+  "key": "F187",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.un.org/en/about-us/trusteeship-council",
+  "file": "0416.txt",
+  "evidence": "The main goals of the International Trusteeship System were to promote the advancement of the inhabitants of Trust Territories and their progressive development towards self-government or independence.",
+  "note": "Quote adds 'political, economic, social, and educational' (Charter Art. 76 wording); dppa page HTTP 202 empty; mpil PDF lacks it."
+ },
+ {
+  "key": "F188",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "file": "0011.txt",
+  "evidence": "only one textbook explained it by saying \"normally used by males\" to blur the gender limitation (Arimori, 2017, p. 28)",
+  "note": "'boku is' added inside the quote marks; source does not name Genki."
+ },
+ {
+  "key": "F189",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://ejournal.uin-suka.ac.id/ushuluddin/esensia/article/view/5372#:~:text=The%20narration%20of%20Qur%27anic%20stories%2C,reveals%20that%20the%20parts%20of",
+  "file": "0346.txt",
+  "evidence": "No 'favors'/'deny' refrain in the esensia abstract, the semanticscholar PDF, or MDPI article (text and raw); ResearchGate 403.",
+  "note": "Qur'an 55 refrain; paragraph links. ResearchGate unreadable but it is not the sentence's link."
+ },
+ {
+  "key": "F190",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh#:~:text=Then%20his%20sister%20said%20to,%28Exodus%202%3A7%E2%80%939",
+  "file": "0308.txt",
+  "evidence": "Pharaoh's daughter said to her, \"Take this child and nurse it for me, and I will pay your wages.\"",
+  "note": "'it' -> 'him'."
+ },
+ {
+  "key": "F191",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "file": "0276.txt",
+  "evidence": "the large majority of Members of the United Nations believe that there is no field in which the United Nations can do more important work than in the colonial field",
+  "note": "'United Nations' -> 'UN' (second occurrence)."
+ },
+ {
+  "key": "F192",
+  "label": "NOT_A_QUOTE",
+  "own_url": "http://www.chinadaily.com.cn/china/2014-12/04/content_19025683.htm#:~:text=The%20State%20Council%20passed%20the,legal%20basis%20to%20supervise%20transplants",
+  "file": "0261.txt",
+  "evidence": "Proposed regulation name.",
+  "note": "Title of regulation."
+ },
+ {
+  "key": "F193",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ETSI%20GS%20QKD%20018%20QKD,1%20%28Apr%202022%29%20Latest",
+  "file": "0190.txt",
+  "evidence": "ETSI GS QKD 018 ... QKD; Orchestration Interface for Software-Defined Networks",
+  "note": "Standard title."
+ },
+ {
+  "key": "F194",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "file": "0125.txt",
+  "evidence": "Page has 'some of the avant-garde guys think they're so far out' and 'in order to play avant-garde'; no 'come up playing' anywhere in snapshots.",
+  "note": "Not found in any snapshot in pages/."
+ },
+ {
+  "key": "F195",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.uclahealth.org/news/release/ai-model-converts-hospital-records-text-better-emergency",
+  "file": "0420.txt",
+  "evidence": "Hypothetical explanation contrasted with an XAI example ('the model chose Treatment A because...').",
+  "note": "Example phrase."
+ },
+ {
+  "key": "F196",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.instagram.com/p/B56cb_ygpwm/?hl=zh-cn",
+  "file": "0430.txt",
+  "evidence": "urbanfaith.com (readable) lacks the phrase; the other own source (Instagram post) is a login wall.",
+  "note": "Phrase appears in the d-scholarship.pitt.edu abstract (0390), attributed to Williams."
+ },
+ {
+  "key": "F197",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.idquantique.com/id-quantique-and-sk-telecom-move-one-step-forward-in-their-standardization-roadmap-for-quantum-key-distribution/#:~:text=security%20requirements%20and%20security%20methods,for%20QKD%20networks",
+  "file": "0431.txt",
+  "evidence": "X.1714 'Key combination and confidential key supply for quantum key distribution networks'",
+  "note": "Standard title (abbreviated QKD)."
+ },
+ {
+  "key": "F198",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=We%20can%20support%20neurodivergent%20learners,by",
+  "file": "0123.txt",
+  "evidence": "Example questions a teacher might ask in a debrief.",
+  "note": "Example phrase."
+ },
+ {
+  "key": "F199",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://texaslawreview.org/fair-learning/#:~:text=transformative%20as%20that%20term%20has,which%20ML%20systems%20may%20be",
+  "file": "0436.txt",
+  "evidence": "Understanding why the use of copyrighted works by ML systems should be fair actually reveals a significant issue",
+  "note": "'generally' inserted."
+ },
+ {
+  "key": "F200",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "file": "0276.txt",
+  "evidence": "For that reason they are constantly urging increased UN activity in the colonial field and an extension of UN supervision over colonial territories.",
+  "note": "'are constantly urging' -> 'constantly urge'."
+ },
+ {
+  "key": "F201",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.mindbridge.ai/#:~:text=MindBridge%20,risk%20across%20broad%20financial%20datasets",
+  "file": "0442.txt",
+  "evidence": "Homepage now reads 'The Global Leader in Autonomous Financial Oversight'; the #:~:text passage ('...risk across broad financial datasets') is gone; page rebranded.",
+  "note": "Changed home page; MindBridge /company page has 'financial risk discovery and anomaly detection' only as API line."
+ },
+ {
+  "key": "F202",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.sciencealert.com/birds-see-magnetic-fields-cryptochrome-cry4-photoreceptor-2018#:~:text=The%20Lund%20team%20measured%20gene,reception%20over%20the%20circadian%20day",
+  "file": "0338.txt",
+  "evidence": "Cry4 expressed at constant levels, making it the most likely candidate for magnetoreception.",
+  "note": "Quote expands to 'candidate magnetoreceptor of the light-dependent magnetic compass in birds'."
+ },
+ {
+  "key": "F203",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.ilo.org/sites/default/files/2025-04/ILO_Safeday25_Report_EN_r8%2B%281%29.pdf#:~:text=Organization%20www,cancer%2C%20lung%20diseases%20and",
+  "file": "0452.txt",
+  "evidence": "This is posing serious health risks (cancer, lung diseases and cardiovascular diseases) due to toxic chemicals",
+  "note": "ILO passage is about e-waste workers; 'entail ... for employees' changed. Second link ([55] ResearchGate) is 403."
+ },
+ {
+  "key": "F204",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.bibleodyssey.org/articles/pregnancy-and-childbirth-in-the-hebrew-bible/",
+  "file": "0454.txt",
+  "evidence": "using formulas such as \"he knew his wife, and she conceived and bore a son\" (see, for example, Gen 4:1)",
+  "note": "[a son] brackets around words that are in source."
+ },
+ {
+  "key": "F205",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://tedpanken.wordpress.com/2011/09/27/for-bud-powells-87th-birthday-a-2004-bud-powell-homage-in-jazziz/",
+  "file": "0456.txt",
+  "evidence": "Mary Lou Williams came to Monk and Bud and said, 'You guys are too good not to have the kind of piano sound you should.'",
+  "note": "'you should' -> 'they should'."
+ },
+ {
+  "key": "F206",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://nordics.info/themes/nordic-noir#:~:text=Nordic%20Noir%20has%20both%20contributed,into%20branding%20of%20the%20Nordic",
+  "file": "0402.txt",
+  "evidence": "Agent's own characterization of a perception ('This novelty – ...').",
+  "note": "Scare-quote phrase."
+ },
+ {
+  "key": "F207",
+  "label": "IN_SOURCE",
+  "own_url": "https://downbeat.com/archives/detail/marian-mcpartland-in-conversation-with-mary-lou-williams/P1",
+  "file": "0129.txt",
+  "evidence": "yet it is said, too, that she is a hard taskmistress, demanding and intolerant.",
+  "note": ""
+ },
+ {
+  "key": "F208",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.myjewishlearning.com/article/rebecca-and-isaacs-guide-to-raising-twins-not/",
+  "file": "0324.txt",
+  "evidence": "Neither cited page (myjewishlearning twins article; biblehub Exodus 2:7) mentions Joash (text and raw).",
+  "note": "2 Chr 22:11 not on cited pages."
+ },
+ {
+  "key": "F209",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://myislam.org/surah-qaf/ayat-30/",
+  "file": "0459.txt",
+  "evidence": "Maududi: On that Day We shall ask Hell: \"Are you full?\" And it will reply: \"Are there any more?\"",
+  "note": "'shall' -> 'will'."
+ },
+ {
+  "key": "F210",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=The%20importance%20of%20the%20blues,technique%20but%20very%20little%20feeling",
+  "file": "0010.txt",
+  "evidence": "What I'm trying to do is bring back good jazz to you with the healing in it and spiritual feeling",
+  "note": "'music' substituted, 'the' dropped. Live page 403; CC archive readable."
+ },
+ {
+  "key": "F211",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://lttrade.en.made-in-china.com/product/mwdAMOQLhupg/China-Thickness-22mm-Carbon-Contact-Slider-Set-of-Pantograph.html#:~:text=%282%29%20Metal,most%20ideal%20material%20for%20skateboards",
+  "file": "0461.txt",
+  "evidence": "in theory, it is the most ideal material for skateboards.",
+  "note": "'in theory' moved and '(slides)' gloss added in parentheses, not brackets."
+ },
+ {
+  "key": "F212",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=,which%20have%20not%20yet%20attained",
+  "file": "0141.txt",
+  "evidence": "Declaration on the Granting of Independence to Colonial Countries and Peoples",
+  "note": "Title of resolution."
+ },
+ {
+  "key": "F213",
+  "label": "IN_SOURCE",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,sing%20the%20music%20they%27re%20hearing",
+  "file": "0128.txt",
+  "evidence": "musicians started playing commercial rock and what they call 'free music,' and all the feeling went out of it.",
+  "note": "Live page 404; CC archive readable."
+ },
+ {
+  "key": "F214",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/the-protective-red-thread",
+  "file": "0467.txt",
+  "evidence": "thetorah 'protective red thread' article has no Mephibosheth or 'in her hurry' (text and raw).",
+  "note": "2 Sam 4:4 not on cited page."
+ },
+ {
+  "key": "F215",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://etheses.whiterose.ac.uk/32750/1/",
+  "file": null,
+  "evidence": "juniaproject (readable) lacks the verse; the other own source etheses.whiterose.ac.uk/32750/1/ is 404 everywhere, no archive.",
+  "note": "Gen 25:21."
+ },
+ {
+  "key": "F216",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.arxiv.org/pdf/2508.06352#:~:text=recommendation%20might%20generate%3A%20,while%20maintaining%20good%20pressure%20control",
+  "file": "0066.txt",
+  "evidence": "Introduced as what an AI 'might generate' (hypothetical example).",
+  "note": "Cited arXiv PDF (current version) lacks it and the #:~:text passage, so the paper likely changed."
+ },
+ {
+  "key": "F217",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://itmedialaw.com/en/what-is-the-ksk-and-what-is-its-aim-what-advantages-are-there-for-artists/#:~:text=statutory%20health%2C%20long,as%20if%20they%20were%20employees",
+  "file": "0475.txt",
+  "evidence": "URL now serves the itmedialaw home page (0475) or a 404 page (0476); no article text.",
+  "note": ""
+ },
+ {
+  "key": "F218",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://iapp.org/news/a/fair-use-or-free-ride-the-fight-over-ai-training-and-us-copyright-law",
+  "file": "0479.txt",
+  "evidence": "IAPP article is behind a member paywall; visible part does not reach Campbell discussion.",
+  "note": ""
+ },
+ {
+  "key": "F219",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://islam365.io/topics/jahannam.html",
+  "file": "0481.txt",
+  "evidence": "Indeed, those who disbelieve in Our verses - We will drive them into a Fire. Every time their skins are burned through We will replace them with new skins so they may taste the punishment.",
+  "note": "Qur'an 4:56 in a different translation."
+ },
+ {
+  "key": "F220",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://onscenes.weebly.com/philosophy/towards-a-situationist-international#:~:text=by%20Guy%20Debord",
+  "file": "0242.txt",
+  "evidence": "Title of Debord's text in a list.",
+  "note": "Title."
+ },
+ {
+  "key": "F221",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.learningscientists.org/blog/2024/2/15-1#:~:text=Interactive%20Learning%3A%C2%A0With%20the%20assistance%20of,students%20to%20study%20in%20the",
+  "file": "0484.txt",
+  "evidence": "Example prompt a teacher could type.",
+  "note": "Example phrase."
+ },
+ {
+  "key": "F222",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/#:~:text=professions.%20,as%20job%20loss%20and%20inequality",
+  "file": "0032.txt",
+  "evidence": "developing strategies to proactively shape AI's impact on work and workers",
+  "note": ""
+ },
+ {
+  "key": "F223",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=,Peretz%29%20will%20be%20dominant",
+  "file": "0283.txt",
+  "evidence": "thetorah 'hands first' article has no Rebekah/'struggled' (text and raw).",
+  "note": "Gen 25:22 not on cited page."
+ },
+ {
+  "key": "F224",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "file": "0144.txt",
+  "evidence": "the bulk of anime commentary ignores that its object consists of moving images",
+  "note": "[anime's] for 'its' is marked, but 'ignores' -> 'ignore' unmarked."
+ },
+ {
+  "key": "F225",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.learningscientists.org/blog/2024/2/15-1#:~:text=Ineffective%20development%20of%20core%20skills%3A%C2%A0Due,25",
+  "file": "0484.txt",
+  "evidence": "Adage 'applies' as the agent's own phrase.",
+  "note": "Not in source either."
+ },
+ {
+  "key": "F226",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.nytimes.com/2015/11/17/world/asia/china-bends-vow-using-prisoners-organs-for-transplants.html",
+  "file": null,
+  "evidence": "NHC 2014 page (readable) lacks it; the other own source (NYT 2015) is 403, no archive.",
+  "note": ""
+ },
+ {
+  "key": "F227",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2673-2688/5/4/101#:~:text=The%20use%20of%20reinforcement%20learning,where%20trading%20bots%20autonomously%20adapt",
+  "file": "0038.txt",
+  "evidence": "Example question introduced with 'e.g.'.",
+  "note": "Not in MDPI article either."
+ },
+ {
+  "key": "F228",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://animetudes.com/2020/03/05/defining-anime-part-2/#:~:text=scholars%20chosen%20to%20discard%20an,are%20forever%20blurry%20and%20expanding",
+  "file": "0281.txt",
+  "evidence": "this approach is interesting because it focuses not on what anime shows us, but on how we look at anime.",
+  "note": "Reworded; changes meaning ('how it shows it' vs 'how we look at anime')."
+ },
+ {
+  "key": "F229",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,in%20a%20hook%2C%20you%20know",
+  "file": "0128.txt",
+  "evidence": "Sure, you can play like a typewriter, but it'll make your audience nervous to listen to it. It's nothing that's written down in a hook, you know.",
+  "note": "[..] and ellipsis fine; 'hook' -> 'book' (fixes an apparent source typo) unmarked. Live page 404; CC archive."
+ },
+ {
+  "key": "F230",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=pathways%20as%20you%20rise%20out,of%20the%20pit",
+  "file": "0123.txt",
+  "evidence": "Errors provide us with data to help grown our brains and predictive models of the world.",
+  "note": "Reworded."
+ },
+ {
+  "key": "F231",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.jointhejourney.com/4920-god-is-sovereign-over-the-womb",
+  "file": "0407.txt",
+  "evidence": "Genesis 30:22 Then God remembered Rachel, and God listened to her and opened her womb.",
+  "note": "'listened to' replaced by 'heeded'."
+ },
+ {
+  "key": "F232",
+  "label": "UNVERIFIABLE",
+  "own_url": "http://topologicalmedialab.net/xinwei/classes/readings/Artaud/ArtaudChap7-8-9-11.pdf",
+  "file": "0489.txt",
+  "evidence": "Artaud PDF is a scan with no text layer (no fonts, empty pdftotext); kpburgess page (readable) lacks it.",
+  "note": ""
+ },
+ {
+  "key": "F233",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.chatholybible.com/resources/bible-verses/people-in-the-bible/rebecca",
+  "file": "0493.txt",
+  "evidence": "Page only paraphrases: 'God's response revealed that the two children represented two nations, and the older would serve the younger (Genesis 25:23)'. Verse wording not on page.",
+  "note": "Quote sentence has no link; only paragraph link is chatholybible. Words are Gen 25:23 (Bible translation), not on this page. A different (NJPS) rendering is on myjewishlearning 0324, not linked here."
+ },
+ {
+  "key": "F234",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.mdpi.com/2227-7102/13/6/575",
+  "file": "0345.txt",
+  "evidence": "teaching prediction is a form of making evident the usually automatic process we go through when decision making, and modelling this process to the student",
+  "note": "Direct fetch 0344 is a stub; browser snapshot has full text."
+ },
+ {
+  "key": "F235",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.aoshearman.com/en/insights/ownership-of-ai-generated-content-in-the-uk",
+  "file": "0496.txt",
+  "evidence": "A&O Shearman UK AI ownership article has no mention of Tim Davis, Texas A&M, or Copilot reproducing code.",
+  "note": "Report attributes quote to The Register; footnote [^44] points to aoshearman page. Words not found there."
+ },
+ {
+  "key": "F236",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud",
+  "file": "0212.txt",
+  "evidence": "it can be difficult for customers to anticipate future cloud costs, given the complexity of the offerings and the lack of pricing clarity",
+  "note": "Quote drops 'the complexity of the offerings and' without ellipsis."
+ },
+ {
+  "key": "F237",
+  "label": "IN_SOURCE",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "...a bare branch all to itself: Commercial Rock. \"We almost lost a great American art,\" Miss Williams says.",
+  "note": "Live page 404; archive snapshot readable."
+ },
+ {
+  "key": "F238",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.f5.com/company/blog/crucial-concepts-in-ai-transparency-and-explainability",
+  "file": "0116.txt",
+  "evidence": "Page: 'answers the questions: Why did the AI make this decision? and What influenced this outcome?'",
+  "note": "Quoted question is an illustrative example of what XAI answers; close paraphrase of source's question. Could be read as AGENT_ALTERED material."
+ },
+ {
+  "key": "F239",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "ISO/IEC 23837-2:2023 Information security - Security requirements, test and evaluation methods for QKD - Part 2: Evaluation and testing methods",
+  "note": "Standard title in quotes; title is present in the source table (layout interleaved)."
+ },
+ {
+  "key": "F240",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://kpmg.com/xx/en/media/press-releases/2023/04/kpmg-and-mindbridge-announce-alliance-to-power-kpmg-audits-with-ai-technology.html",
+  "file": "0160.txt",
+  "evidence": "...into KPMG audits, further enabling the identification of unexpected or high-risk transactions and helping to provide enhanced audit quality",
+  "note": "'enabling' changed to 'enable' without marking."
+ },
+ {
+  "key": "F241",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "Some of the avant-garde guys think they're so far out until they're greater than the other cats - but they're not.",
+  "note": "Ellipsis marks omission of 'until'."
+ },
+ {
+  "key": "F242",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "I took him back to Fats Waller - I had him swinging the left hand. He can play anything. And that is the only advice I could give them.",
+  "note": "'them' replaced by bracketed '[young players]'."
+ },
+ {
+  "key": "F243",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud",
+  "file": "0212.txt",
+  "evidence": "the high amounts that may be offered (up to $200,000 for two years)",
+  "note": ""
+ },
+ {
+  "key": "F244",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://en.wikipedia.org/wiki/Ne_Zha_2",
+  "file": "0194.txt",
+  "evidence": "Trope label 'Dragon King = evil feudal lord' is the agent's own shorthand.",
+  "note": "Scare-quoted trope formula."
+ },
+ {
+  "key": "F245",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://clouds.cis.unimelb.edu.au/papers/Graph-AutoScaleTSE.pdf",
+  "file": "0499.txt",
+  "evidence": "A Cost-Efficient Auto-Scaling Algorithm for Large-Scale Graph Processing in Cloud Environments with Heterogeneous Resources",
+  "note": "Paper title in quotes (truncated, but title of the cited PDF)."
+ },
+ {
+  "key": "F246",
+  "label": "TRANSLATED",
+  "own_url": "https://casaresilientepuertorico.wordpress.com/casas-resilientes-para-puerto-rico/casa-rescate/",
+  "file": "0500.txt",
+  "evidence": "El arquitecto Fernando Abruña es el padre de la arquitectura verde en Puerto Rico.",
+  "note": "Spanish source; quote is English translation."
+ },
+ {
+  "key": "F247",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty",
+  "file": "0223.txt",
+  "evidence": "Artaud sought to remove aesthetic distance, bringing the audience into direct contact with the dangers of life. By turning theatre into a place where the spectator is exposed rather than protected",
+  "note": "'bringing ... into direct contact with' reworded to 'exposes [the audience] to'."
+ },
+ {
+  "key": "F248",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://odi.org/documents/4071/8393.pdf",
+  "file": "0504.txt",
+  "evidence": "Common adage, introduced as 'akin to the adage'; not presented as the ODI paper's words.",
+  "note": ""
+ },
+ {
+  "key": "F249",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://zenodo.org/record/6806382",
+  "file": "0506.txt",
+  "evidence": "the shift ... became challenging as the access to technologies dropped significantly, especially for the ICT classes",
+  "note": "Article 'the' before 'ICT classes' dropped."
+ },
+ {
+  "key": "F250",
+  "label": "IN_SOURCE",
+  "own_url": "https://journals.sagepub.com/doi/10.1177/1464700108100394",
+  "file": "0083.txt",
+  "evidence": "This article looks at the politics of witnessing through a creative approach to losses and the potential politics of hope in such a context.",
+  "note": "Two footnotes [^21][^20]; scholar profile (first) lacks it, sagepub abstract (open-access copy) has it verbatim."
+ },
+ {
+  "key": "F251",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://news.artnet.com/art-world/immersive-van-gogh-guide-1974038",
+  "file": "0511.txt",
+  "evidence": "an optional 10-minute VR experience called 'A Day in the Life of the Artist in Arles'",
+  "note": "Name of a VR experience; also present verbatim on artnet archive snapshot."
+ },
+ {
+  "key": "F252",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://arxiv.org/pdf/2304.02478",
+  "file": "0512.txt",
+  "evidence": "Woo et al. 'Exploring AI-Generated Text in Student Writing' PDF has no 'catch me'/'crazier' passage (text and raw PDF checked).",
+  "note": "Quote sentence has no link; nearest/paragraph link is arxiv [11]. Not found in any snapshot."
+ },
+ {
+  "key": "F253",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review",
+  "file": "0267.txt",
+  "evidence": "The Unwomanly Face of War by Svetlana Alexievich – review",
+  "note": "Article title in a reference list; title matches page."
+ },
+ {
+  "key": "F254",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.geeksforgeeks.org/computer-vision/deep-dream-an-in-depth-exploration/",
+  "file": "0380.txt",
+  "evidence": "Cited pages are a GeeksforGeeks DeepDream article and a Wiley fair-use alert; neither contains the DSM Directive Art. 3 wording.",
+  "note": "Words are verbatim in EU Directive 2019/790 (eur-lex snapshot 0043) and Kluwer blog 0270, not in cited [^19][^20]."
+ },
+ {
+  "key": "F255",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "ETSI GS QKD 014 QKD; Protocol and data format of REST-based key delivery API",
+  "note": "Standard title in quotes; source lists it with 'QKD;' abbreviation."
+ },
+ {
+  "key": "F256",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://reformjudaism.org/learning/torah-study/torah-commentary/our-more-or-less-four-matriarchs",
+  "file": "0514.txt",
+  "evidence": "Reform Judaism matriarchs commentary contains no Isaiah 66:7-8 text.",
+  "note": "Bible verse (Isa 66:7-8) cited inline; only link is footnote [^20] after the next sentence. Not on that page or any snapshot."
+ },
+ {
+  "key": "F257",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/",
+  "file": "0286.txt",
+  "evidence": "Lookstein and thetorah.com pages do not contain Num 11:12 wording.",
+  "note": "Bible verse; no link in its sentence; paragraph links lack it. A different translation ('did I bear them... as a nurse (omen) carries an infant') is on jewishideas.org snapshot 0308."
+ },
+ {
+  "key": "F258",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881",
+  "file": "0276.txt",
+  "evidence": "FRUS 1952-54 document speaks of avoiding the Committee's 'use as a propaganda forum for the more irresponsible of the anti-colonials'; no 'main arena for anti-colonial struggles'.",
+  "note": "Not found in any snapshot."
+ },
+ {
+  "key": "F259",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.tensorflow.org/tutorials/generative/deepdream",
+  "file": "0517.txt",
+  "evidence": "TensorFlow DeepDream tutorial; nothing about fair use or Nat Friedman.",
+  "note": "Attributed to Nat Friedman; footnote [^45] points to unrelated tutorial. Not found in any snapshot."
+ },
+ {
+  "key": "F260",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ttu-ir.tdl.org/server/api/core/bitstreams/7dfda334-a9e2-497a-9931-c605e0c0641c/content",
+  "file": "0520.txt",
+  "evidence": "...motivated by a desire for a direct and violent attack upon the senses of his audience in order to achieve a collective purgation",
+  "note": "'his audience' changed to 'the audience'."
+ },
+ {
+  "key": "F261",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh",
+  "file": "0308.txt",
+  "evidence": "He said: Shall a mouth which will speak with the Shekhinah suck what is unclean! (Sotah 12b)",
+  "note": "Reworded: 'Shekhinah'->'Divine Presence', exclamatory question turned into 'should not suckle'. Same idea, different wording/term."
+ },
+ {
+  "key": "F262",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://ca.thegospelcoalition.org/columns/femmes-scriptura/childbirth-as-a-theme-of-biblical-theology/",
+  "file": "0522.txt",
+  "evidence": "Gospel Coalition childbirth article and Cornell event page do not contain 'struggled together within her womb'.",
+  "note": "Gen 25:22 wording (misattributed to Isaiah in report). Similar words on chatholybible 0493 and thegiftofgivinglife 0572, not the cited pages."
+ },
+ {
+  "key": "F263",
+  "label": "IN_SOURCE",
+  "own_url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html",
+  "file": "0125.txt",
+  "evidence": "Because there's a lot of money tied up in rock. Rock is good - some of it, but the slop that you hear on TV and radio is terrible",
+  "note": ""
+ },
+ {
+  "key": "F264",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/anxiety-over-twins-anthropological-insights-into-the-story-of-jacob-and-esau",
+  "file": "0527.txt",
+  "evidence": "thetorah.com twins article and bibleref Exodus 2:7 page lack the Exodus 1:19 wording.",
+  "note": "Bible verse cited (Exodus 1:19); found on biblehub exodus/2-7 snapshot 0327, which is not a link of this paragraph."
+ },
+ {
+  "key": "F265",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first",
+  "file": "0283.txt",
+  "evidence": "thetorah.com 'babies born hands first' article (Tamar's twins) has no Gen 25:23 wording ('two nations', 'older shall serve').",
+  "note": "Bible verse (Gen 25:23) cited inline; link attached is about Perez/Zerah. NJPS rendering ('Two separate peoples shall issue from your body; One people shall be mightier') is on myjewishlearning 0324 / thetorah twins 0527, not linked in this paragraph."
+ },
+ {
+  "key": "F266",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud",
+  "file": "0212.txt",
+  "evidence": "...and raise doubts about the ability of all cloud providers to offer them profitably.",
+  "note": "'the ability of all cloud providers to offer them' recast as 'all cloud providers are able to offer [such credits]'; unmarked rewording, same meaning."
+ },
+ {
+  "key": "F267",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mindbridge.ai/platform/",
+  "file": "0535.txt",
+  "evidence": "Report's own AI-generated-content disclaimer, not a quotation of the source.",
+  "note": ""
+ },
+ {
+  "key": "F268",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/",
+  "file": "0144.txt",
+  "evidence": "The Shortcomings and 'Blind Spots' of Anime and Manga Studies",
+  "note": "Blog post title in reference list; matches page title."
+ },
+ {
+  "key": "F269",
+  "label": "IN_SOURCE",
+  "own_url": "http://urj.uin-malang.ac.id/index.php/mij/article/view/5527",
+  "file": "0508.txt",
+  "evidence": "there are several factors that have a very high influence on the online learning process, including technological barriers",
+  "note": ""
+ },
+ {
+  "key": "F270",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://pdfs.semanticscholar.org/5d74/458971d16ca420262455be8a094b904eade1.pdf",
+  "file": "0539.txt",
+  "evidence": "respondents reported that social presence helped them feel more connected to their peers and instructors, which increased motivation, engagement, and learning outcomes",
+  "note": "'them' swapped for 'students'."
+ },
+ {
+  "key": "F271",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.copyright.gov/ai/",
+  "file": "0541.txt",
+  "evidence": "copyright.gov/ai landing page and Syracuse Law Review Copilot post lack the 17 USC 102 wording.",
+  "note": "Statutory phrase; found in snapshot 0226 (another doc, not a link of this paragraph)."
+ },
+ {
+  "key": "F272",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.rep.routledge.com/articles/thematic/artistic-expression/v-1/sections/arousal-theory",
+  "file": "0233.txt",
+  "evidence": "an art work expresses an emotion if and only if it has the power to arouse or tends to arouse that emotion without an object in an appropriate audience",
+  "note": "Drops 'or tends to arouse' and 'without an object' without ellipsis."
+ },
+ {
+  "key": "F273",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.learningscientists.org/blog/2024/2/15-1",
+  "file": "0484.txt",
+  "evidence": "Agent's framing question contrasted with 'Should we allow AI?'; not attributed to source.",
+  "note": ""
+ },
+ {
+  "key": "F274",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://arxiv.org/html/2403.07909v1",
+  "file": "0172.txt",
+  "evidence": "Source: 'if the CPU usage exceeds 80 percent, then scale up the microservice'. Report gives its own illustrative rule ('For example').",
+  "note": "Illustrative example rule; close paraphrase exists in source."
+ },
+ {
+  "key": "F275",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://quranforkids.com/jahannam-hell-fire/",
+  "file": "0299.txt",
+  "evidence": "Quran-for-kids hellfire page has no Surah 74:1-3 wording ('covers himself', 'arise and warn').",
+  "note": "Block-quoted Quran verse (74:1-3, Sahih Intl.); only the linked page is a candidate; not in any snapshot."
+ },
+ {
+  "key": "F276",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/New_International_Economic_Order",
+  "file": "0412.txt",
+  "evidence": "the current international economic order was established at a time when most of the developing countries did not even exist as independent states and which perpetuates inequality.",
+  "note": ""
+ },
+ {
+  "key": "F277",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.sdewes.org/jsdewes/pid8.0321",
+  "file": "0548.txt",
+  "evidence": "Actual title: 'Instabilities and influence of geometric parameters on the efficiency of a pump operated as a turbine for micro hydro power generation: A review'",
+  "note": "Paper title in reference list; note the agent shortened/reworded the title."
+ },
+ {
+  "key": "F278",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.news.uct.ac.za/article/-2003-01-10-medical-history-biblical-texts-reveal-compelling-mysteries",
+  "file": "0203.txt",
+  "evidence": "UCT medical-history article quotes Gen 35 etc. but not Exodus 2:7.",
+  "note": "Bible verse (Exod 2:7, NASB); found on biblehub 0327, bible.com 0304, bibleref 0531 — not this paragraph's footnote [^22]."
+ },
+ {
+  "key": "F279",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://drewdevault.com/2022/06/23/Copilot-GPL-washing.html",
+  "file": "0552.txt",
+  "evidence": "Hypothetical opt-out flag phrase ('e.g., a way to flag ...'), not attributed to a source.",
+  "note": ""
+ },
+ {
+  "key": "F280",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2077-0472/15/20/2135",
+  "file": "0555.txt",
+  "evidence": "Illustrative fuzzy rule given as 'e.g.'; not attributed to the source.",
+  "note": ""
+ },
+ {
+  "key": "F281",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://quran.com/en/55:37/reflections",
+  "file": "0556.txt",
+  "evidence": "quran.com 55:37 reflections page holds a user reflection on the Day of Judgement, not Surah 81:1-4 text.",
+  "note": "Block-quoted Quran verse (81:1-4); not found in any snapshot."
+ },
+ {
+  "key": "F282",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/",
+  "file": "0144.txt",
+  "evidence": "Agent's paraphrased question characterising interpretive focus; not presented as source wording.",
+  "note": ""
+ },
+ {
+  "key": "F283",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.fluxmagazine.com/japanese-anime-on-british-tv/",
+  "file": "0559.txt",
+  "evidence": "In Japan it deals with deeper issues like alienation, gender inequality, homosexuality, corruption and teen angst.",
+  "note": "'homosexuality' dropped from the list without ellipsis."
+ },
+ {
+  "key": "F284",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2582082/",
+  "file": "0246.txt",
+  "evidence": "PMC article (caesarean/obstetrics history) and Pharos journal PDF do not contain 'the children struggled together within her'.",
+  "note": "Bible verse Gen 25:22; found on chatholybible 0493 and thegiftofgivinglife 0572, not the cited pages."
+ },
+ {
+  "key": "F285",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf",
+  "file": "0220.txt",
+  "evidence": "ensuring that verifiers maintain their professional credentials..., establish independence from issuers | regulators should ensure that the appropriate firewalls are in place to guarantee independence of verification activities. Implementing an accreditation program and publishing a list of accredit",
+  "note": "Fragments exist but 'to ensure verifiers' is unmarked rewording of 'ensuring that verifiers', and the splice makes 'The Committee' the subject of what the source says regulators should do."
+ },
+ {
+  "key": "F286",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.uclahealth.org/news/release/ai-model-converts-hospital-records-text-better-emergency",
+  "file": "0420.txt",
+  "evidence": "Hypothetical example of an XAI explanation, contrasted with an AI-SDM example; not attributed to a source.",
+  "note": ""
+ },
+ {
+  "key": "F287",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://ca.thegospelcoalition.org/columns/femmes-scriptura/childbirth-as-a-theme-of-biblical-theology/",
+  "file": "0522.txt",
+  "evidence": "Gospel Coalition article and Cornell event page do not contain Micah 4:10 wording.",
+  "note": "Bible verse (Micah 4:10, NIV); not found in any snapshot."
+ },
+ {
+  "key": "F288",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://journals.sagepub.com/doi/10.1177/17496020241235579",
+  "file": "0562.txt",
+  "evidence": "Culture as window dressing? A threefold methodological framework for researching the locality of Netflix series",
+  "note": "Article title (truncated subtitle); open-access copy matches."
+ },
+ {
+  "key": "F289",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.mindbridge.ai/platform/",
+  "file": "0536.txt",
+  "evidence": "Platform page has been redesigned ('autonomous finance'); no testimonial/quote section or 'Image: quote' element that the #:~:text fragment points to; no Cherry Bekaert mention.",
+  "note": "Fragment 'Image: quote 112' suggests the quote was an image testimonial; page changed. Could arguably be AGENT_ABSENT."
+ },
+ {
+  "key": "F290",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.v7labs.com/blog/ai-auditing-software-for-accountants-guide",
+  "file": "0439.txt",
+  "evidence": "MindBridge AI pioneered the application of ensemble artificial intelligence to financial auditing, combining statistical models, machine learning",
+  "note": "'pioneered' changed to 'pioneering' without marking."
+ },
+ {
+  "key": "F291",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "...has impelled her to absorb the changes of each period into her style, which is variously reminiscent of",
+  "note": "'absorb' changed to 'absorbed' without marking. Live page 404; archive snapshot."
+ },
+ {
+  "key": "F292",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.trustpath.ai/blog/ai-transparency-vs-ai-explainability-where-does-the-difference-lie",
+  "file": "0563.txt",
+  "evidence": "Hypothetical example sentence ('Think of ... a sentence: ...'); not attributed to source.",
+  "note": ""
+ },
+ {
+  "key": "F293",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://attra.ncat.org/publication/micro-hydro-power-a-beginners-guide-to-design-and-installation/",
+  "file": "0567.txt",
+  "evidence": "Both snapshots are the ATTRA/NCAT home page, not the micro-hydro publication; no Francis turbine text.",
+  "note": "Redirected to home page."
+ },
+ {
+  "key": "F294",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://clouds.cis.unimelb.edu.au/papers/Graph-AutoScaleTSE.pdf",
+  "file": "0499.txt",
+  "evidence": "A Cost-Efficient Auto-Scaling Algorithm for Large-Scale Graph Processing in Cloud Environments with Heterogeneous Resources",
+  "note": "Paper title; matches PDF exactly."
+ },
+ {
+  "key": "F295",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh",
+  "file": "0308.txt",
+  "evidence": "Page only says 'The wet nurse of Mephibosheth (II Samuel 4:4) is the only other biblical occurrence...'; the verse wording 'took him up and fled' is not on the page.",
+  "note": "Bible verse 2 Sam 4:4 cited inline; not found in any snapshot."
+ },
+ {
+  "key": "F296",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.digitalocean.com/community/tutorials/auto-scaling-techniques-guide",
+  "file": "0570.txt",
+  "evidence": "Paper title in quotes; cited DigitalOcean tutorial does not contain it.",
+  "note": "Title of a different paper; cited link is unrelated."
+ },
+ {
+  "key": "F297",
+  "label": "IN_SOURCE",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "After the bop era it just all went to pot. Musicians started playing commercial rock and what they call 'free music,' and all the feeling went out of it.",
+  "note": "Live page 404; archive snapshot."
+ },
+ {
+  "key": "F298",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf",
+  "file": "0190.txt",
+  "evidence": "ETSI GS QKD 016 ... Common Criteria Protection Profile - Pair of Prepare and Measure QKD Modules",
+  "note": "Standard title; source wording differs ('Pair of Prepare and Measure QKD Modules')."
+ },
+ {
+  "key": "F299",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://thegiftofgivinglife.com/why-am-i-thus-rebekahs-birth-story/",
+  "file": "0572.txt",
+  "evidence": "Rebekah birth-story blog contains Gen 25 material but not Isaiah 66:8.",
+  "note": "Bible verse (Isa 66:8) cited inline; footnote [^40] page lacks it; not in any snapshot."
+ },
+ {
+  "key": "F300",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ratical.org/MaryLouWilliams/Mission.html",
+  "file": "0128.txt",
+  "evidence": "not to someone who's always telling them, 'Do this, do that,' and straining them, but to someone they want to pay attention to",
+  "note": "Omission marked by '...', but 'someone' changed to 'somebody' unmarked. Archive snapshot (live 404)."
+ },
+ {
+  "key": "F301",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4837829/",
+  "file": "0575.txt",
+  "evidence": "PMC snapshots are reCAPTCHA 'Checking your browser' pages; WMA news post (0101, first footnote) is readable but lacks the quote.",
+  "note": "Two footnotes [^23][^24]: WMA lacks it; PMC could hold it but only CAPTCHA captured."
+ },
+ {
+  "key": "F302",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html",
+  "file": "0013.txt",
+  "evidence": "Article title (English rendering of a Chinese title) in a reference list.",
+  "note": "Title; source is Chinese."
+ },
+ {
+  "key": "F303",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/sweettaste-receptors-lowenergy-sweeteners-glucose-absorption-and-insulin-release/FD76542E4E27715F92DD2B0BCF31483E",
+  "file": "0577.txt",
+  "evidence": "Report's own AI-generated-content disclaimer, not a quotation of the source.",
+  "note": ""
+ },
+ {
+  "key": "F304",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://en.wikipedia.org/wiki/United_Nations_Trusteeship_Council",
+  "file": "0580.txt",
+  "evidence": "Provisions to form a new UN agency to oversee the decolonization of dependent territories from colonial times were made at the San Francisco conference in 1945 and were included in Chapter XII",
+  "note": "Drops 'from colonial times were made at the San Francisco conference in 1945 and' without ellipsis."
+ },
+ {
+  "key": "F305",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2076-3417/15/17/9466",
+  "file": "0584.txt",
+  "evidence": "Hypothetical user request ('say, ...') used as an example.",
+  "note": ""
+ },
+ {
+  "key": "F306",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://en.wikipedia.org/wiki/Ne_Zha_2",
+  "file": "0194.txt",
+  "evidence": "Nezha's master, a Taoist xian who lives on the Kunlun. He serves as the film's comic relief.",
+  "note": "'the Kunlun' -> 'Kunlun' and 'He serves as' -> 'serving as' without marking."
+ },
+ {
+  "key": "F307",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first",
+  "file": "0283.txt",
+  "evidence": "thetorah.com hands-first and red-thread articles do not contain the Ruth 4:12 wording 'whom Tamar bore to Judah'.",
+  "note": "Bible verse cited inline (Ruth 4:12); no link in its sentence; not in any snapshot."
+ },
+ {
+  "key": "F308",
+  "label": "AGENT_ABSENT",
+  "own_url": "http://en.nhc.gov.cn/2017-02/14/c_71188.htm",
+  "file": "0385.txt",
+  "evidence": "NHC 2017 news item on Huang's Rome summit talk; says China banned executed prisoners' organs from 2015, no 'so-called donation from death-row prisoners' wording.",
+  "note": "Report attributes it to a March 2014 interview; footnote [^18] is a 2017 article. Not found in any snapshot."
+ },
+ {
+  "key": "F309",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.mdpi.com/2227-7102/13/6/575",
+  "file": "0345.txt",
+  "evidence": "Hypothetical teacher prompt given as an example of scaffolding; not attributed to source.",
+  "note": ""
+ }
+]

@@ -1,0 +1,24 @@
+[project]
+name = "verbatim"
+version = "0.3.2"
+description = "Check quotes in an agent's report against byte snapshots of the cited sources"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+keywords = ["ai-agents", "deep-research", "citation-verification", "faithfulness", "oversight"]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/tsyyan/verbatim"
+
+[project.optional-dependencies]
+browser = ["playwright"]  # --access browser: render JavaScript pages (verbatim/access.py)
+
+[project.scripts]
+verbatim = "verbatim.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["verbatim"]

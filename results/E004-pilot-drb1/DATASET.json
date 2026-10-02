@@ -1,0 +1,26 @@
+{
+ "dataset": "muset-ai/DeepResearch-Bench-Dataset (Apache-2.0), reports for DeepResearch Bench, arXiv 2506.11763",
+ "downloaded_at": "2026-10-01T02:46Z",
+ "files": {
+  "gemini-2.5-pro-deepresearch": {
+   "url": "https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-Dataset/resolve/main/generated_reports/gemini-2.5-pro-deepresearch.jsonl",
+   "bytes": 8553888,
+   "sha256": "0ead8c3cc42c3ea844e71be7bf21670a608feaa5a718695e3b215247d9198a80"
+  },
+  "grok-deeper-search": {
+   "url": "https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-Dataset/resolve/main/generated_reports/grok-deeper-search.jsonl",
+   "bytes": 1149833,
+   "sha256": "f14c64de8c22d66b5a1c08af0cb0d829d9a4b671378a2952230b2219d258f0ba"
+  },
+  "openai-deepresearch": {
+   "url": "https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-Dataset/resolve/main/generated_reports/openai-deepresearch.jsonl",
+   "bytes": 6903838,
+   "sha256": "8a9dbbf7f18d8c985bc4d4f450089eb4bb73e77dbf7168a1bb4c81f811e06d84"
+  },
+  "perplexity-Research": {
+   "url": "https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-Dataset/resolve/main/generated_reports/perplexity-Research.jsonl",
+   "bytes": 1747879,
+   "sha256": "0a3b855862c99f108abf97b9e402b43eb4d3376c3ec93c2e0a9c871b70d0736e"
+  }
+ }
+}

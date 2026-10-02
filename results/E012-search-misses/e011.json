@@ -1,0 +1,380 @@
+{
+ "misses_031": 34,
+ "unread_now": [
+  "F058",
+  "F064"
+ ],
+ "found_now_by_031": [],
+ "found_by_032_only": [
+  "F001",
+  "F031",
+  "F074"
+ ],
+ "hidden_agent_errors": [],
+ "rows": [
+  {
+   "key": "F001",
+   "label": "IN_SOURCE",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED",
+   "note": "punctuation",
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F002",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F003",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700735.54/warc/CC-MAIN-20260914075225-20260914105225-00819.warc.gz@808490313"
+  },
+  {
+   "key": "F004",
+   "label": "UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F009",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F011",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F012",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F013",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F015",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700735.54/warc/CC-MAIN-20260914075225-20260914105225-00819.warc.gz@808490313"
+  },
+  {
+   "key": "F016",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F017",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F021",
+   "label": "AGENT_ALTERED|UNVERIFIABLE",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "browser chromium"
+  },
+  {
+   "key": "F028",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F031",
+   "label": "IN_SOURCE",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED",
+   "note": "punctuation",
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F032",
+   "label": "UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F038",
+   "label": "UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F043",
+   "label": "UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F045",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "browser chromium"
+  },
+  {
+   "key": "F046",
+   "label": "AGENT_ALTERED|UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "browser chromium"
+  },
+  {
+   "key": "F053",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F054",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F057",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F058",
+   "label": "UNVERIFIABLE",
+   "v031_then": "NOT_FOUND",
+   "unread": "direct: HTTP 429; browser: browser: HTTP 429"
+  },
+  {
+   "key": "F060",
+   "label": "UNVERIFIABLE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F061",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F062",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700735.54/warc/CC-MAIN-20260914075225-20260914105225-00819.warc.gz@808490313"
+  },
+  {
+   "key": "F063",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F064",
+   "label": "IN_SOURCE",
+   "v031_then": "NOT_FOUND",
+   "unread": "direct: HTTP 403; browser: browser: HTTP 403"
+  },
+  {
+   "key": "F065",
+   "label": "AGENT_ALTERED",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F068",
+   "label": "AGENT_ABSENT",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F069",
+   "label": "AGENT_ALTERED|UNVERIFIABLE",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "browser chromium"
+  },
+  {
+   "key": "F070",
+   "label": "AGENT_ALTERED",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F073",
+   "label": "IN_SOURCE",
+   "v031_then": "UNCERTAIN",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "NOT_FOUND",
+   "note": null,
+   "tag": null,
+   "repaired": null,
+   "via": "direct"
+  },
+  {
+   "key": "F074",
+   "label": "IN_SOURCE",
+   "v031_then": "NOT_FOUND",
+   "v031_now": "NOT_FOUND",
+   "v032_now": "FOUND_NORMALIZED",
+   "note": "speech_tag",
+   "tag": "said Eric Newcomer, former chief architect at Credit Suisse.",
+   "repaired": 75,
+   "via": "direct"
+  }
+ ]
+}
