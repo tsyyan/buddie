@@ -1,0 +1,139 @@
+{
+ "n": 76,
+ "checked_quotes": 249,
+ "pool": {
+  "checked_misses_and_punctuation_finds": 46,
+  "checked_finds": 203,
+  "controls": 30
+ },
+ "agreement": {
+  "same": 73,
+  "n": 76,
+  "disagreements": [
+   "F021",
+   "F046",
+   "F069"
+  ],
+  "pairs": {
+   "F021": [
+    "AGENT_ALTERED",
+    "UNVERIFIABLE"
+   ],
+   "F046": [
+    "AGENT_ALTERED",
+    "UNVERIFIABLE"
+   ],
+   "F069": [
+    "AGENT_ALTERED",
+    "UNVERIFIABLE"
+   ]
+  }
+ },
+ "verdicts": {
+  "NOT_FOUND": 20,
+  "UNCERTAIN": 14,
+  "FOUND_NORMALIZED": 15,
+  "FOUND": 27
+ },
+ "labels": {
+  "IN_SOURCE": 42,
+  "AGENT_ALTERED": 19,
+  "UNVERIFIABLE": 6,
+  "NOT_A_QUOTE": 5,
+  "DISAGREE": 3,
+  "AGENT_ABSENT": 1
+ },
+ "table": {
+  "AGENT_ABSENT": {
+   "NOT_FOUND": 1
+  },
+  "AGENT_ALTERED": {
+   "UNCERTAIN": 7,
+   "NOT_FOUND": 12
+  },
+  "DISAGREE": {
+   "NOT_FOUND": 2,
+   "UNCERTAIN": 1
+  },
+  "IN_SOURCE": {
+   "NOT_FOUND": 4,
+   "FOUND_NORMALIZED": 14,
+   "FOUND": 23,
+   "UNCERTAIN": 1
+  },
+  "NOT_A_QUOTE": {
+   "FOUND_NORMALIZED": 1,
+   "FOUND": 4
+  },
+  "UNVERIFIABLE": {
+   "UNCERTAIN": 5,
+   "NOT_FOUND": 1
+  }
+ },
+ "false_not_found_of_checked": {
+  "v0.3.1": {
+   "k": 4,
+   "k_with_disagreements": 6,
+   "n": 249,
+   "rate": 0.0161,
+   "rate_with_disagreements": 0.0241,
+   "ci95": [
+    0.0063,
+    0.0406
+   ],
+   "keys": [
+    "F001",
+    "F031",
+    "F064",
+    "F074"
+   ],
+   "disagreements": [
+    "F021",
+    "F069"
+   ]
+  },
+  "v0.3.0": {
+   "k": 4,
+   "k_with_disagreements": 6,
+   "n": 249,
+   "rate": 0.0161,
+   "rate_with_disagreements": 0.0241,
+   "ci95": [
+    0.0063,
+    0.0406
+   ],
+   "keys": [
+    "F001",
+    "F031",
+    "F064",
+    "F074"
+   ],
+   "disagreements": [
+    "F021",
+    "F069"
+   ]
+  }
+ },
+ "agent_errors_in_sample": 20,
+ "hints": {
+  "n": 0,
+  "labels": {},
+  "hidden_agent_errors": [],
+  "right": []
+ },
+ "filter": {
+  "n": 0,
+  "labels": {},
+  "hidden_agent_errors": [],
+  "right": [],
+  "by_kind": {}
+ },
+ "not_a_quote_left_in_not_found": [],
+ "controls": {
+  "n": 41,
+  "labels": {
+   "IN_SOURCE": 36,
+   "NOT_A_QUOTE": 5
+  }
+ }
+}

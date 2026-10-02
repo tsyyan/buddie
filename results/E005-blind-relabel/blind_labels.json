@@ -1,0 +1,350 @@
+[
+ {
+  "key": "openai/88/L38.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "Variety quote; not in Wikipedia/lopezdoriga/elmanana"
+ },
+ {
+  "key": "openai/69/L378.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "article title, shortened by the agent"
+ },
+ {
+  "key": "openai/95/L48.3",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "imagined thought, not attributed"
+ },
+ {
+  "key": "openai/52/L25.3",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'occurs' and a comma"
+ },
+ {
+  "key": "openai/54/L21.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "example investor view"
+ },
+ {
+  "key": "openai/55/L78.3",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'often' and 'or changing customer behaviours'"
+ },
+ {
+  "key": "openai/93/L10.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Washington Post timed out from container"
+ },
+ {
+  "key": "openai/52/L25.6",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "real Buffett line (1988 letter), cited to 1989 letter / Morningstar"
+ },
+ {
+  "key": "openai/97/L86.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "idiom",
+  "note": "scare-quoted idiom"
+ },
+ {
+  "key": "openai/77/L43.1",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "'heightened level of NCC' -> 'high levels of NFC' (term swapped)"
+ },
+ {
+  "key": "openai/52/L18.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nasdaq 403; not in 1996 letter"
+ },
+ {
+  "key": "openai/55/L70.2",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "agent's own example question"
+ },
+ {
+  "key": "openai/95/L133.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "allusion",
+  "note": "'authors reference the idea', no source claimed"
+ },
+ {
+  "key": "openai/95/L73.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Dharma Wheel 403; its text fragment starts 'Subhuti replied, No,'"
+ },
+ {
+  "key": "openai/52/L18.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nasdaq 403; not in 1996 letter"
+ },
+ {
+  "key": "openai/57/L106.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "not in Capgemini report nor Bloomberg Law"
+ },
+ {
+  "key": "openai/52/L25.2",
+  "label": "NOT_A_QUOTE",
+  "sub": "allusion",
+  "note": "famous maxim used as a label (borderline: could be AGENT_ABSENT)"
+ },
+ {
+  "key": "openai/85/L39.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'x-filtered LMS' -> 'filtered-X LMS', capitalisation"
+ },
+ {
+  "key": "openai/98/L56.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "made-up menu example"
+ },
+ {
+  "key": "openai/52/L18.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nasdaq 403; link text fragment shows the quote is likely there"
+ },
+ {
+  "key": "openai/95/L73.2",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "sutra imagery in another translation's words (borderline)"
+ },
+ {
+  "key": "openai/87/L27.2",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "bracket",
+  "note": "'leading' -> '[led]' is a legitimate editorial bracket"
+ },
+ {
+  "key": "openai/52/L27.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "cited longportapp page is a JS shell (70 chars visible)"
+ },
+ {
+  "key": "openai/57/L79.1",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "said by Paul Daugherty, attributed to Julie Sweet; words dropped"
+ },
+ {
+  "key": "openai/88/L36.2",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "English review line cited to Spanish Infobae and Wikipedia"
+ },
+ {
+  "key": "perple/90/L30.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped ', therefore,'"
+ },
+ {
+  "key": "perple/88/L71.1",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "Spanish original present in Infobae (Caicedo)"
+ },
+ {
+  "key": "perple/52/L27.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "longportapp JS shell; original run read gzip bytes as text"
+ },
+ {
+  "key": "perple/88/L53.1",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "Spanish original present in El Espectador"
+ },
+ {
+  "key": "perple/100/L99.2",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "Turkle quote reworded throughout"
+ },
+ {
+  "key": "perple/81/L15.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Wiley 403"
+ },
+ {
+  "key": "perple/100/L53.3",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "Turkle quote reworded; 'without the demands' -> 'without any obligations'"
+ },
+ {
+  "key": "perple/72/L43.2",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "bracket",
+  "note": "'its' -> '[AI's]' editorial bracket"
+ },
+ {
+  "key": "perple/52/L25.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "futunn pages are JS shells; not in the LinkedIn transcript"
+ },
+ {
+  "key": "perple/88/L41.1",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "Spanish original in Yahoo es-us (tool could not fetch the non-ASCII URL)"
+ },
+ {
+  "key": "perple/57/L27.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "BCG 403"
+ },
+ {
+  "key": "perple/79/L41.3",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "not in IMDb nor transreads"
+ },
+ {
+  "key": "perple/81/L47.2",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "French original in fr.wikipedia"
+ },
+ {
+  "key": "perple/57/L93.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'our'"
+ },
+ {
+  "key": "perple/88/L30.1",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "Spanish original in produ.com"
+ },
+ {
+  "key": "perple/52/L95.1",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "Munger quote reworded"
+ },
+ {
+  "key": "perple/99/L81.1",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "nested-quote",
+  "note": "source has an inner quote mark; FOUND_NORMALIZED with v0.1"
+ },
+ {
+  "key": "perple/79/L43.1",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "paraphrase of Wikipedia sentence in quotation marks"
+ },
+ {
+  "key": "perple/95/L105.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'we' -> 'you'"
+ },
+ {
+  "key": "perple/64/L50.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped '(PD-PSO)' without ellipsis"
+ },
+ {
+  "key": "grok-d/52/L40.2",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "real Buffett line, not on the cited Bankrate page (same bytes as original)"
+ },
+ {
+  "key": "grok-d/89/L26.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "MDA definition reworded and cited to a homepage that lacks it"
+ },
+ {
+  "key": "grok-d/95/L15.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "Conze translation, cited to Plum Village translation"
+ },
+ {
+  "key": "grok-d/52/L50.2",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "different translation of the 2025 Zhejiang talk, cited to 2018 Stanford notes"
+ },
+ {
+  "key": "grok-d/67/L25.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "paper title; ScienceDirect 403"
+ },
+ {
+  "key": "grok-d/95/L35.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "sutra line, not on the cited Mindvalley/everydayzen pages"
+ },
+ {
+  "key": "grok-d/60/L36.1",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "paper title of arXiv v1; later versions renamed"
+ },
+ {
+  "key": "grok-d/87/L23.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "cited University of Fashion page has 0 visible chars"
+ },
+ {
+  "key": "grok-d/52/L40.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "real Buffett line, not on the cited Bankrate page"
+ },
+ {
+  "key": "grok-d/67/L41.1",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "gzip",
+  "note": "title is FOUND once the gzip body is decoded"
+ },
+ {
+  "key": "grok-d/52/L50.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "not in the cited GuruFocus notes (Part I)"
+ },
+ {
+  "key": "grok-d/95/L14.1",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "another translation, cited to Plum Village"
+ },
+ {
+  "key": "grok-d/76/L31.1",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'substrates that are' -> 'a substrate that is'"
+ }
+]

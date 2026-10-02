@@ -1,0 +1,380 @@
+[
+ {
+  "key": "B01",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "source typo 'Does it proved' silently corrected to 'provide'"
+ },
+ {
+  "key": "B02",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "'AI doesn't care' -> 'Chatbots can't care' inside the quote"
+ },
+ {
+  "key": "B03",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'such' and inner quote marks"
+ },
+ {
+  "key": "B04",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "marketing tagline not on the cited product page"
+ },
+ {
+  "key": "B05",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "stitched from two places; dropped 'is a game design framework that'"
+ },
+ {
+  "key": "B06",
+  "label": "UNVERIFIABLE",
+  "sub": "empty-citation",
+  "note": "the quote's own citation is an empty '()'; the bound tag page is unrelated"
+ },
+ {
+  "key": "B07",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example of what a bot says; Nature page is a bot wall (226 chars)"
+ },
+ {
+  "key": "B08",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'such as TVs' without ellipsis"
+ },
+ {
+  "key": "B09",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nature page is a bot wall (226 chars)"
+ },
+ {
+  "key": "B10",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'effectiveness'"
+ },
+ {
+  "key": "B11",
+  "label": "UNVERIFIABLE",
+  "sub": "drift",
+  "note": "today: 'written, framed and passed on'; the text fragment shows the 2025 lead differed (see B26)"
+ },
+ {
+  "key": "B12",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "cited pages say 'substrates that are'; the agent's singular is the ISAPP paper's own wording"
+ },
+ {
+  "key": "B13",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nature page is a bot wall (226 chars)"
+ },
+ {
+  "key": "B14",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "bibliography title; dropped 'the'"
+ },
+ {
+  "key": "B15",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "bibliography title; dropped 'The'"
+ },
+ {
+  "key": "B16",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'is'"
+ },
+ {
+  "key": "B17",
+  "label": "UNVERIFIABLE",
+  "sub": "redirect",
+  "note": "article URL redirects to the site's home page"
+ },
+ {
+  "key": "B18",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example hint the AI 'might' give"
+ },
+ {
+  "key": "B19",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "cited page is a PDF landing page (201 chars)"
+ },
+ {
+  "key": "B20",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'equal to surpassing all' -> 'against all'"
+ },
+ {
+  "key": "B21",
+  "label": "TRANSLATED",
+  "sub": null,
+  "note": "Japanese original in ja.wikipedia (男性への憧れや、既存の女性のように成長したくない)"
+ },
+ {
+  "key": "B22",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "imagined curriculum outcome"
+ },
+ {
+  "key": "B23",
+  "label": "UNVERIFIABLE",
+  "sub": "empty-citation",
+  "note": "own citation is an empty '()'; the bound tag page is unrelated"
+ },
+ {
+  "key": "B24",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "generic warning 'manufacturers often' give"
+ },
+ {
+  "key": "B25",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "inner-quotes",
+  "note": "inner double quotes rendered as single quotes; otherwise verbatim"
+ },
+ {
+  "key": "B26",
+  "label": "UNVERIFIABLE",
+  "sub": "drift",
+  "note": "not in today's lead; the link's text fragment 'Politics of memory is the,...' points to an older lead"
+ },
+ {
+  "key": "B27",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nature page is a bot wall (226 chars)"
+ },
+ {
+  "key": "B28",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "agent's own example of a tactic"
+ },
+ {
+  "key": "B29",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'By adhering' -> 'adhered'"
+ },
+ {
+  "key": "B30",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "spelling only: 'labour' -> 'labor'"
+ },
+ {
+  "key": "B31",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example prompt"
+ },
+ {
+  "key": "B32",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "rhetorical question"
+ },
+ {
+  "key": "B33",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'generating' -> 'generates'"
+ },
+ {
+  "key": "B34",
+  "label": "UNVERIFIABLE",
+  "sub": "drift",
+  "note": "domain now serves gambling spam; the article is gone"
+ },
+ {
+  "key": "B35",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "Turkle's sentence rearranged; '[the hard parts]' inserted"
+ },
+ {
+  "key": "B36",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example of what a bot says; Nature page is a bot wall"
+ },
+ {
+  "key": "B37",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Nature page is a bot wall (226 chars)"
+ },
+ {
+  "key": "B38",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "inch-marks",
+  "note": "5.0\" and 5.99\" inch marks parsed as a quotation"
+ },
+ {
+  "key": "B39",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'jokes that are funny' -> 'jokes are funny'"
+ },
+ {
+  "key": "B40",
+  "label": "UNVERIFIABLE",
+  "sub": "drift",
+  "note": "domain now serves gambling spam"
+ },
+ {
+  "key": "B41",
+  "label": "NOT_A_QUOTE",
+  "sub": "hypothetical",
+  "note": "imagined user goal"
+ },
+ {
+  "key": "B42",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "source 'pronoun.' silently made plural"
+ },
+ {
+  "key": "B43",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "Outer Space Treaty wording, not on the cited War on the Rocks page"
+ },
+ {
+  "key": "B44",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example feedback a system could give"
+ },
+ {
+  "key": "B45",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "bibliography title shortened; dropped 'Only'"
+ },
+ {
+  "key": "B46",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'I' added to a survey statement"
+ },
+ {
+  "key": "B47",
+  "label": "TOOL_FALSE_ALARM",
+  "sub": "punctuation",
+  "note": "only a comma differs ('adapt, and develop')"
+ },
+ {
+  "key": "B48",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example prompt"
+ },
+ {
+  "key": "B49",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "note": "Anubis bot wall (269 chars)"
+ },
+ {
+  "key": "B50",
+  "label": "UNVERIFIABLE",
+  "sub": "thin-page",
+  "note": "snapshot is site navigation; the article body did not render"
+ },
+ {
+  "key": "B51",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped '(quantum charge-coupled device)'"
+ },
+ {
+  "key": "B52",
+  "label": "AGENT_ABSENT",
+  "sub": "invented-title",
+  "note": "bibliography title and author do not match the cited TIME article"
+ },
+ {
+  "key": "B53",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "blog title abbreviated"
+ },
+ {
+  "key": "B54",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example voice command"
+ },
+ {
+  "key": "B55",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "'television commerce (T-commerce)' -> 'T-commerce (television commerce)'"
+ },
+ {
+  "key": "B56",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example teacher question"
+ },
+ {
+  "key": "B57",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "note": "reworded: 'edit the fields directly ... without the need to open the note'"
+ },
+ {
+  "key": "B58",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "note": "dropped 'what was a'"
+ },
+ {
+  "key": "B59",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "claim attributed to clinics; not on the cited clinic page"
+ },
+ {
+  "key": "B60",
+  "label": "UNVERIFIABLE",
+  "sub": "drift",
+  "note": "Train2Cloud URL now serves Signaling X content"
+ },
+ {
+  "key": "B61",
+  "label": "AGENT_ABSENT",
+  "sub": null,
+  "note": "question attributed to Duarte (2015) is not in his article (borderline: may paraphrase its thesis)"
+ },
+ {
+  "key": "B62",
+  "label": "NOT_A_QUOTE",
+  "sub": "title",
+  "note": "real bell hooks chapter title; the cited page cites the book only"
+ },
+ {
+  "key": "B63",
+  "label": "NOT_A_QUOTE",
+  "sub": "illustrative",
+  "note": "example schedule comment"
+ }
+]

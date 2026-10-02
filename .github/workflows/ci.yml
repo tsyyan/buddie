@@ -1,0 +1,29 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: sudo apt-get install -y -q poppler-utils
+      - run: pip install -e . pytest
+      - run: pytest -q
+      - name: quickstart example behaves as the README says
+        working-directory: examples/quickstart
+        run: |
+          export VERBATIM_STORE=$RUNNER_TEMP/store
+          verbatim add https://status.example.com/incidents/42 page.html
+          set +e; verbatim check report.md --json $RUNNER_TEMP/v.json; code=$?; set -e
+          test "$code" = 1
+          python -c "import json,sys; v=[c['verdict'] for c in json.load(open(sys.argv[1]))['claims']]; assert v==['NOT_FOUND','FOUND','NOT_FOUND'], v" $RUNNER_TEMP/v.json

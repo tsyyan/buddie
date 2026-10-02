@@ -1,0 +1,186 @@
+{
+ "claims": [
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L18.1",
+   "line": 18,
+   "quote": "Price is what you pay; value is what you get.",
+   "cited": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "label": "WRONG_SOURCE",
+   "also_found_in": [
+    "https://www.berkshirehathaway.com/letters/2008ltr.pdf"
+   ],
+   "note": "Приписано письму 1996 г.; фраза есть в письме 2008 г."
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L25.6",
+   "line": 25,
+   "quote": "our favorite holding period is forever",
+   "cited": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+   "label": "WRONG_SOURCE",
+   "also_found_in": [
+    "https://www.berkshirehathaway.com/letters/1988.html"
+   ],
+   "note": "Приписано письму 1989 г.; фраза есть в письме 1988 г."
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L18.4",
+   "line": 18,
+   "quote": "Never lose money. Never forget Rule No.1.",
+   "cited": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "label": "NOT_IN_SOURCE",
+   "also_found_in": [],
+   "note": "Нет ни в цитируемом письме 1996 г., ни в письмах 1986, 1988, 1989, 2008 гг."
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L18.3",
+   "line": 18,
+   "quote": "We don’t have to be smarter than the rest; we have to be more disciplined than the rest",
+   "cited": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "label": "NOT_IN_SOURCE",
+   "also_found_in": [],
+   "note": "Нет ни в одном из пяти снятых писем"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L25.3",
+   "line": 25,
+   "quote": "great investment opportunity when a marvelous business encounters a one-time huge but solvable problem",
+   "cited": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+   "label": "ALTERED_MINOR",
+   "also_found_in": [],
+   "note": "В письме 1989 г.: «a great investment opportunity occurs when…»; слово выпущено без многоточия"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 52,
+   "claim": "L11.1",
+   "line": 11,
+   "quote": "don’t have to be an expert on every company… only evaluate companies within your circle of competence. The size of that circle is not very important; knowing its boundaries… is vital",
+   "cited": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=investor needs is the ability,its boundaries%2C however%2C is vital",
+   "label": "ALTERED_MINOR",
+   "also_found_in": [],
+   "note": "В письме 1996 г.: «You only have to be able to evaluate…»; часть фразы выброшена внутри цитаты"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 77,
+   "claim": "L43.1",
+   "line": 43,
+   "quote": "with high levels of NFC will seize on any information that matches their need to reduce uncertainty, regardless of whether they are conspiracy narratives or official explanations",
+   "cited": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A We find that individuals,moderating effect of political trust",
+   "label": "ALTERED_MEANING",
+   "also_found_in": [],
+   "note": "В статье NCC (need for cognitive closure); в цитате подставлено NFC — обычно need for cognition, другой конструкт"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 77,
+   "claim": "L13.1",
+   "line": 13,
+   "quote": "particularly attractive for individuals high in NFC because they reduce ambiguity by providing simple and structured explanations",
+   "cited": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=defined as a desire to,2018",
+   "label": "ALTERED_MEANING",
+   "also_found_in": [],
+   "note": "Та же замена NCC→NFC и выпущено «levels of uncertainty and»"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 77,
+   "claim": "L23.2",
+   "line": 23,
+   "quote": "people high (vs. low) in NFC seize on conspiratorial explanations for uncertain events when such explanations are situationally accessible,",
+   "cited": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Webster ,2018",
+   "label": "NOT_IN_SOURCE",
+   "also_found_in": [],
+   "note": "Подано как слова Marchlewska et al., ссылка на другую статью; в ней фразы нет"
+  },
+  {
+   "system": "openai-deepresearch",
+   "task": 57,
+   "claim": "L79.1",
+   "line": 79,
+   "quote": "over the next decade, AI will be a mega-trend transforming how we live and work,",
+   "cited": "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=“There is unprecedented interest in,when the technology is changing",
+   "label": "ALTERED_MEANING",
+   "also_found_in": [],
+   "note": "На странице это слова Paul Daugherty, а не CEO Julie Sweet; «transforming industries, companies, and the way we live and work» сокращено до «transforming how we live and work»"
+  },
+  {
+   "system": "perplexity-Research",
+   "task": 100,
+   "claim": "L53.3",
+   "line": 53,
+   "quote": "What AI can provide is an escape from the challenges of companionship and friendship. It creates the illusion of intimacy without any obligations",
+   "cited": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+   "label": "ALTERED_REWORDED",
+   "also_found_in": [],
+   "note": "Turkle на NPR: «What AI can offer is a space away from the friction of companionship…»; цитата переписана"
+  },
+  {
+   "system": "perplexity-Research",
+   "task": 100,
+   "claim": "L99.2",
+   "line": 99,
+   "quote": "The issue with this is that when we pursue relationships devoid of vulnerability, we overlook that empathy is born from vulnerability,",
+   "cited": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+   "label": "ALTERED_REWORDED",
+   "also_found_in": [],
+   "note": "Turkle на NPR: «The trouble with this is that when we seek out relationships of no vulnerability…»; цитата переписана"
+  },
+  {
+   "system": "perplexity-Research",
+   "task": 52,
+   "claim": "L95.1",
+   "line": 95,
+   "quote": "If you're not prepared to remain calm during a market drop of 50% two or three times in a century, you're not suited to be a common shareholder, and you will face the mediocre returns you deserve",
+   "cited": "https://finance.yahoo.com/news/charlie-mungers-timeless-investment-advice-113042652.html",
+   "label": "ALTERED_REWORDED",
+   "also_found_in": [],
+   "note": "Munger: «If you're not willing to react with equanimity to a market price decline of 50%…»; цитата переписана"
+  },
+  {
+   "system": "grok-deeper-search",
+   "task": 95,
+   "claim": "L14.1",
+   "line": 14,
+   "quote": "All conditioned dharmas are like dreams, illusions, bubbles, shadows, like dew drops and a lightning flash: contemplate them thus",
+   "cited": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+   "label": "WRONG_SOURCE",
+   "also_found_in": [],
+   "note": "Перевод Conze, а ссылка на перевод Plum Village (Тхить Нят Хань), где эти слова звучат иначе"
+  },
+  {
+   "system": "grok-deeper-search",
+   "task": 95,
+   "claim": "L15.1",
+   "line": 15,
+   "quote": "A bodhisattva who gives a gift should not be supported by a thing, nor should he be supported anywhere",
+   "cited": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+   "label": "WRONG_SOURCE",
+   "also_found_in": [],
+   "note": "То же: перевод Conze приписан странице Plum Village"
+  },
+  {
+   "system": "grok-deeper-search",
+   "task": 52,
+   "claim": "L40.1",
+   "line": 40,
+   "quote": "Our favorite holding period is forever,",
+   "cited": "https://www.bankrate.com/investing/warren-buffett-profile/",
+   "label": "WRONG_SOURCE",
+   "also_found_in": [
+    "https://www.berkshirehathaway.com/letters/1988.html"
+   ],
+   "note": "На профиле Bankrate фразы нет; она есть в письме Баффета 1988 г."
+  }
+ ]
+}

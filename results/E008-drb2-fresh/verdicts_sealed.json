@@ -1,0 +1,5644 @@
+{
+ "F001": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.892,
+   "text": " each groundhog has to look different",
+   "visible_offset": 2840
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6863,
+  "provenance": "publisher",
+  "sha256": "700585aae95bd2c8185872ec8621d3e01a43397d510563882272c8d4b8530c6e",
+  "url": "http://www.ecns.cn/cns-wire/2025-02-17/detail-ihenxmvs7429875.shtml#:~:text=Audiences%20who%20have%20watched%20the,and%20over%204%2C000%20Chinese%20animators",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F002": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.973,
+   "text": "d “The blues was really important—this is your healing and love in the music",
+   "visible_offset": 19250
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 23020,
+  "provenance": "archive",
+  "sha256": "361bbb6410f99a0d9f520f5fd6689ee8b0c74188703c94d4cb84e25af15f914d",
+  "url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=music%20the%20blues%20flourish",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-04 crawl-data/CC-MAIN-2026-04/segments/1768220468917.82/warc/CC-MAIN-20260113110810-20260113140810-00179.warc.gz@197444955"
+ },
+ "F003": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.533,
+   "text": "would not be using pronouns mu",
+   "visible_offset": 318529
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 633403,
+  "provenance": "publisher",
+  "sha256": "d15e4278ac5e4c5414814e5bbcccc345e030ac3c9af1268d6ce8991f5129ae61",
+  "url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F004": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.149,
+   "text": " 联系电话：010-65389115 邮箱：cnwriter@126.com 违法和不良信息举报电话：010-65389115 本网站",
+   "visible_offset": 2694
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2840,
+  "provenance": "publisher",
+  "sha256": "8f63a934f86953c0fa34293ce2455bbb7121e192863857a0023133aa8acb93f3",
+  "url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html#:~:text=%E5%85%89%EF%BC%8C%E3%80%8A%E5%93%AA%E5%90%922%E3%80%8B%E4%B8%AD%E7%9A%84%E4%BB%96%E5%A7%8B%E7%BB%88%E4%B8%80%E8%BA%AB%E6%AD%A3%E6%B0%94%E3%80%81%E5%BF%83%E6%80%9D%E7%BB%86%E8%85%BB%E3%80%81%E6%9E%81%E5%85%B7%E9%A2%86%E8%A2%96%E6%B0%94%E8%B4%A8%EF%BC%8C%E5%9C%A8%E9%BE%99%E6%97%8F%E9%9D%A2%E4%B8%B4%E5%8D%B1%E9%99%A9%E6%97%B6%E6%AF%AB%E4%B8%8D%E9%80%80%E8%AE%A9%EF%BC%8C%E9%9D%A2%E5%AF%B9%E5%AD%A9%E5%AD%90%E6%97%B6%E5%8F%88%E8%83%BD%E5%B1%95%E9%9C%B2%E6%9F%94%E6%83%85%EF%BC%8C%E4%BB%8E%E4%B8%8D%E4%BB%A5%E8%80%81%E4%B8%80%E8%BE%88%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%8D%86%E7%BB%91%E4%BB%96%E4%BA%BA%E3%80%82",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F005": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.898,
+   "text": "viewers have embraced a steady stream of foreign language d",
+   "visible_offset": 2111
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10446,
+  "provenance": "publisher",
+  "sha256": "2fe6f70bc3cdd572068bf9e24c6cd7edddaf90b46d4f3bb19fc2643ef7f40f3f",
+  "url": "https://www.theguardian.com/tv-and-radio/2016/jan/02/foreign-tv-drama-bbc-channel4-netflix#:~:text=I%20t%E2%80%99s%20not%20only%20Faroese,only%20by%20BBC1%20and%20ITV",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F006": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.891,
+   "text": "boosting motivation and fostering self-regulated learni",
+   "visible_offset": 7844
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 102947,
+  "provenance": "archive",
+  "sha256": "6ed807a52632b0077f5132a5810c71f9b82f780fafaa772927c5251402edd2cc",
+  "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1261955/full#:~:text=extensive%20utilization%20of%20self,regulated%20learning",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-34 crawl-data/CC-MAIN-2026-34/segments/1786091385961.45/warc/CC-MAIN-20260816093115-20260816123115-00768.warc.gz@635044510"
+ },
+ "F007": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.157,
+   "text": "���� �� ʱ�� ���� ���� ���� ��ʷ ���� Ҫ�� ���� �� �Ƽ� ��� �� ���� ���� �� ���� ���� �� ���� ���� ���� �۰� ̨�� ���� ���� ���� �۵� �������� ���� ������� �������� �����̸ ���� �쵼���԰� ǿ����̳ άȨ ���ӻ� ��Ƶ ͼƬ ͼ�� �ط� �� �� �� �� ��",
+   "visible_offset": 55
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5795,
+  "provenance": "publisher",
+  "sha256": "b5134a21035245ddf3cdfe44552d3bdcdbea53bb6eedb7a99a3ca1cca8c22319",
+  "url": "http://rmfp.people.com.cn/n1/2017/0111/c406725-29014087.html",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F008": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.457,
+   "text": " 376. 27 27 UN General Assembly (henceforth UNG",
+   "visible_offset": 9725
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 29790,
+  "provenance": "publisher",
+  "sha256": "95aaa8d050e8a559392e56ca90b658beca81883f92d11a0a93b54cf5bfac2778",
+  "url": "https://www.cambridge.org/core/journals/journal-of-global-history/article/managing-the-world-the-united-nations-decolonization-and-the-strange-triumph-of-state-sovereignty-in-the-1950s-and-1960s/EC3FA990F5E7E7A017DDF035592D093A",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F009": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.897,
+   "text": "vely, underprepared to meet this moment",
+   "visible_offset": 4681
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57650,
+  "provenance": "publisher",
+  "sha256": "ae6d65b73898137d649b52d0bfa37045587ef1dd055496bedcd868d7c7009bb5",
+  "url": "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/#:~:text=What%20is%20at%20stake%3F",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F010": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 105896,
+  "provenance": "publisher",
+  "sha256": "e234c8fde866d4fd7790b7e94819d6c6a961b1c9b45b1426dad665ca3dfaac3c",
+  "url": "https://manifold.umn.edu/read/humanitarian-violence/section/9c685530-467b-4426-b692-d653cdb353eb#:~:text=96,risks%20being%20engulfed%20in%20the",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F011": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.469,
+   "text": "les the real data. The goal of the generator is to fool the discr",
+   "visible_offset": 28992
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 107608,
+  "provenance": "publisher",
+  "sha256": "34f14283d278001e7a863cf78c4034a0af7b8665006b6a6a26e53d8bcbdbe768",
+  "url": "https://www.mdpi.com/2673-2688/5/4/101#:~:text=The%20use%20of%20reinforcement%20learning,where%20trading%20bots%20autonomously%20adapt",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F012": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 61381,
+  "provenance": "publisher",
+  "sha256": "c1924cc029c177282d9d8f157f180c906fc32f9b7a91248939d560d3620ec6e8",
+  "url": "https://www.mdpi.com/2306-5354/11/3/251",
+  "verdict": "FOUND",
+  "via": "browser chromium"
+ },
+ "F013": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.387,
+   "text": "ansferred or licensed a right to a publisher, such a transfer or licence constitutes a sufficient legal basis for the publisher to be entitled to a share of the compensation for the use of the work made under an ",
+   "visible_offset": 131051
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 158262,
+  "provenance": "publisher",
+  "sha256": "54abd9f57be435571a74265de57d10326547f7942d8395aa207ccdb02cb10d54",
+  "url": "https://eur-lex.europa.eu/eli/dir/2019/790/oj/eng",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F014": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.418,
+   "text": "ed By Turn off MathJax Article Contents Catalog / DownL",
+   "visible_offset": 2481
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2760,
+  "provenance": "publisher",
+  "sha256": "e83d13e678a9d3ef65ebca02d909ab39394301509a2572bcb33a23869310cd05",
+  "url": "https://wulixb.iphy.ac.cn/en/article/id/3548",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F015": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7265,
+  "provenance": "publisher",
+  "sha256": "93f29914e6a4a0c0fe483a1fdbfdd264adef55ec11096bca4ce8685b9d2e49af",
+  "url": "https://www.nytimes.com/books/00/02/20/reviews/000220.20santort.html?scp=10\\&sq=Play+It+Back\\&st=cse",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F016": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.476,
+   "text": "ses 4 – 5 Moths and mountains This is the Day when people will be like scattered moths and the mountains will be like tufts of wool. In order to help us understand God mentions two things th",
+   "visible_offset": 2513
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6378,
+  "provenance": "publisher",
+  "sha256": "2a1421520f7800257e2ec4a0293e06ab51972816cc1178360e49c2f793361dfd",
+  "url": "https://quranhouse.org/en/article/1049",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F017": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.711,
+   "text": "urn over her— that you may nurse and be satisfied from her consoling breast; that you may drink deeply with delight from her glorious bosom.” Isaiah 66:10-11 Today’s Scripture reading offers a comple",
+   "visible_offset": 1310
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6005,
+  "provenance": "publisher",
+  "sha256": "3a837bbd7279155f699002a301970f76c085708e5e66866f348a288a4cfda15b",
+  "url": "https://anabaptistworld.org/8927-2/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F018": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.411,
+   "text": "nd the lustful that one will miss out, or that one’s wealth will be left behind, or becaus",
+   "visible_offset": 55076
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 87798,
+  "provenance": "publisher",
+  "sha256": "d21076846552cefdca698b59ed273a886fa2d6da1d43699adae7599d73eb608a",
+  "url": "https://yaqeeninstitute.org/read/paper/perspectives-on-islamic-psychology-healing-of-emotions-in-the-quran",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F019": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.964,
+   "text": "could still, if they wanted to, play “within the traditi",
+   "visible_offset": 1826
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13924,
+  "provenance": "publisher",
+  "sha256": "f4b5bc5f8ea88dab95b63f8518a49e1be7bae409704a9d728e20b732053c2037",
+  "url": "https://jazztimes.com/features/profiles/mary-lou-williams-cecil-taylor-embraceable-you/#:~:text=African%20styles%20in%20dress%E2%80%9D%29",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F020": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.36,
+   "text": "ompanies should refrain from inferring too much precedential value from early trial-level decisions, and generally exercise caution around the use of copyrighted work for development of AI tools. Manav Mathews, a summer associate in the Ropes & Gray Washington, DC office contributed to this article. Bartz et al.",
+   "visible_offset": 16134
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21061,
+  "provenance": "archive",
+  "sha256": "22796187457c573ec7a86b77d9fb68a21b7d5e326d1d5730cd22a7b6f984d994",
+  "url": "https://www.ropesgray.com/en/insights/alerts/2025/07/a-tale-of-three-cases-how-fair-use-is-playing-out-in-ai-copyright-lawsuits",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-47 crawl-data/CC-MAIN-2025-47/segments/1762439344161.47/warc/CC-MAIN-20251115170955-20251115200955-00943.warc.gz@773217175"
+ },
+ "F021": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.354,
+   "text": "ehensible. If one has context and somewhat more knowledge about the topic, then it could make sense\" (AI-Exp-01). Generative AI can help filter overload: \"I believe generative AI can definitely help to filter this",
+   "visible_offset": 46954
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 98866,
+  "provenance": "publisher",
+  "sha256": "293e78ede8d63df4e3fd7993d45946999b5a30223e5587c03bc492a51b2f52eb",
+  "url": "https://www.arxiv.org/pdf/2508.06352#:~:text=algorithmic%20transparency,through%20Rapid%20Contextual%20Design%20methodology",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F022": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.418,
+   "text": "te-of-the-art action recognition models, namely 3D conv",
+   "visible_offset": 525
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 69937,
+  "provenance": "publisher",
+  "sha256": "cb62d4f1795fbb265a37b6aa912e5de83c29906a27737c4013325eef4c817afa",
+  "url": "https://arxiv.org/pdf/1811.09908v1",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F023": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.393,
+   "text": " ensayos al cálculo jubilatorio previsto en el Estatuto del Artista y Oficios Conexos. Los ensayos con remuneración se tomarán de acuerdo al tiemp",
+   "visible_offset": 5700
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7119,
+  "provenance": "publisher",
+  "sha256": "67d7bb8e364c57c246ed2e0e490bcb51b41685079d59250f108ba7415637e0d1",
+  "url": "https://www.gub.uy/ministerio-trabajo-seguridad-social/comunicacion/noticias/seguridad-social-para-los-artistas#:~:text=Actualmente%20dentro%20de%20estos%20beneficios,Certificadora%2C%20seg%C3%BAn%20establece%20la%20ley",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F024": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.538,
+   "text": "d) was once made, but rath",
+   "visible_offset": 2289
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 19490,
+  "provenance": "publisher",
+  "sha256": "1d2790b130e35bc43550ffd57f7b85c7c8900dd8b78146ce638c83006498ef86",
+  "url": "https://www.abarim-publications.com/Dictionary/a/a-m-mfin.html",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F025": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.871,
+   "text": " politics of gender, witnessing, postcoloniality and trauma along creative feminist trajector",
+   "visible_offset": 1511
+  },
+  "doubts": [
+   "abstract_only"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 1608,
+  "provenance": "open_access",
+  "sha256": "c71fb3458c3b9d91eba221daaee8f94eafb19b259821a5fce106c054d61871ab",
+  "url": "https://journals.sagepub.com/doi/10.1177/1464700108100394",
+  "verdict": "UNCERTAIN",
+  "via": "open_access openalex abstract"
+ },
+ "F026": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.884,
+   "text": ". After January 1, 2015, “only voluntary donated organs from civilians can be used in transplants",
+   "visible_offset": 1012
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5344,
+  "provenance": "publisher",
+  "sha256": "0e41bd2853c375c423f7c68c207e8518534bc03837a08d8083d69c54f364d7a9",
+  "url": "https://petrieflom.law.harvard.edu/2015/04/21/china-stops-using-executed-prisoners-as-a-source-of-organs-for-transplants/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F027": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.972,
+   "text": "The food for the sinners will be from the tree of Zaqqum. It is like murky oil that churns inside their bellies, like the boiling of hot water. One will be seized and dragged into the middle of the Hellfire, where scalding water will be poured over his hea",
+   "visible_offset": 11523
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 25968,
+  "provenance": "publisher",
+  "sha256": "1154ef6f10dd414732c0fcb94cad6741906edfefabee0bd8751277aa6f14d2a5",
+  "url": "https://www.islamreligion.com/en/articles/11414/chapter-44-ad-dukhan-smoke",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F028": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.375,
+   "text": " of an individual to the Amun priesthood is dated specifically to the reign of \"Pharaoh Siamun\".[19] This new practice was continued under his suc",
+   "visible_offset": 8703
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 45972,
+  "provenance": "publisher",
+  "sha256": "6869ce473c4025f11ceea00b8f247e34ccfddce400fd554d2a566d4f31002cd5",
+  "url": "https://en.wikipedia.org/wiki/Pharaoh",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F029": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.443,
+   "text": "sion. According to this, it would be inappropriate to simply accept the recommendation of",
+   "visible_offset": 31695
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 66506,
+  "provenance": "publisher",
+  "sha256": "0fa1ad107e14ef4adc5cdf4c59e4a0ed173891c77a1080e4779453922f6979e5",
+  "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2022.1016366/full#:~:text=Decision%20support%20is%20of%20course,treating%20physician%2C%20but%20even%20for",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F030": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.941,
+   "text": "that prisoners and other individuals in custody are not in a position to give consent",
+   "visible_offset": 2397
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12104,
+  "provenance": "publisher",
+  "sha256": "43c05d109944ceb001b85841d28efa76eadd14e8893fef2a7319f5653da37491",
+  "url": "https://www.wma.net/policy-tags/execution/#:~:text=stresses%20the%20importance%20of%20free,choice%20in%20organ%20donation%20and",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F031": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 48687,
+  "provenance": "publisher",
+  "sha256": "6a66c8d0a733ac3a4512575c8384e4d35ef0c210eec71fd3bed33dd9f77bb3d2",
+  "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0020091#:~:text=The%20results%20in%20both%20species,segments%20are%20clearly%20separated%20by",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F032": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.387,
+   "text": "d. Sin embargo, no todo es color de rosa y a pesar de que contempla reformas",
+   "visible_offset": 438
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6949,
+  "provenance": "publisher",
+  "sha256": "ca20b737fe6a7d6c011aca6e687255ef62be4a26b7f593a7b3be2287918bd44b",
+  "url": "https://www.infobae.com/2016/01/27/1785698-que-ganan-y-que-pierden-los-artistas-la-implementacion-la-ley-del-actor/#:~:text=,respectivas%2C%20dentro%20del%20a%C3%B1o%20calendario",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F033": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12824,
+  "provenance": "publisher",
+  "sha256": "444fbd81a278f568a4f08167e12a1e1f2de37e11de46917c9e6a6b650e198d61",
+  "url": "https://jazztimes.com/features/profiles/mary-lou-williams-mother-of-us-all/#:~:text=In%20the%201960s%20Williams%20penned,contributions%20had%20been%20largely%20overlooked",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F034": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.75,
+   "text": "g \"Why does this make sense?\" (interpre",
+   "visible_offset": 28233
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 98866,
+  "provenance": "publisher",
+  "sha256": "293e78ede8d63df4e3fd7993d45946999b5a30223e5587c03bc492a51b2f52eb",
+  "url": "https://www.arxiv.org/pdf/2508.06352#:~:text=While%20XAI%20answers%2C%20,different%20questions%20requiring%20different%20approaches",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F035": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.514,
+   "text": "ts of Heck will experience immense regret and despair for their deeds. They will beg for relief and wish the",
+   "visible_offset": 3555
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5126,
+  "provenance": "publisher",
+  "sha256": "436ce15c1b6463ab4aeedbfdcf13e8a4f86436a8ba3be0a1eda7c5e811663cde",
+  "url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F036": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.65,
+   "text": "tand why recommendations make sense with",
+   "visible_offset": 25300
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 98866,
+  "provenance": "publisher",
+  "sha256": "293e78ede8d63df4e3fd7993d45946999b5a30223e5587c03bc492a51b2f52eb",
+  "url": "https://www.arxiv.org/pdf/2508.06352#:~:text=While%20XAI%20answers%2C%20,different%20questions%20requiring%20different%20approaches",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F037": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.402,
+   "text": "s a compass in knowing you are on the right track. Recognises abilities as malleable and upgradable Due to neuroplasticity in the brain, nothing is fixed and everything is emerging at all ti",
+   "visible_offset": 3808
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=We%20can%20support%20neurodivergent%20learners,by",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F038": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.618,
+   "text": "n the air so far and you need something to quell them, you know what I mean. Because I see great havoc on earth",
+   "visible_offset": 818
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=playing,is%20making%20people%20too%20nervous",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F039": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13924,
+  "provenance": "publisher",
+  "sha256": "f4b5bc5f8ea88dab95b63f8518a49e1be7bae409704a9d728e20b732053c2037",
+  "url": "https://jazztimes.com/features/profiles/mary-lou-williams-cecil-taylor-embraceable-you/#:~:text=African%20styles%20in%20dress%E2%80%9D%29",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F040": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.381,
+   "text": "w contempt for their mistress or run away, like Hagar (Gen 16). The real difference between Hagar on the one hand and Zilpah and Bilhah on the other lies in",
+   "visible_offset": 6752
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 22600,
+  "provenance": "publisher",
+  "sha256": "78445f5b9a1ed707938f9c73f96274bc9cd4ec2df5e9ae3849275abb2f144e93",
+  "url": "https://thebiblicalmind.org/article/biblical-matriarchs-overlooked-zilpah-bilhah/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F041": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.301,
+   "text": "tion with commentary Alter, Robert 関連文献: 3件 著者 Alter, Robert 書誌事項 The Hebrew Bible : a translation with commentary Robert Alter W.W. No",
+   "visible_offset": 862
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2221,
+  "provenance": "publisher",
+  "sha256": "7d281d7175c6524bc958c2fe822462fa0c00961fd723f3ba2c882d84fe73766a",
+  "url": "https://ci.nii.ac.jp/ncid/BB27630124",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F042": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.781,
+   "text": ", “Give me children or else I die",
+   "visible_offset": 6330
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13441,
+  "provenance": "publisher",
+  "sha256": "6f613f8aa31eb23ca40146f90214d5180f1fe89bcae73e5b6dda4f04f009b950",
+  "url": "https://jwa.org/encyclopedia/article/barren-women-in-the-bible",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F043": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.943,
+   "text": "freely to determine their political status and freely to pursue their economic, social and cultural devel",
+   "visible_offset": 4511
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "publisher",
+  "sha256": "145e34882ec740e0e99b2d977c31cd2d754d15078f4a83b36870e3318f0d8a7a",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=,which%20have%20not%20yet%20attained",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F044": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.675,
+   "text": " a new production with a completely new ",
+   "visible_offset": 4491
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13504,
+  "provenance": "publisher",
+  "sha256": "df11f9c930892f23d4d501b415bc1a7e1125932cc6f659474b3c25c0fb3837ca",
+  "url": "https://www.abc.net.au/news/2024-01-03/nordic-noir-tv-history-inspires-other-shows/103223036#:~:text=In%20fact%2C%20DR%20developed%20its,them%20for%20a%20Danish%20context",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F045": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.833,
+   "text": "When we think about how scholars typically approach Japanese",
+   "visible_offset": 15723
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 39600,
+  "provenance": "archive",
+  "sha256": "f73661ac7f217c2d4ed20219f57e6293ed210d2f21c53fcca8c5fdd073f0a8d5",
+  "url": "https://www.animemangastudies.com/#:~:text=When%20we%20think%20about%20how,Entering%20the%20Multiverse%3A%20Perspectives%20on",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699577.65/warc/CC-MAIN-20260905073245-20260905103245-00516.warc.gz@537152861"
+ },
+ "F046": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.429,
+   "text": "c rendering Physically based animation Procedural",
+   "visible_offset": 82936
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 86042,
+  "provenance": "publisher",
+  "sha256": "d91773e69bbc6478ea5ab412e3bf2338668376104ec5cc42222d85ab8d7cbf85",
+  "url": "https://en.wikipedia.org/wiki/History_of_anime#:~:text=Over%20the%20following%20decades%2C%20anime,pop%20culture%2C%20known%20for%20its",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F047": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.941,
+   "text": "oth been shown to minimize anxiety",
+   "visible_offset": 10683
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15345,
+  "provenance": "publisher",
+  "sha256": "a3d572761c4e2b9abd53b6b7578924e3fff8cda24b7a667e78c50708dd27a306",
+  "url": "https://autism.org/autism-and-anxiety/#:~:text=,been%20shown%20to%20minimize%20anxiety",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F048": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.957,
+   "text": "One of the ways she would have me learn was to sit literally right next to her while she played,” Tonooka recalled. “You’re connecting with the physicality of what she’s doing; it’s not intellectual, it’s a physical, dynamic experience. That was how she was taught—sitting on her mother’s lap and listening, watching her, being that close. It was powerful because you’re not only observing close at hand, you’re also fee",
+   "visible_offset": 9026
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12824,
+  "provenance": "publisher",
+  "sha256": "2bb8f0a08d5c976daa8ee39be2ecce0194166731a94b2501918ec6a39a3652c4",
+  "url": "https://jazztimes.com/features/profiles/mary-lou-williams-mother-of-us-all/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F049": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.378,
+   "text": " Is Changing How AI Agents Work How AI Impacts Skill Formation: Insights from Anthropic's ",
+   "visible_offset": 2499
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2760,
+  "provenance": "publisher",
+  "sha256": "36e881cd63473594c3e52e085b316b80bcef376c0bbe809401f45ac5d71e7545",
+  "url": "https://skywork.ai/skypage/en/MindBridge-AI:-An-Auditor",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F050": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9652,
+  "provenance": "archive",
+  "sha256": "e8e914e516e6a981c814026493d6bb534d33c9b336f4bf769f270af379b848ee",
+  "url": "https://kpmg.com/xx/en/media/press-releases/2023/04/kpmg-and-mindbridge-announce-alliance-to-power-kpmg-audits-with-ai-technology.html#:~:text=MindBridge%2C%20focused%20on%20harnessing%20the,data%20analytics%20and%20AI%20technology",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2026-25 crawl-data/CC-MAIN-2026-25/segments/1780687862106.87/warc/CC-MAIN-20260617091630-20260617121630-00331.warc.gz@240483479"
+ },
+ "F051": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.581,
+   "text": "dit article Series God Opened Her Womb – Th",
+   "visible_offset": 2494
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20027,
+  "provenance": "publisher",
+  "sha256": "6af19cb6178e845fc6e4b14ebe1dc10a35236d46c9282ec68ffb6aa800e415a9",
+  "url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F052": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.597,
+   "text": "their freely expressed will and desire, without any distinction as to race, creed or colour, in order to enable them to enjoy complete independence and freedom",
+   "visible_offset": 5238
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7401,
+  "provenance": "publisher",
+  "sha256": "f960655e96c5785d1489f382c74a24611662fe8424806f8ddd20f3af7b6826c0",
+  "url": "https://sourcebooks.web.fordham.edu/mod/1960-un-colonialism.asp",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F053": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.988,
+   "text": "All my life I have felt that ‘the Blues’ was a special kind of music, expressing everyday expefience.... It’s music above racism and bitterness, and it shows herois",
+   "visible_offset": 6672
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16927,
+  "provenance": "archive",
+  "sha256": "848341d4a4d2c83e4e5ace8f18547f0e1ae76558098f9b644c43e4c6eec9204d",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/Mission.html#:~:text=My%20Mama%20Pinned%20a%20Rose,98",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700547.52/warc/CC-MAIN-20260913224403-20260914014403-00094.warc.gz@146829094"
+ },
+ "F054": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.533,
+   "text": "ications in the cloud with an ",
+   "visible_offset": 58492
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 68216,
+  "provenance": "publisher",
+  "sha256": "96461b585317fb43829b467cbc5f384cfe1a0aa35c2a4118a5c48ff9ce884d8a",
+  "url": "https://arxiv.org/html/2403.07909v1#:~:text=inter,40%2C%2016",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F055": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.447,
+   "text": "dgeable about workplace rules and, if they are not immediately competent on these issues, it is expected that they",
+   "visible_offset": 5663
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14756,
+  "provenance": "publisher",
+  "sha256": "aa86fd015ed7e01317586c09c0fd5c31542510125465749f4ac51a441bd85cd1",
+  "url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/#:~:text=The%20hidden%20curriculum%20is%20assumed,bound%2C%20literal%2C%20and%20rule%20enforcers",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F056": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.449,
+   "text": "never get stuck. Often I’m driving the car and hea",
+   "visible_offset": 2936
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F057": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": "data points into coherent trading strategies underscore",
+   "visible_offset": 152000
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 182878,
+  "provenance": "publisher",
+  "sha256": "c5964450c7dd29c00cc92cbc845cd14223d08f04429f6b4b0c612c8678b69922",
+  "url": "https://arxiv.org/pdf/2402.18485",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F058": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.613,
+   "text": "ons, and has the right to repor",
+   "visible_offset": 2178
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4031,
+  "provenance": "publisher",
+  "sha256": "7712fc676fcebcb2edccb1a28e927b6c8f88eda04515b3ada05a44850bdf5594",
+  "url": "https://en.nhc.gov.cn/2014-06/05/c_75633.htm",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F059": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 43267,
+  "provenance": "publisher",
+  "sha256": "0846003a48e71e1685c92561b4ac067bc8e14744c7e8265e4eafe12cc0b97eef",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10742803/#:~:text=The%20study%20setup%20for%20MEPS,and%20those%20who%20did%20not",
+  "verdict": "FOUND",
+  "via": "browser chromium"
+ },
+ "F060": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.414,
+   "text": "Complete Guide to Securing AI Agents Arma 3 ALiVE AI Skill: The Comple",
+   "visible_offset": 1941
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2760,
+  "provenance": "publisher",
+  "sha256": "36e881cd63473594c3e52e085b316b80bcef376c0bbe809401f45ac5d71e7545",
+  "url": "https://skywork.ai/skypage/en/MindBridge-AI:-An-Auditor",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F061": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.962,
+   "text": "1 Standard for Quantum Computing Performance Metrics & Performance Benchmarking",
+   "visible_offset": 32899
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=P7131%20Standard%20for%20Quantum%20Computing,and%20to%20benchmark",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F062": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.609,
+   "text": "e worship of the Lord: Indeed your Lord is All",
+   "visible_offset": 27200
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 48192,
+  "provenance": "archive",
+  "sha256": "3741737cd865bdcadbaf87e65866ab39d105ab59bf8e4d0b68604a723852bd0c",
+  "url": "https://iqs.sbu.ac.ir/article_105074.html",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-25 crawl-data/CC-MAIN-2026-25/segments/1780687572269.32/warc/CC-MAIN-20260607010616-20260607040616-00668.warc.gz@218011709"
+ },
+ "F063": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.907,
+   "text": "led the blues “the spiritual feeling” in jazz",
+   "visible_offset": 19779
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 23020,
+  "provenance": "archive",
+  "sha256": "361bbb6410f99a0d9f520f5fd6689ee8b0c74188703c94d4cb84e25af15f914d",
+  "url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=Langston%20Hughes%20called%20the%20blues,life%E2%80%94or%20about%20black%20American%20music",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-04 crawl-data/CC-MAIN-2026-04/segments/1768220468917.82/warc/CC-MAIN-20260113110810-20260113140810-00179.warc.gz@197444955"
+ },
+ "F064": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.463,
+   "text": "oping to recruit them, only to be trapped after cursing a warden to",
+   "visible_offset": 7509
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 44044,
+  "provenance": "archive",
+  "sha256": "7e86557980323b6095b849f0c9556a4a4bc42321c7d8a70412fa4e339415d895",
+  "url": "https://en.wikipedia.org/wiki/Ne_Zha_2#:~:text=Zha%27s%20main%20deeds%20included%20randomly,resurrection%2C%20which%20caused%20Nezha%20to",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-08 crawl-data/CC-MAIN-2026-08/segments/1770395505909.67/warc/CC-MAIN-20260208220644-20260209010644-00774.warc.gz@172633225"
+ },
+ "F065": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.605,
+   "text": "hey should be home practicing,” she sai",
+   "visible_offset": 9600
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 11798,
+  "provenance": "publisher",
+  "sha256": "b90f150d70fe3a9ad29f61990f3e103724b8e9d3d0a44cb728e43ec42a2bcc3e",
+  "url": "https://downbeat.com/archives/detail/marian-mcpartland-in-conversation-with-mary-lou-williams/P1#:~:text=Mary%20Lou%20Williams%3A%20Into%20The,But%20these%20people%20without",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F066": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.753,
+   "text": "rk. They were going home and telling their parents that they'd discovered a new kind of music, and",
+   "visible_offset": 15865
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=believes%20she%20has%20had%20an,lining%20up%20to%20get%20in",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F067": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.5,
+   "text": "others. 'And Esau ran to meet him and em",
+   "visible_offset": 8691
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 17599,
+  "provenance": "publisher",
+  "sha256": "bac235de8f81db2c742520fda52703f00a15a8420f444b4b9a8ceef0d1383229",
+  "url": "https://www.news.uct.ac.za/article/-2003-01-10-medical-history-biblical-texts-reveal-compelling-mysteries",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F068": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.447,
+   "text": "44 Dec 2014 China has said it will stop relying on executed prisoners as the source of transplanting organs, in response to human rights concerns, altho",
+   "visible_offset": 878
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3254,
+  "provenance": "publisher",
+  "sha256": "1ad32e1c5bef08e1edb75853434b89c5437399fddebe8993a3bab001756e6a80",
+  "url": "https://www.aljazeera.com/news/2014/12/4/china-to-end-using-executed-prisoners-organs",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F069": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.895,
+   "text": "mpanies who are already powerful in other digital markets",
+   "visible_offset": 5770
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18796,
+  "provenance": "publisher",
+  "sha256": "17f60b298964ffb92a848f0e98331a5b495ce544c2b9f1386360fab3a7dfc596",
+  "url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud#:~:text=applications%20in%202021",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F070": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.453,
+   "text": "uses of and interactions with social media, and popular culture more broadl",
+   "visible_offset": 34753
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 39600,
+  "provenance": "archive",
+  "sha256": "f73661ac7f217c2d4ed20219f57e6293ed210d2f21c53fcca8c5fdd073f0a8d5",
+  "url": "https://www.animemangastudies.com/#:~:text=When%20we%20think%20about%20how,Entering%20the%20Multiverse%3A%20Perspectives%20on",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699577.65/warc/CC-MAIN-20260905073245-20260905103245-00516.warc.gz@537152861"
+ },
+ "F071": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.836,
+   "text": "9 “Information technology — Quantum computing — Terminol",
+   "visible_offset": 98460
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 379686,
+  "provenance": "publisher",
+  "sha256": "9172f5af7e8189fd4727986cadbf534e9585c73debd11ba077a0eb59f01ad18a",
+  "url": "https://www.cencenelec.eu/media/CEN-CENELEC/AreasOfWork/CEN-CENELEC_Topics/Quantum%20technologies/Documentation%20and%20Materials/fgqt_q04_standardizationroadmapquantumtechnologies_release1.pdf#:~:text=focus%20is%20to%20develop%20the,quantum%20technology%20was%20established%20October",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F072": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": "nt in ornamental production: a continuous battle. Can. J.",
+   "visible_offset": 105656
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 168810,
+  "provenance": "publisher",
+  "sha256": "465dca22ee5295586b00956eaae0e6bba72ded341b5d99980664b4106ee3ae92",
+  "url": "https://typeset.io/pdf/understanding-bud-rot-development-caused-by-botrytis-cinerea-23hr6r2u.pdf",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F073": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.637,
+   "text": "fication services. In China’s green bond market, organizations that provide verification services are closely linked to credit ratings agencies (CRAs). Three major Chines",
+   "visible_offset": 28865
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 54480,
+  "provenance": "publisher",
+  "sha256": "d90bb15c69929f233abe5b244a6b3301e06dca5d1a27fa9dbd75e47ca17a18e2",
+  "url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf#:~:text=In%20China%E2%80%99s%20green%20bond%20market%2C,in%20the%20green%20bond%20market",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F074": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.979,
+   "text": "hurl the spectator into the centre of the action",
+   "visible_offset": 7562
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21597,
+  "provenance": "publisher",
+  "sha256": "d10ebaddb9ec1e7b84453cb90c18b3f58c9dda261be39732dbdc860c41e03e66",
+  "url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty#:~:text=The%20Theatre%20of%20Cruelty%20aimed,them%20out%20of%20their%20complacency",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F075": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.875,
+   "text": "revoke the green bond label of issuers that fail to correct instances of non-compliance highlighted in verificat",
+   "visible_offset": 30994
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 54480,
+  "provenance": "archive",
+  "sha256": "e56bfc2ad33bfc26f9a387bfc66ef1a1cf6560267336b5244e3ece7c6feee107",
+  "url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf#:~:text=green,While%20the%20practice",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-12 crawl-data/CC-MAIN-2026-12/segments/1772687278001.51/warc/CC-MAIN-20260311091257-20260311121257-00300.warc.gz@3778957"
+ },
+ "F076": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.981,
+   "text": "t. The author of AI artwork is the end user who sets the AI art’s existence into motion, like a Pollock with a paintbrush or a photographer behind a camera",
+   "visible_offset": 46805
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 84338,
+  "provenance": "publisher",
+  "sha256": "143408acdf4c60c06e85fb9bc30c6ef21b30c58025c7f5aaa7e4d50d87ec0fef",
+  "url": "https://houstonlawreview.org/article/92132-what-is-an-author-copyright-authorship-of-ai-art-through-a-philosophical-lens#:~:text=the%20copyright,of%20years%20than%20traditional%20copyrights",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F077": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.975,
+   "text": " “Who Stole the Lock off the Henhoue Door",
+   "visible_offset": 6061
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16927,
+  "provenance": "publisher",
+  "sha256": "7853245654fb960698c9b08da67f7e763857589586d0c5241c68ab5ed2a17dcc",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/Mission.html#:~:text=The%20History%20of%20Jazz,98",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F078": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20073,
+  "provenance": "publisher",
+  "sha256": "7b329724a8266635a2560b382ff1d15ea8f9d8b119c6b3a958fd03fefda68662",
+  "url": "https://dl.ifip.org/db/conf/cnsm/cnsm2017/1570382622.pdf",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F079": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.392,
+   "text": "s a fundamental belief in Islam. It marks the end of the world and the beginning of the afterlife, where every soul will be judged for their deeds. The Quran and Hadith provide vivid and ofte",
+   "visible_offset": 323
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5126,
+  "provenance": "publisher",
+  "sha256": "436ce15c1b6463ab4aeedbfdcf13e8a4f86436a8ba3be0a1eda7c5e811663cde",
+  "url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F080": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.493,
+   "text": "um item on the whiteboard and briefly discuss it with the entire class. Al",
+   "visible_offset": 9806
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14756,
+  "provenance": "publisher",
+  "sha256": "aa86fd015ed7e01317586c09c0fd5c31542510125465749f4ac51a441bd85cd1",
+  "url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/#:~:text=The%20hidden%20curriculum%20is%20assumed,bound%2C%20literal%2C%20and%20rule%20enforcers",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F081": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.742,
+   "text": " has sent down the best message—a Book of perfect consistency and repeated lessons—which causes the skin ˹and hearts˺ of those who fear their Lord to tremble, then their skin and hearts soften at th",
+   "visible_offset": 1941
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4801,
+  "provenance": "publisher",
+  "sha256": "d5dbba234979c675072ee4497c138f37400b6ec04a7bd2b4c9e5b8f6f742552f",
+  "url": "https://quran.com/en/az-zumar/23#:~:text=%CB%B9It%20is%CB%BA%20Allah%20%CB%B9Who%CB%BA%20has,be%20left%20with%20no%20guide",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F082": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.519,
+   "text": "the high rate of maternal d",
+   "visible_offset": 4875
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13441,
+  "provenance": "publisher",
+  "sha256": "6f613f8aa31eb23ca40146f90214d5180f1fe89bcae73e5b6dda4f04f009b950",
+  "url": "https://jwa.org/encyclopedia/article/barren-women-in-the-bible",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F083": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.758,
+   "text": "the concrete construction of temporary settings of life and their transformation into a higher, pas",
+   "visible_offset": 383
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 44519,
+  "provenance": "publisher",
+  "sha256": "51304ab7cccaf9b7d6df01b9703523e092e3d9bce1879aa2abb0c898355141cc",
+  "url": "https://onscenes.weebly.com/philosophy/towards-a-situationist-international#:~:text=by%20Guy%20Debord",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F084": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.332,
+   "text": "em in a way that allows them to evaluate outputs, detect errors, and thus exercise control over the systems. Explainability can also bring its own difficulties. For example, a high demand is placed on the individual, who must not only under",
+   "visible_offset": 45511
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 67556,
+  "provenance": "archive",
+  "sha256": "cbc1af920bfeddfa057a76a064a63ea3abf5c16beca462de49639af18911e720",
+  "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2022.1016366/full#:~:text=importance%20of%20broadening%20the%20view,interaction%20with%20the%20systems%20available",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700164.15/warc/CC-MAIN-20260912161414-20260912191414-00793.warc.gz@643062153"
+ },
+ "F085": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.517,
+   "text": "ority is the Torah, the first",
+   "visible_offset": 4759
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28306,
+  "provenance": "publisher",
+  "sha256": "369c0cbf2aa1aa0a89b280894c86f5c6315445796c296bd011c1072a31bb8c99",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2582082/",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F086": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.426,
+   "text": " backdrop of the desire to bear children. Miriam is not infertile, because we are never told that she wants or tries to have child",
+   "visible_offset": 12757
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20027,
+  "provenance": "publisher",
+  "sha256": "6af19cb6178e845fc6e4b14ebe1dc10a35236d46c9282ec68ffb6aa800e415a9",
+  "url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F087": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16067,
+  "provenance": "publisher",
+  "sha256": "445b210904f67c12dc0e7fa9eec2a4a58a05c9cfb7b025b5e15141219afaf27f",
+  "url": "https://resourcegovernance.org/sites/default/files/nrgi_Resource-Curse.pdf#:~:text=in%20the%20economy%20that%20generate,managed%20to%20overcome%20Dutch%20disease",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F088": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.887,
+   "text": "See the guys that they’re patterned after like Coltrane and all that, they would never be a Coltrane because they don’t know anything",
+   "visible_offset": 4273
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F089": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.473,
+   "text": "r your light has come, and the glory of the LORD has risen (zarach) upon you. For behold, da",
+   "visible_offset": 3124
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4700,
+  "provenance": "publisher",
+  "sha256": "38c47d9db45884c3ba35b933401c930a17284f2ebf3a6c7c28336a4d50e24fbe",
+  "url": "https://perrystone.org/perez-and-zerah/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F090": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.486,
+   "text": "to inform us of any unfair business",
+   "visible_offset": 5988
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7145,
+  "provenance": "publisher",
+  "sha256": "ffd164a3463247148ecdb9ca3f13f85058656da1c3392ca39dc0bfb5e8317edb",
+  "url": "https://www.saverilawfirm.com/our-cases/github-copilot-intellectual-property-litigation",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F091": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.402,
+   "text": "and briefly discuss it with the entire class. All learners can benefit from the hidden curriculum; however, it is essential for ",
+   "visible_offset": 9832
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14756,
+  "provenance": "publisher",
+  "sha256": "aa86fd015ed7e01317586c09c0fd5c31542510125465749f4ac51a441bd85cd1",
+  "url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/#:~:text=The%20hidden%20curriculum%20is%20assumed,bound%2C%20literal%2C%20and%20rule%20enforcers",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F092": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.986,
+   "text": "fully supports China’s complete prohibition on the use of organs from death penalty prisoners for transplantation, implemented on January 1st, 20",
+   "visible_offset": 3767
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12104,
+  "provenance": "publisher",
+  "sha256": "43c05d109944ceb001b85841d28efa76eadd14e8893fef2a7319f5653da37491",
+  "url": "https://www.wma.net/policy-tags/execution/#:~:text=Whereas%20the%20Chinese%20Medical%20Association,meeting%20in%20Nairobi%202023%2C%20stating",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F093": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.625,
+   "text": "ubvert thought and logic and to shock the spectator into seeing ",
+   "visible_offset": 4033
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21597,
+  "provenance": "publisher",
+  "sha256": "d10ebaddb9ec1e7b84453cb90c18b3f58c9dda261be39732dbdc860c41e03e66",
+  "url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty#:~:text=Encyclop%C3%A6dia%20Britannica%20describes%20the%20Theatre,theatre%20and%20strove%20to%20create",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F094": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.402,
+   "text": "ass in this garden by transgressing its laws, they created further laws, the “Oral Law,” to prevent the people from coming close to su",
+   "visible_offset": 9210
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 19681,
+  "provenance": "publisher",
+  "sha256": "cb9a6d250f29ac6a5c63c393a684f04b12fb9975bce0fb71ffe08eb08f4360c7",
+  "url": "https://wol.jw.org/en/wol/pc/r1/lp-e/1200271326/25/0",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F095": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.455,
+   "text": "annels and announcement functionality to facilitate pee",
+   "visible_offset": 1363
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8670,
+  "provenance": "publisher",
+  "sha256": "adf77e955b37790a269a4c05e0352e4b50d12b073b3b647ce3bf4442c8edcccc",
+  "url": "https://www.lboro.ac.uk/services/od-hub/topics/peer-2-peer-learning-engineering-tutorial",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F096": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.645,
+   "text": " nothing heroic about war, which needed to be shown as sickening, repulsive ",
+   "visible_offset": 5436
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10976,
+  "provenance": "publisher",
+  "sha256": "56561b493545f2d311a83569869bb61a398adb4ccca4c6db1337d6c18d7dbd50",
+  "url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review#:~:text=accountant%20who%2C%20as%20a%20sniper,as%20sickening%2C%20repulsive%20and%20insane",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F097": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.918,
+   "text": "ive secure considerably less freedom to text and data mine than they initially appear",
+   "visible_offset": 8302
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 11440,
+  "provenance": "publisher",
+  "sha256": "ef9bd18b17d94cdfec805edadf619705f414abb870f01fe6dae835fa051e0bbd",
+  "url": "https://legalblogs.wolterskluwer.com/copyright-blog/the-new-copyright-directive-text-and-data-mining-articles-3-and-4/#:~:text=In%20conclusion%2C%20the%20TDM%20provisions,without%20any%20of%20the%20TDM",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F098": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2617,
+  "provenance": "publisher",
+  "sha256": "21a39959951188e22c635ce2403572ffb091f767ed41d2bbdbc52bec5e8291e3",
+  "url": "https://www.rai.ox.ac.uk/event/ive-got-a-story-to-tell#:~:text=At%20the%20time%20of%20her,of%20intellectuals%20and%20creatives%20that",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F099": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.976,
+   "text": "mission -- to bring jazz back to the youn",
+   "visible_offset": 339
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=,my%20hands%20beat%20hers%20to",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F100": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15709,
+  "provenance": "publisher",
+  "sha256": "edb314d6b94f025fa77e4a456a00fb43fbf306de639174c971fe9996803de48a",
+  "url": "https://deepdub.ai/post/netflix-international-expansion",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F101": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.317,
+   "text": " Mendeley Show Refer/BibIX Show RIS Show BibTeX Show TSV Show ISBD Page Top Smart Phone | PC About CiNii About CiNii CiNii Incorporated Databases Terms of use & Privacy Policy Handling o",
+   "visible_offset": 3571
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3992,
+  "provenance": "publisher",
+  "sha256": "90b4e95624541a7180735e746fa106c133fa81baf5567d07630455a5401cf3d8",
+  "url": "https://ci.nii.ac.jp/ncid/BA86918401?l=en",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F102": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": "and the tuned configurations does not contain the value",
+   "visible_offset": 57827
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 111423,
+  "provenance": "publisher",
+  "sha256": "eeecea08e5c5e5fe09fc59767bd12a9467f1c1efd1e0da030207cf0d5de00e4d",
+  "url": "https://iridia.ulb.ac.be/IridiaTrSeries/link/IridiaTr2015-006.pdf",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F103": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.414,
+   "text": "Stefanie Faye A mindset is a predictive model - the brain’s way of making sense of experience. It guides what we",
+   "visible_offset": 2209
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=Regulatory%20flexibility%20is%20the%20ability,brain%E2%80%99s%20way%20of%20rehearsing%20uncertainty",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F104": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9985,
+  "provenance": "publisher",
+  "sha256": "430913a828c552e0beb624eb9046f86bd757810218e8daaab0d8a127e6bf15c4",
+  "url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F105": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 96865,
+  "provenance": "publisher",
+  "sha256": "a1f2d9f1c8ff111bc92af115aefe7abe29c591e163ad8d73c664b905cb9d92a7",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-MyLifewKoJ-1954.html#:~:text=the%20phrasing%20been%20like%20it,to%20continue%20writing%20and%20experimenting",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F106": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.477,
+   "text": " is perhaps one reason why Japanologists neglect manga’s aesthetic and cultural partic",
+   "visible_offset": 9263
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F107": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.456,
+   "text": "ators and authors of the stories about childbirth in the ",
+   "visible_offset": 11684
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21059,
+  "provenance": "publisher",
+  "sha256": "bb10c121bcd0124d879c14b51f20debdee371d5ceb1e56b6dc2d972ab72f593b",
+  "url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=,Peretz%29%20will%20be%20dominant",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F108": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.568,
+   "text": "nt and assembly sequence problem in PCB asse",
+   "visible_offset": 69652
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 75258,
+  "provenance": "publisher",
+  "sha256": "d95da70f28d0274cb9485cdf0385b65843d53ff5931f838e53779c977ecaba43",
+  "url": "https://www.utupub.fi/bitstream/10024/42449/3/dissKariSalonen091008d.2.bgt.pdf#:~:text=industry,practical%20size%20which%20can%20be",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F109": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.909,
+   "text": "P3172 Recommended Practice for Post-Quantum Cryptography Migration",
+   "visible_offset": 33277
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=P3172%20Recommended%20Practice%20for%20Post,key",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F110": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.921,
+   "text": "to shock them out of their complacency",
+   "visible_offset": 7758
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21597,
+  "provenance": "publisher",
+  "sha256": "d10ebaddb9ec1e7b84453cb90c18b3f58c9dda261be39732dbdc860c41e03e66",
+  "url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty#:~:text=The%20Theatre%20of%20Cruelty%20aimed,them%20out%20of%20their%20complacency",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F111": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.846,
+   "text": "equently treat these animated movies as mirrors of Japanese culture, assuming the existence",
+   "visible_offset": 6571
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=%3E%20Non,it%20also%20involves%20a%20widespread",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F112": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=assurance%20for%20quantum%20key%20distribution,of%20QoS%20requirements%20should%20be",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F113": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21059,
+  "provenance": "publisher",
+  "sha256": "bb10c121bcd0124d879c14b51f20debdee371d5ceb1e56b6dc2d972ab72f593b",
+  "url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=,Peretz%29%20will%20be%20dominant",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F114": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.463,
+   "text": "rtans practised this by imagining all pos",
+   "visible_offset": 5191
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=Regulatory%20flexibility%20is%20the%20ability,brain%E2%80%99s%20way%20of%20rehearsing%20uncertainty",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F115": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.167,
+   "text": "展馆南里10号15层 联系电话：010-65389115 邮箱：cnwriter@1",
+   "visible_offset": 2684
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2840,
+  "provenance": "publisher",
+  "sha256": "8f63a934f86953c0fa34293ce2455bbb7121e192863857a0023133aa8acb93f3",
+  "url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html#:~:text=%E6%AD%A3%E9%82%AA%E7%A2%B0%E6%92%9E%EF%BC%8C%E9%A2%A0%E8%A6%86%E5%88%BB%E6%9D%BF%E5%8D%B0%E8%B1%A1%E7%9A%84%E4%BA%BA%E7%89%A9%E5%A1%91%E9%80%A0%E5%85%B1%E5%90%8C%E8%B0%B1%E5%86%99%E7%9D%80%E6%96%B0%E7%9A%84%E7%A5%9E%E9%AD%94%E6%95%85%E4%BA%8B%E3%80%82%E9%99%AA%E4%BC%B4%E8%AE%B8%E5%A4%9A%E2%80%9C90%E5%90%8E%E2%80%9D%E5%B9%B4%E8%BD%BB%E4%BA%BA%E6%88%90%E9%95%BF%E7%9A%84%E5%8A%A8%E7%94%BB%E3%80%8A%E5%93%AA%E5%90%92%E4%BC%A0%E5%A5%87%E3%80%8B%E4%B8%AD%EF%BC%8C%E7%9F%B3%E5%A4%B4%E4%BF%AE%E7%82%BC%E8%80%8C%E6%88%90%E7%9A%84%E9%AD%94%E5%A4%B4%E7%9F%B3%E7%9F%B6%E5%A8%98%E5%A8%98%E4%B8%8E%E9%87%8E%E5%BF%83%E5%8B%83%E5%8B%83%E7%9A%84%E7%94%B3%E5%85%AC%E8%B1%B9%E6%98%AF%E2%80%9C%E5%8F%8D%E6%B4%BE%E2%80%9D%20%E7%9A%84%E4%BB%A3%E8%A1%A8%EF%BC%9B%E8%BF%91%E5%B9%B4%E4%B8%8A%E6%98%A0%E7%9A%84%E3%80%8A%E6%96%B0%E7%A5%9E%E6%A6%9C%EF%BC%9A%E5%93%AA%E5%90%92%E9%87%8D%E7%94%9F%E3%80%8B%E4%B8%AD%EF%BC%8C%E4%B8%8D%E8%A7%81%E7%9F%B3%E7%9F%B6%E4%B8%8E%E7%94%B3%E5%85%AC%E8%B1%B9%E7%9A%84%E8%BA%AB%E5%BD%B1%EF%BC%8C%E6%AD%A3%E9%82%AA%E6%95%85%E4%BA%8B%E7%9A%84%E8%B0%B1%E5%86%99%E5%8F%AA%E5%9C%A8%E5%93%AA%E5%90%92%E4%B8%8E%E6%95%96%E4%B8%99%E8%BA%AB%E4%B8%8A%E5%B1%95%E5%BC%80%EF%BC%8C%E2%80%9C%E6%8A%BD%E9%BE%99%E7%AD%8B%E2%80%9D%E7%9A%84%E6%83%85%E8%8A%82%E8%AE%BE%E8%AE%A1%E4%BE%9D%E6%97%A7%E5%BB%B6%E7%BB%AD%E4%BA%86%E4%B9%8B%E5%89%8D%E7%9A%84%E5%8A%A8%E7%94%BB%EF%BC%8C%E5%B0%86%E6%95%96%E4%B8%99%E5%A1%91%E9%80%A0%E6%88%90%E2%80%9C%20%E9%82%AA%E2%80%9D%EF%BC%8C%E6%AD%A3%E9%82%AA%E7%9B%B8%E4%BA%89%EF%BC%8C%E5%AD%B0%E8%83%9C%E5%AD%B0%E8%B4%A5%E6%97%A9%E6%9C%89%E5%AE%9A%E8%AE%BA%E3%80%82%E8%BF%99%E4%BA%9B%E4%BD%9C%E5%93%81%E5%9B%BA%E7%84%B6%E6%98%AF%E4%BD%B3%E4%BD%9C%EF%BC%8C%E5%8D%B4%E4%B9%9F%E7%9B%B8%E5%BA%94%E5%B8%A6%E6%9C%89%E5%90%84%E8%87%AA%E6%97%B6%E4%BB%A3%E7%9A%84%E7%83%99%E5%8D%B0%EF%BC%8C%E7%B2%BE%E5%BD%A9%E6%9C%89%E4%BD%99%EF%BC%8C%E7%8B%AC%E7%89%B9%E7%95%A5%E6%9C%89%E4%B8%8D%E8%B6%B3%E3%80%82",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F116": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.947,
+   "text": "respect for the sovereign rights of all peoples and their territorial integ",
+   "visible_offset": 5493
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "archive",
+  "sha256": "f554ccc7d719be4a1548ea4fc4877c6b498463c291a4025406bb0aa84ad2e644",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=decolonisation%20conflicts%20,7",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700031.22/warc/CC-MAIN-20260911185431-20260911215431-00853.warc.gz@277151520"
+ },
+ "F117": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.19,
+   "text": "的色彩享受。 色彩之外，值得惊叹的中国元素比比皆是，在B站博主BuriedAlien",
+   "visible_offset": 1017
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2840,
+  "provenance": "publisher",
+  "sha256": "8f63a934f86953c0fa34293ce2455bbb7121e192863857a0023133aa8acb93f3",
+  "url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html#:~:text=%E5%85%89%EF%BC%8C%E3%80%8A%E5%93%AA%E5%90%922%E3%80%8B%E4%B8%AD%E7%9A%84%E4%BB%96%E5%A7%8B%E7%BB%88%E4%B8%80%E8%BA%AB%E6%AD%A3%E6%B0%94%E3%80%81%E5%BF%83%E6%80%9D%E7%BB%86%E8%85%BB%E3%80%81%E6%9E%81%E5%85%B7%E9%A2%86%E8%A2%96%E6%B0%94%E8%B4%A8%EF%BC%8C%E5%9C%A8%E9%BE%99%E6%97%8F%E9%9D%A2%E4%B8%B4%E5%8D%B1%E9%99%A9%E6%97%B6%E6%AF%AB%E4%B8%8D%E9%80%80%E8%AE%A9%EF%BC%8C%E9%9D%A2%E5%AF%B9%E5%AD%A9%E5%AD%90%E6%97%B6%E5%8F%88%E8%83%BD%E5%B1%95%E9%9C%B2%E6%9F%94%E6%83%85%EF%BC%8C%E4%BB%8E%E4%B8%8D%E4%BB%A5%E8%80%81%E4%B8%80%E8%BE%88%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%8D%86%E7%BB%91%E4%BB%96%E4%BA%BA%E3%80%82",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F118": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.933,
+   "text": "moved backward and did all the spirituals aga",
+   "visible_offset": 4067
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=they%20sing%2C%20%60shoo,Pushing%20back%20her",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F119": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": " be harder to modify in an implementation context becau",
+   "visible_offset": 64259
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 174254,
+  "provenance": "publisher",
+  "sha256": "4f95a4b8687e702a108fc236318c430fa259b1dc3e28e13e034aa3c886ed06a5",
+  "url": "https://www.givewell.org/international/technical/programs/dietary-salt-modification",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F120": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 105896,
+  "provenance": "publisher",
+  "sha256": "e234c8fde866d4fd7790b7e94819d6c6a961b1c9b45b1426dad665ca3dfaac3c",
+  "url": "https://manifold.umn.edu/read/humanitarian-violence/section/9c685530-467b-4426-b692-d653cdb353eb#:~:text=96,risks%20being%20engulfed%20in%20the",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F121": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.35,
+   "text": " who will, without a doubt, be in the fire forever. They are given boiling water ",
+   "visible_offset": 8037
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13652,
+  "provenance": "publisher",
+  "sha256": "989f3bc01b7c6942dde62ad4798da9cf3eb7fbccae1a6028d4e73dfe1cad0a22",
+  "url": "https://quranforkids.com/jahannam-hell-fire/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F122": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.994,
+   "text": "lives the situations, one after the other, trying to visualize the climate of the historical occurrences through the activity of the heroes of the story as though he were living the",
+   "visible_offset": 6199
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 209545,
+  "provenance": "publisher",
+  "sha256": "59a12b8e7b7c7cae049ae0d51716dd7d80801585d20a7fd3eba7b896ddecadb6",
+  "url": "https://thequranblog.wordpress.com/2010/06/13/quranic-storytelling-in-dialogue/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F123": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.416,
+   "text": "d she called his name Moses: and she said, Because I drew him out of the wate",
+   "visible_offset": 3029
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6311,
+  "provenance": "publisher",
+  "sha256": "7567d72766984aa7734d9d53fb0e64e52fd12e0ecd0c53968889d5fd31aa9013",
+  "url": "https://www.bible.com/bible/compare/EXO.2.7-10",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F124": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.435,
+   "text": "e aware of the longstanding practice to hold celebrations for ",
+   "visible_offset": 17086
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20879,
+  "provenance": "archive",
+  "sha256": "00826be403e1dd2321a271416060e6c3bd9adf86a4e5e45317db8ff5380f243f",
+  "url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh#:~:text=And%20Moses%20said%20to%20the,Numbers%2011%3A11%E2%80%9315",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-08 crawl-data/CC-MAIN-2025-08/segments/1738832259438.98/warc/CC-MAIN-20250217191831-20250217221831-00620.warc.gz@748063147"
+ },
+ "F125": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.974,
+   "text": "no longer have heroes -- like Babe Rut",
+   "visible_offset": 16157
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=music%2C%20and%20a%20new%20pianist%2C,They%27re%20looking",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F126": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.897,
+   "text": "automating mundane tasks and enabling focus on meaningful ",
+   "visible_offset": 5070
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9582,
+  "provenance": "publisher",
+  "sha256": "e18093d65a4e09427d47606f0dab82c85fa80a387f2d0151e7f9ac4743e73e06",
+  "url": "https://www.commerce.nc.gov/news/the-lead-feed/generative-ai-and-future-work#:~:text=AI%20may%20be%20used%20to,augment%20and%20improve%20work",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F127": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.967,
+   "text": "GuSTO: Guaranteed Sequential Trajectory Optimization via Seq",
+   "visible_offset": 0
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 51902,
+  "provenance": "publisher",
+  "sha256": "0d2b946702db473b90b7f70d3227cd8ce82a230a6179a692b73f155016495896",
+  "url": "https://stanfordasl.github.io/wp-content/papercite-data/pdf/Bonalli.Cauligi.Bylard.Pavone.ICRA19.pdf#:~:text=trajectory%20optimization%20,art%20approaches%20in",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F128": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.367,
+   "text": "eaning comes much later. In the apocalyptic book of Revelation, the Apostle John reported the following from his vision. “A great sign appeared in heaven: a woman clothed with the sun, and the moon under her feet, and on her head a crown of twelve stars; and she was with child; and she cried out, being in l",
+   "visible_offset": 10337
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 17533,
+  "provenance": "publisher",
+  "sha256": "a878944811b1fe2f5b0700e129f280b24a77b26b5dd18b71823de86c69ec387b",
+  "url": "https://www.reformation21.org/blog/from-anguish-to-joy",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F129": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.831,
+   "text": "3:16, “I will greatly multiply your pain in childbirth, in pain you shall deliver children",
+   "visible_offset": 841
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7450,
+  "provenance": "publisher",
+  "sha256": "bfe435166c0cfee05ae21ed63f4106a02409df24c58430bf5f5fac0cc2fc03f5",
+  "url": "https://skipmoen.com/2022/02/birth-rite/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F130": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.95,
+   "text": "ensure that companies keep investing in the technology, safe in the knowledge that they will get a r",
+   "visible_offset": 15022
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15951,
+  "provenance": "publisher",
+  "sha256": "2a4845376055bd81fc2459a3af3f09dcc141cbf1df55b6d78d734c1601b1217c",
+  "url": "https://www.wipo.int/en/web/wipo-magazine/articles/artificial-intelligence-and-copyright-40141#:~:text=Granting%20copyright%20to%20the%20person,a%20return%20on%20their%20investment",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F131": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.434,
+   "text": "Midrash then goes on to try to explain the nature of her discomfort, saying: When Rebecca would pass a syn",
+   "visible_offset": 4922
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10491,
+  "provenance": "publisher",
+  "sha256": "88970f0cb896db43b2aa7b3164593c71e2a0226eb6664d3c09b57d264abddd95",
+  "url": "https://www.myjewishlearning.com/article/rebecca-and-isaacs-guide-to-raising-twins-not/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F132": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12223,
+  "provenance": "publisher",
+  "sha256": "c7b8f681384d47d721d216dfd97d2b02705f35f0963a3bf8f90dee65a21eebd3",
+  "url": "https://angelusnews.com/arts-culture/mary-lou-williams-pioneer-of-sacred-jazz/#:~:text=As%20Williams%E2%80%99%20popularity%20grew%2C%20she,never%20be%20separated%20from%20it",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F133": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 24880,
+  "provenance": "publisher",
+  "sha256": "720c0f9d84a8a5c550b50816f0a54f2ac55ca1d5fb9a4786a82c7c456b86edac",
+  "url": "https://toynbeeprize.org/posts/un-peacekeeping-or-the-reinvention-of-colonialism-an-interview-with-margot-tudor/#:~:text=Traditional%20historiography%20has%20regarded%20the,Cambridge%20University%20Press%2C%202023",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F134": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.897,
+   "text": " QKD – Control Interface for Software Defined Networks ETS",
+   "visible_offset": 22550
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ETSI%20GS%20QKD%20015%20QKD,of%20management%20interfaces%20for%20the",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F135": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.412,
+   "text": "both called for \"communion between actor and audience in a magic exorcism; gestures, sounds, unusual scenery, and lighting combine to form a language, superior to words, that can be used to subvert thought",
+   "visible_offset": 3842
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21597,
+  "provenance": "archive",
+  "sha256": "aae728c81d447b9e0fa9662a1801c43a1730635cbd1e5988dbff695261bdb98d",
+  "url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty#:~:text=For%20Artaud%2C%20cruelty%20%20is,is%20physical%20expression%20in%20space",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699949.56/warc/CC-MAIN-20260910183327-20260910213327-00682.warc.gz@177229088"
+ },
+ "F136": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.856,
+   "text": "023 Information security – Security requirements, test and evaluation methods for QKD ISO /– IEC JTC 1 S",
+   "visible_offset": 31169
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ISO%20%2F%20IEC%2023837,Behind%20paywall",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F137": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.385,
+   "text": "ctice Areas Antitrust and Global Competition Class Action No-Poach Agreements and Anticompetitiv",
+   "visible_offset": 6776
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7145,
+  "provenance": "publisher",
+  "sha256": "ffd164a3463247148ecdb9ca3f13f85058656da1c3392ca39dc0bfb5e8317edb",
+  "url": "https://www.saverilawfirm.com/our-cases/github-copilot-intellectual-property-litigation",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F138": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.867,
+   "text": "relevance, reach and value of human expertise",
+   "visible_offset": 49021
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57762,
+  "provenance": "publisher",
+  "sha256": "73f95792fb4e7d2044c5d1f9c5e2c7465850eb3a0646b9bc62439677b4fd3b26",
+  "url": "https://www.nber.org/system/files/working_papers/w32140/w32140.pdf#:~:text=which%20is%20the%20province%20of,are%20currently%20arrogated%20to%20elite",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F139": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.592,
+   "text": " sense for light-dependent magnetoreception. The o",
+   "visible_offset": 2671
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4603,
+  "provenance": "publisher",
+  "sha256": "55f044819f88b8e38195eb5a2279c2a4182c6de3d203a778c9f0ae629ea06946",
+  "url": "https://www.sciencealert.com/birds-see-magnetic-fields-cryptochrome-cry4-photoreceptor-2018#:~:text=The%20Lund%20team%20measured%20gene,reception%20over%20the%20circadian%20day",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F140": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.835,
+   "text": "TSI - ETSI releases migration strategies and recommendations for Quantum-Safe schemes",
+   "visible_offset": 1
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5028,
+  "provenance": "archive",
+  "sha256": "6e2b89595231d6c65fe35391b94c4c7b36aa517a5a7658caf6f7601e8d81b76d",
+  "url": "https://www.etsi.org/newsroom/press-releases/1805-2020-08-etsi-releases-migration-strategies-and-recommendations-for-quantum-safe-schemes#:~:text=The%20ETSI%20Quantum,awareness%20across%20all%20business%20sectors",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-47 crawl-data/CC-MAIN-2025-47/segments/1762439342516.26/warc/CC-MAIN-20251107202904-20251107232904-00081.warc.gz@631399133"
+ },
+ "F141": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.491,
+   "text": "teracting with dynamic objects, difficulties with theor",
+   "visible_offset": 73500
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 129930,
+  "provenance": "publisher",
+  "sha256": "4bb667ba80d07707bf63c4f073c99418cf786eaf7af73c1ffe6e6ec2cf551b25",
+  "url": "https://www.mdpi.com/2227-7102/13/6/575#:~:text=,making%2C%20and%20modelling%20this",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F142": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.986,
+   "text": "ng back to the beginnings of jazz, to spirituals and gospel and the blues",
+   "visible_offset": 3550
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=have%20to%20hear%20great%20music,semester%2C%20I%20gave%20the%20kids",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F143": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.61,
+   "text": "ut is the “isolation” of manga studies apar",
+   "visible_offset": 7823
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F144": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.5,
+   "text": "mit those who believe and do righteous dee",
+   "visible_offset": 30353
+  },
+  "doubts": [
+   "unattributed",
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 86532,
+  "provenance": "publisher",
+  "sha256": "0399da58ecbb1ca991a068b0f1439ee24dd41056900982f51595c3a42f689923",
+  "url": "https://www.mdpi.com/2077-1444/14/7/827#:~:text=In%20effect%2C%20the%20holy%20book,The%20Quranic%20%E2%80%9CTheater%20of%20Cruelty%E2%80%9D",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F145": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 12223,
+  "provenance": "publisher",
+  "sha256": "c7b8f681384d47d721d216dfd97d2b02705f35f0963a3bf8f90dee65a21eebd3",
+  "url": "https://angelusnews.com/arts-culture/mary-lou-williams-pioneer-of-sacred-jazz/#:~:text=As%20Williams%E2%80%99%20popularity%20grew%2C%20she,never%20be%20separated%20from%20it",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F146": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": "ority of the research to date has contrasted the cognit",
+   "visible_offset": 842
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2877,
+  "provenance": "open_access",
+  "sha256": "52824dc4926e87ceffb95a2ec5d73d674599f2350af49200759895beeff27411",
+  "url": "https://nyaspubs.onlinelibrary.wiley.com/doi/10.1111/nyas.14295",
+  "verdict": "NOT_FOUND",
+  "via": "open_access https://archive-ouverte.unige.ch/unige:135939"
+ },
+ "F147": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.9,
+   "text": "returning the life history to the indivi",
+   "visible_offset": 14806
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 407313,
+  "provenance": "publisher",
+  "sha256": "e2b8d44c8cc29cf7fd45fa8dac4c5322a509953c6cc5fe574a30ae97f6f2e8d3",
+  "url": "https://dspace.ut.ee/bitstreams/b74f54cf-a873-4b98-9623-f91fc7590583/download",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F148": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.573,
+   "text": "right of the people of French Polynesia to self-determination and independe",
+   "visible_offset": 38424
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 58259,
+  "provenance": "publisher",
+  "sha256": "8fa2d15f5b941897f199789a0e2ced4905079bc0b238f4bdc95cc1e7c2739163",
+  "url": "https://en.wikipedia.org/wiki/United_Nations_list_of_non-self-governing_territories#:~:text=Chapter%20XI%20of%20the%20United,self%20governing%20territories%20under%20member",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F149": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15498,
+  "provenance": "publisher",
+  "sha256": "52880fdb74700fc74c545dc22c3aff3c643589a036c9cdd698460acec9ddce1f",
+  "url": "https://history.state.gov/historicaldocuments/frus1951v02/d455#:~:text=Historical%20Documents%20,assist%20them%20in%20the",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F150": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.444,
+   "text": "d not step on broken glass when barefoot. Work",
+   "visible_offset": 5394
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14756,
+  "provenance": "publisher",
+  "sha256": "aa86fd015ed7e01317586c09c0fd5c31542510125465749f4ac51a441bd85cd1",
+  "url": "https://autismspectrumnews.org/a-look-inside-the-hidden-curriculum/#:~:text=The%20hidden%20curriculum%20is%20assumed,bound%2C%20literal%2C%20and%20rule%20enforcers",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F151": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.442,
+   "text": "r, I am also an outsider because I am a teacher and a researcher to them. My gay identity might be consid",
+   "visible_offset": 189875
+  },
+  "doubts": [
+   "unattributed",
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 633403,
+  "provenance": "publisher",
+  "sha256": "d15e4278ac5e4c5414814e5bbcccc345e030ac3c9af1268d6ce8991f5129ae61",
+  "url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F152": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28836,
+  "provenance": "archive",
+  "sha256": "8aab9feab85f58e9005cbf406a35d584defeabb35fbb3bcc4e08710e34837fcf",
+  "url": "https://www.europarl.europa.eu/doceo/document/TA-9-2020-0277_EN.html#:~:text=concept%20of%20%E2%80%98intellectual%20creation%E2%80%99%20addresses,based%20and%20technologically",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2025-30 crawl-data/CC-MAIN-2025-30/segments/1751905934282.12/warc/CC-MAIN-20250716070935-20250716100935-00625.warc.gz@653083987"
+ },
+ "F153": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 110582,
+  "provenance": "publisher",
+  "sha256": "f26ccc39643d72bcf132df61de9f567008536506fd8b7faff2597f5a9ef95d9e",
+  "url": "https://www.mdpi.com/2079-6374/4/3/221#:~:text=Birds%20can%20use%20the%20geomagnetic,Applying%20radio",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "browser chromium"
+ },
+ "F154": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.487,
+   "text": "lt State of the Womb The assignment of ",
+   "visible_offset": 6107
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20027,
+  "provenance": "publisher",
+  "sha256": "6af19cb6178e845fc6e4b14ebe1dc10a35236d46c9282ec68ffb6aa800e415a9",
+  "url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F155": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.304,
+   "text": "et Really Is “Mindset isn’t what you might think” – Stefanie Faye A mindset is a predictive model - the brain’s way of making sense of experience. It guides what we notice, how we interpret it, and how we respond. Each brain develops these mode",
+   "visible_offset": 2157
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=Regulatory%20flexibility%20is%20the%20ability,brain%E2%80%99s%20way%20of%20rehearsing%20uncertainty",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F156": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.823,
+   "text": ". See the guys that they’re patterned after like Coltrane and all that, they would never be a Coltrane because they don’t know anything about the Basie. It’s just like you going to school starting in ",
+   "visible_offset": 4271
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F157": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "archive",
+  "sha256": "f554ccc7d719be4a1548ea4fc4877c6b498463c291a4025406bb0aa84ad2e644",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=freely%20to%20pursue%20their%20economic%2C,5",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700031.22/warc/CC-MAIN-20260911185431-20260911215431-00853.warc.gz@277151520"
+ },
+ "F158": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10976,
+  "provenance": "publisher",
+  "sha256": "56561b493545f2d311a83569869bb61a398adb4ccca4c6db1337d6c18d7dbd50",
+  "url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review#:~:text=A%20million%20women%20fought%20in,as%20sickening%2C%20repulsive%20and%20insane",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F159": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.864,
+   "text": " \"those who curb their anger, and who pardon ",
+   "visible_offset": 81108
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 87798,
+  "provenance": "publisher",
+  "sha256": "d21076846552cefdca698b59ed273a886fa2d6da1d43699adae7599d73eb608a",
+  "url": "https://yaqeeninstitute.org/read/paper/perspectives-on-islamic-psychology-healing-of-emotions-in-the-quran",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F160": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.368,
+   "text": " every soul will be judged for their deeds. The Quran and Hadith provide vivid and often frightening details about the events of this day. Here are some of the most ",
+   "visible_offset": 427
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5126,
+  "provenance": "publisher",
+  "sha256": "436ce15c1b6463ab4aeedbfdcf13e8a4f86436a8ba3be0a1eda7c5e811663cde",
+  "url": "https://onlineislamicinstitute.org/scary-details-of-the-judgement-day-islamically/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F161": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.787,
+   "text": ". It announced to the world that decolonized nations would no longer accept a subordinate role.",
+   "visible_offset": 11814
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15947,
+  "provenance": "publisher",
+  "sha256": "f83e1d8041a6461516eaaed7aecaf2dd66c2c121004d79287bc8e062d146d6da",
+  "url": "https://explaininghistory.org/2025/10/21/decolonization-and-diplomacy-how-bandung-changed-the-rules-of-global-politics/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F162": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.887,
+   "text": "from the founding of the Non-Aligned Movement, its stated aim has been to give a voice to developing countries and to encourage their concerted action",
+   "visible_offset": 3359
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7361,
+  "provenance": "publisher",
+  "sha256": "0e8101fb48245cd55d39b775be717e9949b9baa63f04c125d891ca711928db96",
+  "url": "https://www.britannica.com/topic/Non-Aligned-Movement#:~:text=conflicts,concerted%20action%20in%20world%20affairs",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F163": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6131,
+  "provenance": "publisher",
+  "sha256": "91db52f1d535b4b044667e4c66deff950b7aacc186eb013b1607b3d7fb9eb68c",
+  "url": "https://www.shafr.org/index.php?option=com_dailyplanetblog&view=entry&year=2023&month=04&day=04&id=216:cfp-the-new-international-economic-order-lessons-and-legacies-50-years-late#:~:text=The%20New%20International%20Economic%20Order,international%20economy%20and%20world%E2%80%99s%20affairs",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F164": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.418,
+   "text": " guardians on the earth, strong and impenetrable. Mounta",
+   "visible_offset": 3275
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6378,
+  "provenance": "publisher",
+  "sha256": "2a1421520f7800257e2ec4a0293e06ab51972816cc1178360e49c2f793361dfd",
+  "url": "https://quranhouse.org/en/article/1049",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F165": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": "UNCERTAIN",
+  "found_in": null,
+  "page_chars": 45171,
+  "provenance": "publisher",
+  "sha256": "8afe58586ccca973564e36d235b2c87911b835fa8438a75c89a677ab27bc16d0",
+  "url": "https://journals.openedition.org/artelogie/10319#:~:text=Estatuto%20del%20Artista%20y%20Oficios,Conexos",
+  "verdict": "FOUND",
+  "via": "browser chromium"
+ },
+ "F166": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.72,
+   "text": "t. 2); - that all armed action or repressive measures of all kinds directed against dependent peoples",
+   "visible_offset": 4626
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "archive",
+  "sha256": "f554ccc7d719be4a1548ea4fc4877c6b498463c291a4025406bb0aa84ad2e644",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=freely%20to%20pursue%20their%20economic%2C,5",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700031.22/warc/CC-MAIN-20260911185431-20260911215431-00853.warc.gz@277151520"
+ },
+ "F167": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.935,
+   "text": "It’s all spiritual music and healing to the so",
+   "visible_offset": 19432
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 23020,
+  "provenance": "archive",
+  "sha256": "361bbb6410f99a0d9f520f5fd6689ee8b0c74188703c94d4cb84e25af15f914d",
+  "url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=The%20importance%20of%20the%20blues,technique%20but%20very%20little%20feeling",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-04 crawl-data/CC-MAIN-2026-04/segments/1768220468917.82/warc/CC-MAIN-20260113110810-20260113140810-00179.warc.gz@197444955"
+ },
+ "F168": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.463,
+   "text": "of the deeds of her own hands would she d",
+   "visible_offset": 4814
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20027,
+  "provenance": "publisher",
+  "sha256": "6af19cb6178e845fc6e4b14ebe1dc10a35236d46c9282ec68ffb6aa800e415a9",
+  "url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F169": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.442,
+   "text": "the course of the observed actions during the familiarization and the testing phases f",
+   "visible_offset": 27710
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 60155,
+  "provenance": "open_access",
+  "sha256": "97b2837ecbd3a4052d17912187cb0aac21f61a330b90a4769ff4c3e5b7b5a854",
+  "url": "https://royalsocietypublishing.org/doi/10.1098/rspb.2019.1319",
+  "verdict": "NOT_FOUND",
+  "via": "open_access https://www.ncbi.nlm.nih.gov/pmc/articles/6710602"
+ },
+ "F170": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.459,
+   "text": "ration Software and Tools Courses ML and Data Science DSA and",
+   "visible_offset": 16350
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16718,
+  "provenance": "publisher",
+  "sha256": "983a456dbf82857be066aff905d9ff62ac80663a6df62a7ddc6525b7c51e5a31",
+  "url": "https://www.geeksforgeeks.org/computer-vision/deep-dream-an-in-depth-exploration/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F171": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.38,
+   "text": "on to organ transplants. It released regulations on human organ transplantation in 2007; it added organ trafficking and involuntary removal of organs into the national criminal code. From the beginning of 2015, China imposed a tota",
+   "visible_offset": 737
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3629,
+  "provenance": "publisher",
+  "sha256": "d6866c46b1405857788a162f671b9c6bc0b74514fb6e4fa6949a3ea3d1efb57f",
+  "url": "http://en.nhc.gov.cn/2017-02/14/c_71188.htm",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F172": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.615,
+   "text": "You are the one that drew me out of the belly, The One that secured me on my mother’s breasts; Upon You I have been c",
+   "visible_offset": 5951
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15531,
+  "provenance": "publisher",
+  "sha256": "d460aed319dcf7033f0f47640a5c2713c68a688134878ec60036dcef31d69bed",
+  "url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/#:~:text=Egypt%20and%20the%20birth%20of,over%20you%2C%20and%20I%20covered",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F173": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.74,
+   "text": "the “spiritual feeling in the blues that arises out",
+   "visible_offset": 2776
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4289,
+  "provenance": "publisher",
+  "sha256": "9a8c7ab63637f39695db6b820d5d5b36163a7a1b2a5ab5c9b5013fa850ee48e9",
+  "url": "http://d-scholarship.pitt.edu/38088/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F174": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.96,
+   "text": "any attempt aimed at the partial or total disruption of the national unity and the territorial integ",
+   "visible_offset": 5134
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "archive",
+  "sha256": "f554ccc7d719be4a1548ea4fc4877c6b498463c291a4025406bb0aa84ad2e644",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=And%20there%20is%20the%20warning%2C,7",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700031.22/warc/CC-MAIN-20260911185431-20260911215431-00853.warc.gz@277151520"
+ },
+ "F175": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.486,
+   "text": "ers, garments of Fire will be cut out for them and boiling water will be poured over their heads, Tafsirs Lessons Reflections Stay Connected to the Quran ❤️ Short meaningful reminders to reset, reflect and stay connected to the Quran. Subscribe Read, Listen, Search, and Reflect on",
+   "visible_offset": 763
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2161,
+  "provenance": "publisher",
+  "sha256": "ebcc4380f108716cc414471a458cde2fa5b323f915f3b73aaf7fd34ddb532df6",
+  "url": "https://quran.com/en/al-hajj/19-22#:~:text=,22%3A20",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F176": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.541,
+   "text": "d that college students who spent a s",
+   "visible_offset": 8215
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 30315,
+  "provenance": "publisher",
+  "sha256": "87f268edebd4d9a494f041f7670c09225326d1cbad1cfc6393073e5ad59fdae1",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7749245/",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F177": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.436,
+   "text": "and lutein, which may help protect against oxidative st",
+   "visible_offset": 4586
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13592,
+  "provenance": "publisher",
+  "sha256": "916f6a1b2f38a2f86b8e42ef3e7f0f7e754dd237ecc86330564233382f6f4466",
+  "url": "https://www.microgreenscorner.com/watercress/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F178": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.667,
+   "text": "r the Promotion of Japanese Animatio",
+   "visible_offset": 13553
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=International%20Journal%20of%20Comic%20Art,of%20variations%20within%20the%20medium",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F179": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.455,
+   "text": "ccording to the instructions documented on the Open Mat",
+   "visible_offset": 50928
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 56605,
+  "provenance": "publisher",
+  "sha256": "e17d7e6a63613f941685408a4632554263b1577c46150061b09e8414db28de15",
+  "url": "https://arxiv.org/pdf/2309.05934",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F180": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.879,
+   "text": "Then God remembered Rachel, and God listened to her and opened her",
+   "visible_offset": 1218
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20813,
+  "provenance": "publisher",
+  "sha256": "4a0336c9775a251aa716c7c713e8ae402e4667477ecbd6e2f067c301600ed232",
+  "url": "https://www.jointhejourney.com/4920-god-is-sovereign-over-the-womb",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F181": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.492,
+   "text": "zure provides built-in autoscaling for most compute options. Azure",
+   "visible_offset": 3697
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21522,
+  "provenance": "publisher",
+  "sha256": "d22457d90ad1be2f7a026ce7101f14e543d3512edc9012f069d5f632e8fd1f3f",
+  "url": "https://learn.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F182": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.971,
+   "text": " gained political sovereignty but \"felt that their de jure political colonization ended only to be replaced by a de facto economic coloniza",
+   "visible_offset": 2869
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20340,
+  "provenance": "publisher",
+  "sha256": "10d4e4928d2c61fdcf46ff4611b6a8a799a5e7096adbc3d4720999bd7d11d7d2",
+  "url": "https://en.wikipedia.org/wiki/New_International_Economic_Order",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F183": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.828,
+   "text": "standard defines the Software-Defined Quantum Communicatio",
+   "visible_offset": 35437
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=clarity%20of%20understanding%20to%20enable,in%20order%20to%20dynamically%20create",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F184": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.589,
+   "text": "Jacob says to Rachel that God has “denied you the fruit of the womb” (אֲשֶׁ",
+   "visible_offset": 9668
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20027,
+  "provenance": "publisher",
+  "sha256": "6af19cb6178e845fc6e4b14ebe1dc10a35236d46c9282ec68ffb6aa800e415a9",
+  "url": "https://www.thetorah.com/article/god-opened-her-womb-the-biblical-conception-of-fertility#:~:text=The%20assignment%20of%20divine%20activity,moment%2C%20the%20womb%20was%E2%80%94by%20default%E2%80%94closed",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F185": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.393,
+   "text": "om the ancient Near East, the Hebrew Bible, and 1QH XI, 1-18 Bergmann, Claudia D. Related ",
+   "visible_offset": 1727
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3992,
+  "provenance": "publisher",
+  "sha256": "90b4e95624541a7180735e746fa106c133fa81baf5567d07630455a5401cf3d8",
+  "url": "https://ci.nii.ac.jp/ncid/BA86918401?l=en",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F186": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.358,
+   "text": "n the Torah, human speech is perforce figurative and consequently dibra Torah bilshon bene adam; in so doing it alludes expansively to the world of men, their aspirations, feeling",
+   "visible_offset": 1721
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15531,
+  "provenance": "publisher",
+  "sha256": "d460aed319dcf7033f0f47640a5c2713c68a688134878ec60036dcef31d69bed",
+  "url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/#:~:text=Egypt%20and%20the%20birth%20of,over%20you%2C%20and%20I%20covered",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F187": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.737,
+   "text": "International Trusteeship System were to promote the advancement of the inhabitants of Trust Territories and their progressive development towards self-government or independence. The Trustee",
+   "visible_offset": 1748
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6336,
+  "provenance": "publisher",
+  "sha256": "834233c599bc36271666c16605803a936170ec41c3b67b5757351c099c9916a8",
+  "url": "https://www.un.org/en/about-us/trusteeship-council",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F188": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.833,
+   "text": " saying “normally used by males",
+   "visible_offset": 113694
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 633403,
+  "provenance": "publisher",
+  "sha256": "d15e4278ac5e4c5414814e5bbcccc345e030ac3c9af1268d6ce8991f5129ae61",
+  "url": "https://asset.library.wisc.edu/1711.dl/QXNZN2B3JOQSC82/R/file-ed6b9.pdf",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F189": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.488,
+   "text": "he reception of God’s words into a fully ",
+   "visible_offset": 9014
+  },
+  "doubts": [
+   "unattributed",
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 86532,
+  "provenance": "publisher",
+  "sha256": "0399da58ecbb1ca991a068b0f1439ee24dd41056900982f51595c3a42f689923",
+  "url": "https://www.mdpi.com/2077-1444/14/7/827#:~:text=In%20effect%2C%20the%20holy%20book,The%20Quranic%20%E2%80%9CTheater%20of%20Cruelty%E2%80%9D",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F190": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.944,
+   "text": " “Take this child and nurse it for me",
+   "visible_offset": 7056
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20870,
+  "provenance": "publisher",
+  "sha256": "65ca31a1041f8633f846570cea0117cf59157cf715caa4ef318ef9d2cf3405e0",
+  "url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh#:~:text=Then%20his%20sister%20said%20to,%28Exodus%202%3A7%E2%80%939",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F191": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.842,
+   "text": "The large majority of Members of the United Nations believe that there is no field in which the United Nations can do more important [Page 1380] work th",
+   "visible_offset": 2336
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9985,
+  "provenance": "publisher",
+  "sha256": "430913a828c552e0beb624eb9046f86bd757810218e8daaab0d8a127e6bf15c4",
+  "url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F192": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.886,
+   "text": " as \"Donations and transplant of human organs",
+   "visible_offset": 3000
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6237,
+  "provenance": "archive",
+  "sha256": "dd914cd1f91df165d962bff21cb167a43bb5ca88b460a6d161b6c622b7d70fca",
+  "url": "http://www.chinadaily.com.cn/china/2014-12/04/content_19025683.htm#:~:text=The%20State%20Council%20passed%20the,legal%20basis%20to%20supervise%20transplants",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-34 crawl-data/CC-MAIN-2026-34/segments/1786091385553.12/warc/CC-MAIN-20260813050936-20260813080936-00077.warc.gz@30789035"
+ },
+ "F193": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.948,
+   "text": "QKD – Orchestration Interface for Software Defined Network",
+   "visible_offset": 29475
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ETSI%20GS%20QKD%20018%20QKD,1%20%28Apr%202022%29%20Latest",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F194": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.579,
+   "text": " in order to play avant-garde. See the ",
+   "visible_offset": 4242
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F195": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.398,
+   "text": "not truly patient centered [59]. Thus, to ensure that SDM fundamentally occurs when AI interventions are introduced, patient preferences must be incorporated into the design. Termed value-",
+   "visible_offset": 48703
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 74926,
+  "provenance": "publisher",
+  "sha256": "175866c438f6396fade2c41d3778009cefa7cc1d29c705a4cd7d40554d30fdb2",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9399841/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F196": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.452,
+   "text": "Porres” for the Dominican lay br",
+   "visible_offset": 6383
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14229,
+  "provenance": "publisher",
+  "sha256": "b109bc6f38eff9fb0bdf5d5e5546a1ce269baaec5ae8627d97933a523e6f4825",
+  "url": "https://urbanfaith.com/mary-lous-sacred-jazz/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F197": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.867,
+   "text": "4: ‘Key combination and confidential key supply for quantum k",
+   "visible_offset": 12155
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21575,
+  "provenance": "publisher",
+  "sha256": "2e58fe2b3ffe5bf33a89f01a03eb9348e05170cc2cb6d791083de330213b92f0",
+  "url": "https://www.idquantique.com/id-quantique-and-sk-telecom-move-one-step-forward-in-their-standardization-roadmap-for-quantum-key-distribution/#:~:text=security%20requirements%20and%20security%20methods,for%20QKD%20networks",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F198": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.407,
+   "text": " awareness: “What did you expect? What surprised you?” Co-regulating through calm tone, warm eyes, and consistent presence A ne",
+   "visible_offset": 6399
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=We%20can%20support%20neurodivergent%20learners,by",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F199": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.851,
+   "text": " why the use of copyrighted works by ML systems should be fair actu",
+   "visible_offset": 7274
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 145648,
+  "provenance": "publisher",
+  "sha256": "f09bf86680c46a41e5b7fdc3b4c4b35a7b41c1d125fd436235376db287c1f917",
+  "url": "https://texaslawreview.org/fair-learning/#:~:text=transformative%20as%20that%20term%20has,which%20ML%20systems%20may%20be",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F200": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.975,
+   "text": "constantly urging increased UN activity in the colonial field and an extension of UN supervision over colonial territori",
+   "visible_offset": 2539
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9985,
+  "provenance": "publisher",
+  "sha256": "430913a828c552e0beb624eb9046f86bd757810218e8daaab0d8a127e6bf15c4",
+  "url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F201": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.564,
+   "text": "ridge AI – The Global Leader in Autonomous Financial Oversight Please enter yo",
+   "visible_offset": 3610
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3885,
+  "provenance": "archive",
+  "sha256": "1c70e07e4429112eba43e3179b988ae50157b9d20046eb9608a9116b84d0cbde",
+  "url": "https://www.mindbridge.ai/#:~:text=MindBridge%20,risk%20across%20broad%20financial%20datasets",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492995497.76/warc/CC-MAIN-20260915142231-20260915172231-00035.warc.gz@741275553"
+ },
+ "F202": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.578,
+   "text": "t the most likely candidate for magnetoreception. This finding was supported by the robin s",
+   "visible_offset": 2210
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4603,
+  "provenance": "publisher",
+  "sha256": "55f044819f88b8e38195eb5a2279c2a4182c6de3d203a778c9f0ae629ea06946",
+  "url": "https://www.sciencealert.com/birds-see-magnetic-fields-cryptochrome-cry4-photoreceptor-2018#:~:text=The%20Lund%20team%20measured%20gene,reception%20over%20the%20circadian%20day",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F203": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.61,
+   "text": "ntent poses serious mental health risks, ",
+   "visible_offset": 95761
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 251937,
+  "provenance": "publisher",
+  "sha256": "d5e9c629a62fd721265e838b9ee7d54f9fb79bf212367025883dc7e9b725b05b",
+  "url": "https://www.ilo.org/sites/default/files/2025-04/ILO_Safeday25_Report_EN_r8%2B%281%29.pdf#:~:text=Organization%20www,cancer%2C%20lung%20diseases%20and",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F204": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.981,
+   "text": " “he knew his wife” and “she conceived and bore [a son]",
+   "visible_offset": 3264
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5535,
+  "provenance": "publisher",
+  "sha256": "fdcfa36833e4b569cfcfb99b6b5add7aaae5b3a5511643963b2f53150f3f0e43",
+  "url": "https://www.bibleodyssey.org/articles/pregnancy-and-childbirth-in-the-hebrew-bible/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F205": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.946,
+   "text": " too good not to have the kind of piano sound you should",
+   "visible_offset": 12072
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 29820,
+  "provenance": "publisher",
+  "sha256": "a659c8d1dcae8ff43b81c35d4cd9e68fd976d102ca89a872de6d2390e839ca38",
+  "url": "https://tedpanken.wordpress.com/2011/09/27/for-bud-powells-87th-birthday-a-2004-bud-powell-homage-in-jazziz/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F206": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.548,
+   "text": "Letters Opinion videos Cartoons",
+   "visible_offset": 643
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10446,
+  "provenance": "publisher",
+  "sha256": "2fe6f70bc3cdd572068bf9e24c6cd7edddaf90b46d4f3bb19fc2643ef7f40f3f",
+  "url": "https://www.theguardian.com/tv-and-radio/2016/jan/02/foreign-tv-drama-bbc-channel4-netflix#:~:text=After%20the%20success%20of%20Nordic,Korea%20are%20on%20the%20way",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F207": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 11798,
+  "provenance": "publisher",
+  "sha256": "b90f150d70fe3a9ad29f61990f3e103724b8e9d3d0a44cb728e43ec42a2bcc3e",
+  "url": "https://downbeat.com/archives/detail/marian-mcpartland-in-conversation-with-mary-lou-williams/P1",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F208": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.458,
+   "text": "our students, our friends and our family — to become most fully who they are now — and then guide them and nurture them on the path to becoming ",
+   "visible_offset": 8520
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10491,
+  "provenance": "publisher",
+  "sha256": "88970f0cb896db43b2aa7b3164593c71e2a0226eb6664d3c09b57d264abddd95",
+  "url": "https://www.myjewishlearning.com/article/rebecca-and-isaacs-guide-to-raising-twins-not/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F209": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.963,
+   "text": "On that Day We shall ask Hell: “Are you full?” And it will reply: “Are there any mor",
+   "visible_offset": 5430
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13574,
+  "provenance": "publisher",
+  "sha256": "e928738d710b82b785e45d023747e4c2b3014f2452cd3ef39c349d3c555eacbf",
+  "url": "https://myislam.org/surah-qaf/ayat-30/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F210": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.913,
+   "text": "u with the healing in it and spiritual feeling",
+   "visible_offset": 19200
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 23020,
+  "provenance": "archive",
+  "sha256": "361bbb6410f99a0d9f520f5fd6689ee8b0c74188703c94d4cb84e25af15f914d",
+  "url": "https://folkways.si.edu/artists/mary-lou-williams#:~:text=The%20importance%20of%20the%20blues,technique%20but%20very%20little%20feeling",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-04 crawl-data/CC-MAIN-2026-04/segments/1768220468917.82/warc/CC-MAIN-20260113110810-20260113140810-00179.warc.gz@197444955"
+ },
+ "F211": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.759,
+   "text": ", it is the most ideal material for skateboards. (3) Powder",
+   "visible_offset": 7213
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14237,
+  "provenance": "publisher",
+  "sha256": "674f7e6d3ce7a7e749727fc530972cb3d44bc8e34a4e38d705c520dff8ddf71f",
+  "url": "https://lttrade.en.made-in-china.com/product/mwdAMOQLhupg/China-Thickness-22mm-Carbon-Contact-Slider-Set-of-Pantograph.html#:~:text=%282%29%20Metal,most%20ideal%20material%20for%20skateboards",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F212": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28028,
+  "provenance": "publisher",
+  "sha256": "145e34882ec740e0e99b2d977c31cd2d754d15078f4a83b36870e3318f0d8a7a",
+  "url": "https://legal.un.org/avl/ha/dicc/dicc.html#:~:text=,which%20have%20not%20yet%20attained",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F213": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.99,
+   "text": "started playing commercial rock and what they call `free music,' and all the feeling went out of i",
+   "visible_offset": 3215
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,sing%20the%20music%20they%27re%20hearing",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F214": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.467,
+   "text": " “he called,” both here and in v. 30, but the Samaritan Pentateuch, the Syriac, and several m",
+   "visible_offset": 25210
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 36975,
+  "provenance": "publisher",
+  "sha256": "591107924dd8ccba73834da8f62962f5d6ae01a7c4a022cf3897cfb43c377415",
+  "url": "https://www.thetorah.com/article/the-protective-red-thread",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F215": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.474,
+   "text": "images of God taught as paternal, are images which I have",
+   "visible_offset": 9313
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 14503,
+  "provenance": "publisher",
+  "sha256": "82a31c369f82bb28b9c59761224906833d627ef7f15ddfe9392bed9cf8576408",
+  "url": "https://juniaproject.com/biblical-maternal-images-for-god/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F216": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.384,
+   "text": "ith \"too much explanation leading to more confusion, not less\" (U04) particularly under pressure. Related entries noted \"users prefer being guided than being shown everything at once\" (U01, U05), with some feeling more confident after re",
+   "visible_offset": 46279
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 98866,
+  "provenance": "publisher",
+  "sha256": "293e78ede8d63df4e3fd7993d45946999b5a30223e5587c03bc492a51b2f52eb",
+  "url": "https://www.arxiv.org/pdf/2508.06352#:~:text=recommendation%20might%20generate%3A%20,while%20maintaining%20good%20pressure%20control",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F217": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.376,
+   "text": "estalter 16: Was die Debatte in Europa für Plattformen, Creator, Marken und Games-Pub",
+   "visible_offset": 2582
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3503,
+  "provenance": "publisher",
+  "sha256": "8e32a7a479d2b90c1092e4e5fa922ec776be13ea5b9c02662bf07d3940a85d84",
+  "url": "https://itmedialaw.com/en/what-is-the-ksk-and-what-is-its-aim-what-advantages-are-there-for-artists/#:~:text=statutory%20health%2C%20long,as%20if%20they%20were%20employees",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F218": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.406,
+   "text": "s opening remarks did not hide his opinion on the matter, equating the use of copyrighted materials for foundation model training to ",
+   "visible_offset": 1928
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4136,
+  "provenance": "publisher",
+  "sha256": "161fe03221a252f0799d6b547a4786fde6292bc1c1d4979385686b6100f84a57",
+  "url": "https://iapp.org/news/a/fair-use-or-free-ride-the-fight-over-ai-training-and-us-copyright-law",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F219": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.794,
+   "text": "those who disbelieve in Our verses - We will drive them into a Fire. Every time their skins are burned through, We will replace them with new skins so they may taste the punish",
+   "visible_offset": 12416
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 73813,
+  "provenance": "publisher",
+  "sha256": "dde4e4bc88dd6c5a708e3894a1abfc8de9432755afa8d9b3f5ec91851ac33956",
+  "url": "https://islam365.io/topics/jahannam.html",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F220": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.875,
+   "text": "urpose is the construction of situations",
+   "visible_offset": 332
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 44519,
+  "provenance": "publisher",
+  "sha256": "51304ab7cccaf9b7d6df01b9703523e092e3d9bce1879aa2abb0c898355141cc",
+  "url": "https://onscenes.weebly.com/philosophy/towards-a-situationist-international#:~:text=by%20Guy%20Debord",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F221": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.462,
+   "text": "PT, teachers can design and integrate interactive cl",
+   "visible_offset": 5083
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18350,
+  "provenance": "publisher",
+  "sha256": "db4c670c3bed847f0fa5402215de9a6eb5e58da07f8127547629a5767be2b01b",
+  "url": "https://www.learningscientists.org/blog/2024/2/15-1#:~:text=Interactive%20Learning%3A%C2%A0With%20the%20assistance%20of,students%20to%20study%20in%20the",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F222": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57642,
+  "provenance": "publisher",
+  "sha256": "3592be0ee91d5885019d886d88cac3ca0442f482d4351354a6aa2370a8aaeb05",
+  "url": "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/#:~:text=professions.%20,as%20job%20loss%20and%20inequality",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F223": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.595,
+   "text": "me scholars have suggested that the withdr",
+   "visible_offset": 5049
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21059,
+  "provenance": "publisher",
+  "sha256": "bb10c121bcd0124d879c14b51f20debdee371d5ceb1e56b6dc2d972ab72f593b",
+  "url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=,Peretz%29%20will%20be%20dominant",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F224": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.87,
+   "text": "tary ignores that its ‘object’ consists of moving images",
+   "visible_offset": 2581
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F225": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.481,
+   "text": " its use in educational set",
+   "visible_offset": 5825
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18350,
+  "provenance": "publisher",
+  "sha256": "db4c670c3bed847f0fa5402215de9a6eb5e58da07f8127547629a5767be2b01b",
+  "url": "https://www.learningscientists.org/blog/2024/2/15-1#:~:text=Ineffective%20development%20of%20core%20skills%3A%C2%A0Due,25",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F226": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.429,
+   "text": "d promote the donation of human organs, work out a list of pers",
+   "visible_offset": 2794
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4031,
+  "provenance": "publisher",
+  "sha256": "7712fc676fcebcb2edccb1a28e927b6c8f88eda04515b3ada05a44850bdf5594",
+  "url": "https://en.nhc.gov.cn/2014-06/05/c_75633.htm",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F227": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.476,
+   "text": "to which information should be allowed thr",
+   "visible_offset": 20152
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 107608,
+  "provenance": "publisher",
+  "sha256": "34f14283d278001e7a863cf78c4034a0af7b8665006b6a6a26e53d8bcbdbe768",
+  "url": "https://www.mdpi.com/2673-2688/5/4/101#:~:text=The%20use%20of%20reinforcement%20learning,where%20trading%20bots%20autonomously%20adapt",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F228": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.643,
+   "text": " on “what animation is, how it works, how i",
+   "visible_offset": 15699
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20521,
+  "provenance": "publisher",
+  "sha256": "a7b5c73092df71307e2d041052dbe8f79f37bb964f516aa032c9055e9a75ed00",
+  "url": "https://animetudes.com/2020/03/05/defining-anime-part-2/#:~:text=scholars%20chosen%20to%20discard%20an,are%20forever%20blurry%20and%20expanding",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F229": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.811,
+   "text": " it right. Sure, you can play like a typewriter, but it'll make your audience nervous to listen to it. It's nothing that's written down in a hook",
+   "visible_offset": 4882
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,in%20a%20hook%2C%20you%20know",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F230": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.714,
+   "text": " Errors provide us with data to help grown our br",
+   "visible_offset": 3697
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8939,
+  "provenance": "publisher",
+  "sha256": "1129aced30f15c26fcf2f3714502a20a3b8adade00ddcf7f695562003f5d8ff7",
+  "url": "https://www.beyondbridgeseducation.com/blogs/what-mindset-really-is#:~:text=pathways%20as%20you%20rise%20out,of%20the%20pit",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F231": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.879,
+   "text": "Then God remembered Rachel, and God listened to her and opened her",
+   "visible_offset": 1218
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20813,
+  "provenance": "publisher",
+  "sha256": "4a0336c9775a251aa716c7c713e8ae402e4667477ecbd6e2f067c301600ed232",
+  "url": "https://www.jointhejourney.com/4920-god-is-sovereign-over-the-womb",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F232": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.357,
+   "text": "rovertible statement or question about Artaud’s ideas or overarching intentions, and then to run a Harkness Discussion with students, where they lead the discussion entirely, and the teacher sits outside of the circle and maps the conversation (literally: lines of e",
+   "visible_offset": 5011
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 17415,
+  "provenance": "publisher",
+  "sha256": "73462240af2ae1cf38a415dd4f0710cdddb670484ee2e6baaa4f435b998a5918",
+  "url": "https://www.kpburgess.com/post/accessing-artaud-four-layers-of-cruelty",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F233": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.381,
+   "text": "the unknown and follow God's plan. From her initial encounter at the well, where she displayed kindness and hospitality, to her courageous journey to Canaan",
+   "visible_offset": 9767
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15758,
+  "provenance": "publisher",
+  "sha256": "17b60891fbda8ee4292c1c7e493e866a86768b70041809029d17b0b9c5fa84ce",
+  "url": "https://www.chatholybible.com/resources/bible-verses/people-in-the-bible/rebecca",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F234": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 129930,
+  "provenance": "publisher",
+  "sha256": "4bb667ba80d07707bf63c4f073c99418cf786eaf7af73c1ffe6e6ec2cf551b25",
+  "url": "https://www.mdpi.com/2227-7102/13/6/575#:~:text=,making%2C%20and%20modelling%20this",
+  "verdict": "FOUND",
+  "via": "browser chromium"
+ },
+ "F235": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.356,
+   "text": " prescriptive in relation to today’s technology, it does show that the factors considered by the court (who wrote the computer program, who devised the appearance of the work and the rules and logic by which the copyright work was generated) all point -towards the",
+   "visible_offset": 37853
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 56838,
+  "provenance": "publisher",
+  "sha256": "b50db0ef19b1ce44084a42b7ac9a9fcbd7f14d0e9d45682ed8f048fd25bb25c9",
+  "url": "https://www.aoshearman.com/en/insights/ownership-of-ai-generated-content-in-the-uk",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F236": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.819,
+   "text": "ther, it can be difficult for customers to anticipate future cloud costs, given the complexity",
+   "visible_offset": 8341
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18788,
+  "provenance": "archive",
+  "sha256": "11f264c66285e10655ee6ce108fd46adcb8a8ba1d0a94729110b126cc7a3e7c6",
+  "url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud#:~:text=The%20presence%20of%20key%20stakeholders,for%20customers%2C%20even%20powerful%20ones",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699802.46/warc/CC-MAIN-20260908114048-20260908144048-00299.warc.gz@552172611"
+ },
+ "F237": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,have%20her%20students%20sing%20the",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F238": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.64,
+   "text": "s: \"Why did the AI make th",
+   "visible_offset": 6897
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13611,
+  "provenance": "publisher",
+  "sha256": "9336b7d081e0a19c2176c83378351257f59ff3d71139c1747233d97430891e21",
+  "url": "https://www.f5.com/company/blog/crucial-concepts-in-ai-transparency-and-explainability#:~:text=Key%20elements%20of%20AI%20explainability,include",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F239": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.852,
+   "text": "Information security – Security requirements, test and evaluation methods for QKD ISO /– IEC JTC 1 SC Part 2: Evaluation a",
+   "visible_offset": 31173
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ISO%20%2F%20IEC%2023837,The%20evaluation",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F240": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.954,
+   "text": "enabling the identification of unexpected or high-risk transactio",
+   "visible_offset": 2236
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9652,
+  "provenance": "archive",
+  "sha256": "e8e914e516e6a981c814026493d6bb534d33c9b336f4bf769f270af379b848ee",
+  "url": "https://kpmg.com/xx/en/media/press-releases/2023/04/kpmg-and-mindbridge-announce-alliance-to-power-kpmg-audits-with-ai-technology.html#:~:text=KPMG%20and%20MindBridge%20have%20today,to%20provide%20enhanced%20audit%20quality",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-25 crawl-data/CC-MAIN-2026-25/segments/1780687862106.87/warc/CC-MAIN-20260617091630-20260617121630-00331.warc.gz@240483479"
+ },
+ "F241": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.936,
+   "text": "some of the avant-garde guys think they’re so far out until they’re greater than the other cats but they’re n",
+   "visible_offset": 351
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "publisher",
+  "sha256": "8a8f082c3d21b9226f81bbfe214ba3e7f2cc7999e95e5ef2bc9a71d262d958e2",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20play%20all%20styles%2C%20everybody,if%20jazz%20doesn%E2%80%99t%20come%20back",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F242": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.902,
+   "text": "saan. I took him back to Fats Waller. I had him swinging the left hand. He can play anything. And that is the only advice I could give them. About R",
+   "visible_offset": 4599
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=I%20have%20a%20lot%20of,advice%20I%20could%20give%20them",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F243": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.893,
+   "text": "up to 200 000 $ for two year",
+   "visible_offset": 9116
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18788,
+  "provenance": "archive",
+  "sha256": "11f264c66285e10655ee6ce108fd46adcb8a8ba1d0a94729110b126cc7a3e7c6",
+  "url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud#:~:text=However%2C%20the%20Autorit%C3%A9%20considers%20that,providers%20to%20offer%20them%20profitably",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699802.46/warc/CC-MAIN-20260908114048-20260908144048-00299.warc.gz@552172611"
+ },
+ "F244": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.533,
+   "text": "Ao Bing previously defeated. Ju",
+   "visible_offset": 9628
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 44044,
+  "provenance": "archive",
+  "sha256": "7e86557980323b6095b849f0c9556a4a4bc42321c7d8a70412fa4e339415d895",
+  "url": "https://en.wikipedia.org/wiki/Ne_Zha_2#:~:text=physical%20bodies%2C%20though%20they%20are,due%20to%20the%20effort%20exerted",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-08 crawl-data/CC-MAIN-2026-08/segments/1770395505909.67/warc/CC-MAIN-20260208220644-20260209010644-00774.warc.gz@172633225"
+ },
+ "F245": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 70569,
+  "provenance": "publisher",
+  "sha256": "94cf179ea27e47de0a57ed7d1264b408c970023c9e383035c65dc5686e820495",
+  "url": "https://clouds.cis.unimelb.edu.au/papers/Graph-AutoScaleTSE.pdf",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F246": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.526,
+   "text": "padre de la arquitectura verde en Puer",
+   "visible_offset": 1091
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2522,
+  "provenance": "publisher",
+  "sha256": "47f6d1cdc6da8c938a51a428661925b90f1780d50bda5b3098fe5cc0345407eb",
+  "url": "https://casaresilientepuertorico.wordpress.com/casas-resilientes-para-puerto-rico/casa-rescate/#:~:text=El%20arquitecto%20Fernando%20Abru%C3%B1a%20es,del%20Ca%C3%B1o%20Mart%C3%ADn%20Pe%C3%B1a%2C%20dise%C3%B1%C3%B3",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F247": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.556,
+   "text": "d warned against the dangers of psychology in",
+   "visible_offset": 4134
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21597,
+  "provenance": "publisher",
+  "sha256": "d10ebaddb9ec1e7b84453cb90c18b3f58c9dda261be39732dbdc860c41e03e66",
+  "url": "https://en.wikipedia.org/wiki/Theatre_of_Cruelty#:~:text=The%20Theatre%20of%20Cruelty%20aimed,them%20out%20of%20their%20complacency",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F248": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.535,
+   "text": "ions and the country should therefore only ",
+   "visible_offset": 43369
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 162336,
+  "provenance": "publisher",
+  "sha256": "2c7893df6404f721992a7f273298044c0f3f62dd92e1044ebb5f5b50b1d63927",
+  "url": "https://odi.org/documents/4071/8393.pdf#:~:text=In%20the%20extreme%20case%E2%80%94the%20so,Hand%20approach%20is%20applied",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F249": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.944,
+   "text": "access to technologies dropped significantly, especially for the ICT cla",
+   "visible_offset": 1625
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8957,
+  "provenance": "publisher",
+  "sha256": "0eb13795b97422ea16091c310ad9f1c9c9ba14e8d9e120f15172d4898d4c804d",
+  "url": "https://zenodo.org/record/6806382",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F250": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 1608,
+  "provenance": "open_access",
+  "sha256": "c71fb3458c3b9d91eba221daaee8f94eafb19b259821a5fce106c054d61871ab",
+  "url": "https://journals.sagepub.com/doi/10.1177/1464700108100394",
+  "verdict": "FOUND",
+  "via": "open_access openalex abstract"
+ },
+ "F251": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13396,
+  "provenance": "archive",
+  "sha256": "f09779c82a9751bc52fb837e27014fc693f4fdb68802b69c46b57c0cffed2ea6",
+  "url": "https://news.artnet.com/art-world/immersive-van-gogh-guide-1974038",
+  "verdict": "FOUND",
+  "via": "archive CC-MAIN-2024-46 crawl-data/CC-MAIN-2024-46/segments/1730477027861.84/warc/CC-MAIN-20241104225856-20241105015856-00077.warc.gz@393964027"
+ },
+ "F252": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.392,
+   "text": "it is related to the number of AI words and human words in the stories. By the method of least squ",
+   "visible_offset": 29468
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 65718,
+  "provenance": "publisher",
+  "sha256": "3f6cf3231d9296ded90f08027a3b176f00524e0d30118614c16e6bd27288c3e6",
+  "url": "https://arxiv.org/pdf/2304.02478#:~:text=Cluster%20analyses%20revealed%20some%20benefit,We%20suggest%20differentiated%2C%20pedagogical",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F253": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.965,
+   "text": "The Unwomanly Face of War by Svetlana Alexievich review –",
+   "visible_offset": 0
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 10976,
+  "provenance": "publisher",
+  "sha256": "56561b493545f2d311a83569869bb61a398adb4ccca4c6db1337d6c18d7dbd50",
+  "url": "https://www.theguardian.com/books/2017/aug/02/unwomanly-face-of-war-svetlana-alexievich-review#:~:text=A%20million%20women%20fought%20in,as%20sickening%2C%20repulsive%20and%20insane",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F254": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.468,
+   "text": "e Inception, reflecting the recursive nature of the process where the network \"dreams\" within its layers, enhancing patterns ite",
+   "visible_offset": 1538
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16718,
+  "provenance": "publisher",
+  "sha256": "983a456dbf82857be066aff905d9ff62ac80663a6df62a7ddc6525b7c51e5a31",
+  "url": "https://www.geeksforgeeks.org/computer-vision/deep-dream-an-in-depth-exploration/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F255": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.736,
+   "text": " 014 ETSI GS QKD 015 QKD – Protocol and data format of REST-based key delivery API QKD ",
+   "visible_offset": 22468
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ETSI%20GS%20QKD%20014%20QKD,and%20data%20format%20for%20a",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F256": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.376,
+   "text": "rmit banishment but did permit a permanent mark of servitude. Ostensibly, a surrogate is only to be engaged when a woman has proven barren, but this is obviously not the case with Leah. She has borne four sons already. Only upon experiencing a cessation of pregnancies does she hand over he",
+   "visible_offset": 6021
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18532,
+  "provenance": "publisher",
+  "sha256": "ea7c8b1fb8b1f0d159b58f1dcfb7d9e94dd09373071df5148ca5614c0febda15",
+  "url": "https://reformjudaism.org/learning/torah-study/torah-commentary/our-more-or-less-four-matriarchs",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F257": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.396,
+   "text": " a river of peace, Like a stream flowing with the honor of the nations, And you may suckle. You will be carried on the side, And played",
+   "visible_offset": 14202
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 15531,
+  "provenance": "publisher",
+  "sha256": "d460aed319dcf7033f0f47640a5c2713c68a688134878ec60036dcef31d69bed",
+  "url": "https://www.lookstein.org/professional-dev/bible/implications-feminine-imagery-bible/#:~:text=Egypt%20and%20the%20birth%20of,over%20you%2C%20and%20I%20covered",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F258": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.5,
+   "text": "the Tunisian and Moroccan items on agendas",
+   "visible_offset": 7456
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 9985,
+  "provenance": "publisher",
+  "sha256": "430913a828c552e0beb624eb9046f86bd757810218e8daaab0d8a127e6bf15c4",
+  "url": "https://history.state.gov/historicaldocuments/frus1952-54v03/d881#:~:text=,rate%20of%20development%20of%20their",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F259": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.457,
+   "text": " Classification on imbalanced data Time series",
+   "visible_offset": 2831
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28089,
+  "provenance": "publisher",
+  "sha256": "f59a0fb418c87b29348fe80b9cc0be012e3e8ea602f25c0f3cdf7ef7851fed9b",
+  "url": "https://www.tensorflow.org/tutorials/generative/deepdream",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F260": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.966,
+   "text": "a direct and violent attack upon the senses of his audience",
+   "visible_offset": 34720
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 83330,
+  "provenance": "publisher",
+  "sha256": "ef311e671f8197584bb18842190dfdd35ad38cebef78127b42eccc6abecc5919",
+  "url": "https://ttu-ir.tdl.org/server/api/core/bitstreams/7dfda334-a9e2-497a-9931-c605e0c0641c/content",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F261": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.655,
+   "text": "suck. He said: Shall a mouth which will speak with the Shekhinah suck what is unclean",
+   "visible_offset": 7961
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20879,
+  "provenance": "archive",
+  "sha256": "00826be403e1dd2321a271416060e6c3bd9adf86a4e5e45317db8ff5380f243f",
+  "url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh#:~:text=slave%20of%20Pharaoh%E2%80%99s%20daughter,be%20breastfed%20by%20an%20Israelite",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-08 crawl-data/CC-MAIN-2025-08/segments/1738832259438.98/warc/CC-MAIN-20250217191831-20250217221831-00620.warc.gz@748063147"
+ },
+ "F262": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.574,
+   "text": "s with self-control. Amen! Together with her husb",
+   "visible_offset": 11683
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13463,
+  "provenance": "publisher",
+  "sha256": "fea3e9fbc7622de37d156ac57611c3751923b8cc8d26d671dc0c4da01430bd4e",
+  "url": "https://ca.thegospelcoalition.org/columns/femmes-scriptura/childbirth-as-a-theme-of-biblical-theology/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F263": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.92,
+   "text": "k. Rock is good some of it",
+   "visible_offset": 1829
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4812,
+  "provenance": "archive",
+  "sha256": "da53dfa85d13469db4fc8cc10f2103f27561604c0126e8a061490b1a25db2f7a",
+  "url": "https://daveratcliffepiano.com/MaryLouWilliams/MLW-ItsAllGreat-1977.html#:~:text=Because%20there%E2%80%99s%20a%20lot%20of,new%20era%20of%20music%2C%20it",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909319.77/warc/CC-MAIN-20260418185138-20260418215138-00218.warc.gz@137400422"
+ },
+ "F264": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.423,
+   "text": "nd may have been commissioned by women, like Rebekah, who knew or suspected they were giving birth to twins. Ide",
+   "visible_offset": 7563
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 22571,
+  "provenance": "publisher",
+  "sha256": "0aa1cc180077405ec6e36649cdf4d0514e9df61c882c759df4ef443e02a1f1b5",
+  "url": "https://www.thetorah.com/article/anxiety-over-twins-anthropological-insights-into-the-story-of-jacob-and-esau",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F265": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.398,
+   "text": "n childbirth. The author is incorrectly positing that the woman’s loins were the locus of pain, and were grabbed b",
+   "visible_offset": 10140
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21059,
+  "provenance": "publisher",
+  "sha256": "bb10c121bcd0124d879c14b51f20debdee371d5ceb1e56b6dc2d972ab72f593b",
+  "url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=,Peretz%29%20will%20be%20dominant",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F266": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.651,
+   "text": "out the ability of all cloud providers to offer them profitably",
+   "visible_offset": 9339
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18788,
+  "provenance": "archive",
+  "sha256": "11f264c66285e10655ee6ce108fd46adcb8a8ba1d0a94729110b126cc7a3e7c6",
+  "url": "https://www.autoritedelaconcurrence.fr/en/press-release/cloud-computing-autorite-de-la-concurrence-issues-its-market-study-competition-cloud#:~:text=However%2C%20the%20Autorit%C3%A9%20considers%20that,providers%20to%20offer%20them%20profitably",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492699802.46/warc/CC-MAIN-20260908114048-20260908144048-00299.warc.gz@552172611"
+ },
+ "F267": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.418,
+   "text": " independent oversight that continuously validates fina",
+   "visible_offset": 4111
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5574,
+  "provenance": "publisher",
+  "sha256": "58ebf41bfcd6b7b338e7810249477576d8cc251b153c19eeb24232e1171deef4",
+  "url": "https://www.mindbridge.ai/platform/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F268": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F269": {
+  "binding": "next",
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3755,
+  "provenance": "publisher",
+  "sha256": "822e482d0a516d4501544e9089b1b6169e174ded053c31b07d5dff5a9741fc3b",
+  "url": "http://urj.uin-malang.ac.id/index.php/mij/article/view/5527",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F270": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.959,
+   "text": "hat social presence helped them feel more connected to their peers and instructors, which increased motivation, engagement, and learning outcomes",
+   "visible_offset": 32165
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 50331,
+  "provenance": "publisher",
+  "sha256": "2c303a552ef3e2bd1356c8175d22b1a4b6fbab27546ade3a2c12166a9a397792",
+  "url": "https://pdfs.semanticscholar.org/5d74/458971d16ca420262455be8a094b904eade1.pdf",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F271": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.437,
+   "text": "olders. A final version of Part 3 will be published in the future, witho",
+   "visible_offset": 2897
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 7633,
+  "provenance": "publisher",
+  "sha256": "2b1e8b6c8e7f964e97adc035857c86f1e46b9ae94029573a5d99f0c24903bd8b",
+  "url": "https://www.copyright.gov/ai/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F272": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.798,
+   "text": " an art work expresses an emotion if and only if it has the power to arouse or tends to arouse that emotion withou",
+   "visible_offset": 2279
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5621,
+  "provenance": "publisher",
+  "sha256": "2f6b0521d1ebbf89ba7ce2521499a8983a14b8e1a0973c4459a4ddd3875227a8",
+  "url": "https://www.rep.routledge.com/articles/thematic/artistic-expression/v-1/sections/arousal-theory#:~:text=Arousalism%20refers%20to%20this%20second,variety%20of%20suitably%20qualified%20perceivers",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F273": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.486,
+   "text": " Chat GPT should be banned by academi",
+   "visible_offset": 17720
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 18350,
+  "provenance": "publisher",
+  "sha256": "db4c670c3bed847f0fa5402215de9a6eb5e58da07f8127547629a5767be2b01b",
+  "url": "https://www.learningscientists.org/blog/2024/2/15-1#:~:text=Current%20evidence%20suggests%20that%20using,free",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F274": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.682,
+   "text": " \"If the CPU usage exceeds 80 percent, then s",
+   "visible_offset": 9443
+  },
+  "doubts": [
+   "unattributed",
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 68216,
+  "provenance": "publisher",
+  "sha256": "96461b585317fb43829b467cbc5f384cfe1a0aa35c2a4118a5c48ff9ce884d8a",
+  "url": "https://arxiv.org/html/2403.07909v1#:~:text=CPU%20and%20memory%20usage%20,dependencies%20is%20challenging%20%5B21",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F275": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.35,
+   "text": " who will, without a doubt, be in the fire forever. They are given boiling water ",
+   "visible_offset": 8037
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13652,
+  "provenance": "publisher",
+  "sha256": "989f3bc01b7c6942dde62ad4798da9cf3eb7fbccae1a6028d4e73dfe1cad0a22",
+  "url": "https://quranforkids.com/jahannam-hell-fire/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F276": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20340,
+  "provenance": "publisher",
+  "sha256": "10d4e4928d2c61fdcf46ff4611b6a8a799a5e7096adbc3d4720999bd7d11d7d2",
+  "url": "https://en.wikipedia.org/wiki/New_International_Economic_Order",
+  "verdict": "FOUND_NORMALIZED",
+  "via": "direct"
+ },
+ "F277": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.712,
+   "text": "ters on the efficiency of a pump operated as a turbine for micro hydro po",
+   "visible_offset": 2329
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 73247,
+  "provenance": "archive",
+  "sha256": "a580d3ef360cc86a888ab46410149f09d7e77b69feb3589a5aee61841f213f76",
+  "url": "https://www.sdewes.org/jsdewes/pid8.0321#:~:text=The%20main%20advantages%20of%20PATs,07",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-34 crawl-data/CC-MAIN-2026-34/segments/1786091674238.48/warc/CC-MAIN-20260817191046-20260817221046-00534.warc.gz@798162376"
+ },
+ "F278": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.416,
+   "text": "ail'. 'And it came to pass, when she was in hard labour, that the midwife said unto her: Fear not; for this child al",
+   "visible_offset": 9308
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 17599,
+  "provenance": "publisher",
+  "sha256": "bac235de8f81db2c742520fda52703f00a15a8420f444b4b9a8ceef0d1383229",
+  "url": "https://www.news.uct.ac.za/article/-2003-01-10-medical-history-biblical-texts-reveal-compelling-mysteries",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F279": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.478,
+   "text": "nd pasting from one pro",
+   "visible_offset": 5839
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13497,
+  "provenance": "publisher",
+  "sha256": "2365ab39f6d9c16556e0ac47a0cf2184344835adec253698b41fbcbfcd4c0919",
+  "url": "https://drewdevault.com/2022/06/23/Copilot-GPL-washing.html#:~:text=1,the%20Copilot%20usage%20fees%2C%20in",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F280": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.54,
+   "text": "gent Control System for Temperature and Humidity in Greenhouse ",
+   "visible_offset": 93853
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 154800,
+  "provenance": "publisher",
+  "sha256": "f0af233f72b917ea8b112a749eb78aba47dd6e636426901c570c9fc17d40f3a6",
+  "url": "https://www.mdpi.com/2077-0472/15/20/2135#:~:text=Unlike%20conventional%20PID%20control%2C%20fuzzy,coordinated%20regulation%20of%20multiple%20variables",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F281": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.385,
+   "text": "es before, about a Day when the heavens would split, the earth would tremble, and accountability would be inescapable. But I always dismissed them. 'On",
+   "visible_offset": 1054
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 1864,
+  "provenance": "publisher",
+  "sha256": "7d36d2dbc75047e8766ff483cc9ed0abf5ef705f8dd2386ca4f7c4ee2f39597d",
+  "url": "https://quran.com/en/55:37/reflections",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F282": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.564,
+   "text": "them within the history and present var",
+   "visible_offset": 6768
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13727,
+  "provenance": "publisher",
+  "sha256": "4b46cfa72d8e4287cf53eb2dcd427baa1450205df57ab8fc80c8633a7309bf8e",
+  "url": "https://www.animemangastudies.com/2019/01/20/the-shortcomings-and-blind-spots/#:~:text=,treat%20anime%20as%20text%20in",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F283": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.8,
+   "text": "deeper issues like alienation, gender inequality, homosexuality, corruption",
+   "visible_offset": 2852
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 6080,
+  "provenance": "publisher",
+  "sha256": "8824edee6544e3af5932ff518832cf59c32a7ac3ffe3510e3a57cd96ae53281e",
+  "url": "https://www.fluxmagazine.com/japanese-anime-on-british-tv/#:~:text=Global%20phenomenon%20Pok%C3%A9mon%20is%20the,homosexuality%2C%20corruption%20and%20teen%20angst",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F284": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.524,
+   "text": "man was required to give her written conse",
+   "visible_offset": 16768
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 28306,
+  "provenance": "publisher",
+  "sha256": "369c0cbf2aa1aa0a89b280894c86f5c6315445796c296bd011c1072a31bb8c99",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2582082/",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ },
+ "F285": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.742,
+   "text": "riate firewalls are in place to guarantee independence of verification activities. Implementing an accreditation program and publishing a list of accredited verifiers should minimize any potential for conflicts of interest",
+   "visible_offset": 31357
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 54480,
+  "provenance": "archive",
+  "sha256": "e56bfc2ad33bfc26f9a387bfc66ef1a1cf6560267336b5244e3ece7c6feee107",
+  "url": "https://climatepolicyinitiative.org/wp-content/uploads/2020/06/MRV-System-Design-Recommendations-for-Green-Bonds-in-China.pdf#:~:text=issuers%20that%20fail%20to%20correct,publishing%20a%20list%20of%20accredited",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-12 crawl-data/CC-MAIN-2026-12/segments/1772687278001.51/warc/CC-MAIN-20260311091257-20260311121257-00300.warc.gz@3778957"
+ },
+ "F286": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.515,
+   "text": "the best treatment plan for the patient. The system was developed usi",
+   "visible_offset": 28430
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 74926,
+  "provenance": "publisher",
+  "sha256": "175866c438f6396fade2c41d3778009cefa7cc1d29c705a4cd7d40554d30fdb2",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9399841/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F287": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.396,
+   "text": " adoption, the redemption of our bodies. Can you hear the earth groaning? Can you taste the anticipation of that final labor and delivery? The day when all creation will be redeemed? In Revelation 21:5, the Lamb seated on the thron",
+   "visible_offset": 11113
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13463,
+  "provenance": "publisher",
+  "sha256": "fea3e9fbc7622de37d156ac57611c3751923b8cc8d26d671dc0c4da01430bd4e",
+  "url": "https://ca.thegospelcoalition.org/columns/femmes-scriptura/childbirth-as-a-theme-of-biblical-theology/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F288": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 67778,
+  "provenance": "open_access",
+  "sha256": "b01124b464ba3500dae48a5b9c0ef6b8acd516902cceec489b572a5a9b571724",
+  "url": "https://journals.sagepub.com/doi/10.1177/17496020241235579",
+  "verdict": "FOUND",
+  "via": "open_access https://edepot.wur.nl/652804"
+ },
+ "F289": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.4,
+   "text": " Email Address Acceptance I authorize MindBridge to contact and send me marketin",
+   "visible_offset": 5396
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5574,
+  "provenance": "publisher",
+  "sha256": "e4154a03430e5d963ffdd3478354b068805a9389b03d3ffc0fdb38e19c3dbfd3",
+  "url": "https://www.mindbridge.ai/platform/#:~:text=Image%3A%20quote%20%20112",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F290": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.964,
+   "text": " pioneered the application of ensemble artificial intelligence to financial auditing",
+   "visible_offset": 11448
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 29706,
+  "provenance": "archive",
+  "sha256": "de9fd66dc926c38c7f373b72be9a389d3933dd3ed920454e970b9f088a2a532a",
+  "url": "https://www.v7labs.com/blog/ai-auditing-software-for-accountants-guide#:~:text=",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700871.75/warc/CC-MAIN-20260914105557-20260914135557-00678.warc.gz@838526475"
+ },
+ "F291": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.943,
+   "text": "o absorb the changes of each period",
+   "visible_offset": 5169
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=to%20it,brilliant%20flashes%20of%20modern%20dissonance",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F292": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.422,
+   "text": "e may be used for marketing, analytics, and personalization of the site, such as st",
+   "visible_offset": 12396
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 13852,
+  "provenance": "publisher",
+  "sha256": "15dad81a89b971724fb37d375fba7de20b57a0c3454e682babccec32995bf7ef",
+  "url": "https://www.trustpath.ai/blog/ai-transparency-vs-ai-explainability-where-does-the-difference-lie#:~:text=AI%20explainability%20employs%20various%20techniques,it%20easier%20for%20users%20to",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F293": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.402,
+   "text": ", 2026 See All → Publications See All → publication Value-Added Meat Products publication Harvest",
+   "visible_offset": 3541
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 4893,
+  "provenance": "publisher",
+  "sha256": "5b9bd3b7946642b61a35322eb1314d3d01d5790f642d1b504a5390060a518c73",
+  "url": "https://attra.ncat.org/publication/micro-hydro-power-a-beginners-guide-to-design-and-installation/#:~:text=Francis%20turbines%20are%20typically%20installed,around%20it%20and%20then%20falls",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F294": {
+  "binding": null,
+  "closest": null,
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 70569,
+  "provenance": "publisher",
+  "sha256": "94cf179ea27e47de0a57ed7d1264b408c970023c9e383035c65dc5686e820495",
+  "url": "https://clouds.cis.unimelb.edu.au/papers/Graph-AutoScaleTSE.pdf",
+  "verdict": "FOUND",
+  "via": "direct"
+ },
+ "F295": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.533,
+   "text": "hild and nurse it for me, and ",
+   "visible_offset": 7050
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 20879,
+  "provenance": "archive",
+  "sha256": "00826be403e1dd2321a271416060e6c3bd9adf86a4e5e45317db8ff5380f243f",
+  "url": "https://www.jewishideas.org/article/identity-royalty-and-contentment-breastfeeding-tanakh#:~:text=The%20Hebrew%20term%20meneket%2C%20nurse%2C,Kings%2010%3A1%3B%20Esther%202%3A7%2C%2020",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-08 crawl-data/CC-MAIN-2025-08/segments/1738832259438.98/warc/CC-MAIN-20250217191831-20250217221831-00620.warc.gz@748063147"
+ },
+ "F296": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.38,
+   "text": "ricing Pricing Calculator Documentation Release Notes Code of Conduct Shop Swag Solutions AI Trainin",
+   "visible_offset": 2551
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3925,
+  "provenance": "publisher",
+  "sha256": "0db38b46cf489a3246da90fb7c78c147a1fc55d6fd40cb289e13e8881139aa05",
+  "url": "https://www.digitalocean.com/community/tutorials/auto-scaling-techniques-guide",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F297": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.991,
+   "text": "musicians started playing commercial rock and what they call `free music,' and all the feeling went out of i",
+   "visible_offset": 3205
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,have%20her%20students%20sing%20the",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F298": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.782,
+   "text": " QKD – Common Criteria Protection Profile - Pair of Pre",
+   "visible_offset": 22640
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 57462,
+  "provenance": "archive",
+  "sha256": "8387023fb40b28a25fca9ccd9ba5773133334bb13c0e0ddf97fdf7de4191c328",
+  "url": "https://qunet-initiative.de/wp-content/uploads/2025/05/List-of-norms-and-standards_v.2.0.pdf#:~:text=ETSI%20GS%20QKD%20016%20QKD,PP%29%20for%20the%20security",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412517.7/warc/CC-MAIN-20250516095301-20250516125301-00857.warc.gz@419597363"
+ },
+ "F299": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.415,
+   "text": " instead of it being passed on to his brother Esau (Genesis 27). Based on this information we see that Rebekah was not, as many seem to think, a con",
+   "visible_offset": 4830
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 8402,
+  "provenance": "publisher",
+  "sha256": "a200b44b59c203260f83af2ebe3fcfcd7137521228f0b162f9d956c6b713e161",
+  "url": "https://thegiftofgivinglife.com/why-am-i-thus-rebekahs-birth-story/",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F300": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.733,
+   "text": "o someone who's always telling them, `Do this, do that,' and straining them, but to someone they want ",
+   "visible_offset": 16262
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 16997,
+  "provenance": "archive",
+  "sha256": "43daa273612bc8965d1a681be2b977ba07e76a74b011493a3d996179c32da2f5",
+  "url": "https://ratical.org/MaryLouWilliams/Mission.html#:~:text=%3E%20%20%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0,Jazz%20has%20healing%20in%20it",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2025-51 crawl-data/CC-MAIN-2025-51/segments/1764871307848.22/warc/CC-MAIN-20251213181533-20251213211533-00284.warc.gz@47967780"
+ },
+ "F301": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.535,
+   "text": "t Transplantation of Prisoners' Organs Chine",
+   "visible_offset": 2098
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 5592,
+  "provenance": "publisher",
+  "sha256": "5b398288a5e44201aa9555ab24fc43e507ec58411c90aba23f3fc55354c8023e",
+  "url": "https://www.wma.net/news-post/chinese-medical-association-reaches-agreement-with-world-medical-association-against-transplantation-of-prisoners-organs/",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F302": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.188,
+   "text": "构 服务 会员 文学奖项 新闻 访谈 投稿专题艺术 理论评论 文史 科幻 书汇 新作品 世界文坛 民族文艺 网络文学 儿童文学 ",
+   "visible_offset": 82
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 2840,
+  "provenance": "publisher",
+  "sha256": "8f63a934f86953c0fa34293ce2455bbb7121e192863857a0023133aa8acb93f3",
+  "url": "https://www.chinawriter.com.cn/n1/2025/0206/c404076-40413506.html#:~:text=%E6%AD%A3%E9%82%AA%E7%A2%B0%E6%92%9E%EF%BC%8C%E9%A2%A0%E8%A6%86%E5%88%BB%E6%9D%BF%E5%8D%B0%E8%B1%A1%E7%9A%84%E4%BA%BA%E7%89%A9%E5%A1%91%E9%80%A0%E5%85%B1%E5%90%8C%E8%B0%B1%E5%86%99%E7%9D%80%E6%96%B0%E7%9A%84%E7%A5%9E%E9%AD%94%E6%95%85%E4%BA%8B%E3%80%82%E9%99%AA%E4%BC%B4%E8%AE%B8%E5%A4%9A%E2%80%9C90%E5%90%8E%E2%80%9D%E5%B9%B4%E8%BD%BB%E4%BA%BA%E6%88%90%E9%95%BF%E7%9A%84%E5%8A%A8%E7%94%BB%E3%80%8A%E5%93%AA%E5%90%92%E4%BC%A0%E5%A5%87%E3%80%8B%E4%B8%AD%EF%BC%8C%E7%9F%B3%E5%A4%B4%E4%BF%AE%E7%82%BC%E8%80%8C%E6%88%90%E7%9A%84%E9%AD%94%E5%A4%B4%E7%9F%B3%E7%9F%B6%E5%A8%98%E5%A8%98%E4%B8%8E%E9%87%8E%E5%BF%83%E5%8B%83%E5%8B%83%E7%9A%84%E7%94%B3%E5%85%AC%E8%B1%B9%E6%98%AF%E2%80%9C%E5%8F%8D%E6%B4%BE%E2%80%9D%20%E7%9A%84%E4%BB%A3%E8%A1%A8%EF%BC%9B%E8%BF%91%E5%B9%B4%E4%B8%8A%E6%98%A0%E7%9A%84%E3%80%8A%E6%96%B0%E7%A5%9E%E6%A6%9C%EF%BC%9A%E5%93%AA%E5%90%92%E9%87%8D%E7%94%9F%E3%80%8B%E4%B8%AD%EF%BC%8C%E4%B8%8D%E8%A7%81%E7%9F%B3%E7%9F%B6%E4%B8%8E%E7%94%B3%E5%85%AC%E8%B1%B9%E7%9A%84%E8%BA%AB%E5%BD%B1%EF%BC%8C%E6%AD%A3%E9%82%AA%E6%95%85%E4%BA%8B%E7%9A%84%E8%B0%B1%E5%86%99%E5%8F%AA%E5%9C%A8%E5%93%AA%E5%90%92%E4%B8%8E%E6%95%96%E4%B8%99%E8%BA%AB%E4%B8%8A%E5%B1%95%E5%BC%80%EF%BC%8C%E2%80%9C%E6%8A%BD%E9%BE%99%E7%AD%8B%E2%80%9D%E7%9A%84%E6%83%85%E8%8A%82%E8%AE%BE%E8%AE%A1%E4%BE%9D%E6%97%A7%E5%BB%B6%E7%BB%AD%E4%BA%86%E4%B9%8B%E5%89%8D%E7%9A%84%E5%8A%A8%E7%94%BB%EF%BC%8C%E5%B0%86%E6%95%96%E4%B8%99%E5%A1%91%E9%80%A0%E6%88%90%E2%80%9C%20%E9%82%AA%E2%80%9D%EF%BC%8C%E6%AD%A3%E9%82%AA%E7%9B%B8%E4%BA%89%EF%BC%8C%E5%AD%B0%E8%83%9C%E5%AD%B0%E8%B4%A5%E6%97%A9%E6%9C%89%E5%AE%9A%E8%AE%BA%E3%80%82%E8%BF%99%E4%BA%9B%E4%BD%9C%E5%93%81%E5%9B%BA%E7%84%B6%E6%98%AF%E4%BD%B3%E4%BD%9C%EF%BC%8C%E5%8D%B4%E4%B9%9F%E7%9B%B8%E5%BA%94%E5%B8%A6%E6%9C%89%E5%90%84%E8%87%AA%E6%97%B6%E4%BB%A3%E7%9A%84%E7%83%99%E5%8D%B0%EF%BC%8C%E7%B2%BE%E5%BD%A9%E6%9C%89%E4%BD%99%EF%BC%8C%E7%8B%AC%E7%89%B9%E7%95%A5%E6%9C%89%E4%B8%8D%E8%B6%B3%E3%80%82",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F303": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.509,
+   "text": " Personal Document Settings on the Manage Your Content ",
+   "visible_offset": 40756
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 45743,
+  "provenance": "publisher",
+  "sha256": "85e7ac4a59be88f1a879357c3c0bc131eed082891f64dbce3b41e0e40dccf0ae",
+  "url": "https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/sweettaste-receptors-lowenergy-sweeteners-glucose-absorption-and-insulin-release/FD76542E4E27715F92DD2B0BCF31483E#sec1",
+  "verdict": "NOT_FOUND",
+  "via": "direct"
+ },
+ "F304": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.805,
+   "text": "Provisions to form a new UN agency to oversee the decolonization of dependent territories from colonial times were made at the San Fr",
+   "visible_offset": 4650
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 19089,
+  "provenance": "publisher",
+  "sha256": "784c6c5680ff42e9c8360e179fe0d3fa17f573633a67126bd68e23b18867a89b",
+  "url": "https://en.wikipedia.org/wiki/United_Nations_Trusteeship_Council#:~:text=Provisions%20to%20form%20a%20new,the%20eleventh%20was%20Italian%20Somaliland",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F305": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.525,
+   "text": "ces a multi-agent debate framework with ",
+   "visible_offset": 105351
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 175925,
+  "provenance": "publisher",
+  "sha256": "0e6794e829094b6ef476192e6ad1b277317d2f3d2702daab78b5f4e57e0c4d69",
+  "url": "https://www.mdpi.com/2076-3417/15/17/9466#:~:text=,65%5D%3B%20integrate%20online",
+  "verdict": "NOT_FOUND",
+  "via": "browser chromium"
+ },
+ "F306": {
+  "binding": "next",
+  "closest": {
+   "ratio": 0.87,
+   "text": "a Taoist xian who lives on the Kunlun. He serves as the film's comic r",
+   "visible_offset": 8484
+  },
+  "doubts": null,
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 44044,
+  "provenance": "archive",
+  "sha256": "7e86557980323b6095b849f0c9556a4a4bc42321c7d8a70412fa4e339415d895",
+  "url": "https://en.wikipedia.org/wiki/Ne_Zha_2#:~:text=Vincent%20Rodriguez%20III%20,Zhang%20Jiaming%20%20Rick%20Zeiff",
+  "verdict": "NOT_FOUND",
+  "via": "archive CC-MAIN-2026-08 crawl-data/CC-MAIN-2026-08/segments/1770395505909.67/warc/CC-MAIN-20260208220644-20260209010644-00774.warc.gz@172633225"
+ },
+ "F307": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.523,
+   "text": "t out of the womb. In other words, the twins ",
+   "visible_offset": 6042
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 21471,
+  "provenance": "archive",
+  "sha256": "5443af716c892c5fcbb57b237a793a148aa697c82178e3558777bbe1bd487e2e",
+  "url": "https://www.thetorah.com/article/why-does-the-torah-describe-babies-born-hands-first#:~:text=The%20Meaning%20of%20the%20Story",
+  "verdict": "UNCERTAIN",
+  "via": "archive CC-MAIN-2026-21 crawl-data/CC-MAIN-2026-21/segments/1778213678516.83/warc/CC-MAIN-20260517140959-20260517170959-00699.warc.gz@912501383"
+ },
+ "F308": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.417,
+   "text": "70 scientists, experts, and officials from different countries and inter",
+   "visible_offset": 2314
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 3629,
+  "provenance": "publisher",
+  "sha256": "d6866c46b1405857788a162f671b9c6bc0b74514fb6e4fa6949a3ea3d1efb57f",
+  "url": "http://en.nhc.gov.cn/2017-02/14/c_71188.htm",
+  "verdict": "UNCERTAIN",
+  "via": "direct"
+ },
+ "F309": {
+  "binding": null,
+  "closest": {
+   "ratio": 0.447,
+   "text": "es to work out what is happening around us and to predict what might happen ",
+   "visible_offset": 72128
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "first_read": null,
+  "found_in": null,
+  "page_chars": 129930,
+  "provenance": "publisher",
+  "sha256": "4bb667ba80d07707bf63c4f073c99418cf786eaf7af73c1ffe6e6ec2cf551b25",
+  "url": "https://www.mdpi.com/2227-7102/13/6/575#:~:text=,making%2C%20and%20modelling%20this",
+  "verdict": "UNCERTAIN",
+  "via": "browser chromium"
+ }
+}

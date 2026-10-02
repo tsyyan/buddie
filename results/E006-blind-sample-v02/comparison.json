@@ -1,0 +1,104 @@
+{
+ "n": 63,
+ "verdicts": {
+  "NOT_FOUND": 21,
+  "UNCERTAIN": 42
+ },
+ "labels": {
+  "AGENT_ALTERED": 20,
+  "AGENT_ABSENT": 5,
+  "UNVERIFIABLE": 15,
+  "NOT_A_QUOTE": 19,
+  "TRANSLATED": 1,
+  "TOOL_FALSE_ALARM": 3
+ },
+ "table": {
+  "AGENT_ALTERED": {
+   "NOT_FOUND": 12,
+   "UNCERTAIN": 8
+  },
+  "AGENT_ABSENT": {
+   "UNCERTAIN": 4,
+   "NOT_FOUND": 1
+  },
+  "UNVERIFIABLE": {
+   "NOT_FOUND": 5,
+   "UNCERTAIN": 10
+  },
+  "NOT_A_QUOTE": {
+   "UNCERTAIN": 17,
+   "NOT_FOUND": 2
+  },
+  "TRANSLATED": {
+   "UNCERTAIN": 1
+  },
+  "TOOL_FALSE_ALARM": {
+   "NOT_FOUND": 1,
+   "UNCERTAIN": 2
+  }
+ },
+ "doubts": {
+  "unattributed": {
+   "AGENT_ALTERED": 8,
+   "AGENT_ABSENT": 4,
+   "NOT_A_QUOTE": 13,
+   "UNVERIFIABLE": 3,
+   "TOOL_FALSE_ALARM": 2
+  },
+  "thin_page": {
+   "NOT_A_QUOTE": 4,
+   "UNVERIFIABLE": 6
+  },
+  "unread_link": {
+   "NOT_A_QUOTE": 3
+  },
+  "other_language": {
+   "TRANSLATED": 1,
+   "NOT_A_QUOTE": 1,
+   "UNVERIFIABLE": 2
+  }
+ },
+ "not_found": {
+  "n": 21,
+  "agent_errors": 13,
+  "false_alarm_strict": [
+   "B24",
+   "B25",
+   "B54"
+  ],
+  "unverifiable": [
+   "B06",
+   "B11",
+   "B17",
+   "B26",
+   "B60"
+  ]
+ },
+ "false_alarm_rate_of_not_found": {
+  "strict": 0.143,
+  "with_unverifiable": 0.381
+ },
+ "false_alarm_rate_of_checked": {
+  "strict": 0.0271,
+  "with_unverifiable": 0.0723,
+  "not_found_share_used": "86/453"
+ },
+ "agent_errors": {
+  "n": 25,
+  "not_found": 13,
+  "uncertain": [
+   "B02",
+   "B03",
+   "B04",
+   "B08",
+   "B20",
+   "B29",
+   "B30",
+   "B33",
+   "B43",
+   "B46",
+   "B52",
+   "B59"
+  ]
+ }
+}

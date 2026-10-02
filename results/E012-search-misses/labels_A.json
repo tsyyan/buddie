@@ -1,0 +1,106 @@
+[
+ {
+  "key": "G001",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://wisee.cs.washington.edu/",
+  "file": "0001.txt",
+  "evidence": "Page heading reads 'Whole-Home Gesture Recognition Using Wireless'; no full paper title in text.",
+  "note": "Paper title in a bibliography entry, not a claim of the page's words."
+ },
+ {
+  "key": "G002",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.nature.com/articles/s41524-019-0221-0",
+  "file": "0004.txt",
+  "evidence": "Snapshot is a 'Client Challenge' page; title cannot be checked.",
+  "note": "Article title used as a name of the cited review; source itself unreadable."
+ },
+ {
+  "key": "G003",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://amchronicle.com/insights/is-3d-printing-the-next-big-thing-in-high-jewellery/",
+  "file": "0006.txt",
+  "evidence": "Not found in AM Chronicle page (link is attached to a different sentence about Bvlgari NFTs).",
+  "note": "Name of a Tiffany collection, not a quotation."
+ },
+ {
+  "key": "G004",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.tandfonline.com/doi/full/10.1080/14680777.2024.2361042",
+  "file": "0007.txt",
+  "evidence": "Publisher 403; OpenAlex abstract only, which lacks the title phrase (mentions 'universal love').",
+  "note": "Quote marks are part of the article title in a reference list."
+ },
+ {
+  "key": "G005",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.acacia.edu/blog/why-are-goal-setting-strategies-important-for-students-and-how-can-they-be-implemented/",
+  "file": "0008.txt",
+  "evidence": "Title appears only in URL/header; full title 'Why Are Goal-Setting Strategies Important for Students and How Can They Be Implemented?'.",
+  "note": "Shortened blog post title in a reference list."
+ },
+ {
+  "key": "G006",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GSR22RYDWS3KBUYW",
+  "file": "0010.txt",
+  "evidence": "Page: 'Some Echo devices can detect presence in a room with ultrasound technology.' Exact title phrase absent.",
+  "note": "Agent-given document title in a reference list."
+ },
+ {
+  "key": "G007",
+  "label": "TRANSLATED",
+  "own_url": "https://english.www.gov.cn/statecouncil/ministries/202212/08/content_WS6391a9a8c6d0a757729e41b5.html",
+  "file": "0013.txt",
+  "evidence": "China will accelerate the development of affordable rental housing projects in the REITs market, and mull expanding the REITs pilot program to cover market-oriented long-term rental and commercial real estate sectors, Li added.",
+  "note": "Chinese quote is a translation of the English Xinhua sentence; the parser's quote span also includes the link title."
+ },
+ {
+  "key": "G008",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.blog.baldengineering.com/2018/06/applied-materials-enables-cobalt.html",
+  "file": "0017.txt",
+  "evidence": "Applied Materials enables cobalt contact & interconnect for 7nm with pre-clean, PVD, ALD and CVD – on the Endura® platform",
+  "note": "Elided blog post title in a reference list; the title is present on the page (with '...' elision)."
+ },
+ {
+  "key": "G009",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/",
+  "file": "0019.txt",
+  "evidence": "DeepMind blog has 'Graph Networks for Materials Exploration (GNoME)'; the quoted title is absent.",
+  "note": "Paper title (Chen et al. 2019, MEGNet) given as a cited work; not on the DeepMind blog page."
+ },
+ {
+  "key": "G010",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.laphil.com/about/watch-and-listen/herbie-listening-guide",
+  "file": "0023.txt",
+  "evidence": "Span runs from an opening quote before the term 'Smooth Jazz' to a quote before '创新'; not a quotation.",
+  "note": "Parser artifact: a term in quote marks plus link markup and agent's prose."
+ },
+ {
+  "key": "G011",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://carnegieendowment.org/research/2024/05/global-south-colonialism-imperialism",
+  "file": "0025.txt",
+  "evidence": "In his opening address, Indonesian president Sukarno described a world in which “colonialism is not yet dead”...",
+  "note": "Title of Sukarno's speech in a reference list."
+ },
+ {
+  "key": "G012",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://jamestown.org/program/in-chinas-shifting-historical-narrative-war-of-resistance-with-japan-retains-key-role/",
+  "file": "0031.txt",
+  "evidence": "Span is between the curly quotes inside two Jamestown link titles ('“War of Resistance with Japan Retains Key Role'), including link markup and agent prose.",
+  "note": "Parser artifact from quote marks inside a link title."
+ },
+ {
+  "key": "G013",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://kissflow.com/low-code/gartner-forecasts-on-low-code-development-market/",
+  "file": "0033.txt",
+  "evidence": "Current page title: 'Gartner Forecasts on the Future of Low-Code Development in 2026'; quoted title absent (page appears retitled).",
+  "note": "Article title in a reference list."
+ }
+]

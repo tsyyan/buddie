@@ -1,0 +1,71 @@
+{
+ "E008": {
+  "items": 309,
+  "agent_errors": 152,
+  "newly_not_a_quote": 2,
+  "labels": {
+   "NOT_A_QUOTE": 1,
+   "IN_SOURCE": 1
+  },
+  "items_new": [
+   {
+    "key": "F080",
+    "verdict": "UNCERTAIN",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F204",
+    "verdict": "NOT_FOUND",
+    "label": "IN_SOURCE"
+   }
+  ],
+  "kind_lost": []
+ },
+ "E010": {
+  "items": 97,
+  "agent_errors": 40,
+  "newly_not_a_quote": 7,
+  "labels": {
+   "NOT_A_QUOTE": 6,
+   "AGENT_ALTERED": 1
+  },
+  "items_new": [
+   {
+    "key": "F001",
+    "verdict": "NOT_FOUND",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F009",
+    "verdict": "NOT_FOUND",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F051",
+    "verdict": "UNCERTAIN",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F059",
+    "verdict": "NOT_FOUND",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F074",
+    "verdict": "UNCERTAIN",
+    "label": "NOT_A_QUOTE"
+   },
+   {
+    "key": "F082",
+    "verdict": "UNCERTAIN",
+    "label": "AGENT_ALTERED"
+   },
+   {
+    "key": "F096",
+    "verdict": "NOT_FOUND",
+    "label": "NOT_A_QUOTE"
+   }
+  ],
+  "kind_lost": []
+ }
+}

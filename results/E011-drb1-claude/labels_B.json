@@ -1,0 +1,629 @@
+[
+ {
+  "key": "F001",
+  "label": "IN_SOURCE",
+  "own_url": "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/",
+  "file": "0001.txt",
+  "evidence": "[A]t a nonhub airport, it takes fewer than half the annual departing seats to “result” in a regional job…",
+  "note": "Differs only in case of first letter (source brackets [A]) and quote style."
+ },
+ {
+  "key": "F002",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+  "file": "0003.txt",
+  "evidence": "check your Mechanics, Dynamics and Aesthetics to make sure it is complete, coherent, and providing the experience you had in mind. If you have gathered feedback or test results on your MDA components, you can iterated upon it. As you design or playtest, revisit each section...",
+  "note": "Pronoun edits are bracketed, but source \"iterated\" silently changed to \"iterate\"."
+ },
+ {
+  "key": "F003",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "...cater to the dynamic needs of your retail environments. Hospitality Handle inventory management, employee tracking, and payment processing with our robust all-in-one solutions.",
+  "note": "Both sentences are verbatim, but they sit under different headings (Retail / Hospitality). The quote joins them with no ellipsis and drops the \"Hospitality\" heading, so the second sentence reads as being about retail."
+ },
+ {
+  "key": "F004",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.washingtonpost.com/technology/2024/04/28/tesla-trial-autopilot-lawsuit/",
+  "file": "0009.txt",
+  "evidence": "Paywall: the snapshots hold only the first paragraphs plus a \"Create an account / Subscribe\" wall. The NHTSA passage is missing from the text and from the raw HTML.",
+  "note": ""
+ },
+ {
+  "key": "F005",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/",
+  "file": "0010.txt",
+  "evidence": "For some, onee kotoba is a source of pride and an identity marker spoken with LGBTQ friends; others resent it...",
+  "note": ""
+ },
+ {
+  "key": "F006",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/MDA_framework",
+  "file": "0011.txt",
+  "evidence": "Mechanics are the base components of the game - its rules, every basic action the player can take in the game, the algorithms and data structures in the game engine etc.",
+  "note": ""
+ },
+ {
+  "key": "F007",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0012.txt",
+  "evidence": "In Between is also similar to Keshavarz’s Circumstance in overtly tackling the topic of homosexuality.",
+  "note": "\"tackl[es]\" is a bracketed edit of \"tackling\"."
+ },
+ {
+  "key": "F008",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.topdevelopers.co/blog/mobile-game-development-trends/",
+  "file": "0014.txt",
+  "evidence": "For example, hybrid reality titles integrate real-world objects with digital gameplay, allowing players to explore environments with greater realism. As AR and VR technologies advance, this trend is set to redefine mobile gaming in 2025 by merging physical and virtual spaces.",
+  "note": ""
+ },
+ {
+  "key": "F009",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+  "file": "0016.txt",
+  "evidence": "11 teams perform better than ShuttleNet; however, we notice that these methods are built on top of ShuttleNet",
+  "note": "Unmarked \"that\" added. Other quotes in this paragraph suggest the agent read an earlier revision of the paper, which may have had this wording."
+ },
+ {
+  "key": "F010",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.tokyoweekender.com/art_and_culture/queer-japan-gender-japanese-language/",
+  "file": "0010.txt",
+  "evidence": "lesbian communities have used masculine pronouns and gay men sometimes use atypically feminine pronouns like atashi",
+  "note": ""
+ },
+ {
+  "key": "F011",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://arxiv.org/html/2306.15664v3",
+  "file": "0018.txt",
+  "evidence": "Generally, ShuttleNet (Wang et al., 2022b) is a position-aware fusion of rally progress and player styles framework consisting of Transformer-based architectures.",
+  "note": "In-text citation \"(Wang et al., 2022b)\" dropped without an ellipsis; otherwise verbatim."
+ },
+ {
+  "key": "F012",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://isappscience.org/for-scientists/resources/prebiotics/",
+  "file": "0020.txt",
+  "evidence": "They’re scientifically defined as “substrates that are selectively utilized by host microorganisms conferring a health benefit.”",
+  "note": "Plural changed to singular without marking (\"substrates that are\" became \"a substrate that is\"). Meaning unchanged."
+ },
+ {
+  "key": "F013",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/",
+  "file": "0022.txt",
+  "evidence": "Given the current findings, individuals with higher levels of closed-mindedness may refuse to accept, or ignore, information that contradicts their beliefs and, instead, rely on preconceptions",
+  "note": "Unmarked word \"existing\" added before \"beliefs\". 0021.txt is a 388-char stub; judged from the browser snapshot."
+ },
+ {
+  "key": "F014",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "Mobile Point of Sale (POS) Take your sales anywhere your business takes you with our quality line of point of sale (POS) products",
+  "note": ""
+ },
+ {
+  "key": "F015",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "POSket A Mobile Point of Sale (mPOS) POSket is a sleek and secure payment solution specially designed for businesses on the go.",
+  "note": "The quote joins the subheading to the sentence and silently drops \"POSket is\"."
+ },
+ {
+  "key": "F016",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://blogs.lse.ac.uk/usappblog/2015/07/03/increasing-the-number-of-destinations-and-passengers-an-airport-serves-has-a-positive-effect-on-regional-economic-development/",
+  "file": "0024.txt",
+  "evidence": "Using number of passengers as the measure of air traffic, I find that it positively influences employment and average wages, but not the number of business establishments.",
+  "note": "The words before the ellipsis, \"passenger activity\", are not in the source: they reword \"number of passengers ... it\". The rest is verbatim. The meaning is essentially the same."
+ },
+ {
+  "key": "F017",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.tofugu.com/japanese/queer-japanese/",
+  "file": "0026.txt",
+  "evidence": "...it involves balancing all the intersections of your identity with the specific context of the moment.",
+  "note": "Unmarked removal of \"your\"."
+ },
+ {
+  "key": "F018",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.cnn.com/style/article/in-between-maysaloun-hamoud/index.html",
+  "file": "0027.txt",
+  "evidence": "There were threats to me, to the actresses, also to my family. For me, one of the things ... they sent me a message that said “I have a question for you: Do you want the bullet in your head, in your heart or between your legs?”",
+  "note": "The omitted middle is marked with \"...\"."
+ },
+ {
+  "key": "F019",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.britishcouncil.org/voices-magazine/ten-trends-and-innovations-english-language-teaching-2024",
+  "file": "0028.txt",
+  "evidence": "as seen in Ideas in Actions: Activities for developing learning strategies (Delta Publishing)",
+  "note": "The quote marks enclose the title of a resource. The title does appear in the source."
+ },
+ {
+  "key": "F020",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+  "file": "0029.txt",
+  "evidence": "Also, the growth of nearby infrastructure like hotels and commercial centres boosts the construction and real estate sectors, leading to more jobs for construction workers, architects, engineers, project managers, and related professionals.",
+  "note": ""
+ },
+ {
+  "key": "F021",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+  "file": "0016.txt",
+  "evidence": "The current text reads \"the performance of area coordinates only marginally surpasses ShuttleNet (0.6997 → 0.6797)\". The other quotes in the paragraph (\"which demonstrates the flexibility ... can be improved\") also match an earlier wording, so the page appears to have been revised.",
+  "note": "Page changed (arXiv revision). Read against the current text instead, it would be AGENT_ALTERED: \"slightly performs better than\" vs \"marginally surpasses\"."
+ },
+ {
+  "key": "F022",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/",
+  "file": "0030.txt",
+  "evidence": "Digital Promise’s new report, An Ethical and Equitable Vision of AI in Education: Learning Across 28 Exploratory Projects, shares how...",
+  "note": "Report title. It is in the source, which the paragraph copies nearly word for word."
+ },
+ {
+  "key": "F023",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth",
+  "file": "0032.txt",
+  "evidence": "In some instances, the connectivity provided by local airports is necessary for business attraction and retention.",
+  "note": ""
+ },
+ {
+  "key": "F024",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0012.txt",
+  "evidence": "three Middle Eastern female directors, Nadine Labaki, Maryam Keshavarz and Maysaloun Hamoud, from Lebanon, Iran, and Israel/Palestine respectively, respond to the abject position",
+  "note": ""
+ },
+ {
+  "key": "F025",
+  "label": "IN_SOURCE",
+  "own_url": "https://variety.com/2016/film/reviews/in-between-review-bar-bahar-1201863276/",
+  "file": "0034.txt",
+  "evidence": "the snarky manager at the restaurant where Salma works who yells at the kitchen staff for speaking to each other in Arabic.",
+  "note": ""
+ },
+ {
+  "key": "F026",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "PxRetailer allows for quick and easy integration with all leading electronic cash register applications.",
+  "note": ""
+ },
+ {
+  "key": "F027",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+  "file": "0029.txt",
+  "evidence": "Local businesses like hotels, restaurants, vehicle rental agencies, and taxi services benefit significantly from an airport’s presence, resulting in more job opportunities and higher wages in these sectors.",
+  "note": ""
+ },
+ {
+  "key": "F028",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.goldenshovelagency.com/news/p/item/58278/flying-high-local-airports-are-engines-of-economic-growth",
+  "file": "0032.txt",
+  "evidence": "its 6,200-foot runway and 8,000-square-foot terminal building is heavily utilized by corporate executives from companies like Coca-Cola, Whirlpool, and Amazon.",
+  "note": "\"is\" changed to \"are\" without marking, to fit the report's subject \"its facilities\"."
+ },
+ {
+  "key": "F029",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "Unattended Process payments in rugged and outdoor environments with our unattended solutions. Designed for heavy usage, our unattended devices are water resistant and rated to endure the elements.",
+  "note": ""
+ },
+ {
+  "key": "F030",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fool.com/investing/how-to-invest/famous-investors/charlie-munger/",
+  "file": "0035.txt",
+  "evidence": "Buffett quoted Munger as saying, \"Forget what you know about buying fair businesses at wonderful prices; instead, buy wonderful businesses at fair prices.\"",
+  "note": "The whole paragraph is copied from the source."
+ },
+ {
+  "key": "F031",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.edutopia.org/article/6-essential-strategies-teaching-english-language-learners/",
+  "file": "0037.txt",
+  "evidence": "For example, when a science teacher wants ELLs to produce a hypothesis, they might offer the sentence, “If _____ was added, then _____ because _____.” This sentence frame provides clues that empower ELLs to sound and think like scientists",
+  "note": "Only the length of the blanks and the quote style differ."
+ },
+ {
+  "key": "F032",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://squareup.com/us/en/hardware/register",
+  "file": "0039.txt",
+  "evidence": "The current Square Register page (direct, browser and Common Crawl snapshots) carries different marketing copy. None of the paragraph's claims are there: \"touch-free\", \"contactless pickup\", \"just works\", \"first fully integrated\", \"out of the box\". The page has plainly been rewritten.",
+  "note": "Alternative reading: AGENT_ABSENT, if the page is taken as unchanged."
+ },
+ {
+  "key": "F033",
+  "label": "IN_SOURCE",
+  "own_url": "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/",
+  "file": "0042.txt",
+  "evidence": "Co-producer Ziad Hamzeh said, “I think it is anywhere, not just in Tunisia, because it is a touchy subject, it is very sensitive.",
+  "note": "\"[difficult]\" is a bracketed insertion."
+ },
+ {
+  "key": "F034",
+  "label": "IN_SOURCE",
+  "own_url": "https://deliberategamedesign.com/mda-framework/",
+  "file": "0044.txt",
+  "evidence": "Make sure that your concept’s mechanics create the expected dynamics and are supported by your proposed aesthetics. Later on, during playtesting, make sure that the aesthetics ... match the ones you had originally intended. You can always refer back to this tool...",
+  "note": "All pronoun changes and the inserted \"[they]\" are in brackets."
+ },
+ {
+  "key": "F035",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)",
+  "file": "0046.txt",
+  "evidence": "Carly Lane of Collider called the series \"a masterpiece in its own right\" and wrote, \"Not only does the Spanish-language series breathe new life into Márquez's supposedly unfilmable novel, but it also succeeds as a triumph of filmmaking...\"",
+  "note": ""
+ },
+ {
+  "key": "F036",
+  "label": "IN_SOURCE",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8783399/",
+  "file": "0048.txt",
+  "evidence": "Vasigh et al. (2013) highlight that indirect impact is generated from off-site economic activities that are directly related to the onsite activities (for example, travel agencies, retail, and fuel suppliers).",
+  "note": "0047.txt is a stub; judged from the browser snapshot."
+ },
+ {
+  "key": "F037",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.topdevelopers.co/blog/mobile-game-development-trends/",
+  "file": "0014.txt",
+  "evidence": "the blockchain gaming market is expected to grow by 68% year-on-year, with the number of active blockchain gamers surpassing 1.2 million by mid-2025. Investments in blockchain gaming exceeded $3 billion in 2024, signaling a bright future. Blockchain gaming facilitates...",
+  "note": ""
+ },
+ {
+  "key": "F038",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://spacenews.com/quantum-space-unveils-plans-for-cislunar-platforms/",
+  "file": "0050.txt",
+  "evidence": "Registration wall: the snapshots hold only the lede and then \"To continue reading this article register now\". The passage is missing from the text and from the raw HTML.",
+  "note": ""
+ },
+ {
+  "key": "F039",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/",
+  "file": "0051.txt",
+  "evidence": "allowing them to take actions like “raise platform by 2 meters” or “turn wrench 4 mm to the right.”",
+  "note": "Example command phrase (\"actions like ...\"), not presented as the source's statement. The words do appear in the source."
+ },
+ {
+  "key": "F040",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/MDA_framework",
+  "file": "0011.txt",
+  "evidence": "From the perspective of the designer, the mechanics generate dynamics which generate aesthetics.",
+  "note": ""
+ },
+ {
+  "key": "F041",
+  "label": "IN_SOURCE",
+  "own_url": "https://masterplan.com/en-blog/mda-framework-as-gamification-checklist-for-successful-e-learning",
+  "file": "0052.txt",
+  "evidence": "Develop clear, targeted mechanics that support your learning objectives. ... Make sure that these mechanics are easy to understand and directly target the desired learning outcomes. Starter tip: Start with simple mechanics and expand them as needed...",
+  "note": ""
+ },
+ {
+  "key": "F042",
+  "label": "IN_SOURCE",
+  "own_url": "https://onlinedegree.fgcu.edu/programs/med-ci-elementary-education/trends-elementary-language-arts-instruction/",
+  "file": "0053.txt",
+  "evidence": "It sets readers up for success: \"Thousands of English words are derived from Latin and Greek roots, prefixes, and suffixes. These linguistic building blocks are what give a word its meaning...\"",
+  "note": ""
+ },
+ {
+  "key": "F043",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://squareup.com/us/en/hardware",
+  "file": "0055.txt",
+  "evidence": "The current hardware page lists \"Square Terminal The all-in-one POS with a receipt printer $299\". The tagline appears to have been updated since. The quoted tagline is not in any snapshot (direct, browser, Common Crawl).",
+  "note": "The paragraph is only the \"**Square Terminal:**\" heading, so the quote is a product tagline. Alternative reading: AGENT_ALTERED material, if the page is taken as unchanged."
+ },
+ {
+  "key": "F044",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.pewresearch.org/internet/2018/12/10/artificial-intelligence-and-the-future-of-humans/",
+  "file": "0057.txt",
+  "evidence": "...predicted, \"Many of our day-to-day decisions will be automated with minimal intervention by the end-user. Autonomy and/or independence will be sacrificed and replaced by convenience...",
+  "note": "The report attributes a single expert's words to \"experts\"."
+ },
+ {
+  "key": "F045",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9690611/",
+  "file": "0022.txt",
+  "evidence": "we hypothesized that the relationship between the need for cognitive closure and the fear of the coronavirus is mediated by beliefs in COVID-19 conspiracy theories.",
+  "note": "Reworded without marking: \"the fear of the coronavirus\" becomes \"fear (for example, of coronavirus)\" and \"COVID-19\" is dropped. This generalises a hypothesis about COVID into a general finding."
+ },
+ {
+  "key": "F046",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+  "file": "0016.txt",
+  "evidence": "The current text reads \"built on top of ShuttleNet, which highlights the flexibility of ShuttleNet and the potential for improvements in certain aspects, e.g., hyper-parameters and activation functions\". The agent's wording matches an earlier revision of the paper.",
+  "note": "Page changed (arXiv revision). Read against the current text instead, it would be AGENT_ALTERED material (reworded)."
+ },
+ {
+  "key": "F047",
+  "label": "IN_SOURCE",
+  "own_url": "https://crp.trb.org/acrpwebresource12/understanding-air-service-and-regional-economic-activity/the-role-of-aviation-in-supporting-local-economic-activity/",
+  "file": "0001.txt",
+  "evidence": "Bruekner (2003) found ... reporting that a 10 percent increase in passenger traffic raises total employment by 0.9 percent and service employment (defined as ...) by 1.1 percent, suggesting employment gains far beyond the airport.",
+  "note": ""
+ },
+ {
+  "key": "F048",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.edutopia.org/article/responsive-teaching-ela/",
+  "file": "0058.txt",
+  "evidence": "Educators often ask me what’s the most important variable in improving students’ reading achievement. I always answer: the teacher.",
+  "note": "The words are verbatim. The source frames them as a question educators ask, while the report frames them as something educators emphasize."
+ },
+ {
+  "key": "F049",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://digitalpromise.org/2024/10/23/transforming-k-12-education-with-ai-a-new-report-with-insights-from-28-exploratory-projects/",
+  "file": "0030.txt",
+  "evidence": "Digital Promise’s new report, An Ethical and Equitable Vision of AI in Education: Learning Across 28 Exploratory Projects",
+  "note": "Report title (\"Read the full report, ...\"). It appears in the source."
+ },
+ {
+  "key": "F050",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/MDA_framework",
+  "file": "0011.txt",
+  "evidence": "For the player, the perspective of the player is the other way around. They experience the game through the aesthetics, which the game dynamics provide, which emerged from the mechanics.",
+  "note": ""
+ },
+ {
+  "key": "F051",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.granitefirm.com/blog/us/2024/01/15/duan-yongping/",
+  "file": "0059.txt",
+  "evidence": "Duan Yongping once said: “There should be no compromise on matters of principle. This is not a matter of cost.”",
+  "note": ""
+ },
+ {
+  "key": "F052",
+  "label": "IN_SOURCE",
+  "own_url": "https://upptic.com/the-games-industry-in-2024-trends-challenges-and-whats-next-for-2025/",
+  "file": "0060.txt",
+  "evidence": "AI continued to disrupt the gaming industry in 2024, impacting everything from game development to marketing strategies. Tools powered by AI enhanced creative processes, user acquisition efficiencies, and data analytics, laying the groundwork...",
+  "note": ""
+ },
+ {
+  "key": "F053",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.edutopia.org/blog/stw-expanded-learning-time-individualized-learning-hassan-mansaray",
+  "file": "0062.txt",
+  "evidence": "4. Making meaning Provide instruction in basic reading strategies ... rotate roles. As they interact with the text... 5. Text annotation Teach students to mark... 6. Ask text-based evidence questions Challenge students... 7. Immerse students in the genre Provide adequate opportunity",
+  "note": "\"Provide\" changed to \"providing\", and the numbered list headings (5, 6, 7) are silently dropped. The sentences themselves are verbatim."
+ },
+ {
+  "key": "F054",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://deadline.com/2024/12/take-my-breath-nada-mezni-hafaiedh-interview-tunsia-oscars-1236194454/",
+  "file": "0042.txt",
+  "evidence": "But it was a long road as Hafaiedh explained she “wanted to be as truthful as possible to the emotions and the experience of an intersex individual. I couldn’t begin shooting without first understanding the experience up close.",
+  "note": "The quote adds \"I\" before \"wanted\" without brackets. The source quotes her indirectly at that point."
+ },
+ {
+  "key": "F055",
+  "label": "IN_SOURCE",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5491669/",
+  "file": "0064.txt",
+  "evidence": "Kruglanski [7] defines the need for closure as “an answer on a subject, any answer when encountered confusion and uncertainty” (page 337).",
+  "note": ""
+ },
+ {
+  "key": "F056",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.aalpha.net/blog/a2a-vs-mcp-comparison-for-ai-agents/",
+  "file": "0051.txt",
+  "evidence": "In its official announcement, Google states: “A2A is an open protocol that complements Anthropic’s MCP, which provides helpful tools and context to agents.”",
+  "note": "Found on the cited aalpha page, which quotes Google."
+ },
+ {
+  "key": "F057",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.animefeminist.com/how-shoujo-manga-helps-me-grapple-with-internalized-misogyny/",
+  "file": "0066.txt",
+  "evidence": "While I was in college, I began to enter more queer communities, where I started questioning everything I thought I knew about gender.",
+  "note": "\"I was\" dropped without marking."
+ },
+ {
+  "key": "F058",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://squareup.com/us/en/hardware",
+  "file": "0055.txt",
+  "evidence": "The current hardware page has different product taglines (e.g. \"Square Terminal The all-in-one POS with a receipt printer\"). The quoted description is in none of the snapshots or raw HTML, and the product line-up has changed (Register 2nd generation, Handheld).",
+  "note": "Page changed. Alternative reading: AGENT_ABSENT."
+ },
+ {
+  "key": "F059",
+  "label": "IN_SOURCE",
+  "own_url": "https://blog.planbook.com/holistic-learning-classroom/",
+  "file": "0067.txt",
+  "evidence": "...writes the team at learning platform Kami. “Emotional check-ins help students begin to recognize the different feelings in themselves and identify triggers that lead to certain moods.”",
+  "note": ""
+ },
+ {
+  "key": "F060",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://squareup.com/us/en/hardware",
+  "file": "0055.txt",
+  "evidence": "The iPad POS (Square Stand) is now described as \"The intuitive, swiveling iPad POS\". The quoted description is in no snapshot or raw HTML, and the page's product copy has changed.",
+  "note": "Page changed. The quote seems to describe Square Stand although the paragraph heading says Square Terminal. Alternative reading: AGENT_ABSENT."
+ },
+ {
+  "key": "F061",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://deliberategamedesign.com/mda-framework/",
+  "file": "0044.txt",
+  "evidence": "Though generally used to study completed games, it is very useful during game design to make sure that the game holistically supports the intended design.",
+  "note": "\"it\" dropped without marking."
+ },
+ {
+  "key": "F062",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://www.pax.us/",
+  "file": "0006.txt",
+  "evidence": "PAXHUB Get access to our latest marketing collateral, communications, and more – all in one easy location, with PAXHUB. Easily share, store, and track our vast content library.",
+  "note": "\", with PAXHUB\" dropped without an ellipsis."
+ },
+ {
+  "key": "F063",
+  "label": "AGENT_ALTERED",
+  "sub": "material",
+  "own_url": "https://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/GenderAndJapaneseLanguage",
+  "file": "0069.txt",
+  "evidence": "...while the speech habits of anime and drama characters have largely remained the same due to The Coconut Effect.",
+  "note": "The source says \"drama\"; the quote says \"manga\" (different term)."
+ },
+ {
+  "key": "F064",
+  "label": "IN_SOURCE",
+  "own_url": "https://ew.com/one-hundred-years-of-solitude-netflix-adaptation-preview-alex-garcia-lopez-8714319",
+  "file": "0070.txt",
+  "evidence": "\"That was very much my vision for capturing these wonderful, unexplainable, sometimes slightly terrifying moments,\" García López continues. \"There's a lot of comedy in the book.\"",
+  "note": "Two consecutive quoted sentences by the same speaker, joined; only the speech tag between them is left out. The direct fetches were 403; the browser snapshot is readable."
+ },
+ {
+  "key": "F065",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://time.com/7178594/one-hundred-years-of-solitude-review-netflix/",
+  "file": "0071.txt",
+  "evidence": "took more than six years to realize. ... directors Alex García López (The Witcher) and Laura Mora (The Kings of the World) achieve on screen. Each hourlong episode contains dozens, maybe hundreds, of astonishing images.",
+  "note": "The parentheticals \"(The Witcher)\" and \"(The Kings of the World)\" are dropped without marking."
+ },
+ {
+  "key": "F066",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+  "file": "0029.txt",
+  "evidence": "Airports don’t just help people travel; they also boost local economies by creating jobs and increasing incomes.",
+  "note": ""
+ },
+ {
+  "key": "F067",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/In_Between_(2016_film)",
+  "file": "0072.txt",
+  "evidence": "The film was declared haram by the mayor of Umm al-Fahm, the conservative Arab home town of the character Nour.",
+  "note": ""
+ },
+ {
+  "key": "F068",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4287659/",
+  "file": "0073.txt",
+  "evidence": "The PMC4287659 text (54k chars, full article) has nothing like it. The closest is \"individuals' desire for firm answers and their aversion to ambiguity (Kruglanski, 1989)\". 0074.txt is a stub.",
+  "note": "The exact sentence is in PMC5491669 (0064.txt), another source of the same report: \"According to Webster and Kruglanski (1), the need for closure can be described as 'a desire to give a clear and specific response to a question rather than ambiguity, confusion or irregularity.'\""
+ },
+ {
+  "key": "F069",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://ar5iv.labs.arxiv.org/html/2306.15664",
+  "file": "0016.txt",
+  "evidence": "The first sentence matches the current text (\"ShuttleNet (Wang et al., 2022b) is a position-aware fusion ... Transformer-based architectures\"). The second sentence (\"ShuttleNet separates the contexts of both players to consider the overall playing habits...\") is not in any snapshot. The current text",
+  "note": "The agent's quotes from this URL consistently match an earlier revision of the paper (see the other 2306.15664 items), so the page has changed. Read against the current text instead, it would be AGENT_ALTERED material."
+ },
+ {
+  "key": "F070",
+  "label": "AGENT_ALTERED",
+  "sub": "minor",
+  "own_url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+  "file": "0004.txt",
+  "evidence": "The MDA (Mechanics, Dynamics, Aesthetics) framework is a game design framework that provides a structured approach for analyzing and designing games. It focuses on the interplay of the game’s components by breaking down the gameplay into three main categories: mechanics, dynamics, and aesthetics.",
+  "note": "The parenthetical \"(Mechanics, Dynamics, Aesthetics)\" is dropped without marking. A summary box on the page does have \"The MDA framework is a game design framework ...\" for the first sentence alone."
+ },
+ {
+  "key": "F071",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://saintseiya.fandom.com/wiki/God_Warriors",
+  "file": "0075.txt",
+  "evidence": "the ones introduced in the movie Saint Seiya: The Heated Battle of the Gods",
+  "note": "Movie title. It is in the Common Crawl copy; the live site returns 403."
+ },
+ {
+  "key": "F072",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.airportgurus.com/en/economic-impact-of-airports/",
+  "file": "0029.txt",
+  "evidence": "Airports are major job providers, with a diverse workforce ensuring smooth operations.",
+  "note": ""
+ },
+ {
+  "key": "F073",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0012.txt",
+  "evidence": "In Between is a film about three Palestinian women who share an apartment in Tel Aviv; each is seeking her independence and liberty in a patriarchal society. The title of the filmreflects the struggle these women face, trapped and living in between tradition and modernity.",
+  "note": "The only difference is a missing space (\"filmreflects\") in the text layer."
+ },
+ {
+  "key": "F074",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.eweek.com/development/spring-creator-rod-johnson-leaves-vmware-makes-mark-on-java/",
+  "file": "0077.txt",
+  "evidence": "\"The best compliment I can give Rod is that I personally observed him maintain his focus ... competitive agendas,\" said Eric Newcomer, former chief architect at Credit Suisse. \"It was this dedication to what he knew was right that set him and SpringSource apart, and brought enterprise Java to a bett",
+  "note": "Two consecutive quoted sentences by the same speaker, joined; only the speech tag between them is left out."
+ },
+ {
+  "key": "F075",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)",
+  "file": "0046.txt",
+  "evidence": "Judy Berman of Time wrote, \"Considering the difficulty of the assignment, it's remarkable how close Netflix's splendid One Hundred Years of Solitude comes to recreating not just the substance, but also the kinetic spirit of the book.\"",
+  "note": ""
+ },
+ {
+  "key": "F076",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.medicalnewstoday.com/articles/not-getting-enough-magnesium-could-affect-cardiovascular-risk",
+  "file": "0078.txt",
+  "evidence": "...noted the following words of caution: \"Trials investigating the use of magnesium supplementation have not yet found a consistent benefit to heart health. If dietary magnesium deficiency is eventually confirmed... Prospective randomized controlled trials will be necessary...\"",
+  "note": ""
+ }
+]

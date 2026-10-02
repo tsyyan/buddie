@@ -1,0 +1,487 @@
+[
+ {
+  "key": "F001",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.computer.org/publications/tech-news/community-voices/autonomous-ai-agents"
+ },
+ {
+  "key": "F002",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.investopedia.com/terms/l/leadtime.asp"
+ },
+ {
+  "key": "F003",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fiercehealthcare.com/health-tech/how-walmart-and-optum-exiting-telehealth-signals-major-shift-virtual-care-market"
+ },
+ {
+  "key": "F004",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F005",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.warbyparker.com/assets/img/impact-report/Impact-Report-2023.pdf"
+ },
+ {
+  "key": "F006",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.linkedin.com/posts/pavithran-pc_vinod-khoslas-largest-initial-investment-activity-7266013929196138496-ZytN"
+ },
+ {
+  "key": "F007",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1"
+ },
+ {
+  "key": "F008",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/"
+ },
+ {
+  "key": "F009",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/"
+ },
+ {
+  "key": "F010",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.patrickrigoni.ch/material-requirement-planning/impact-lead-time-variability-supply-chain-performance-ddmrp/"
+ },
+ {
+  "key": "F011",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.bvp.com/memos/pagerduty"
+ },
+ {
+  "key": "F012",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://time.com/7023237/vinod-khosla-interview/"
+ },
+ {
+  "key": "F013",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.iqvia.com/locations/united-states/blogs/2023/01/top-trends-to-watch-in-2023"
+ },
+ {
+  "key": "F014",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.theverge.com/24134914/discord-ceo-gaming-chat-teens-safety-moderation-decoder-interview"
+ },
+ {
+  "key": "F015",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F016",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www2.deloitte.com/us/en/insights/industry/manufacturing/global-supply-chain-resilience-amid-disruptions.html"
+ },
+ {
+  "key": "F017",
+  "label": "IN_SOURCE",
+  "own_url": "https://usca.bcorporation.net/zblvz-5-key-takeaways-about-b-corp-brand-awareness-2023/"
+ },
+ {
+  "key": "F018",
+  "label": "IN_SOURCE",
+  "own_url": "https://stripe.com/newsroom/news/steffan-tomlinson"
+ },
+ {
+  "key": "F019",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.ft.com/content/843dd19f-6761-4407-a229-2fcd56153af4"
+ },
+ {
+  "key": "F020",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.apmdigest.com/hpe-completes-spin-off-and-merger-of-its-enterprise-services-business-with-csc"
+ },
+ {
+  "key": "F021",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.techbriefs.com/component/content/article/52461-7-space-sustainability-startups"
+ },
+ {
+  "key": "F022",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms"
+ },
+ {
+  "key": "F023",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/sign-up-now-creating-consumer-and-business-value-with-subscriptions"
+ },
+ {
+  "key": "F024",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F025",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.bvp.com/memos"
+ },
+ {
+  "key": "F026",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.harnesswealth.com/articles/stripe-ipo-tender-offer-what-to-know-for-2023/"
+ },
+ {
+  "key": "F027",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.privatebankerinternational.com/features/asset-management-meets-ai-smarter-faster-better/"
+ },
+ {
+  "key": "F028",
+  "label": "IN_SOURCE",
+  "own_url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/"
+ },
+ {
+  "key": "F029",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F030",
+  "label": "IN_SOURCE",
+  "own_url": "https://agfundernews.com/its-a-reset-not-a-catastrophe-investors-remain-upbeat-about-agrifoodtech-despite-funding-winter"
+ },
+ {
+  "key": "F031",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://elearningindustry.com/blockchain-technology-the-future-of-credentialing-in-elearning"
+ },
+ {
+  "key": "F032",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fiercepharma.com/pharma/johnson-johnsons-spinoff-kenvue-provides-132b-ma-firepower"
+ },
+ {
+  "key": "F033",
+  "label": "IN_SOURCE",
+  "own_url": "https://www2.deloitte.com/us/en/insights/industry/manufacturing/global-supply-chain-resilience-amid-disruptions.html"
+ },
+ {
+  "key": "F034",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F035",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://time.com/7023237/vinod-khosla-interview/"
+ },
+ {
+  "key": "F036",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1"
+ },
+ {
+  "key": "F037",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.investopedia.com/terms/l/leadtime.asp"
+ },
+ {
+  "key": "F038",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms"
+ },
+ {
+  "key": "F039",
+  "label": "IN_SOURCE",
+  "own_url": "https://en.wikipedia.org/wiki/Khosla_Ventures"
+ },
+ {
+  "key": "F040",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://enhencer.com/blog/top-10-e-commerce-platforms-features-benefits-and-how-to-choose"
+ },
+ {
+  "key": "F041",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.khoslaventures.com/about/how-we-decide/"
+ },
+ {
+  "key": "F042",
+  "label": "IN_SOURCE",
+  "own_url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/"
+ },
+ {
+  "key": "F043",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.rho.co/blog/3-statement-financial-model"
+ },
+ {
+  "key": "F044",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/"
+ },
+ {
+  "key": "F045",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.investmentbankingcouncil.org/blog/a-complete-breakdown-of-the-3-statement-financial-model"
+ },
+ {
+  "key": "F046",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.accel.com/noteworthies/our-commitment-to-companies-in-india-and-southeast-asia"
+ },
+ {
+  "key": "F047",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs"
+ },
+ {
+  "key": "F048",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.comundo.io/blog-posts/2025-trends"
+ },
+ {
+  "key": "F049",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://techcrunch.com/2024/12/17/its-dumb-to-ipo-this-year-databricks-ceo-explains-why-hes-waiting-to-go-public/"
+ },
+ {
+  "key": "F050",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.esa.int/Space_Safety/ESA_purchases_world-first_debris_removal_mission_from_start-up"
+ },
+ {
+  "key": "F051",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://userpilot.com/blog/customer-feedback-loop/"
+ },
+ {
+  "key": "F052",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.linkedin.com/posts/malcolmlewis_10-classic-investment-memos-from-bessemer-activity-7211661972939972608-fIh1"
+ },
+ {
+  "key": "F053",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://investor.uber.com/news-events/news/press-release-details/2020/Uber-Announces-Results-for-Fourth-Quarter-and-Full-Year-2019/"
+ },
+ {
+  "key": "F054",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/"
+ },
+ {
+  "key": "F055",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/"
+ },
+ {
+  "key": "F056",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.bvp.com/memos"
+ },
+ {
+  "key": "F057",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fdic.gov/bank-examinations/nowhere-go-managing-interest-rate-risk-low-rate-environment"
+ },
+ {
+  "key": "F058",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.feednavigator.com/Article/2024/08/15/single-cell-proteins-a-question-of-cost/"
+ },
+ {
+  "key": "F059",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://unitedlex.com/insights/measuring-cost-no-longer-enough-for-ediscovery/"
+ },
+ {
+  "key": "F060",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.patrickrigoni.ch/material-requirement-planning/impact-lead-time-variability-supply-chain-performance-ddmrp/"
+ },
+ {
+  "key": "F061",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.computer.org/publications/tech-news/community-voices/autonomous-ai-agents"
+ },
+ {
+  "key": "F062",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.bvp.com/memos/auth0"
+ },
+ {
+  "key": "F063",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://m.economictimes.com/tech/startups/the-tech-tonic-trail-of-accel-40-years-of-fostering-iconic-global-tech-companies/articleshow/103686381.cms"
+ },
+ {
+  "key": "F064",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://businesslawtoday.org/2022/10/corporate-venture-capital-what-to-consider-when-forming-program/"
+ },
+ {
+  "key": "F065",
+  "label": "AGENT_ABSENT",
+  "own_url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/managing-carbon-a-new-role-for-the-cfo"
+ },
+ {
+  "key": "F066",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/the-case-for-intelligent-failure-to-invent-the-future/"
+ },
+ {
+  "key": "F067",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://techcrunch.com/2009/06/03/vinod-khosla-risk-junkie/"
+ },
+ {
+  "key": "F068",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.brainyquote.com/authors/vinod-khosla-quotes"
+ },
+ {
+  "key": "F069",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.procurify.com/blog/supply-chain-beats-zara-spend-culture/"
+ },
+ {
+  "key": "F070",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F071",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.deloitte.com/ca/en/Industries/insurance/about/ifrs17.html"
+ },
+ {
+  "key": "F072",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.brownadvisory.com/us/spin-city-new-wave-deconglomeratization"
+ },
+ {
+  "key": "F073",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.forecastr.co/blog/historical-financial-data-model-tips"
+ },
+ {
+  "key": "F074",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://userpilot.com/blog/customer-feedback-loop/"
+ },
+ {
+  "key": "F075",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://elearningindustry.com/how-ai-is-revolutionizing-employee-training-efficiency-personalization-and-engagement"
+ },
+ {
+  "key": "F076",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.bcorporation.net/certification/"
+ },
+ {
+  "key": "F077",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://sifted.eu/articles/accel-vc-europe-startup-news"
+ },
+ {
+  "key": "F078",
+  "label": "IN_SOURCE",
+  "own_url": "https://goatagency.com/blog/social-media-marketing/impact-of-a-tiktok-ban/"
+ },
+ {
+  "key": "F079",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.mandalorepartners.com/research/key-components-for-strategic-success-in-corporate-venture-capital"
+ },
+ {
+  "key": "F080",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://userpilot.com/blog/customer-feedback-loop/"
+ },
+ {
+  "key": "F081",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F082",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs"
+ },
+ {
+  "key": "F083",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.greyb.com/blog/ai-drug-development-startups/"
+ },
+ {
+  "key": "F084",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.vktr.com/ai-disruption/5-ai-case-studies-in-law/"
+ },
+ {
+  "key": "F085",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.highradius.com/resources/Blog/financial-forecasting-models/"
+ },
+ {
+  "key": "F086",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.fenwick.com/insights/publications/corporate-venture-101-considerations-for-starting-corporate-vc-programs"
+ },
+ {
+  "key": "F087",
+  "label": "IN_SOURCE",
+  "own_url": "https://corporatefinanceinstitute.com/resources/accounting/3-financial-statements-linked/"
+ },
+ {
+  "key": "F088",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.bvp.com/memos/auth0"
+ },
+ {
+  "key": "F089",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.weforum.org/stories/2025/01/employers-prioritizing-reskilling-workforce-future-of-jobs/"
+ },
+ {
+  "key": "F090",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://www.privy.com/blog/allbirds"
+ },
+ {
+  "key": "F091",
+  "label": "IN_SOURCE",
+  "own_url": "https://www.khoslaventures.com/about/what-we-work-on/"
+ },
+ {
+  "key": "F092",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.works-i.com/english/item/reskilling2021.pdf"
+ },
+ {
+  "key": "F093",
+  "label": "UNVERIFIABLE",
+  "own_url": "https://www.everlaw.com/"
+ },
+ {
+  "key": "F094",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.theverge.com/24134914/discord-ceo-gaming-chat-teens-safety-moderation-decoder-interview"
+ },
+ {
+  "key": "F095",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://www.alexanderjarvis.com/wix-investment-memo-from-bessemer-venture-partners/"
+ },
+ {
+  "key": "F096",
+  "label": "NOT_A_QUOTE",
+  "own_url": "https://chartmogul.com/reports/saas-retention-report/"
+ },
+ {
+  "key": "F097",
+  "label": "AGENT_ALTERED",
+  "own_url": "https://agfundernews.com/its-a-reset-not-a-catastrophe-investors-remain-upbeat-about-agrifoodtech-despite-funding-winter"
+ }
+]

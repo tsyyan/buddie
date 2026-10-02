@@ -1,0 +1,18 @@
+{
+ "quotes": 56,
+ "reports_with_quotes": 32,
+ "checked": 44,
+ "verdicts_032": {
+  "FOUND": 19,
+  "FOUND_NORMALIZED": 11,
+  "HIDDEN_ONLY": 1,
+  "UNCERTAIN": 4,
+  "NOT_A_QUOTE": 8,
+  "NOT_FOUND": 1,
+  "SOURCE_UNAVAILABLE": 12
+ },
+ "found_by_032_only": [],
+ "notes_032": {
+  "punctuation": 1
+ }
+}

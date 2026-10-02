@@ -1,0 +1,1628 @@
+{
+ "E008": {
+  "checked": 489,
+  "false_not_found": {
+   "k": 19,
+   "k_with_disagreements": 19,
+   "n": 489,
+   "rate": 0.0389,
+   "ci95": [
+    0.025,
+    0.0599
+   ],
+   "keys": [
+    "F011",
+    "F021",
+    "F038",
+    "F053",
+    "F055",
+    "F070",
+    "F077",
+    "F084",
+    "F091",
+    "F143",
+    "F169",
+    "F195",
+    "F198",
+    "F206",
+    "F225",
+    "F238",
+    "F243",
+    "F286",
+    "F292"
+   ],
+   "disagreements": []
+  },
+  "false_not_found_then": {
+   "k": 55,
+   "k_with_disagreements": 55,
+   "n": 489,
+   "rate": 0.1125,
+   "ci95": [
+    0.0874,
+    0.1436
+   ],
+   "keys": [
+    "F002",
+    "F011",
+    "F014",
+    "F021",
+    "F022",
+    "F037",
+    "F038",
+    "F048",
+    "F053",
+    "F055",
+    "F057",
+    "F060",
+    "F061",
+    "F070",
+    "F071",
+    "F072",
+    "F077",
+    "F084",
+    "F091",
+    "F095",
+    "F102",
+    "F109",
+    "F119",
+    "F125",
+    "F134",
+    "F136",
+    "F140",
+    "F143",
+    "F146",
+    "F155",
+    "F164",
+    "F169",
+    "F177",
+    "F179",
+    "F183",
+    "F193",
+    "F195",
+    "F197",
+    "F198",
+    "F204",
+    "F206",
+    "F216",
+    "F225",
+    "F238",
+    "F239",
+    "F241",
+    "F242",
+    "F243",
+    "F255",
+    "F267",
+    "F286",
+    "F292",
+    "F298",
+    "F303",
+    "F305"
+   ],
+   "disagreements": []
+  },
+  "soft_alarms_uncertain": 17,
+  "agent_errors": {
+   "k": 152,
+   "k_with_disagreements": 152,
+   "n": 489,
+   "rate": 0.3108,
+   "ci95": [
+    0.2714,
+    0.3532
+   ],
+   "keys": [
+    "F001",
+    "F003",
+    "F005",
+    "F006",
+    "F009",
+    "F013",
+    "F016",
+    "F017",
+    "F018",
+    "F019",
+    "F020",
+    "F024",
+    "F026",
+    "F027",
+    "F028",
+    "F030",
+    "F034",
+    "F035",
+    "F040",
+    "F042",
+    "F043",
+    "F044",
+    "F045",
+    "F046",
+    "F047",
+    "F052",
+    "F056",
+    "F062",
+    "F063",
+    "F065",
+    "F066",
+    "F067",
+    "F068",
+    "F069",
+    "F073",
+    "F075",
+    "F076",
+    "F079",
+    "F081",
+    "F082",
+    "F083",
+    "F085",
+    "F086",
+    "F088",
+    "F089",
+    "F090",
+    "F092",
+    "F093",
+    "F094",
+    "F096",
+    "F097",
+    "F107",
+    "F110",
+    "F111",
+    "F116",
+    "F118",
+    "F121",
+    "F122",
+    "F123",
+    "F124",
+    "F126",
+    "F128",
+    "F129",
+    "F130",
+    "F131",
+    "F135",
+    "F137",
+    "F138",
+    "F142",
+    "F147",
+    "F148",
+    "F151",
+    "F154",
+    "F156",
+    "F159",
+    "F160",
+    "F161",
+    "F162",
+    "F166",
+    "F167",
+    "F168",
+    "F170",
+    "F171",
+    "F172",
+    "F173",
+    "F174",
+    "F175",
+    "F180",
+    "F182",
+    "F184",
+    "F185",
+    "F186",
+    "F187",
+    "F188",
+    "F189",
+    "F190",
+    "F191",
+    "F194",
+    "F199",
+    "F200",
+    "F202",
+    "F203",
+    "F205",
+    "F208",
+    "F209",
+    "F210",
+    "F211",
+    "F214",
+    "F219",
+    "F223",
+    "F224",
+    "F228",
+    "F229",
+    "F230",
+    "F231",
+    "F233",
+    "F235",
+    "F236",
+    "F240",
+    "F247",
+    "F249",
+    "F252",
+    "F254",
+    "F256",
+    "F257",
+    "F258",
+    "F259",
+    "F260",
+    "F261",
+    "F262",
+    "F264",
+    "F265",
+    "F266",
+    "F270",
+    "F271",
+    "F272",
+    "F275",
+    "F278",
+    "F281",
+    "F283",
+    "F284",
+    "F285",
+    "F287",
+    "F290",
+    "F291",
+    "F295",
+    "F299",
+    "F300",
+    "F304",
+    "F306",
+    "F307",
+    "F308"
+   ],
+   "disagreements": []
+  },
+  "agent_errors_flagged": 148,
+  "agent_errors_not_found": 86,
+  "agent_errors_hidden": [
+   "F003",
+   "F005",
+   "F034",
+   "F151"
+  ],
+  "agent_errors_hidden_then": [],
+  "verdicts": {
+   "UNCERTAIN": 88,
+   "FOUND_NORMALIZED": 21,
+   "NOT_A_QUOTE": 61,
+   "NOT_FOUND": 110,
+   "FOUND": 29
+  },
+  "changed": [
+   {
+    "key": "F002",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F003",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F005",
+    "label": "AGENT_ALTERED",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F014",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F016",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F022",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F025",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F029",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F034",
+    "label": "AGENT_ALTERED",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F035",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F036",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F037",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F048",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F054",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F057",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F060",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F061",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F071",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F072",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F079",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F080",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F095",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F099",
+    "label": "IN_SOURCE",
+    "then": "UNCERTAIN",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F102",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F106",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F109",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F119",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F121",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F125",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F127",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F134",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F136",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F139",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F140",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F141",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F146",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F150",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F151",
+    "label": "AGENT_ABSENT",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F155",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F160",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F164",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F176",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F177",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F178",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F179",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F181",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F183",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F192",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F193",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F197",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F204",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F216",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F220",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F221",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F227",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F239",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F241",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F242",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F244",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F248",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F253",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F255",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F263",
+    "label": "IN_SOURCE",
+    "then": "UNCERTAIN",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F267",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F273",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F274",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F275",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F277",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F280",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F281",
+    "label": "AGENT_ABSENT",
+    "then": "NOT_FOUND",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F282",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F293",
+    "label": "UNVERIFIABLE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F296",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F298",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F302",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "title",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F303",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "boilerplate",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F305",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F309",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   }
+  ],
+  "fitted_here": "0.3.0 (NOT_A_QUOTE kinds, punctuation level)",
+  "tool_then": "verbatim 0.2.0, check --access default (tsyyan/lab e9212e6)",
+  "pages": []
+ },
+ "E010": {
+  "checked": 147,
+  "false_not_found": {
+   "k": 1,
+   "k_with_disagreements": 4,
+   "n": 147,
+   "rate": 0.0068,
+   "ci95": [
+    0.0012,
+    0.0375
+   ],
+   "keys": [
+    "F080"
+   ],
+   "disagreements": [
+    "F039",
+    "F067",
+    "F093"
+   ]
+  },
+  "false_not_found_then": {
+   "k": 5,
+   "k_with_disagreements": 8,
+   "n": 147,
+   "rate": 0.034,
+   "ci95": [
+    0.0146,
+    0.0771
+   ],
+   "keys": [
+    "F001",
+    "F009",
+    "F059",
+    "F080",
+    "F096"
+   ],
+   "disagreements": [
+    "F039",
+    "F067",
+    "F093"
+   ]
+  },
+  "soft_alarms_uncertain": 2,
+  "agent_errors": {
+   "k": 40,
+   "k_with_disagreements": 43,
+   "n": 147,
+   "rate": 0.2721,
+   "ci95": [
+    0.2067,
+    0.3492
+   ],
+   "keys": [
+    "F006",
+    "F010",
+    "F011",
+    "F012",
+    "F014",
+    "F016",
+    "F020",
+    "F022",
+    "F023",
+    "F026",
+    "F029",
+    "F031",
+    "F034",
+    "F035",
+    "F036",
+    "F038",
+    "F040",
+    "F041",
+    "F043",
+    "F044",
+    "F048",
+    "F049",
+    "F052",
+    "F053",
+    "F055",
+    "F058",
+    "F063",
+    "F065",
+    "F071",
+    "F073",
+    "F075",
+    "F077",
+    "F082",
+    "F083",
+    "F084",
+    "F089",
+    "F092",
+    "F094",
+    "F095",
+    "F097"
+   ],
+   "disagreements": [
+    "F039",
+    "F067",
+    "F093"
+   ]
+  },
+  "agent_errors_flagged": 39,
+  "agent_errors_not_found": 27,
+  "agent_errors_hidden": [
+   "F082"
+  ],
+  "agent_errors_hidden_then": [
+   "F014",
+   "F049",
+   "F094"
+  ],
+  "verdicts": {
+   "NOT_A_QUOTE": 13,
+   "NOT_FOUND": 36,
+   "FOUND": 15,
+   "FOUND_NORMALIZED": 18,
+   "UNCERTAIN": 15
+  },
+  "changed": [
+   {
+    "key": "F001",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F009",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F014",
+    "label": "AGENT_ALTERED",
+    "then": "NOT_A_QUOTE",
+    "v032": "NOT_FOUND"
+   },
+   {
+    "key": "F049",
+    "label": "AGENT_ALTERED",
+    "then": "NOT_A_QUOTE",
+    "v032": "NOT_FOUND"
+   },
+   {
+    "key": "F051",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F059",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   },
+   {
+    "key": "F074",
+    "label": "NOT_A_QUOTE",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F082",
+    "label": "AGENT_ALTERED",
+    "then": "UNCERTAIN",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "UNCERTAIN"
+   },
+   {
+    "key": "F090",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_A_QUOTE",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F094",
+    "label": "AGENT_ALTERED",
+    "then": "NOT_A_QUOTE",
+    "v032": "UNCERTAIN"
+   },
+   {
+    "key": "F096",
+    "label": "NOT_A_QUOTE",
+    "then": "NOT_FOUND",
+    "v032": "NOT_A_QUOTE",
+    "kind": "example",
+    "miss": "NOT_FOUND"
+   }
+  ],
+  "fitted_here": "0.3.1 (example hints)",
+  "tool_then": "verbatim 0.3.0, check --access default (tsyyan/lab 5e372cb)",
+  "pages": [
+   {
+    "key": "F002",
+    "page": "unread now"
+   },
+   {
+    "key": "F019",
+    "page": "unread now"
+   },
+   {
+    "key": "F023",
+    "page": "unread now"
+   },
+   {
+    "key": "F025",
+    "page": "changed: not found by 0.3.1 either"
+   },
+   {
+    "key": "F032",
+    "page": "unread now"
+   },
+   {
+    "key": "F037",
+    "page": "unread now"
+   },
+   {
+    "key": "F056",
+    "page": "changed: not found by 0.3.1 either"
+   },
+   {
+    "key": "F057",
+    "page": "unread now"
+   },
+   {
+    "key": "F065",
+    "page": "unread now"
+   }
+  ]
+ },
+ "E011": {
+  "checked": 249,
+  "false_not_found": {
+   "k": 1,
+   "k_with_disagreements": 3,
+   "n": 249,
+   "rate": 0.004,
+   "ci95": [
+    0.0007,
+    0.0224
+   ],
+   "keys": [
+    "F064"
+   ],
+   "disagreements": [
+    "F021",
+    "F069"
+   ]
+  },
+  "false_not_found_then": {
+   "k": 4,
+   "k_with_disagreements": 6,
+   "n": 249,
+   "rate": 0.0161,
+   "ci95": [
+    0.0063,
+    0.0406
+   ],
+   "keys": [
+    "F001",
+    "F031",
+    "F064",
+    "F074"
+   ],
+   "disagreements": [
+    "F021",
+    "F069"
+   ]
+  },
+  "soft_alarms_uncertain": 1,
+  "agent_errors": {
+   "k": 20,
+   "k_with_disagreements": 23,
+   "n": 249,
+   "rate": 0.0803,
+   "ci95": [
+    0.0526,
+    0.1208
+   ],
+   "keys": [
+    "F002",
+    "F003",
+    "F009",
+    "F011",
+    "F012",
+    "F013",
+    "F015",
+    "F016",
+    "F017",
+    "F028",
+    "F045",
+    "F053",
+    "F054",
+    "F057",
+    "F061",
+    "F062",
+    "F063",
+    "F065",
+    "F068",
+    "F070"
+   ],
+   "disagreements": [
+    "F021",
+    "F046",
+    "F069"
+   ]
+  },
+  "agent_errors_flagged": 20,
+  "agent_errors_not_found": 13,
+  "agent_errors_hidden": [],
+  "agent_errors_hidden_then": [],
+  "verdicts": {
+   "FOUND_NORMALIZED": 18,
+   "UNCERTAIN": 14,
+   "NOT_FOUND": 17,
+   "FOUND": 27
+  },
+  "changed": [
+   {
+    "key": "F001",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F031",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   },
+   {
+    "key": "F074",
+    "label": "IN_SOURCE",
+    "then": "NOT_FOUND",
+    "search": "found by 0.3.2 only",
+    "v032": "FOUND_NORMALIZED"
+   }
+  ],
+  "fitted_here": "0.3.2 (search: speech tag, [A]t / ___, mojibake)",
+  "tool_then": "verbatim 0.3.1, check --access default (tsyyan/lab 07b2dd0)",
+  "pages": [
+   {
+    "key": "F045",
+    "page": "unread now"
+   },
+   {
+    "key": "F055",
+    "page": "unread now"
+   },
+   {
+    "key": "F064",
+    "page": "unread now"
+   },
+   {
+    "key": "F068",
+    "page": "unread now"
+   },
+   {
+    "key": "F071",
+    "page": "unread now"
+   }
+  ]
+ },
+ "E012": {
+  "checked": 44,
+  "false_not_found": {
+   "k": 1,
+   "k_with_disagreements": 1,
+   "n": 44,
+   "rate": 0.0227,
+   "ci95": [
+    0.004,
+    0.1181
+   ],
+   "keys": [
+    "G007"
+   ],
+   "disagreements": []
+  },
+  "false_not_found_then": {
+   "k": 1,
+   "k_with_disagreements": 1,
+   "n": 44,
+   "rate": 0.0227,
+   "ci95": [
+    0.004,
+    0.1181
+   ],
+   "keys": [
+    "G007"
+   ],
+   "disagreements": []
+  },
+  "soft_alarms_uncertain": 4,
+  "agent_errors": {
+   "k": 0,
+   "k_with_disagreements": 0,
+   "n": 44,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.0803
+   ],
+   "keys": [],
+   "disagreements": []
+  },
+  "agent_errors_flagged": 0,
+  "agent_errors_not_found": 0,
+  "agent_errors_hidden": [],
+  "agent_errors_hidden_then": [],
+  "verdicts": {
+   "NOT_A_QUOTE": 8,
+   "UNCERTAIN": 4,
+   "NOT_FOUND": 1
+  },
+  "changed": [],
+  "fitted_here": null,
+  "tool_then": "verbatim 0.3.2 (tsyyan/lab cceceee)",
+  "pages": []
+ },
+ "pooled_032": {
+  "checked": 929,
+  "false_not_found": {
+   "k": 22,
+   "k_with_disagreements": 27,
+   "n": 929,
+   "rate": 0.0237,
+   "ci95": [
+    0.0157,
+    0.0356
+   ],
+   "keys": [
+    "E008/F011",
+    "E008/F021",
+    "E008/F038",
+    "E008/F053",
+    "E008/F055",
+    "E008/F070",
+    "E008/F077",
+    "E008/F084",
+    "E008/F091",
+    "E008/F143",
+    "E008/F169",
+    "E008/F195",
+    "E008/F198",
+    "E008/F206",
+    "E008/F225",
+    "E008/F238",
+    "E008/F243",
+    "E008/F286",
+    "E008/F292",
+    "E010/F080",
+    "E011/F064",
+    "E012/G007"
+   ],
+   "disagreements": [
+    "E010/F039",
+    "E010/F067",
+    "E010/F093",
+    "E011/F021",
+    "E011/F069"
+   ]
+  },
+  "agent_errors": {
+   "k": 212,
+   "k_with_disagreements": 212,
+   "n": 929,
+   "rate": 0.2282,
+   "ci95": [
+    0.2024,
+    0.2563
+   ],
+   "keys": [
+    "E008/F001",
+    "E008/F003",
+    "E008/F005",
+    "E008/F006",
+    "E008/F009",
+    "E008/F013",
+    "E008/F016",
+    "E008/F017",
+    "E008/F018",
+    "E008/F019",
+    "E008/F020",
+    "E008/F024",
+    "E008/F026",
+    "E008/F027",
+    "E008/F028",
+    "E008/F030",
+    "E008/F034",
+    "E008/F035",
+    "E008/F040",
+    "E008/F042",
+    "E008/F043",
+    "E008/F044",
+    "E008/F045",
+    "E008/F046",
+    "E008/F047",
+    "E008/F052",
+    "E008/F056",
+    "E008/F062",
+    "E008/F063",
+    "E008/F065",
+    "E008/F066",
+    "E008/F067",
+    "E008/F068",
+    "E008/F069",
+    "E008/F073",
+    "E008/F075",
+    "E008/F076",
+    "E008/F079",
+    "E008/F081",
+    "E008/F082",
+    "E008/F083",
+    "E008/F085",
+    "E008/F086",
+    "E008/F088",
+    "E008/F089",
+    "E008/F090",
+    "E008/F092",
+    "E008/F093",
+    "E008/F094",
+    "E008/F096",
+    "E008/F097",
+    "E008/F107",
+    "E008/F110",
+    "E008/F111",
+    "E008/F116",
+    "E008/F118",
+    "E008/F121",
+    "E008/F122",
+    "E008/F123",
+    "E008/F124",
+    "E008/F126",
+    "E008/F128",
+    "E008/F129",
+    "E008/F130",
+    "E008/F131",
+    "E008/F135",
+    "E008/F137",
+    "E008/F138",
+    "E008/F142",
+    "E008/F147",
+    "E008/F148",
+    "E008/F151",
+    "E008/F154",
+    "E008/F156",
+    "E008/F159",
+    "E008/F160",
+    "E008/F161",
+    "E008/F162",
+    "E008/F166",
+    "E008/F167",
+    "E008/F168",
+    "E008/F170",
+    "E008/F171",
+    "E008/F172",
+    "E008/F173",
+    "E008/F174",
+    "E008/F175",
+    "E008/F180",
+    "E008/F182",
+    "E008/F184",
+    "E008/F185",
+    "E008/F186",
+    "E008/F187",
+    "E008/F188",
+    "E008/F189",
+    "E008/F190",
+    "E008/F191",
+    "E008/F194",
+    "E008/F199",
+    "E008/F200",
+    "E008/F202",
+    "E008/F203",
+    "E008/F205",
+    "E008/F208",
+    "E008/F209",
+    "E008/F210",
+    "E008/F211",
+    "E008/F214",
+    "E008/F219",
+    "E008/F223",
+    "E008/F224",
+    "E008/F228",
+    "E008/F229",
+    "E008/F230",
+    "E008/F231",
+    "E008/F233",
+    "E008/F235",
+    "E008/F236",
+    "E008/F240",
+    "E008/F247",
+    "E008/F249",
+    "E008/F252",
+    "E008/F254",
+    "E008/F256",
+    "E008/F257",
+    "E008/F258",
+    "E008/F259",
+    "E008/F260",
+    "E008/F261",
+    "E008/F262",
+    "E008/F264",
+    "E008/F265",
+    "E008/F266",
+    "E008/F270",
+    "E008/F271",
+    "E008/F272",
+    "E008/F275",
+    "E008/F278",
+    "E008/F281",
+    "E008/F283",
+    "E008/F284",
+    "E008/F285",
+    "E008/F287",
+    "E008/F290",
+    "E008/F291",
+    "E008/F295",
+    "E008/F299",
+    "E008/F300",
+    "E008/F304",
+    "E008/F306",
+    "E008/F307",
+    "E008/F308",
+    "E010/F006",
+    "E010/F010",
+    "E010/F011",
+    "E010/F012",
+    "E010/F014",
+    "E010/F016",
+    "E010/F020",
+    "E010/F022",
+    "E010/F023",
+    "E010/F026",
+    "E010/F029",
+    "E010/F031",
+    "E010/F034",
+    "E010/F035",
+    "E010/F036",
+    "E010/F038",
+    "E010/F040",
+    "E010/F041",
+    "E010/F043",
+    "E010/F044",
+    "E010/F048",
+    "E010/F049",
+    "E010/F052",
+    "E010/F053",
+    "E010/F055",
+    "E010/F058",
+    "E010/F063",
+    "E010/F065",
+    "E010/F071",
+    "E010/F073",
+    "E010/F075",
+    "E010/F077",
+    "E010/F082",
+    "E010/F083",
+    "E010/F084",
+    "E010/F089",
+    "E010/F092",
+    "E010/F094",
+    "E010/F095",
+    "E010/F097",
+    "E011/F002",
+    "E011/F003",
+    "E011/F009",
+    "E011/F011",
+    "E011/F012",
+    "E011/F013",
+    "E011/F015",
+    "E011/F016",
+    "E011/F017",
+    "E011/F028",
+    "E011/F045",
+    "E011/F053",
+    "E011/F054",
+    "E011/F057",
+    "E011/F061",
+    "E011/F062",
+    "E011/F063",
+    "E011/F065",
+    "E011/F068",
+    "E011/F070"
+   ],
+   "disagreements": []
+  },
+  "note": "in-sample for each version's fitted rules (FITTED); the out-of-sample row is below"
+ },
+ "out_of_sample": {
+  "note": "each version measured on reports it was not fitted on, before the next fix: 0.3.0 on E010, 0.3.1 on E011, 0.3.2 on E012 fresh (from each experiment's comparison.json)",
+  "rows": {
+   "0.3.0@E010": [
+    5,
+    147
+   ],
+   "0.3.1@E011": [
+    4,
+    249
+   ],
+   "0.3.2@E012": [
+    1,
+    44
+   ]
+  },
+  "false_not_found": {
+   "k": 10,
+   "n": 440,
+   "rate": 0.0227,
+   "ci95": [
+    0.0124,
+    0.0413
+   ]
+  },
+  "only_032": {
+   "k": 1,
+   "n": 44,
+   "ci95": [
+    0.004,
+    0.1181
+   ]
+  }
+ }
+}

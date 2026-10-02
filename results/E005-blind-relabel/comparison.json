@@ -1,0 +1,169 @@
+{
+ "n": 58,
+ "original": {
+  "labels": {
+   "ALTERED_MEANING": 3,
+   "ALTERED_MINOR": 9,
+   "ALTERED_REWORDED": 4,
+   "NOT_ATTRIBUTED": 6,
+   "NOT_IN_SOURCE": 13,
+   "TOOL": 11,
+   "TRANSLATED": 6,
+   "WRONG_SOURCE": 6
+  },
+  "agent_errors": 35,
+  "serious": 26
+ },
+ "blind": {
+  "labels": {
+   "AGENT_ABSENT": 14,
+   "AGENT_ALTERED": 14,
+   "NOT_A_QUOTE": 10,
+   "TOOL_FALSE_ALARM": 4,
+   "TRANSLATED": 5,
+   "UNVERIFIABLE": 11
+  },
+  "agent_errors": 28,
+  "serious": 20
+ },
+ "revised": {
+  "labels": {
+   "AGENT_ABSENT": 11,
+   "AGENT_ALTERED": 14,
+   "NOT_A_QUOTE": 11,
+   "TOOL_FALSE_ALARM": 5,
+   "TRANSLATED": 5,
+   "UNVERIFIABLE": 12
+  },
+  "agent_errors": 25,
+  "serious": 17
+ },
+ "agreement": {
+  "blind": {
+   "coarse4_kappa": 0.591,
+   "coarse4_agree": 0.741,
+   "agent_vs_not_kappa": 0.486,
+   "agent_vs_not_agree": 0.741
+  },
+  "revised": {
+   "coarse4_kappa": 0.606,
+   "coarse4_agree": 0.741,
+   "agent_vs_not_kappa": 0.531,
+   "agent_vs_not_agree": 0.759
+  }
+ },
+ "disagreements": [
+  {
+   "key": "openai/88/L38.1",
+   "original": "TRANSLATED",
+   "blind": "AGENT_ABSENT",
+   "revised": "TOOL_FALSE_ALARM",
+   "note": "the report cites en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series); verbatim cuts the URL at '(' and fetched the novel's article. The TV-series article has the quote verbatim (Variety, Aramide Tinubu)."
+  },
+  {
+   "key": "openai/69/L378.1",
+   "original": "ALTERED_MINOR",
+   "blind": "NOT_A_QUOTE",
+   "revised": "NOT_A_QUOTE",
+   "note": "article title, shortened by the agent"
+  },
+  {
+   "key": "openai/93/L10.1",
+   "original": "NOT_IN_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "Washington Post timed out from container"
+  },
+  {
+   "key": "openai/52/L25.6",
+   "original": "WRONG_SOURCE",
+   "blind": "AGENT_ABSENT",
+   "revised": "NOT_A_QUOTE",
+   "note": "no link of its own: the 1989 letter link closes an earlier sentence. The words are exact Buffett (1988 letter)."
+  },
+  {
+   "key": "openai/52/L18.4",
+   "original": "NOT_IN_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "Nasdaq 403; not in 1996 letter"
+  },
+  {
+   "key": "openai/95/L73.4",
+   "original": "NOT_IN_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "Dharma Wheel 403; its text fragment starts 'Subhuti replied, No,'"
+  },
+  {
+   "key": "openai/52/L18.3",
+   "original": "NOT_IN_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "Nasdaq 403; not in 1996 letter"
+  },
+  {
+   "key": "openai/57/L106.1",
+   "original": "TOOL",
+   "blind": "AGENT_ABSENT",
+   "revised": "AGENT_ABSENT",
+   "note": "not in Capgemini report nor Bloomberg Law"
+  },
+  {
+   "key": "openai/52/L25.2",
+   "original": "NOT_IN_SOURCE",
+   "blind": "NOT_A_QUOTE",
+   "revised": "NOT_A_QUOTE",
+   "note": "famous maxim used as a label (borderline: could be AGENT_ABSENT)"
+  },
+  {
+   "key": "openai/52/L18.1",
+   "original": "WRONG_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "Nasdaq 403; link text fragment shows the quote is likely there"
+  },
+  {
+   "key": "openai/88/L36.2",
+   "original": "TRANSLATED",
+   "blind": "AGENT_ABSENT",
+   "revised": "AGENT_ABSENT",
+   "note": "English review line cited to Spanish Infobae and Wikipedia"
+  },
+  {
+   "key": "perple/88/L41.1",
+   "original": "NOT_IN_SOURCE",
+   "blind": "TRANSLATED",
+   "revised": "TRANSLATED",
+   "note": "Spanish original in Yahoo es-us (tool could not fetch the non-ASCII URL)"
+  },
+  {
+   "key": "perple/79/L41.3",
+   "original": "TOOL",
+   "blind": "AGENT_ABSENT",
+   "revised": "UNVERIFIABLE",
+   "note": "the quote's own footnote [^1_14] is IMDb, which has 0 visible chars; transreads is [^1_15], a different sentence"
+  },
+  {
+   "key": "grok-d/67/L25.1",
+   "original": "NOT_IN_SOURCE",
+   "blind": "NOT_A_QUOTE",
+   "revised": "NOT_A_QUOTE",
+   "note": "paper title; ScienceDirect 403"
+  },
+  {
+   "key": "grok-d/60/L36.1",
+   "original": "ALTERED_MEANING",
+   "blind": "NOT_A_QUOTE",
+   "revised": "NOT_A_QUOTE",
+   "note": "paper title of arXiv v1; later versions renamed"
+  },
+  {
+   "key": "grok-d/87/L23.1",
+   "original": "NOT_IN_SOURCE",
+   "blind": "UNVERIFIABLE",
+   "revised": "UNVERIFIABLE",
+   "note": "cited University of Fashion page has 0 visible chars"
+  }
+ ]
+}

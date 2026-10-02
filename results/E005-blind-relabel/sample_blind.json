@@ -1,0 +1,981 @@
+[
+ {
+  "key": "openai/88/L38.1",
+  "system": "openai-deepresearch",
+  "task": 88,
+  "claim": "L38.1",
+  "quote": "one of the most faithful page-to-screen adaptations in recent years",
+  "url": "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+  "sha256": "887d39299c48d8075ce2975bfa2a43e090687e953d60c6d2c14c7c7a7bb144ce",
+  "ratio": 0.388,
+  "near": "do forma y siempre mostrando esa parte humana y amable pero sin per",
+  "line": "  - **Maintaining Themes and Mood:** Crucially, the Netflix series succeeds in **preserving the novel’s thematic depth and mood**. *One Hundred Years of Solitude* on the page is at once a chronicle of Latin American history, a meditation on time and destiny, and an intimate tale of family love and loss – all filtered through a lens of irony and magical realism. The show captures these layers: it does not shy away from the political commentary (for example, the exploitation by a banana company and ensuing violence are portrayed, echoing Colombia’s real history ([One Hundred Years of Solitude (TV series) - Wikipedia](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)#:~:text=of the assignment%2C it's remarkable,32))), and it retains the novel’s tone that blends humor, tragedy, and the absurd. As mentioned, even taboo or bizarre elements (incestuous passions, alchemical experiments, hauntings) are included, reinforcing the themes of fate, repetition, and solitude that Márquez intended. The **emotional tone** – from the exuberant early days of Macondo’s innocence to the melancholic final chapters – is mirrored by the series’ narrative arc and audiovisual cues (the music and cinematography shift accordingly). This coherence led *Variety* to call the show *“one of the most faithful page-to-screen adaptations in recent years”*, noting that it *“honors a beloved novel”* with eloquence ([One Hundred Years of Solitude (TV series) - Wikipedia](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)#:~:text=Underground Railroad  or even,34)). Naturally, experiencing the story on screen is different from reading the novel – something Rodrigo García Barcha, Márquez’s son, has emphasized. He urges viewers not to constantly compare the two mediums directly, but to appreciate the series *“for what it is.”* In his view, reading *Cien años* versus watching it are *“projects hermanitos”* – sibling projects – *“that complement each other.”* He said, *“It’s a different experience and one should try to value it as such, not by endlessly checking it against the book”*, stressing that he considers the adaptation a *“beautiful project”* that his father *“would be watching”* with pride (['Cien años de soledad' en Netflix complementa la novela, dice hijo de García Márquez](https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre)) ([Rodrigo García y la serie de Cien años de soledad](https://www.elmanana.com/escena/cine/rodrigo-garcia-y-la-serie-de-cien-anos-de-soledad/5923112#:~:text=Rodrigo García y la serie,de ´Cien Años de Soledad´)). This perspective is telling: even the guardians of Márquez’s legacy see the TV series as an extension of the novel, not a replacement. In the end, by adhering so closely to Márquez’s narrative while leveraging the strengths of television to enhance clarity and spectacle, Netflix’s *One Hundred Years of Solitude* achieves a rare feat – it **satisfies ardent fans of the book** (who notice the loving fidelity in every scene) and simultaneously **stands on its own** as a richly crafted saga for those unfamiliar with the text. The adaptation’s success in fidelity is perhaps best summed up by critic Aramide Tinubu, who wrote that it is *“one of the most faithful and eloquent adaptations”* she has seen – a production that *“brings an ‘unfilmable’ novel to life”* with authenticity and artistry ([One Hundred Years of Solitude (TV series) - Wikipedia](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)#:~:text=Underground",
+  "page_chars": 7667,
+  "urls": [
+   "https://lopezdoriga.com/entretenimiento/cien-anos-de-soledad-en-netflix-complementa-la-novela-dice-hijo-de-garcia-marquez/#:~:text=mundialmente este 11 de diciembre",
+   "https://www.elmanana.com/escena/cine/rodrigo-garcia-y-la-serie-de-cien-anos-de-soledad/5923112#:~:text=Rodrigo García y la serie,de ´Cien Años de Soledad´",
+   "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_"
+  ]
+ },
+ {
+  "key": "openai/69/L378.1",
+  "system": "openai-deepresearch",
+  "task": 69,
+  "claim": "L378.1",
+  "quote": "Agent to agent, not tool to tool: an engineer’s guide to A2A",
+  "url": "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Where A2A and MCP meet",
+  "sha256": "fbc573cddd4ea28d8704c0deb9a4fff872c984cccb5e440113a6d6ac064983e6",
+  "ratio": 0.95,
+  "near": "25 Agent to agent, not tool to tool: an engineer’s guide to ",
+  "line": "   - WorkOS Engineering Blog – *“Agent to agent, not tool to tool: an engineer’s guide to A2A”* ([Agent to agent, not tool to tool: an engineer’s guide to Google’s A2A protocol — WorkOS](https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Where A2A and MCP meet)) ([Agent to agent, not tool to tool: an engineer’s guide to Google’s A2A protocol — WorkOS](https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=match at L233 MCP let,feels familiar%3A REST and WebSockets))",
+  "page_chars": 8195,
+  "urls": [
+   "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=Where A2A and MCP meet",
+   "https://workos.com/blog/engineers-guide-to-googles-a2a-protocol#:~:text=match at L233 MCP let,feels familiar%3A REST and WebSockets"
+  ]
+ },
+ {
+  "key": "openai/95/L48.3",
+  "system": "openai-deepresearch",
+  "task": 95,
+  "claim": "L48.3",
+  "quote": "no one is actually there, so why help?",
+  "url": "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”",
+  "sha256": "95d68c6214da3ad692a1a203151d9e0e8ac2cd41d198d8920c44b680e529b8dc",
+  "ratio": 0.568,
+  "near": "en a single being has actually been l",
+  "line": "The Diamond Sutra is addressed primarily to Bodhisattvas – beings who aspire to full enlightenment for the sake of all. A recurring theme is how a Bodhisattva should behave and think. The sutra describes the **Bodhisattva’s vow** in a striking paradox: the Buddha says a Bodhisattva should think *“I must lead all living beings to Nirvāṇa… Yet when this immeasurable number of beings have been liberated, truly not one being is liberated.”* ([Diamond Sutra: Chapter 03 – Diamond Sutra – A New Translation of the Classic Buddhist Text](https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”)). This captures the **two truths** in Mahayana: on the relative level, compassion compels us to help innumerable suffering beings; on the ultimate level, we see that those beings (and “I” the saviour) are empty of independent existence. Both levels are valid – the Bodhisattva acts in the world *as if* beings are real, all the while understanding they are *empty*. This prevents both **attachment** (thinking “I am saving others” which could inflate the ego) and **apathy** (thinking “no one is actually there, so why help?”). The sutra thus ensures that wisdom (seeing emptiness) is always balanced with compassion.",
+  "page_chars": 1906,
+  "urls": [
+   "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=“All living beings%2C whether born,”"
+  ]
+ },
+ {
+  "key": "openai/52/L25.3",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L25.3",
+  "quote": "great investment opportunity when a marvelous business encounters a one-time huge but solvable problem",
+  "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+  "sha256": "4dae70ca027a554a523a1de398cf7310e1cbdcc146c0cce74659931d57141afa",
+  "ratio": 0.922,
+  "near": "great investment opportunity occurs when a marvelous business encounters a one-time huge, but solvable",
+  "line": "**Warren Buffett:** Buffett’s investing history over seven decades provides rich examples of his philosophy at work. In the **1960s**, one signature move was his contrarian investment in **American Express**. In 1964, Amex shares collapsed after the “salad oil scandal” (a major fraud incident). While others panicked, Buffett investigated the company’s core franchises (charge cards and travelers cheques) and concluded the business was sound and dominant. He famously poured roughly 40% of his partnership’s capital into Amex stock at the nadir – a bold demonstration of **“being greedy when others are fearful.”** Within a few years Amex recovered, rewarding Buffett’s nerve and analysis. Buffett later cited Amex as an example of a “great investment opportunity when a marvelous business encounters a one-time huge but solvable problem” ([Chairman's Letter - 1989](https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them)). In the **1970s**, Buffett acquired **See’s Candies** for $25 million – a pivotal moment in his shift toward quality businesses. See’s was a simple chocolate company with an outstanding brand in the West Coast. Charlie Munger insisted they pay up for See’s well above book value, which Buffett initially hesitated on. The investment turned into a goldmine: See’s threw off tens of millions in cash annually with barely any need for new capital, thanks to its beloved brand and pricing power (they could raise prices ~10% every year without losing customers) ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=> ,rental stores when we bought)). See’s taught Buffett that a **“wonderful business”** could be worth far more than its tangible assets – reinforcing the idea of **moats** and **pricing power** as key to value. Buffett himself said buying See’s Candy *“changed the way I look at businesses”* and paved the way for later investments in high-quality companies. In the **1980s**, Buffett made another iconic investment: **The Coca-Cola Company**. In 1988, not long after Coke had stumbled (from a failed product launch), Buffett started buying Coca-Cola aggressively. He ended up investing over $1 billion to acquire ~7% of the company – a huge stake. Coke epitomized a Buffett stock: an “inevitable” product with a global brand moat, consistent demand, and the ability to raise prices with inflation. Sure enough, Buffett’s Coca-Cola stake has compounded for decades (it’s now worth around $25 billion+, and Berkshire still receives **over $700 million in annual dividends** from Coke). This holding, which Buffett has now kept for 35+ years, exemplifies **“our favorite holding period is forever”** and the power of letting a great business compound. In the **2010s**, Buffett showed adaptability by investing in **Apple Inc.** – traditionally a tech company outside his circle, but he came to view Apple as more of a consumer products company with an ecosystem moat. Starting in 2016, Berkshire built a $35 billion position in Apple (around ~$125 per share cost basis). By 2022 that stake had ballooned to over $160 billion in value, making Apple Berkshire’s single largest holding ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire",
+  "page_chars": 86986,
+  "urls": [
+   "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire"
+  ]
+ },
+ {
+  "key": "openai/54/L21.1",
+  "system": "openai-deepresearch",
+  "task": 54,
+  "claim": "L21.1",
+  "quote": "a pandemic will crash travel stocks",
+  "url": "https://blogs.cfainstitute.org/investor/2024/09/05/how-machine-learning-is-transforming-portfolio-optimization/#:~:text=ML algorithms are particularly useful,the target variable is unknown",
+  "sha256": "8fca074116c50e78f05ee006864d1bad4d4560d9b8cb2e2a2759fe1ae25e759d",
+  "ratio": 0.486,
+  "near": "search and Policy Center is transfo",
+  "line": "  On the flip side, ML models face significant limitations, especially when market conditions deviate from the model’s training experience. One concern is **overfitting and stability**. A complex deep network might perform impressively on historical data (in-sample) but then fail when a new type of event occurs. Markets are notorious for regime shifts: an ML model trained predominantly on the low-volatility 2010s might not know how to handle a sudden liquidity crisis or a pandemic-related shutdown, because such scenarios weren’t present in the training data. Unlike BL, which allows a human to inject a view (“a pandemic will crash travel stocks”) explicitly, an ML model could be flying blind in unprecedented situations. Thus, in *extreme market stress or structural breaks*, pure ML models can generalize poorly – they might continue to make bullish allocations based on patterns that no longer apply, or conversely, become too conservative after “learning” from a past crash and miss the recovery. Another limitation is the **opaque “black box” nature** of many deep learning models. This lack of interpretability is problematic under any conditions, but especially when things go wrong: institutional risk managers may not know why the model is taking certain positions, making it hard to trust or adjust in a crisis. Additionally, ML models often require **large amounts of data** to train effectively ([How Machine Learning Is Transforming Portfolio Optimization | CFA Institute Enterprising Investor](https://blogs.cfainstitute.org/investor/2024/09/05/how-machine-learning-is-transforming-portfolio-optimization/#:~:text=ML algorithms are particularly useful,the target variable is unknown)). For some asset classes or rare market regimes, data is scant – the result is that ML might simply not have enough information to learn a robust strategy, whereas a simpler model with prudent assumptions might navigate the situation better. There’s also the risk of **reacting to noise**: in very choppy markets, a learning algorithm might chase short-term patterns that are just randomness, leading to whipsaw trading. Frequent rebalancing based on noisy signals can incur high transaction costs and tax impacts, eroding the model’s theoretical edge. In contrast, a well-disciplined traditional strategy might ride out the noise with a stable allocation. **Computational complexity** is another factor: ML models (especially deep networks) are resource-intensive to train and operate. In fast-moving markets, the latency of running a complex model could hinder real-time responsiveness (although this is improving with technology). Finally, consider **market efficiency effects**: if an ML model is truly successful and many adopt it, the underlying patterns it exploits may get arbitraged away, potentially leaving the model chasing ghosts – a limitation that evolves as market participants adapt. Overall, ML models can shine in **non-linear, data-rich environments and moderate regimes**, but in **wild market conditions or completely new scenarios**, their lack of explicit theoretical safety nets can be a drawback, whereas human-in-the-loop and theory-based adjustments (as in BL) might navigate the storm more deftly.",
+  "page_chars": 11603,
+  "urls": [
+   "https://blogs.cfainstitute.org/investor/2024/09/05/how-machine-learning-is-transforming-portfolio-optimization/#:~:text=ML algorithms are particularly useful,the target variable is unknown"
+  ]
+ },
+ {
+  "key": "openai/55/L78.3",
+  "system": "openai-deepresearch",
+  "task": 55,
+  "claim": "L78.3",
+  "quote": "over time, even the most well-trained models can degrade in performance due to shifts in data distribution and evolving market conditions.",
+  "url": "https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C",
+  "sha256": "e02c19dbd04a0029daab86a1194f95e64defd18dfc6be7b4289e35c4e692d6a3",
+  "ratio": 0.942,
+  "near": "Over time, even the most well-trained models can degrade in performance, often due to shifts in data distribution, evolving market condit",
+  "line": "    The framework should thus capture whether each strategy is **static or adaptive** and how it copes with the non-stationarity of markets. For a given strategy, one could report the **half-life of its alpha signal** (for instance, estimate how the information ratio decays as data ages). Another practical metric is the **performance degradation** if the model is not updated: e.g., “Using model parameters estimated up to 2019, the strategy’s return in 2020–2024 drops by X% compared to a model re-trained yearly.” Such analysis informs how **model risk** and **maintenance costs** factor in – a strategy that needs constant tweaking might be more fragile operationally. HFT strategies often face rapid decay as microstructure patterns change or competitors catch on, so they require continuous research and technology upgrades (adaptability in infrastructure as well). Multi-factor models are typically more stable, but even they saw shifts (e.g., value factor drawdowns in the late 2010s forced model adjustments). Machine learning models might detect subtle patterns but can “learn the noise” of a specific regime and then mispredict when conditions shift – hence the importance of **concept drift** monitoring. In general, *“over time, even the most well-trained models can degrade in performance due to shifts in data distribution and evolving market conditions.”* ([Evaluating Drift: Monitoring and Maintaining Model Performance ...](https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C)) Strategies that explicitly account for this – for example, by including regime-switching logic or self-correcting algorithms – should be noted positively in the evaluation.",
+  "page_chars": 13882,
+  "urls": [
+   "https://www.linkedin.com/pulse/evaluating-drift-monitoring-maintaining-model-over-time-brown-ph-d--jvlae#:~:text=,distribution%2C evolving market conditions%2C"
+  ]
+ },
+ {
+  "key": "openai/93/L10.1",
+  "system": "openai-deepresearch",
+  "task": 93,
+  "claim": "L10.1",
+  "quote": "a production studio in the palm of your hand,",
+  "url": "https://www.wpbeginner.com/research/creator-economy-statistics-that-will-blow-you-away/#:~:text=,2 billion",
+  "sha256": "107953f9685b789a3b76b673674e94a40b0b7e80bf71db9dbf1f5e589f6b6d12",
+  "ratio": 0.455,
+  "near": "ative to avoid falling into the trap of copy",
+  "line": "  - **Rise of the Creator Economy:** There has been a generational shift wherein millions of individuals now actively create video content. Over **200 million people worldwide** are estimated to be content creators in 2025 ([2025's Creator Economy Statistics That Will Blow You Away](https://www.wpbeginner.com/research/creator-economy-statistics-that-will-blow-you-away/#:~:text=,2 billion)), ranging from full-time influencers to casual creators. Notably, **65% of Gen Z internet users** describe themselves as video content creators ([Most of Gen Z describe themselves as video content creators - The Washington Post](https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=YouTube found that 65 percent,on trends on the platform)) – a remarkable statistic illustrating how ubiquitous video creation has become among younger demographics. This army of creators (YouTubers, TikTokers, streamers, etc.) is constantly in need of editing and creation tools to produce engaging videos for their audiences. The low barriers to creation (smartphone cameras, easy apps) encourage more users to start creating content, which expands the market. TikTok’s rise, for example, gave a generation *“a production studio in the palm of your hand,”* providing easy mobile editing tools that allow amateurs to create compelling videos ([Most of Gen Z describe themselves as video content creators - The Washington Post](https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=TikTok’s popularization of short,lurkers to become content creators)) ([Most of Gen Z describe themselves as video content creators - The Washington Post](https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=“Video is now the language,of your hand%2C” Gahan said)).",
+  "page_chars": 29826,
+  "urls": [
+   "https://www.wpbeginner.com/research/creator-economy-statistics-that-will-blow-you-away/#:~:text=,2 billion",
+   "https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=YouTube found that 65 percent,on trends on the platform",
+   "https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=TikTok’s popularization of short,lurkers to become content creators",
+   "https://www.washingtonpost.com/technology/2024/06/27/genz-video-content-creators-youtube/#:~:text=“Video is now the language,of your hand%2C” Gahan said"
+  ]
+ },
+ {
+  "key": "openai/52/L25.6",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L25.6",
+  "quote": "our favorite holding period is forever",
+  "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+  "sha256": "4dae70ca027a554a523a1de398cf7310e1cbdcc146c0cce74659931d57141afa",
+  "ratio": 0.658,
+  "near": "10% for his entire holding period. Str",
+  "line": "**Warren Buffett:** Buffett’s investing history over seven decades provides rich examples of his philosophy at work. In the **1960s**, one signature move was his contrarian investment in **American Express**. In 1964, Amex shares collapsed after the “salad oil scandal” (a major fraud incident). While others panicked, Buffett investigated the company’s core franchises (charge cards and travelers cheques) and concluded the business was sound and dominant. He famously poured roughly 40% of his partnership’s capital into Amex stock at the nadir – a bold demonstration of **“being greedy when others are fearful.”** Within a few years Amex recovered, rewarding Buffett’s nerve and analysis. Buffett later cited Amex as an example of a “great investment opportunity when a marvelous business encounters a one-time huge but solvable problem” ([Chairman's Letter - 1989](https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them)). In the **1970s**, Buffett acquired **See’s Candies** for $25 million – a pivotal moment in his shift toward quality businesses. See’s was a simple chocolate company with an outstanding brand in the West Coast. Charlie Munger insisted they pay up for See’s well above book value, which Buffett initially hesitated on. The investment turned into a goldmine: See’s threw off tens of millions in cash annually with barely any need for new capital, thanks to its beloved brand and pricing power (they could raise prices ~10% every year without losing customers) ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=> ,rental stores when we bought)). See’s taught Buffett that a **“wonderful business”** could be worth far more than its tangible assets – reinforcing the idea of **moats** and **pricing power** as key to value. Buffett himself said buying See’s Candy *“changed the way I look at businesses”* and paved the way for later investments in high-quality companies. In the **1980s**, Buffett made another iconic investment: **The Coca-Cola Company**. In 1988, not long after Coke had stumbled (from a failed product launch), Buffett started buying Coca-Cola aggressively. He ended up investing over $1 billion to acquire ~7% of the company – a huge stake. Coke epitomized a Buffett stock: an “inevitable” product with a global brand moat, consistent demand, and the ability to raise prices with inflation. Sure enough, Buffett’s Coca-Cola stake has compounded for decades (it’s now worth around $25 billion+, and Berkshire still receives **over $700 million in annual dividends** from Coke). This holding, which Buffett has now kept for 35+ years, exemplifies **“our favorite holding period is forever”** and the power of letting a great business compound. In the **2010s**, Buffett showed adaptability by investing in **Apple Inc.** – traditionally a tech company outside his circle, but he came to view Apple as more of a consumer products company with an ecosystem moat. Starting in 2016, Berkshire built a $35 billion position in Apple (around ~$125 per share cost basis). By 2022 that stake had ballooned to over $160 billion in value, making Apple Berkshire’s single largest holding ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire",
+  "page_chars": 86986,
+  "urls": [
+   "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire"
+  ]
+ },
+ {
+  "key": "openai/97/L86.1",
+  "system": "openai-deepresearch",
+  "task": 97,
+  "claim": "L86.1",
+  "quote": "build it and they didn’t come",
+  "url": "https://www.gmcnetwork.com/news/2025/01/the-surprising-impact-of-airports-in-smaller-communities/#:~:text=In fact%2C a joint report,by companies utilizing those facilities",
+  "sha256": "ae2dd9a917725d91cdfb92fb61f7db52956f7ead2b7c648cc839471dc993f12d",
+  "ratio": 0.621,
+  "near": "ad diet and why do communitie",
+  "line": "- **Caveats and Success Factors:** Not every small airport automatically prospers – the impacts depend on actually reaching that passenger volume and maintaining useful routes. There are examples of underutilized airports (the infamous “build it and they didn’t come” scenarios) which fail to generate hoped-for benefits. Thus, a key factor is **effective integration into the air transport network** – the airport must secure airlines and serve destinations that matter to the region. When it does (as in our case studies), the benefits are tangible. Another factor is support and strategy: regions that market their airport and build tourism or business initiatives around it will see greater impact. Stability of service (as noted, stable growth is more crucial than sheer size for economic influence ([ Percoco, M. (2010). Airport Activity and Local Development Evidence from Italy. Urban Studies, 47, 2427-2443.  - References - Scientific Research Publishing ](https://www.scirp.org/(S(czeh4tfqyw2orz553k1w0r45))/reference/referencespapers?referenceid=2681127#:~:text=accessibility of each small airport,there is concern around airports))) is important – frequent route cuts or unreliable service can dampen the economic multiplier. Policy support (subsidies, route incentives, infrastructure funding) can be justified by the socio-economic returns demonstrated above. Finally, one should consider **opportunity cost** – some critics ask if money spent on a small airport is worth it. The data here suggest that, when passenger demand is around the 500k mark, the returns in jobs and GDP usually far exceed the typical operating subsidies or capital costs on an annualized basis (remember the 75:1 return on investment cited for GA airports ([The surprising impact of airports in smaller communities - Goodwyn Mills Cawood](https://www.gmcnetwork.com/news/2025/01/the-surprising-impact-of-airports-in-smaller-communities/#:~:text=In fact%2C a joint report,by companies utilizing those facilities))).",
+  "page_chars": 14773,
+  "urls": [
+   "https://www.gmcnetwork.com/news/2025/01/the-surprising-impact-of-airports-in-smaller-communities/#:~:text=In fact%2C a joint report,by companies utilizing those facilities",
+   "https://www.scirp.org/"
+  ]
+ },
+ {
+  "key": "openai/77/L43.1",
+  "system": "openai-deepresearch",
+  "task": 77,
+  "claim": "L43.1",
+  "quote": "with high levels of NFC will seize on any information that matches their need to reduce uncertainty, regardless of whether they are conspiracy narratives or official explanations",
+  "url": "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A We find that individuals,moderating effect of political trust",
+  "sha256": "c4167b71b22f5ce04e361b38fbd6af120dfcf3bcabb0690b7e70644ac87b3859",
+  "ratio": 0.961,
+  "near": " heightened level of NCC will seize on any information that matches their need to reduce uncertainty, regardless of whether they are conspiracy narratives or official explanation",
+  "line": "It’s worth noting that not all research paints high NFC as a vaccine-misinformation deterrent. Other work suggests high NFC can contribute to **general vaccine skepticism** indirectly via conspiracy thinking. For example, during COVID-19, belief in vaccine-related conspiracy theories (e.g. about microchips in injections) was more likely among those high in NFC who also had low trust in science ([Frontiers | Need for cognitive closure, political trust, and belief in conspiracy theories during the COVID-19 pandemic](https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A We find that individuals,moderating effect of political trust)). Here again, *trust* emerges as a key moderator. Those who trust the medical establishment might satisfy their need for closure with official health guidance; those who distrust it might instead seek closure in fringe explanations. Jedinger and Masch (2025) describe this dynamic in the pandemic context: people *“with high levels of NFC will seize on any information that matches their need to reduce uncertainty, regardless of whether they are conspiracy narratives or official explanations”* ([Frontiers | Need for cognitive closure, political trust, and belief in conspiracy theories during the COVID-19 pandemic](https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=seize on any information that,1991%2C 1993)). In their German sample, however, trust in institutions was so influential that NFC’s direct effect on COVID conspiracy beliefs was minor ([Frontiers | Need for cognitive closure, political trust, and belief in conspiracy theories during the COVID-19 pandemic](https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A",
+  "page_chars": 46240,
+  "urls": [
+   "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A We find that individuals,moderating effect of political trust",
+   "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=seize on any information that,1991%2C 1993",
+   "https://www.frontiersin.org/journals/social-psychology/articles/10.3389/frsps.2024.1447313/full#:~:text=Results%3A"
+  ]
+ },
+ {
+  "key": "openai/52/L18.4",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L18.4",
+  "quote": "Never lose money. Never forget Rule No.1.",
+  "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+  "sha256": "8518b0b6a2c2586cb46fe2507cf2bbf22ce3b557e9989e0ffe93d43e05980ced",
+  "ratio": 0.475,
+  "near": "s where the money is - we arranged for o",
+  "line": "- **Warren Buffett:** *“Price is what you pay; value is what you get.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”)) – encapsulating the essence of value investing (focus on the underlying value, not the price tag). Another of Buffett’s famous maxims is *“If you aren’t willing to own a stock for ten years, don’t even think about owning it for ten minutes.”* ([Chairman's Letter - 1996](https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march)), a reminder of his long-term horizon and disdain for short-term trading. He often stresses temperament with quotes like *“We don’t have to be smarter than the rest; we have to be more disciplined than the rest”* (emphasizing emotional discipline) and his Rule No.1/Rule No.2: *“Never lose money. Never forget Rule No.1.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never",
+  "page_chars": 71079,
+  "urls": [
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”",
+   "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never"
+  ]
+ },
+ {
+  "key": "openai/55/L70.2",
+  "system": "openai-deepresearch",
+  "task": 55,
+  "claim": "L70.2",
+  "quote": "At $X capital, what performance decay do we expect?",
+  "url": "https://pippenguin.net/trading/learn-trading/quantitative-trading-beginners-guide/#:~:text=Evaluation Criterion Key Metrics Importance,Technical feasibility High Resource requirements",
+  "sha256": "23e1cf0e98c9eb71d56d8a471da2d1ce10b9ac5f2c959934bedbe55ff63a52ba",
+  "ratio": 0.44,
+  "near": "rete trading approach: Define clear entry and exit",
+  "line": "    A concrete evaluation step is to report, for each strategy: *“If we target a certain Sharpe, how much capital can we deploy?”* or conversely *“At $X capital, what performance decay do we expect?”* (). Academic frameworks have been proposed to estimate this using inputs like the strategy’s gross Sharpe, the market’s liquidity/volume, and the signal decay rate (). The **practical recommendations** for implementation are: (1) incorporate an **impact cost model** in backtests (even if simple) to simulate scalability, (2) test the strategy on **larger universes** (e.g., if a futures strategy can extend to more contracts or markets, that’s a way to increase capacity), and (3) monitor **capacity during live trading** (as more capital is added, ensure the key metrics aren’t slipping). From an institutional perspective, capacity directly influences whether a strategy is suitable – a pension fund might pass on an otherwise attractive strategy if it can only deploy $50M in it. By including capacity in the comparison, this framework helps identify which strategies can meet the scale requirements of the stakeholders. For example, a large institution might favor a slightly lower Sharpe strategy that can scale to billions over a higher Sharpe strategy that caps out at a small fund size. The framework’s capacity analysis makes those trade-offs explicit, quantifying the **scalability** of each approach ([How to Get Into Quant Trading: Complete Beginner's Guide 2025](https://pippenguin.net/trading/learn-trading/quantitative-trading-beginners-guide/#:~:text=Evaluation Criterion Key Metrics Importance,Technical feasibility High Resource requirements)).",
+  "page_chars": 55756,
+  "urls": [
+   "https://pippenguin.net/trading/learn-trading/quantitative-trading-beginners-guide/#:~:text=Evaluation Criterion Key Metrics Importance,Technical feasibility High Resource requirements"
+  ]
+ },
+ {
+  "key": "openai/95/L133.1",
+  "system": "openai-deepresearch",
+  "task": 95,
+  "claim": "L133.1",
+  "quote": "as fleeting as a dream or bubble",
+  "url": "https://www.flickr.com/photos/britishlibrary/12459240784#:~:text=Caption%3A Diamond Sutra of 868,AD",
+  "sha256": "c15a6455814cc2d6593356c722852f6d914439d9842b190b6f629dcb9c7f68a6",
+  "ratio": 0.469,
+  "near": " Cookies Guidelines Report abuse",
+  "line": "The **impact of the Diamond Sutra** historically is immense. It influenced not only religious practice but also art and literature. The frontispiece of the famous Dunhuang print (868 CE) is a beautifully carved illustration of the scene of the Buddha teaching, showing the artistic reverence for the sutra ([The Diamond Sutra. - caption: 'Diamond Sutra of 868 AD' | Flickr](https://www.flickr.com/photos/britishlibrary/12459240784#:~:text=Caption%3A Diamond Sutra of 868,AD)). In literature, allusions to the Diamond Sutra’s dream-like imagery appear in East Asian poetry to evoke the ephemerality of life. Even in modern writing, authors sometimes reference the idea “as fleeting as a dream or bubble” to convey Buddhist insight.",
+  "page_chars": 2834,
+  "urls": [
+   "https://www.flickr.com/photos/britishlibrary/12459240784#:~:text=Caption%3A Diamond Sutra of 868,AD"
+  ]
+ },
+ {
+  "key": "openai/95/L73.4",
+  "system": "openai-deepresearch",
+  "task": 95,
+  "claim": "L73.4",
+  "quote": "No, World Honoured One, that merit is immeasurable.",
+  "url": "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without",
+  "sha256": "d21e4d5e85716177c510edebadb4055cc8e5786b2bd9d222de61f63b8f305c0a",
+  "ratio": 0.68,
+  "near": "a “World Honored One, having just heard this sutra",
+  "line": "The sutra also uses numerical exaggeration as a device. The Buddha speaks of liberating “an unfathomable, infinite number of beings” ([Diamond Sutra: Chapter 03 – Diamond Sutra – A New Translation of the Classic Buddhist Text](https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”)) or the merit of someone who gives in charity as filling “worlds as numerous as the sands of the Ganges” with offerings. These enormous figures are then juxtaposed with the simple insight of emptiness, which outweighs all those merits. This contrast elevates the value of wisdom over mere quantity of good deeds done with attachment. It’s also a way of expanding the reader’s mind to think on cosmic scales and then letting even that go. The Buddha often asks Subhūti, “Can you measure such and such merit?” and Subhūti answers “No, World Honoured One, that merit is immeasurable.” This technique instills a sense of awe and then redirects it to the teaching itself – implying the teaching’s transformative power is beyond ordinary calculation ([Merit in Mahayana - Dharma Wheel](https://www.dharmawheel.net/viewtopic.php?t=43401#:~:text=Merit in Mahayana ,Subhuti replied%2C “No%2C)) ([Diamond Sutra Non-Abiding - Luminous Dharma](https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without)).",
+  "page_chars": 5378,
+  "urls": [
+   "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”",
+   "https://www.dharmawheel.net/viewtopic.php?t=43401#:~:text=Merit in Mahayana ,Subhuti replied%2C “No%2C",
+   "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without"
+  ]
+ },
+ {
+  "key": "openai/52/L18.3",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L18.3",
+  "quote": "We don’t have to be smarter than the rest; we have to be more disciplined than the rest",
+  "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+  "sha256": "8518b0b6a2c2586cb46fe2507cf2bbf22ce3b557e9989e0ffe93d43e05980ced",
+  "ratio": 0.506,
+  "near": ", it won't surprise you to learn that we again went to Terry when we decided late in th",
+  "line": "- **Warren Buffett:** *“Price is what you pay; value is what you get.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”)) – encapsulating the essence of value investing (focus on the underlying value, not the price tag). Another of Buffett’s famous maxims is *“If you aren’t willing to own a stock for ten years, don’t even think about owning it for ten minutes.”* ([Chairman's Letter - 1996](https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march)), a reminder of his long-term horizon and disdain for short-term trading. He often stresses temperament with quotes like *“We don’t have to be smarter than the rest; we have to be more disciplined than the rest”* (emphasizing emotional discipline) and his Rule No.1/Rule No.2: *“Never lose money. Never forget Rule No.1.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never",
+  "page_chars": 71079,
+  "urls": [
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”",
+   "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never"
+  ]
+ },
+ {
+  "key": "openai/57/L106.1",
+  "system": "openai-deepresearch",
+  "task": 57,
+  "claim": "L106.1",
+  "quote": "strategy and design to prototyping and deployment",
+  "url": "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai#:~:text=AI news.bloomberglaw.com  The Paris,leadership in this breakthrough",
+  "sha256": "4db548ffefc4b0dfe302b554f78656ea05b3df3c73cea55d3f26c17a4ce26caa",
+  "ratio": 0.449,
+  "near": "rsity and Inclusion Tech At Bloomberg Philanthrop",
+  "line": "    Capgemini is also actively developing its talent: it set up a **Global AI & Data Academy** to train consultants and clients’ staff on data science, and via its partnership with Google, it has certified thousands of engineers on Google’s AI technologies. Moreover, Capgemini has run internal innovation challenges (e.g. an annual AI innovation competition) to surface new AI ideas from its workforce. In terms of hiring, the firm recruits heavily in markets like India for AI expertise – a significant portion of its 100,000+ workforce there are being upskilled in AI/ML. By combining consulting, technology, and engineering strengths, Capgemini aims to be the go-to partner for end-to-end AI transformation, from **“strategy and design to prototyping and deployment”** of AI solutions. Its €2B investment and global centers of excellence underscore the commitment to embed AI across its services and maintain competitiveness with the other industry leaders in the fast-evolving AI landscape ([At the forefront of the gen AI revolution - Page 52 | Capgemini](https://reports.capgemini.com/2023/en/doc/article/52/#:~:text=In 2023%2C we announced a,Generative AI for)) ([IT Giant Capgemini Will Invest $2.2 Billion in Generative AI](https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai#:~:text=AI news.bloomberglaw.com  The Paris,leadership in this breakthrough)).",
+  "page_chars": 6235,
+  "urls": [
+   "https://reports.capgemini.com/2023/en/doc/article/52/#:~:text=In 2023%2C we announced a,Generative AI for",
+   "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai#:~:text=AI news.bloomberglaw.com  The Paris,leadership in this breakthrough"
+  ]
+ },
+ {
+  "key": "openai/52/L25.2",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L25.2",
+  "quote": "being greedy when others are fearful.",
+  "url": "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+  "sha256": "4dae70ca027a554a523a1de398cf7310e1cbdcc146c0cce74659931d57141afa",
+  "ratio": 0.556,
+  "near": "e registered in the name of the actu",
+  "line": "**Warren Buffett:** Buffett’s investing history over seven decades provides rich examples of his philosophy at work. In the **1960s**, one signature move was his contrarian investment in **American Express**. In 1964, Amex shares collapsed after the “salad oil scandal” (a major fraud incident). While others panicked, Buffett investigated the company’s core franchises (charge cards and travelers cheques) and concluded the business was sound and dominant. He famously poured roughly 40% of his partnership’s capital into Amex stock at the nadir – a bold demonstration of **“being greedy when others are fearful.”** Within a few years Amex recovered, rewarding Buffett’s nerve and analysis. Buffett later cited Amex as an example of a “great investment opportunity when a marvelous business encounters a one-time huge but solvable problem” ([Chairman's Letter - 1989](https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them)). In the **1970s**, Buffett acquired **See’s Candies** for $25 million – a pivotal moment in his shift toward quality businesses. See’s was a simple chocolate company with an outstanding brand in the West Coast. Charlie Munger insisted they pay up for See’s well above book value, which Buffett initially hesitated on. The investment turned into a goldmine: See’s threw off tens of millions in cash annually with barely any need for new capital, thanks to its beloved brand and pricing power (they could raise prices ~10% every year without losing customers) ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=> ,rental stores when we bought)). See’s taught Buffett that a **“wonderful business”** could be worth far more than its tangible assets – reinforcing the idea of **moats** and **pricing power** as key to value. Buffett himself said buying See’s Candy *“changed the way I look at businesses”* and paved the way for later investments in high-quality companies. In the **1980s**, Buffett made another iconic investment: **The Coca-Cola Company**. In 1988, not long after Coke had stumbled (from a failed product launch), Buffett started buying Coca-Cola aggressively. He ended up investing over $1 billion to acquire ~7% of the company – a huge stake. Coke epitomized a Buffett stock: an “inevitable” product with a global brand moat, consistent demand, and the ability to raise prices with inflation. Sure enough, Buffett’s Coca-Cola stake has compounded for decades (it’s now worth around $25 billion+, and Berkshire still receives **over $700 million in annual dividends** from Coke). This holding, which Buffett has now kept for 35+ years, exemplifies **“our favorite holding period is forever”** and the power of letting a great business compound. In the **2010s**, Buffett showed adaptability by investing in **Apple Inc.** – traditionally a tech company outside his circle, but he came to view Apple as more of a consumer products company with an ecosystem moat. Starting in 2016, Berkshire built a $35 billion position in Apple (around ~$125 per share cost basis). By 2022 that stake had ballooned to over $160 billion in value, making Apple Berkshire’s single largest holding ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire",
+  "page_chars": 86986,
+  "urls": [
+   "https://www.berkshirehathaway.com/letters/1989.html#:~:text=occasion%2C tough problems must be,dragons than by slaying them",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Berkshire"
+  ]
+ },
+ {
+  "key": "openai/85/L39.1",
+  "system": "openai-deepresearch",
+  "task": 85,
+  "claim": "L39.1",
+  "quote": "adaptive algorithms, e.g. filtered-X LMS, have been developed to implement feedforward loops",
+  "url": "https://www.parksystems.com/content/dam/parksystems/learning-portal/appnote/Principles_of_Active_Vibration_Isolation.pdf#:~:text=a feedforward control design,developed to implement feedforward loops",
+  "sha256": "49ea44c09434fd7966c4506c89a8c503cb9c3dee52fb7b8b032914ba3bbb8ac9",
+  "ratio": 0.978,
+  "near": "Adaptive algorithms, e.g. x-filtered LMS, have been developed to implement feedforward loops",
+  "line": "- **Feedforward and Adaptive Control:** Feedforward control uses an external or auxiliary measurement of a disturbance to counteract it before it affects the payload. In vibration isolation, feedforward can be extremely effective if a reference signal is available – for instance, readings from a floor-mounted seismometer (before the vibration enters the isolator), or signals from a machine that is about to move (anticipating an internal disturbance). Adaptive feedforward algorithms, such as the **filtered-X LMS algorithm**, are widely used to cancel periodic or broadband vibrations. As noted in one active isolation compendium, *“adaptive algorithms, e.g. filtered-X LMS, have been developed to implement feedforward loops”* ([Compendium - Principles - Active Vibration Isolation](https://www.parksystems.com/content/dam/parksystems/learning-portal/appnote/Principles_of_Active_Vibration_Isolation.pdf#:~:text=a feedforward control design,developed to implement feedforward loops)). In practice, this means the controller can adjust a feedforward filter in real time to minimize the vibration seen by the sensor, even if the disturbance characteristics change. For example, if a fabrication tool has a 50 Hz oscillation, an accelerometer on the tool can provide a reference and the feedforward controller will inject an anti-50 Hz signal into the piezo actuator to cancel it. Adaptive feedforward is particularly powerful against **repetitive or narrow-band disturbances** (like pumps, motors, or periodic motion stages), often achieving significant attenuation at those frequencies beyond what feedback alone could do. Another adaptive strategy is **Model Reference Adaptive Control (MRAC)**, where the system is steered to follow a desired model behavior under varying conditions ([Active vibration isolation by model reference adaptive control](https://www.sciencedirect.com/science/article/pii/S240589632032810X#:~:text=Active vibration isolation by model,vibrations and direct disturbance forces)). MRAC has been proposed for active payload isolation to adjust gains automatically when the payload mass changes, for instance ([Active vibration isolation by model reference adaptive control](https://www.sciencedirect.com/science/article/pii/S240589632032810X#:~:text=Active",
+  "page_chars": 7416,
+  "urls": [
+   "https://www.parksystems.com/content/dam/parksystems/learning-portal/appnote/Principles_of_Active_Vibration_Isolation.pdf#:~:text=a feedforward control design,developed to implement feedforward loops",
+   "https://www.sciencedirect.com/science/article/pii/S240589632032810X#:~:text=Active vibration isolation by model,vibrations and direct disturbance forces",
+   "https://www.sciencedirect.com/science/article/pii/S240589632032810X#:~:text=Active"
+  ]
+ },
+ {
+  "key": "openai/98/L56.1",
+  "system": "openai-deepresearch",
+  "task": 98,
+  "claim": "L56.1",
+  "quote": "turmeric tonic with ginger and lemon verbena,",
+  "url": "https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=Expect zero,proof enthusiasts",
+  "sha256": "d917f1dad1fa8852f6b3aaa732a8b073d17a38663f27656eccb449bbf43aa237",
+  "ratio": 0.432,
+  "near": "better mimic the flavors and textures of tra",
+  "line": "Mixologists treat botanicals not just as garnishes but as core flavour drivers in zero-proof cocktails. By combining multiple herbs and spices, they create a layered profile that compensates for the absence of a spirit base. Importantly, these ingredients are often perceived as **natural and healthy** – a selling point for an audience seeking alcohol-free yet flavourful beverages. It’s common to see menus highlighting ingredients like “turmeric tonic with ginger and lemon verbena,” tapping into the appeal of botanicals. As one 2024 trend report noted, **bold global flavours** from botanicals are dominating zero-proof recipes – e.g. Japanese **yuzu**, South American **chicha morada** (spiced purple corn infusion), or even Mediterranean **olive** brine for a touch of umami ([Top Zero-Proof Trends to Watch in 2024 – Collins ](https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=Expect zero,proof enthusiasts)). Such ingredients add intrigue and authenticity without a drop of alcohol.",
+  "page_chars": 5277,
+  "urls": [
+   "https://collinschicago.com/blogs/technique/top-zero-proof-trends-to-watch-in-2024#:~:text=Expect zero,proof enthusiasts"
+  ]
+ },
+ {
+  "key": "openai/52/L18.1",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L18.1",
+  "quote": "Price is what you pay; value is what you get.",
+  "url": "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+  "sha256": "8518b0b6a2c2586cb46fe2507cf2bbf22ce3b557e9989e0ffe93d43e05980ced",
+  "ratio": 0.455,
+  "near": "rers that would have difficulty paying at ju",
+  "line": "- **Warren Buffett:** *“Price is what you pay; value is what you get.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”)) – encapsulating the essence of value investing (focus on the underlying value, not the price tag). Another of Buffett’s famous maxims is *“If you aren’t willing to own a stock for ten years, don’t even think about owning it for ten minutes.”* ([Chairman's Letter - 1996](https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march)), a reminder of his long-term horizon and disdain for short-term trading. He often stresses temperament with quotes like *“We don’t have to be smarter than the rest; we have to be more disciplined than the rest”* (emphasizing emotional discipline) and his Rule No.1/Rule No.2: *“Never lose money. Never forget Rule No.1.”* ([Warren Buffett: 14 Simplest Pieces of Money Advice That Can Work for Anyone | Nasdaq](https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never",
+  "page_chars": 71079,
+  "urls": [
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=“Price is what you pay%3B,”",
+   "https://www.berkshirehathaway.com/letters/1996.html#:~:text=Your goal as an investor,companies whose aggregate earnings march",
+   "https://www.nasdaq.com/articles/warren-buffett-14-simplest-pieces-money-advice-can-work-anyone#:~:text=Never"
+  ]
+ },
+ {
+  "key": "openai/95/L73.2",
+  "system": "openai-deepresearch",
+  "task": 95,
+  "claim": "L73.2",
+  "quote": "worlds as numerous as the sands of the Ganges",
+  "url": "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without",
+  "sha256": "d21e4d5e85716177c510edebadb4055cc8e5786b2bd9d222de61f63b8f305c0a",
+  "ratio": 0.489,
+  "near": "“Subhuti, if a person amasses enough of the s",
+  "line": "The sutra also uses numerical exaggeration as a device. The Buddha speaks of liberating “an unfathomable, infinite number of beings” ([Diamond Sutra: Chapter 03 – Diamond Sutra – A New Translation of the Classic Buddhist Text](https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”)) or the merit of someone who gives in charity as filling “worlds as numerous as the sands of the Ganges” with offerings. These enormous figures are then juxtaposed with the simple insight of emptiness, which outweighs all those merits. This contrast elevates the value of wisdom over mere quantity of good deeds done with attachment. It’s also a way of expanding the reader’s mind to think on cosmic scales and then letting even that go. The Buddha often asks Subhūti, “Can you measure such and such merit?” and Subhūti answers “No, World Honoured One, that merit is immeasurable.” This technique instills a sense of awe and then redirects it to the teaching itself – implying the teaching’s transformative power is beyond ordinary calculation ([Merit in Mahayana - Dharma Wheel](https://www.dharmawheel.net/viewtopic.php?t=43401#:~:text=Merit in Mahayana ,Subhuti replied%2C “No%2C)) ([Diamond Sutra Non-Abiding - Luminous Dharma](https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without)).",
+  "page_chars": 5378,
+  "urls": [
+   "https://diamond-sutra.com/read-the-diamond-sutra-here/diamond-sutra-chapter-3/#:~:text=aware or unaware%2C whether they,”",
+   "https://www.dharmawheel.net/viewtopic.php?t=43401#:~:text=Merit in Mahayana ,Subhuti replied%2C “No%2C",
+   "https://luminousdharma.org/diamond-sutra-non-abiding/#:~:text=That is%2C to practice charity,charity this way%2C without"
+  ]
+ },
+ {
+  "key": "openai/87/L27.2",
+  "system": "openai-deepresearch",
+  "task": 87,
+  "claim": "L27.2",
+  "quote": "often [led] to a homogenized landscape where brands release strikingly similar designs",
+  "url": "https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=With that being said%2C H%26M,throw away%2C and move on",
+  "sha256": "e2c91dc4e219e2899f2b1b52b4388e41389581735f5ee7652ffc1d75a53fa7a1",
+  "ratio": 0.953,
+  "near": "often leading to a homogenized landscape where brands release strikingly similar desig",
+  "line": "**Fast fashion** retailers (e.g. Zara, H&M, Shein) have embraced AI aggressively to analyze market trends and churn out apparel at breakneck speed. These companies feed algorithms with sales data, social media trends, and runway images to predict the next hot styles. The upside is hyper-responsiveness – AI can tell a fast-fashion brand almost instantly which styles or features (a type of dress print, a color, a shoe shape) are trending, enabling companies to mass-produce those items in weeks. The downside is an **“overwhelming tendency”** to stick to whatever the data identifies as popular ([From Algorithm to Aesthetics: How AI Is Shaping the Fashion Industry — Threading Change](https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=With that being said%2C H%26M,throw away%2C and move on)). As AI systems optimize for what’s likely to sell, different retailers may end up producing very **similar clothing lines** simultaneously, all derived from the same trend forecasts. Observers note that AI-driven design and marketing have *“often [led] to a homogenized landscape where brands release strikingly similar designs”* in pursuit of the same customer preferences ([From Algorithm to Aesthetics: How AI Is Shaping the Fashion Industry — Threading Change](https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=creativity and intellectual property theft,issues relating to intellectual property)).",
+  "page_chars": 15976,
+  "urls": [
+   "https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=With that being said%2C H%26M,throw away%2C and move on",
+   "https://www.threadingchange.org/blog/fromalgorithmtoaesthetics#:~:text=creativity and intellectual property theft,issues relating to intellectual property"
+  ]
+ },
+ {
+  "key": "openai/52/L27.3",
+  "system": "openai-deepresearch",
+  "task": 52,
+  "claim": "L27.3",
+  "quote": "Correcting mistakes should be done as soon as possible, and the cost is always the smallest",
+  "url": "https://finance.yahoo.com/news/charlie-munger-says-byd-best-094339069.html#:~:text=Charlie Munger says BYD was,in 2008 for %24230 million",
+  "sha256": "c95987f2f1dd629fec53a077396ba8abbe2eb772902ac002074060e0d99bd507",
+  "ratio": 0.44,
+  "near": "gest working generation stacks up against the rest The best 5 ways to earn passive income T",
+  "line": "**Charlie Munger:** Munger’s investing record, often intertwined with Buffett’s, also offers instructive examples. Perhaps the most famous is **See’s Candies** (mentioned above), which Munger pushed Berkshire to buy in 1972. Munger recognized See’s had an **intangible asset** – brand loyalty across generations of Californians – that gave it pricing power. He was willing to pay a then-high price (~3× book value) for See’s, convinced it would produce great returns on capital. As noted, See’s validated this view by delivering enormous cash **without needing new capital** year after year, because of its moat ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=> ,rental stores when we bought)). This single $25 million purchase has generated **over $2 billion** of cumulative pre-tax earnings for Berkshire – a testament to Munger’s “buy great businesses” credo. Another striking example is **BYD**, the Chinese electric vehicle and battery company. It was Munger who in 2008 learned about BYD’s founder and tech from his friend (investment manager Li Lu). Munger persuaded Buffett that BYD was an exceptional business with a visionary leader – effectively, an **inevitable** player in electric cars – and Berkshire invested about $232 million for a ~10% stake ([Munger Says He Told Buffett of Stake in BYD, Recused Himself](https://www.bloomberg.com/news/articles/2011-04-05/munger-says-he-told-buffett-of-byd-stake-stayed-out-of-berkshire-s-talks#:~:text=Munger Says He Told Buffett,18)). BYD proved to be a spectacular investment: within a decade the stake was worth over $1½ billion, and by 2022 it was valued around $7–8 billion (Berkshire began trimming it after 14 years of holding) ([Munger Says He Told Buffett of Stake in BYD, Recused Himself](https://www.bloomberg.com/news/articles/2011-04-05/munger-says-he-told-buffett-of-byd-stake-stayed-out-of-berkshire-s-talks#:~:text=Himself www,18)) ([Charlie Munger says BYD was his best investment at Berkshire ...](https://finance.yahoo.com/news/charlie-munger-says-byd-best-094339069.html#:~:text=Charlie Munger says BYD was,in 2008 for %24230 million)). Munger called BYD *one of Berkshire’s best investments* and an example of a company with a **huge long-term runway** where patience paid off. This also highlighted Munger’s openness to investing in China and in tech-forward companies *when* he has high conviction (here, BYD’s battery technology and cost advantages). Closer to home, Munger ran a smaller portfolio through the **Daily Journal Corporation (DJCO)**, where he is chairman. After 2009, Munger took DJCO’s surplus cash (originally stemming from legal settlement proceeds) and plowed it into just a few stocks: mainly **Wells Fargo**, **Bank of America**, and a handful of others – all during the depressed prices of the financial crisis. He effectively bet on a recovery of strong banks. He held those positions for many years; e.g. Daily Journal held large stakes in WFC and BAC for over a decade, only selling some recently. As of 2025, DJCO’s equity portfolio consists of only **4 stocks**, with **Wells Fargo ~47%** and **Bank of America ~39%** (together ~85% of the portfolio) ([Charlie Munger Portfolio (2025 Q1) - Daily Journal Corp Holdings 13F](https://valuesider.com/guru/charlie-munger-daily-journal-corp/portfolio#:~:text=In Daily Journal Corp's portfolio,34)). This extreme concentration shows Munger’s willingness to put most eggs in a few very sturdy baskets. It also reflects his **long-term approach** – he was willing to hold through years of volatility (including Wells Fargo’s scandals) because he believed in the banks’ core earnings power. Munger has also demonstrated the courage to change his mind: an example is his investment in **Alibaba** in 2021–2022 for DJCO. Initially, Munger bought a sizable stake in Alibaba (seeing it as a dominant franchise trading cheaply amid China’s tech crackdown), but as uncertainties grew, he admitted it was *“one of the worst mistakes”* he’d made recently and substantially cut the position in 2022 ([Charlie Munger Called Alibaba 'One of the Worst Mistakes I Ever ...](https://finance.yahoo.com/news/charlie-munger-called-alibaba-one-230116375.html#:~:text=Charlie Munger Called Alibaba 'One,5)). This willingness to *rationally cut losses* echoes his mantra “Correcting mistakes should be done as soon as possible, and the cost is always the smallest” ([100 Q&A with Duan Yongping last year: Involving Tencent, Apple, Moutai, life...](https://longportapp.com/en/news/106330133#:~:text=,cost is always the smallest)). Finally, Munger’s personal portfolio has long been essentially just **Berkshire Hathaway stock and Costco stock** – he held both for decades. He was on Costco’s board for 40 years and has praised Costco as a model of a great business (low costs, strong culture, customer loyalty). His reluctance to ever sell Costco (Buffett once joked that Munger would rather “die” than sell Costco) and Berkshire shares exemplifies the **“buy well, never sell”** mindset. In sum, Munger’s investment actions – from See’s to BYD to his focused DJCO bets – all illustrate his core beliefs: concentrate in the very best opportunities, think long term, and don’t hesitate to act (or cut bait) when rigorous thinking dictates so.",
+  "page_chars": 8404,
+  "urls": [
+   "https://www.bloomberg.com/news/articles/2011-04-05/munger-says-he-told-buffett-of-byd-stake-stayed-out-of-berkshire-s-talks#:~:text=Munger Says He Told Buffett,18",
+   "https://www.bloomberg.com/news/articles/2011-04-05/munger-says-he-told-buffett-of-byd-stake-stayed-out-of-berkshire-s-talks#:~:text=Himself www,18",
+   "https://finance.yahoo.com/news/charlie-munger-says-byd-best-094339069.html#:~:text=Charlie Munger says BYD was,in 2008 for %24230 million",
+   "https://valuesider.com/guru/charlie-munger-daily-journal-corp/portfolio#:~:text=In Daily Journal Corp's portfolio,34",
+   "https://finance.yahoo.com/news/charlie-munger-called-alibaba-one-230116375.html#:~:text=Charlie Munger Called Alibaba 'One,5",
+   "https://longportapp.com/en/news/106330133#:~:text=,cost is always the smallest",
+   "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text="
+  ]
+ },
+ {
+  "key": "openai/57/L79.1",
+  "system": "openai-deepresearch",
+  "task": 57,
+  "claim": "L79.1",
+  "quote": "over the next decade, AI will be a mega-trend transforming how we live and work,",
+  "url": "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=“There is unprecedented interest in,when the technology is changing",
+  "sha256": "dadc92dce2f9fafc2ef996660cbd05b22f3d0f86ad5e0d90ab76779387379672",
+  "ratio": 0.797,
+  "near": "d changes. “Over the next decade, AI will be a mega-trend, transforming industr",
+  "line": "    - **Strategic Direction & Talent Development:** Accenture’s CEO Julie Sweet states that *“over the next decade, AI will be a mega-trend transforming how we live and work,”* and Accenture’s strategy is to **embed AI pervasively** and *responsibly* ([Accenture to Invest $3 Billion in AI to Accelerate Clients’ Reinvention](https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=“There is unprecedented interest in,when the technology is changing)) ([Accenture to Invest $3 Billion in AI to Accelerate Clients’ Reinvention](https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=cases%2C",
+  "page_chars": 7770,
+  "urls": [
+   "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=“There is unprecedented interest in,when the technology is changing",
+   "https://newsroom.accenture.com/news/2023/accenture-to-invest-3-billion-in-ai-to-accelerate-clients-reinvention#:~:text=cases%2C"
+  ]
+ },
+ {
+  "key": "openai/88/L36.2",
+  "system": "openai-deepresearch",
+  "task": 88,
+  "claim": "L36.2",
+  "quote": "uses so many of Márquez’s words that almost any memorable line you hear was likely taken word-for-word from the book",
+  "url": "https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=Para la revista cinematográfica estadounidense,la mitad del texto literario",
+  "sha256": "f3a28aae4b2ac81178931baa5b576b3e4b265c47a398bc8a4d8c3c0e2e63cd6a",
+  "ratio": 0.362,
+  "near": "que se inspiró en la obra de Gabriel García Márquez - crédito cortesía Netflix La mayoría de los críticos enfocaron ",
+  "line": "  - **Preservation of Story and Characters:** The series covers the **entire storyline of the novel**, from the founding of Macondo by José Arcadio Buendía and Úrsula, through the rise and fall of the Buendía clan, concluding (in the upcoming Part 2) with the tragic destiny of the last generation. Part 1 (episodes 1–8) takes the viewer roughly halfway through the book’s events ([Esta es la crítica que recibió ‘Cien años de soledad’ luego de su estreno en Netflix: la catalogaron de “ambiciosa”   - Infobae](https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=Para la revista cinematográfica estadounidense,la mitad del texto literario)) – ending around the mid-point of the written narrative – and Part 2 will finish the tale. Virtually all the principal characters and events from the novel appear on screen. The adaptation does not invent new subplots or add Hollywood-style twists; instead it revels in the original content. The often-cited *“unfilmable”* elements of the book – such as its **magical realism** and cyclical, at times fantastical chronology – are not written out but rather carefully incorporated. Iconic sequences like the insomnia plague that causes the town to lose its memory, Remedios the Beauty ascending to the sky, or the massacre of striking banana workers (expected in Part 2) are either depicted or alluded to with the gravity and mystery they carry in the text. Importantly, the show retains the *tone* of Márquez’s narrative: a blend of the mundane and the miraculous, delivered with deadpan sincerity. This was a conscious creative choice (as noted earlier, magical occurrences are portrayed as matter-of-fact), which maintains fidelity to how the novel treats such events. Critics have overwhelmingly praised the series for *“faithfully [realizing] García Márquez’s seminal novel”* and capturing its essence ([One Hundred Years of Solitude (TV series) - Wikipedia](https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_(TV_series)#:~:text=On the review aggregator ,reviews.[ 28)). Many scenes feature dialogue lifted directly from the book, and even the voiceover narration often uses Márquez’s own words for description. This literal approach means that a viewer of the series is essentially experiencing the novel’s story beats in sequence. One reviewer marveled that the show *“uses so many of Márquez’s words that almost any memorable line you hear was likely taken word-for-word from the book”* ([Esta es la crítica que recibió ‘Cien años de soledad’ luego de su estreno en Netflix: la catalogaron de “ambiciosa”   - Infobae](https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=En cuanto a los guiones%2C,la letra del libro”%2C afirmó)). The **plotting sticks closely** to the source: for example, the adaptation follows Colonel Aureliano’s 32 civil wars, the founding of the local matriarchal dynasty by Úrsula, the arrival of the mystical gypsy Melquíades, and so on, in the same order and manner as the novel. There are no composite characters or major omissions – even relatively brief episodes in the book (such as José Arcadio’s mysterious death and the trail of blood that finds Úrsula, or the priest who levitates when drinking hot chocolate) find their way into the series, showing the creators’ reverence for the material.",
+  "page_chars": 10678,
+  "urls": [
+   "https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=Para la revista cinematográfica estadounidense,la mitad del texto literario",
+   "https://www.infobae.com/colombia/2024/12/12/esta-es-la-critica-que-recibio-cien-anos-de-soledad-luego-de-su-estreno-en-netflix-la-catalogaron-de-ambiciosa/#:~:text=En cuanto a los guiones%2C,la letra del libro”%2C afirmó",
+   "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude_"
+  ]
+ },
+ {
+  "key": "perple/90/L30.1",
+  "system": "perplexity-Research",
+  "task": 90,
+  "claim": "L30.1",
+  "quote": "the driver retains responsibility for the control of the vehicle and must permanently monitor the surroundings",
+  "url": "https://www.connectedautomateddriving.eu/blog/new-dcas-regulation-adopted-by-unece/",
+  "sha256": "5105241820b6e110fe69c6ff6b5754d3e2ef57bedfb2a00cde9e23a6c3c87e2a",
+  "ratio": 0.891,
+  "near": "the driver retains responsibility for the control of the vehicle and must, therefore, permanently monitor the ",
+  "line": "Most current ADAS implementations fall within Levels 1 and 2, creating a shared responsibility environment where both driver and system influence vehicle operation. New regulations like those from UNECE specifically address Driver Control Assistance Systems (DCAS), categorizing them as Level 2 automation, meaning \"the driver retains responsibility for the control of the vehicle and must permanently monitor the surroundings\"[^1_9].",
+  "page_chars": 6171,
+  "urls": [
+   "https://www.connectedautomateddriving.eu/blog/new-dcas-regulation-adopted-by-unece/"
+  ]
+ },
+ {
+  "key": "perple/88/L71.1",
+  "system": "perplexity-Research",
+  "task": 88,
+  "claim": "L71.1",
+  "quote": "The first thing Netflix had done was hire José Rivera to do the first script treatment. But when we received the series, we felt that the scripts needed to be empowered and made more Colombian",
+  "url": "https://www.infobae.com/espana/cultura/2025/04/27/las-mentes-detras-de-cien-anos-de-soledad-revelan-las-claves-de-la-serie-que-aspira-a-todo-en-los-premios-platino-nuestro-mayor-reto-fue-convencernos-de-que-se-podia-adaptar/",
+  "sha256": "c568c6bc23c882d3eab9ce3e669a06fc05420718a79deea8c914d3aca991c45f",
+  "ratio": 0.344,
+  "near": "TRARME INICIAR SESIÓN España Cultura Agregar Infobae en Las mentes detrás de ‘Cien años de soledad’ revelan las claves de la serie que aspira a todo en los Premios Platino: “Nuestro mayor reto",
+  "line": "Producer Carolina Caicedo described their approach: \"The first thing Netflix had done was hire José Rivera to do the first script treatment. But when we received the series, we felt that the scripts needed to be empowered and made more Colombian\"[^1_7]. This commitment to cultural authenticity extended throughout the writing process.",
+  "page_chars": 12739,
+  "urls": [
+   "https://www.infobae.com/espana/cultura/2025/04/27/las-mentes-detras-de-cien-anos-de-soledad-revelan-las-claves-de-la-serie-que-aspira-a-todo-en-los-premios-platino-nuestro-mayor-reto-fue-convencernos-de-que-se-podia-adaptar/"
+  ]
+ },
+ {
+  "key": "perple/52/L27.1",
+  "system": "perplexity-Research",
+  "task": 52,
+  "claim": "L27.1",
+  "quote": "The term 'gambling' usually refers to a bet with a 48% chance of winning. A bet with a winning chance of over 90% is what I usually call an investment",
+  "url": "https://longportapp.com/en/news/106330133",
+  "sha256": "472f4defeccbffc940794cea9b01be1506b1a92fb803b98356b4e40c7efc015b",
+  "ratio": 0.12,
+  "near": "!)��e�Nb_.�}��;�\u001a�C� \u0011\"�5�7.� Q�uZ{�'g߮�>W�{'w���v���҈U�q���\u0000p�@v�X8A<�e�r�2���L���K�~��b\u0002�� sEF��U�Ha|\u0006)lS'W�MXT�\b�\u000fP�\u0003\u0003d�诣�k���D�o?��\u001a�l w�јre���3�N",
+  "line": "His definition of investment is notably stringent: \"The term 'gambling' usually refers to a bet with a 48% chance of winning. A bet with a winning chance of over 90% is what I usually call an investment\"[^1_17]. This high threshold reflects his commitment to capital preservation and growth.",
+  "page_chars": 1662,
+  "urls": [
+   "https://longportapp.com/en/news/106330133"
+  ]
+ },
+ {
+  "key": "perple/88/L53.1",
+  "system": "perplexity-Research",
+  "task": 88,
+  "claim": "L53.1",
+  "quote": "Macondo is a representation of the Caribbean Colombian folkloric identity, framed within a foundational epic. The challenge was to achieve a balance between cultural authenticity and the need to be universal for audiences",
+  "url": "https://www.elespectador.com/especiales/asi-se-hicieron-los-efectos-visuales-de-cien-anos-de-soledad/",
+  "sha256": "d51be98b6f26401c1968da285d501d3bd4f2651a0bb0f65cda2f928b139f66a4",
+  "ratio": 0.502,
+  "near": ", “Macondo es una representación de la identidad folclórica del Caribe colombiano, enmarcada en una epopeya fundacional. El desafío fue lograr un equilibrio entre la autenticidad cultural y la necesidad de ser universales",
+  "line": "Andrea Espinal, who led the visual effects team, explained their approach: \"Macondo is a representation of the Caribbean Colombian folkloric identity, framed within a foundational epic. The challenge was to achieve a balance between cultural authenticity and the need to be universal for audiences\"[^1_8]. This careful approach helped maintain García Márquez's signature blend of the mundane and the magical.",
+  "page_chars": 13794,
+  "urls": [
+   "https://www.elespectador.com/especiales/asi-se-hicieron-los-efectos-visuales-de-cien-anos-de-soledad/"
+  ]
+ },
+ {
+  "key": "perple/100/L99.2",
+  "system": "perplexity-Research",
+  "task": 100,
+  "claim": "L99.2",
+  "quote": "The issue with this is that when we pursue relationships devoid of vulnerability, we overlook that empathy is born from vulnerability,",
+  "url": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+  "sha256": "5260a4daff1d20078578f2bd503722d9cf4a415e4afebce61cd1c4c773de2ad2",
+  "ratio": 0.692,
+  "near": "r Message \"The trouble with this is that when we seek out relationships of no vulnerability, we forget that vulnerability is really w",
+  "line": "Perhaps the most profound concern is what Sherry Turkle calls \"pretend empathy\"-AI's simulation of emotional understanding without actual emotional capacity. \"The issue with this is that when we pursue relationships devoid of vulnerability, we overlook that empathy is born from vulnerability,\" Turkle explains[^1_3]. By providing relationships without reciprocal vulnerability, AI companions may undermine the developmental processes through which humans learn empathy and emotional regulation.",
+  "page_chars": 8168,
+  "urls": [
+   "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships"
+  ]
+ },
+ {
+  "key": "perple/81/L15.3",
+  "system": "perplexity-Research",
+  "task": 81,
+  "claim": "L15.3",
+  "quote": "the relation between ideology and political affects",
+  "url": "https://www.metodos.work/wp-content/uploads/2021/05/Michel-Rolph-Trouillot-Silencing-the-Past_-Power-and-the-Production-of-History-20th-Anniversary.pdf",
+  "sha256": "3e995d551bb6bba1a336f4164844568f714afbac6fed7a62e03d36d5eab7fa8a",
+  "ratio": 0.51,
+  "near": "lose a redefi­ nition of the political and intellect",
+  "line": "Trouillot's forensic analysis reveals an \"entanglement of historicity with power\" that dominates how the past is authenticated and organized into fields of knowledge[^1_18]. This perspective is echoed in contemporary discussions of ideology that emphasize the need to attend to \"medium- and long-term historical transformations in the very mode of operation of ideologies\" and \"the relation between ideology and political affects\"[^1_16]. Understanding these transformations is crucial for grasping how historical narratives evolve over time.",
+  "page_chars": 410111,
+  "urls": [
+   "https://www.metodos.work/wp-content/uploads/2021/05/Michel-Rolph-Trouillot-Silencing-the-Past_-Power-and-the-Production-of-History-20th-Anniversary.pdf",
+   "https://onlinelibrary.wiley.com/doi/10.1111/1467-8675.12678"
+  ]
+ },
+ {
+  "key": "perple/100/L53.3",
+  "system": "perplexity-Research",
+  "task": 100,
+  "claim": "L53.3",
+  "quote": "What AI can provide is an escape from the challenges of companionship and friendship. It creates the illusion of intimacy without any obligations",
+  "url": "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships",
+  "sha256": "5260a4daff1d20078578f2bd503722d9cf4a415e4afebce61cd1c4c773de2ad2",
+  "ratio": 0.724,
+  "near": "What AI can offer is a space away from the friction of companionship and friendship,\" Turkle explained. \"It offers the illusion of intimacy witho",
+  "line": "MIT sociologist Sherry Turkle has coined the term \"artificial intimacy\" to describe these human-AI relationships, arguing they provide \"the illusion of intimacy... without the demands\"[^1_3]. This highlights a key transformation in interpersonal relations: AI offers companionship without vulnerability or reciprocal emotional labor. As Turkle explains, \"What AI can provide is an escape from the challenges of companionship and friendship. It creates the illusion of intimacy without any obligations\"[^1_3]. This fundamentally changes the cost-benefit equation of relationships, potentially altering expectations in human-human connections.",
+  "page_chars": 8168,
+  "urls": [
+   "https://www.npr.org/2024/07/01/1247296788/the-benefits-and-drawbacks-of-chatbot-relationships"
+  ]
+ },
+ {
+  "key": "perple/72/L43.2",
+  "system": "perplexity-Research",
+  "task": 72,
+  "claim": "L43.2",
+  "quote": "only a small proportion believe they have the right level of technology and other attributes such as funding, culture and skills to support [AI's] rapid adoption",
+  "url": "https://technologymagazine.com/articles/gen-ai-used-to-disrupt-but-many-underestimate-requirements",
+  "sha256": "680b05fcb4d3fa50a5157a79630de2b364c36c7bd96e58790cd52aea32597b9e",
+  "ratio": 0.975,
+  "near": "I, only a small proportion believe they have the right level of technology and other attributes such as funding, culture and skills to support its rapid adoption",
+  "line": "Despite widespread recognition of AI's disruptive potential-with six out of ten business leaders agreeing that \"generative AI technology will substantially disrupt their industry over the next five years\"[^1_3]-organizations face significant implementation challenges. Research by MIT Technology Review Insights found that while most businesses seek to be disruptors rather than the disrupted, \"only a small proportion believe they have the right level of technology and other attributes such as funding, culture and skills to support [AI's] rapid adoption\"[^1_3]. This suggests a gap between strategic ambition and operational readiness for AI implementation.",
+  "page_chars": 7542,
+  "urls": [
+   "https://technologymagazine.com/articles/gen-ai-used-to-disrupt-but-many-underestimate-requirements"
+  ]
+ },
+ {
+  "key": "perple/52/L25.1",
+  "system": "perplexity-Research",
+  "task": 52,
+  "claim": "L25.1",
+  "quote": "Investment and speculation are actually very different games, but they look very similar. Just like in Macau, casinos are run by investors and gamblers are speculators",
+  "url": "https://www.linkedin.com/pulse/duan-yongpings-20000-word-transcript-his-talk-zhejiang-leven-pan-lzxoc",
+  "sha256": "c1398a46d12acbf026b7cc64d82bb58fc385cf1af80285127e191a8f1e207f7f",
+  "ratio": 0.419,
+  "near": "ce. Biology, medicine, and technology are actually the same. It has many new ideas, but you can't have a mature business model immediately. Investors like us should no",
+  "line": "Duan firmly believes that investment is essentially value investment, focusing on companies with genuine long-term value rather than pursuing short-term gains or speculating based on information asymmetry[^1_9]. He distinguishes clearly between investment and speculation: \"Investment and speculation are actually very different games, but they look very similar. Just like in Macau, casinos are run by investors and gamblers are speculators\"[^1_1][^1_2].",
+  "page_chars": 84414,
+  "urls": [
+   "https://www.futunn.com/en/learn/detail-duan-yongping-dont-do-what-you-don-t-understand-when-investing-1259-2109010075",
+   "https://www.linkedin.com/pulse/duan-yongpings-20000-word-transcript-his-talk-zhejiang-leven-pan-lzxoc",
+   "https://news.futunn.com/en/post/6831906/duan-yongping-there-are-three-types-of-investment-no-shorting"
+  ]
+ },
+ {
+  "key": "perple/88/L41.1",
+  "system": "perplexity-Research",
+  "task": 88,
+  "claim": "L41.1",
+  "quote": "It's very difficult to compete with our own imagination. With the Buendías that each person has in their head. So what we did was engage in a very rigorous casting process, and we also went all over Colombia looking for new talent",
+  "url": "https://theconversation.com/one-hundred-years-of-solitude-netflix-adaptation-is-faithful-ambitious-and-beautifully-realised-244972",
+  "sha256": "8adc7bf126ee96020972c1f5951f8932dfaa9d0614919fd38159fb975ef910a3",
+  "ratio": 0.383,
+  "near": " as Bridgerton season three or Outer Banks season four. The bonus here is that the visuals alone are well worth the wait. Involving more than 20,000 extras, 15 filming locations in Colombia, and more costume changes than it is pos",
+  "line": "Director Laura Mora acknowledged the difficulty: \"It's very difficult to compete with our own imagination. With the Buendías that each person has in their head. So what we did was engage in a very rigorous casting process, and we also went all over Colombia looking for new talent\"[^1_11]. This approach yielded discoveries like Marco González, who plays young José Arcadio Buendía in his first major role, alongside professional dancer Susana Morales as young Úrsula Iguarán[^1_15].",
+  "page_chars": 8983,
+  "urls": [
+   "https://es-us.noticias.yahoo.com/encontramos-imágenes-estado-cabeza-lectores-124244527.html",
+   "https://theconversation.com/one-hundred-years-of-solitude-netflix-adaptation-is-faithful-ambitious-and-beautifully-realised-244972"
+  ]
+ },
+ {
+  "key": "perple/57/L27.1",
+  "system": "perplexity-Research",
+  "task": 57,
+  "claim": "L27.1",
+  "quote": "We are taking our own medicine",
+  "url": "https://www.linkedin.com/pulse/ai-big-consulting-what-large-players-all-doing-5st4c",
+  "sha256": "383f2f2da1904e3f1f34bcf8c2285bc8d3800cce5570a6a7585c17b726609daf",
+  "ratio": 0.467,
+  "near": "tants are being augmented, not",
+  "line": "BCG's AI-related work now accounts for approximately 20% of its total revenue in 2024, with the BCG X tech division leading its AI initiatives[^1_2][^1_13]. CEO Christoph Schweizer emphasizes that BCG is not just advising clients on AI but also integrating AI within its own operations, stating, \"We are taking our own medicine\"[^1_13].",
+  "page_chars": 14311,
+  "urls": [
+   "https://www.bcg.com/news/23april2024-bcgs-leap-ai",
+   "https://www.linkedin.com/pulse/ai-big-consulting-what-large-players-all-doing-5st4c"
+  ]
+ },
+ {
+  "key": "perple/79/L41.3",
+  "system": "perplexity-Research",
+  "task": 79,
+  "claim": "L41.3",
+  "quote": "a section of intestine is removed to fashion a vagina (chosen for texture and lubricating potential)",
+  "url": "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/",
+  "sha256": "891c3998e5de1d01497c02f8046c7752bf51442b27f8497649a5766785723816",
+  "ratio": 0.38,
+  "near": "ough a specific aesthetics of change. Drawing on Barthes’s idea of the “shimmer” and Foucault’s noti",
+  "line": "A central theme in \"Be Like Others\" is the physical process of medical transition. The film includes frank discussions of surgical procedures, with one surgeon explaining that the operation is \"difficult, even brutal\" as \"a section of intestine is removed to fashion a vagina (chosen for texture and lubricating potential)\"[^1_14]. This focus on embodiment aligns with Steinbock's concept of \"trans cinema, embodiment, and the aesthetics of change\"[^1_15], highlighting how the physical transformation of the body is represented in film.",
+  "page_chars": 2757,
+  "urls": [
+   "https://www.imdb.com/title/tt1157609/",
+   "https://transreads.org/shimmering-images-trans-cinema-embodiment-and-the-aesthetics-of-change/"
+  ]
+ },
+ {
+  "key": "perple/81/L47.2",
+  "system": "perplexity-Research",
+  "task": 81,
+  "claim": "L47.2",
+  "quote": "becomes lieu de mémoire when it escapes to the oblivion, for example with the apposition of commemorative plaques, and when a collectivity reinvests it of its affect and its emotions",
+  "url": "https://fr.wikipedia.org/wiki/Lieu_de_m%C3%A9moire",
+  "sha256": "a25f6a001dce193dc9dfdb9299b883ef2ba24238c0eb76bdef575419f09ab6a6",
+  "ratio": 0.632,
+  "near": " devient lieu de mémoire quand il échappe à l'oubli, par exemple avec l'apposition de plaques commémoratives, et quand une collectivité le réinvestit de son affect et de ses émotions",
+  "line": "French historian Pierre Nora's concept of \"lieu de mémoire\" (site of memory) encompasses not only physical monuments but also characters, museums, archives, symbols, events, or institutions[^1_7]. An object \"becomes lieu de mémoire when it escapes to the oblivion, for example with the apposition of commemorative plaques, and when a collectivity reinvests it of its affect and its emotions\"[^1_7].",
+  "page_chars": 16838,
+  "urls": [
+   "https://fr.wikipedia.org/wiki/Lieu_de_m%C3%A9moire"
+  ]
+ },
+ {
+  "key": "perple/57/L93.1",
+  "system": "perplexity-Research",
+  "task": 57,
+  "claim": "L93.1",
+  "quote": "fully leverage the power of generative AI in operations,",
+  "url": "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai",
+  "sha256": "4db548ffefc4b0dfe302b554f78656ea05b3df3c73cea55d3f26c17a4ce26caa",
+  "ratio": 0.927,
+  "near": "fully leverage the power of generative AI in our operat",
+  "line": "Capgemini is training its workforce through its Data \\& AI Campus to \"fully leverage the power of generative AI in operations,\" according to CEO Aiman Ezzat[^1_7]. This comprehensive training approach ensures consultants can effectively integrate AI into client solutions.",
+  "page_chars": 6235,
+  "urls": [
+   "https://news.bloomberglaw.com/artificial-intelligence/it-giant-capgemini-will-invest-2-2-billion-in-generative-ai"
+  ]
+ },
+ {
+  "key": "perple/88/L30.1",
+  "system": "perplexity-Research",
+  "task": 88,
+  "claim": "L30.1",
+  "quote": "The commitment was to build a Macondo that was as close as possible to the Colombian reality; as close as possible to what Gabriel García Márquez talked about in his interviews. The Macondo we made may not be the one everyone has in their head, but it is historically correct",
+  "url": "https://www.produ.com/television/noticias/decenas-de-carpinteros-constructores-y-pintores-participaron-en-elaboracion-de-macondo-de-cien-anos-de-soledad-serie-de-netflix/",
+  "sha256": "0a408364cdc3439f73a39babbb7d8080b3df307bbf46c62442482bfe662e9585",
+  "ratio": 0.484,
+  "near": "a Márquez. “El compromiso era construir un Macondo que fuera lo más cercano a la realidad colombiana; lo más cercano a lo que Gabriel García Marquez habló en sus entrevistas. El Macondo que hicimos puede no ser el que todos tengan en la cabeza, pero es históricamente correct",
+  "line": "Production designer Bárbara Enríquez articulated the challenge: \"The commitment was to build a Macondo that was as close as possible to the Colombian reality; as close as possible to what Gabriel García Márquez talked about in his interviews. The Macondo we made may not be the one everyone has in their head, but it is historically correct\"[^1_9]. This historical accuracy was achieved through extensive research into Colombian customs and traditions from the 19th and early 20th centuries[^1_11].",
+  "page_chars": 7092,
+  "urls": [
+   "https://www.produ.com/television/noticias/decenas-de-carpinteros-constructores-y-pintores-participaron-en-elaboracion-de-macondo-de-cien-anos-de-soledad-serie-de-netflix/",
+   "https://es-us.noticias.yahoo.com/encontramos-imágenes-estado-cabeza-lectores-124244527.html"
+  ]
+ },
+ {
+  "key": "perple/52/L95.1",
+  "system": "perplexity-Research",
+  "task": 52,
+  "claim": "L95.1",
+  "quote": "If you're not prepared to remain calm during a market drop of 50% two or three times in a century, you're not suited to be a common shareholder, and you will face the mediocre returns you deserve",
+  "url": "https://finance.yahoo.com/news/charlie-mungers-timeless-investment-advice-113042652.html",
+  "sha256": "536d18e310452d431f5cfcff169a14e624a01afbea8496fb85608520a4ef8a66",
+  "ratio": 0.759,
+  "near": "If you're not willing to react with equanimity to a market price decline of 50% two or three times a century, you're not fit to be a common shareholder, and you deserve the mediocre result you're",
+  "line": "Munger recognized the importance of emotional stability in investing, stating: \"If you're not prepared to remain calm during a market drop of 50% two or three times in a century, you're not suited to be a common shareholder, and you will face the mediocre returns you deserve\"[^1_19]. This understanding that emotional discipline is crucial for long-term investment success informed his steadfast approach through market cycles.",
+  "page_chars": 8087,
+  "urls": [
+   "https://finance.yahoo.com/news/charlie-mungers-timeless-investment-advice-113042652.html"
+  ]
+ },
+ {
+  "key": "perple/99/L81.1",
+  "system": "perplexity-Research",
+  "task": 99,
+  "claim": "L81.1",
+  "quote": "penetrates 2 to 3 millimeters into skin's dermis, where it's absorbed by light-sensitive porphyrins in the mitochondria of skin cells, stimulating energy production in fibroblasts to churn out more collagen,",
+  "url": "https://www.womenshealthmag.com/beauty/g42005167/best-red-light-therapy-tools/",
+  "sha256": "c68e5bd950956c0cce61b9d1873ed16667598baf13a9dadb3e0f6cb106937fd9",
+  "ratio": 0.995,
+  "near": "penetrates 2 to 3 millimeters into skin's dermis, where it's “absorbed by light-sensitive porphyrins in the mitochondria of skin cells, stimulating energy production in fibroblasts to churn out more collage",
+  "line": "LED red light therapy has emerged as a popular option for addressing signs of aging. The red wavelength \"penetrates 2 to 3 millimeters into skin's dermis, where it's absorbed by light-sensitive porphyrins in the mitochondria of skin cells, stimulating energy production in fibroblasts to churn out more collagen,\" according to Dr. Ava Shamban, a Beverly Hills-based dermatologist[^1_11]. This increased collagen production helps smooth fine lines and improve skin firmness.",
+  "page_chars": 36596,
+  "urls": [
+   "https://www.womenshealthmag.com/beauty/g42005167/best-red-light-therapy-tools/"
+  ]
+ },
+ {
+  "key": "perple/79/L43.1",
+  "system": "perplexity-Research",
+  "task": 79,
+  "claim": "L43.1",
+  "quote": "family disownment, depression, and having to work as a prostitute",
+  "url": "https://en.wikipedia.org/wiki/Be_Like_Others",
+  "sha256": "c0a0117f0ecdf5f7d09356aa159c3f737451e7e9f43868e13edc8927254e8375",
+  "ratio": 0.785,
+  "near": "family, experienced depression and has had to work as a prostitut",
+  "line": "The documentary also explores the aftermath of surgery, following Ali's transformation into Negar and the difficult consequences she faces, including \"family disownment, depression, and having to work as a prostitute\"[^1_5]. This narrative arc complicates simplistic \"before and after\" narratives of transition, showing how medical procedures exist within complex social and economic contexts that shape transgender experiences.",
+  "page_chars": 10838,
+  "urls": [
+   "https://en.wikipedia.org/wiki/Be_Like_Others"
+  ]
+ },
+ {
+  "key": "perple/95/L105.1",
+  "system": "perplexity-Research",
+  "task": 95,
+  "claim": "L105.1",
+  "quote": "When you embrace your strong emotions with mindfulness and concentration, you'll be able to see the roots of these mental formations",
+  "url": "https://emilydahl.foundation/the-diamond-sutra-the-emily-dahl-foundation-december-15-2020/",
+  "sha256": "d49f098b1940ca83bf9cf4fe75842f0e5d0f43aea203efe9d5557198629e3e24",
+  "ratio": 0.947,
+  "near": "e. When we embrace our strong emotions with mindfulness and concentration, we’ll be able to see the roots of these mental formations",
+  "line": "The practice of healing one's inner child through mindfulness directly impacts parenting: \"When you embrace your strong emotions with mindfulness and concentration, you'll be able to see the roots of these mental formations\"[^1_10]. By addressing their own wounds, parents become more available to meet their children's needs without projecting unresolved issues.",
+  "page_chars": 22914,
+  "urls": [
+   "https://emilydahl.foundation/the-diamond-sutra-the-emily-dahl-foundation-december-15-2020/"
+  ]
+ },
+ {
+  "key": "perple/64/L50.1",
+  "system": "perplexity-Research",
+  "task": 64,
+  "claim": "L50.1",
+  "quote": "direct PSO tuning of the PD parameters shows better results in terms of errors, performance and speed of convergence",
+  "url": "https://www.aimsciences.org/article/doi/10.3934/jimo.2017032",
+  "sha256": "3564ab1560fe9e6e9dfd93753f5cf21973c54d6372fae4b7f3bfaafe6357cf01",
+  "ratio": 0.922,
+  "near": "direct PSO tuning of the PD parameters (PD-PSO) shows better results in terms of errors, performance and speed of co",
+  "line": "When comparing GA and PSO approaches directly, research indicates that \"direct PSO tuning of the PD parameters shows better results in terms of errors, performance and speed of convergence\" for UAV applications[^1_17]. This suggests PSO might be particularly well-suited for UAV control optimization.",
+  "page_chars": 17012,
+  "urls": [
+   "https://www.aimsciences.org/article/doi/10.3934/jimo.2017032"
+  ]
+ },
+ {
+  "key": "grok-d/52/L40.2",
+  "system": "grok-deeper-search",
+  "task": 52,
+  "claim": "L40.2",
+  "quote": "Be fearful when others are greedy, and greedy when others are fearful,",
+  "url": "https://www.bankrate.com/investing/warren-buffett-profile/",
+  "sha256": "ff7cf1a26fe524f804d40d74ba81ee8f27fe72f1a263bbc1caf82042c471c85d",
+  "ratio": 0.449,
+  "near": "ines of homebuying — what buyers are learning, and what it means for ",
+  "line": "Buffett's approach emphasizes long-term holding, famously stating, \"Our favorite holding period is forever,\" and advocates for a margin of safety to protect against downside risk. His contrarian strategy, encapsulated in the quote, \"Be fearful when others are greedy, and greedy when others are fearful,\" is detailed in a 2024 Bankrate article [Warren Buffett's Top Investments](https://www.bankrate.com/investing/warren-buffett-profile/). Buffett invests in businesses he understands, such as Coca-Cola and Apple, and is known for his disciplined approach, holding significant cash reserves during market highs to deploy during downturns.",
+  "page_chars": 9025,
+  "urls": [
+   "https://www.bankrate.com/investing/warren-buffett-profile/"
+  ]
+ },
+ {
+  "key": "grok-d/89/L26.1",
+  "system": "grok-deeper-search",
+  "task": 89,
+  "claim": "L26.1",
+  "quote": "Desirable emotional responses that the player can invoke when interacting with the game system,",
+  "url": "http://algorithmancy.8kindsoffun.com/",
+  "sha256": "92b692061b272898ee7aa0dee13ac47a8dccd57b0f99e378c475fcd0527560d1",
+  "ratio": 0.447,
+  "near": "uestions that I have either asked or been asked at an interview. (Apologies to the folks whose",
+  "line": "  - **Aesthetics**: Defined as \"Desirable emotional responses that the player can invoke when interacting with the game system,\" adhering to Le Blanc’s \"8 kinds of fun\" ([8 Kinds of Fun](http://algorithmancy.8kindsoffun.com/)), such as challenge, discovery, and expression.",
+  "page_chars": 5568,
+  "urls": [
+   "http://algorithmancy.8kindsoffun.com/"
+  ]
+ },
+ {
+  "key": "grok-d/95/L15.1",
+  "system": "grok-deeper-search",
+  "task": 95,
+  "claim": "L15.1",
+  "quote": "A bodhisattva who gives a gift should not be supported by a thing, nor should he be supported anywhere",
+  "url": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+  "sha256": "26e520669ad1e63aa87f50c1dc0c8f38468cf468bb05e29185fda3b596f37f62",
+  "ratio": 0.441,
+  "near": "asured. Subhuti, the bodhisattvas should let their minds dwell in the teachings I have just given. “Wh",
+  "line": "2. **Non-attachment**: Actions, such as giving or practicing compassion, should be performed without clinging to outcomes or self-identity. The sutra advises, “A bodhisattva who gives a gift should not be supported by a thing, nor should he be supported anywhere” [The Diamond That Cuts through Illusion](https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion).",
+  "page_chars": 17770,
+  "urls": [
+   "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion"
+  ]
+ },
+ {
+  "key": "grok-d/52/L50.2",
+  "system": "grok-deeper-search",
+  "task": 52,
+  "claim": "L50.2",
+  "quote": "Our understanding of investment is consistent. As I just said, investment is actually value investing,",
+  "url": "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university",
+  "sha256": "7944ff392d4652cf26bb6c8c653f2d3206090171b20766ef694808e9c8f03c35",
+  "ratio": 0.446,
+  "near": " Yongping: I don't usually invest in early stage. I usually only invest in listed companies. I invest",
+  "line": "A 2018 GuruFocus article [Notes From Duan Yongping's Talk](https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university) notes Duan's admiration for Buffett, describing him as \"very wise and can explain any complicated question in one sentence or two.\" Duan's philosophy aligns with Buffett's, as seen in his 2025 statement, \"Our understanding of investment is consistent. As I just said, investment is actually value investing,\" but he notes differences in business understanding, such as investing in Apple earlier than Buffett. Munger's influence is also evident, with Duan's \"Stop Doing List\" echoing Munger's focus on avoiding mistakes.",
+  "page_chars": 16487,
+  "urls": [
+   "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university"
+  ]
+ },
+ {
+  "key": "grok-d/67/L25.1",
+  "system": "grok-deeper-search",
+  "task": 67,
+  "claim": "L25.1",
+  "quote": "Exploration in deep reinforcement learning: A survey",
+  "url": "https://www.geeksforgeeks.org/sparse-rewards-in-reinforcement-learning/",
+  "sha256": "5d69bae8932f707e63cd74dc17cdbbf179c3de62ed4cf8e051add5c51bf5ced7",
+  "ratio": 0.808,
+  "near": "exploration in most default reinforcement learning a",
+  "line": "Other methods include curiosity-driven exploration, where agents are rewarded for visiting novel states, enhancing exploration in sparse settings. The survey \"Exploration in deep reinforcement learning: A survey\" ([ScienceDirect, 2022](https://www.sciencedirect.com/science/article/abs/pii/S1566253522000288)) categorizes such strategies, including rewarding novel states and diverse behaviors, which help agents discover reward signals in environments like search-and-rescue or delivery tasks. Additionally, techniques like Hindsight Experience Replay (HER), mentioned in GeeksforGeeks ([2023](https://www.geeksforgeeks.org/sparse-rewards-in-reinforcement-learning/)), turn failed episodes into learning opportunities by treating seen states as pseudo-goals, effectively densifying sparse rewards.",
+  "page_chars": 21472,
+  "urls": [
+   "https://www.sciencedirect.com/science/article/abs/pii/S1566253522000288",
+   "https://www.geeksforgeeks.org/sparse-rewards-in-reinforcement-learning/"
+  ]
+ },
+ {
+  "key": "grok-d/95/L35.1",
+  "system": "grok-deeper-search",
+  "task": 95,
+  "claim": "L35.1",
+  "quote": "All conditioned phenomena are like a dream",
+  "url": "https://everydayzen.org/teachings/wandering-around-in-the-diamond-sutra-part-ii/",
+  "sha256": "cb857ac900b120707ce2e1ee3ea94367f2286fb2e5cfb6ec52449316ef1ab54d",
+  "ratio": 0.619,
+  "near": " the recognition that all phenomena are em",
+  "line": "- **Mindfulness**: Practicing presence, as modeled by the Buddha’s routine of eating, washing, and sitting with awareness, helps individuals stay grounded [Wandering Around in the Diamond Sutra](https://everydayzen.org/teachings/wandering-around-in-the-diamond-sutra-part-ii/). Regular meditation or reflective reading of passages like “All conditioned phenomena are like a dream” can anchor one in the present [Finding Inner Peace with the Diamond Sutra](https://blog.mindvalley.com/diamond-sutra/).",
+  "page_chars": 38615,
+  "urls": [
+   "https://everydayzen.org/teachings/wandering-around-in-the-diamond-sutra-part-ii/",
+   "https://blog.mindvalley.com/diamond-sutra/"
+  ]
+ },
+ {
+  "key": "grok-d/60/L36.1",
+  "system": "grok-deeper-search",
+  "task": 60,
+  "claim": "L36.1",
+  "quote": "Cislunar Constellation Design for Space Situational Awareness with Time-Expanded Facility Location Problem",
+  "url": "https://www.arxiv.org/abs/2408.06238",
+  "sha256": "7f0b910de8232873075d9c1f2d89b657932d3792d8036cf8e334776736b0d27c",
+  "ratio": 0.632,
+  "near": "tled Cislunar Space Situational Awareness Constellation Design and Planning with Facility Location Problem",
+  "line": "To ensure comprehensive coverage, optimization techniques are employed to determine the best placement and tasking of observer satellites. A notable approach is the use of mixed-integer linear programming (MILP) and time-expanded facility location problems, as detailed in a recent study, \"Cislunar Constellation Design for Space Situational Awareness with Time-Expanded Facility Location Problem\" ([Cislunar Constellation Design for Space Situational Awareness with Time-Expanded Facility Location Problem](https://www.arxiv.org/abs/2408.06238)). This method, posed as a time-expanded p-Median problem, focuses on assigning observers to discretized locations and pointing directions over time, ensuring efficient monitoring of user-defined regions. Case studies demonstrate its application in monitoring the lunar sphere of influence and transit windows for low-energy transfers, equipping decision-makers with techniques to explore design trade spaces.",
+  "page_chars": 5229,
+  "urls": [
+   "https://www.arxiv.org/abs/2408.06238"
+  ]
+ },
+ {
+  "key": "grok-d/87/L23.1",
+  "system": "grok-deeper-search",
+  "task": 87,
+  "claim": "L23.1",
+  "quote": "stunning collections that challenged preconceived notions of fashion",
+  "url": "https://www.vogue.com/article/ai-fashion-week-designers",
+  "sha256": "f31e992582e75282d90317f28e2a325938fee1639e71a2225a81289a38221693",
+  "ratio": 0.5,
+  "near": "eating his collection: He read clothing construction books for begin",
+  "line": "- **Evidence Supporting Diversity and Creativity:** Events like AI Fashion Week, held in 2023, provide insight into AI's potential. For instance, the second edition in November-December 2023 featured collaborations between designers and AI, resulting in \"stunning collections that challenged preconceived notions of fashion\" ([Unleashing the Future: The Second AI Fashion Week - University of Fashion Blog](https://www.universityoffashion.com/blog/unleashing-the-future-the-second-ai-fashion-week/)). Collections included AI-generated fabrics with color-changing properties and environmental responsiveness, indicating innovation. Designer Rachel Koukal used AI to imagine diverse body types, suggesting AI can promote inclusivity ([At AI Fashion Week, Human Creativity Remains the Focus | Vogue](https://www.vogue.com/article/ai-fashion-week-designers)). Industry insiders, such as Cyril Foiret of Maison Meta, argue that AI \"is amplifying creativity\" and is a \"powerful tool\" when guided by human input ([How AI is ‘amplifying creativity’ in the fashion world | The Guardian](https://www.theguardian.com/fashion/2024/feb/08/ai-london-fashion-week)). McKinsey's analysis ([Generative AI: Unlocking the future of fashion](https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion)) highlights that generative AI can enrich product ideation by analyzing unstructured data, potentially leading to more varied designs.",
+  "page_chars": 8299,
+  "urls": [
+   "https://www.universityoffashion.com/blog/unleashing-the-future-the-second-ai-fashion-week/",
+   "https://www.vogue.com/article/ai-fashion-week-designers",
+   "https://www.theguardian.com/fashion/2024/feb/08/ai-london-fashion-week",
+   "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion"
+  ]
+ },
+ {
+  "key": "grok-d/52/L40.1",
+  "system": "grok-deeper-search",
+  "task": 52,
+  "claim": "L40.1",
+  "quote": "Our favorite holding period is forever,",
+  "url": "https://www.bankrate.com/investing/warren-buffett-profile/",
+  "sha256": "ff7cf1a26fe524f804d40d74ba81ee8f27fe72f1a263bbc1caf82042c471c85d",
+  "ratio": 0.553,
+  "near": "r bad credit Rebuilding credit score E",
+  "line": "Buffett's approach emphasizes long-term holding, famously stating, \"Our favorite holding period is forever,\" and advocates for a margin of safety to protect against downside risk. His contrarian strategy, encapsulated in the quote, \"Be fearful when others are greedy, and greedy when others are fearful,\" is detailed in a 2024 Bankrate article [Warren Buffett's Top Investments](https://www.bankrate.com/investing/warren-buffett-profile/). Buffett invests in businesses he understands, such as Coca-Cola and Apple, and is known for his disciplined approach, holding significant cash reserves during market highs to deploy during downturns.",
+  "page_chars": 9025,
+  "urls": [
+   "https://www.bankrate.com/investing/warren-buffett-profile/"
+  ]
+ },
+ {
+  "key": "grok-d/67/L41.1",
+  "system": "grok-deeper-search",
+  "task": 67,
+  "claim": "L41.1",
+  "quote": "Constrained Reinforcement Learning in Hard Exploration Problems",
+  "url": "https://ojs.aaai.org/index.php/AAAI/article/view/26757",
+  "sha256": "f3a935e3d9e5f85e544ac0dbc970ebad1f8db78e5ee7aa1378a1f3df2ff7f4f4",
+  "ratio": 0.206,
+  "near": "TDdLr\\��-�\u001b\u0010H8aNc!n'G� HH3�\b\u0016 !�� �r7�v��� -ё\u0002_��ʡl�{ \\�Ho�v�v��",
+  "line": "Constraints, such as safety limits or operational boundaries, add another layer of complexity to RL exploration. Recent research has developed methods to ensure agents explore while respecting these constraints. \"Constrained Reinforcement Learning in Hard Exploration Problems\" ([AAAI, 2023](https://ojs.aaai.org/index.php/AAAI/article/view/26757)) introduces Hierarchically Limited consTraint Enforcement (HiLiTE), a scalable hierarchical approach using backward cost value functions and intrinsic rewards at lower levels to enforce constraints. This method proves theoretically viable for multiple decision-making levels and outperforms state-of-the-art constrained and hierarchical RL approaches on benchmark problems, ensuring both value optimization and constraint enforcement.",
+  "page_chars": 3397,
+  "urls": [
+   "https://ojs.aaai.org/index.php/AAAI/article/view/26757"
+  ]
+ },
+ {
+  "key": "grok-d/52/L50.1",
+  "system": "grok-deeper-search",
+  "task": 52,
+  "claim": "L50.1",
+  "quote": "very wise and can explain any complicated question in one sentence or two.",
+  "url": "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university",
+  "sha256": "7944ff392d4652cf26bb6c8c653f2d3206090171b20766ef694808e9c8f03c35",
+  "ratio": 0.466,
+  "near": "neur and investor Duan Yongping had a conversation with Chinese students ",
+  "line": "A 2018 GuruFocus article [Notes From Duan Yongping's Talk](https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university) notes Duan's admiration for Buffett, describing him as \"very wise and can explain any complicated question in one sentence or two.\" Duan's philosophy aligns with Buffett's, as seen in his 2025 statement, \"Our understanding of investment is consistent. As I just said, investment is actually value investing,\" but he notes differences in business understanding, such as investing in Apple earlier than Buffett. Munger's influence is also evident, with Duan's \"Stop Doing List\" echoing Munger's focus on avoiding mistakes.",
+  "page_chars": 16487,
+  "urls": [
+   "https://www.gurufocus.com/news/750142/notes-from-duan-yongpings-talk-at-stanford-university"
+  ]
+ },
+ {
+  "key": "grok-d/95/L14.1",
+  "system": "grok-deeper-search",
+  "task": 95,
+  "claim": "L14.1",
+  "quote": "All conditioned dharmas are like dreams, illusions, bubbles, shadows, like dew drops and a lightning flash: contemplate them thus",
+  "url": "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion",
+  "sha256": "26e520669ad1e63aa87f50c1dc0c8f38468cf468bb05e29185fda3b596f37f62",
+  "ratio": 0.357,
+  "near": "lly, said to the Buddha, “World-Honored One, it is rare to find someone like you. You always support and place confidence in the ",
+  "line": "1. **Emptiness (*Sunyata*)**: All phenomena lack inherent, independent existence and are interdependent. The sutra states, “All conditioned dharmas are like dreams, illusions, bubbles, shadows, like dew drops and a lightning flash: contemplate them thus” [The Diamond That Cuts through Illusion](https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion). This teaching negates fixed identities, promoting a fluid view of reality.",
+  "page_chars": 17770,
+  "urls": [
+   "https://plumvillage.org/library/sutras/the-diamond-that-cuts-through-illusion"
+  ]
+ },
+ {
+  "key": "grok-d/76/L31.1",
+  "system": "grok-deeper-search",
+  "task": 76,
+  "claim": "L31.1",
+  "quote": "a substrate that is selectively utilized by host microorganisms conferring a health benefit",
+  "url": "https://isappscience.org/for-consumers/learn/prebiotics/",
+  "sha256": "0338725fa303eafb846223909c626683019638ce32e6d9796a5d4ad0a08a5fd9",
+  "ratio": 0.956,
+  "near": "substrates that are selectively utilized by host microorganisms conferring a health benefit",
+  "line": "Prebiotics are defined as non-digestible food ingredients that selectively stimulate the growth and/or activity of beneficial bacteria in the colon, conferring health benefits to the host. The current consensus definition, established by the International Scientific Association for Probiotics and Prebiotics (ISAPP) in 2016, describes prebiotics as \"a substrate that is selectively utilized by host microorganisms conferring a health benefit\" ([Prebiotics - International Scientific Association for Probiotics and Prebiotics (ISAPP)](https://isappscience.org/for-consumers/learn/prebiotics/)). Common prebiotics include fructooligosaccharides (FOS), inulin, and resistant starches, found in foods like garlic, onions, bananas, and whole grains ([Prebiotic (nutrition) - Wikipedia](https://en.wikipedia.org/wiki/Prebiotic_(nutrition))).",
+  "page_chars": 8042,
+  "urls": [
+   "https://isappscience.org/for-consumers/learn/prebiotics/",
+   "https://en.wikipedia.org/wiki/Prebiotic_"
+  ]
+ }
+]

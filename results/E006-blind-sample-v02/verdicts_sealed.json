@@ -1,0 +1,910 @@
+{
+ "B01": {
+  "closest": {
+   "ratio": 0.988,
+   "text": " do I have all the ideas gathered to make a complete experience? Will it create a cohesive experience? Does it proved the meaningful experience I had in mind for the player",
+   "visible_offset": 1392
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "a2534fe606a6cde803d3006f47d515f6c8dc88ac43e70de92fc554b221090157",
+  "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+  "verdict": "NOT_FOUND"
+ },
+ "B02": {
+  "closest": {
+   "ratio": 0.728,
+   "text": "about the outcome of the conversation … To put it bluntly, if you turn away to make dinner or attempt suicide, it’s all the same to the",
+   "visible_offset": 4325
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "80d412cfd3d7916eead2cb3ca5cd40944413d1e18363bb15efd07659e5a4a245",
+  "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=“What is at stake here,”",
+  "verdict": "UNCERTAIN"
+ },
+ "B03": {
+  "closest": {
+   "ratio": 0.928,
+   "text": "no country has ever proactively undertaken or requested such “consulta",
+   "visible_offset": 3504
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "15e20eaebc7ad32c11527cfdaade80747298570e9fd5a85d1dfead8300c532d9",
+  "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=notify about activities of objects,filed by China regarding the",
+  "verdict": "UNCERTAIN"
+ },
+ "B04": {
+  "closest": {
+   "ratio": 0.491,
+   "text": "ent and electronic receipt delivery. Bluetooth 4.1 co",
+   "visible_offset": 4084
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "99204ba0e3eb75aebe21c15c12f4d999e47d6f2552fe6ee6db2f9f26e56910e3",
+  "url": "https://www.elotouch.com/pos-terminals-paypoint-for-android-3-0.html#:~:text=Weight",
+  "verdict": "UNCERTAIN"
+ },
+ "B05": {
+  "closest": {
+   "ratio": 0.776,
+   "text": "ively create experiences that resonate with players. It helps designers focus on the player experience and ensures that game mechanics are purposefully designed to evoke specific emotional responses and fulfill desired player motivations. This categorization in Mechan",
+   "visible_offset": 1675
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "a2534fe606a6cde803d3006f47d515f6c8dc88ac43e70de92fc554b221090157",
+  "url": "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/",
+  "verdict": "NOT_FOUND"
+ },
+ "B06": {
+  "closest": {
+   "ratio": 0.443,
+   "text": "s of thousands of miles away—and Guardians in space. Space Force Foresees Need for Cislunar Space",
+   "visible_offset": 2049
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "f9c438bb97cd4be83444a1cb4e04667bca74aaa6bc88139c3f10235c6114e17c",
+  "url": "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around",
+  "verdict": "NOT_FOUND"
+ },
+ "B07": {
+  "closest": {
+   "ratio": 0.536,
+   "text": "er settings. Please check yo",
+   "visible_offset": 125
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+  "verdict": "UNCERTAIN"
+ },
+ "B08": {
+  "closest": {
+   "ratio": 0.778,
+   "text": "Smart entertainment products such as TVs still dominat",
+   "visible_offset": 6733
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "c307eddd12748044a9c3a2399f5c87253c82a29c3802b691aa4f0eb5933f065a",
+  "url": "https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=products%2C reflecting positivity in smart,technology in general",
+  "verdict": "UNCERTAIN"
+ },
+ "B09": {
+  "closest": {
+   "ratio": 0.31,
+   "text": "nt Challenge A required part of this site couldn’t load. This may be due to a browser extension, network issues, or browser settings. Please check your connection, disable any ad blockers, or try using a different browser.",
+   "visible_offset": 4
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/srep21249",
+  "verdict": "UNCERTAIN"
+ },
+ "B10": {
+  "closest": {
+   "ratio": 0.845,
+   "text": " to prevent oscillations at higher airspeeds and preserve stabilization effectivenes",
+   "visible_offset": 1600
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "9f8f5f8608cd7cf55f33a77a2e6e10423ff84ce0073642e7bdab9235218080b2",
+  "url": "https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since",
+  "verdict": "NOT_FOUND"
+ },
+ "B11": {
+  "closest": {
+   "ratio": 0.8,
+   "text": "ne the way history is written, framed an",
+   "visible_offset": 1988
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "8b3fcd2c2fe9c8041418233df8833444e7c309026e7b555ccaa91c402c6761a2",
+  "url": "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different",
+  "verdict": "NOT_FOUND"
+ },
+ "B12": {
+  "closest": {
+   "ratio": 0.956,
+   "text": " “substrates that are selectively utilized by host microorganisms conferring a health benefi",
+   "visible_offset": 903
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "4a90dbb1353289dd5b0aa3884e0413fdcbcb2fffe1a6adde89d4f4272ae3141d",
+  "url": "https://isappscience.org/for-scientists/resources/prebiotics/",
+  "verdict": "NOT_FOUND"
+ },
+ "B13": {
+  "closest": {
+   "ratio": 0.303,
+   "text": " this site couldn’t load. This may be due to a browser extension, network issues, or browser settings. Please check your connection, disable any ad blockers, or try using a different br",
+   "visible_offset": 35
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/srep21249",
+  "verdict": "UNCERTAIN"
+ },
+ "B14": {
+  "closest": {
+   "ratio": 0.938,
+   "text": "LGBTQ+ Films in the MENA Region: Combating Oppression Since the 1",
+   "visible_offset": 9773
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "d7721cbfcca999762c20eebdf8357ea3b6d153da349979b346ce5d6afa00f16f",
+  "url": "https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=“Egyptian movies saved me as,my environment%2C” Taïa told Fanack",
+  "verdict": "UNCERTAIN"
+ },
+ "B15": {
+  "closest": {
+   "ratio": 0.942,
+   "text": "Reclaiming Heritage: The Global Push for Repatriation of Looted Artif",
+   "visible_offset": 931
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "c8b3f207191cf61aa849a9d5d298b5e2faa9eb2090302969256196b22731d20e",
+  "url": "https://nonprofitquarterly.org/reclaiming-heritage-the-global-push-for-repatriation-of-looted-artifacts/#:~:text=objects%2C and growing awareness of,returns policy earlier that year",
+  "verdict": "UNCERTAIN"
+ },
+ "B16": {
+  "closest": {
+   "ratio": 0.972,
+   "text": "companies are working around this potential copyright problem is by adding a human element to the design proc",
+   "visible_offset": 927
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "8a3db88c860f460c355d38d014bfb827bed50a9341963b6db8ecf8ea973b8cac",
+  "url": "https://www.purchasenews.org/post/ai-poses-new-threats-to-copyright-in-fashion",
+  "verdict": "NOT_FOUND"
+ },
+ "B17": {
+  "closest": {
+   "ratio": 0.355,
+   "text": "knowledge businesses, sharpening the fundamentals of positioning, offers, and growth for the AI age, rather than chasing gur",
+   "visible_offset": 2293
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "6bd180e402a027dfcad63eb2aabd8c42e7c9ff9c4b5a58297f25743d009cbf88",
+  "url": "https://andrewfolkler.com/how-singapore-solved-their-housing-crisis-after-wwii/",
+  "verdict": "NOT_FOUND"
+ },
+ "B18": {
+  "closest": {
+   "ratio": 0.431,
+   "text": "forms will only get better in the years to come. What will the ti",
+   "visible_offset": 12579
+  },
+  "doubts": [
+   "unattributed",
+   "unread_link"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "f6f406493f3a8df665516adbd7ee5d2da03f4f85decc414bd921cbf840478714",
+  "url": "https://blog.khanacademy.org/khanmigo-top-ai-in-education-moments-of-2023-the-year-artificial-intelligence-dominated-education-news-kl/#:~:text=Top AI,Learn more about",
+  "verdict": "UNCERTAIN"
+ },
+ "B19": {
+  "closest": {
+   "ratio": 0.35,
+   "text": " Cinema: Existence, Appearance, and Representation Return to Article Details Being Queer in Turkish Cinema: Existence, Appe",
+   "visible_offset": 30
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "c7e46643ce3141702333a7e4128605ece0b12ba04b6c04fb76a47413b3a76b61",
+  "url": "https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with",
+  "verdict": "UNCERTAIN"
+ },
+ "B20": {
+  "closest": {
+   "ratio": 0.925,
+   "text": "passing all she believes in and traditions she values",
+   "visible_offset": 2220
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "8a3408d65bcc0286b0f1bd26f47b8bceae73b50e423d53e8b011b360d75bba75",
+  "url": "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4",
+  "verdict": "UNCERTAIN"
+ },
+ "B21": {
+  "closest": {
+   "ratio": 0.222,
+   "text": "ed.), 三省堂, (1995-11-03), ISBN 4-385-13902-4, http://dictionary.goo.ne.jp",
+   "visible_offset": 5360
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "af2d574cecca388524ce1d021ac8b40b4dc076ca29cdbb60622a2ddb33ac44a2",
+  "url": "https://ja.wikipedia.org/wiki/ボク少女#:~:text=しかし近年では、現実にそのような人称を使う女性も増えているとも言われている,はこのような傾向について、単 に男友達や、フィクション作品の一人称を真似ているうちに定着してしまった場合などが多いとしつつも、男性への憧れや、既存の女性のように成長したくないという願望の現れ である場合もあると説明している 53。",
+  "verdict": "UNCERTAIN"
+ },
+ "B22": {
+  "closest": {
+   "ratio": 0.505,
+   "text": "tween the U.S. and China Strategies for Countries to Lead in AI Innovation AI Applications in Education",
+   "visible_offset": 11170
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "289b24ae863f2e25ab740f976c97a5f833f2f804363cc8552ba10a76aeb8df0b",
+  "url": "https://www.linkedin.com/posts/gorkemcetin_this-is-why-china-is-winning-the-ai-activity-7291099075725119488-YmTV#:~:text=Gorkem",
+  "verdict": "UNCERTAIN"
+ },
+ "B23": {
+  "closest": {
+   "ratio": 0.528,
+   "text": "way—and Guardians in space. Space Force Foresees Need for Cislunar Space",
+   "visible_offset": 2074
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "f9c438bb97cd4be83444a1cb4e04667bca74aaa6bc88139c3f10235c6114e17c",
+  "url": "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around",
+  "verdict": "UNCERTAIN"
+ },
+ "B24": {
+  "closest": {
+   "ratio": 0.509,
+   "text": "the automated vehicle industry repeatedly asserts tha",
+   "visible_offset": 5733
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "5b3bb9fa5b89fb7bb13464f35e0e0e9e4dfd78f6cf718253382970694ce0a549",
+  "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system",
+  "verdict": "NOT_FOUND"
+ },
+ "B25": {
+  "closest": {
+   "ratio": 0.982,
+   "text": "the censorship code enforced by the Ministry of Culture and Islamic Guidance is partly responsible for the formation of what has come to be a ubiquitous figure in the New Iranian cinema: the “cross-dressing” or “passing” figure",
+   "visible_offset": 1470
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "12fcc245ced4d69def655c2cefa269757e97249a2f808d2b4db249b9c14c32d6",
+  "url": "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=censorship code enforced by the,Dokhtaraneh Khorshid—two films that are",
+  "verdict": "NOT_FOUND"
+ },
+ "B26": {
+  "closest": {
+   "ratio": 0.623,
+   "text": "itutionalize collective memories of historical events",
+   "visible_offset": 1607
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "8b3fcd2c2fe9c8041418233df8833444e7c309026e7b555ccaa91c402c6761a2",
+  "url": "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different",
+  "verdict": "NOT_FOUND"
+ },
+ "B27": {
+  "closest": {
+   "ratio": 0.274,
+   "text": "allenge A required part of this site couldn’t load. This may be due to a browser extension, network issues, or browse",
+   "visible_offset": 9
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/s41599-024-02647-9#:~:text=automation",
+  "verdict": "UNCERTAIN"
+ },
+ "B28": {
+  "closest": {
+   "ratio": 0.547,
+   "text": "d opponents of the badminton player, classified to th",
+   "visible_offset": 21682
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "9f446dfd77330888c2acede4f922a5449642a7a92ea72ad4685d36f1f5a179fb",
+  "url": "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,the player position is first",
+  "verdict": "UNCERTAIN"
+ },
+ "B29": {
+  "closest": {
+   "ratio": 0.925,
+   "text": "adhering to state regulations and demand",
+   "visible_offset": 11443
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "574fb98a2762d09f0a7254f5510e3166d3f8db6d38cec00f3536cd3e378400c1",
+  "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=",
+  "verdict": "UNCERTAIN"
+ },
+ "B30": {
+  "closest": {
+   "ratio": 0.986,
+   "text": "systematically change the character of human labour and reshape workplace",
+   "visible_offset": 10219
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "8adad050885e3e2e7b976fdeab3aced01f3a5b75b62a9f423cb7a88a3dc51287",
+  "url": "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=therefore%2C it is a vector,2023",
+  "verdict": "UNCERTAIN"
+ },
+ "B31": {
+  "closest": {
+   "ratio": 0.168,
+   "text": "4-07 名称： 受教育部关注转发！福田区引领AI教育变革潮流 文号： 发布日期： 2025-04-07 主题词： 【打印】 【字体：大 中 小】 分享到： 受教育部关注转发！福田区引领AI",
+   "visible_offset": 311
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "0f40ab9462dd69124d7769fa2257035588788c22bb7619421b3af754379ce288",
+  "url": "http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120",
+  "verdict": "UNCERTAIN"
+ },
+ "B32": {
+  "closest": {
+   "ratio": 0.489,
+   "text": " the statues come down but hopes authorities ",
+   "visible_offset": 7451
+  },
+  "doubts": [
+   "unread_link"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "8e0973c642d55ae285d9ca4d21957db05ee6e0cbd220706a20f08252c266d8a8",
+  "url": "https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it",
+  "verdict": "UNCERTAIN"
+ },
+ "B33": {
+  "closest": {
+   "ratio": 0.955,
+   "text": "disproportionally generating new labor demand for AI-skilled worker",
+   "visible_offset": 1313
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "66ad5046cf893672785d572c01eb397484d764c670c928ba5e55793ca1d2c557",
+  "url": "https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=(MSAs),previously susceptible to displacement computerization",
+  "verdict": "UNCERTAIN"
+ },
+ "B34": {
+  "closest": {
+   "ratio": 0.333,
+   "text": "Official: Link Alternatif Login & Daftar Slot Situs Utama Mole4D Official m",
+   "visible_offset": 2019
+  },
+  "doubts": [
+   "unattributed",
+   "other_language"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "10a9881494ee19bb44242eb89f2a0f9ee4aac6ef9217d8437fdad457e1dfe6a8",
+  "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+  "verdict": "UNCERTAIN"
+ },
+ "B35": {
+  "closest": {
+   "ratio": 0.478,
+   "text": "tures of the human condition, but those who promote artificial intimacy see as bugs.” The effects of social media and AI can also be felt in societal polarization",
+   "visible_offset": 5260
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "80d412cfd3d7916eead2cb3ca5cd40944413d1e18363bb15efd07659e5a4a245",
+  "url": "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others",
+  "verdict": "NOT_FOUND"
+ },
+ "B36": {
+  "closest": {
+   "ratio": 0.5,
+   "text": "gs. Please check your connecti",
+   "visible_offset": 134
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+  "verdict": "UNCERTAIN"
+ },
+ "B37": {
+  "closest": {
+   "ratio": 0.354,
+   "text": "ient Challenge A required part of this site coul",
+   "visible_offset": 2
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey",
+  "verdict": "UNCERTAIN"
+ },
+ "B38": {
+  "closest": {
+   "ratio": 0.427,
+   "text": "5.0” IPS HD display 5.99” IPS HD display Resolution 1280 x 720 pixels 1440 x 720 pixels Colors 16.",
+   "visible_offset": 1138
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "3781336ed3fcd4376171a441f411de5db9b8d342bf821e178a2bdd61d8295b8e",
+  "url": "https://paymentcloudinc.com/shop/guide/Clover_Flex-2_Spec_Datasheet.pdf",
+  "verdict": "UNCERTAIN"
+ },
+ "B39": {
+  "closest": {
+   "ratio": 0.872,
+   "text": "es that are funny without being offensi",
+   "visible_offset": 3694
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "cc81627cbe876681b694fcd021da303ff820b16d4e69070747553f80cbf560dd",
+  "url": "https://letterboxd.com/film/in-the-family-2017/#:~:text=turkish cinema%3A aile arasinda%3A ,absolute goddesses on the stage",
+  "verdict": "NOT_FOUND"
+ },
+ "B40": {
+  "closest": {
+   "ratio": 0.5,
+   "text": "ink alternatif, login, daftar, dan a",
+   "visible_offset": 3887
+  },
+  "doubts": [
+   "other_language"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "10a9881494ee19bb44242eb89f2a0f9ee4aac6ef9217d8437fdad457e1dfe6a8",
+  "url": "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm",
+  "verdict": "UNCERTAIN"
+ },
+ "B41": {
+  "closest": {
+   "ratio": 0.5,
+   "text": "nts from your daily notes OR tasks used TA",
+   "visible_offset": 227
+  },
+  "doubts": [
+   "unattributed",
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "6aabe45ae8028331b0c4c6ded3380ba1112b1d7800798a1d3c3735eb77d5251f",
+  "url": "https://system3.md/observatory/plugins/big-calendar#:~:text=Task %26 Project Management",
+  "verdict": "UNCERTAIN"
+ },
+ "B42": {
+  "closest": {
+   "ratio": 0.992,
+   "text": " no female characters used masculine first-person pronouns, with few examples of them using masculine second-person pronoun",
+   "visible_offset": 1009
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "13f1ebf4cba101cddbed7e040bc2565f96ef686f00c82eef457047e3f4d27e44",
+  "url": "https://journals.linguisticsociety.org/proceedings/index.php/ExtendedAbs/article/view/514",
+  "verdict": "NOT_FOUND"
+ },
+ "B43": {
+  "closest": {
+   "ratio": 0.511,
+   "text": " their existence has been predicted theoretical",
+   "visible_offset": 2276
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "15e20eaebc7ad32c11527cfdaade80747298570e9fd5a85d1dfead8300c532d9",
+  "url": "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken",
+  "verdict": "UNCERTAIN"
+ },
+ "B44": {
+  "closest": {
+   "ratio": 0.387,
+   "text": "this site couldn’t load. This m",
+   "visible_offset": 36
+  },
+  "doubts": [
+   "unattributed",
+   "thin_page",
+   "unread_link"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+  "url": "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=This paper describes the CPR,Hence%2C we",
+  "verdict": "UNCERTAIN"
+ },
+ "B45": {
+  "closest": {
+   "ratio": 0.865,
+   "text": "Black Lives Matter Only Can Change Hi",
+   "visible_offset": 420
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "65067829da3ac0aad0c53c1472d2fe806596cad91e673476d217f280ce17a15b",
+  "url": "https://www.the-low-countries.com/article/this-is-how-black-lives-matter-can-change-history/#:~:text=There is nothing wrong with,Statues",
+  "verdict": "UNCERTAIN"
+ },
+ "B46": {
+  "closest": {
+   "ratio": 0.98,
+   "text": "s “will pay more for environmentally safe products",
+   "visible_offset": 5770
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "eb91a3d8d7d6a0318ff68791b1416e710bf8572bd039dab500a6d127c035e0e1",
+  "url": "https://claritas.com/trends-in-smart-home-tech/#:~:text=PRO,energy efficiency will prove valuable",
+  "verdict": "UNCERTAIN"
+ },
+ "B47": {
+  "closest": {
+   "ratio": 0.972,
+   "text": "adapt, and develop modern board game",
+   "visible_offset": 1131
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "5332b4d4bab6ea3b0ec12f43f0c3b2c3d7b33540aa28bc0012a09b7d791601a6",
+  "url": "https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games",
+  "verdict": "UNCERTAIN"
+ },
+ "B48": {
+  "closest": {
+   "ratio": 0.441,
+   "text": "software on neurodiverse people and those who find human interaction",
+   "visible_offset": 1549
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "d89d2ec2bcaea47b1ebbd5270218b6f0161760a96aa13f68387b802c96cd02cc",
+  "url": "https://neurosciencenews.com/chatbots-ai-neurodiversity-social-25347/#:~:text=“Young people with social deficiencies,chatbots in particular%2C” Franze says",
+  "verdict": "UNCERTAIN"
+ },
+ "B49": {
+  "closest": {
+   "ratio": 0.335,
+   "text": "g sure you're not a bot! Making sure you're not a bot! Loading... Please wait a moment while we ensure the security of your connection. Protected by Anubis",
+   "visible_offset": 5
+  },
+  "doubts": [
+   "thin_page"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "bdcce90d3c695ad043e7f8e86f57e0c4ddb88a5a4724dc042ef560b707b011aa",
+  "url": "https://gupea.ub.gu.se/handle/2077/70422",
+  "verdict": "UNCERTAIN"
+ },
+ "B50": {
+  "closest": {
+   "ratio": 0.529,
+   "text": "n content Who we are Our Values Ou",
+   "visible_offset": 72
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "1c03b034e58a21421cdba041016f7dfb443cbd169765be193c5d8df1bd03254d",
+  "url": "https://www.deloitte.com/dk/en/Industries/technology/perspectives/tech-trends.html#:~:text=Tech Trends 2025 ,everything work smarter%2C faster%2C",
+  "verdict": "UNCERTAIN"
+ },
+ "B51": {
+  "closest": {
+   "ratio": 0.799,
+   "text": "the integration of all necessary ingredients of the trapped-ion QCCD (quantum charge-coupled device) architecture into a robust, fully-connected, and programma",
+   "visible_offset": 285
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "c50ca5bf93b092cbcdec7c1a09c9fa172f8a33232e8eda6addaaf86465d9d9c3",
+  "url": "https://www.honeywell.com/content/dam/honeywellbt/en/documents/downloads/Beta_10_Quantum_3_3_2020.pdf",
+  "verdict": "NOT_FOUND"
+ },
+ "B52": {
+  "closest": {
+   "ratio": 0.489,
+   "text": " in Poland that asked how many Poles “selflessly",
+   "visible_offset": 12492
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "7aa6163a6486f07591c4cb21e053a2415c7539156383685955d58eceb4d7b909",
+  "url": "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+  "verdict": "UNCERTAIN"
+ },
+ "B53": {
+  "closest": {
+   "ratio": 0.83,
+   "text": "ulation, Cisco Rail CBTC and Safety solution le",
+   "visible_offset": 4899
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "9553d82c2691ba38c1a49883a4bfa69e8368cbf4ee5a940c645341040dab5eda",
+  "url": "https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows",
+  "verdict": "UNCERTAIN"
+ },
+ "B54": {
+  "closest": {
+   "ratio": 0.412,
+   "text": "ing. Modern streaming boxes aren’t just for watchin",
+   "visible_offset": 3232
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "b3772b10f2c73a7d1eec067ea0437baa53509f348239612ad2032b33282ded7c",
+  "url": "https://www.homatics.com/blogs/smart-home-guides/how-streaming-boxes-are-revolutionizing-home-entertainment-in-2025?srsltid=AfmBOopuC-P1U3z-QqKf1iUBxgPAU4lRxTsmaK313Jy1G1vLFrQT1HqR#:~:text=How Streaming Boxes Are Revolutionizing,boxes to a new level",
+  "verdict": "NOT_FOUND"
+ },
+ "B55": {
+  "closest": {
+   "ratio": 0.786,
+   "text": "interactive content and television commerce (T-commerce)",
+   "visible_offset": 3785
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "ddc75ba0a608d7ac3ad8d794fa050268161a62fb78b33a59ea7c0db84930ee3c",
+  "url": "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=ImageKey trends and predictions from,critical revenue source and differentiator",
+  "verdict": "NOT_FOUND"
+ },
+ "B56": {
+  "closest": {
+   "ratio": 0.475,
+   "text": " a situation in search of the best or mo",
+   "visible_offset": 5776
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "60f69c1532c5edcd18882683bb12ff2e5c7ae271cbdec6914af0fc182bf7fec0",
+  "url": "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A formative approach to measuring,and teachers get a snapshot",
+  "verdict": "UNCERTAIN"
+ },
+ "B57": {
+  "closest": {
+   "ratio": 0.812,
+   "text": "your notes and edit the fields directly from the table without the ne",
+   "visible_offset": 795
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "946d29f91de69c9c6259b8c61b0adaab648afbfbc0c085d80132ab6743455f0e",
+  "url": "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault",
+  "verdict": "NOT_FOUND"
+ },
+ "B58": {
+  "closest": {
+   "ratio": 0.925,
+   "text": " was a huge plantation into an industrialized country",
+   "visible_offset": 20306
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "8f84ff6368cfcf365fe6704e6a1b93e499e2f0752da840ed87b69fbebe17d176",
+  "url": "https://www.elibrary.imf.org/display/book/9781513537863/ch010.xml",
+  "verdict": "NOT_FOUND"
+ },
+ "B59": {
+  "closest": {
+   "ratio": 0.519,
+   "text": "kin under the eyes Smoothing out fine lines and wrin",
+   "visible_offset": 6904
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "c0fb9c1c90b3976d7976ac29b48fbec5f64e30bef73caafed26d55757e873926",
+  "url": "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=Forever Young BBL",
+  "verdict": "UNCERTAIN"
+ },
+ "B60": {
+  "closest": {
+   "ratio": 0.526,
+   "text": "ity, and flexibility to deliver the next generation of urban rail operations. Signaling X for S",
+   "visible_offset": 8012
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "9c9da61fa5b630fe681ac2e38c45c9f16f2583e5321be24d0637361a7889a569",
+  "url": "https://www.mobility.siemens.com/global/en/portfolio/digital-solutions-software/infrastructure/signaling-x/train2cloud.html",
+  "verdict": "NOT_FOUND"
+ },
+ "B61": {
+  "closest": {
+   "ratio": 0.634,
+   "text": "ll be attracted to a new non-digital game",
+   "visible_offset": 12536
+  },
+  "doubts": null,
+  "error": null,
+  "found_in": null,
+  "sha256": "9153f101931c5137a3706a7c16b6e3d79ef657a5054fd30e7f5dbdc47b99d3f3",
+  "url": "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3",
+  "verdict": "NOT_FOUND"
+ },
+ "B62": {
+  "closest": {
+   "ratio": 0.609,
+   "text": " an oppositional gaze with regard to black peo",
+   "visible_offset": 1984
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "eddb1a5462b93b71699551d468057bea93e71b4a6f330f5de38fae8829d1b986",
+  "url": "https://thefactsofwhiteness.org/the-black-gaze/#:~:text=The Black Gaze ,hooks%2C 1992%2C p116",
+  "verdict": "UNCERTAIN"
+ },
+ "B63": {
+  "closest": {
+   "ratio": 0.459,
+   "text": "livery platform Platform Hub AI tools",
+   "visible_offset": 14911
+  },
+  "doubts": [
+   "unattributed"
+  ],
+  "error": null,
+  "found_in": null,
+  "sha256": "91d15f8eb0eee0b7b0627bce886eaf56bf53a040fc1a906bf33d8a16c8da3f02",
+  "url": "https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=Scheduled autoscaling involves setting predefined,infrastructure to known demand cycles",
+  "verdict": "UNCERTAIN"
+ }
+}

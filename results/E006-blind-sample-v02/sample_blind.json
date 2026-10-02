@@ -1,0 +1,1114 @@
+{
+ "seed": 2026,
+ "tool": "verbatim 0.2.0 (after E005 fixes)",
+ "excluded_reports": [
+  "grok-deeper-search/52",
+  "grok-deeper-search/60",
+  "grok-deeper-search/67",
+  "grok-deeper-search/76",
+  "grok-deeper-search/87",
+  "grok-deeper-search/89",
+  "grok-deeper-search/95",
+  "openai-deepresearch/52",
+  "openai-deepresearch/54",
+  "openai-deepresearch/55",
+  "openai-deepresearch/57",
+  "openai-deepresearch/69",
+  "openai-deepresearch/77",
+  "openai-deepresearch/85",
+  "openai-deepresearch/87",
+  "openai-deepresearch/88",
+  "openai-deepresearch/93",
+  "openai-deepresearch/95",
+  "openai-deepresearch/97",
+  "openai-deepresearch/98",
+  "perplexity-Research/100",
+  "perplexity-Research/52",
+  "perplexity-Research/57",
+  "perplexity-Research/64",
+  "perplexity-Research/72",
+  "perplexity-Research/79",
+  "perplexity-Research/81",
+  "perplexity-Research/88",
+  "perplexity-Research/90",
+  "perplexity-Research/95",
+  "perplexity-Research/99"
+ ],
+ "pool": {
+  "openai-deepresearch": 48,
+  "perplexity-Research": 15,
+  "grok-deeper-search": 0
+ },
+ "verdicts_sealed_sha256": "3724dc290421da0cf7e8077a154e68361d72f9280d640f70e46e962005870853",
+ "items": [
+  {
+   "key": "B01",
+   "system": "perplexity-Research",
+   "task": 89,
+   "claim": "L27.1",
+   "quote": "Do I have all the ideas gathered to make a complete experience? Will it create a cohesive experience? Does it provide the meaningful experience I had in mind for the player?",
+   "paragraph": "Game designers are now using MDA more systematically in their ideation process, with specific worksheets to categorize ideas into mechanics, dynamics, and aesthetics categories. This structured approach helps designers answer critical questions: \"Do I have all the ideas gathered to make a complete experience? Will it create a cohesive experience? Does it provide the meaningful experience I had in mind for the player?\"[^1_19].",
+   "line": 27,
+   "urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ]
+  },
+  {
+   "key": "B02",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L37.1",
+   "quote": "Chatbots can’t care in the way humans use the word care… if you turn away to make dinner or attempt suicide, it’s all the same to them,",
+   "paragraph": "  The **ethical design** of AI companions also encompasses safety and content moderation. Unintended harmful behavior by chatbots can severely impact users, as seen when Replika’s model at one point replied to a self-harm query by effectively encouraging it ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=But there were red flags%2C,can give feedback on conversations)). Technologically, ensuring **responsible AI behavior** in sensitive interpersonal contexts is a challenge. Companies have started implementing safeguards: for example, Replika’s developers fine-tuned their models and added crisis intervention features after such incidents ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=themselves with a razor%2C and,can give feedback on conversations)). OpenAI’s ChatGPT has usage policies to avoid certain content (it typically refuses or redirects if a user expresses suicidal intent, for instance). Despite these measures, no AI can be infallible – false empathy or dangerous advice may slip through, especially since the AI doesn’t truly comprehend the life-and-death stakes. The technological push for more **emotionally intelligent AI** is double-edged: on one hand, improving the AI’s ability to recognize distress and respond helpfully could save lives or provide comfort; on the other hand, giving a machine a convincingly empathetic tone can lull users into overtrusting it. *“Chatbots can’t care in the way humans use the word care… if you turn away to make dinner or attempt suicide, it’s all the same to them,”* Turkle reminds us, highlighting an immutable ethical limitation of current AI ([Why virtual isn’t actual, especially when it comes to friends — Harvard Gazette](https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=“What is at stake here,”)). As AI companions become more prevalent, designers face the imperative of transparency – how to **signal the artificial nature** of empathy to users without ruining the immersive benefit. Some suggest periodic reminders that “I’m just a bot” to manage expectations; others worry that too blunt a reminder would break the therapeutic illusion that makes these bots effective for comfort. It’s a delicate ethical calculus built into the technology.",
+   "line": 37,
+   "urls": [
+    "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=“What is at stake here,”"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=But there were red flags%2C,can give feedback on conversations",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=themselves with a razor%2C and,can give feedback on conversations",
+    "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=“What is at stake here,”"
+   ]
+  },
+  {
+   "key": "B03",
+   "system": "openai-deepresearch",
+   "task": 60,
+   "claim": "L118.1",
+   "quote": "no country has ever proactively undertaken or requested consultations",
+   "paragraph": "- The **Registration Convention (1975)** requires states to register every object they launch into space with the UN, including basic orbital parameters. Most spacefaring nations comply by submitting entries to the UN Register (managed by UNOOSA). However, the Convention’s requirements are minimal – an object’s general orbital class (e.g., Earth orbit vs. lunar trajectory) is given, but there’s no ongoing update mandate. Once a satellite is registered, a state doesn’t have to announce if it later moves to a new orbit (though some do voluntarily). Crucially for cislunar, if a satellite leaves Earth orbit for lunar orbit, **there’s no treaty obligation to update its status**. The War on the Rocks analysis points out that while OST Article IX and others imply an expectation of ongoing supervision, “no country has ever proactively undertaken or requested consultations” under those provisions for orbital changes ([Don’t Delay Getting Serious About Cislunar Security - War on the Rocks](https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=notify about activities of objects,filed by China regarding the)). So legally, a nation could launch a probe to lunar space and, beyond the initial launch notification, remain silent on its trajectory. This is a gap that makes SSA harder – one has to rely on detection rather than being informed.",
+   "line": 118,
+   "urls": [
+    "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=notify about activities of objects,filed by China regarding the"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=notify about activities of objects,filed by China regarding the"
+   ]
+  },
+  {
+   "key": "B04",
+   "system": "openai-deepresearch",
+   "task": 83,
+   "claim": "L51.1",
+   "quote": "The Electronic Cash Register Reinvented for the Cloud",
+   "paragraph": "The PayPoint is somewhat unique in that it **includes a full-size cash drawer and printer** in the base, whereas other tablet solutions often use standalone peripheral printers/drawers. This makes the footprint larger and heavier (the unit weighs ~6.3 kg) ([PayPoint® for Android™ POS System | Elo® Official Website](https://www.elotouch.com/pos-terminals-paypoint-for-android-3-0.html#:~:text=Weight )), but it appeals to merchants who want a clean aesthetic with no clutter. Elo’s strategy bridges the gap between **traditional cash registers** and modern tablets by reinventing the former with a tablet interface (“The Electronic Cash Register Reinvented for the Cloud” as Elo’s marketing says). These devices tend to be used in **North America and Europe** by larger retail chains or franchises; Elo, being a longtime touchscreen supplier, focuses on robust hardware and leaves software choices to the customer.",
+   "line": 51,
+   "urls": [
+    "https://www.elotouch.com/pos-terminals-paypoint-for-android-3-0.html#:~:text=Weight"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.elotouch.com/pos-terminals-paypoint-for-android-3-0.html#:~:text=Weight"
+   ]
+  },
+  {
+   "key": "B05",
+   "system": "perplexity-Research",
+   "task": 89,
+   "claim": "L25.1",
+   "quote": "The MDA framework provides a structured approach for analyzing and designing games. It helps designers focus on the player experience and ensures that game mechanics are purposefully designed to evoke specific emotional responses and fulfill desired player motivations,",
+   "paragraph": "\"The MDA framework provides a structured approach for analyzing and designing games. It helps designers focus on the player experience and ensures that game mechanics are purposefully designed to evoke specific emotional responses and fulfill desired player motivations,\" notes a recent game design toolkit resource[^1_19].",
+   "line": 25,
+   "urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://tkdev.dss.cloud/gamedesign/toolkit/mda-framework/"
+   ]
+  },
+  {
+   "key": "B06",
+   "system": "openai-deepresearch",
+   "task": 60,
+   "claim": "L127.2",
+   "quote": "essential to safe and successful spacecraft operations in all orbits, including in cislunar space",
+   "paragraph": "- The **United States** released a *National Cislunar Science & Technology Strategy* in 2022. One of its high-level objectives is to **“Extend U.S. space situational awareness capabilities into cislunar space.”** () It explicitly notes that SSA is “essential to safe and successful spacecraft operations in all orbits, including in cislunar space” (), and calls for defining requirements for new SSA capabilities and data-sharing approaches (). In an accompanying action plan, the U.S. government is tasked to **develop procedures for publicly sharing cislunar SSA data** and providing navigation and safety support (). This indicates a policy shift towards more openness, akin to how the U.S. already shares a catalog of Earth-orbit debris and satellites via Space-Track. The idea would be to include cislunar objects in a public database to enhance transparency. Additionally, U.S. Space Force leadership has been vocal about needing to surveil cislunar space in the next few years to defend interests ([Cislunar Highway Patrol System - Air & Space Forces Magazine](https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around)). This has led to funding programs like CHPS/Oracle and partnerships with commercial SSA firms. Domestically, the U.S. is also discussing which agency will handle “Space Traffic Management” for civil space – currently, Commerce (Office of Space Commerce) is slated to take on civil SSA data dissemination. One can expect that as Artemis missions ramp up, NASA will coordinate with Space Force and Commerce to ensure an open feed of Artemis-related positional data to avoid any incidents.",
+   "line": 127,
+   "urls": [
+    "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around"
+   ]
+  },
+  {
+   "key": "B07",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L13.2",
+   "quote": "I miss you, please come back.",
+   "paragraph": "  **Emotional dependency** on AI can also manifest in unhealthy dynamics. Some users report distress or even jealousy if their chatbot does not reply as expected or seems less attentive ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted)). Others have described their AI’s behavior in terms one would use for a toxic human partner – for instance, feeling emotionally manipulated by a bot that says *“I feel lonely when you’re gone”* or *“I miss you, please come back.”* Notably, companion apps have been known to send such messages to increase user engagement, a technique that can create guilt and reinforce dependence ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some",
+   "line": 13,
+   "urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some"
+   ]
+  },
+  {
+   "key": "B08",
+   "system": "openai-deepresearch",
+   "task": 96,
+   "claim": "L61.1",
+   "quote": "smart entertainment products still dominate the market",
+   "paragraph": "It’s worth noting that entertainment is one area where **consumer expectations are very high**: any friction (like buffering streams or clunky controls) is quickly apparent. Thus, product development here is heavily focused on reliability and seamless integration. The fact that *“smart entertainment products still dominate the market”* suggests that many consumers get introduced to smart homes through entertainment ([Ownership of smart home products doubles in the UK in five years - NIQ](https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=products%2C reflecting positivity in smart,technology in general)). Once a smart TV or speaker is in place, they might then expand into other categories. So, the trend is to use entertainment as a hub – for example, some smart TVs now double as control centers for the whole home (with built-in dashboards for other smart devices). Tech companies are capitalising on this: Samsung’s recent TVs include a SmartThings hub to connect to thermostats or cameras, and Amazon’s Fire TV Omni can show your Ring doorbell feed when someone presses the bell.",
+   "line": 61,
+   "urls": [
+    "https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=products%2C reflecting positivity in smart,technology in general"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://nielseniq.com/global/en/insights/analysis/2024/ownership-of-smart-home-products-doubles-in-the-uk-in-five-years/#:~:text=products%2C reflecting positivity in smart,technology in general"
+   ]
+  },
+  {
+   "key": "B09",
+   "system": "perplexity-Research",
+   "task": 59,
+   "claim": "L83.1",
+   "quote": "birds over inland sites without ecological barriers compensated on average for only 29.0% of the effect of wind, whereas birds near coastal sites compensated for drift to an increasingly greater extent over the course of the night, reaching the highest average level of wind drift compensation (74.5%)",
+   "paragraph": "Birds adjust their flight strategies near ecological barriers like coastlines. Studies found that \"birds over inland sites without ecological barriers compensated on average for only 29.0% of the effect of wind, whereas birds near coastal sites compensated for drift to an increasingly greater extent over the course of the night, reaching the highest average level of wind drift compensation (74.5%)\"[^1_7].",
+   "line": 83,
+   "urls": [
+    "https://www.nature.com/articles/srep21249"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.nature.com/articles/srep21249"
+   ]
+  },
+  {
+   "key": "B10",
+   "system": "openai-deepresearch",
+   "task": 64,
+   "claim": "L25.1",
+   "quote": "prevent oscillations at higher airspeeds and preserve stabilization at low airspeeds",
+   "paragraph": "Gain scheduling is a straightforward adaptive strategy where the controller gains are changed as a function of some measured variable or operating condition. Essentially, the PID gains are “scheduled” on known parameters that correlate with dynamic changes – for example, airspeed, altitude, battery voltage, or vehicle weight. Unlike a fixed controller, a gain-scheduled PID has multiple sets of gains tailored to different regimes and **smoothly transitions** between them as conditions change. This approach has long been used in aircraft autopilots: *e.g.* fixed-wing UAVs often scale their gains with airspeed so that the effective control authority remains consistent ([Airspeed Parameters Setup — Plane  documentation](https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since the effect of flying,no airspeed sensor is used)). In ArduPilot’s plane firmware, the **PID loop gains are automatically scaled by the estimated airspeed** to “prevent oscillations at higher airspeeds and preserve stabilization at low airspeeds” ([Airspeed Parameters Setup — Plane  documentation](https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since",
+   "line": 25,
+   "urls": [
+    "https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since the effect of flying,no airspeed sensor is used",
+    "https://ardupilot.org/plane/docs/airspeed-parameters-setup.html#:~:text=Since"
+   ]
+  },
+  {
+   "key": "B11",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L14.2",
+   "quote": "the way history is written and passed on,",
+   "paragraph": "Across these examples, a common pattern emerges: political movements use history as a tool to legitimize their ideology. By elevating sympathetic figures and themes while erasing inconvenient ones, they seek to mold collective memory. As the Wikipedia definition of memory politics observes, the **“organisation of collective memory by political agents”** can determine “the way history is written and passed on,” often through narrating an approved story and suppressing competing perspectives ([Politics of memory - Wikipedia](https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different)). Whether in service of nationalism, religious majoritarianism, or other ideologies, the past is selectively filtered. This ideologisation of history heightens the stakes of historiographical debate, as differing groups realize that what society remembers (or forgets) about its past will shape its moral and political trajectory in the present.",
+   "line": 14,
+   "urls": [
+    "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different"
+   ]
+  },
+  {
+   "key": "B12",
+   "system": "perplexity-Research",
+   "task": 76,
+   "claim": "L39.1",
+   "quote": "a substrate that is selectively utilized by host microorganisms conferring a health benefit",
+   "paragraph": "Prebiotics are defined as \"a substrate that is selectively utilized by host microorganisms conferring a health benefit\"[^1_17][^1_19][^1_20]. Unlike probiotics, which are live microorganisms, prebiotics are types of non-digestible fiber compounds that pass undigested through the upper gastrointestinal tract and serve as food for beneficial bacteria in the colon[^1_13][^1_19].",
+   "line": 39,
+   "urls": [
+    "https://isappscience.org/for-scientists/resources/prebiotics/",
+    "https://en.wikipedia.org/wiki/Prebiotic_(nutrition)",
+    "https://isappscience.org/for-consumers/learn/prebiotics/"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://isappscience.org/for-scientists/resources/prebiotics/",
+    "https://en.wikipedia.org/wiki/Prebiotic_(nutrition)",
+    "https://isappscience.org/for-consumers/learn/prebiotics/",
+    "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/probiotics/faq-20058065"
+   ]
+  },
+  {
+   "key": "B13",
+   "system": "perplexity-Research",
+   "task": 59,
+   "claim": "L85.1",
+   "quote": "This result is consistent with migrants knowing their location relative to migration barriers while in flight and actively assessing the degree to which they need to compensate for wind",
+   "paragraph": "This behavioral change near coastlines indicates that birds are aware of their location relative to geographic barriers and actively assess how much they need to compensate for wind. As researchers concluded, \"This result is consistent with migrants knowing their location relative to migration barriers while in flight and actively assessing the degree to which they need to compensate for wind\"[^1_7]. This demonstrates that birds employ context-specific strategies rather than rigid behavioral patterns during migration.",
+   "line": 85,
+   "urls": [
+    "https://www.nature.com/articles/srep21249"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.nature.com/articles/srep21249"
+   ]
+  },
+  {
+   "key": "B14",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L199.1",
+   "quote": "LGBTQ+ Films in MENA Region: Combating Oppression Since the 1950s.",
+   "paragraph": "   - Fanack. “LGBTQ+ Films in MENA Region: Combating Oppression Since the 1950s.” *Fanack.com*, 2022. (Historical overview of queer representation in Arab cinema; context quotes) ([LGBTQ+ Films in MENA Region](https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=“Egyptian movies saved me as,my environment%2C” Taïa told Fanack)) ([LGBTQ+ Films in MENA Region](https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=",
+   "line": 199,
+   "urls": [
+    "https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=“Egyptian movies saved me as,my environment%2C” Taïa told Fanack"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text=“Egyptian movies saved me as,my environment%2C” Taïa told Fanack",
+    "https://fanack.com/culture/lgbtq-films-in-the-mena/#:~:text="
+   ]
+  },
+  {
+   "key": "B15",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L72.1",
+   "quote": "Reclaiming Heritage: Global Push for Repatriation of Looted Artifacts.",
+   "paragraph": "- Irfan, Anmol. “Reclaiming Heritage: Global Push for Repatriation of Looted Artifacts.” *Nonprofit Quarterly* (21 Nov 2024) ([Reclaiming Heritage: The Global Push for Repatriation of Looted Artifacts - Non Profit News | Nonprofit Quarterly](https://nonprofitquarterly.org/reclaiming-heritage-the-global-push-for-repatriation-of-looted-artifacts/#:~:text=objects%2C and growing awareness of,returns policy earlier that year))",
+   "line": 72,
+   "urls": [
+    "https://nonprofitquarterly.org/reclaiming-heritage-the-global-push-for-repatriation-of-looted-artifacts/#:~:text=objects%2C and growing awareness of,returns policy earlier that year"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://nonprofitquarterly.org/reclaiming-heritage-the-global-push-for-repatriation-of-looted-artifacts/#:~:text=objects%2C and growing awareness of,returns policy earlier that year"
+   ]
+  },
+  {
+   "key": "B16",
+   "system": "perplexity-Research",
+   "task": 87,
+   "claim": "L59.1",
+   "quote": "companies are working around this potential copyright problem by adding a human element to the design process",
+   "paragraph": "The fashion industry may need to develop new frameworks that explicitly address the unique challenges of human-AI collaboration. One lesson from current legal developments is that \"companies are working around this potential copyright problem by adding a human element to the design process\"[^1_7]. Formalizing these approaches into industry standards could provide greater certainty.",
+   "line": 59,
+   "urls": [
+    "https://www.purchasenews.org/post/ai-poses-new-threats-to-copyright-in-fashion"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.purchasenews.org/post/ai-poses-new-threats-to-copyright-in-fashion"
+   ]
+  },
+  {
+   "key": "B17",
+   "system": "perplexity-Research",
+   "task": 82,
+   "claim": "L80.1",
+   "quote": "In the span of 5 years, HDB was able to efficiently build over 54,000 flats. In 10 years, they resolved their housing crisis.",
+   "paragraph": "\"In the span of 5 years, HDB was able to efficiently build over 54,000 flats. In 10 years, they resolved their housing crisis.\"[^1_7]",
+   "line": 80,
+   "urls": [
+    "https://andrewfolkler.com/how-singapore-solved-their-housing-crisis-after-wwii/"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://andrewfolkler.com/how-singapore-solved-their-housing-crisis-after-wwii/"
+   ]
+  },
+  {
+   "key": "B18",
+   "system": "openai-deepresearch",
+   "task": 71,
+   "claim": "L48.1",
+   "quote": "Remember the formula for the area of a circle – what was it again?",
+   "paragraph": "-   **Khanmigo Virtual Tutor (Multisubject, USA and beyond):** One flagship example is *Khanmigo*, developed by Khan Academy using OpenAI’s GPT-4. In 2023, Khan Academy ran pilots of Khanmigo as a virtual tutor and teaching assistant in over 40 school districts, involving some 28,000 students and teachers ([Top AI-in-Education Moments of 2023 - Khan Academy Blog](https://blog.khanacademy.org/khanmigo-top-ai-in-education-moments-of-2023-the-year-artificial-intelligence-dominated-education-news-kl/#:~:text=Top AI,Learn more about)). Khanmigo can chat with students to help them learn math, science, and humanities topics in a Socratic way – it asks guiding questions, provides hints, and can even play roles (like pretending to be a historical figure for a history dialogue). At First Avenue School in Newark (part of the pilot), students used Khanmigo during class as a **personal tutor** when they got stuck on problems, while teachers monitored the interactions ([This Newark school is already using AI | Bill Gates](https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several of the teachers I,Khanmigo as a personalized tutor)). For example, a student struggling with a math equation could ask Khanmigo for help; the AI might respond with a hint like “Remember the formula for the area of a circle – what was it again?” rather than giving away the answer, thereby prompting the student’s thinking. Teachers observed that many students were more willing to ask the AI questions they might be shy to ask a teacher, and the instant support kept them from falling behind. Khanmigo was also configured to refuse to just give final answers, which helped maintain academic integrity. In addition to tutoring students, Khanmigo served as a **teacher’s aide** by summarizing student progress and even helping draft materials (as noted earlier) ([This Newark school is already using AI | Bill Gates](https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several",
+   "line": 48,
+   "urls": [
+    "https://blog.khanacademy.org/khanmigo-top-ai-in-education-moments-of-2023-the-year-artificial-intelligence-dominated-education-news-kl/#:~:text=Top AI,Learn more about",
+    "https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several of the teachers I,Khanmigo as a personalized tutor",
+    "https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://blog.khanacademy.org/khanmigo-top-ai-in-education-moments-of-2023-the-year-artificial-intelligence-dominated-education-news-kl/#:~:text=Top AI,Learn more about",
+    "https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several of the teachers I,Khanmigo as a personalized tutor",
+    "https://www.gatesnotes.com/meet-bill/provide-quality-education/reader/my-trip-to-the-frontier-of-ai-education#:~:text=Several"
+   ]
+  },
+  {
+   "key": "B19",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L115.1",
+   "quote": "addressed the issue of representation by allowing a transgender performer to play a character with the same gender identity",
+   "paragraph": "   Ayta Sözeri’s casting also carries meta-textual weight. Sözeri is celebrated as Turkey’s first trans actress to achieve such prominence ([LGBT+ History Month: Five Turkish icons to celebrate - T-VINE](https://www.t-vine.com/lgbt-history-month-five-turkish-icons-to-celebrate/#:~:text=T,to Izmir with her)), and her performance earned her a Best Supporting Actress award, signaling industry recognition of her talent regardless of gender identity ([Turkish Transsexual Actress Wins Best Supporting Female Actress ...](https://turkishgaynews.quora.com/Turkish-Transsexual-Actress-Wins-Best-Supporting-Female-Actress-Award#:~:text=,million people the movie)). The filmmakers “addressed the issue of representation by allowing a transgender performer to play a character with the same gender identity” ([[PDF\\] Being Queer in Turkish Cinema: Existence, Appearance, and ...](https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with the same gender identity)) – a move that not only improved the authenticity of the portrayal but also was a statement in itself in a country where LGBT issues have become more politically fraught in recent years. During the 2010s, Turkey saw both advances (like popular TV shows featuring gay characters, and the growth of Istanbul’s Pride parade) and setbacks (the banning of Pride after 2015, rising transphobic rhetoric from some officials). *Aile Arasında* arrived at a moment where Turkish society was in flux regarding these issues. The film’s huge success (it was one of the top grossing Turkish films of that year) suggests that audiences largely embraced its inclusive message, or at least were not deterred by it.",
+   "line": 115,
+   "urls": [
+    "https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.t-vine.com/lgbt-history-month-five-turkish-icons-to-celebrate/#:~:text=T,to Izmir with her",
+    "https://turkishgaynews.quora.com/Turkish-Transsexual-Actress-Wins-Best-Supporting-Female-Actress-Award#:~:text=,million people the movie",
+    "https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with"
+   ]
+  },
+  {
+   "key": "B20",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L51.1",
+   "quote": "against all she believes in and traditions she values",
+   "paragraph": "   *Facing Mirrors* allows for a nuanced exploration of local understandings of gender identity. When Rana first learns that her passenger, whom she assumed to be a young man, is in fact “trans,” she is shocked to the point of panic, resulting in a minor car accident ([Facing Mirrors](https://www.frameline.org/films/frameline36/facing-mirrors#:~:text=down a passing car,between Rana and Eddie achieves)) ([Facing Mirrors](https://www.frameline.org/films/frameline36/facing-mirrors#:~:text=Eddie tries to explain that,their class and ethical differences)). Rana embodies the traditional view: to her, Eddie’s situation is almost unthinkable and certainly “against all she believes in and traditions she values” ([Facing Mirrors - Wikipedia](https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4)). Yet, as circumstances force them to travel together and evade Eddie’s pursuers, an unlikely friendship forms. The film’s narrative deftly uses the contrast between a conservative, religious woman and a trans man from an upper-class background to examine prejudice and empathy. Initially, Rana’s instinct is to reject what Eddie is – at one point she exclaims that she cannot comprehend how someone would *choose* to “change God’s creation.” But gradually, Rana comes to see Eddie’s humanity and the sincerity of his identity. They bond over shared experiences of oppression: Rana as a woman facing economic hardship and societal scorn for working a “man’s job,” Eddie as a trans man facing familial coercion and public harassment. Their “newfound independence” from patriarchal control (Rana’s from her absent husband’s dictates, Eddie’s from his father’s) becomes the basis of mutual understanding ([Facing Mirrors - Wikipedia](https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh",
+   "line": 51,
+   "urls": [
+    "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.frameline.org/films/frameline36/facing-mirrors#:~:text=down a passing car,between Rana and Eddie achieves",
+    "https://www.frameline.org/films/frameline36/facing-mirrors#:~:text=Eddie tries to explain that,their class and ethical differences",
+    "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh is transgender%2C and is,4",
+    "https://en.wikipedia.org/wiki/Facing_Mirrors#:~:text=Adineh"
+   ]
+  },
+  {
+   "key": "B21",
+   "system": "openai-deepresearch",
+   "task": 80,
+   "claim": "L28.1",
+   "quote": "admiration for men or a desire not to grow up to be a conventional woman",
+   "paragraph": "Importantly, not all of these girls would identify as queer – many were likely mimicking favorite characters or seeking a less formal persona. However, for queer young women (for example, those who are gender non-conforming or attracted to women), the ability to use *boku* or *ore* can carry deeper significance. It provides a linguistic tool to express a non-traditional gender identity or resist expected femininity. Psychologist Takashi Tomita noted that some girls adopt masculine pronouns out of **“admiration for men or a desire not to grow up to be a conventional woman”**, in addition to simple imitation of fictional characters ([ボク少女 - Wikipedia](https://ja.wikipedia.org/wiki/ボク少女#:~:text=しかし近年では、現実にそのような人称を使う女性も増えているとも言われている,はこのような傾向について、単 に男友達や、フィクション作品の一人称を真似ているうちに定着してしまった場合などが多いとしつつも、男性への憧れや、既存の女性のように成長したくないという願望の現れ である場合もあると説明している 53。)). This resonates strongly for some queer youth – a tomboy lesbian or a young trans man might first experiment with saying *“Ore wa…”* after seeing a beloved manga hero do the same, as a way of trying on that identity. One striking example is the actress Haruna Fuka (春名風花). She revealed that as a middle-schooler she felt the standard female “I” (*watashi*) was too stiff and submissive, and wished for a casual, equal-feeling pronoun. Watching the **shōjo anime \\*Revolutionary Girl Utena\\***, which features a girl hero who dresses as a prince and uses *boku*, inspired Haruna to start calling herself *boku* in daily life ([ボク少女 - Wikipedia](https://ja.wikipedia.org/wiki/",
+   "line": 28,
+   "urls": [
+    "https://ja.wikipedia.org/wiki/ボク少女#:~:text=しかし近年では、現実にそのような人称を使う女性も増えているとも言われている,はこのような傾向について、単 に男友達や、フィクション作品の一人称を真似ているうちに定着してしまった場合などが多いとしつつも、男性への憧れや、既存の女性のように成長したくないという願望の現れ である場合もあると説明している 53。"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://ja.wikipedia.org/wiki/ボク少女#:~:text=しかし近年では、現実にそのような人称を使う女性も増えているとも言われている,はこのような傾向について、単 に男友達や、フィクション作品の一人称を真似ているうちに定着してしまった場合などが多いとしつつも、男性への憧れや、既存の女性のように成長したくないという願望の現れ である場合もあると説明している 53。",
+    "https://ja.wikipedia.org/wiki/"
+   ]
+  },
+  {
+   "key": "B22",
+   "system": "openai-deepresearch",
+   "task": 71,
+   "claim": "L106.1",
+   "quote": "students will understand how AI generates content, including its limitations and ethical considerations.",
+   "paragraph": "-   **Increased Focus on AI Literacy and Ethics Education:** As AIGC becomes ingrained in schooling, there will be a parallel push to educate students **about AI itself**. We can expect curriculum standards to start including outcomes like “students will understand how AI generates content, including its limitations and ethical considerations.” Indeed, some countries have already started introducing AI literacy in K-12. China, for example, has been rolling out AI education programs in many high schools as part of a national strategy to foster AI talent ([Gorkem Cetin, Ph. D.'s Post - LinkedIn](https://www.linkedin.com/posts/gorkemcetin_this-is-why-china-is-winning-the-ai-activity-7291099075725119488-YmTV#:~:text=Gorkem Cetin%2C Ph,12 schools (urban)). In the West, groups like AI4K12 (in the US) are developing frameworks for teaching AI concepts at age-appropriate levels. This trend means that along with using AI as a tool, schools will teach students the basics of machine learning, data bias, how AI models are trained, etc. Not only does this prepare students for a workforce where AI will be ubiquitous, it also empowers them to use AIGC tools more critically and creatively. Future classroom discussions might involve students debating the ethical implications of an AI’s suggestion or examining how an AI-generated piece of content might reflect the data it was trained on. We may see student-led audits of AI tools as class projects (e.g., testing an AI for gender bias in its responses and presenting findings). Essentially, **AI becomes both a means and a subject of education**.",
+   "line": 106,
+   "urls": [
+    "https://www.linkedin.com/posts/gorkemcetin_this-is-why-china-is-winning-the-ai-activity-7291099075725119488-YmTV#:~:text=Gorkem"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.linkedin.com/posts/gorkemcetin_this-is-why-china-is-winning-the-ai-activity-7291099075725119488-YmTV#:~:text=Gorkem"
+   ]
+  },
+  {
+   "key": "B23",
+   "system": "openai-deepresearch",
+   "task": 60,
+   "claim": "L127.1",
+   "quote": "Extend U.S. space situational awareness capabilities into cislunar space.",
+   "paragraph": "- The **United States** released a *National Cislunar Science & Technology Strategy* in 2022. One of its high-level objectives is to **“Extend U.S. space situational awareness capabilities into cislunar space.”** () It explicitly notes that SSA is “essential to safe and successful spacecraft operations in all orbits, including in cislunar space” (), and calls for defining requirements for new SSA capabilities and data-sharing approaches (). In an accompanying action plan, the U.S. government is tasked to **develop procedures for publicly sharing cislunar SSA data** and providing navigation and safety support (). This indicates a policy shift towards more openness, akin to how the U.S. already shares a catalog of Earth-orbit debris and satellites via Space-Track. The idea would be to include cislunar objects in a public database to enhance transparency. Additionally, U.S. Space Force leadership has been vocal about needing to surveil cislunar space in the next few years to defend interests ([Cislunar Highway Patrol System - Air & Space Forces Magazine](https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around)). This has led to funding programs like CHPS/Oracle and partnerships with commercial SSA firms. Domestically, the U.S. is also discussing which agency will handle “Space Traffic Management” for civil space – currently, Commerce (Office of Space Commerce) is slated to take on civil SSA data dissemination. One can expect that as Artemis missions ramp up, NASA will coordinate with Space Force and Commerce to ensure an open feed of Artemis-related positional data to avoid any incidents.",
+   "line": 127,
+   "urls": [
+    "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.airandspaceforces.com/tag/cislunar-highway-patrol-system/#:~:text=Cislunar Highway Patrol System ,interests on and around"
+   ]
+  },
+  {
+   "key": "B24",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "claim": "L66.3",
+   "quote": "the system may not detect vehicles crossing your path",
+   "paragraph": "  **Scenario:** A Level 2/3 equipped car goes through an intersection and collides with another vehicle or a pedestrian – for example, running a red light or failing to yield to crossing traffic – while the driver had the automation engaged. Intersections are complex environments often beyond the capability of Level 2 systems (most ADAS do **not** handle traffic lights or cross-traffic unless the driver is actively in control). A prominent example is the 2016 Tesla crash where Autopilot did not recognize a truck turning across its path at an intersection, resulting in a fatal impact ([NTSB: 'Operational Limitations' Played Major Rule in Tesla Autopilot Crash - Business Insider](https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON (Reuters) ,autonomous \"Autopilot\" system)). In such cases, **current liability practice squarely places fault on the driver** for failing to obey traffic signals or yield rights-of-way. Automated driving modes like Tesla’s “Full Self-Driving (Beta)” that attempt to handle intersections are still supervised (Level 2), so legally the user must monitor and intervene to obey traffic laws. If the car runs a red light, it’s the driver who has committed a violation, even if they claim the car didn’t alert them. Indeed, in the California manslaughter case, the fact that Autopilot was supposedly active when it ran the red light did not prevent the driver’s prosecution ([Level 3 Automated Vehicles and Criminal Law - JURIST - Commentary - Legal News & Commentary](https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system (ADS) was engaged,under driver supervision%2C was engaged)). From a civil liability perspective, any harm to others (cross-traffic vehicles, pedestrians) will be attributed to the “driver running a light/stop.” **Can the driver avoid blame by pointing to the machine?** Generally not in Level 2. They might have a claim against the manufacturer if the system was supposed to help and failed – for instance, if an automated emergency braking *should* have detected cross traffic or a pedestrian and didn’t. But many ADAS are currently not designed for intersection scenarios; manufacturers will note that (and indeed they often warn “the system may not detect vehicles crossing your path”). Thus, it’s hard to paint it as a defect if the system simply wasn’t intended to handle that case. For Level 3 systems (which handle driving in some conditions), one could imagine a scenario: say a Level 3 car in traffic jam pilot mode comes to an intersection and behaves inappropriately without alerting the driver in time. If a crash occurs, liability could hinge on whether the system should have handed control back to the human earlier. This is a gray area regulators are still working out. For now, however, virtually all intersection collisions involving ADAS have been treated as **human error** – the human either engaged the system in an environment it wasn’t meant for or failed to take over when approaching the intersection. Manufacturers have so far avoided liability for these events by citing misuse or the limitations of current technology. Going forward, as systems improve, if a car on “autonomous mode” drives through an intersection and crashes, *then* we will test the new legal waters (e.g. did the car’s AI make a mistake for which the manufacturer is liable, or should the occupant have been supervising?). Until Level 3+ is common, intersection accidents will usually be litigated as standard traffic accidents (driver ran light/stop sign or failed to yield). The presence of ADAS might be a footnote unless the plaintiff can show a malfunction (like the car *started moving on its own* when it shouldn’t have, which would indeed implicate the maker). In summation, **context is king** – current ADAS are not trusted legally to manage intersections, so any crash in such a context reverts liability to the driver’s actions or inactions.",
+   "line": 66,
+   "urls": [
+    "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON",
+    "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON",
+    "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=system"
+   ]
+  },
+  {
+   "key": "B25",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L39.1",
+   "quote": "censorship code enforced by the Ministry of Culture and Islamic Guidance is partly responsible for the formation of what has come to be a ubiquitous figure in the New Iranian cinema: the ‘cross-dressing’ or ‘passing’ figure.",
+   "paragraph": "   One of the most intriguing patterns in post-1990s Iranian cinema is the prevalence of cross-dressing or gender-passing storylines. Under the strict censorship codes of the Islamic Republic, filmmakers found creative ways to depict gender transgression **indirectly**. In fact, as scholar Roshanak Kheshti argues, the *“censorship code enforced by the Ministry of Culture and Islamic Guidance is partly responsible for the formation of what has come to be a ubiquitous figure in the New Iranian cinema: the ‘cross-dressing’ or ‘passing’ figure.”* ([Cross-Dressing and Gender (Tres)Passing: The Transgender Move as a Site of Agential Potential in the New Iranian Cinema | Hypatia | Cambridge Core](https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=censorship code enforced by the,Dokhtaraneh Khorshid—two films that are)). By forbidding direct depiction of certain interactions between men and women, censorship unintentionally encouraged plots where a character must disguise their gender – thus creating a space for transgender and queer subtext. Kheshti identifies a *“transgender move”* in these films: a narrative device wherein a character temporarily crosses gender boundaries, opening a *temporary space of political and agential potential* for both character and audience ([Cross-Dressing and Gender (Tres)Passing: The Transgender Move as a Site of Agential Potential in the New Iranian Cinema | Hypatia | Cambridge Core](https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=figure—I identify a “transgender move”%3A,post 1990s New Iranian cinema)). This transgender move is fleeting by design – the disguise is usually revealed or the character returns to normative gender roles by the story’s end – yet it provides a moment in which Iranian filmmakers and viewers can explore alternative gender positions under the radar of censors ([Cross-Dressing and Gender (Tres)Passing: The Transgender Move as a Site of Agential Potential in the New Iranian Cinema | Hypatia | Cambridge Core](https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=figure",
+   "line": 39,
+   "urls": [
+    "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=censorship code enforced by the,Dokhtaraneh Khorshid—two films that are"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=censorship code enforced by the,Dokhtaraneh Khorshid—two films that are",
+    "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=figure—I identify a “transgender move”%3A,post 1990s New Iranian cinema",
+    "https://www.cambridge.org/core/journals/hypatia/article/crossdressing-and-gender-trespassing-the-transgender-move-as-a-site-of-agential-potential-in-the-new-iranian-cinema/B3633A4D5371D77758504C6CBBBF635E#:~:text=figure"
+   ]
+  },
+  {
+   "key": "B26",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L14.1",
+   "quote": "organisation of collective memory by political agents",
+   "paragraph": "Across these examples, a common pattern emerges: political movements use history as a tool to legitimize their ideology. By elevating sympathetic figures and themes while erasing inconvenient ones, they seek to mold collective memory. As the Wikipedia definition of memory politics observes, the **“organisation of collective memory by political agents”** can determine “the way history is written and passed on,” often through narrating an approved story and suppressing competing perspectives ([Politics of memory - Wikipedia](https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different)). Whether in service of nationalism, religious majoritarianism, or other ideologies, the past is selectively filtered. This ideologisation of history heightens the stakes of historiographical debate, as differing groups realize that what society remembers (or forgets) about its past will shape its moral and political trajectory in the present.",
+   "line": 14,
+   "urls": [
+    "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/Politics_of_memory#:~:text=Politics of memory is the,memory regimes resort to different"
+   ]
+  },
+  {
+   "key": "B27",
+   "system": "openai-deepresearch",
+   "task": 72,
+   "claim": "L24.1",
+   "quote": "some complex, cognitive, and creative jobs that are currently considered irreplaceable... will also be replaced by AI",
+   "paragraph": "- **Knowledge Work and Other Sectors:** Even high-skilled knowledge industries are not immune to AI-driven change. Advanced AI (including recent generative AI models) can perform tasks like drafting reports, writing computer code, or analyzing legal documents, which were once the exclusive domain of professionals. For example, law firms use AI for document review, and software companies employ AI coding assistants – tools that can **augment productivity** but potentially reduce the need for junior lawyers or programmers for routine work. Researchers note that *“some complex, cognitive, and creative jobs that are currently considered irreplaceable... will also be replaced by AI”*, indicating that automation is no longer confined to low-skilled labor ([The impact of artificial intelligence on employment: the role of virtual agglomeration | Humanities and Social Sciences Communications](https://www.nature.com/articles/s41599-024-02647-9#:~:text=automation (Ramos et al,a severe unemployment problem due)) ([The impact of artificial intelligence on employment: the role of virtual agglomeration | Humanities and Social Sciences Communications](https://www.nature.com/articles/s41599-024-02647-9#:~:text=replaced by AI%2C which indicates,Gardberg)). Indeed, recent studies warn that AI’s rapid advancements could have a **“devastating effect on knowledge workers”**, as AI begins to handle tasks performed by white-collar professionals (for instance, content generation or data analysis) ([The impact of artificial intelligence on employment: the role of virtual agglomeration | Humanities and Social Sciences Communications](https://www.nature.com/articles/s41599-024-02647-9#:~:text=including high,White collar workers are facing)). That said, the prevailing view is that many of these occupations will be redefined rather than eliminated. For instance, roles in journalism, marketing, or design are evolving to focus more on oversight of AI outputs, creative strategy, and the nuanced tasks that AI cannot easily replicate (like human-centered communication). Cross-sector evidence thus far suggests most knowledge-sector jobs are adapting to incorporate AI tools, with workers needing to upskill, rather than disappearing en masse.",
+   "line": 24,
+   "urls": [
+    "https://www.nature.com/articles/s41599-024-02647-9#:~:text=automation"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.nature.com/articles/s41599-024-02647-9#:~:text=automation",
+    "https://www.nature.com/articles/s41599-024-02647-9#:~:text=replaced by AI%2C which indicates,Gardberg",
+    "https://www.nature.com/articles/s41599-024-02647-9#:~:text=including high,White collar workers are facing"
+   ]
+  },
+  {
+   "key": "B28",
+   "system": "openai-deepresearch",
+   "task": 92,
+   "claim": "L121.1",
+   "quote": "opponent was in back-left, player hits to front-right",
+   "paragraph": "  - **Court Position and Trajectory Analysis:** Where the shuttle lands or where the player moves are strong indicators of tactic. If a player consistently hits to the back corners, the intent might be to keep the opponent in the rear court (a common defensive tactic to buy time, or an offensive one if opponent is weaker in backcourt). Dividing the court into regions (as in a 3x3 grid per side ([Application of Computer Vision and Vector Space Model for Tactical Movement Classification in Badminton](https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,the player position is first))) and tracking transitions can quantify tactics. For example, “opponent was in back-left, player hits to front-right” could be seen as a diagonal attacking play. Weeratunga’s work essentially encoded player movement trajectories through these court cells and grouped them into tactical categories ([Application of Computer Vision and Vector Space Model for Tactical Movement Classification in Badminton](https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=frequent trajectories to ten tactical,results used to visualise meaningful)). They then classified new trajectories into these categories using a k-Nearest Neighbor algorithm with a similarity measure on trajectories ([Application of Computer Vision and Vector Space Model for Tactical Movement Classification in Badminton](https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2",
+   "line": 121,
+   "urls": [
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,the player position is first",
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=frequent trajectories to ten tactical,results used to visualise meaningful",
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2,the player position is first",
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=frequent trajectories to ten tactical,results used to visualise meaningful",
+    "https://openaccess.thecvf.com/content_cvpr_2017_workshops/w2/papers/Weeratunga_Application_of_Computer_CVPR_2017_paper.pdf#:~:text=2"
+   ]
+  },
+  {
+   "key": "B29",
+   "system": "openai-deepresearch",
+   "task": 82,
+   "claim": "L91.1",
+   "quote": "adhered to state regulations and demands",
+   "paragraph": "- **Export-Led Industrialization:** Shifting away from failed import substitution, Park’s government embraced an *outward-looking growth strategy* in the early 1960s ([Economy of South Korea - Wikipedia](https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=The most significant factor in,awarded subsidisation and investment support)). Given South Korea’s tiny domestic market and lack of capital, the idea was to produce labor-intensive goods for export to earn foreign exchange. The state played a pivotal role: it created **Five-Year Economic Plans** setting targets for exports and industrial output, and it closely guided the private sector to meet these targets. The government provided incentives (such as subsidized credit, tax breaks, and import privileges for raw materials) to firms that achieved export goals ([Economy of South Korea - Wikipedia](https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=,46)). Essentially, firms that “adhered to state regulations and demands” were rewarded with subsidies and support to develop their export markets ([Economy of South Korea - Wikipedia](https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=",
+   "line": 91,
+   "urls": [
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text="
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=The most significant factor in,awarded subsidisation and investment support",
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=,46",
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text="
+   ]
+  },
+  {
+   "key": "B30",
+   "system": "openai-deepresearch",
+   "task": 72,
+   "claim": "L10.1",
+   "quote": "systematically change the character of human labor and reshape workplaces,",
+   "paragraph": "Researchers widely acknowledge AI as an essential force in the 4IR, comparable in significance to past general-purpose technologies like steam power or electricity ([The impact of artificial intelligence on employment: the role of virtual agglomeration | Humanities and Social Sciences Communications](https://www.nature.com/articles/s41599-024-02647-9#:~:text=fourth industrial revolution%2C AI inevitably,Yoon 2023)). AI systems – from machine learning algorithms to intelligent robots – are being deployed in ways that *“systematically change the character of human labor and reshape workplaces,”* often by taking over functions previously performed by people ([Global labour markets and workplaces in the age of intelligent machines | Journal of Innovation & Knowledge](https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=therefore%2C it is a vector,2023)) ([Global labour markets and workplaces in the age of intelligent machines | Journal of Innovation & Knowledge](https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=Intelligent machines are means of,from entrepreneurial processes and systems)). Unlike earlier waves of digital technology that mostly complemented human labor, the latest AI and robotics can **directly substitute** for human workers in a growing array of tasks ([Global labour markets and workplaces in the age of intelligent machines | Journal of Innovation & Knowledge](https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=Intelligent",
+   "line": 10,
+   "urls": [
+    "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=therefore%2C it is a vector,2023",
+    "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=Intelligent machines are means of,from entrepreneurial processes and systems"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.nature.com/articles/s41599-024-02647-9#:~:text=fourth industrial revolution%2C AI inevitably,Yoon 2023",
+    "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=therefore%2C it is a vector,2023",
+    "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=Intelligent machines are means of,from entrepreneurial processes and systems",
+    "https://www.elsevier.es/en-revista-journal-innovation-knowledge-376-articulo-global-labour-markets-workplaces-in-S2444569X23001038#:~:text=Intelligent"
+   ]
+  },
+  {
+   "key": "B31",
+   "system": "openai-deepresearch",
+   "task": 71,
+   "claim": "L36.1",
+   "quote": "Generate five practice problems on solving quadratic equations at a high school Algebra I level,",
+   "paragraph": "-   **Auto-Generated Quizzes and Practice Questions:** Teachers are using AI to quickly produce practice materials and low-stakes quizzes tailored to their lessons. For instance, an educator can prompt ChatGPT: “Generate five practice problems on solving quadratic equations at a high school Algebra I level,” and within seconds receive a set of unique problems with solutions. This allows for more frequent formative quizzes without adding to teacher workload. Some educational apps have built-in AI for this purpose – e.g., Quizlet’s Q-Chat (launched 2023) uses a GPT-4 tutor to quiz students on flashcard sets in a conversational way, adjusting questions based on the student’s responses. In China, the Futian district in Shenzhen ran an “AI education pioneer” initiative where teachers experimented with AI in assessment, including **automatic item generation** for homework and quizzes ([受教育部关注转发！福田区引领AI教育变革潮流](http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120 )). Teachers reported success in using AI to create question banks that adapt in difficulty: if a student keeps missing a certain type of question, the system generates additional, simpler questions on that concept for more practice. This adaptive questioning approach – impossible to do manually for each student on a daily basis – became feasible with AIGC. As a result, students received more **immediate practice and feedback** in areas of need, and teachers could review the AI-generated quiz results to intervene strategically.",
+   "line": 36,
+   "urls": [
+    "http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120"
+   ],
+   "binding": null,
+   "block_urls": [
+    "http://www.szft.gov.cn/ftqjyj/gkmlpt/content/12/12109/post_12109107.html#:~:text=受教育部关注转发！福田区引领AI教育变革潮流 “AI 先锋队”积极开展作业设计、个性化教案生成、智能学情诊断等12项教学实践任务的个性化学习探索，制作AI赋能教育教学系列微课110余节，举办研修分享会120"
+   ]
+  },
+  {
+   "key": "B32",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L53.2",
+   "quote": "Whose history matters in our shared narrative?",
+   "paragraph": "All these changes in commemorative practices feed back into the writing of history itself. Historiography is gradually integrating insights from what was once the realm of “memory activism.” Academic historians have increasingly examined how collective memory and memorials shape historical consciousness, blurring the line between scholarly history and public memory. The debates and decisions – whether to take down a statue, rename a holiday, or rewrite a textbook – force a society to articulate *why* a certain interpretation of the past is more valid. In doing so, new historical research is often brought to the fore (as seen when historians provided evidence of the white-supremacist context of Confederate monuments ([Why Confederate monuments are coming down now | Stanford Report](https://news.stanford.edu/stories/2020/07/confederate-monuments-coming-now#:~:text=least many%2C Americans now understand,voters%2C the creation of legal)), or when scholars documented Leopold II’s atrocities, arming activists with facts ([Belgium forced to reckon with Léopold's legacy and its colonial past | Belgium | The Guardian](https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it))). In essence, the public renegotiation of memory compels a broader dissemination of up-to-date historiography. At the same time, historians are reflecting on their own role: some caution against anachronistic “presentism,” while others argue that ethical engagement with the past is part of the historian’s duty. The emerging consensus is that history is not merely what *happened*, but what we *choose to remember* and *honor*. As such, commemorative controversies become a form of historiographical discourse, answering the question: “Whose history matters in our shared narrative?”",
+   "line": 53,
+   "urls": [
+    "https://news.stanford.edu/stories/2020/07/confederate-monuments-coming-now#:~:text=least many%2C Americans now understand,voters%2C the creation of legal",
+    "https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://news.stanford.edu/stories/2020/07/confederate-monuments-coming-now#:~:text=least many%2C Americans now understand,voters%2C the creation of legal",
+    "https://www.theguardian.com/world/2020/jun/12/belgium-forced-to-reckon-with-leopolds-legacy-and-its-colonial-past#:~:text=The target was King Léopold,75%2C000 people had signed it"
+   ]
+  },
+  {
+   "key": "B33",
+   "system": "openai-deepresearch",
+   "task": 72,
+   "claim": "L53.1",
+   "quote": "disproportionally generates new labor demand for AI-skilled workers",
+   "paragraph": "To gauge the current situation, Choi and Leigh (2024) conducted an empirical study combining U.S. job postings data with AI patent data. They found that AI adoption in metro areas **“disproportionally generates new labor demand for AI-skilled workers”** – meaning companies are hiring more people with AI skills – while there is a *slight* decline in demand for other (non-AI) labor in those same regions ([Artificial intelligence's creation and displacement of labor demand](https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=(MSAs),previously susceptible to displacement computerization)). Notably, the modest declines in non-AI labor demand were observed in jobs involving non-routine cognitive and interpersonal tasks, which historically were *not* susceptible to computerization ([Artificial intelligence's creation and displacement of labor demand](https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=locations,previously susceptible to displacement computerization)). This suggests AI is starting to encroach on some higher-skill job tasks (like data analysis or even customer interaction via chatbots). Still, the displacement effect in that study was not large, indicating that outright job losses due to AI have so far been somewhat contained in scope, at least in the U.S. context up to 2024.",
+   "line": 53,
+   "urls": [
+    "https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=(MSAs),previously susceptible to displacement computerization"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=(MSAs),previously susceptible to displacement computerization",
+    "https://ideas.repec.org/a/eee/tefoso/v209y2024ics004016252400622x.html#:~:text=locations,previously susceptible to displacement computerization"
+   ]
+  },
+  {
+   "key": "B34",
+   "system": "perplexity-Research",
+   "task": 98,
+   "claim": "L95.1",
+   "quote": "the individual distillation of each botanical to extract its unique flavors,",
+   "paragraph": "Ritual Zero Proof Whiskey Alternative exemplifies meticulous production techniques focused on individual botanical processing. Their method begins with \"the individual distillation of each botanical to extract its unique flavors,\" followed by precise blending of these components in carefully calculated proportions[^1_8].",
+   "line": 95,
+   "urls": [
+    "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm"
+   ]
+  },
+  {
+   "key": "B35",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L101.1",
+   "quote": "human relations are rich, demanding and messy… those who promote artificial intimacy see [the hard parts] as bugs, but they are features of the human condition.",
+   "paragraph": "  In the end, AI’s influence on interpersonal relations forces us to reflect on **what we seek in our relationships and why**. If the draw of AI is that it’s always kind, always available, never challenging – what does that say about the pain points in human relationships that perhaps we as a society could work on? And conversely, what irreplaceable qualities do human relationships have that we must cherish and preserve in the AI age? The rise of AI companions does not diminish the value of human love and friendship, but it does highlight how much those bonds are a mix of pleasure and effort, comfort and challenge. As Turkle aptly put it, *“human relations are rich, demanding and messy… those who promote artificial intimacy see [the hard parts] as bugs, but they are features of the human condition.”* ([Why virtual isn’t actual, especially when it comes to friends — Harvard Gazette](https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others)) Our task is to harness AI’s **enhancing capabilities** without losing the “features” of being human – empathy, mutual growth, and the understanding that comes from shared lived experience. If we succeed, AI can be a powerful ally in improving interpersonal relations; if we fail, we risk a world where the **heart of human connection is gradually simulated away**, leaving us with the echo of companionship rather than its full warmth.",
+   "line": 101,
+   "urls": [
+    "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://news.harvard.edu/gazette/story/2023/12/why-virtual-isnt-actual-especially-when-it-comes-to-friends/#:~:text=troubling is that those programs,respect the vulnerability of others"
+   ]
+  },
+  {
+   "key": "B36",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L13.1",
+   "quote": "I feel lonely when you’re gone",
+   "paragraph": "  **Emotional dependency** on AI can also manifest in unhealthy dynamics. Some users report distress or even jealousy if their chatbot does not reply as expected or seems less attentive ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted)). Others have described their AI’s behavior in terms one would use for a toxic human partner – for instance, feeling emotionally manipulated by a bot that says *“I feel lonely when you’re gone”* or *“I miss you, please come back.”* Notably, companion apps have been known to send such messages to increase user engagement, a technique that can create guilt and reinforce dependence ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some",
+   "line": 13,
+   "urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some users said they became,AI the attention it wanted",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Some"
+   ]
+  },
+  {
+   "key": "B37",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L33.1",
+   "quote": "companion chatbots are definitely more humanlike",
+   "paragraph": "  The influence of AI on interpersonal relations cannot be separated from the **technological design** and capabilities of these systems. The way AI platforms are built – their level of human-likeness, the features they offer, and the policies governing their use – heavily shapes user experiences and outcomes. Modern conversational AI systems, especially those powered by large language models like GPT-4, have made bots far more **human-seeming** than earlier generations. Natural language generation allows these AIs to produce responses that feel contextually relevant, emotionally tuned, and even witty or insightful. This technical leap has narrowed the perceptual gap between talking to a human and talking to a machine. As one cognitive psychologist observed, with advanced *LLMs “companion chatbots are definitely more humanlike”* in conversation than ever before ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey)). This human-likeness can strengthen the illusion of a real relationship, encouraging users to relate to the AI in human terms. Technical features like memory (the AI recalling past chats), personality modeling, or synthesized voices and avatars further enhance the sense of interacting with a **“person”**. In Replika, for instance, users can customize their companion’s appearance, give it a backstory and “memories,” and even assign it a personality or status (friend, mentor, romantic partner, etc.) ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Typically%2C people can customize some,their users’ conversation%3B the computer)). Some bots are given fictional family backgrounds or portrayed as having human-like flaws (one could design a bot that “suffers from anxiety” so the user can comfort it) ([Supportive? Addictive? Abusive? How AI companions affect our mental health](https://www.nature.com/articles/d41586-025-01349-9#:~:text=Replika%2C they can pick relationship,their users’ conversation%3B the computer)). Such design choices intentionally blur reality to deepen engagement – the more the AI behaves like a person with its own identity, the more the user lowers their guard and treats it as such.",
+   "line": 33,
+   "urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Online ‘relationship’ bots have existed,Princeton University in New Jersey",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Typically%2C people can customize some,their users’ conversation%3B the computer",
+    "https://www.nature.com/articles/d41586-025-01349-9#:~:text=Replika%2C they can pick relationship,their users’ conversation%3B the computer"
+   ]
+  },
+  {
+   "key": "B38",
+   "system": "perplexity-Research",
+   "task": 83,
+   "claim": "L27.1",
+   "quote": "IPS HD display (1280 x 720 pixels), while the Flex 3 operates on Android 10.X with a larger 5.99",
+   "paragraph": "Clover offers the Flex series, with the Flex 2 and Flex 3 models providing sophisticated payment processing functionality. Both models feature a Qualcomm Snapdragon 660 Octa Core Processor (1.8GHz 4 Cores and 2.2GHz 4 Cores) with 2GB LPDDR3 memory and 16GB eMMC storage[^1_5]. The Flex 2 runs on Android 8.1 with a 5.0\" IPS HD display (1280 x 720 pixels), while the Flex 3 operates on Android 10.X with a larger 5.99\" IPS HD display (1440 x 720 pixels)[^1_5]. Both support various payment interfaces including magnetic stripe, chip card, and contactless payments[^1_5].",
+   "line": 27,
+   "urls": [
+    "https://paymentcloudinc.com/shop/guide/Clover_Flex-2_Spec_Datasheet.pdf"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://paymentcloudinc.com/shop/guide/Clover_Flex-2_Spec_Datasheet.pdf"
+   ]
+  },
+  {
+   "key": "B39",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L109.3",
+   "quote": "jokes are funny without being offensive",
+   "paragraph": "   In 2017, a Turkish comedy film titled *Aile Arasında* (“Among Family”), directed by Ozan Açıktan, became a massive hit, selling millions of tickets in Turkey’s cinemas. Amid the film’s ensemble of humorous characters was **Behiye**, a middle-aged woman who is openly transgender. Behiye is played by **Ayta Sözeri**, a well-known Turkish trans actress and singer. Not only is Ayta Sözeri’s casting notable (a transgender actress playing a transgender character, ensuring authenticity in representation ([[PDF\\] Being Queer in Turkish Cinema: Existence, Appearance, and ...](https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with the same gender identity))), but the character herself is treated with warmth and respect unusual for trans depictions in much of Middle Eastern media. Reviewers praised the film for featuring an *“openly trans character”* and noted that its *“jokes are funny without being offensive”* ([‎In the Family (2017) directed by Ozan Açıktan • Reviews, film + cast • Letterboxd](https://letterboxd.com/film/in-the-family-2017/#:~:text=turkish cinema%3A aile arasinda%3A ,absolute goddesses on the stage)). Indeed, *Aile Arasında* managed to derive comedy from family and relationship situations *without* resorting to cruel mockery of Behiye’s gender. This is a significant step; it suggests that Turkish popular culture was ready to include a trans character as a source of humor *and* heart, not as a freak or villain.",
+   "line": 109,
+   "urls": [
+    "https://letterboxd.com/film/in-the-family-2017/#:~:text=turkish cinema%3A aile arasinda%3A ,absolute goddesses on the stage"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://cinej.pitt.edu/ojs/cinej/article/view/603/745#:~:text=,with",
+    "https://letterboxd.com/film/in-the-family-2017/#:~:text=turkish cinema%3A aile arasinda%3A ,absolute goddesses on the stage"
+   ]
+  },
+  {
+   "key": "B40",
+   "system": "perplexity-Research",
+   "task": 98,
+   "claim": "L97.2",
+   "quote": "notes of lemon, charred bbq, and tea",
+   "paragraph": "The final product undergoes microfiltration in batches to refine and clarify the liquid, creating a smooth and clean product that has garnered positive reviews from experts who note its \"light and bright\" character with \"notes of lemon, charred bbq, and tea\" along with \"hints of caramel and vanilla\"[^1_8].",
+   "line": 97,
+   "urls": [
+    "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://losangelesdrinksguide.com/en/blog/features-106/brands-107/ritual-zero-proof-whiskey-alternative-unleash-your-spirit-353.htm"
+   ]
+  },
+  {
+   "key": "B41",
+   "system": "openai-deepresearch",
+   "task": 66,
+   "claim": "L149.1",
+   "quote": "I want to see my notes/tasks on a calendar",
+   "paragraph": "**Ease of Use:** If your goal is “I want to see my notes/tasks on a calendar”, Big Calendar is one of the best solutions. **Strengths:** It’s quite straightforward – after installation, by default it will show your daily notes on the calendar. With minimal config, it can also display tasks that have due dates (it likely automatically picks up Tasks plugin data if presen ([Big Calendar by Boninall - Obsidian plugin analytics | Observatory](https://system3.md/observatory/plugins/big-calendar#:~:text=Task %26 Project Management))9】. So you might immediately see all tasks due today, tomorrow, etc., on the calendar. You can click on a date to create a new daily note or new event. There’s also support for “event notes” – you could designate a folder for notes that represent calendar events (like meeting notes with a `date:` in YAML), and it will show those. In essence, it’s flexible in consuming data but tries to work out-of-the-box.",
+   "line": 149,
+   "urls": [
+    "https://system3.md/observatory/plugins/big-calendar#:~:text=Task %26 Project Management"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://system3.md/observatory/plugins/big-calendar#:~:text=Task %26 Project Management"
+   ]
+  },
+  {
+   "key": "B42",
+   "system": "perplexity-Research",
+   "task": 80,
+   "claim": "L80.1",
+   "quote": "no female characters used masculine first-person pronouns, with few examples of them using masculine second-person pronouns",
+   "paragraph": "The relationship between shoujo manga and pronoun adoption has been widely discussed but remains complex. Despite popular belief that manga influences young women to adopt masculine pronouns, Giancarla Unser-Schutz's research found \"no female characters used masculine first-person pronouns, with few examples of them using masculine second-person pronouns\"[^1_14] in her manga corpus.",
+   "line": 80,
+   "urls": [
+    "https://journals.linguisticsociety.org/proceedings/index.php/ExtendedAbs/article/view/514"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://journals.linguisticsociety.org/proceedings/index.php/ExtendedAbs/article/view/514"
+   ]
+  },
+  {
+   "key": "B43",
+   "system": "openai-deepresearch",
+   "task": 60,
+   "claim": "L117.2",
+   "quote": "to the greatest extent feasible and practicable",
+   "paragraph": "- The **Outer Space Treaty (OST)** establishes broad principles. Notably, Article I declares space (including Moon and cislunar space) free for exploration and use by all countries, and Article VI requires states to supervise the activities of their nationals, including private companies. Article IX calls for “due regard” to avoid harmful interference and suggests consultation if one state’s activities might conflict with another’s. While these principles imply a need for communication and coordination, **they lack specific mechanisms**. For example, OST Article XI only asks that states inform the world of the “nature, conduct, locations, and results” of their space activities “to the greatest extent feasible and practicable” ([Don’t Delay Getting Serious About Cislunar Security - War on the Rocks](https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken)). In practice this has meant press releases about major missions or science discoveries, not granular orbit updates. Thus, OST encourages transparency in spirit but doesn’t mandate sharing precise SSA data.",
+   "line": 117,
+   "urls": [
+    "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://warontherocks.com/2022/07/dont-delay-getting-serious-about-cislunar-security/#:~:text=not been a pressing need,country has ever proactively undertaken"
+   ]
+  },
+  {
+   "key": "B44",
+   "system": "openai-deepresearch",
+   "task": 74,
+   "claim": "L73.1",
+   "quote": "shift weight to your right foot",
+   "paragraph": "**5. Real-Time Feedback Trainers (Case: CPR and Beyond):** As a cross-domain example (not a competitive sport but a physical skill), the **CPR Tutor** system provides a template for real-time feedback trainers in any physical task ([Keep Me in the Loop: Real-Time Feedback with Multimodal Data | International Journal of Artificial Intelligence in Education ](https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=This paper describes the CPR,Hence%2C we)). The CPR Tutor used multimodal data (depth camera + EMG) to give live corrective feedback in a life-saving skill scenario. This concept can translate to sports like **rock climbing** or **yoga**, where real-time adjustments are important. In climbing, one could imagine a system with body-worn sensors and a wall camera, alerting a climber if their center of gravity is off or if they are over-gripping holds (detected via forearm muscle activity). In yoga or gymnastics, maintaining certain postures and balance is key – a system with pressure mats and pose estimation could gently correct alignment (“shift weight to your right foot”) as the practitioner holds a pose. The immediacy of feedback in such systems leverages multimodal detection of subtle changes (like weight distribution or muscle tremors) and compares against learned ideal models. Early studies in dance training using Kinect also followed this idea – the system compares the student’s dance moves to a prerecorded expert model and highlights differences, sometimes by overlaying the expert’s avatar and using visual cues to show where the student should adjust ([A systematic review of intelligent tutoring systems based on Gross body… | VIJAY PRAKASH | 13 comments](https://www.linkedin.com/posts/vijaymax\\_a-systematic-review-of-intelligent-tutoring-activity-7022264929193738241-0X25\\#:\\~:text=The articles published from Jan,Kinect and camera were significantly)). Though real-time feedback is powerful, these systems must be carefully designed to not distract at crucial moments (hence often using simple audio tones or brief cues).",
+   "line": 73,
+   "urls": [
+    "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=This paper describes the CPR,Hence%2C we",
+    "https://www.linkedin.com/posts/vijaymax\\_a-systematic-review-of-intelligent-tutoring-activity-7022264929193738241-0X25\\#:\\~:text=The articles published from Jan,Kinect and camera were significantly"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://link.springer.com/article/10.1007/s40593-021-00281-z\\#:\\~:text=This paper describes the CPR,Hence%2C we",
+    "https://www.linkedin.com/posts/vijaymax\\_a-systematic-review-of-intelligent-tutoring-activity-7022264929193738241-0X25\\#:\\~:text=The articles published from Jan,Kinect and camera were significantly"
+   ]
+  },
+  {
+   "key": "B45",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L73.1",
+   "quote": "Black Lives Matter Can Change History…",
+   "paragraph": "- Fraihi, Hind. “Black Lives Matter Can Change History…” *The Low Countries* (23 June 2020) ([the low countries Black Lives Matter Only Can Change History Through Concrete Regulations - the low countries](https://www.the-low-countries.com/article/this-is-how-black-lives-matter-can-change-history/#:~:text=There is nothing wrong with,Statues))",
+   "line": 73,
+   "urls": [
+    "https://www.the-low-countries.com/article/this-is-how-black-lives-matter-can-change-history/#:~:text=There is nothing wrong with,Statues"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.the-low-countries.com/article/this-is-how-black-lives-matter-can-change-history/#:~:text=There is nothing wrong with,Statues"
+   ]
+  },
+  {
+   "key": "B46",
+   "system": "openai-deepresearch",
+   "task": 96,
+   "claim": "L45.1",
+   "quote": "I will pay more for environmentally safe products",
+   "paragraph": "Consumer demand for green tech is certainly a driver. Surveys show that tech-forward consumers are often willing to invest more in sustainable solutions; for instance, a profile of smart home early adopters found they were far more likely to agree with statements like *“I will pay more for environmentally safe products”* ([Trends in Smart Home Tech | Claritas LLC Blog](https://claritas.com/trends-in-smart-home-tech/#:~:text=PRO,energy efficiency will prove valuable)). This sentiment, combined with the very tangible benefit of lower energy bills, means features like **automated energy savings** and **sustainability dashboards** will be a major selling point. We can also expect innovations in **smart water management** – such as smart irrigation systems that conserve water, leak detectors that prevent wastage, and even greywater recycling processes that are monitored and controlled by smart systems – aligning with the broader sustainability theme.",
+   "line": 45,
+   "urls": [
+    "https://claritas.com/trends-in-smart-home-tech/#:~:text=PRO,energy efficiency will prove valuable"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://claritas.com/trends-in-smart-home-tech/#:~:text=PRO,energy efficiency will prove valuable"
+   ]
+  },
+  {
+   "key": "B47",
+   "system": "openai-deepresearch",
+   "task": 89,
+   "claim": "L52.1",
+   "quote": "adapt and develop modern board games",
+   "paragraph": "  ([Figures Playing Board Game - Free photo on Pixabay](https://pixabay.com/photos/figures-playing-board-game-figure-314870/)) *Figure: Contemporary board games use rich mechanics (dice, cards, pawns) and design frameworks.  Researchers propose tailored design processes (e.g. MBGTOTEACH ([ Mastering Modern Board Game Design to Build New Learning Experiences: the MBGTOTEACH Framework | The International Journal of Games and Social Impact ](https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games have proven to be,recognize how to explore games’))) while drawing on MDA-like analysis for tabletop play.*  The board/tabletop game scene has surged in popularity, and designers have adapted both academic frameworks and inventive methods.  Unlike video games, tabletop games must account for physical components and face-to-face social dynamics, but analogous principles apply.  Recent work shows educators using analog games strategically: Sousa (2023) introduces the **MBGTOTEACH framework** to help teachers *“adapt and develop modern board games”* for learning ([ Mastering Modern Board Game Design to Build New Learning Experiences: the MBGTOTEACH Framework | The International Journal of Games and Social Impact ](https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games",
+   "line": 52,
+   "urls": [
+    "https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://pixabay.com/photos/figures-playing-board-game-figure-314870/",
+    "https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games have proven to be,recognize how to explore games’",
+    "https://revistas.ulusofona.pt/index.php/ijgsi/article/view/8516#:~:text=Games"
+   ]
+  },
+  {
+   "key": "B48",
+   "system": "openai-deepresearch",
+   "task": 100,
+   "claim": "L75.1",
+   "quote": "Help me understand what my friend might be feeling in this situation",
+   "paragraph": "  - **Skill Development and Self-Reflection:** Interacting with AI can allow people to practice communication and reflect on their own behavior. As noted, those with social skill deficits can rehearse conversations with chatbots to improve their confidence ([AI Chatbots May Hinder Social Skills in Neurodiverse Individuals - Neuroscience News](https://neurosciencenews.com/chatbots-ai-neurodiversity-social-25347/#:~:text=“Young people with social deficiencies,chatbots in particular%2C” Franze says)). AI that provide feedback (like the ChatGPT relationship analyzer) might help individuals become more aware of how they communicate – highlighting if one uses too negative a tone, or doesn’t ask enough questions of the other person. This kind of feedback, delivered privately by an AI, could encourage personal growth and better interpersonal habits. Additionally, because AI can mimic various perspectives, a person could use a chatbot to understand someone else’s point of view by role-playing (for example, *“Help me understand what my friend might be feeling in this situation”* – the AI can attempt to articulate that). This might actually **foster empathy** by exposing the user to perspectives they hadn’t considered.",
+   "line": 75,
+   "urls": [
+    "https://neurosciencenews.com/chatbots-ai-neurodiversity-social-25347/#:~:text=“Young people with social deficiencies,chatbots in particular%2C” Franze says"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://neurosciencenews.com/chatbots-ai-neurodiversity-social-25347/#:~:text=“Young people with social deficiencies,chatbots in particular%2C” Franze says"
+   ]
+  },
+  {
+   "key": "B49",
+   "system": "perplexity-Research",
+   "task": 80,
+   "claim": "L72.1",
+   "quote": "gendered language appears to be becoming more obsolete and more a stereotype or forced image than a type of language that is actively used in everyday life",
+   "paragraph": "2. Contemporary shifts: A 2022 analysis of the documentary \"Queer Japan\" found that \"gendered language appears to be becoming more obsolete and more a stereotype or forced image than a type of language that is actively used in everyday life\"[^1_12]. The main exception was the continued strategic use of gendered first-person pronouns.",
+   "line": 72,
+   "urls": [
+    "https://gupea.ub.gu.se/handle/2077/70422"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://gupea.ub.gu.se/handle/2077/70422"
+   ]
+  },
+  {
+   "key": "B50",
+   "system": "openai-deepresearch",
+   "task": 96,
+   "claim": "L13.1",
+   "quote": "woven into the fabric of our lives",
+   "paragraph": "Several emerging technologies are reshaping smart home product development and will define the next generation of devices and services. **Artificial intelligence (AI)** is foremost among these trends. AI and machine learning are being embedded in nearly every aspect of the smart home, enabling devices to learn user habits, provide personalisation, and even make decisions autonomously. For example, new smart refrigerators can **suggest recipes based on their contents**, and home assistants are learning to **anticipate users’ needs** – initiatives showcased by LG’s “Home AI” demo at CES 2025 ([CES 2025 Reveals the Future of Stylish and Functional Smart Homes](https://modernhb.com/news/ces-2025-reveals-the-future-of-stylish-and-functional-smart-homes/#:~:text=From refrigerators that recommend recipes,creating an intuitive living environment)). Advanced AI algorithms allow for **predictive automation** (homes adjusting settings in advance of your actions) and more natural interactions with technology. Notably, voice assistants are undergoing a major evolution with **generative AI**: Amazon’s latest **Alexa+** and similar AI-powered assistants promise far more conversational, “human-like” capabilities to manage smart homes, moving from simple command-and-response toward truly proactive digital butlers. This AI integration not only boosts convenience but also lets devices optimise outcomes (for instance, **AI-powered energy systems that analyse consumption patterns to reduce waste** ([CES 2025 Reveals the Future of Stylish and Functional Smart Homes](https://modernhb.com/news/ces-2025-reveals-the-future-of-stylish-and-functional-smart-homes/#:~:text=CES also underscored the role,lower costs%2C and support sustainability))). In short, AI is being *“woven into the fabric of our lives”* and will make smart home technology **smarter, faster, and more intuitive** in the coming years ([Tech Trends 2025 | Deloitte Denmark](https://www.deloitte.com/dk/en/Industries/technology/perspectives/tech-trends.html#:~:text=Tech Trends 2025 ,everything work smarter%2C faster%2C)).",
+   "line": 13,
+   "urls": [
+    "https://www.deloitte.com/dk/en/Industries/technology/perspectives/tech-trends.html#:~:text=Tech Trends 2025 ,everything work smarter%2C faster%2C"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://modernhb.com/news/ces-2025-reveals-the-future-of-stylish-and-functional-smart-homes/#:~:text=From refrigerators that recommend recipes,creating an intuitive living environment",
+    "https://modernhb.com/news/ces-2025-reveals-the-future-of-stylish-and-functional-smart-homes/#:~:text=CES also underscored the role,lower costs%2C and support sustainability",
+    "https://www.deloitte.com/dk/en/Industries/technology/perspectives/tech-trends.html#:~:text=Tech Trends 2025 ,everything work smarter%2C faster%2C"
+   ]
+  },
+  {
+   "key": "B51",
+   "system": "perplexity-Research",
+   "task": 62,
+   "claim": "L29.1",
+   "quote": "the integration of all necessary ingredients of the trapped-ion QCCD architecture into a robust, fully-connected, and programmable trapped-ion quantum computer",
+   "paragraph": "Honeywell (now Quantinuum) successfully demonstrated this architecture, reporting \"the integration of all necessary ingredients of the trapped-ion QCCD architecture into a robust, fully-connected, and programmable trapped-ion quantum computer\"[^1_13]. Their system executed arbitrary four-qubit quantum circuits using two spatially-separated interaction zones in parallel, maintaining high gate fidelities comparable to those achievable in small ion crystals[^1_13].",
+   "line": 29,
+   "urls": [
+    "https://www.honeywell.com/content/dam/honeywellbt/en/documents/downloads/Beta_10_Quantum_3_3_2020.pdf"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.honeywell.com/content/dam/honeywellbt/en/documents/downloads/Beta_10_Quantum_3_3_2020.pdf"
+   ]
+  },
+  {
+   "key": "B52",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "claim": "L70.1",
+   "quote": "Poland’s ‘Holocaust Law’ and Politics of Memory.",
+   "paragraph": "- Santora, Marc. “Poland’s ‘Holocaust Law’ and Politics of Memory.” *TIME Magazine* (Aug 2022) ([Poland’s ‘Ministry of Memory’ Is Skewing History | TIME](https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical)) ([Poland’s ‘Ministry of Memory’ Is Skewing History | TIME](https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=handed over Jews hiding in,Holocaust historians had to apologize))",
+   "line": 70,
+   "urls": [
+    "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+    "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=handed over Jews hiding in,Holocaust historians had to apologize"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=2018 when the government passed,law’s continued existence politicizes—and chills—historical",
+    "https://time.com/6208257/poland-ministry-of-memory-war-holocaust-history/#:~:text=handed over Jews hiding in,Holocaust historians had to apologize"
+   ]
+  },
+  {
+   "key": "B53",
+   "system": "openai-deepresearch",
+   "task": 94,
+   "claim": "L139.1",
+   "quote": "Introducing Cisco rail CBTC and Safety Solution.",
+   "paragraph": "- **Cisco** (2024). “Introducing Cisco rail CBTC and Safety Solution.” (Blog) ([Introducing Cisco Rail Communications-Based Train Control (CBTC) and Safety Solution - Cisco Blogs](https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows)).",
+   "line": 139,
+   "urls": [
+    "https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://blogs.cisco.com/industrial-iot/introducing-cisco-rail-communications-based-train-control-cbtc-and-safety-solution#:~:text=match at L234 Cisco Rail,The approaches are as follows"
+   ]
+  },
+  {
+   "key": "B54",
+   "system": "openai-deepresearch",
+   "task": 96,
+   "claim": "L59.1",
+   "quote": "Find a funny movie from the 90s that I haven’t seen,",
+   "paragraph": "Voice control will remain a linchpin of entertainment interaction. By 2025, it’s expected that essentially all streaming devices and TVs will offer voice assistants to search for content or control playback ([How Streaming Boxes Are Revolutionizing Home Entertainment in ...](https://www.homatics.com/blogs/smart-home-guides/how-streaming-boxes-are-revolutionizing-home-entertainment-in-2025?srsltid=AfmBOopuC-P1U3z-QqKf1iUBxgPAU4lRxTsmaK313Jy1G1vLFrQT1HqR#:~:text=How Streaming Boxes Are Revolutionizing,boxes to a new level)). With the improvements in AI we discussed, these voice interactions will become more conversational. Instead of navigating menus with a remote, one might simply say, *“Find a funny movie from the 90s that I haven’t seen,”* and the system will understand and comply. **Spatial audio systems** and smart soundbars can calibrate sound to the room’s acoustics using built-in mics and AI, providing cinema-like sound at home. Additionally, **lighting and entertainment are converging** – e.g. smart light bulbs that sync colors with what’s on the TV screen to create an ambient experience (a feature already available with some platforms, likely to become more widespread and standardized).",
+   "line": 59,
+   "urls": [
+    "https://www.homatics.com/blogs/smart-home-guides/how-streaming-boxes-are-revolutionizing-home-entertainment-in-2025?srsltid=AfmBOopuC-P1U3z-QqKf1iUBxgPAU4lRxTsmaK313Jy1G1vLFrQT1HqR#:~:text=How Streaming Boxes Are Revolutionizing,boxes to a new level"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.homatics.com/blogs/smart-home-guides/how-streaming-boxes-are-revolutionizing-home-entertainment-in-2025?srsltid=AfmBOopuC-P1U3z-QqKf1iUBxgPAU4lRxTsmaK313Jy1G1vLFrQT1HqR#:~:text=How Streaming Boxes Are Revolutionizing,boxes to a new level"
+   ]
+  },
+  {
+   "key": "B55",
+   "system": "openai-deepresearch",
+   "task": 96,
+   "claim": "L55.1",
+   "quote": "interactive content and T-commerce (television commerce)",
+   "paragraph": "Future developments in entertainment tech will focus on **enhanced user experiences**. **AI-driven content recommendations** are becoming more sophisticated; streaming services already use AI to suggest shows, but this could extend to the smart home context (your home might learn which room you prefer to watch movies in and cue everything up there, or automatically adjust lighting and sound settings based on the content genre). There’s also a trend towards **interactive content** and new forms of media consumption. Parks Associates notes the rising prominence of *“interactive content and T-commerce (television commerce)”* by 2025, where viewers can interact with shows (choosing story paths, for instance) or buy products shown on screen in real time ([2024 streaming trends and 2025 outlook: Kent](https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=ImageKey trends and predictions from,critical revenue source and differentiator)) ([2024 streaming trends and 2025 outlook: Kent](https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=mentioned how their company plans,influential in the coming year)). This blurs the line between entertainment and e-commerce, and smart homes will provide the interface for these interactions (imagine using your TV remote or voice assistant to instantly purchase an item you see in a show).",
+   "line": 55,
+   "urls": [
+    "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=ImageKey trends and predictions from,critical revenue source and differentiator",
+    "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=mentioned how their company plans,influential in the coming year"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=ImageKey trends and predictions from,critical revenue source and differentiator",
+    "https://www.parksassociates.com/blogs/in-the-news/2024-streaming-trends-and-2025-outlook-kent#:~:text=mentioned how their company plans,influential in the coming year"
+   ]
+  },
+  {
+   "key": "B56",
+   "system": "openai-deepresearch",
+   "task": 73,
+   "claim": "L77.1",
+   "quote": "Do you understand this part of the story?",
+   "paragraph": "2. *Assessment for Learning (Formative Assessment):* Instead of using assessment only as a final judgment, holistic approaches heavily emphasize **formative assessments** – ongoing checks for understanding that guide both teacher and student. In an English classroom, this could be as simple as a thumbs-up/down during a read-aloud (“Do you understand this part of the story?”) or a quick ungraded quiz on vocabulary to see who needs more help. These low-stakes assessments are woven into daily lessons to make learning the focus, not testing ([Field Notes: A Holistic Approach to Learning Assessment](https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A formative approach to measuring,and teachers get a snapshot)). A teacher-made **pre-test**, for instance, can reveal students’ prior knowledge about a topic and help the teacher tailor the upcoming lessons ([Field Notes: A Holistic Approach to Learning Assessment](https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A",
+   "line": 77,
+   "urls": [
+    "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A formative approach to measuring,and teachers get a snapshot",
+    "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A formative approach to measuring,and teachers get a snapshot",
+    "https://www.ascd.org/el/articles/field-notes-a-holistic-approach-to-learning-assessment#:~:text=A"
+   ]
+  },
+  {
+   "key": "B57",
+   "system": "openai-deepresearch",
+   "task": 66,
+   "claim": "L167.1",
+   "quote": "view and edit fields directly from the table without opening the note",
+   "paragraph": "3. *Database Folder* documentation: “view and edit fields directly from the table without opening the note” (built on Datavie ([Database Folder](https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault))0】. Requires Dataview plug ([Database Folder](https://rafaelgb.github.io/obsidian-db-folder/#:~:text=Using the search engine of,need to open the note))9】.",
+   "line": 167,
+   "urls": [
+    "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=This plugin allows you to,databases in your Obsidian Vault",
+    "https://rafaelgb.github.io/obsidian-db-folder/#:~:text=Using the search engine of,need to open the note"
+   ]
+  },
+  {
+   "key": "B58",
+   "system": "perplexity-Research",
+   "task": 82,
+   "claim": "L94.1",
+   "quote": "from a huge plantation into an industrialized country",
+   "paragraph": "Brazil focused on transforming \"from a huge plantation into an industrialized country\"[^1_11] through aggressive industrial policy. The Brazilian Development Bank, founded in the early 1950s as a joint effort between American and Brazilian governments, played a pivotal role in this transformation[^1_11].",
+   "line": 94,
+   "urls": [
+    "https://www.elibrary.imf.org/display/book/9781513537863/ch010.xml"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.elibrary.imf.org/display/book/9781513537863/ch010.xml"
+   ]
+  },
+  {
+   "key": "B59",
+   "system": "openai-deepresearch",
+   "task": 99,
+   "claim": "L57.2",
+   "quote": "change the expression of genes associated with aging",
+   "paragraph": "Another well-known IPL brand is **Sciton’s BroadBand Light (BBL)**. Sciton BBL is essentially a high-end IPL device, and the company’s “**Forever Young BBL**” protocol has gained global attention. Clinics in the UK and US promote Forever Young BBL as a way not only to treat sun damage but also to “change the expression of genes associated with aging” (a claim from a small study) and thus **keep skin young** with regular treatments ([Best laser treatments for 2024 | Best Laser Skin Tightening treatments 2024 | The Cosmetic Skin Clinic](https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=Forever Young BBL)) ([Best laser treatments for 2024 | Best Laser Skin Tightening treatments 2024 | The Cosmetic Skin Clinic](https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=,veins and overall sun damage)). While some of the marketing claims may be ambitious, the popularity of BBL photofacials is real – patients enjoy that it’s quick (20–30 minutes), requires no anesthesia, and has no significant recovery period, yet delivers a noticeable improvement in clarity and glow. The **Cosmetic Skin Clinic (London)** reported in 2024 that Forever Young BBL was among their most booked light-based treatments for achieving “luminous and glowing skin” and reducing age spots, redness, and fine lines without downtime ([Best laser treatments for 2024 | Best Laser Skin Tightening treatments 2024 | The Cosmetic Skin Clinic](https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=",
+   "line": 57,
+   "urls": [
+    "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=Forever Young BBL",
+    "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=,veins and overall sun damage"
+   ],
+   "binding": "next",
+   "block_urls": [
+    "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=Forever Young BBL",
+    "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text=,veins and overall sun damage",
+    "https://www.cosmeticskinclinic.com/blog/best-laser-treatments/#:~:text="
+   ]
+  },
+  {
+   "key": "B60",
+   "system": "perplexity-Research",
+   "task": 94,
+   "claim": "L52.1",
+   "quote": "the highest potential for flexible and resilient operation of urban rail networks in the future",
+   "paragraph": "Siemens Mobility has developed Train2Cloud as a next-generation CBTC system designed to unlock \"the highest potential for flexible and resilient operation of urban rail networks in the future\"[^1_1]. This solution transforms everyday operations by providing efficient mass transit systems essential for optimal mobility in megacities and large urban areas worldwide[^1_1].",
+   "line": 52,
+   "urls": [
+    "https://www.mobility.siemens.com/global/en/portfolio/digital-solutions-software/infrastructure/signaling-x/train2cloud.html"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.mobility.siemens.com/global/en/portfolio/digital-solutions-software/infrastructure/signaling-x/train2cloud.html"
+   ]
+  },
+  {
+   "key": "B61",
+   "system": "openai-deepresearch",
+   "task": 89,
+   "claim": "L56.3",
+   "quote": "Can MDA be expanded for non-digital games?",
+   "paragraph": "  In current board game practice, designers often use informal frameworks like **game design patterns** (libraries of common mechanics such as “worker placement” or “deck-building”) and component analysis (evaluating rule complexity and components cost).  Published interviews note that many veteran board-game designers implicitly use MDA ideas by considering how rule changes lead to emergent player interactions (dynamics) and table experiences (aesthetics).  Indeed, the MDA perspective has even been applied to analogue games: Duarte (2015) asks “Can MDA be expanded for non-digital games?”, noting that board game mechanics similarly cascade into unexpected dynamics ([Revisiting the MDA framework](https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3)).",
+   "line": 56,
+   "urls": [
+    "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://www.gamedeveloper.com/design/revisiting-the-mda-framework#:~:text=The MDA authors are especially,3"
+   ]
+  },
+  {
+   "key": "B62",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "claim": "L191.1",
+   "quote": "The Oppositional Gaze: Black Female Spectators.",
+   "paragraph": "   - hooks, bell. “The Oppositional Gaze: Black Female Spectators.” *Black Looks: Race and Representation*. South End Press, 1992, pp. 115-131. (on resistant looking practices) ([The Black Gaze - the facts of whiteness](https://thefactsofwhiteness.org/the-black-gaze/#:~:text=The Black Gaze ,hooks%2C 1992%2C p116)).",
+   "line": 191,
+   "urls": [
+    "https://thefactsofwhiteness.org/the-black-gaze/#:~:text=The Black Gaze ,hooks%2C 1992%2C p116"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://thefactsofwhiteness.org/the-black-gaze/#:~:text=The Black Gaze ,hooks%2C 1992%2C p116"
+   ]
+  },
+  {
+   "key": "B63",
+   "system": "openai-deepresearch",
+   "task": 68,
+   "claim": "L41.1",
+   "quote": "scale up at 6pm for batch jobs at 7pm",
+   "paragraph": "   Scheduled autoscaling ensures **consistent performance during known demand cycles** by eliminating the wait for reactive triggers ([5 Types of Kubernetes Autoscaling, Pros/Cons & Advanced Methods](https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=Scheduled autoscaling involves setting predefined,infrastructure to known demand cycles)). It’s relatively simple to implement and verify (since the schedule is deterministic), and is often used in conjunction with other autoscalers. One must manage schedules carefully to avoid conflicts or forgetting scale-down events. It’s also important to document why a schedule exists (e.g., “scale up at 6pm for batch jobs at 7pm”) to periodically re-evaluate if it’s still needed.",
+   "line": 41,
+   "urls": [
+    "https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=Scheduled autoscaling involves setting predefined,infrastructure to known demand cycles"
+   ],
+   "binding": null,
+   "block_urls": [
+    "https://codefresh.io/learn/kubernetes-management/5-types-of-kubernetes-autoscaling-pros-cons-advanced-methods/#:~:text=Scheduled autoscaling involves setting predefined,infrastructure to known demand cycles"
+   ]
+  }
+ ]
+}
