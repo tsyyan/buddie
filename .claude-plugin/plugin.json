@@ -1,6 +1,6 @@
 {
   "name": "buddie",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Evidence layer for orchestrator/executor chats: quotes checked against byte snapshots of their sources, repo-state anchors checked against the repo, a receipt for every report.",
   "author": {
     "name": "tsyyan"

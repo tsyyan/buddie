@@ -198,3 +198,23 @@ def test_unlinked_term_in_quotes_is_not_a_citation():
     assert pred["outcome"] == "EMPTY" and pred["summary"]["unlinked_terms"] == 1
     pred = verify("The author said: “an evidence layer for chats”.", fetch=False)["predicate"]  # speaker cues are English
     assert pred["summary"]["quotes"] == {"NO_SOURCE": 1}
+
+
+NUM_URL = "https://market.example/pos"
+NUM_PAGE = ("<p>" + "Market background and other text. " * 40 + "</p><p>The tablet POS market was valued at "
+            "USD 3.4 billion in 2022, growing at 7.1% a year.</p>").encode()
+
+
+def test_numbers_not_in_source_are_a_gap_or_a_failure(tmp_path):
+    path = tmp_path / "s"
+    Store(path).add(NUM_URL, NUM_PAGE, content_type="text/html")
+    good = f"The tablet POS market was worth $3.4 billion in 2022 ([Zion]({NUM_URL})).\n"
+    bad = f"The tablet POS market was worth $3.4 billion in 2022 and grows 9.5% a year ([Zion]({NUM_URL})).\n"
+    pred = verify(good, store=str(path), fetch=False)["predicate"]
+    assert pred["outcome"] == "PASS" and pred["summary"]["numbers"] == {"FOUND": 2}
+    assert pred["line"].startswith("buddie PASS: numbers 2/2 found")
+    pred = verify(bad, store=str(path), fetch=False)["predicate"]
+    assert pred["outcome"] == "GAPS" and "9.5%" in pred["gaps"][0]
+    pred = verify(bad, store=str(path), fetch=False, numbers="fail")["predicate"]
+    assert pred["outcome"] == "FAIL" and "9.5%" in pred["blocking"][0]
+    assert verify(bad, store=str(path), fetch=False, numbers="off")["predicate"]["outcome"] == "EMPTY"

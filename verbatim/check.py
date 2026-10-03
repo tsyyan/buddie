@@ -31,8 +31,9 @@ NOT_FOUND           none of the above; "closest" gives the nearest visible passa
                     so a wrong number (ratio ~0.95) reads differently from an invented sentence (ratio ~0.5)
 SOURCE_UNAVAILABLE  no snapshot for any cited URL, the fetch failed / returned an HTTP error, its text
                     cannot be extracted here (a PDF without pdftotext, a binary body), the snapshot is a short
-                    bot/cookie gate, has almost no text (EMPTY_PAGE_CHARS), or an article URL redirected to the
-                    site's home page. Judged on the quote's own links only:
+                    bot/cookie gate (or opens with a captcha), has almost no text (EMPTY_PAGE_CHARS), is an app
+                    shell (SHELL_RATIO), or an article URL redirected to the site's home page, a section above
+                    it or an unrelated page of another site. Judged on the quote's own links only:
                     a readable neighbour link in the same paragraph does not turn it into NOT_FOUND (E005)
 NO_SOURCE           the quote cites no URL at all
 
@@ -73,8 +74,16 @@ BRACKET_SPAN = 40
 BRACKET_KEEP = re.compile(r"\[([^\[\]]{1,60})\]")  # "bore [a son]" where the page has "bore a son" (E008 F204)
 # a short page that says this is a bot / cookie / JavaScript gate, not the document (PubMed, PMC, Cloudflare)
 WALL = re.compile(r"enable (?:cookies|javascript)|cookies must be enabled|just a moment|checking your browser|"
-                  r"verify (?:that )?you are (?:a )?human|are you a robot|access denied|please turn javascript on", re.I)
+                  r"verify (?:that )?you are (?:a )?human|are you a robot|access denied|please turn javascript on|"
+                  r"client challenge|a required part of this site couldn.t load|complete the (?:captcha|security check)|"
+                  r"confirm you are a human", re.I)
 WALL_MAX_CHARS = 2000
+# a gate can also sit on top of a long page: ScienceDirect's captcha ("Just a moment... Help Are you a robot?") came
+# with 112k characters of script text behind it (E009). A gate phrase in the first WALL_HEAD_CHARS marks it at any length
+WALL_HEAD_CHARS = 120
+# an app shell: a few hundred characters of navigation in 100 kB of HTML whose content arrives by JavaScript
+# (E009: WhaleWisdom's 13F table, 564 characters in 110 kB)
+SHELL_RATIO = 100
 # below this a snapshot is an app shell or a teaser, not an article. Real short news pages run 2-4k characters
 # (E001: Android Authority 2.1k, AI Weekly 3.3k), so length alone cannot catch paywalls without hiding misquotes.
 THIN_PAGE_CHARS = 1200
@@ -357,13 +366,19 @@ def readable(store: Store, entry: dict | None, url: str = "") -> tuple[dict, Pag
         pg = Page(store.read(entry["sha256"]), entry.get("content_type"), entry.get("content_encoding"))
     except Unreadable as error:
         return {"error": str(error)}
-    wall = WALL.search(pg.visible) if len(pg.visible) < WALL_MAX_CHARS else None
+    wall = WALL.search(pg.visible) if len(pg.visible) < WALL_MAX_CHARS else WALL.search(pg.visible[:WALL_HEAD_CHARS])
     if wall:
         return {"error": f"gate page, not the document: {wall.group(0)!r}"}
-    if url and _home_page(url, entry.get("final_url")):
-        return {"error": f"redirected to the site's home page: {entry.get('final_url')}"}
+    # only where the cited URL itself was asked for: an archive capture or an open copy (access.py) lives elsewhere
+    direct = (entry.get("via") or "browser").startswith("browser")
+    moved = _redirected(url, entry.get("final_url")) if url and direct else None
+    if moved:
+        return {"error": f"redirected to {moved}, not the document: {entry.get('final_url')}"}
     if len(pg.visible) < EMPTY_PAGE_CHARS:
         return {"error": f"no text to check: {len(pg.visible)} visible characters"}
+    if len(pg.visible) < THIN_PAGE_CHARS and "html" in (entry.get("content_type") or "html").lower() \
+            and len(pg.data) > SHELL_RATIO * len(pg.visible):
+        return {"error": f"app shell, not the document: {len(pg.visible)} visible characters in {len(pg.data)} bytes"}
     return entry, pg
 
 
@@ -482,12 +497,36 @@ def check_claims(claims: list[dict], store: Store, *, fetch: bool = False, acces
     return results
 
 
-def _home_page(url: str, final_url: str | None) -> bool:
-    """An article URL that ended on the site's front page: the article is gone (E006 B17)."""
+LANGUAGE_ROOT = re.compile(r"[a-z]{2}(?:[-_][a-z]{2})?", re.I)
+INDEX_PAGE = re.compile(r"(?:index|default)\.\w+", re.I)
+
+
+def _redirected(url: str, final_url: str | None) -> str | None:
+    """Where a document URL ended when it is plainly not the document (None: the document, or cannot tell):
+    the site's front page, also behind a language root ("/en/": PIF's Fitch PDF, E009; E006 B17), a section above the
+    asked page ("/articles/" for "/articles/article.aspx?p=31072": InformIT, E009), or a short page of another site
+    that does not name the asked one (Papers With Code to huggingface.co/papers/trending, E009). doi.org and other
+    resolvers land on deep publisher paths and stay the document."""
     if not final_url:
-        return False
+        return None
     asked, got = urlsplit(url), urlsplit(final_url)
-    return asked.path.strip("/") != "" and got.path.strip("/") == "" and not got.query
+    a = [p for p in asked.path.split("/") if p]
+    g = [p for p in got.path.split("/") if p]
+    if not a or got.query:
+        return None
+    if a == g:
+        return None
+    if not g or len(g) == 1 and LANGUAGE_ROOT.fullmatch(g[0]):
+        return "the site's home page"
+    host = lambda h: ".".join((h or "").lower().split(".")[-2:])  # noqa: E731
+    if host(asked.netloc) == host(got.netloc):
+        if len(g) < len(a) and a[:len(g)] == g and not INDEX_PAGE.fullmatch(a[-1]):
+            return "a section of the site"
+        return None
+    slug = a[-1].lower()
+    if len(g) <= 2 and len(slug) >= 8 and slug not in final_url.lower():
+        return "another site's page"
+    return None
 
 
 def doubts_about(claim: dict, page: Page) -> list[str]:

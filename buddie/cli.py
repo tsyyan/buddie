@@ -1,6 +1,6 @@
 """buddie command line.
 
-  buddie verify REPORT [--repo DIR ...] [--no-fetch] [--access default] [--json receipt.json]
+  buddie verify REPORT [--repo DIR ...] [--no-fetch] [--access default] [--numbers gap|fail|off] [--json receipt.json]
                 [--transcript SESSION.jsonl] [--no-github]
                                     receipt for a report; exit 1 on FAIL
   buddie mandate queue|accepted|verdict [N ...] [--repo DIR] [--rev COMMIT]
@@ -25,7 +25,8 @@ def cmd_verify(args) -> int:
     repos = [Path(r) for r in args.repo] if args.repo else find_repos(Path.cwd())
     receipt = verify(text, name=args.report, repos=repos, store=args.store, fetch=not args.no_fetch,
                      access=args.access, quotes=not args.anchors_only, rev=args.rev,
-                     github=None if args.no_github else github_get, transcript=args.transcript)
+                     github=None if args.no_github else github_get, transcript=args.transcript,
+                     numbers=args.numbers)
     pred = receipt["predicate"]
     if args.json:
         Path(args.json).write_text(json.dumps(receipt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -87,6 +88,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--rev", help="judge work claims against the queue as of this commit")
     s.add_argument("--transcript", help="Claude Code session jsonl for run: anchors")
     s.add_argument("--no-github", action="store_true", help="leave pr:/ci: anchors UNCHECKABLE (offline)")
+    s.add_argument("--numbers", choices=("gap", "fail", "off"), default="gap",
+                   help="a number of a cited sentence not in its source: a gap (default), a failure, or not checked")
     s.set_defaults(func=cmd_verify)
     m = sub.add_parser("mandate", help="check the work queue and the accepted plans (buddie.toml [mandate])")
     m.add_argument("what", choices=("queue", "accepted", "verdict"))

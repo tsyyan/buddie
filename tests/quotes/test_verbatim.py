@@ -861,3 +861,65 @@ def test_cut_off_body_is_a_failed_fetch_not_a_crash(tmp_path, monkeypatch):
     r = check_claims([{"id": "t", "line": 1, "quote": "something long enough here", "urls": ["https://cut.example/"]}],
                      Store(tmp_path), fetch=False)[0]
     assert r["verdict"] == "SOURCE_UNAVAILABLE"
+
+
+# --- 0.3.4 (E009 gates, NEXT №42) -----------------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("page", [
+    # nature.com and Springer: 226 characters, not in the old wall phrases
+    "<p>Client Challenge A required part of this site couldn’t load. This may be due to a browser extension, "
+    "network issues, or browser settings. Please check your connection, disable any ad blockers.</p>",
+    # ScienceDirect's captcha on top of a long page of script text: too long for the old 2000-character limit
+    "<p>Just a moment... Help Are you a robot? Please confirm you are a human by completing the captcha.</p>" + ARTICLE * 3,
+])
+def test_gates_are_unavailable(tmp_path, page):
+    s = Store(tmp_path)
+    s.add("https://journal.example/articles/x1", page.encode(), content_type="text/html")
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats", "https://journal.example/articles/x1")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "gate page" in r["error"]
+
+
+def test_article_about_captchas_is_still_read(tmp_path):
+    s = Store(tmp_path)
+    s.add("https://news.example/robots", ("<p>" + "Some text before the topic. " * 10 + "Sites ask: are you a robot? "
+                                          "</p>" + ARTICLE * 2).encode(), content_type="text/html")
+    assert verdicts(s, "Unrelated filler text on the same page", "https://news.example/robots")["verdict"] == "FOUND"
+
+
+def test_app_shell_is_unavailable(tmp_path):
+    s = Store(tmp_path)
+    shell = ("<html><head>" + "<script>var x = 1;</script>" * 4000 + "</head><body><p>BERKSHIRE HATHAWAY INC Top 13F "
+             "Holdings We give you the access and tools to invest like a Wall Street money manager. Key Features "
+             "Backtester Combined Holdings Excel Add-in 13F Fund Performance Evaluator Developer API About Us "
+             "Getting Started FAQ Contact Us Premium Subscriptions News and Articles Privacy Policy</p></body></html>")
+    s.add("https://whale.example/filer/brk", shell.encode(), content_type="text/html")
+    r = verdicts(s, "Apple remains the largest holding of the fund", "https://whale.example/filer/brk")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "app shell" in r["error"]
+
+
+@pytest.mark.parametrize("asked, final, why", [
+    ("https://www.pif.gov.sa/-/media/pdf/fitch-25-dec-2024.pdf", "https://www.pif.gov.sa/en/", "home page"),
+    ("https://www.informit.com/articles/article.aspx?p=31072&seqNum=5", "https://www.informit.com/articles/", "section"),
+    ("https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking",
+     "https://huggingface.co/papers/trending", "another site"),
+])
+def test_redirects_away_from_the_document_are_unavailable(tmp_path, asked, final, why):
+    s = Store(tmp_path)
+    s.add(asked, ("<p>Welcome.</p>" + ARTICLE).encode(), content_type="text/html", final_url=final)
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats", asked)
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and why in r["error"]
+
+
+@pytest.mark.parametrize("asked, final", [
+    ("https://doi.org/10.1016/j.techfore.2016.08.019",
+     "https://www.sciencedirect.com/science/article/pii/S0040162516302244"),  # a resolver lands deep
+    ("https://doi.org/10.1057/s41599-024-03557-6", "https://www.nature.com/articles/s41599-024-03557-6"),
+    ("https://example.com/docs/index.html", "https://example.com/docs/"),
+    ("https://example.com/story", "https://example.com/en/story"),
+    ("https://example.com/en", "https://example.com/en/"),
+])
+def test_resolvers_and_equivalent_paths_stay_the_document(tmp_path, asked, final):
+    s = Store(tmp_path)
+    s.add(asked, ARTICLE.encode(), content_type="text/html", final_url=final)
+    assert verdicts(s, "Unrelated filler text on the same page", asked)["verdict"] == "FOUND"

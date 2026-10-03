@@ -35,6 +35,8 @@ TOOLS = [
             "access": {"type": "string", "description": "verbatim --access for unreadable pages, e.g. 'default'"},
             "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"},
             "transcript": {"type": "string", "description": "Claude Code session jsonl for run: anchors"},
+            "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
+                        "description": "a number of a cited sentence not in its source: gap, fail or off"},
             "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
         })},
     },
@@ -71,7 +73,7 @@ def verify_report(args: dict) -> tuple[dict, bool]:
     repos = [Path(r) for r in args["repos"]] if args.get("repos") else find_repos(Path.cwd())
     receipt = verify(text, name=name, repos=repos, store=args.get("store"), fetch=args.get("fetch", True),
                      access=args.get("access"), github=github_get if args.get("github", True) else None,
-                     transcript=args.get("transcript"))
+                     transcript=args.get("transcript"), numbers=args.get("numbers", "gap"))
     return receipt, False
 
 

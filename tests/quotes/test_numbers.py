@@ -82,3 +82,48 @@ def test_unreadable_page():
 
 def test_content_words():
     assert content_words("Revenue reached $3.1 billion in March[^2].") == {"revenue", "reached"}
+
+
+# --- 0.3.4 (NEXT №42) ------------------------------------------------------------------------------------------------
+
+
+def test_year_needs_a_word_of_its_own_clause_nearby():
+    # E009 S003: "26% in 2019" was called found by a "2019" in the page's copyright line, 300 characters from other
+    # words of the sentence
+    sentence = "Nearly 37% of households used e-commerce in 2020, a marked increase from 26% in 2019 among seniors."
+    page = ("Households and e-commerce: nearly 37% of senior households shopped online in 2020. " + "x " * 60
+            + "Download the full Japan report ©2019 | This report was produced by FP Analytics.")
+    v = verdicts(sentence, page)
+    assert v["2020"] == "FOUND" and v["2019"] == "NO_CONTEXT"
+
+
+def test_gemini_footnotes_after_a_space_are_citations():
+    from verbatim.numbers import cited_sentences
+    article = ("# Report\n\nNearly 37% of households used e-commerce in 2020, up from 26% in 2019 16, and usage has "
+               "multiplied since the early 2000s.3\n\n# Works cited\n\n3. AARP, https://aarp.example/japan\n"
+               "16. Trade.gov, https://trade.example/japan-ecommerce\n")
+    (c,) = cited_sentences(article)
+    assert c["urls"] == ["https://trade.example/japan-ecommerce", "https://aarp.example/japan"]
+    assert [n["text"] for n in c["numbers"]] == ["37%", "2020", "26%", "2019"]
+
+
+def test_spaced_digits_that_are_values_are_not_footnotes():
+    from verbatim.numbers import cites
+    defs = {"10": "https://a.example/10", "16": "https://a.example/16"}
+    assert cites("In 2019 16 companies listed, and the top 10 firms grew.", defs, True) == []
+
+
+def test_check_report_judges_numbers_on_readable_links_only(tmp_path):
+    from verbatim.numbers import check_report
+    from verbatim.store import Store
+    s = Store(tmp_path)
+    body = ("<p>" + "Market background and other text. " * 40 + "</p><p>The tablet POS market was valued at "
+            "USD 3.4 billion in 2022, growing at 7.1% a year.</p>").encode()
+    s.add("https://r.example/pos", body, content_type="text/html")
+    s.add("https://gate.example/pos", b"<p>Client Challenge A required part of this site couldn't load.</p>",
+          content_type="text/html")
+    md = ("# R\n\nThe tablet POS market was worth $3.4 billion in 2022 and grows 9.5% a year ([Zion](https://r.example/pos)).\n\n"
+          "The market will reach $15 billion by 2030 ([Gate](https://gate.example/pos)).\n")
+    rows = {r["text"]: (r["verdict"], r["id"]) for r in check_report(md, s)}
+    assert rows["$3.4 billion"] == ("FOUND", "L3.n1") and rows["9.5%"][0] == "NOT_FOUND"
+    assert rows["$15 billion"][0] == "SOURCE_UNAVAILABLE" and rows["2030"][1] == "L5.n2"

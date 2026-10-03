@@ -142,6 +142,45 @@ def test_prose_work_claims_are_counted_not_blocked(tmp_path, monkeypatch):
     spec = importlib.util.spec_from_file_location("measure", path)
     measure = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(measure)
-    blocked = dict(logged[1], exit=2, at="0", sha256="x")
+    blocked = dict(logged[1], exit=2, at="0", sha256="x", work={"anchored": 1, "broken": 1, "prose": 0})
     result = measure.measure([blocked] + logged + [logged[1]])
-    assert result["answers"] == 2 and result["total"] == {"anchored": 3, "broken": 0, "prose": 2, "blocked_before": 1}
+    assert result["answers"] == 2 and result["sessions"] == 1
+    assert result["total"] == {"anchored": 3, "broken": 0, "prose": 2, "blocked_before": 1, "caught_broken": 1}
+    assert result["rows"][0]["caught_broken"] == 1 and result["rows"][0]["tool"] == "mcp__hearthbot__reply"
+
+
+def test_descriptions_and_plans_are_not_work_claims():
+    # the three false hits of NEXT №45 (NEXT №52): a kind of step after «которые», a plan after «проверю, что»
+    for line in ("В `launch` идут шаги `auto`, которые уже влиты, но ни одна ветка не пометила их «запущено».",
+                 "`chain.py debt` будет показывать шаги с `auto`, которые слиты, но не запущены, и шаги с `ask`",
+                 "Перед тем как ты его сольёшь, я проверю, что CI зелёный и в diff нет внутренних данных.",
+                 "Убедимся, что тесты прошли.", "Нужно проверить, что PR слит.", "Дождусь, когда CI зелёный."):
+        assert not effects.claims_work(line), line
+    for line in ("PR слит.", "CI зелёный.", "Тесты прошли.", "lab#59 слит автомержем после зелёного CI",
+                 "Я проверил, что CI зелёный.", "lab#64, который уже влит, чинит экспорт",
+                 "PR, которые я открыл, слиты.", "41 passed", "прогнал pytest", "CI прошёл, PR влит"):
+        assert effects.claims_work(line), line
+
+
+def test_measure_recounts_prose_from_known_texts(tmp_path):
+    import hashlib
+    import importlib.util
+    from pathlib import Path
+    path = Path(__file__).parents[1] / "dogfood" / "effects" / "measure.py"
+    if not path.is_file():  # dogfood/ stays in lab
+        return
+    spec = importlib.util.spec_from_file_location("measure", path)
+    measure = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(measure)
+    whole = "Шаги, которые слиты, но не запущены.\nPR слит.\n\nСледующий шаг: дальше."
+    sha = hashlib.sha256(whole.encode()).hexdigest()
+    texts = tmp_path / "texts.json"
+    texts.write_text(json.dumps({"answers": [
+        {"sha256": sha, "whole": True, "text": whole},
+        {"sha256": "b" * 64, "whole": False, "counted": 1, "text": "Я проверю, что CI зелёный."}]}))
+    row = {"at": "1", "session": "s", "exit": 0, "outcome": "PASS", "final": True}
+    rows = [dict(row, sha256=sha, work={"anchored": 0, "broken": 0, "prose": 2}),
+            dict(row, sha256="b" * 64, work={"anchored": 1, "broken": 0, "prose": 3}),
+            dict(row, sha256="c" * 64, work={"anchored": 0, "broken": 0, "prose": 1})]
+    got = [r["work"]["prose"] for r in measure.recount(rows, texts)]
+    assert got == [1, 2, 1] and measure.measure(measure.recount(rows, texts))["total"]["prose"] == 4
