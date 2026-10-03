@@ -11,6 +11,7 @@ so "the source was unavailable" is evidence, not a silent gap.
 from __future__ import annotations
 
 import hashlib
+import http.client
 import json
 import os
 import threading
@@ -101,9 +102,14 @@ class Store:
             return self.record(url, {"sha256": None, "fetched_at": now(), "http_status": error.code,
                                      "content_type": error.headers.get("Content-Type"), "final_url": url,
                                      "error": f"HTTP {error.code}"})
-        except (urllib.error.URLError, TimeoutError, OSError, UnicodeError, ValueError) as error:
+        except http.client.IncompleteRead as error:
+            # a body cut off mid-transfer (E014): the part that came is not the page, so it is a failed fetch,
+            # not a snapshot a quote could be missing from; str() of it is only the byte counts
             return self.record(url, {"sha256": None, "fetched_at": now(), "http_status": None,
-                                     "content_type": None, "final_url": url, "error": str(error)[:200]})
+                                     "content_type": None, "final_url": url, "error": f"incomplete read: {error!r}"[:200]})
+        except (urllib.error.URLError, TimeoutError, OSError, UnicodeError, ValueError, http.client.HTTPException) as error:
+            return self.record(url, {"sha256": None, "fetched_at": now(), "http_status": None,
+                                     "content_type": None, "final_url": url, "error": str(error)[:200] or repr(error)[:200]})
 
     def latest(self, url: str) -> dict | None:
         entries = self.index().get(canonical_url(url))

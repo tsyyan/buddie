@@ -1,0 +1,606 @@
+{
+ "tool": "verbatim 0.3.2 + numbers (E009)",
+ "agreement": {
+  "numbers": 193,
+  "agree": 187,
+  "kappa": 0.956
+ },
+ "confusion": {
+  "ABSENT / FOUND": 10,
+  "ABSENT / FOUND_NORMALIZED": 2,
+  "ABSENT / FOUND_ROUNDED": 1,
+  "ABSENT / NOT_FOUND": 16,
+  "ABSENT / NO_CONTEXT": 7,
+  "DERIVED / NOT_FOUND": 1,
+  "DISAGREE / FOUND": 1,
+  "DISAGREE / NOT_FOUND": 1,
+  "DISAGREE / SOURCE_UNAVAILABLE": 4,
+  "IN_SOURCE / FOUND": 60,
+  "IN_SOURCE / FOUND_NORMALIZED": 4,
+  "IN_SOURCE / FOUND_ROUNDED": 5,
+  "IN_SOURCE / NOT_FOUND": 2,
+  "IN_SOURCE / SOURCE_UNAVAILABLE": 3,
+  "NOT_A_CLAIM / FOUND": 9,
+  "NOT_A_CLAIM / FOUND_NORMALIZED": 1,
+  "NOT_A_CLAIM / NOT_FOUND": 2,
+  "NOT_A_CLAIM / NO_CONTEXT": 2,
+  "NOT_A_CLAIM / SOURCE_UNAVAILABLE": 2,
+  "UNVERIFIABLE / FOUND": 1,
+  "UNVERIFIABLE / FOUND_NORMALIZED": 1,
+  "UNVERIFIABLE / NOT_FOUND": 28,
+  "UNVERIFIABLE / SOURCE_UNAVAILABLE": 30
+ },
+ "all": {
+  "numbers": 193,
+  "agreed": 187,
+  "disagree": 6,
+  "labels": {
+   "IN_SOURCE": 74,
+   "UNVERIFIABLE": 60,
+   "ABSENT": 36,
+   "NOT_A_CLAIM": 16,
+   "DISAGREE": 6,
+   "DERIVED": 1
+  },
+  "checkable": 111,
+  "checkable_with_disagreements": 114,
+  "agent_errors": 36,
+  "agent_errors_high": 38,
+  "agent_error_rate": 0.324,
+  "agent_error_rate_ci95": [
+   0.244,
+   0.416
+  ],
+  "agent_error_rate_high": 0.333,
+  "false_not_found": 2,
+  "false_not_found_high": 2,
+  "false_not_found_rate": 0.018,
+  "false_not_found_rate_ci95": [
+   0.005,
+   0.063
+  ],
+  "false_not_found_rate_high": 0.018,
+  "in_source_no_context": 0,
+  "derived": 1,
+  "derived_tool": {
+   "NOT_FOUND": 1
+  },
+  "errors_caught": 23,
+  "errors_missed_as_found": 13,
+  "errors_unavailable_to_tool": 0,
+  "keys": {
+   "false_not_found": [
+    "S040.6",
+    "S100.2"
+   ],
+   "in_source_no_context": [],
+   "agent_errors": [
+    "S003.1",
+    "S003.2",
+    "S003.3",
+    "S003.4",
+    "S007.1",
+    "S007.2",
+    "S011.1",
+    "S011.2",
+    "S017.1",
+    "S020.1",
+    "S020.2",
+    "S020.3",
+    "S022.2",
+    "S031.1",
+    "S031.2",
+    "S031.3",
+    "S032.2",
+    "S034.1",
+    "S035.1",
+    "S039.1",
+    "S061.1",
+    "S062.1",
+    "S068.1",
+    "S068.2",
+    "S068.3",
+    "S072.1",
+    "S072.2",
+    "S072.3",
+    "S077.1",
+    "S078.1",
+    "S078.2",
+    "S078.3",
+    "S079.2",
+    "S091.1",
+    "S099.1",
+    "S099.2"
+   ],
+   "missed": [
+    "S007.2",
+    "S020.1",
+    "S020.2",
+    "S020.3",
+    "S031.1",
+    "S031.3",
+    "S034.1",
+    "S062.1",
+    "S068.2",
+    "S072.2",
+    "S078.3",
+    "S099.1",
+    "S099.2"
+   ]
+  }
+ },
+ "by_system": {
+  "gemini-2.5-pro-deepresearch": {
+   "numbers": 40,
+   "agreed": 40,
+   "disagree": 0,
+   "labels": {
+    "ABSENT": 19,
+    "IN_SOURCE": 13,
+    "UNVERIFIABLE": 4,
+    "NOT_A_CLAIM": 3,
+    "DERIVED": 1
+   },
+   "checkable": 33,
+   "checkable_with_disagreements": 33,
+   "agent_errors": 19,
+   "agent_errors_high": 19,
+   "agent_error_rate": 0.576,
+   "agent_error_rate_ci95": [
+    0.408,
+    0.728
+   ],
+   "agent_error_rate_high": 0.576,
+   "false_not_found": 0,
+   "false_not_found_high": 0,
+   "false_not_found_rate": 0.0,
+   "false_not_found_rate_ci95": [
+    0.0,
+    0.104
+   ],
+   "false_not_found_rate_high": 0.0,
+   "in_source_no_context": 0,
+   "derived": 1,
+   "derived_tool": {
+    "NOT_FOUND": 1
+   },
+   "errors_caught": 13,
+   "errors_missed_as_found": 6,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [],
+    "in_source_no_context": [],
+    "agent_errors": [
+     "S003.1",
+     "S003.2",
+     "S003.3",
+     "S003.4",
+     "S007.1",
+     "S007.2",
+     "S011.1",
+     "S011.2",
+     "S017.1",
+     "S031.1",
+     "S031.2",
+     "S031.3",
+     "S039.1",
+     "S068.1",
+     "S068.2",
+     "S068.3",
+     "S091.1",
+     "S099.1",
+     "S099.2"
+    ],
+    "missed": [
+     "S007.2",
+     "S031.1",
+     "S031.3",
+     "S068.2",
+     "S099.1",
+     "S099.2"
+    ]
+   }
+  },
+  "grok-deeper-search": {
+   "numbers": 51,
+   "agreed": 48,
+   "disagree": 3,
+   "labels": {
+    "IN_SOURCE": 20,
+    "UNVERIFIABLE": 20,
+    "ABSENT": 6,
+    "DISAGREE": 3,
+    "NOT_A_CLAIM": 2
+   },
+   "checkable": 26,
+   "checkable_with_disagreements": 28,
+   "agent_errors": 6,
+   "agent_errors_high": 7,
+   "agent_error_rate": 0.231,
+   "agent_error_rate_ci95": [
+    0.11,
+    0.421
+   ],
+   "agent_error_rate_high": 0.25,
+   "false_not_found": 0,
+   "false_not_found_high": 0,
+   "false_not_found_rate": 0.0,
+   "false_not_found_rate_ci95": [
+    0.0,
+    0.129
+   ],
+   "false_not_found_rate_high": 0.0,
+   "in_source_no_context": 0,
+   "derived": 0,
+   "derived_tool": {},
+   "errors_caught": 5,
+   "errors_missed_as_found": 1,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [],
+    "in_source_no_context": [],
+    "agent_errors": [
+     "S022.2",
+     "S077.1",
+     "S078.1",
+     "S078.2",
+     "S078.3",
+     "S079.2"
+    ],
+    "missed": [
+     "S078.3"
+    ]
+   }
+  },
+  "openai-deepresearch": {
+   "numbers": 43,
+   "agreed": 42,
+   "disagree": 1,
+   "labels": {
+    "IN_SOURCE": 12,
+    "UNVERIFIABLE": 12,
+    "ABSENT": 11,
+    "NOT_A_CLAIM": 7,
+    "DISAGREE": 1
+   },
+   "checkable": 23,
+   "checkable_with_disagreements": 23,
+   "agent_errors": 11,
+   "agent_errors_high": 11,
+   "agent_error_rate": 0.478,
+   "agent_error_rate_ci95": [
+    0.292,
+    0.67
+   ],
+   "agent_error_rate_high": 0.478,
+   "false_not_found": 0,
+   "false_not_found_high": 0,
+   "false_not_found_rate": 0.0,
+   "false_not_found_rate_ci95": [
+    -0.0,
+    0.143
+   ],
+   "false_not_found_rate_high": 0.0,
+   "in_source_no_context": 0,
+   "derived": 0,
+   "derived_tool": {},
+   "errors_caught": 5,
+   "errors_missed_as_found": 6,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [],
+    "in_source_no_context": [],
+    "agent_errors": [
+     "S020.1",
+     "S020.2",
+     "S020.3",
+     "S032.2",
+     "S034.1",
+     "S035.1",
+     "S061.1",
+     "S062.1",
+     "S072.1",
+     "S072.2",
+     "S072.3"
+    ],
+    "missed": [
+     "S020.1",
+     "S020.2",
+     "S020.3",
+     "S034.1",
+     "S062.1",
+     "S072.2"
+    ]
+   }
+  },
+  "perplexity-Research": {
+   "numbers": 59,
+   "agreed": 57,
+   "disagree": 2,
+   "labels": {
+    "IN_SOURCE": 29,
+    "UNVERIFIABLE": 24,
+    "NOT_A_CLAIM": 4,
+    "DISAGREE": 2
+   },
+   "checkable": 29,
+   "checkable_with_disagreements": 30,
+   "agent_errors": 0,
+   "agent_errors_high": 1,
+   "agent_error_rate": 0.0,
+   "agent_error_rate_ci95": [
+    0.0,
+    0.117
+   ],
+   "agent_error_rate_high": 0.033,
+   "false_not_found": 2,
+   "false_not_found_high": 2,
+   "false_not_found_rate": 0.069,
+   "false_not_found_rate_ci95": [
+    0.019,
+    0.22
+   ],
+   "false_not_found_rate_high": 0.067,
+   "in_source_no_context": 0,
+   "derived": 0,
+   "derived_tool": {},
+   "errors_caught": 0,
+   "errors_missed_as_found": 0,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [
+     "S040.6",
+     "S100.2"
+    ],
+    "in_source_no_context": [],
+    "agent_errors": [],
+    "missed": []
+   }
+  }
+ },
+ "by_kind": {
+  "values (percent, money, value)": {
+   "numbers": 132,
+   "agreed": 128,
+   "disagree": 4,
+   "labels": {
+    "IN_SOURCE": 52,
+    "UNVERIFIABLE": 47,
+    "ABSENT": 21,
+    "NOT_A_CLAIM": 7,
+    "DISAGREE": 4,
+    "DERIVED": 1
+   },
+   "checkable": 74,
+   "checkable_with_disagreements": 76,
+   "agent_errors": 21,
+   "agent_errors_high": 23,
+   "agent_error_rate": 0.284,
+   "agent_error_rate_ci95": [
+    0.194,
+    0.395
+   ],
+   "agent_error_rate_high": 0.303,
+   "false_not_found": 2,
+   "false_not_found_high": 2,
+   "false_not_found_rate": 0.027,
+   "false_not_found_rate_ci95": [
+    0.007,
+    0.093
+   ],
+   "false_not_found_rate_high": 0.026,
+   "in_source_no_context": 0,
+   "derived": 1,
+   "derived_tool": {
+    "NOT_FOUND": 1
+   },
+   "errors_caught": 17,
+   "errors_missed_as_found": 4,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [
+     "S040.6",
+     "S100.2"
+    ],
+    "in_source_no_context": [],
+    "agent_errors": [
+     "S003.1",
+     "S003.3",
+     "S007.1",
+     "S011.1",
+     "S011.2",
+     "S020.3",
+     "S022.2",
+     "S031.1",
+     "S031.2",
+     "S031.3",
+     "S032.2",
+     "S039.1",
+     "S061.1",
+     "S068.1",
+     "S068.2",
+     "S068.3",
+     "S072.1",
+     "S072.3",
+     "S077.1",
+     "S078.1",
+     "S079.2"
+    ],
+    "missed": [
+     "S020.3",
+     "S031.1",
+     "S031.3",
+     "S068.2"
+    ]
+   }
+  },
+  "dates and years": {
+   "numbers": 61,
+   "agreed": 59,
+   "disagree": 2,
+   "labels": {
+    "IN_SOURCE": 22,
+    "ABSENT": 15,
+    "UNVERIFIABLE": 13,
+    "NOT_A_CLAIM": 9,
+    "DISAGREE": 2
+   },
+   "checkable": 37,
+   "checkable_with_disagreements": 38,
+   "agent_errors": 15,
+   "agent_errors_high": 15,
+   "agent_error_rate": 0.405,
+   "agent_error_rate_ci95": [
+    0.263,
+    0.565
+   ],
+   "agent_error_rate_high": 0.395,
+   "false_not_found": 0,
+   "false_not_found_high": 0,
+   "false_not_found_rate": 0.0,
+   "false_not_found_rate_ci95": [
+    0.0,
+    0.094
+   ],
+   "false_not_found_rate_high": 0.0,
+   "in_source_no_context": 0,
+   "derived": 0,
+   "derived_tool": {},
+   "errors_caught": 6,
+   "errors_missed_as_found": 9,
+   "errors_unavailable_to_tool": 0,
+   "keys": {
+    "false_not_found": [],
+    "in_source_no_context": [],
+    "agent_errors": [
+     "S003.2",
+     "S003.4",
+     "S007.2",
+     "S017.1",
+     "S020.1",
+     "S020.2",
+     "S034.1",
+     "S035.1",
+     "S062.1",
+     "S072.2",
+     "S078.2",
+     "S078.3",
+     "S091.1",
+     "S099.1",
+     "S099.2"
+    ],
+    "missed": [
+     "S007.2",
+     "S020.1",
+     "S020.2",
+     "S034.1",
+     "S062.1",
+     "S072.2",
+     "S078.3",
+     "S099.1",
+     "S099.2"
+    ]
+   }
+  }
+ },
+ "adjusted": {
+  "numbers": 185,
+  "agreed": 179,
+  "disagree": 6,
+  "labels": {
+   "IN_SOURCE": 74,
+   "UNVERIFIABLE": 60,
+   "ABSENT": 28,
+   "NOT_A_CLAIM": 16,
+   "DISAGREE": 6,
+   "DERIVED": 1
+  },
+  "checkable": 103,
+  "checkable_with_disagreements": 106,
+  "agent_errors": 28,
+  "agent_errors_high": 30,
+  "agent_error_rate": 0.272,
+  "agent_error_rate_ci95": [
+   0.195,
+   0.365
+  ],
+  "agent_error_rate_high": 0.283,
+  "false_not_found": 2,
+  "false_not_found_high": 2,
+  "false_not_found_rate": 0.019,
+  "false_not_found_rate_ci95": [
+   0.005,
+   0.068
+  ],
+  "false_not_found_rate_high": 0.019,
+  "in_source_no_context": 0,
+  "derived": 1,
+  "derived_tool": {
+   "NOT_FOUND": 1
+  },
+  "errors_caught": 16,
+  "errors_missed_as_found": 12,
+  "errors_unavailable_to_tool": 0
+ },
+ "tool_not_found": {
+  "total": 50,
+  "by_label": {
+   "UNVERIFIABLE": 28,
+   "ABSENT": 16,
+   "NOT_A_CLAIM": 2,
+   "IN_SOURCE": 2,
+   "DERIVED": 1,
+   "DISAGREE": 1
+  },
+  "note": "NOT_FOUND on a page both labellers call UNVERIFIABLE: verbatim took a gate, JS shell, redirect or a page updated since for readable text"
+ },
+ "disagree": [
+  {
+   "key": "S045.1",
+   "A": "NOT_A_CLAIM",
+   "B": "UNVERIFIABLE",
+   "tool": "SOURCE_UNAVAILABLE",
+   "text": "2024"
+  },
+  {
+   "key": "S049.1",
+   "A": "UNVERIFIABLE",
+   "B": "ABSENT",
+   "tool": "NOT_FOUND",
+   "text": "10 K"
+  },
+  {
+   "key": "S055.1",
+   "A": "WRONG_VALUE",
+   "B": "IN_SOURCE",
+   "tool": "SOURCE_UNAVAILABLE",
+   "text": "$1.8 billion"
+  },
+  {
+   "key": "S084.1",
+   "A": "NOT_A_CLAIM",
+   "B": "IN_SOURCE",
+   "tool": "FOUND",
+   "text": "2023"
+  },
+  {
+   "key": "S086.1",
+   "A": "NOT_A_CLAIM",
+   "B": "UNVERIFIABLE",
+   "tool": "SOURCE_UNAVAILABLE",
+   "text": "0.5"
+  },
+  {
+   "key": "S098.2",
+   "A": "NOT_A_CLAIM",
+   "B": "UNVERIFIABLE",
+   "tool": "SOURCE_UNAVAILABLE",
+   "text": "13531"
+  }
+ ],
+ "decision": {
+  "rule": "agent errors >= 10 % of checkable numbers and false NOT_FOUND <= 5 % (audit/06 §3.A)",
+  "agent_errors_ge_10pct": true,
+  "false_alarms_le_5pct": true
+ }
+}

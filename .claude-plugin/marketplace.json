@@ -1,0 +1,16 @@
+{
+  "name": "buddie",
+  "owner": {
+    "name": "tsyyan"
+  },
+  "metadata": {
+    "description": "buddie: receipts for agent work in Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "buddie",
+      "source": "./",
+      "description": "Checks an agent's report before it leaves the session: quotes against source snapshots, repo anchors, PR/CI state, command output; verify_report MCP tool, skill and hook"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+ "tool": "verbatim 0.3.2 (tsyyan/lab 78c212f)",
+ "quotes": 600,
+ "checked": 423,
+ "sample": 212,
+ "agreement": {
+  "same": 207,
+  "n": 212
+ },
+ "table": {
+  "AGENT_ABSENT|NOT_A_QUOTE": 2,
+  "AGENT_ABSENT|NOT_FOUND": 22,
+  "AGENT_ABSENT|UNCERTAIN": 8,
+  "AGENT_ALTERED|NOT_A_QUOTE": 1,
+  "AGENT_ALTERED|NOT_FOUND": 29,
+  "AGENT_ALTERED|UNCERTAIN": 7,
+  "DISAGREE|HIDDEN_ONLY": 1,
+  "DISAGREE|NOT_A_QUOTE": 1,
+  "DISAGREE|NOT_FOUND": 1,
+  "DISAGREE|UNCERTAIN": 2,
+  "IN_SOURCE|FOUND": 13,
+  "IN_SOURCE|FOUND_NORMALIZED": 8,
+  "IN_SOURCE|NOT_A_QUOTE": 1,
+  "IN_SOURCE|NOT_FOUND": 6,
+  "IN_SOURCE|UNCERTAIN": 1,
+  "NOT_A_QUOTE|FOUND": 6,
+  "NOT_A_QUOTE|FOUND_NORMALIZED": 3,
+  "NOT_A_QUOTE|NOT_A_QUOTE": 34,
+  "NOT_A_QUOTE|NOT_FOUND": 23,
+  "NOT_A_QUOTE|UNCERTAIN": 30,
+  "TRANSLATED|UNCERTAIN": 1,
+  "UNVERIFIABLE|NOT_A_QUOTE": 1,
+  "UNVERIFIABLE|NOT_FOUND": 7,
+  "UNVERIFIABLE|UNCERTAIN": 4
+ },
+ "all": {
+  "checked": 423,
+  "false_not_found": 29,
+  "false_not_found_pct": 6.86,
+  "ci95": [
+   4.8,
+   9.7
+  ],
+  "disputed": 0,
+  "upper_with_disputed_pct": 6.86,
+  "agent_errors": 69,
+  "agent_errors_pct": 16.3,
+  "agent_errors_ci95": [
+   13.1,
+   20.1
+  ],
+  "hidden_agent_errors": [
+   "S015",
+   "S141",
+   "S194"
+  ],
+  "false_keys": [
+   "S009",
+   "S012",
+   "S016",
+   "S017",
+   "S020",
+   "S029",
+   "S048",
+   "S049",
+   "S055",
+   "S061",
+   "S074",
+   "S094",
+   "S097",
+   "S109",
+   "S112",
+   "S115",
+   "S122",
+   "S124",
+   "S134",
+   "S150",
+   "S151",
+   "S171",
+   "S179",
+   "S180",
+   "S183",
+   "S188",
+   "S192",
+   "S196",
+   "S205"
+  ],
+  "disputed_keys": []
+ },
+ "by_family": {
+  "perplexity": {
+   "checked": 144,
+   "false_not_found": 12,
+   "false_not_found_pct": 8.33,
+   "ci95": [
+    4.8,
+    14.0
+   ],
+   "disputed": 0,
+   "upper_with_disputed_pct": 8.33,
+   "agent_errors": 41,
+   "agent_errors_pct": 28.5,
+   "agent_errors_ci95": [
+    21.7,
+    36.3
+   ],
+   "hidden_agent_errors": [
+    "S141",
+    "S194"
+   ],
+   "false_keys": [
+    "S009",
+    "S012",
+    "S016",
+    "S048",
+    "S074",
+    "S109",
+    "S112",
+    "S134",
+    "S179",
+    "S192",
+    "S196",
+    "S205"
+   ],
+   "disputed_keys": []
+  },
+  "openai": {
+   "checked": 144,
+   "false_not_found": 4,
+   "false_not_found_pct": 2.78,
+   "ci95": [
+    1.1,
+    6.9
+   ],
+   "disputed": 0,
+   "upper_with_disputed_pct": 2.78,
+   "agent_errors": 9,
+   "agent_errors_pct": 6.2,
+   "agent_errors_ci95": [
+    3.3,
+    11.5
+   ],
+   "hidden_agent_errors": [
+    "S015"
+   ],
+   "false_keys": [
+    "S020",
+    "S055",
+    "S115",
+    "S150"
+   ],
+   "disputed_keys": []
+  },
+  "google": {
+   "checked": 135,
+   "false_not_found": 13,
+   "false_not_found_pct": 9.63,
+   "ci95": [
+    5.7,
+    15.8
+   ],
+   "disputed": 0,
+   "upper_with_disputed_pct": 9.63,
+   "agent_errors": 19,
+   "agent_errors_pct": 14.1,
+   "agent_errors_ci95": [
+    9.2,
+    20.9
+   ],
+   "hidden_agent_errors": [],
+   "false_keys": [
+    "S017",
+    "S029",
+    "S049",
+    "S061",
+    "S094",
+    "S097",
+    "S122",
+    "S124",
+    "S151",
+    "S171",
+    "S180",
+    "S183",
+    "S188"
+   ],
+   "disputed_keys": []
+  }
+ },
+ "by_intent": {
+  "Info Synthesis": {
+   "checked": 102,
+   "false_not_found": 8
+  },
+  "Factual Lookup": {
+   "checked": 76,
+   "false_not_found": 0
+  },
+  "Creative Generation": {
+   "checked": 56,
+   "false_not_found": 7
+  },
+  "Analysis": {
+   "checked": 51,
+   "false_not_found": 3
+  },
+  "Explanation": {
+   "checked": 47,
+   "false_not_found": 3
+  },
+  "Recommendation": {
+   "checked": 41,
+   "false_not_found": 1
+  },
+  "Other": {
+   "checked": 18,
+   "false_not_found": 0
+  },
+  "Guidance": {
+   "checked": 18,
+   "false_not_found": 4
+  },
+  "Text Processing": {
+   "checked": 14,
+   "false_not_found": 3
+  }
+ },
+ "false_not_found_real_quotes": {
+  "n": 6,
+  "pct": 1.42,
+  "ci95": [
+   0.7,
+   3.1
+  ],
+  "keys": [
+   "S020",
+   "S097",
+   "S109",
+   "S150",
+   "S151",
+   "S171"
+  ]
+ },
+ "v032_out_of_sample": {
+  "false_not_found": 30,
+  "checked": 467,
+  "ci95": [
+   4.5,
+   9.0
+  ],
+  "parts": {
+   "E012": "1/44 (E013 recount.json)",
+   "E014": "29/423"
+  }
+ }
+}

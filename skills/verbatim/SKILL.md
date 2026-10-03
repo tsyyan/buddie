@@ -11,7 +11,7 @@ a snapshot of the page, not in a summary of it. `verbatim` checks this mechanica
 ## Install (once per session)
 
 ```bash
-pip install -q git+https://github.com/tsyyan/verbatim
+pip install -q git+https://github.com/tsyyan/buddie   # verbatim ships inside buddie
 export VERBATIM_STORE=$PWD/.verbatim      # snapshot store; keep it next to your result
 ```
 

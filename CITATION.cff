@@ -1,16 +1,17 @@
 cff-version: 1.2.0
-message: "If you use verbatim or its results, please cite it as below."
-title: "verbatim: checking quotations in AI agent reports against byte snapshots of the cited sources"
+message: "If you use buddie, verbatim or their results, please cite it as below."
+title: "buddie: model-free receipts for AI agents' reports about their work (with verbatim, quote checking against byte snapshots of the cited sources)"
 type: software
 authors:
   - alias: tsyyan
-repository-code: "https://github.com/tsyyan/verbatim"
+repository-code: "https://github.com/tsyyan/buddie"
 license: Apache-2.0
-version: 0.3.2
-date-released: 2026-10-02
+version: 0.3.0
+date-released: 2026-10-03
 keywords:
   - AI agents
   - deep research
   - faithfulness
   - scalable oversight
   - citation verification
+  - multi-agent systems

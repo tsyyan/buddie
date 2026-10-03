@@ -1,6 +1,24 @@
 # Changelog
 
+## buddie 0.3.0 (2026-10-03), first public release
+
+The repository `tsyyan/verbatim` became `tsyyan/buddie`; verbatim is buddie's quote module.
+
+- Effect anchors `pr:`, `ci:` (GitHub API) and `run:` (session transcript); output the agent typed itself does not count.
+- Work and mandate claims against a task queue (`buddie.toml`, opt-in).
+- Repo anchors `path#sha256`, `path@commit`, `fact=value`.
+- Receipt v0 (in-toto Statement), CLI, MCP server over stdio, Claude Code hook, plugin and marketplace.
+- Results E009 (numbers) and E014 (Search Arena) added.
+
+## verbatim
+
 Each version was measured on reports it was not tuned on. Experiment folders are in `results/`.
+
+## 0.3.3 (2026-10-02)
+
+- Footnote markers inside quotation marks (`[1](url)`, `[2]`) are dropped before search.
+- A truncated response body (`IncompleteRead`) is a failed fetch, not a crash of `check`.
+- E014 in-sample recount: false `NOT_FOUND` 26 of 423 instead of 29; no agent error became a find.
 
 ## 0.3.2 (2026-10-02)
 

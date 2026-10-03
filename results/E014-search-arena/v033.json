@@ -1,0 +1,180 @@
+{
+ "tool": "verbatim 0.3.3 vs 0.3.2 report.py (cceceee), same snapshots per quote",
+ "sampled": 600,
+ "changed": 8,
+ "agent_errors_among_changed": [],
+ "agent_errors_now_found": [],
+ "false_not_found_fixed": [
+  "S097",
+  "S151",
+  "S171"
+ ],
+ "in_sample_recount": {
+  "checked": 423,
+  "false_not_found": 26,
+  "pct": 6.1,
+  "ci95": [
+   4.2,
+   8.9
+  ],
+  "real_quotes_missed": 3,
+  "real_pct": 0.7,
+  "real_ci95": [
+   0.2,
+   2.1
+  ],
+  "note": "in-sample: 0.3.3 was written from these misses; not an out-of-sample number"
+ },
+ "rows": [
+  {
+   "key": "S025",
+   "file": "sonar-reasoning/6b708d834680435d98b9cf33dcc69e08-1.md",
+   "id": "L4.1",
+   "family": "perplexity",
+   "label_A": "NOT_A_QUOTE",
+   "label_B": "NOT_A_QUOTE",
+   "e014_verdict": "NOT_A_QUOTE",
+   "e014_sha256": "e4450d67e9d43c359243f78fdede2ab3127e7942c3256b13fd48c03f29ab608a",
+   "quote_032": "Character Animation for Beginners - The Full Course3",
+   "quote_033": "Character Animation for Beginners - The Full Course",
+   "verdict_032": "NOT_A_QUOTE",
+   "verdict_033": "FOUND",
+   "doubts_033": null,
+   "found_in_033": null,
+   "sha256": "c53a0ea2f29e9e02d5ee96486b1fff3da003e65a9b3b54cbc01da93dfd399f71",
+   "closest_033": null
+  },
+  {
+   "key": "S034",
+   "file": "sonar/b106ffc3e05a4761899fa39a44ada87f-3.md",
+   "id": "L9.1",
+   "family": "perplexity",
+   "label_A": "NOT_A_QUOTE",
+   "label_B": "NOT_A_QUOTE",
+   "e014_verdict": "UNCERTAIN",
+   "e014_sha256": "d68958b5ca62e000c2e19952568c05acb81f1977009f338d9312a69d749af79d",
+   "quote_032": "Let’s-a make it happen! But first, we need Luigi to hack into the old N64DD files… and hope Bowser doesn’t find out about the clay world first[4]6!",
+   "quote_033": "Let’s-a make it happen! But first, we need Luigi to hack into the old N64DD files… and hope Bowser doesn’t find out about the clay world first!",
+   "verdict_032": "UNCERTAIN",
+   "verdict_033": "UNCERTAIN",
+   "doubts_033": [
+    "unattributed"
+   ],
+   "found_in_033": null,
+   "sha256": "cd65d7b2014487b30937eda2a50f8970d7d656bd3260852bbdbaae7b16c7f04d",
+   "closest_033": 0.38
+  },
+  {
+   "key": "S171",
+   "file": "gemini-2.5-flash-preview-04-17-grounding/80d414dc99d6451eac6af0a9ab920de0-1.md",
+   "id": "L5.4",
+   "family": "google",
+   "label_A": "IN_SOURCE",
+   "label_B": "IN_SOURCE",
+   "e014_verdict": "NOT_FOUND",
+   "e014_sha256": "29bfb84bbc0a48dbbd9f0f4491d7889a13668bfe5fb6dfdd13409309fb147966",
+   "quote_032": "read Chapter 11 and weren't impressed1. So we've moved on to Chapter 12.",
+   "quote_033": "read Chapter 11 and weren't impressed. So we've moved on to Chapter 12.",
+   "verdict_032": "NOT_FOUND",
+   "verdict_033": "FOUND",
+   "doubts_033": null,
+   "found_in_033": null,
+   "sha256": "d3926559045eebd15dddbc4c73243270e818116497a9e2b458cd6500ad4bf2da",
+   "closest_033": null
+  },
+  {
+   "key": "S097",
+   "file": "gemini-2.5-flash-preview-04-17-grounding/80d414dc99d6451eac6af0a9ab920de0-1.md",
+   "id": "L6.2",
+   "family": "google",
+   "label_A": "IN_SOURCE",
+   "label_B": "IN_SOURCE",
+   "e014_verdict": "NOT_FOUND",
+   "e014_sha256": "29bfb84bbc0a48dbbd9f0f4491d7889a13668bfe5fb6dfdd13409309fb147966",
+   "quote_032": "Times New Roman1? More like Times OLD Roman.",
+   "quote_033": "Times New Roman? More like Times OLD Roman.",
+   "verdict_032": "NOT_FOUND",
+   "verdict_033": "FOUND_NORMALIZED",
+   "doubts_033": null,
+   "found_in_033": null,
+   "sha256": "d3926559045eebd15dddbc4c73243270e818116497a9e2b458cd6500ad4bf2da",
+   "closest_033": null
+  },
+  {
+   "key": "S007",
+   "file": "gemini-2.5-flash-preview-04-17-grounding/67c4004c3ce1468a8616b9e53d10d07b-1.md",
+   "id": "L3.1",
+   "family": "google",
+   "label_A": "NOT_A_QUOTE",
+   "label_B": "NOT_A_QUOTE",
+   "e014_verdict": "UNCERTAIN",
+   "e014_sha256": "a5c31f72f006f6b9e76ee2054da50239468d9f38712b18832fbefa8cca246986",
+   "quote_032": "&gt;5. However, his true nature is revealed to be manipulative, self-interested, and irresponsible[1]4. Wickham1312 is driven by a desire for wealth and status, using his charm to deceive others1. He is skilled at creating narratives that portray himself as a victim and others, particularly Mr. Darcy, as villains13. He is financially irresponsible and morally dubious, having attempted to elope with Mr. Darcy's sister for her fortune and succeeding in eloping with Lydia Bennet with no initial intention of marriage[1]4. Wickham1312's actions serve as a catalyst for plot development and expose the dangers of judging solely based on first impressions11312&amp;conv_id=67c4004c3ce1468a8616b9e53d10d07b&amp;is_inline=True",
+   "quote_033": "&gt;. However, his true nature is revealed to be manipulative, self-interested, and irresponsible. Wickham is driven by a desire for wealth and status, using his charm to deceive others. He is skilled at creating narratives that portray himself as a victim and others, particularly Mr. Darcy, as villains. He is financially irresponsible and morally dubious, having attempted to elope with Mr. Darcy's sister for her fortune and succeeding in eloping with Lydia Bennet with no initial intention of marriage. Wickham's actions serve as a catalyst for plot development and expose the dangers of judging solely based on first impressions&amp;conv_id=67c4004c3ce1468a8616b9e53d10d07b&amp;is_inline=True",
+   "verdict_032": "UNCERTAIN",
+   "verdict_033": "UNCERTAIN",
+   "doubts_033": [
+    "unattributed"
+   ],
+   "found_in_033": null,
+   "sha256": "507f790b98f180c4d29eb0cdb97427df680f09c34924fb684f798460de2ae848",
+   "closest_033": 0.305
+  },
+  {
+   "key": "S151",
+   "file": "gemini-2.5-pro-exp-03-25-grounding/6c8e887e27a3487ba71cd08dc082b8a3-2.md",
+   "id": "L25.1",
+   "family": "google",
+   "label_A": "IN_SOURCE",
+   "label_B": "IN_SOURCE",
+   "e014_verdict": "NOT_FOUND",
+   "e014_sha256": "b9855303236a0524520cf7afcace64ad8b731e9d1ec1c3e6addd8535b8dc917c",
+   "quote_032": "It seems to me that the earth may be borrowed but not bought.[2]11 It may be used, but not owned.214 It gives itself in response to love and tending, offers its seasonal flowering and fruiting.213 But we are tenants and not possessors, lovers and not masters.[11]14 Cross Creek belongs to the wind and the rain, to the sun and the seasons, to the cosmic secrecy of seed, and beyond all, to time.",
+   "quote_033": "It seems to me that the earth may be borrowed but not bought. It may be used, but not owned. It gives itself in response to love and tending, offers its seasonal flowering and fruiting. But we are tenants and not possessors, lovers and not masters. Cross Creek belongs to the wind and the rain, to the sun and the seasons, to the cosmic secrecy of seed, and beyond all, to time.",
+   "verdict_032": "NOT_FOUND",
+   "verdict_033": "UNCERTAIN",
+   "doubts_033": [
+    "other_link"
+   ],
+   "found_in_033": "https://crackergothic.com/tag/cross-creek/",
+   "sha256": "e89a9aaa4ed9bfea948d7ef606254867b623b1738fe7c3af031ecf944cfb6c13",
+   "closest_033": 0.995
+  },
+  {
+   "key": "S070",
+   "file": "gemini-2.5-pro-exp-03-25-grounding/ee25128d2afe4ce8a4ab95058eee5335-1.md",
+   "id": "L4.1",
+   "family": "google",
+   "label_A": "NOT_A_QUOTE",
+   "label_B": "NOT_A_QUOTE",
+   "e014_verdict": "NOT_A_QUOTE",
+   "e014_sha256": "a6117e1d7cb137a8cfb685ddc091d30843bc19d5915f528254988eca6051fe24",
+   "quote_032": "i can't believe i can finally talk about this but i won't cry!1 (but i will)",
+   "quote_033": "i can't believe i can finally talk about this but i won't cry!! (but i will)",
+   "verdict_032": "NOT_A_QUOTE",
+   "verdict_033": "FOUND",
+   "doubts_033": null,
+   "found_in_033": null,
+   "sha256": "2a9bb577c4afb2d9f8334c5aea4fd2ee3bdee526949766f09df37bf131d1c752",
+   "closest_033": null
+  },
+  {
+   "key": "S107",
+   "file": "gemini-2.5-pro-exp-03-25-grounding/e523797d3cdc4356a7564fdb20a6a8b0-1.md",
+   "id": "L11.1",
+   "family": "google",
+   "label_A": "IN_SOURCE",
+   "label_B": "IN_SOURCE",
+   "e014_verdict": "UNCERTAIN",
+   "e014_sha256": "1a3693d72fe18e26ac6317388bceed9223984fb5847a3289f0a108e31806c9e0",
+   "quote_032": "Не говорите: “Не могу”.3 Это слово — не христианское.3 Христианское слово: “Вся могу”.3 Но не сам по себе, а об укрепляющем нас Господе",
+   "quote_033": "Не говорите: “Не могу”. Это слово — не христианское. Христианское слово: “Вся могу”. Но не сам по себе, а об укрепляющем нас Господе",
+   "verdict_032": "UNCERTAIN",
+   "verdict_033": "FOUND_NORMALIZED",
+   "doubts_033": null,
+   "found_in_033": null,
+   "sha256": "0098ef6a1e208a29315e0f639a5a08be6471c4796f8c6fbb921d30b06ceff621",
+   "closest_033": null
+  }
+ ]
+}

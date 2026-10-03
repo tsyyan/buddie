@@ -1,0 +1,1739 @@
+[
+ {
+  "key": "S001.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+  "file": "0001.txt",
+  "evidence": "net portfolio value of S$389 billion (US$288b, ...) as at 31 March 2024",
+  "note": ""
+ },
+ {
+  "key": "S001.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+  "file": "0001.txt",
+  "evidence": "Temasek reported a Net Portfolio Value (NPV) of S$389 billion for the financial year ended 31 March 2024",
+  "note": ""
+ },
+ {
+  "key": "S001.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+  "file": "0001.txt",
+  "evidence": "net portfolio value of S$389 billion (US$288b, €267b, £228b, RMB2.08t) as at 31 March 2024",
+  "note": ""
+ },
+ {
+  "key": "S002.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+  "file": "0004.txt",
+  "evidence": "blue LED, combined with Buddleja officinalis, can be used to treat vitiligo through induced melanin production... A retrospective study also demonstrated that 417 nm blue LED induced repigmentation in 30 patients with localized vitiligo",
+  "note": "417 nm belongs to the adjacent retrospective study of blue LED for vitiligo, not to the Buddleja combination; borderline, could be WRONG_VALUE material"
+ },
+ {
+  "key": "S003.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+  "file": "0005.txt",
+  "evidence": "Page discusses internet usage by age group ('Nearly three-quarters of those ages 65 through 74 are online') but has no e-commerce household figures (no 37%, 26%)",
+  "note": ""
+ },
+ {
+  "key": "S003.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+  "file": "0005.txt",
+  "evidence": "No e-commerce usage claim for 2020 on the page",
+  "note": ""
+ },
+ {
+  "key": "S003.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+  "file": "0005.txt",
+  "evidence": "No 26% e-commerce figure on the page",
+  "note": ""
+ },
+ {
+  "key": "S003.4",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+  "file": "0005.txt",
+  "evidence": "No 2019 e-commerce figure on the page",
+  "note": ""
+ },
+ {
+  "key": "S004.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html",
+  "file": "0006.txt",
+  "evidence": "97% today report measurable profitability and 94% cite significant productivity gains from GenAI implementations",
+  "note": ""
+ },
+ {
+  "key": "S004.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html",
+  "file": "0006.txt",
+  "evidence": "97% today report measurable profitability and 94% cite significant productivity gains from GenAI implementations",
+  "note": ""
+ },
+ {
+  "key": "S005.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7248198/",
+  "file": "0009.txt",
+  "evidence": "tardigrades have obtained about one-sixth (roughly 17.5%) of their genes from bacteria, plants, fungi, and archaea",
+  "note": "source does not name Hypsibius exemplaris"
+ },
+ {
+  "key": "S006.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://whalewisdom.com/filer/berkshire-hathaway-inc",
+  "file": "0010.txt",
+  "evidence": "WhaleWisdom snapshot is a JS shell with navigation only; no holdings table in text or raw HTML",
+  "note": ""
+ },
+ {
+  "key": "S006.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.investopedia.com/warren-buffett-s-stock-portfolio-11719778",
+  "file": null,
+  "evidence": "Investopedia: HTTP 403 direct and browser, no archive capture; Morningstar link redirected to home page",
+  "note": ""
+ },
+ {
+  "key": "S006.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.investopedia.com/warren-buffett-s-stock-portfolio-11719778",
+  "file": null,
+  "evidence": "Investopedia: HTTP 403 direct and browser, no archive capture; Morningstar link redirected to home page",
+  "note": ""
+ },
+ {
+  "key": "S007.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://market.us/report/ai-in-video-editing-market/",
+  "file": "0012.txt",
+  "evidence": "In 2023, Cloud-Based held a dominant market position in the Deployment Mode segment of AI in Video Editing Market, capturing more than a 72.8% share.",
+  "note": "no 64% or creative-software cloud share; only URL resolved for the sentence (footnote 13 may be a different source)"
+ },
+ {
+  "key": "S007.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://market.us/report/ai-in-video-editing-market/",
+  "file": "0012.txt",
+  "evidence": "Page has 2023 shares for AI video editing (cloud 72.8%) but nothing on creative software cloud share 64% in 2023",
+  "note": ""
+ },
+ {
+  "key": "S008.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab",
+  "file": null,
+  "evidence": "Medium: HTTP 403 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S008.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab",
+  "file": null,
+  "evidence": "Medium: HTTP 403 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S009.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9",
+  "file": "0013.txt",
+  "evidence": "\"operational limitations\" in the Tesla Model S played a \"major role\" in the May 2016 crash that killed a driver using the vehicle's semi-autonomous \"Autopilot\" system",
+  "note": ""
+ },
+ {
+  "key": "S010.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://pubs.aip.org/aip/apl/article/125/26/261103/3328405/Thermal-enhancement-of-defect-motion-for",
+  "file": null,
+  "evidence": "AIP: HTTP 403 direct and browser, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S011.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf",
+  "file": "0014.txt",
+  "evidence": "Sandvik 2004 deep hole drilling catalog; no flow forming, no Ra 0.6 µm",
+  "note": "only resolved URL of the sentence; footnote 41 may point elsewhere"
+ },
+ {
+  "key": "S011.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf",
+  "file": "0014.txt",
+  "evidence": "Catalog mentions 'excellent surface finish' generically; no Ra 0.4 µm, no honing/burnishing",
+  "note": ""
+ },
+ {
+  "key": "S012.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab",
+  "file": null,
+  "evidence": "Medium: HTTP 403 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S013.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.visualcapitalist.com/largest-sovereign-wealth-funds-in-the-world/",
+  "file": "0015.txt",
+  "evidence": "Following next in line are China's two biggest funds, holding $2.4 trillion in assets. (CIC $1,332bn; SAFE IC $1,090bn)",
+  "note": ""
+ },
+ {
+  "key": "S014.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.informit.com/articles/article.aspx?p=31072&seqNum=5",
+  "file": "0016.txt",
+  "evidence": "Snapshot is the InformIT article listing, not the cited article",
+  "note": ""
+ },
+ {
+  "key": "S014.2",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.informit.com/articles/article.aspx?p=31072&seqNum=5",
+  "file": "0016.txt",
+  "evidence": "version name '1.0'",
+  "note": "version identifier; source unreadable anyway (article listing)"
+ },
+ {
+  "key": "S014.3",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.informit.com/articles/article.aspx?p=31072&seqNum=5",
+  "file": "0016.txt",
+  "evidence": "version name '1.1'",
+  "note": "version identifier; source unreadable anyway (article listing)"
+ },
+ {
+  "key": "S014.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.informit.com/articles/article.aspx?p=31072&seqNum=5",
+  "file": "0016.txt",
+  "evidence": "Snapshot is the InformIT article listing, not the cited article",
+  "note": ""
+ },
+ {
+  "key": "S015.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.marketingaiinstitute.com/blog/mckinsey-bcg-accenture-ai",
+  "file": "0017.txt",
+  "evidence": "IBM has secured over $1 billion in AI sales.",
+  "note": ""
+ },
+ {
+  "key": "S016.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf",
+  "file": "0018.txt",
+  "evidence": "efficacy and safety of different 1064-nm Q-switched (QS) Nd:YAG and 532-nm KTP laser treatment protocols used in the treatment of pigmented lesions of Asian skin",
+  "note": "wavelengths match; the depth/PIH-risk characterisation is not stated explicitly"
+ },
+ {
+  "key": "S016.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf",
+  "file": "0018.txt",
+  "evidence": "1064-nm Q-switched (QS) Nd:YAG and 532-nm KTP laser treatment protocols used in the treatment of pigmented lesions",
+  "note": "wavelength matches; qualitative claims not explicit"
+ },
+ {
+  "key": "S017.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://artsfuse.org/303968/television-review-macondo-redux-a-progress-report-on-netflixs-one-hundred-years-of-solitude/",
+  "file": "0019.txt",
+  "evidence": "Review mentions series produced by Rodrigo and Gonzalo García Barcha but no March 2019 rights announcement (2019 only in archive menu)",
+  "note": ""
+ },
+ {
+  "key": "S018.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf",
+  "file": "0020.txt",
+  "evidence": "The L2 Lagrange point, considered part of cislunar space, is another 61,347 km past the Moon.",
+  "note": "'roughly 61,350' rounds 61,347"
+ },
+ {
+  "key": "S018.2",
+  "label": "DERIVED",
+  "sub": null,
+  "own_url": "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf",
+  "file": "0020.txt",
+  "evidence": "The average distance between the Earth and the Moon is 384,000 km. The L2 Lagrange point ... is another 61,347 km past the Moon. (384,000 + 61,347 = 445,347)",
+  "note": ""
+ },
+ {
+  "key": "S019.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://journals.asm.org/doi/10.1128/mbio.02855-24",
+  "file": "0021.txt",
+  "evidence": "ASM 403; open-access PMC PDF snapshots only show 'Preparing to download ...'",
+  "note": ""
+ },
+ {
+  "key": "S019.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://journals.asm.org/doi/10.1128/mbio.02855-24",
+  "file": "0021.txt",
+  "evidence": "ASM 403; open-access PMC PDF snapshots only show 'Preparing to download ...'",
+  "note": ""
+ },
+ {
+  "key": "S020.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Page mentions 1945 only for 'The US started providing South Korea with aid in 1945' and currency; no liberation-from-Japan date",
+  "note": ""
+ },
+ {
+  "key": "S020.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Korean War mentioned without dates; 1950 only for Bank of Korea establishment",
+  "note": ""
+ },
+ {
+  "key": "S020.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "No 1950s per-capita income figure (<$100) on the page",
+  "note": "page's table gives per capita income US$87 in 1962, not the 1950s"
+ },
+ {
+  "key": "S021.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+  "file": "0024.txt",
+  "evidence": "market size is projected to reach US$ 3.94 billion by 2031 from US$ 2.43 billion in 2023 ... CAGR of 6.2%",
+  "note": ""
+ },
+ {
+  "key": "S021.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+  "file": "0024.txt",
+  "evidence": "projected to reach US$ 3.94 billion by 2031",
+  "note": ""
+ },
+ {
+  "key": "S021.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+  "file": "0024.txt",
+  "evidence": "from US$ 2.43 billion in 2023",
+  "note": ""
+ },
+ {
+  "key": "S021.4",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+  "file": "0024.txt",
+  "evidence": "from US$ 2.43 billion in 2023",
+  "note": ""
+ },
+ {
+  "key": "S021.5",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+  "file": "0024.txt",
+  "evidence": "The market is expected to register a CAGR of 6.2% in 2023–2031.",
+  "note": ""
+ },
+ {
+  "key": "S022.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.snsinsider.com/reports/video-editing-software-market-1543",
+  "file": "0025.txt",
+  "evidence": "North America is the leading region with more than 36% market share in the Global Video Editing Software Market in 2024",
+  "note": ""
+ },
+ {
+  "key": "S022.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.snsinsider.com/reports/video-editing-software-market-1543",
+  "file": "0025.txt",
+  "evidence": "Only 'more than 36% market share'; no 40% upper bound for North America",
+  "note": ""
+ },
+ {
+  "key": "S023.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ey.com/en_us/newsroom/2024/12/ey-research-artificial-intelligence-investments-set-to-remain-strong-in-2025-but-senior-leaders-recognize-em",
+  "file": "0026.txt",
+  "evidence": "a near unanimous 97% of senior business leaders whose organization is investing in AI report positive ROI from their AI investments",
+  "note": ""
+ },
+ {
+  "key": "S024.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1057/s41599-024-03557-6",
+  "file": "0027.txt",
+  "evidence": "nature.com snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S024.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1057/s41599-024-03557-6",
+  "file": "0027.txt",
+  "evidence": "nature.com snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S025.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://sendshort.ai/statistics/capcut/",
+  "file": "0028.txt",
+  "evidence": "As of Q3 2024, CapCut has surpassed 1 billion user downloads on Android alone",
+  "note": ""
+ },
+ {
+  "key": "S025.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://sendshort.ai/statistics/capcut/",
+  "file": "0028.txt",
+  "evidence": "As of Q3 2024, CapCut has surpassed 1 billion user downloads on Android alone",
+  "note": ""
+ },
+ {
+  "key": "S025.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://sendshort.ai/statistics/capcut/",
+  "file": "0028.txt",
+  "evidence": "CapCut's revenue ... reaching an estimated $100 million in 2023; After surpassing $100 million in consumer spending",
+  "note": ""
+ },
+ {
+  "key": "S025.4",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://sendshort.ai/statistics/capcut/",
+  "file": "0028.txt",
+  "evidence": "an estimated $100 million in 2023",
+  "note": ""
+ },
+ {
+  "key": "S026.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.clausen.com/wp-content/uploads/2020/11/ClausenMiller_ApportionmentofVehicleLiabilityinAutonomousVehicleAccidents.pdf",
+  "file": "0029.txt",
+  "evidence": "'2.0' is part of the document title 'Automated Driving Systems 2.0: A Vision for Safety'",
+  "note": ""
+ },
+ {
+  "key": "S027.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+  "file": "0030.txt",
+  "evidence": "Asia Pacific industry is expected to dominate majority revenue share of 34% by 2035",
+  "note": "page now uses 2035 horizon"
+ },
+ {
+  "key": "S027.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+  "file": "0030.txt",
+  "evidence": "Page updated 17 Sept 2025 now forecasts to 2035 ('34% Share by 2035'); the cited title said 'Growth Analysis 2037', so page plainly changed",
+  "note": "could be read as WRONG_VALUE material (2035 vs 2037)"
+ },
+ {
+  "key": "S027.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+  "file": "0030.txt",
+  "evidence": "Europe market will achieve a 29% share by 2035",
+  "note": ""
+ },
+ {
+  "key": "S028.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.sciencedirect.com/science/article/abs/pii/S0924424721006117",
+  "file": null,
+  "evidence": "ScienceDirect HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S028.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.sciencedirect.com/science/article/abs/pii/S0924424721006117",
+  "file": null,
+  "evidence": "ScienceDirect HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S029.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hrcak.srce.hr/file/440423",
+  "file": null,
+  "evidence": "HTTP 418/502 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S029.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hrcak.srce.hr/file/440423",
+  "file": null,
+  "evidence": "HTTP 418/502 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S030.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+  "file": "0031.txt",
+  "evidence": "Electrical connections are usually made by applying silver electrodes in a screen printing process with subsequent sintering at approx. 600°C.",
+  "note": ""
+ },
+ {
+  "key": "S031.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+  "file": "0033.txt",
+  "evidence": "Guideline passage: 'recommend that intravenous iron supplementation be considered ... in patients with symptomatic HFrEF with ID anemia' - no LVEF threshold; 'ejection fraction ≤40%' appears only as HEART-FID trial eligibility",
+  "note": "borderline: ≤40% is on page but as trial inclusion criterion, not guideline scope"
+ },
+ {
+  "key": "S031.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+  "file": "0033.txt",
+  "evidence": "No HFmrEF / LVEF 41-49% on page; guidelines cited only for HFrEF",
+  "note": ""
+ },
+ {
+  "key": "S031.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+  "file": "0033.txt",
+  "evidence": "No HFmrEF / LVEF 41-49% on page",
+  "note": ""
+ },
+ {
+  "key": "S032.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://atag.org/industry-topics/supporting-economic-social-development",
+  "file": "0034.txt",
+  "evidence": "An enabler of tourism, 58% of all international tourists travel to their destinations by air.",
+  "note": ""
+ },
+ {
+  "key": "S032.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://atag.org/industry-topics/supporting-economic-social-development",
+  "file": "0034.txt",
+  "evidence": "No island-region near-100% air arrival figure on page",
+  "note": "agent's own estimate, not attributed? sentence hangs it in the same parenthesis as the ATAG cite"
+ },
+ {
+  "key": "S033.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+  "file": "0031.txt",
+  "evidence": "exposed to an electric DC field (2 to 3 kV/mm) at temperatures between 80°C and 140°C",
+  "note": ""
+ },
+ {
+  "key": "S033.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+  "file": "0031.txt",
+  "evidence": "exposed to an electric DC field (2 to 3 kV/mm) at temperatures between 80°C and 140°C",
+  "note": ""
+ },
+ {
+  "key": "S034.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/",
+  "file": "0035.txt",
+  "evidence": "'Current events ... Shortly before that, the owner of a Tesla pled no contest to a charge of negligent homicide' - no year given (article dated August 8, 2023), Riad not named",
+  "note": "hard: year only implied by 'current events' in an Aug 2023 article"
+ },
+ {
+  "key": "S035.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks",
+  "file": "0036.txt",
+  "evidence": "Article is about Duan Yongping/H&H selling Bank of America in Q3; nothing about Berkshire adding BofA in 2020",
+  "note": ""
+ },
+ {
+  "key": "S036.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://amostech.com/TechnicalPapers/2022/Poster/Koblick_2.pdf",
+  "file": "0037.txt",
+  "evidence": "a Moon-based sensor architecture, consisting of four mid-latitude narrow field of view angles-only observers, can maintain 100% track custody",
+  "note": ""
+ },
+ {
+  "key": "S037.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1438594/full",
+  "file": "0038.txt",
+  "evidence": "Author-year citation 'Hou et al. (2019)'",
+  "note": ""
+ },
+ {
+  "key": "S038.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+  "file": "0039.txt",
+  "evidence": "Page last updated August 24, 2026 with new forecast (USD 28.13 billion in 2025 to USD 228.57 billion by 2034, CAGR 26.21%); report's figures from an earlier edition",
+  "note": "page plainly changed; strict reading would be WRONG_VALUE material"
+ },
+ {
+  "key": "S038.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+  "file": "0039.txt",
+  "evidence": "Page updated Aug 2026; current edition: 'valued at USD 28.13 billion in 2025'",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S038.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+  "file": "0039.txt",
+  "evidence": "Page updated Aug 2026; forecast now USD 228.57 billion by 2034",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S038.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+  "file": "0039.txt",
+  "evidence": "Page updated Aug 2026; forecast horizon now 2034",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S038.5",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+  "file": "0039.txt",
+  "evidence": "Page updated Aug 2026; CAGR now 26.21% (2026-2034)",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S039.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://colombia.travel/en/macondo-colombia/macondian-cultural-legacy/details-one-hundred-years-of-solitude",
+  "file": "0040.txt",
+  "evidence": "Page gives '70 soccer fields' and 'Dozens of artisans, architects...' but no 1,100 workers figure",
+  "note": ""
+ },
+ {
+  "key": "S040.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "the $4 billion in financial aid and soft credit provided by the US ... over the 1945–1965 period",
+  "note": ""
+ },
+ {
+  "key": "S040.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "over the 1945–1965 period",
+  "note": ""
+ },
+ {
+  "key": "S040.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "a more direct infusion of $41 billion in free development aid up until year 1975",
+  "note": ""
+ },
+ {
+  "key": "S040.4",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "$41 billion in free development aid up until year 1975",
+  "note": ""
+ },
+ {
+  "key": "S040.5",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "(now worth $242 billion in 2024 values as adjusted for inflation)",
+  "note": ""
+ },
+ {
+  "key": "S040.6",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+  "file": "0041.txt",
+  "evidence": "(now worth $242 billion in 2024 values as adjusted for inflation)",
+  "note": ""
+ },
+ {
+  "key": "S041.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://precisionmechatronicslab.com/wp-content/publications/J10b.pdf",
+  "file": "0042.txt",
+  "evidence": "they exhibit a significant amount of hysteresis over large ranges and creep at low frequencies. These effects can cause tracking error in excess of 20%.",
+  "note": ""
+ },
+ {
+  "key": "S042.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.stat.go.jp/english/data/handbook/pdf/2023all.pdf",
+  "file": "0043.txt",
+  "evidence": "family budgets ... are described on the basis of the 2022 results of the \"Family Income and Expenditure Survey\". (A) Two-or-more-person Households",
+  "note": ""
+ },
+ {
+  "key": "S043.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+  "file": "0044.txt",
+  "evidence": "by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg",
+  "note": ""
+ },
+ {
+  "key": "S043.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+  "file": "0044.txt",
+  "evidence": "by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg",
+  "note": "~$0.9 rounds 0.88"
+ },
+ {
+  "key": "S043.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+  "file": "0044.txt",
+  "evidence": "new range of $0.88 to $8.22 USD per kg",
+  "note": "~$8 rounds 8.22"
+ },
+ {
+  "key": "S043.4",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+  "file": "0044.txt",
+  "evidence": "by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg",
+  "note": ""
+ },
+ {
+  "key": "S044.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://arxiv.org/html/2411.00308v1",
+  "file": "0045.txt",
+  "evidence": "'2020' is inside the cited title 'GPT for Games: An Updated Scoping Review (2020-2024)'",
+  "note": ""
+ },
+ {
+  "key": "S045.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.investing.com/academy/trading/warren-buffett-investment-strategy-rules-fortune/",
+  "file": null,
+  "evidence": "'a 2024 article on Investing.com' is the publication year of the cited work",
+  "note": "source 403 anyway; would otherwise be UNVERIFIABLE"
+ },
+ {
+  "key": "S046.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking",
+  "file": "0046.txt",
+  "evidence": "Papers With Code link now redirects to huggingface.co/papers/trending; no TrackNetV2 text",
+  "note": ""
+ },
+ {
+  "key": "S047.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://ieeexplore.ieee.org/document/7373000/",
+  "file": "0047.txt",
+  "evidence": "IEEE Xplore snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S047.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://ieeexplore.ieee.org/document/7373000/",
+  "file": "0047.txt",
+  "evidence": "IEEE Xplore snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S048.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://hypegig.com/adobe-premiere-pro-review/",
+  "file": "0048.txt",
+  "evidence": "'8K' names a resolution format (feature name); source does say 'from high-resolution 8K footage'",
+  "note": "would be IN_SOURCE if treated as a claim"
+ },
+ {
+  "key": "S049.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://arxiv.org/abs/1904.04178",
+  "file": "0049.txt",
+  "evidence": "Snapshot is only the arXiv abstract page of the review; full text that could hold the <10 K / AMH figure is not in the snapshot",
+  "note": ""
+ },
+ {
+  "key": "S050.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2022.974339/full",
+  "file": "0050.txt",
+  "evidence": "coefficients of determination R2 were 0.991, 0.989, 0.926 and 0.963 ... The mean R2 value could reach 0.967",
+  "note": "one of the four parameters (0.926) is below 0.96; mean 0.967 supports 'exceeding 0.96'"
+ },
+ {
+  "key": "S051.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf",
+  "file": "0051.txt",
+  "evidence": "Fitch PDF link resolved to the PIF home page; document not captured",
+  "note": ""
+ },
+ {
+  "key": "S052.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.ewadirect.com/journal/jemd/article/view/22415/pdf",
+  "file": null,
+  "evidence": "'(2025)' is the publication year in an author-year reference",
+  "note": "source unreachable anyway (SSL error / 502)"
+ },
+ {
+  "key": "S053.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.hrw.org/news/2022/04/08/tough-territory-transgender-people-middle-east-and-north-africa",
+  "file": "0052.txt",
+  "evidence": "In 2003, Egypt's Health Ministry established a review committee within the Medical Syndicate for people wanting \"sex reassignment surgery.\"",
+  "note": ""
+ },
+ {
+  "key": "S054.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.nature.com/articles/s41586-024-07111-x",
+  "file": "0027.txt",
+  "evidence": "nature.com snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S055.1",
+  "label": "WRONG_VALUE",
+  "sub": "material",
+  "own_url": "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf",
+  "file": "0053.txt",
+  "evidence": "Raw PDF: 'Section IV - Columbia Metropolitan Airport ... Total Impact on South Carolina $3.3 Billion'; $1.8 billion is only the airport operations + tenants impact on the Columbia region ($1,782,528,325)",
+  "note": "text layer failed; judged from raw snapshot ba2758e7... content streams; $1.8B belongs to a sub-component, airport's total is $3.3B"
+ },
+ {
+  "key": "S056.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+  "file": "0057.txt",
+  "evidence": "sample 7 ... additional step involving the deposition of a 300 nm Al layer through PVD after the dry etching of LNO",
+  "note": ""
+ },
+ {
+  "key": "S056.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+  "file": "0057.txt",
+  "evidence": "As depicted in Figure 5c, the LNO achieved a final depth of approximately 115 nm, and the sidewall exhibited a pretty 90° angle.",
+  "note": ""
+ },
+ {
+  "key": "S056.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+  "file": "0057.txt",
+  "evidence": "the LNO achieved a final depth of approximately 115 nm",
+  "note": ""
+ },
+ {
+  "key": "S057.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/2076-2615/15/8/1135",
+  "file": null,
+  "evidence": "MDPI HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S058.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+  "file": "0058.txt",
+  "evidence": "Page republished Jul-2025 with new edition: USD 1.78 Billion in 2024 to USD 3.74 Billion by 2034, CAGR 7.1%",
+  "note": "page plainly changed; strictly could be WRONG_VALUE material"
+ },
+ {
+  "key": "S058.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+  "file": "0058.txt",
+  "evidence": "Page republished Jul-2025; base year now 2024",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S058.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+  "file": "0058.txt",
+  "evidence": "Page republished Jul-2025; forecast now USD 3.74 Billion by 2034",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S058.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+  "file": "0058.txt",
+  "evidence": "Page republished Jul-2025; horizon now 2034",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S058.5",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+  "file": "0058.txt",
+  "evidence": "Page republished Jul-2025; CAGR now 7.1%",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S059.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+  "file": "0004.txt",
+  "evidence": "(Q-switched) Nd:YAG double-frequency 532 nm laser ... proved effective in treating ... physiological lip hyperpigmentation (PLH) [116,117]; ref 116: Kerkar S. et al. Efficacy of 532-nm Q-switched Nd:YAG Laser in the Treatment of Lip Melanosis. J. Cutan. Aesthet. Surg. 2021",
+  "note": ""
+ },
+ {
+  "key": "S059.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+  "file": "0004.txt",
+  "evidence": "The KTP laser, also known as the (Q-switched) Nd:YAG double-frequency 532 nm laser ... physiological lip hyperpigmentation (PLH) [116,117]",
+  "note": ""
+ },
+ {
+  "key": "S060.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1007/s00146-022-01496-x",
+  "file": "0027.txt",
+  "evidence": "Only snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S060.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1007/s00146-022-01496-x",
+  "file": "0027.txt",
+  "evidence": "Only snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S060.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1007/s00146-022-01496-x",
+  "file": "0027.txt",
+  "evidence": "Only snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S060.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1007/s00146-022-01496-x",
+  "file": "0027.txt",
+  "evidence": "Only snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S060.5",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1007/s00146-022-01496-x",
+  "file": "0027.txt",
+  "evidence": "Only snapshot is a 'Client Challenge' page",
+  "note": ""
+ },
+ {
+  "key": "S061.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://saintseiya.fandom.com/wiki/Virgo_Shaka",
+  "file": "0059.txt",
+  "evidence": "Archived Virgo Shaka page has no Misopetha-Menos or 100,000 heartbeats figure (page is about Shaka, not Dohko)",
+  "note": ""
+ },
+ {
+  "key": "S062.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.fao.org/in-action/globefish/news-events/news/news-detail/Stronger-mackerel-supplies-herring-supplies-slightly-up-in-2020/en",
+  "file": "0060.txt",
+  "evidence": "Mackerel section covers TACs, landings, Norwegian exports 2018-2019; no statement that wholesale mackerel prices were trending upward by 2018",
+  "note": ""
+ },
+ {
+  "key": "S063.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/2073-4395/13/11/2832",
+  "file": null,
+  "evidence": "Author-year citation 'Liao et al. (2020)'",
+  "note": "source 403 anyway"
+ },
+ {
+  "key": "S064.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf",
+  "file": "0053.txt",
+  "evidence": "Raw PDF: 'leads to a total economic impact of approximately $1.4 billion, which is associated with 9,615 jobs across the region as well as $433.3 million in labor income'",
+  "note": "text layer failed; judged from raw snapshot content streams"
+ },
+ {
+  "key": "S064.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf",
+  "file": "0053.txt",
+  "evidence": "Raw PDF: '...associated with 9,615 jobs across the region'",
+  "note": "judged from raw snapshot"
+ },
+ {
+  "key": "S064.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf",
+  "file": "0053.txt",
+  "evidence": "Raw PDF: '...as well as $433.3 million in labor income'",
+  "note": "judged from raw snapshot"
+ },
+ {
+  "key": "S065.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion",
+  "file": "0061.txt",
+  "evidence": "In the next three to five years, generative AI could add $150 billion, conservatively, and up to $275 billion to the apparel, fashion, and luxury sectors' operating profits",
+  "note": ""
+ },
+ {
+  "key": "S065.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion",
+  "file": "0061.txt",
+  "evidence": "could add $150 billion, conservatively, and up to $275 billion to the apparel, fashion, and luxury sectors' operating profits",
+  "note": ""
+ },
+ {
+  "key": "S066.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf",
+  "file": "0051.txt",
+  "evidence": "Fitch PDF link resolved to the PIF home page; document not captured",
+  "note": ""
+ },
+ {
+  "key": "S067.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/2079-4991/12/16/2836",
+  "file": null,
+  "evidence": "MDPI HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S068.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.zebra.com/us/en/products/tablets.html",
+  "file": "0063.txt",
+  "evidence": "Zebra and Honeywell tablet landing pages list series (ET4x/ET6x/ET8x) without display size specs; no 10.1\"",
+  "note": "both URLs checked (0062 Honeywell, 0063 Zebra)"
+ },
+ {
+  "key": "S068.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.zebra.com/us/en/products/tablets.html",
+  "file": "0063.txt",
+  "evidence": "No 2K display spec on either tablet landing page",
+  "note": ""
+ },
+ {
+  "key": "S068.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.zebra.com/us/en/products/tablets.html",
+  "file": "0063.txt",
+  "evidence": "No 1000-nit spec on either tablet landing page",
+  "note": ""
+ },
+ {
+  "key": "S069.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+  "file": "0004.txt",
+  "evidence": "IPL has been proven effective in treating lentigines ... [98,142-147]; ref 142: Bjerring P. Intense pulsed light source for treatment of small melanocytic nevi and solar lentigines. J. Cutan. Laser Ther. 2000",
+  "note": "range drawn from reference-list years"
+ },
+ {
+  "key": "S069.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+  "file": "0004.txt",
+  "evidence": "ref 145: Friedmann D.P. Efficacy and safety of intense pulsed light with a KTP filter for the treatment of solar lentigines. Lasers Surg. Med. 2019",
+  "note": "range drawn from reference-list years"
+ },
+ {
+  "key": "S070.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/",
+  "file": "0064.txt",
+  "evidence": "Profile now shows 'AUM $1,570' with asset allocation as of December 31, 2024 (updated to latest annual report); end-2023 figure no longer on page",
+  "note": "page plainly changed; '1.33% Cash & Others' is an unrelated digit match"
+ },
+ {
+  "key": "S070.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/",
+  "file": "0064.txt",
+  "evidence": "Profile updated to 2024 data; no 2023 date on page",
+  "note": "page plainly changed"
+ },
+ {
+  "key": "S071.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/1422-0067/25/8/4483",
+  "file": null,
+  "evidence": "MDPI HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S071.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/1422-0067/25/8/4483",
+  "file": null,
+  "evidence": "MDPI HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S072.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://kpmg.com/us/en/ai.html",
+  "file": "0065.txt",
+  "evidence": "KPMG AI page has no mention of Google Cloud alliance or $100M",
+  "note": ""
+ },
+ {
+  "key": "S072.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://kpmg.com/us/en/ai.html",
+  "file": "0065.txt",
+  "evidence": "No 2023 Google Cloud alliance announcement on page",
+  "note": ""
+ },
+ {
+  "key": "S072.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://kpmg.com/us/en/ai.html",
+  "file": "0065.txt",
+  "evidence": "No $1B revenue expectation on page",
+  "note": ""
+ },
+ {
+  "key": "S073.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.ahajournals.org/doi/10.1161/circoutcomes.113.000663",
+  "file": "0067.txt",
+  "evidence": "TACT ... patients 50 years or older with prior MI ... diabetes: HR 0.59 ... a relative reduction of 41%",
+  "note": "two footnotes follow the number; first ([^1_14], CIRCRESAHA review) only has an abstract snapshot without the figure; the second ([^1_18]) supports it"
+ },
+ {
+  "key": "S074.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://history.state.gov/milestones/1945-1952/japan-reconstruction",
+  "file": "0068.txt",
+  "evidence": "Occupation and Reconstruction of Japan, 1945–52. After the defeat of Japan in World War II, the United States led the Allies in the occupation",
+  "note": ""
+ },
+ {
+  "key": "S074.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://history.state.gov/milestones/1945-1952/japan-reconstruction",
+  "file": "0068.txt",
+  "evidence": "Occupation and Reconstruction of Japan, 1945–52",
+  "note": ""
+ },
+ {
+  "key": "S075.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum",
+  "file": "0069.txt",
+  "evidence": "Publication date in a bibliographic reference; page shows 'Thu 11 Jun 2020'",
+  "note": "date matches if treated as a claim"
+ },
+ {
+  "key": "S076.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://pubmed.ncbi.nlm.nih.gov/38411341/",
+  "file": "0070.txt",
+  "evidence": "PubMed snapshots are cookie wall / reCAPTCHA pages",
+  "note": ""
+ },
+ {
+  "key": "S077.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://kubernetes.io/docs/tasks/administer-cluster/node-overprovisioning/",
+  "file": "0073.txt",
+  "evidence": "Node overprovisioning doc describes reserving capacity for 'sudden spikes' but gives no 10% buffer figure",
+  "note": ""
+ },
+ {
+  "key": "S078.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+  "file": "0074.txt",
+  "evidence": "Only growth figures: 'From the mid-1980s to the Asian crisis in 1997, the Chilean economy grew at an average annual rate of 7.2 percent, followed by ... 3.5 percent between 1998 and 2005'; no per-capita 5.6%",
+  "note": "related passage gives total GDP growth for different periods; could be read as WRONG_VALUE material"
+ },
+ {
+  "key": "S078.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+  "file": "0074.txt",
+  "evidence": "No 1990-1998 per-capita growth period on page",
+  "note": ""
+ },
+ {
+  "key": "S078.3",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+  "file": "0074.txt",
+  "evidence": "1998 appears only as start of the 1998-2005 3.5% period",
+  "note": ""
+ },
+ {
+  "key": "S079.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+  "file": "0075.txt",
+  "evidence": "The global video editing software market size was valued at USD 0.60 billion in 2024",
+  "note": ""
+ },
+ {
+  "key": "S079.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+  "file": "0075.txt",
+  "evidence": "No $3.09 billion estimate on this page (only USD 0.60 bn 2024, USD 1.27 bn 2033)",
+  "note": "comparison figure presumably from another report"
+ },
+ {
+  "key": "S080.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://arxiv.org/html/2311.01168v3",
+  "file": "0076.txt",
+  "evidence": "'Section 2.1' is a section number",
+  "note": ""
+ },
+ {
+  "key": "S081.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+  "file": "0075.txt",
+  "evidence": "'4K/8K editing' is a feature name",
+  "note": ""
+ },
+ {
+  "key": "S081.2",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+  "file": "0075.txt",
+  "evidence": "'4K/8K editing' is a feature name",
+  "note": ""
+ },
+ {
+  "key": "S082.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://backoffice.biblio.ugent.be/download/01J41JC4BQ1FFZ8JQJX22QHN3Z/01J41JDV2PZFW5ZMKKJCP2DJES",
+  "file": "0078.txt",
+  "evidence": "The proposed 2D-CNN achieved a shot classification accuracy of 90.9%",
+  "note": "two footnotes after the number; first (GitHub README, 0077) has no accuracy figure; paper uses IMU+UWB not video"
+ },
+ {
+  "key": "S083.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/",
+  "file": "0079.txt",
+  "evidence": "Trouillot, M. (1995). Silencing the past : Power and the production of history",
+  "note": ""
+ },
+ {
+  "key": "S084.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://arxiv.org/abs/2306.14492",
+  "file": "0080.txt",
+  "evidence": "'a 2023 study' is the publication year of the cited work (submitted 26 Jun 2023)",
+  "note": "would be IN_SOURCE if treated as a claim"
+ },
+ {
+  "key": "S085.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S085.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S085.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S085.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S085.5",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S085.6",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/",
+  "file": "0081.txt",
+  "evidence": "Snapshot empty (HTTP 202), browser 429, no archive",
+  "note": ""
+ },
+ {
+  "key": "S086.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://thesai.org/Publications/ViewPaper?Volume=16&Issue=2&Code=IJACSA&SerialNo=35",
+  "file": null,
+  "evidence": "'0.5' is part of the metric name mAP@0.5",
+  "note": ""
+ },
+ {
+  "key": "S086.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://thesai.org/Publications/ViewPaper?Volume=16&Issue=2&Code=IJACSA&SerialNo=35",
+  "file": null,
+  "evidence": "HTTP 404 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S087.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0082.txt",
+  "evidence": "Year inside the quoted article title 'Women in Caramel (2007), Circumstance (2011), and In Between (2016)'",
+  "note": ""
+ },
+ {
+  "key": "S087.2",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0082.txt",
+  "evidence": "Year inside the quoted article title",
+  "note": ""
+ },
+ {
+  "key": "S087.3",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+  "file": "0082.txt",
+  "evidence": "Year inside the quoted article title",
+  "note": ""
+ },
+ {
+  "key": "S088.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.mdpi.com/1424-8220/15/8/18587",
+  "file": null,
+  "evidence": "MDPI HTTP 403, no archive capture",
+  "note": ""
+ },
+ {
+  "key": "S089.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://newsroom.accenture.com/news/2023/accenture-to-launch-network-of-generative-ai-studios-to-help-clients-accelerate-use-of-data-and-ai-technologi",
+  "file": "0083.txt",
+  "evidence": "As part of Accenture's $3 billion investment in data and AI, the studios will connect clients with Accenture's top data and AI experts",
+  "note": ""
+ },
+ {
+  "key": "S090.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_Canada",
+  "file": "0084.txt",
+  "evidence": "The Automotive Products Trade Agreement of 1965 opened Canada's borders to trade in the automobile manufacturing industry.",
+  "note": ""
+ },
+ {
+  "key": "S091.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://law.marquette.edu/facultyblog/2023/04/tesla-wins-first-trial-involving-autopilot-but-more-serious-cases-loom/",
+  "file": "0085.txt",
+  "evidence": "'Joshua Brown and Jeremy Banner ... drove straight into tractor-trailers that were turning left across' - no year or location given; 2016 only in archive menu",
+  "note": ""
+ },
+ {
+  "key": "S092.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study",
+  "file": "0086.txt",
+  "evidence": "Across North America, retail mobile POS devices will cannibalize 12.4% of traditional POS shipments by 2016.",
+  "note": "~12% rounds 12.4%"
+ },
+ {
+  "key": "S092.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study",
+  "file": "0086.txt",
+  "evidence": "will cannibalize 12.4% of traditional POS shipments by 2016",
+  "note": ""
+ },
+ {
+  "key": "S093.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/",
+  "file": "0087.txt",
+  "evidence": "Only snapshot contains a single character 'x'; direct timed out, archive 429",
+  "note": ""
+ },
+ {
+  "key": "S093.2",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/",
+  "file": "0087.txt",
+  "evidence": "Snapshot has no readable text",
+  "note": ""
+ },
+ {
+  "key": "S093.3",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/",
+  "file": "0087.txt",
+  "evidence": "Snapshot has no readable text",
+  "note": ""
+ },
+ {
+  "key": "S093.4",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/",
+  "file": "0087.txt",
+  "evidence": "Snapshot has no readable text",
+  "note": ""
+ },
+ {
+  "key": "S094.1",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509",
+  "file": "0088.txt",
+  "evidence": "Author-year citation 'Goos, Manning, and Salomons (2014)'",
+  "note": ""
+ },
+ {
+  "key": "S094.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509",
+  "file": "0088.txt",
+  "evidence": "This paper documents the pervasiveness of job polarization in 16 Western European countries over the period 1993-2010.",
+  "note": ""
+ },
+ {
+  "key": "S095.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html",
+  "file": "0090.txt",
+  "evidence": "reducing human error, which contributes to 88 per cent of road collisions",
+  "note": ""
+ },
+ {
+  "key": "S096.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://www.hdlautomation.com/Articles_100000182859653.html",
+  "file": "0091.txt",
+  "evidence": "predictive maintenance ... avoid calling for help in an emergency, which can save each family an average of $200 a year on maintenance costs",
+  "note": ""
+ },
+ {
+  "key": "S097.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://doi.org/10.1016/j.techfore.2016.08.019",
+  "file": "0093.txt",
+  "evidence": "ScienceDirect snapshot is a captcha ('Are you a robot?') page plus scripts; direct read only 'Redirecting'",
+  "note": ""
+ },
+ {
+  "key": "S098.1",
+  "label": "UNVERIFIABLE",
+  "sub": null,
+  "own_url": "https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/",
+  "file": null,
+  "evidence": "HTTP 405 on all attempts, no archive",
+  "note": ""
+ },
+ {
+  "key": "S098.2",
+  "label": "NOT_A_CLAIM",
+  "sub": null,
+  "own_url": "https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/",
+  "file": null,
+  "evidence": "'13531' is the name of the blueprint",
+  "note": "source unreachable anyway"
+ },
+ {
+  "key": "S099.1",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/",
+  "file": "0094.txt",
+  "evidence": "Chapter mentions Canada's role in NATO but nothing on founding membership of the UN in 1945 (1945 only in chapter titles)",
+  "note": ""
+ },
+ {
+  "key": "S099.2",
+  "label": "ABSENT",
+  "sub": null,
+  "own_url": "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/",
+  "file": "0094.txt",
+  "evidence": "'establishing a role in the North Atlantic Treaty Organization (NATO)' without date; 1949 appears only for the People's Republic of China and 1949-1953 Korea",
+  "note": ""
+ },
+ {
+  "key": "S100.1",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Year ... Ratio of domestic savings to GNP (%) 1962 2.3 87 3.3 1989 204 4830 35.8",
+  "note": ""
+ },
+ {
+  "key": "S100.2",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Ratio of domestic savings to GNP (%) 1962 ... 3.3",
+  "note": ""
+ },
+ {
+  "key": "S100.3",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Ratio of domestic savings to GNP (%) ... 1989 ... 35.8",
+  "note": ""
+ },
+ {
+  "key": "S100.4",
+  "label": "IN_SOURCE",
+  "sub": null,
+  "own_url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+  "file": "0023.txt",
+  "evidence": "Ratio of domestic savings to GNP (%) ... 1989 ... 35.8",
+  "note": ""
+ }
+]

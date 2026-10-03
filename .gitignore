@@ -6,3 +6,4 @@ dist/
 .verbatim/
 .pytest_cache/
 verdicts.json
+receipt.json

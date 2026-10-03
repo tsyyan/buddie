@@ -1,0 +1,8 @@
+{
+ "dataset": "lmarena-ai/search-arena-24k (prompts CC-BY-4.0; outputs under provider terms, not committed)",
+ "url": "https://huggingface.co/datasets/lmarena-ai/search-arena-24k/resolve/fac8dcf86146c8773ef020095c5694c9b2bc98d7/data/search-arena-chat-24k.parquet",
+ "sha256": "e2277c5adf9eec39f86fac99927a2902d4ccb5406c6bc01678afc10b22382262",
+ "filter": "languages == ['English'], every assistant turn, both sides",
+ "reports": 34336,
+ "note": "sha256 of every sampled report is in summary.json (sampled_sha256)"
+}
