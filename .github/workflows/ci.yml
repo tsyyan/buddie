@@ -18,7 +18,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: sudo apt-get install -y -q poppler-utils
       - run: pip install -e . pytest
-      - run: pytest -q
+      - run: pytest -q   # bare pytest, as a contributor runs it (python -m pytest would hide import shadowing)
       - name: quickstart example behaves as the README says
         working-directory: examples/quickstart
         run: |
