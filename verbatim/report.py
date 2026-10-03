@@ -203,8 +203,15 @@ def _own_links(block: str, links: list[tuple[int, int, str]], start: int, end: i
     return _unique(u for _, _, u in links if u), "block"
 
 
+# footnote markers inside the quotation marks are the report's citations, not the source's words: "[1](url)",
+# "[2][11](url)", "[2][11][14](url)", a bare "[3]" (E014: "Times New Roman[1](url)?", "bought.[2][11](url)" were read as
+# "Roman1?", "bought.[2]11" and missed, S097, S151, S171). Only digits in brackets: "[a son]", "[AI's]" are editorial.
+FOOTNOTE = re.compile(r"(?:\[\d{1,3}\])+(?:\(<?https?://(?:[^()<>\s]|\([^()<>\s]*\))+>?\))?")
+
+
 def _plain(text: str) -> str:
-    """Quote text as a reader sees it: link syntax and emphasis markers removed."""
+    """Quote text as a reader sees it: footnote markers, link syntax and emphasis markers removed."""
+    text = FOOTNOTE.sub("", text)
     text = INLINE_LINK.sub(lambda m: m.group(1), text)
     text = REF_LINK.sub(lambda m: m.group(1), text)
     text = NOTE.sub("", text)

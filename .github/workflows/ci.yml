@@ -27,3 +27,16 @@ jobs:
           set +e; verbatim check report.md --json $RUNNER_TEMP/v.json; code=$?; set -e
           test "$code" = 1
           python -c "import json,sys; v=[c['verdict'] for c in json.load(open(sys.argv[1]))['claims']]; assert v==['NOT_FOUND','FOUND','NOT_FOUND'], v" $RUNNER_TEMP/v.json
+      - name: buddie examples behave as the README says
+        run: |
+          export VERBATIM_STORE=$RUNNER_TEMP/store2
+          cd examples/quickstart
+          verbatim add https://status.example.com/incidents/42 page.html
+          set +e; buddie verify report.md --no-fetch --json $RUNNER_TEMP/r.json; code=$?; set -e
+          test "$code" = 1
+          python -c "import json,sys; p=json.load(open(sys.argv[1]))['predicate']; assert p['outcome']=='FAIL', p['outcome']" $RUNNER_TEMP/r.json
+          cd ../work
+          set +e; buddie verify report.md --transcript session.jsonl --no-github; code=$?; set -e
+          test "$code" = 1
+      - name: plugin runs from a clone without install
+        run: python3 run.py verify examples/quickstart/report.md --no-fetch --anchors-only

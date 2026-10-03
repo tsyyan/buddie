@@ -1,0 +1,3250 @@
+{
+ "tool": "verbatim 0.3.2 + numbers (E009)",
+ "items": [
+  {
+   "key": "S001",
+   "system": "openai-deepresearch",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "March 2024",
+     "kind": "month",
+     "approx": false,
+     "value": [
+      2024,
+      3
+     ],
+     "verdict": "FOUND_NORMALIZED",
+     "match": "31 March 2024",
+     "offset": 5647,
+     "near_words": 3,
+     "occurrences": 9,
+     "context": "pore, Tuesday 9 July 2024 - Temasek reported a Net Portfolio Value (NPV) of S$389 billion4 for the financial year ended 31 March 2024, up S$7 billion from a year ago. Marking our unlisted portfolio to market would provide S$31 billion of value uplift an",
+     "url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+     "sha256": "fb009dbbf53e19a8dc9c312ff7a5a258998cea1ce00d90944c92015f0ba07167",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909216.76/warc/CC-MAIN-20260417235941-20260418025941-00736.warc.gz@851715296",
+     "key": "S001.1"
+    },
+    {
+     "text": "$389 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 389000000000.0,
+     "verdict": "FOUND",
+     "match": "$389 billion",
+     "offset": 17,
+     "near_words": 3,
+     "occurrences": 4,
+     "context": "Temasek Reports S$389 billion Net Portfolio Value, up S$7 billion from Last Year - Temasek This site uses cookies. By continuing to browse the site y",
+     "url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+     "sha256": "fb009dbbf53e19a8dc9c312ff7a5a258998cea1ce00d90944c92015f0ba07167",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909216.76/warc/CC-MAIN-20260417235941-20260418025941-00736.warc.gz@851715296",
+     "key": "S001.2"
+    },
+    {
+     "text": "US$288 billion",
+     "kind": "money",
+     "approx": true,
+     "value": 288000000000.0,
+     "verdict": "FOUND",
+     "match": "US$288b",
+     "offset": 17224,
+     "near_words": 3,
+     "occurrences": 1,
+     "context": "Temasek Temasek is a global investment company headquartered in Singapore, with a net portfolio value of S$389 billion (US$288b, €267b, £228b, RMB2.08t) as at 31 March 2024. Marking our unlisted assets to market would provide S$31 billion of value",
+     "url": "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value",
+     "sha256": "fb009dbbf53e19a8dc9c312ff7a5a258998cea1ce00d90944c92015f0ba07167",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805909216.76/warc/CC-MAIN-20260417235941-20260418025941-00736.warc.gz@851715296",
+     "key": "S001.3"
+    }
+   ]
+  },
+  {
+   "key": "S002",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "417 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 417.0,
+     "verdict": "FOUND",
+     "match": "417 nm",
+     "offset": 40923,
+     "near_words": 8,
+     "occurrences": 1,
+     "context": "moting melanogenic signaling, in addition to CREB/MITF/TYR pathways [160]. A retrospective study also demonstrated that 417 nm blue LED induced repigmentation in 30 patients with localized vitiligo, of varying ages and different skin types [161].",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+     "sha256": "bd139977f862bd6719f58f6bc63b9dd097862e994debeadbe00dd9df531d68e3",
+     "via": "browser chromium",
+     "key": "S002.1"
+    }
+   ]
+  },
+  {
+   "key": "S003",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 51,
+   "numbers": [
+    {
+     "text": "37%",
+     "kind": "percent",
+     "approx": true,
+     "value": 37.0,
+     "verdict": "NO_CONTEXT",
+     "match": "36 percent",
+     "offset": 3283,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "tage of Population Age 65 or Older Japan's share of the population age 65 or older is projected to grow by one-third to 36 percent of the total population by 2050. From 2010 through 2015, Japan's population shrank by almost one million people - the f",
+     "would_be": "FOUND_ROUNDED",
+     "url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+     "sha256": "7f1ac2bbc87d820341a69e954a446b207ce24a3a5f8b2d951f25681f03ce867e",
+     "via": "direct",
+     "key": "S003.1"
+    },
+    {
+     "text": "2020",
+     "kind": "year",
+     "approx": false,
+     "value": 2020,
+     "verdict": "NO_CONTEXT",
+     "match": "2020",
+     "offset": 6156,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "w service entered the pilot phase in the second half of 2015 and aims to reach four to five million seniors in Japan by 2020. Productive Opportunity Japan has the world's most rapidly shrinking population ages 15 through 64, a trend that has el",
+     "would_be": "FOUND",
+     "url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+     "sha256": "7f1ac2bbc87d820341a69e954a446b207ce24a3a5f8b2d951f25681f03ce867e",
+     "via": "direct",
+     "key": "S003.2"
+    },
+    {
+     "text": "26%",
+     "kind": "percent",
+     "approx": false,
+     "value": 26.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+     "sha256": "7f1ac2bbc87d820341a69e954a446b207ce24a3a5f8b2d951f25681f03ce867e",
+     "via": "direct",
+     "key": "S003.3"
+    },
+    {
+     "text": "2019",
+     "kind": "year",
+     "approx": false,
+     "value": 2019,
+     "verdict": "NO_CONTEXT",
+     "match": "2019",
+     "offset": 14009,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": " Full Japan Report Download the full report in PDF format by clicking the button below. Download the full Japan report ©2019 | This report was produced by FP Analytics, in collaboration with and underwritten by AARP. FP Analytics is the indepen",
+     "would_be": "FOUND",
+     "url": "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan",
+     "sha256": "7f1ac2bbc87d820341a69e954a446b207ce24a3a5f8b2d951f25681f03ce867e",
+     "via": "direct",
+     "key": "S003.4"
+    }
+   ]
+  },
+  {
+   "key": "S004",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "97%",
+     "kind": "percent",
+     "approx": false,
+     "value": 97.0,
+     "verdict": "FOUND",
+     "match": "97%",
+     "offset": 8380,
+     "near_words": 7,
+     "occurrences": 1,
+     "context": "rate their AI initiatives. Leaders are responding confidently with concrete ROI metrics that justify their next steps - 97% today report measurable profitability and 94% cite significant productivity gains from GenAI implementations. However, ",
+     "url": "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html",
+     "sha256": "a094533521f928e7d22f9ca0678ba6e2a53d3b81f004dd79e58e4786bc1139eb",
+     "via": "direct",
+     "key": "S004.1"
+    },
+    {
+     "text": "94%",
+     "kind": "percent",
+     "approx": false,
+     "value": 94.0,
+     "verdict": "FOUND",
+     "match": "94%",
+     "offset": 8426,
+     "near_words": 7,
+     "occurrences": 1,
+     "context": "ing confidently with concrete ROI metrics that justify their next steps - 97% today report measurable profitability and 94% cite significant productivity gains from GenAI implementations. However, to effectively operationalize their strategies",
+     "url": "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html",
+     "sha256": "a094533521f928e7d22f9ca0678ba6e2a53d3b81f004dd79e58e4786bc1139eb",
+     "via": "direct",
+     "key": "S004.2"
+    }
+   ]
+  },
+  {
+   "key": "S005",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 58,
+   "numbers": [
+    {
+     "text": "17.5%",
+     "kind": "percent",
+     "approx": true,
+     "value": 17.5,
+     "verdict": "FOUND",
+     "match": "17.5%",
+     "offset": 26755,
+     "near_words": 3,
+     "occurrences": 27,
+     "context": "ealed the genome sequence of this animal. Their findings showed that tardigrades have obtained about one-sixth (roughly 17.5%) of their genes from bacteria, plants, fungi, and archaea. This was an unexpected finding since almost half of that amo",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7248198/",
+     "sha256": "53c248ee60ee7468695eb646816c819c060c27186e77220f26a1d9819de31dbd",
+     "via": "browser chromium",
+     "key": "S005.1"
+    }
+   ]
+  },
+  {
+   "key": "S006",
+   "system": "openai-deepresearch",
+   "task": 52,
+   "numbers": [
+    {
+     "text": "300 million",
+     "kind": "value",
+     "approx": true,
+     "value": 300000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://whalewisdom.com/filer/berkshire-hathaway-inc",
+     "sha256": "db2923f0368ee0948549708ea04bfa2e722750b20b9554cb6c49c30bc3372e38",
+     "via": "direct",
+     "key": "S006.1"
+    },
+    {
+     "text": "40",
+     "kind": "percent",
+     "approx": true,
+     "value": 40.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://whalewisdom.com/filer/berkshire-hathaway-inc",
+     "sha256": "db2923f0368ee0948549708ea04bfa2e722750b20b9554cb6c49c30bc3372e38",
+     "via": "direct",
+     "key": "S006.2"
+    },
+    {
+     "text": "50%",
+     "kind": "percent",
+     "approx": false,
+     "value": 50.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://whalewisdom.com/filer/berkshire-hathaway-inc",
+     "sha256": "db2923f0368ee0948549708ea04bfa2e722750b20b9554cb6c49c30bc3372e38",
+     "via": "direct",
+     "key": "S006.3"
+    }
+   ]
+  },
+  {
+   "key": "S007",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "64%",
+     "kind": "percent",
+     "approx": true,
+     "value": 64.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://market.us/report/ai-in-video-editing-market/",
+     "sha256": "e21cd122a0b5bb6b8cdd9c41cc7e4385fbb6084a05f466db27c42369942c8f19",
+     "via": "direct",
+     "key": "S007.1"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND",
+     "match": "2023",
+     "offset": 7120,
+     "near_words": 7,
+     "occurrences": 16,
+     "context": "ant market position in the Deployment Mode segment of AI in Video Editing Market, capturing more than a 72.8% share. In 2023, Enterprise Users held a dominant market position in the End-User segment of AI in Video Editing Market, capturing more",
+     "url": "https://market.us/report/ai-in-video-editing-market/",
+     "sha256": "e21cd122a0b5bb6b8cdd9c41cc7e4385fbb6084a05f466db27c42369942c8f19",
+     "via": "direct",
+     "key": "S007.2"
+    }
+   ]
+  },
+  {
+   "key": "S008",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S008.1"
+    },
+    {
+     "text": "25%",
+     "kind": "percent",
+     "approx": true,
+     "value": 25.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S008.2"
+    }
+   ]
+  },
+  {
+   "key": "S009",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "numbers": [
+    {
+     "text": "2016",
+     "kind": "year",
+     "approx": false,
+     "value": 2016,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "May 2016",
+     "offset": 1585,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "sportation Safety Board (NTSB) said Tuesday \"operational limitations\" in the Tesla Model S played a \"major role\" in the May 2016 crash that killed a driver using the vehicle's semi-autonomous \"Autopilot\" system. Reuters reported Monday that the NTS",
+     "url": "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9",
+     "sha256": "77a30f165730b14a8944e2a358cb5ff8f0efbcf5772aa1c17cbd96b65a3756d5",
+     "via": "direct",
+     "key": "S009.1"
+    }
+   ]
+  },
+  {
+   "key": "S010",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 63,
+   "numbers": [
+    {
+     "text": "50%",
+     "kind": "percent",
+     "approx": false,
+     "value": 50.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S010.1"
+    }
+   ]
+  },
+  {
+   "key": "S011",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 86,
+   "numbers": [
+    {
+     "text": "0.6 µm",
+     "kind": "value",
+     "approx": false,
+     "value": 0.6,
+     "verdict": "NO_CONTEXT",
+     "match": "0.6015",
+     "offset": 277960,
+     "near_words": 0,
+     "occurrences": 6,
+     "context": "5-02 07.3 A220-80002 P690/2 0862 0.8170 GTS-70-02 Mn700-2 GMN 70 Grade 150 Grade 220 Grade 260 0100 0110 0115 0120 0125 0.6015 0.6020 0.6025 GG 10 GG 15 GG 20 GG 25 Ft 10 D Ft 15 D Ft 20 D Ft 25 D G 15 G 20 G 25 FG 15 FG 25 FC100 FC150 FC200 FC25",
+     "would_be": "FOUND_ROUNDED",
+     "url": "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf",
+     "sha256": "05186b0ed798b22d580f787e59c2e5a3c9e9c677de8a70874b692b8b89751eba",
+     "via": "direct",
+     "key": "S011.1"
+    },
+    {
+     "text": "0.4 µm",
+     "kind": "value",
+     "approx": false,
+     "value": 0.4,
+     "verdict": "NO_CONTEXT",
+     "match": "$0.41",
+     "offset": 254023,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "t tool cost Highest material removal rate vc = 200 ft./min vc = 330 ft./min 0.15 × 150 150 × 2.5 = $0.94 0.15 × × 1.1 = $0.41 6 6 Tool cost $/ft. $0.76 $1.09 Machining cost $/drilled ft. $1.70 $1.50 In CANADA, call us toll-free In the UNITED STA",
+     "would_be": "FOUND_ROUNDED",
+     "url": "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf",
+     "sha256": "05186b0ed798b22d580f787e59c2e5a3c9e9c677de8a70874b692b8b89751eba",
+     "via": "direct",
+     "key": "S011.2"
+    }
+   ]
+  },
+  {
+   "key": "S012",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S012.1"
+    }
+   ]
+  },
+  {
+   "key": "S013",
+   "system": "perplexity-Research",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "$2.4 trillion",
+     "kind": "money",
+     "approx": true,
+     "value": 2400000000000.0,
+     "verdict": "FOUND",
+     "match": "$2.4 trillion",
+     "offset": 6222,
+     "near_words": 2,
+     "occurrences": 1,
+     "context": ", Microsoft, and Nvidia stood as the fund's top holdings. Following next in line are China's two biggest funds, holding $2.4 trillion in assets. In particular, these funds play a key role in financing the Belt and Road Initiative and other strategic ind",
+     "url": "https://www.visualcapitalist.com/largest-sovereign-wealth-funds-in-the-world/",
+     "sha256": "796754a001f08f86dc56a38e137e56baebf05d4b36eef7a8aff1e59041b5cd76",
+     "via": "direct",
+     "key": "S013.1"
+    }
+   ]
+  },
+  {
+   "key": "S014",
+   "system": "perplexity-Research",
+   "task": 70,
+   "numbers": [
+    {
+     "text": "1998",
+     "kind": "year",
+     "approx": false,
+     "value": 1998,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5",
+     "sha256": "93033c0fe2cc311b17d6b4aa44f82aa9ef49d8132808882be61414db253d7d72",
+     "via": "direct",
+     "key": "S014.1"
+    },
+    {
+     "text": "1.0",
+     "kind": "value",
+     "approx": false,
+     "value": 1.0,
+     "verdict": "NO_CONTEXT",
+     "match": "1",
+     "offset": 1675,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "nking Test-Driven By Rob Myers Feb 25, 2026 Virtual Threads By Khalid A. Mughal, Vasily A. Strelnikov Feb 25, 2026 Page 1 2 3 4 5 Next > Topics Business & Management Certification Data Engineering Hardware Home & Office Computing Information",
+     "would_be": "FOUND_NORMALIZED",
+     "url": "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5",
+     "sha256": "93033c0fe2cc311b17d6b4aa44f82aa9ef49d8132808882be61414db253d7d72",
+     "via": "direct",
+     "key": "S014.2"
+    },
+    {
+     "text": "1.1",
+     "kind": "value",
+     "approx": false,
+     "value": 1.1,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5",
+     "sha256": "93033c0fe2cc311b17d6b4aa44f82aa9ef49d8132808882be61414db253d7d72",
+     "via": "direct",
+     "key": "S014.3"
+    },
+    {
+     "text": "1999",
+     "kind": "year",
+     "approx": false,
+     "value": 1999,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5",
+     "sha256": "93033c0fe2cc311b17d6b4aa44f82aa9ef49d8132808882be61414db253d7d72",
+     "via": "direct",
+     "key": "S014.4"
+    }
+   ]
+  },
+  {
+   "key": "S015",
+   "system": "grok-deeper-search",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "$1 billion",
+     "kind": "money",
+     "approx": true,
+     "value": 1000000000.0,
+     "verdict": "FOUND",
+     "match": "$1 billion",
+     "offset": 1551,
+     "near_words": 1,
+     "occurrences": 1,
+     "context": "t a couple of years ago. McKinsey expects 40% of its business to be AI-related in the near future. IBM has secured over $1 billion in AI sales. Accenture booked 300 million in AI-related sales last year. The Times' reporting suggests the work is dive",
+     "url": "https://www.marketingaiinstitute.com/blog/mckinsey-bcg-accenture-ai",
+     "sha256": "5b6f272b7c41deb613b4614d564fcb48bfc5aeae3ca19f97d0c88dbcea74e759",
+     "via": "direct",
+     "key": "S015.1"
+    }
+   ]
+  },
+  {
+   "key": "S016",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "1064 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 1064.0,
+     "verdict": "FOUND",
+     "match": "1064",
+     "offset": 1038,
+     "near_words": 3,
+     "occurrences": 99,
+     "context": "or treatment of pigmented lesions. Aim: The purpose of this study was to determine the efficacy and safety of different 1064-nm Q-switched (QS) Nd:YAG and 532-nm KTP laser treatment protocols used in the treatment of pigmented lesions of Asian ",
+     "url": "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf",
+     "sha256": "f288a80ffdb431bf4fc3c1a3b1b4042008952a4c6be206a4e2a5ddf78847e174",
+     "via": "direct",
+     "key": "S016.1"
+    },
+    {
+     "text": "532 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 532.0,
+     "verdict": "FOUND",
+     "match": "532",
+     "offset": 1073,
+     "near_words": 3,
+     "occurrences": 24,
+     "context": "Aim: The purpose of this study was to determine the efficacy and safety of different 1064-nm Q-switched (QS) Nd:YAG and 532-nm KTP laser treatment protocols used in the treatment of pigmented lesions of Asian skin. Methods: A total of 72 subje",
+     "url": "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf",
+     "sha256": "f288a80ffdb431bf4fc3c1a3b1b4042008952a4c6be206a4e2a5ddf78847e174",
+     "via": "direct",
+     "key": "S016.2"
+    }
+   ]
+  },
+  {
+   "key": "S017",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 88,
+   "numbers": [
+    {
+     "text": "March 2019",
+     "kind": "month",
+     "approx": false,
+     "value": [
+      2019,
+      3
+     ],
+     "verdict": "NO_CONTEXT",
+     "match": "March 2019",
+     "offset": 14967,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "anuary 2020 December 2019 November 2019 October 2019 September 2019 August 2019 July 2019 June 2019 May 2019 April 2019 March 2019 February 2019 January 2019 December 2018 November 2018 October 2018 September 2018 August 2018 July 2018 June 2018 May ",
+     "would_be": "FOUND",
+     "url": "https://artsfuse.org/303968/television-review-macondo-redux-a-progress-report-on-netflixs-one-hundred-years-of-solitude/",
+     "sha256": "af8a645d3d959274fe41d7a2d5d46ebfef3e4cc4341d9c76cecb48aa2f5ec0ad",
+     "via": "direct",
+     "key": "S017.1"
+    }
+   ]
+  },
+  {
+   "key": "S018",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 60,
+   "numbers": [
+    {
+     "text": "61,350 km",
+     "kind": "value",
+     "approx": true,
+     "value": 61350.0,
+     "verdict": "FOUND_ROUNDED",
+     "match": "61,347 km",
+     "offset": 6870,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": " Lagrange point, considered part of important because spacecraft or satellites can stay in a cislunar space, is another 61,347 km past the Moon.11 stable orbit without having to expend much fuel.9 All For comparison, LEO, where fifty five percent of",
+     "url": "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf",
+     "sha256": "a0045b3aa2a7d59bab7cd1ae6383e841301b3f8b9fb7eeb41f3b1fdc6ae23bea",
+     "via": "direct",
+     "key": "S018.1"
+    },
+    {
+     "text": "445,000 km",
+     "kind": "value",
+     "approx": true,
+     "value": 445000.0,
+     "verdict": "NOT_FOUND",
+     "url": "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf",
+     "sha256": "a0045b3aa2a7d59bab7cd1ae6383e841301b3f8b9fb7eeb41f3b1fdc6ae23bea",
+     "via": "direct",
+     "key": "S018.2"
+    }
+   ]
+  },
+  {
+   "key": "S019",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 58,
+   "numbers": [
+    {
+     "text": "20,000",
+     "kind": "value",
+     "approx": true,
+     "value": 20000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S019.1"
+    },
+    {
+     "text": "0.21%",
+     "kind": "percent",
+     "approx": true,
+     "value": 0.21,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S019.2"
+    }
+   ]
+  },
+  {
+   "key": "S020",
+   "system": "openai-deepresearch",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "1945",
+     "kind": "year",
+     "approx": false,
+     "value": 1945,
+     "verdict": "FOUND",
+     "match": "1945",
+     "offset": 107229,
+     "near_words": 9,
+     "occurrences": 3,
+     "context": "ve Miracle on the Han River Four Asian Tigers 1997 Asian financial crisis South Korea-Japan trade dispute Currency Won (1945-1953) Hwan (1953-1962) Won (1962-) Korea Minting and Security Printing Corporation Bank of Korea Industry Agriculture R",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S020.1"
+    },
+    {
+     "text": "1950",
+     "kind": "year",
+     "approx": false,
+     "value": 1950,
+     "verdict": "FOUND",
+     "match": "1950",
+     "offset": 47368,
+     "near_words": 4,
+     "occurrences": 1,
+     "context": ", and Korea Financial Investment Association See also: List of banks in South Korea, Kimchi bond, and Korea discount In 1950, the \"Bank of Korea was established as the central bank\".[44]: 172 In 1954, South Korea began to privatize banks due to",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S020.2"
+    },
+    {
+     "text": "$100",
+     "kind": "money",
+     "approx": false,
+     "value": 100.0,
+     "verdict": "FOUND",
+     "match": "100",
+     "offset": 24010,
+     "near_words": 7,
+     "occurrences": 6,
+     "context": "mber 2022, it was successfully included in the regular market classification report in the second half of October 2024.[100] Sectors [edit] See also: List of largest companies of South Korea, Chaebol, and Economy of Seoul Agriculture and fishi",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S020.3"
+    }
+   ]
+  },
+  {
+   "key": "S021",
+   "system": "perplexity-Research",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "$ 3.94 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 3940000000.0,
+     "verdict": "FOUND",
+     "match": "US$ 3.94 Bn",
+     "offset": 1661,
+     "near_words": 4,
+     "occurrences": 5,
+     "context": "vers Regional Insights Report Scope Recent Developments FAQs 2023 Market Size US$ 2.43 Bn Base year value 2031 Forecast US$ 3.94 Bn Projected by 2031 CAGR 2024-2031 6.2 % Growth rate Addressable Market US$ 25.73 Bn (2024-2031) The video editing softwa",
+     "url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+     "sha256": "a12748c053d551a5b883c315db075f44f109553d1e326e4fed32c03aceccc04b",
+     "via": "direct",
+     "key": "S021.1"
+    },
+    {
+     "text": "2031",
+     "kind": "year",
+     "approx": false,
+     "value": 2031,
+     "verdict": "FOUND",
+     "match": "2031",
+     "offset": 1647,
+     "near_words": 4,
+     "occurrences": 12,
+     "context": "hts Market Drivers Regional Insights Report Scope Recent Developments FAQs 2023 Market Size US$ 2.43 Bn Base year value 2031 Forecast US$ 3.94 Bn Projected by 2031 CAGR 2024-2031 6.2 % Growth rate Addressable Market US$ 25.73 Bn (2024-2031) The",
+     "url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+     "sha256": "a12748c053d551a5b883c315db075f44f109553d1e326e4fed32c03aceccc04b",
+     "via": "direct",
+     "key": "S021.2"
+    },
+    {
+     "text": "$ 2.43 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 2430000000.0,
+     "verdict": "FOUND",
+     "match": "US$ 2.43 Bn",
+     "offset": 1619,
+     "near_words": 4,
+     "occurrences": 5,
+     "context": "ogy Analysis Strategic Insights Market Drivers Regional Insights Report Scope Recent Developments FAQs 2023 Market Size US$ 2.43 Bn Base year value 2031 Forecast US$ 3.94 Bn Projected by 2031 CAGR 2024-2031 6.2 % Growth rate Addressable Market US$ 25.",
+     "url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+     "sha256": "a12748c053d551a5b883c315db075f44f109553d1e326e4fed32c03aceccc04b",
+     "via": "direct",
+     "key": "S021.3"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND",
+     "match": "2023",
+     "offset": 1602,
+     "near_words": 5,
+     "occurrences": 16,
+     "context": "Research Methodology Analysis Strategic Insights Market Drivers Regional Insights Report Scope Recent Developments FAQs 2023 Market Size US$ 2.43 Bn Base year value 2031 Forecast US$ 3.94 Bn Projected by 2031 CAGR 2024-2031 6.2 % Growth rate Ad",
+     "url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+     "sha256": "a12748c053d551a5b883c315db075f44f109553d1e326e4fed32c03aceccc04b",
+     "via": "direct",
+     "key": "S021.4"
+    },
+    {
+     "text": "6.2%",
+     "kind": "percent",
+     "approx": false,
+     "value": 6.2,
+     "verdict": "FOUND",
+     "match": "6.2 %",
+     "offset": 1706,
+     "near_words": 4,
+     "occurrences": 5,
+     "context": "velopments FAQs 2023 Market Size US$ 2.43 Bn Base year value 2031 Forecast US$ 3.94 Bn Projected by 2031 CAGR 2024-2031 6.2 % Growth rate Addressable Market US$ 25.73 Bn (2024-2031) The video editing software market size is projected to reach US",
+     "url": "https://www.theinsightpartners.com/reports/video-editing-software-market",
+     "sha256": "a12748c053d551a5b883c315db075f44f109553d1e326e4fed32c03aceccc04b",
+     "via": "direct",
+     "key": "S021.5"
+    }
+   ]
+  },
+  {
+   "key": "S022",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "36",
+     "kind": "percent",
+     "approx": false,
+     "value": 36.0,
+     "verdict": "FOUND",
+     "match": "36%",
+     "offset": 8944,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "gional Analysis: North America Video Editing Software Market Trends: North America is the leading region with more than 36% market share in the Global Video Editing Software Market in 2024, due to the reason that some of the leading video edit",
+     "url": "https://www.snsinsider.com/reports/video-editing-software-market-1543",
+     "sha256": "abb10f0e5e446d0913e4d3b292b072758a34b065b5fb689de6a654ec6af26a7b",
+     "via": "direct",
+     "key": "S022.1"
+    },
+    {
+     "text": "40%",
+     "kind": "percent",
+     "approx": false,
+     "value": 40.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.snsinsider.com/reports/video-editing-software-market-1543",
+     "sha256": "abb10f0e5e446d0913e4d3b292b072758a34b065b5fb689de6a654ec6af26a7b",
+     "via": "direct",
+     "key": "S022.2"
+    }
+   ]
+  },
+  {
+   "key": "S023",
+   "system": "perplexity-Research",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "97%",
+     "kind": "percent",
+     "approx": false,
+     "value": 97.0,
+     "verdict": "FOUND",
+     "match": "97%",
+     "offset": 7463,
+     "near_words": 7,
+     "occurrences": 1,
+     "context": "iams Surging artificial intelligence (AI) spending by business leaders is set to continue into 2025 as a near unanimous 97% of senior business leaders whose organization is investing in AI report positive ROI from their AI investments, accordi",
+     "url": "https://www.ey.com/en_us/newsroom/2024/12/ey-research-artificial-intelligence-investments-set-to-remain-strong-in-2025-but-senior-leaders-recognize-emerging-risks",
+     "sha256": "8dcffe24660b18557148ad275f5f21d734b6ee16b051f44d1c16fd8d9ffa8937",
+     "via": "direct",
+     "key": "S023.1"
+    }
+   ]
+  },
+  {
+   "key": "S024",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "numbers": [
+    {
+     "text": "32.6%",
+     "kind": "percent",
+     "approx": false,
+     "value": 32.6,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1057/s41599-024-03557-6",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S024.1"
+    },
+    {
+     "text": "17.4%",
+     "kind": "percent",
+     "approx": false,
+     "value": 17.4,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1057/s41599-024-03557-6",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S024.2"
+    }
+   ]
+  },
+  {
+   "key": "S025",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "1 billion",
+     "kind": "value",
+     "approx": false,
+     "value": 1000000000.0,
+     "verdict": "FOUND",
+     "match": "1 billion user",
+     "offset": 1525,
+     "near_words": 3,
+     "occurrences": 6,
+     "context": "re and mobile app developed by ByteDance and owned by TikTok, launched in May 2019⁠ As of Q3 2024, CapCut has surpassed 1 billion user downloads on Android alone, showing significant growth from previous years⁠ CapCut's revenue has been steadily increasi",
+     "url": "https://sendshort.ai/statistics/capcut/",
+     "sha256": "e761af34308964240e9dd40d137904d7460f8bce0efc934ce9b6c67543d0452d",
+     "via": "direct",
+     "key": "S025.1"
+    },
+    {
+     "text": "2024",
+     "kind": "year",
+     "approx": false,
+     "value": 2024,
+     "verdict": "FOUND",
+     "match": "2024",
+     "offset": 1498,
+     "near_words": 3,
+     "occurrences": 7,
+     "context": "opular video editing software and mobile app developed by ByteDance and owned by TikTok, launched in May 2019⁠ As of Q3 2024, CapCut has surpassed 1 billion user downloads on Android alone, showing significant growth from previous years⁠ CapCut",
+     "url": "https://sendshort.ai/statistics/capcut/",
+     "sha256": "e761af34308964240e9dd40d137904d7460f8bce0efc934ce9b6c67543d0452d",
+     "via": "direct",
+     "key": "S025.2"
+    },
+    {
+     "text": "$100 million",
+     "kind": "money",
+     "approx": false,
+     "value": 100000000.0,
+     "verdict": "FOUND",
+     "match": "$100 million",
+     "offset": 1685,
+     "near_words": 3,
+     "occurrences": 5,
+     "context": "e, showing significant growth from previous years⁠ CapCut's revenue has been steadily increasing, reaching an estimated $100 million in 2023⁠1⁠ The app's user base is nearly equally split between females (51.18%) and males (48.82%), with the 25-34 age ",
+     "url": "https://sendshort.ai/statistics/capcut/",
+     "sha256": "e761af34308964240e9dd40d137904d7460f8bce0efc934ce9b6c67543d0452d",
+     "via": "direct",
+     "key": "S025.3"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND",
+     "match": "2023",
+     "offset": 1701,
+     "near_words": 3,
+     "occurrences": 6,
+     "context": "ficant growth from previous years⁠ CapCut's revenue has been steadily increasing, reaching an estimated $100 million in 2023⁠1⁠ The app's user base is nearly equally split between females (51.18%) and males (48.82%), with the 25-34 age group be",
+     "url": "https://sendshort.ai/statistics/capcut/",
+     "sha256": "e761af34308964240e9dd40d137904d7460f8bce0efc934ce9b6c67543d0452d",
+     "via": "direct",
+     "key": "S025.4"
+    }
+   ]
+  },
+  {
+   "key": "S026",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 90,
+   "numbers": [
+    {
+     "text": "2.0",
+     "kind": "value",
+     "approx": false,
+     "value": 2.0,
+     "verdict": "FOUND",
+     "match": "2.0",
+     "offset": 19339,
+     "near_words": 12,
+     "occurrences": 39,
+     "context": " In September 2017, NHTSA issued its policy on the development of automated driving systems in, A Vision for Safety (AV 2.0). In October 2018, NHTSA offered new multimodal safety guidance, clarified its policies and role, and outlined the work",
+     "url": "https://www.clausen.com/wp-content/uploads/2020/11/ClausenMiller_ApportionmentofVehicleLiabilityinAutonomousVehicleAccidents.pdf",
+     "sha256": "8a4eafce0dfd5d0b81352710b13254f740035f0ce7b8429f2a655214833487a6",
+     "via": "direct",
+     "key": "S026.1"
+    }
+   ]
+  },
+  {
+   "key": "S027",
+   "system": "grok-deeper-search",
+   "task": 94,
+   "numbers": [
+    {
+     "text": "34%",
+     "kind": "percent",
+     "approx": false,
+     "value": 34.0,
+     "verdict": "FOUND",
+     "match": "34%",
+     "offset": 12944,
+     "near_words": 4,
+     "occurrences": 10,
+     "context": "Market Regional Analysis: Asia Pacific Insights Asia Pacific industry is expected to dominate majority revenue share of 34% by 2035.The market growth in the region is also expected on account of gradually increasing adaptation of new technolog",
+     "url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+     "sha256": "829bbed38815aafd6bbe4ef4c267957e9575078b6f23d3d2a102eb9fb6559a98",
+     "via": "direct",
+     "key": "S027.1"
+    },
+    {
+     "text": "2037",
+     "kind": "year",
+     "approx": false,
+     "value": 2037,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+     "sha256": "829bbed38815aafd6bbe4ef4c267957e9575078b6f23d3d2a102eb9fb6559a98",
+     "via": "direct",
+     "key": "S027.2"
+    },
+    {
+     "text": "29%",
+     "kind": "percent",
+     "approx": false,
+     "value": 29.0,
+     "verdict": "FOUND",
+     "match": "29%",
+     "offset": 14425,
+     "near_words": 3,
+     "occurrences": 2,
+     "context": "d lines. European Insights By the end of 2035, Europe railway management system market is anticipated to capture around 29% revenue share and will hold the second position with the share of USD 65.12 Million due to their pivotal role in enhanc",
+     "url": "https://www.researchnester.com/reports/railway-management-system-market/6104",
+     "sha256": "829bbed38815aafd6bbe4ef4c267957e9575078b6f23d3d2a102eb9fb6559a98",
+     "via": "direct",
+     "key": "S027.3"
+    }
+   ]
+  },
+  {
+   "key": "S028",
+   "system": "grok-deeper-search",
+   "task": 63,
+   "numbers": [
+    {
+     "text": "220",
+     "kind": "value",
+     "approx": false,
+     "value": 220.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S028.1"
+    },
+    {
+     "text": "290 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 290.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S028.2"
+    }
+   ]
+  },
+  {
+   "key": "S029",
+   "system": "perplexity-Research",
+   "task": 64,
+   "numbers": [
+    {
+     "text": "4%",
+     "kind": "percent",
+     "approx": false,
+     "value": 4.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S029.1"
+    },
+    {
+     "text": "15%",
+     "kind": "percent",
+     "approx": false,
+     "value": 15.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S029.2"
+    }
+   ]
+  },
+  {
+   "key": "S030",
+   "system": "perplexity-Research",
+   "task": 85,
+   "numbers": [
+    {
+     "text": "600°C",
+     "kind": "value",
+     "approx": true,
+     "value": 600.0,
+     "verdict": "FOUND",
+     "match": "600°C",
+     "offset": 5056,
+     "near_words": 10,
+     "occurrences": 2,
+     "context": "ctions are usually made by applying silver electrodes in a screen printing process with subsequent sintering at approx. 600°C. This is followed by the polarization step in which the product is exposed to an electric DC field (2 to 3 kV/mm) at te",
+     "url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+     "sha256": "2f8a42b508ab5cd212269db182bc3ba48987c23f2d2de93cae307cfd79f0e24f",
+     "via": "direct",
+     "key": "S030.1"
+    }
+   ]
+  },
+  {
+   "key": "S031",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 75,
+   "numbers": [
+    {
+     "text": "40%",
+     "kind": "percent",
+     "approx": false,
+     "value": 40.0,
+     "verdict": "FOUND",
+     "match": "40%",
+     "offset": 6197,
+     "near_words": 7,
+     "occurrences": 4,
+     "context": "e, hospitalizations, iron, outcomes, prognosis, survival Abstract Background: Iron deficiency (ID) has a prevalence of ≈40% to 50% among patients in heart failure (HF) with reduced ejection fraction and is associated with worse prognosis. Seve",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+     "sha256": "d553db868e124b444dca7392b26224997bc0a44143f69eb7c850f8b145a44847",
+     "via": "browser chromium",
+     "key": "S031.1"
+    },
+    {
+     "text": "41",
+     "kind": "percent",
+     "approx": false,
+     "value": 41.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+     "sha256": "d553db868e124b444dca7392b26224997bc0a44143f69eb7c850f8b145a44847",
+     "via": "browser chromium",
+     "key": "S031.2"
+    },
+    {
+     "text": "49%",
+     "kind": "percent",
+     "approx": false,
+     "value": 49.0,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "49",
+     "offset": 47984,
+     "near_words": 2,
+     "occurrences": 1,
+     "context": "ltose injection for iron deficiency anemia in heavy uterine bleeding: a randomized, controlled trial. Transfusion. 2009;49:2719-2728. doi: 10.1111/j.1537-2995.2009.02327.x [DOI] [PubMed] [Google Scholar] 28.Ponikowski P, Kirwan BA, Anker SD, ",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/",
+     "sha256": "d553db868e124b444dca7392b26224997bc0a44143f69eb7c850f8b145a44847",
+     "via": "browser chromium",
+     "key": "S031.3"
+    }
+   ]
+  },
+  {
+   "key": "S032",
+   "system": "openai-deepresearch",
+   "task": 97,
+   "numbers": [
+    {
+     "text": "58%",
+     "kind": "percent",
+     "approx": true,
+     "value": 58.0,
+     "verdict": "FOUND",
+     "match": "58%",
+     "offset": 1509,
+     "near_words": 5,
+     "occurrences": 2,
+     "context": "irect, induced and tourism catalytic) is estimated at $4.1 trillion. 86.5 million jobs worldwide An enabler of tourism, 58% of all international tourists travel to their destinations by air. Air transport allows people to have adventures in ne",
+     "url": "https://atag.org/industry-topics/supporting-economic-social-development",
+     "sha256": "1bcdc57e94d1e1dbbc0f10bba2535695b0f14dc16447209ff157815e1caff0af",
+     "via": "direct",
+     "key": "S032.1"
+    },
+    {
+     "text": "100%",
+     "kind": "percent",
+     "approx": false,
+     "value": 100.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://atag.org/industry-topics/supporting-economic-social-development",
+     "sha256": "1bcdc57e94d1e1dbbc0f10bba2535695b0f14dc16447209ff157815e1caff0af",
+     "via": "direct",
+     "key": "S032.2"
+    }
+   ]
+  },
+  {
+   "key": "S033",
+   "system": "perplexity-Research",
+   "task": 85,
+   "numbers": [
+    {
+     "text": "80°C",
+     "kind": "value",
+     "approx": false,
+     "value": 80.0,
+     "verdict": "FOUND",
+     "match": "80°C",
+     "offset": 5200,
+     "near_words": 13,
+     "occurrences": 1,
+     "context": "by the polarization step in which the product is exposed to an electric DC field (2 to 3 kV/mm) at temperatures between 80°C and 140°C to achieve the appropriate dipole orientation within the ceramic. In the final outgoing product inspection, t",
+     "url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+     "sha256": "2f8a42b508ab5cd212269db182bc3ba48987c23f2d2de93cae307cfd79f0e24f",
+     "via": "direct",
+     "key": "S033.1"
+    },
+    {
+     "text": "140°C",
+     "kind": "value",
+     "approx": false,
+     "value": 140.0,
+     "verdict": "FOUND",
+     "match": "140°C",
+     "offset": 5209,
+     "near_words": 13,
+     "occurrences": 1,
+     "context": "larization step in which the product is exposed to an electric DC field (2 to 3 kV/mm) at temperatures between 80°C and 140°C to achieve the appropriate dipole orientation within the ceramic. In the final outgoing product inspection, the compone",
+     "url": "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes",
+     "sha256": "2f8a42b508ab5cd212269db182bc3ba48987c23f2d2de93cae307cfd79f0e24f",
+     "via": "direct",
+     "key": "S033.2"
+    }
+   ]
+  },
+  {
+   "key": "S034",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "numbers": [
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "August 8, 2023",
+     "offset": 787,
+     "near_words": 1,
+     "occurrences": 2,
+     "context": "Search Commentary © Wikimedia Diablanco Level 3 Automated Vehicles and Criminal Law William H. Widen and Philip Koopman August 8, 2023 01:25:09 pm Edited by: Hayley Behal | U. Pittsburgh School of Law, US William H. Widen, professor at University of Miam",
+     "url": "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/",
+     "sha256": "ea1f537c0edaec078585d89758c0f8125d63a996027098b816381fe3df50297e",
+     "via": "direct",
+     "key": "S034.1"
+    }
+   ]
+  },
+  {
+   "key": "S035",
+   "system": "openai-deepresearch",
+   "task": 52,
+   "numbers": [
+    {
+     "text": "2020",
+     "kind": "year",
+     "approx": false,
+     "value": 2020,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks",
+     "sha256": "5464f53f95d0f05df2490a56f426f32717e3ff1ad1281f2caa589f037005bc52",
+     "via": "direct",
+     "key": "S035.1"
+    }
+   ]
+  },
+  {
+   "key": "S036",
+   "system": "perplexity-Research",
+   "task": 60,
+   "numbers": [
+    {
+     "text": "100%",
+     "kind": "percent",
+     "approx": false,
+     "value": 100.0,
+     "verdict": "FOUND",
+     "match": "100%",
+     "offset": 26934,
+     "near_words": 10,
+     "occurrences": 24,
+     "context": " Moon-based sensor architecture, consisting of four mid-latitude narrow field of view angles-only sensors, can maintain 100% track custody of all cislunar target trajectories tested. Adding spacebased angles-only measurements improved the posit",
+     "url": "https://amostech.com/TechnicalPapers/2022/Poster/Koblick_2.pdf",
+     "sha256": "77f5a55e8c9b427077958452bc9041c36102c5e7df967a88825db79a8cb3ac06",
+     "via": "direct",
+     "key": "S036.1"
+    }
+   ]
+  },
+  {
+   "key": "S037",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "numbers": [
+    {
+     "text": "2019",
+     "kind": "year",
+     "approx": false,
+     "value": 2019,
+     "verdict": "FOUND",
+     "match": "2019",
+     "offset": 10316,
+     "near_words": 9,
+     "occurrences": 10,
+     "context": "ural changes. This significantly expands the measurable dimensions of maize kernel phenotypes. For example, Hou et al. (2019) utilized CT to obtain various phenotypic indicators of maize kernels and discovered that the breakage rate of kernels ",
+     "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1438594/full",
+     "sha256": "561c65b80ce19f4451c8552944d8c62d49255d7471728b4820c49467caa8632b",
+     "via": "direct",
+     "key": "S037.1"
+    }
+   ]
+  },
+  {
+   "key": "S038",
+   "system": "perplexity-Research",
+   "task": 96,
+   "numbers": [
+    {
+     "text": "USD 6.40 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 6400000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+     "sha256": "d212cb6ad988da6c3e162320ad63a06079fc4e6a2a8a76e5856d7770c9a2b463",
+     "via": "direct",
+     "key": "S038.1"
+    },
+    {
+     "text": "2025",
+     "kind": "money",
+     "approx": false,
+     "value": 2025000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+     "sha256": "d212cb6ad988da6c3e162320ad63a06079fc4e6a2a8a76e5856d7770c9a2b463",
+     "via": "direct",
+     "key": "S038.2"
+    },
+    {
+     "text": "USD 12.71 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 12710000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+     "sha256": "d212cb6ad988da6c3e162320ad63a06079fc4e6a2a8a76e5856d7770c9a2b463",
+     "via": "direct",
+     "key": "S038.3"
+    },
+    {
+     "text": "2033",
+     "kind": "year",
+     "approx": false,
+     "value": 2033,
+     "verdict": "NOT_FOUND",
+     "url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+     "sha256": "d212cb6ad988da6c3e162320ad63a06079fc4e6a2a8a76e5856d7770c9a2b463",
+     "via": "direct",
+     "key": "S038.4"
+    },
+    {
+     "text": "8.95%",
+     "kind": "percent",
+     "approx": false,
+     "value": 8.95,
+     "verdict": "NOT_FOUND",
+     "url": "https://straitsresearch.com/report/smart-home-healthcare-market",
+     "sha256": "d212cb6ad988da6c3e162320ad63a06079fc4e6a2a8a76e5856d7770c9a2b463",
+     "via": "direct",
+     "key": "S038.5"
+    }
+   ]
+  },
+  {
+   "key": "S039",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 88,
+   "numbers": [
+    {
+     "text": "1,100",
+     "kind": "value",
+     "approx": true,
+     "value": 1100.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://colombia.travel/en/macondo-colombia/macondian-cultural-legacy/details-one-hundred-years-of-solitude",
+     "sha256": "8217df5a984cadb0eb6c1b82aa51bc47bc48cc6d2ab869e2cc4ed7355dec99c5",
+     "via": "direct",
+     "key": "S039.1"
+    }
+   ]
+  },
+  {
+   "key": "S040",
+   "system": "perplexity-Research",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "$4 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 4000000000.0,
+     "verdict": "FOUND",
+     "match": "$4 billion",
+     "offset": 3395,
+     "near_words": 4,
+     "occurrences": 1,
+     "context": " yen in the Japanese era, the government introduced a new and stable currency to address hyperinflation. Along with the $4 billion in financial aid and soft credit[citation needed] provided by the US (as well as the indirect economic stimulus of US f",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.1"
+    },
+    {
+     "text": "1945",
+     "kind": "year",
+     "approx": false,
+     "value": 1945,
+     "verdict": "FOUND",
+     "match": "1945",
+     "offset": 3556,
+     "near_words": 5,
+     "occurrences": 2,
+     "context": "it[citation needed] provided by the US (as well as the indirect economic stimulus of US food and military aid) over the 1945-1965 period, and a more direct infusion of $41 billion in free development aid up until year 1975[10] (now worth $242 b",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.2"
+    },
+    {
+     "text": "$41 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 41000000000.0,
+     "verdict": "FOUND",
+     "match": "$41 billion",
+     "offset": 3604,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "as the indirect economic stimulus of US food and military aid) over the 1945-1965 period, and a more direct infusion of $41 billion in free development aid up until year 1975[10] (now worth $242 billion in 2024 values as adjusted for inflation).[11] T",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.3"
+    },
+    {
+     "text": "1975",
+     "kind": "year",
+     "approx": false,
+     "value": 1975,
+     "verdict": "FOUND",
+     "match": "1975",
+     "offset": 3654,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "ilitary aid) over the 1945-1965 period, and a more direct infusion of $41 billion in free development aid up until year 1975[10] (now worth $242 billion in 2024 values as adjusted for inflation).[11] Taiwan thus had the necessary capital to res",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.4"
+    },
+    {
+     "text": "$242 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 242000000000.0,
+     "verdict": "FOUND",
+     "match": "$242 billion",
+     "offset": 3674,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "e 1945-1965 period, and a more direct infusion of $41 billion in free development aid up until year 1975[10] (now worth $242 billion in 2024 values as adjusted for inflation).[11] Taiwan thus had the necessary capital to restart its economy. A land ref",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.5"
+    },
+    {
+     "text": "2024 dollars",
+     "kind": "money",
+     "approx": false,
+     "value": 2024.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://en.wikipedia.org/wiki/Taiwan_Miracle",
+     "sha256": "429ad4d371ea0eeb8ec22d36f77ae676cd4620f29c7e010830f0f491c0983e1b",
+     "via": "direct",
+     "key": "S040.6"
+    }
+   ]
+  },
+  {
+   "key": "S041",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 85,
+   "numbers": [
+    {
+     "text": "20%",
+     "kind": "percent",
+     "approx": false,
+     "value": 20.0,
+     "verdict": "FOUND",
+     "match": "20%",
+     "offset": 2452,
+     "near_words": 4,
+     "occurrences": 10,
+     "context": "of hysteresis over large ranges and creep at lowfrequencies [11,7]. These effects can cause tracking error in excess of 20%. As a result, many applications require some form of feedback [12] or feedforward control [13] to reduce or eliminate n",
+     "url": "https://precisionmechatronicslab.com/wp-content/publications/J10b.pdf",
+     "sha256": "ab49690ee520208974a123467b24415f7c4de79dc148fba789d060669992e8ca",
+     "via": "direct",
+     "key": "S041.1"
+    }
+   ]
+  },
+  {
+   "key": "S042",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 51,
+   "numbers": [
+    {
+     "text": "2022",
+     "kind": "year",
+     "approx": false,
+     "value": 2022,
+     "verdict": "FOUND",
+     "match": "2022",
+     "offset": 226622,
+     "near_words": 1,
+     "occurrences": 167,
+     "context": "7.0 35.2 29.8 3.7 2.5 55.0 45.0 1) Including figures unclassifiable or not reported. Source: Statistics Bureau, MIC. In 2022, the percentages of male and female employed persons by occupation show that males were particularly prominent among \"c",
+     "url": "https://www.stat.go.jp/english/data/handbook/pdf/2023all.pdf",
+     "sha256": "fed7f7056aa1c457b75454652e1d218eb95860ecd07b778a4470f5c34812f8da",
+     "via": "direct",
+     "key": "S042.1"
+    }
+   ]
+  },
+  {
+   "key": "S043",
+   "system": "openai-deepresearch",
+   "task": 61,
+   "numbers": [
+    {
+     "text": "2024",
+     "kind": "year",
+     "approx": false,
+     "value": 2024,
+     "verdict": "FOUND",
+     "match": "2024",
+     "offset": 1300,
+     "near_words": 8,
+     "occurrences": 6,
+     "context": "volving market conditions. In 2023, wholesale prices varied between $4.43 USD per kg and $18.47 USD per kg. However, by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg, signaling reduced demand or increased supply fo",
+     "url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+     "sha256": "2ba2b8bc06465515ed64b69020f2b356058dc3bffe60f460d488f58a8a95f9fe",
+     "via": "direct",
+     "key": "S043.1"
+    },
+    {
+     "text": "$0.9",
+     "kind": "money",
+     "approx": true,
+     "value": 0.9,
+     "verdict": "FOUND_ROUNDED",
+     "match": "$0.88",
+     "offset": 1350,
+     "near_words": 8,
+     "occurrences": 2,
+     "context": "es varied between $4.43 USD per kg and $18.47 USD per kg. However, by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg, signaling reduced demand or increased supply for Japan Frozen Mackerel. Year Year Low price, USD/k",
+     "url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+     "sha256": "2ba2b8bc06465515ed64b69020f2b356058dc3bffe60f460d488f58a8a95f9fe",
+     "via": "direct",
+     "key": "S043.2"
+    },
+    {
+     "text": "$8",
+     "kind": "money",
+     "approx": false,
+     "value": 8.0,
+     "verdict": "FOUND_ROUNDED",
+     "match": "$8.22",
+     "offset": 1359,
+     "near_words": 8,
+     "occurrences": 3,
+     "context": " between $4.43 USD per kg and $18.47 USD per kg. However, by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg, signaling reduced demand or increased supply for Japan Frozen Mackerel. Year Year Low price, USD/kg Low pri",
+     "url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+     "sha256": "2ba2b8bc06465515ed64b69020f2b356058dc3bffe60f460d488f58a8a95f9fe",
+     "via": "direct",
+     "key": "S043.3"
+    },
+    {
+     "text": "2024",
+     "kind": "year",
+     "approx": false,
+     "value": 2024,
+     "verdict": "FOUND",
+     "match": "2024",
+     "offset": 1300,
+     "near_words": 8,
+     "occurrences": 6,
+     "context": "volving market conditions. In 2023, wholesale prices varied between $4.43 USD per kg and $18.47 USD per kg. However, by 2024, wholesale prices declined to a new range of $0.88 to $8.22 USD per kg, signaling reduced demand or increased supply fo",
+     "url": "https://dir.tridge.com/prices/frozen-mackerel/JP",
+     "sha256": "2ba2b8bc06465515ed64b69020f2b356058dc3bffe60f460d488f58a8a95f9fe",
+     "via": "direct",
+     "key": "S043.4"
+    }
+   ]
+  },
+  {
+   "key": "S044",
+   "system": "openai-deepresearch",
+   "task": 89,
+   "numbers": [
+    {
+     "text": "2020",
+     "kind": "year",
+     "approx": false,
+     "value": 2020,
+     "verdict": "FOUND",
+     "match": "2020",
+     "offset": 972,
+     "near_words": 7,
+     "occurrences": 18,
+     "context": " Game Literature License: CC BY-SA 4.0 arXiv:2411.00308v1 [cs.AI] 01 Nov 2024 GPT for Games: An Updated Scoping Review (2020-2024) PubID: pubid: 0000-0000/00$00.00 © 2021 IEEE Daijin Yang Erica Kleinman Casper Harteveld ††thanks: Daijin Yang, E",
+     "url": "https://arxiv.org/html/2411.00308v1",
+     "sha256": "9e65fba170c3f385a046136b68f0c19d69b49cb75d5a385a614004a3be25692d",
+     "via": "direct",
+     "key": "S044.1"
+    }
+   ]
+  },
+  {
+   "key": "S045",
+   "system": "grok-deeper-search",
+   "task": 52,
+   "numbers": [
+    {
+     "text": "2024",
+     "kind": "year",
+     "approx": false,
+     "value": 2024,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S045.1"
+    }
+   ]
+  },
+  {
+   "key": "S046",
+   "system": "openai-deepresearch",
+   "task": 92,
+   "numbers": [
+    {
+     "text": "2.6",
+     "kind": "value",
+     "approx": false,
+     "value": 2.6,
+     "verdict": "NOT_FOUND",
+     "url": "https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking",
+     "sha256": "22d77c9bd996a5692668f8dfa2c16e4021f25ef57db55cf62d0a3fb551031e27",
+     "via": "direct",
+     "key": "S046.1"
+    }
+   ]
+  },
+  {
+   "key": "S047",
+   "system": "grok-deeper-search",
+   "task": 84,
+   "numbers": [
+    {
+     "text": "72.2%",
+     "kind": "percent",
+     "approx": true,
+     "value": 72.2,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S047.1"
+    },
+    {
+     "text": "15nm",
+     "kind": "value",
+     "approx": false,
+     "value": 15.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S047.2"
+    }
+   ]
+  },
+  {
+   "key": "S048",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "8K",
+     "kind": "value",
+     "approx": false,
+     "value": 8000.0,
+     "verdict": "FOUND",
+     "match": "8K",
+     "offset": 6596,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "nd proxy editing Premiere Pro's extensive format support means you can work with almost any media, from high-resolution 8K footage to standard mobile video files. This versatility is especially helpful for creators who work with multiple came",
+     "url": "https://hypegig.com/adobe-premiere-pro-review/",
+     "sha256": "df14e656a7d8ef2d43a601176e99c3c91730783244c7ef9628b1976fd9863996",
+     "via": "direct",
+     "key": "S048.1"
+    }
+   ]
+  },
+  {
+   "key": "S049",
+   "system": "grok-deeper-search",
+   "task": 62,
+   "numbers": [
+    {
+     "text": "10 K",
+     "kind": "value",
+     "approx": false,
+     "value": 10000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://arxiv.org/abs/1904.04178",
+     "sha256": "e29e287b0f27b041a2eadb28231d0beb39cef6352bbbd9444e3d5fa55f52723b",
+     "via": "direct",
+     "key": "S049.1"
+    }
+   ]
+  },
+  {
+   "key": "S050",
+   "system": "perplexity-Research",
+   "task": 65,
+   "numbers": [
+    {
+     "text": "0.96",
+     "kind": "value",
+     "approx": false,
+     "value": 0.96,
+     "verdict": "FOUND_ROUNDED",
+     "match": "0.963",
+     "offset": 34753,
+     "near_words": 4,
+     "occurrences": 2,
+     "context": "inear relationship with the manually measured values. The coefficients of determination R2 were 0.991, 0.989, 0.926 and 0.963, respectively. Besides, the root means square error RMSE was 8.61 mm, 7.11 mm, 281.62 mm2 and 0.60 mm, respectively. Fi",
+     "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2022.974339/full",
+     "sha256": "ce8701658097fef2fae1d5857cd069a6a4cf44208d9a103b6425eeb30c3fad93",
+     "via": "direct",
+     "key": "S050.1"
+    }
+   ]
+  },
+  {
+   "key": "S051",
+   "system": "perplexity-Research",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "20%",
+     "kind": "percent",
+     "approx": false,
+     "value": 20.0,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "20",
+     "offset": 2459,
+     "near_words": 1,
+     "occurrences": 2,
+     "context": "CEER's Flagship Vehicles Further Strengthening Saudi Arabia's Position in the Global Automotive Industry Press Releases 20 September 2026PIF launches Tawrid to provide supply-chain financing products in Saudi Arabia Newswire 20 September 2026",
+     "url": "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf",
+     "sha256": "dcaf1f1a5ddbcaa1652c53cb4f8264582d7f9d2f595614260250ff19b4db4feb",
+     "via": "direct",
+     "key": "S051.1"
+    }
+   ]
+  },
+  {
+   "key": "S052",
+   "system": "perplexity-Research",
+   "task": 72,
+   "numbers": [
+    {
+     "text": "2025",
+     "kind": "year",
+     "approx": false,
+     "value": 2025,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S052.1"
+    }
+   ]
+  },
+  {
+   "key": "S053",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 79,
+   "numbers": [
+    {
+     "text": "2003",
+     "kind": "year",
+     "approx": false,
+     "value": 2003,
+     "verdict": "FOUND",
+     "match": "2003",
+     "offset": 9617,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "gislative or procedural frameworks allowing them to obtain gender-affirming healthcare and legal gender recognition. In 2003, Egypt's Health Ministry established a review committee within the Medical Syndicate for people wanting “sex reassignme",
+     "url": "https://www.hrw.org/news/2022/04/08/tough-territory-transgender-people-middle-east-and-north-africa",
+     "sha256": "c1ea43986c4909c48a933bfa1de0c0f26ff535fc5cdc47c76627c771ace98f61",
+     "via": "direct",
+     "key": "S053.1"
+    }
+   ]
+  },
+  {
+   "key": "S054",
+   "system": "grok-deeper-search",
+   "task": 62,
+   "numbers": [
+    {
+     "text": "3 T",
+     "kind": "value",
+     "approx": false,
+     "value": 3000000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.nature.com/articles/s41586-024-07111-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S054.1"
+    }
+   ]
+  },
+  {
+   "key": "S055",
+   "system": "perplexity-Research",
+   "task": 97,
+   "numbers": [
+    {
+     "text": "$1.8 billion",
+     "kind": "money",
+     "approx": true,
+     "value": 1800000000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S055.1"
+    }
+   ]
+  },
+  {
+   "key": "S056",
+   "system": "grok-deeper-search",
+   "task": 63,
+   "numbers": [
+    {
+     "text": "300 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 300.0,
+     "verdict": "FOUND",
+     "match": "300 nm",
+     "offset": 10697,
+     "near_words": 5,
+     "occurrences": 3,
+     "context": "ce, in 2022, Zhuang et al. used SC-1 solution to etch LNO samples covered with a SiO2 mask, achieving a depth of nearly 300 nm. However, different crystal orientations exhibited significant differences in the etching sidewall angle. The -Z direct",
+     "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+     "sha256": "95d1a8598c461cc30c11c7dcec19e56ea74c56b8bfd42c45497668faebadc59e",
+     "via": "direct",
+     "key": "S056.1"
+    },
+    {
+     "text": "90°",
+     "kind": "value",
+     "approx": false,
+     "value": 90.0,
+     "verdict": "FOUND",
+     "match": "90°",
+     "offset": 16464,
+     "near_words": 11,
+     "occurrences": 13,
+     "context": "h-temperature metal corrosion, and wet etching, a novel process was developed to obtain a damage-free, perfectly smooth 90° inclined sidewall of LNO. These findings contribute to addressing the challenges associated with LNO domain-wall memory",
+     "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+     "sha256": "95d1a8598c461cc30c11c7dcec19e56ea74c56b8bfd42c45497668faebadc59e",
+     "via": "direct",
+     "key": "S056.2"
+    },
+    {
+     "text": "115 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 115.0,
+     "verdict": "FOUND",
+     "match": "115 nm",
+     "offset": 29795,
+     "near_words": 8,
+     "occurrences": 2,
+     "context": "g it more susceptible to dry and wet etching. As depicted in Figure 5c, the LNO achieved a final depth of approximately 115 nm, and the sidewall exhibited a pretty 90° angle. In the case of LNO subjected to dry etching, followed by the high-tempe",
+     "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/",
+     "sha256": "95d1a8598c461cc30c11c7dcec19e56ea74c56b8bfd42c45497668faebadc59e",
+     "via": "direct",
+     "key": "S056.3"
+    }
+   ]
+  },
+  {
+   "key": "S057",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 61,
+   "numbers": [
+    {
+     "text": "30%",
+     "kind": "percent",
+     "approx": false,
+     "value": 30.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S057.1"
+    }
+   ]
+  },
+  {
+   "key": "S058",
+   "system": "perplexity-Research",
+   "task": 83,
+   "numbers": [
+    {
+     "text": "$9 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 9000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+     "sha256": "91bfdc5174f15b536e9f58b9b76115b647e8e901fc0cf95af9ef9259bd3bcd32",
+     "via": "direct",
+     "key": "S058.1"
+    },
+    {
+     "text": "2022",
+     "kind": "year",
+     "approx": false,
+     "value": 2022,
+     "verdict": "FOUND",
+     "match": "2022",
+     "offset": 7037,
+     "near_words": 5,
+     "occurrences": 2,
+     "context": " reader segments. Furthermore, the card reader segment, which amassed nearly two-thirds of the global market revenue in 2022, is predicted to record the highest CAGR in the upcoming years. The growth of the segment during the anticipated timefr",
+     "url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+     "sha256": "91bfdc5174f15b536e9f58b9b76115b647e8e901fc0cf95af9ef9259bd3bcd32",
+     "via": "direct",
+     "key": "S058.2"
+    },
+    {
+     "text": "$15 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 15000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+     "sha256": "91bfdc5174f15b536e9f58b9b76115b647e8e901fc0cf95af9ef9259bd3bcd32",
+     "via": "direct",
+     "key": "S058.3"
+    },
+    {
+     "text": "2030",
+     "kind": "year",
+     "approx": false,
+     "value": 2030,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+     "sha256": "91bfdc5174f15b536e9f58b9b76115b647e8e901fc0cf95af9ef9259bd3bcd32",
+     "via": "direct",
+     "key": "S058.4"
+    },
+    {
+     "text": "5.7%",
+     "kind": "percent",
+     "approx": false,
+     "value": 5.7,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.zionmarketresearch.com/report/tablet-pos-systems-market",
+     "sha256": "91bfdc5174f15b536e9f58b9b76115b647e8e901fc0cf95af9ef9259bd3bcd32",
+     "via": "direct",
+     "key": "S058.5"
+    }
+   ]
+  },
+  {
+   "key": "S059",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "2021",
+     "kind": "year",
+     "approx": false,
+     "value": 2021,
+     "verdict": "FOUND",
+     "match": "2021",
+     "offset": 60090,
+     "near_words": 2,
+     "occurrences": 16,
+     "context": "nor C., Bell M., Tobin D.J. Visible light and human skin pigmentation: The importance of skin phototype. Exp. Dermatol. 2021;30:1324-1331. doi: 10.1111/exd.14400. [DOI] [PubMed] [Google Scholar] 54.Lyons A.B., Trullas C., Kohli I., Hamzavi I.H.",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+     "sha256": "bd139977f862bd6719f58f6bc63b9dd097862e994debeadbe00dd9df531d68e3",
+     "via": "browser chromium",
+     "key": "S059.1"
+    },
+    {
+     "text": "532 nm",
+     "kind": "value",
+     "approx": false,
+     "value": 532.0,
+     "verdict": "FOUND",
+     "match": "532",
+     "offset": 76247,
+     "near_words": 2,
+     "occurrences": 10,
+     "context": "0. [DOI] [PubMed] [Google Scholar] 114.Vachiramon V., Iamsumang W., Triyangkulsri K. Q-switched double frequency Nd:YAG 532-nm nanosecond laser vs. double frequency Nd:YAG 532-nm picosecond laser for the treatment of solar lentigines in Asians",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+     "sha256": "bd139977f862bd6719f58f6bc63b9dd097862e994debeadbe00dd9df531d68e3",
+     "via": "browser chromium",
+     "key": "S059.2"
+    }
+   ]
+  },
+  {
+   "key": "S060",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "numbers": [
+    {
+     "text": "14%",
+     "kind": "percent",
+     "approx": true,
+     "value": 14.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1007/s00146-022-01496-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S060.1"
+    },
+    {
+     "text": "70%",
+     "kind": "percent",
+     "approx": false,
+     "value": 70.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1007/s00146-022-01496-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S060.2"
+    },
+    {
+     "text": "32%",
+     "kind": "percent",
+     "approx": false,
+     "value": 32.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1007/s00146-022-01496-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S060.3"
+    },
+    {
+     "text": "50",
+     "kind": "percent",
+     "approx": false,
+     "value": 50.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1007/s00146-022-01496-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S060.4"
+    },
+    {
+     "text": "70%",
+     "kind": "percent",
+     "approx": false,
+     "value": 70.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1007/s00146-022-01496-x",
+     "sha256": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+     "via": "direct",
+     "key": "S060.5"
+    }
+   ]
+  },
+  {
+   "key": "S061",
+   "system": "openai-deepresearch",
+   "task": 91,
+   "numbers": [
+    {
+     "text": "100,000 times",
+     "kind": "value",
+     "approx": false,
+     "value": 100000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://saintseiya.fandom.com/wiki/Virgo_Shaka",
+     "sha256": "390045c4ab6871a94a15c806789d2b50e1694f04962f378a0296d85a8179e16a",
+     "via": "archive CC-MAIN-2025-21 crawl-data/CC-MAIN-2025-21/segments/1746990412747.92/warc/CC-MAIN-20250519195356-20250519225356-00136.warc.gz@435036061",
+     "key": "S061.1"
+    }
+   ]
+  },
+  {
+   "key": "S062",
+   "system": "openai-deepresearch",
+   "task": 61,
+   "numbers": [
+    {
+     "text": "2018",
+     "kind": "year",
+     "approx": false,
+     "value": 2018,
+     "verdict": "FOUND",
+     "match": "2018",
+     "offset": 7546,
+     "near_words": 4,
+     "occurrences": 12,
+     "context": "rel in 2020, with a 41 percent increase in the TAC. Mackerel prices have been on an upward trend since the beginning of 2018, but are now likely to decline, given increased supply. Herring supplies will also increase, albeit at a lower (+11 per",
+     "url": "https://www.fao.org/in-action/globefish/news-events/news/news-detail/Stronger-mackerel-supplies-herring-supplies-slightly-up-in-2020/en",
+     "sha256": "d7e55995fc0666dd22b4da40d4795116d1920dad6a9d85dee5668c08c22e948a",
+     "via": "direct",
+     "key": "S062.1"
+    }
+   ]
+  },
+  {
+   "key": "S063",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "numbers": [
+    {
+     "text": "2020",
+     "kind": "year",
+     "approx": false,
+     "value": 2020,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S063.1"
+    }
+   ]
+  },
+  {
+   "key": "S064",
+   "system": "perplexity-Research",
+   "task": 97,
+   "numbers": [
+    {
+     "text": "$1.4 billion",
+     "kind": "money",
+     "approx": true,
+     "value": 1400000000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S064.1"
+    },
+    {
+     "text": "9,615 jobs",
+     "kind": "value",
+     "approx": false,
+     "value": 9615.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S064.2"
+    },
+    {
+     "text": "$433.3 million",
+     "kind": "money",
+     "approx": false,
+     "value": 433300000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S064.3"
+    }
+   ]
+  },
+  {
+   "key": "S065",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 87,
+   "numbers": [
+    {
+     "text": "$150 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 150000000000.0,
+     "verdict": "FOUND",
+     "match": "$150 billion",
+     "offset": 2418,
+     "near_words": 11,
+     "occurrences": 1,
+     "context": "g speed and become a game changer in many aspects of business. In the next three to five years, generative AI could add $150 billion, conservatively, and up to $275 billion to the apparel, fashion, and luxury sectors' operating profits, according to Mc",
+     "url": "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion",
+     "sha256": "2da967156dbe6c2deacf024c3a727f1c1b236ead2384a4f912f8334e8ebe5cd4",
+     "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700291.63/warc/CC-MAIN-20260913072935-20260913102935-00271.warc.gz@759681950",
+     "key": "S065.1"
+    },
+    {
+     "text": "$275 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 275000000000.0,
+     "verdict": "FOUND",
+     "match": "$275 billion",
+     "offset": 2458,
+     "near_words": 11,
+     "occurrences": 1,
+     "context": "y aspects of business. In the next three to five years, generative AI could add $150 billion, conservatively, and up to $275 billion to the apparel, fashion, and luxury sectors' operating profits, according to McKinsey analysis. From codesigning to spe",
+     "url": "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion",
+     "sha256": "2da967156dbe6c2deacf024c3a727f1c1b236ead2384a4f912f8334e8ebe5cd4",
+     "via": "archive CC-MAIN-2026-39 crawl-data/CC-MAIN-2026-39/segments/1788492700291.63/warc/CC-MAIN-20260913072935-20260913102935-00271.warc.gz@759681950",
+     "key": "S065.2"
+    }
+   ]
+  },
+  {
+   "key": "S066",
+   "system": "perplexity-Research",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "13%",
+     "kind": "percent",
+     "approx": false,
+     "value": 13.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf",
+     "sha256": "dcaf1f1a5ddbcaa1652c53cb4f8264582d7f9d2f595614260250ff19b4db4feb",
+     "via": "direct",
+     "key": "S066.1"
+    }
+   ]
+  },
+  {
+   "key": "S067",
+   "system": "openai-deepresearch",
+   "task": 63,
+   "numbers": [
+    {
+     "text": "800 °C",
+     "kind": "value",
+     "approx": true,
+     "value": 800.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S067.1"
+    }
+   ]
+  },
+  {
+   "key": "S068",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 83,
+   "numbers": [
+    {
+     "text": "10.1",
+     "kind": "value",
+     "approx": false,
+     "value": 10.1,
+     "verdict": "NOT_FOUND",
+     "url": "https://automation.honeywell.com/gb/en/products/productivity-solutions/mobile-computers/tablets",
+     "sha256": "e264ed44488435920330858b65e2f3be143108a842dbfdc1065e75de43893f57",
+     "via": "direct",
+     "key": "S068.1"
+    },
+    {
+     "text": "2K",
+     "kind": "value",
+     "approx": false,
+     "value": 2000.0,
+     "verdict": "FOUND_ROUNDED",
+     "match": "2026",
+     "offset": 5380,
+     "near_words": 1,
+     "occurrences": 1,
+     "context": "eleases Careers toggle view Careers Job Search Contact toggle view Contact Us Support Unsubscribe Follow Us Copyright © 2026 Honeywell International Inc Terms & Conditions Privacy Statement Your Privacy Choices Cookie Notice Global Unsubscribe ",
+     "url": "https://automation.honeywell.com/gb/en/products/productivity-solutions/mobile-computers/tablets",
+     "sha256": "e264ed44488435920330858b65e2f3be143108a842dbfdc1065e75de43893f57",
+     "via": "direct",
+     "key": "S068.2"
+    },
+    {
+     "text": "1000",
+     "kind": "value",
+     "approx": false,
+     "value": 1000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://automation.honeywell.com/gb/en/products/productivity-solutions/mobile-computers/tablets",
+     "sha256": "e264ed44488435920330858b65e2f3be143108a842dbfdc1065e75de43893f57",
+     "via": "direct",
+     "key": "S068.3"
+    }
+   ]
+  },
+  {
+   "key": "S069",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "2000",
+     "kind": "year",
+     "approx": false,
+     "value": 2000,
+     "verdict": "FOUND",
+     "match": "2000",
+     "offset": 83983,
+     "near_words": 3,
+     "occurrences": 1,
+     "context": "nsen K. Intense pulsed light source for treatment of small melanocytic nevi and solar lentigines. J. Cutan. Laser Ther. 2000;2:177-181. doi: 10.1080/146288300750163745. [DOI] [PubMed] [Google Scholar] 143.Kawada A., Shiraishi H., Asai M., Kamey",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+     "sha256": "bd139977f862bd6719f58f6bc63b9dd097862e994debeadbe00dd9df531d68e3",
+     "via": "browser chromium",
+     "key": "S069.1"
+    },
+    {
+     "text": "2019",
+     "kind": "year",
+     "approx": false,
+     "value": 2019,
+     "verdict": "FOUND",
+     "match": "2019",
+     "offset": 84744,
+     "near_words": 4,
+     "occurrences": 14,
+     "context": " Efficacy and safety of intense pulsed light with a KTP filter for the treatment of solar lentigines. Lasers Surg. Med. 2019;51:500-508. doi: 10.1002/lsm.23056. [DOI] [PubMed] [Google Scholar] 146.Amornpetkul W., Kanokrungsee S., Kamanamool N.,",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/",
+     "sha256": "bd139977f862bd6719f58f6bc63b9dd097862e994debeadbe00dd9df531d68e3",
+     "via": "browser chromium",
+     "key": "S069.2"
+    }
+   ]
+  },
+  {
+   "key": "S070",
+   "system": "openai-deepresearch",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "$1.33 trillion",
+     "kind": "money",
+     "approx": false,
+     "value": 1330000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/",
+     "sha256": "02e48eaa4ee340e51f62b5da5f0b447442614c1bc0172ef396a08635647fc13a",
+     "via": "direct",
+     "key": "S070.1"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/",
+     "sha256": "02e48eaa4ee340e51f62b5da5f0b447442614c1bc0172ef396a08635647fc13a",
+     "via": "direct",
+     "key": "S070.2"
+    }
+   ]
+  },
+  {
+   "key": "S071",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "52%",
+     "kind": "percent",
+     "approx": false,
+     "value": 52.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S071.1"
+    },
+    {
+     "text": "81%",
+     "kind": "percent",
+     "approx": false,
+     "value": 81.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S071.2"
+    }
+   ]
+  },
+  {
+   "key": "S072",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "$100M",
+     "kind": "money",
+     "approx": false,
+     "value": 100000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://kpmg.com/us/en/ai.html",
+     "sha256": "c333b71d539507dd9bf707b800b85f548e548bfbc5ae54f75ef825d9e26aad94",
+     "via": "direct",
+     "key": "S072.1"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND",
+     "match": "2023",
+     "offset": 11353,
+     "near_words": 4,
+     "occurrences": 6,
+     "context": "wide Artificial Intelligence Services Vendor Assessment 2023: May 2023, IDC #US49647023 HFS Horizons: Low Code Services 2023 Teaming with top AI innovators for optimal results We collaborate with the world's leading AI innovators to drive your ",
+     "url": "https://kpmg.com/us/en/ai.html",
+     "sha256": "c333b71d539507dd9bf707b800b85f548e548bfbc5ae54f75ef825d9e26aad94",
+     "via": "direct",
+     "key": "S072.2"
+    },
+    {
+     "text": "$1B",
+     "kind": "money",
+     "approx": false,
+     "value": 1000000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://kpmg.com/us/en/ai.html",
+     "sha256": "c333b71d539507dd9bf707b800b85f548e548bfbc5ae54f75ef825d9e26aad94",
+     "via": "direct",
+     "key": "S072.3"
+    }
+   ]
+  },
+  {
+   "key": "S073",
+   "system": "perplexity-Research",
+   "task": 75,
+   "numbers": [
+    {
+     "text": "41%",
+     "kind": "percent",
+     "approx": false,
+     "value": 41.0,
+     "verdict": "FOUND",
+     "match": "41%",
+     "offset": 28283,
+     "near_words": 10,
+     "occurrences": 2,
+     "context": "resent study of EDTA-based chelation therapy in patients with diabetes and a prior myocardial infarction demonstrates a 41% (p<0.001) relative reduction in the risk of a combined cardiovascular endpoint; a reduction in risk of the composite of",
+     "url": "https://www.ahajournals.org/doi/10.1161/circoutcomes.113.000663",
+     "sha256": "aa7d1928505c9b3c4376d7dc907d2e3ccd6afe9d339323cb5f10f7c7f8396e65",
+     "via": "open_access https://www.ncbi.nlm.nih.gov/pmc/articles/4111470",
+     "key": "S073.1"
+    }
+   ]
+  },
+  {
+   "key": "S074",
+   "system": "grok-deeper-search",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "1945",
+     "kind": "year",
+     "approx": false,
+     "value": 1945,
+     "verdict": "FOUND",
+     "match": "1945",
+     "offset": 1248,
+     "near_words": 5,
+     "occurrences": 13,
+     "context": " and is no longer maintained. For more information, please see the full notice. Occupation and Reconstruction of Japan, 1945-52 After the defeat of Japan in World War II, the United States led the Allies in the occupation and rehabilitation of ",
+     "url": "https://history.state.gov/milestones/1945-1952/japan-reconstruction",
+     "sha256": "2afbbba777f46d08dbce3490686997757bfa8826f1141595d3fa5a3e7732cd80",
+     "via": "direct",
+     "key": "S074.1"
+    },
+    {
+     "text": "1952",
+     "kind": "year",
+     "approx": false,
+     "value": 1952,
+     "verdict": "FOUND",
+     "match": "1952",
+     "offset": 1409,
+     "near_words": 5,
+     "occurrences": 2,
+     "context": "d War II, the United States led the Allies in the occupation and rehabilitation of the Japanese state. Between 1945 and 1952, the U.S. occupying forces, led by General Douglas A. MacArthur, enacted widespread military, political, economic, and ",
+     "url": "https://history.state.gov/milestones/1945-1952/japan-reconstruction",
+     "sha256": "2afbbba777f46d08dbce3490686997757bfa8826f1141595d3fa5a3e7732cd80",
+     "via": "direct",
+     "key": "S074.2"
+    }
+   ]
+  },
+  {
+   "key": "S075",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "numbers": [
+    {
+     "text": "11 June 2020",
+     "kind": "date",
+     "approx": false,
+     "value": [
+      2020,
+      6,
+      11
+     ],
+     "verdict": "FOUND_NORMALIZED",
+     "match": "11 Jun 2020",
+     "offset": 2051,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "han 6 years old Just 24 out of 128 asked about reforms to address colonial legacy are committed to idea David Batty Thu 11 Jun 2020 13.56 EDT Last modified on Fri 12 Jun 2020 07.13 EDT Share Prefer the Guardian on Google Only a fifth of UK universitie",
+     "url": "https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum",
+     "sha256": "1c4ddf0a180e4035ab05a218306a8e52d2629e3fb903fade62124eaaf810c427",
+     "via": "direct",
+     "key": "S075.1"
+    }
+   ]
+  },
+  {
+   "key": "S076",
+   "system": "perplexity-Research",
+   "task": 99,
+   "numbers": [
+    {
+     "text": "532nm",
+     "kind": "value",
+     "approx": false,
+     "value": 532.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S076.1"
+    }
+   ]
+  },
+  {
+   "key": "S077",
+   "system": "grok-deeper-search",
+   "task": 68,
+   "numbers": [
+    {
+     "text": "10%",
+     "kind": "percent",
+     "approx": false,
+     "value": 10.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://kubernetes.io/docs/tasks/administer-cluster/node-overprovisioning/",
+     "sha256": "b2a08dfe09c60db63059269af74a6b1042792dd07130d78e53d66cd7965bff8c",
+     "via": "direct",
+     "key": "S077.1"
+    }
+   ]
+  },
+  {
+   "key": "S078",
+   "system": "grok-deeper-search",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "5.6%",
+     "kind": "percent",
+     "approx": false,
+     "value": 5.6,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+     "sha256": "5a69c394cc41c53ee7440b7a349c79e4f4c48a824ba1adfaded73b27341b03a1",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805908669.31/warc/CC-MAIN-20260412050224-20260412080224-00132.warc.gz@673371199",
+     "key": "S078.1"
+    },
+    {
+     "text": "1990",
+     "kind": "year",
+     "approx": false,
+     "value": 1990,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+     "sha256": "5a69c394cc41c53ee7440b7a349c79e4f4c48a824ba1adfaded73b27341b03a1",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805908669.31/warc/CC-MAIN-20260412050224-20260412080224-00132.warc.gz@673371199",
+     "key": "S078.2"
+    },
+    {
+     "text": "1998",
+     "kind": "year",
+     "approx": false,
+     "value": 1998,
+     "verdict": "FOUND",
+     "match": "1998",
+     "offset": 1666,
+     "near_words": 4,
+     "occurrences": 1,
+     "context": "lean economy grew at an average annual rate of 7.2 per­cent, followed by an average annual rate of 3.5 per­cent between 1998 and 2005. Such growth is very good compared to other countries. Chile's exceptional economic performance and the result",
+     "url": "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy",
+     "sha256": "5a69c394cc41c53ee7440b7a349c79e4f4c48a824ba1adfaded73b27341b03a1",
+     "via": "archive CC-MAIN-2026-17 crawl-data/CC-MAIN-2026-17/segments/1775805908669.31/warc/CC-MAIN-20260412050224-20260412080224-00132.warc.gz@673371199",
+     "key": "S078.3"
+    }
+   ]
+  },
+  {
+   "key": "S079",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "$0.60 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 600000000.0,
+     "verdict": "FOUND",
+     "match": "USD 0.60 billion",
+     "offset": 2211,
+     "near_words": 2,
+     "occurrences": 2,
+     "context": "t this report VIDEO EDITING SOFTWARE MARKET REPORT OVERVIEW The global video editing software market size was valued at USD 0.60 billion in 2024 and is projected to touch USD 1.27 billion by 2033, exhibiting a CAGR of 8.7% during the forecast period from 2",
+     "url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+     "sha256": "7a8000ffe86ea565c796278e350aa53e25db5246a6317d6d1a97cd240868e40d",
+     "via": "archive CC-MAIN-2025-26 crawl-data/CC-MAIN-2025-26/segments/1749709481636.88/warc/CC-MAIN-20250621004221-20250621034221-00364.warc.gz@579936162",
+     "key": "S079.1"
+    },
+    {
+     "text": "$3.09 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 3090000000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+     "sha256": "7a8000ffe86ea565c796278e350aa53e25db5246a6317d6d1a97cd240868e40d",
+     "via": "archive CC-MAIN-2025-26 crawl-data/CC-MAIN-2025-26/segments/1749709481636.88/warc/CC-MAIN-20250621004221-20250621034221-00364.warc.gz@579936162",
+     "key": "S079.2"
+    }
+   ]
+  },
+  {
+   "key": "S080",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 62,
+   "numbers": [
+    {
+     "text": "2.1",
+     "kind": "value",
+     "approx": false,
+     "value": 2.1,
+     "verdict": "FOUND",
+     "match": "2.1",
+     "offset": 36746,
+     "near_words": 2,
+     "occurrences": 10,
+     "context": " the barrier ions. Figure 5 shows the transverse (radial) band structure of the same N=231N=231 ions system with ωo.t.p≈2.1​ν\\omega_{\\text{o.t.p}}\\approx 2.1\\nu (dashed vertical line in Fig. 4). Similarly to the axial direction, optical segmen",
+     "url": "https://arxiv.org/html/2311.01168v3",
+     "sha256": "5332483124f5ec09b39a6923155c510d7faf9d693fc4378b354388001f63ae6b",
+     "via": "direct",
+     "key": "S080.1"
+    }
+   ]
+  },
+  {
+   "key": "S081",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "numbers": [
+    {
+     "text": "4K",
+     "kind": "value",
+     "approx": false,
+     "value": 4000.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+     "sha256": "7a8000ffe86ea565c796278e350aa53e25db5246a6317d6d1a97cd240868e40d",
+     "via": "archive CC-MAIN-2025-26 crawl-data/CC-MAIN-2025-26/segments/1749709481636.88/warc/CC-MAIN-20250621004221-20250621034221-00364.warc.gz@579936162",
+     "key": "S081.1"
+    },
+    {
+     "text": "8K",
+     "kind": "value",
+     "approx": false,
+     "value": 8000.0,
+     "verdict": "NO_CONTEXT",
+     "match": "8083",
+     "offset": 13532,
+     "near_words": 0,
+     "occurrences": 1,
+     "context": "ation Home About Us Contact Us Terms of Service Privacy Policy Our Contacts US : +1 (888) 690-5999 (Toll-Free) UK : +44 8083 023308 (Toll-Free) APAC: +91 744 740 1245 Email: [email protected] Connect with us: © 2025 Business Research Insights. ",
+     "would_be": "FOUND_ROUNDED",
+     "url": "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146",
+     "sha256": "7a8000ffe86ea565c796278e350aa53e25db5246a6317d6d1a97cd240868e40d",
+     "via": "archive CC-MAIN-2025-26 crawl-data/CC-MAIN-2025-26/segments/1749709481636.88/warc/CC-MAIN-20250621004221-20250621034221-00364.warc.gz@579936162",
+     "key": "S081.2"
+    }
+   ]
+  },
+  {
+   "key": "S082",
+   "system": "perplexity-Research",
+   "task": 92,
+   "numbers": [
+    {
+     "text": "90%",
+     "kind": "percent",
+     "approx": false,
+     "value": 90.0,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "90",
+     "offset": 32469,
+     "near_words": 3,
+     "occurrences": 6,
+     "context": "localization data, which in addition is passed to the strategy recognition model with an input ′ vector (vuwb = 2 × 2 × 90). Notably, the length of the LSTM model differs from that of the shot recognition model (vuwb ). Finally, the strategy ",
+     "url": "https://backoffice.biblio.ugent.be/download/01J41JC4BQ1FFZ8JQJX22QHN3Z/01J41JDV2PZFW5ZMKKJCP2DJES",
+     "sha256": "2afdf0c1c7bb57d8b26f0d08a5803e696cf768f0af66454cddf5bd47e6f88ae3",
+     "via": "direct",
+     "key": "S082.1"
+    }
+   ]
+  },
+  {
+   "key": "S083",
+   "system": "grok-deeper-search",
+   "task": 81,
+   "numbers": [
+    {
+     "text": "1995",
+     "kind": "year",
+     "approx": false,
+     "value": 1995,
+     "verdict": "FOUND",
+     "match": "1995",
+     "offset": 26580,
+     "near_words": 4,
+     "occurrences": 1,
+     "context": "our present. Only in that present can we be true or false to the past we choose to acknowledge” (p.151). Trouillot, M. (1995). Silencing the past : Power and the production of history. Boston, Mass.: Beacon Press. Share this: Share on X (Opens ",
+     "url": "https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/",
+     "sha256": "b02e69eaf366365814aab8434d23c5b00cd8fcbaf31d98f1c7ff58f439417850",
+     "via": "direct",
+     "key": "S083.1"
+    }
+   ]
+  },
+  {
+   "key": "S084",
+   "system": "grok-deeper-search",
+   "task": 92,
+   "numbers": [
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "FOUND",
+     "match": "2023",
+     "offset": 2135,
+     "near_words": 3,
+     "occurrences": 3,
+     "context": "ei Li View PDF HTML (experimental) TeX Source view license Current browse context: cs.CV < prev | next > new | recent | 2023-06 Change to browse by: cs References & Citations NASA ADS Google Scholar Semantic Scholar export BibTeX citation Loadi",
+     "url": "https://arxiv.org/abs/2306.14492",
+     "sha256": "4a4f5141d0235d8452f769c3ff970e6372cedb5d0f2f2cb223f7ef02822ffd9e",
+     "via": "direct",
+     "key": "S084.1"
+    }
+   ]
+  },
+  {
+   "key": "S085",
+   "system": "perplexity-Research",
+   "task": 96,
+   "numbers": [
+    {
+     "text": "18%",
+     "kind": "percent",
+     "approx": false,
+     "value": 18.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.1"
+    },
+    {
+     "text": "2024",
+     "kind": "year",
+     "approx": false,
+     "value": 2024,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.2"
+    },
+    {
+     "text": "14 billion",
+     "kind": "value",
+     "approx": true,
+     "value": 14000000000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.3"
+    },
+    {
+     "text": "16%",
+     "kind": "percent",
+     "approx": false,
+     "value": 16.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.4"
+    },
+    {
+     "text": "2025",
+     "kind": "value",
+     "approx": false,
+     "value": 2025000000000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.5"
+    },
+    {
+     "text": "16.7 billion",
+     "kind": "value",
+     "approx": false,
+     "value": 16700000000.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S085.6"
+    }
+   ]
+  },
+  {
+   "key": "S086",
+   "system": "perplexity-Research",
+   "task": 92,
+   "numbers": [
+    {
+     "text": "0.5",
+     "kind": "value",
+     "approx": false,
+     "value": 0.5,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S086.1"
+    },
+    {
+     "text": "0.955",
+     "kind": "value",
+     "approx": false,
+     "value": 0.955,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S086.2"
+    }
+   ]
+  },
+  {
+   "key": "S087",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "numbers": [
+    {
+     "text": "2007",
+     "kind": "year",
+     "approx": false,
+     "value": 2007,
+     "verdict": "FOUND",
+     "match": "2007",
+     "offset": 228,
+     "near_words": 12,
+     "occurrences": 16,
+     "context": " (2011), and In Between (2016) Queer Representation in Arab and Middle Eastern Films: A Case Study of Women in Caramel (2007), Circumstance (2011), and In Between (2016) Maria Abdel Karim [PDF] Abstract Queer representations have been present s",
+     "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+     "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+     "via": "browser chromium",
+     "key": "S087.1"
+    },
+    {
+     "text": "2011",
+     "kind": "year",
+     "approx": false,
+     "value": 2011,
+     "verdict": "FOUND",
+     "match": "2011",
+     "offset": 249,
+     "near_words": 12,
+     "occurrences": 18,
+     "context": "en (2016) Queer Representation in Arab and Middle Eastern Films: A Case Study of Women in Caramel (2007), Circumstance (2011), and In Between (2016) Maria Abdel Karim [PDF] Abstract Queer representations have been present since the 1930s in Ara",
+     "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+     "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+     "via": "browser chromium",
+     "key": "S087.2"
+    },
+    {
+     "text": "2016",
+     "kind": "year",
+     "approx": false,
+     "value": 2016,
+     "verdict": "FOUND",
+     "match": "2016",
+     "offset": 272,
+     "near_words": 12,
+     "occurrences": 12,
+     "context": "ntation in Arab and Middle Eastern Films: A Case Study of Women in Caramel (2007), Circumstance (2011), and In Between (2016) Maria Abdel Karim [PDF] Abstract Queer representations have been present since the 1930s in Arab and Middle Eastern ci",
+     "url": "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html",
+     "sha256": "31bfd5d530d8af4e716787aa016efc5f1ffe461bbd63b6967d348f2b836d03f5",
+     "via": "browser chromium",
+     "key": "S087.3"
+    }
+   ]
+  },
+  {
+   "key": "S088",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "numbers": [
+    {
+     "text": "360°",
+     "kind": "value",
+     "approx": false,
+     "value": 360.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S088.1"
+    }
+   ]
+  },
+  {
+   "key": "S089",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 57,
+   "numbers": [
+    {
+     "text": "$3 billion",
+     "kind": "money",
+     "approx": false,
+     "value": 3000000000.0,
+     "verdict": "FOUND",
+     "match": "$3 billion",
+     "offset": 1354,
+     "near_words": 5,
+     "occurrences": 1,
+     "context": "eal-world challenges our clients face and invest in the areas of greatest need and opportunity.” As part of Accenture's $3 billion investment in data and AI, the studios will connect clients with Accenture's top data and AI experts, who will help the",
+     "url": "https://newsroom.accenture.com/news/2023/accenture-to-launch-network-of-generative-ai-studios-to-help-clients-accelerate-use-of-data-and-ai-technologies",
+     "sha256": "5350818b42392ccc411167908c54053de4af609b5220abcc5561c9314b5fa64b",
+     "via": "direct",
+     "key": "S089.1"
+    }
+   ]
+  },
+  {
+   "key": "S090",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "1965",
+     "kind": "year",
+     "approx": false,
+     "value": 1965,
+     "verdict": "FOUND",
+     "match": "1965",
+     "offset": 7511,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "n with the United States has increased significantly since World War II.[47] The Automotive Products Trade Agreement of 1965 opened Canada's borders to trade in the automobile manufacturing industry.[48] In the 1970s, concerns over energy self-",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_Canada",
+     "sha256": "79331f360e33e0266756996046240e08bc0a63a3d4e8d653f716e4821a268ed0",
+     "via": "direct",
+     "key": "S090.1"
+    }
+   ]
+  },
+  {
+   "key": "S091",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 90,
+   "numbers": [
+    {
+     "text": "2016",
+     "kind": "year",
+     "approx": false,
+     "value": 2016,
+     "verdict": "NO_CONTEXT",
+     "match": "December 2016",
+     "offset": 10339,
+     "near_words": 0,
+     "occurrences": 12,
+     "context": "7 October 2017 September 2017 August 2017 July 2017 June 2017 May 2017 April 2017 March 2017 February 2017 January 2017 December 2016 November 2016 October 2016 September 2016 August 2016 July 2016 June 2016 May 2016 April 2016 March 2016 February 2016 ",
+     "would_be": "FOUND_NORMALIZED",
+     "url": "https://law.marquette.edu/facultyblog/2023/04/tesla-wins-first-trial-involving-autopilot-but-more-serious-cases-loom/",
+     "sha256": "1f6468e84b33c93d119c9ed7d93f51285d52555a481f7a252c089fa04b5b9fb0",
+     "via": "direct",
+     "key": "S091.1"
+    }
+   ]
+  },
+  {
+   "key": "S092",
+   "system": "openai-deepresearch",
+   "task": 83,
+   "numbers": [
+    {
+     "text": "12%",
+     "kind": "percent",
+     "approx": true,
+     "value": 12.0,
+     "verdict": "FOUND_ROUNDED",
+     "match": "12.4%",
+     "offset": 4165,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "rs of all types and large mall-based specialty chains. Across North America, retail mobile POS devices will cannibalize 12.4% of traditional POS shipments by 2016. The highest areas of replacement will be department stores and specialty soft goo",
+     "url": "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study",
+     "sha256": "1f723733d5771da9bfdc38ec73cbf4c84e9df8736874ac3b4575a1a9aaae72c8",
+     "via": "direct",
+     "key": "S092.1"
+    },
+    {
+     "text": "2016",
+     "kind": "year",
+     "approx": false,
+     "value": 2016,
+     "verdict": "FOUND",
+     "match": "2016",
+     "offset": 4203,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "pecialty chains. Across North America, retail mobile POS devices will cannibalize 12.4% of traditional POS shipments by 2016. The highest areas of replacement will be department stores and specialty soft goods retailers. Over 85% of larger reta",
+     "url": "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study",
+     "sha256": "1f723733d5771da9bfdc38ec73cbf4c84e9df8736874ac3b4575a1a9aaae72c8",
+     "via": "direct",
+     "key": "S092.2"
+    }
+   ]
+  },
+  {
+   "key": "S093",
+   "system": "grok-deeper-search",
+   "task": 53,
+   "numbers": [
+    {
+     "text": "11.3 years",
+     "kind": "value",
+     "approx": false,
+     "value": 11.3,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S093.1"
+    },
+    {
+     "text": "2023",
+     "kind": "year",
+     "approx": false,
+     "value": 2023,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S093.2"
+    },
+    {
+     "text": "10.7 years",
+     "kind": "value",
+     "approx": false,
+     "value": 10.7,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S093.3"
+    },
+    {
+     "text": "2022",
+     "kind": "year",
+     "approx": false,
+     "value": 2022,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S093.4"
+    }
+   ]
+  },
+  {
+   "key": "S094",
+   "system": "perplexity-Research",
+   "task": 72,
+   "numbers": [
+    {
+     "text": "2014",
+     "kind": "year",
+     "approx": false,
+     "value": 2014,
+     "verdict": "FOUND",
+     "match": "2014",
+     "offset": 2106,
+     "near_words": 8,
+     "occurrences": 3,
+     "context": "he split into within-industry and between-industry components. Citation Goos, Maarten, Alan Manning, and Anna Salomons. 2014. \"Explaining Job Polarization: Routine-Biased Technological Change and Offshoring.\" American Economic Review 104 (8): 2",
+     "url": "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509",
+     "sha256": "9974fea68af6892469411b5e93e7ab5e79a9354661b901652f3f3fe1a34c72ac",
+     "via": "direct",
+     "key": "S094.1"
+    },
+    {
+     "text": "1993",
+     "kind": "year",
+     "approx": false,
+     "value": 1993,
+     "verdict": "FOUND",
+     "match": "1993",
+     "offset": 1782,
+     "near_words": 12,
+     "occurrences": 1,
+     "context": "on Abstract This paper documents the pervasiveness of job polarization in 16 Western European countries over the period 1993-2010. It then develops and estimates a framework to explain job polarization using routine-biased technological change ",
+     "url": "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509",
+     "sha256": "9974fea68af6892469411b5e93e7ab5e79a9354661b901652f3f3fe1a34c72ac",
+     "via": "direct",
+     "key": "S094.2"
+    }
+   ]
+  },
+  {
+   "key": "S095",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "numbers": [
+    {
+     "text": "88%",
+     "kind": "percent",
+     "approx": true,
+     "value": 88.0,
+     "verdict": "FOUND",
+     "match": "88 per cent",
+     "offset": 3821,
+     "near_words": 6,
+     "occurrences": 1,
+     "context": "enefits are clear with automated vehicles expected to improve road safety by reducing human error, which contributes to 88 per cent of road collisions. “We now have autonomous vehicle (AV) legislation which is more comprehensive in scope and clearer i",
+     "url": "https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html",
+     "sha256": "8ca3295f9f55eb7d8f58c13f32242cd0569043cb5fd742c47cc78285864ed3a4",
+     "via": "direct",
+     "key": "S095.1"
+    }
+   ]
+  },
+  {
+   "key": "S096",
+   "system": "perplexity-Research",
+   "task": 96,
+   "numbers": [
+    {
+     "text": "$200",
+     "kind": "money",
+     "approx": false,
+     "value": 200.0,
+     "verdict": "FOUND",
+     "match": "$200",
+     "offset": 2468,
+     "near_words": 8,
+     "occurrences": 1,
+     "context": "ers set up convenient repair times and avoid calling for help in an emergency, which can save each family an average of $200 a year on maintenance costs. 2. Energy Independence: Solar + Storage + Blockchain Production and smart distribution are",
+     "url": "https://www.hdlautomation.com/Articles_100000182859653.html",
+     "sha256": "8bce8ee346c4336d7320bc63028dca1c7767e537ba73b18335f21230ef9346b0",
+     "via": "direct",
+     "key": "S096.1"
+    }
+   ]
+  },
+  {
+   "key": "S097",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "numbers": [
+    {
+     "text": "47%",
+     "kind": "percent",
+     "approx": false,
+     "value": 47.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://doi.org/10.1016/j.techfore.2016.08.019",
+     "sha256": "9125ce502bbe541f8b8fda339dde6935cf653d3c32d5630d27c71f9151939b8b",
+     "via": "browser chromium",
+     "key": "S097.1"
+    }
+   ]
+  },
+  {
+   "key": "S098",
+   "system": "openai-deepresearch",
+   "task": 94,
+   "numbers": [
+    {
+     "text": "2019",
+     "kind": "year",
+     "approx": false,
+     "value": 2019,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S098.1"
+    },
+    {
+     "text": "13531",
+     "kind": "value",
+     "approx": false,
+     "value": 13531.0,
+     "verdict": "SOURCE_UNAVAILABLE",
+     "key": "S098.2"
+    }
+   ]
+  },
+  {
+   "key": "S099",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "1945",
+     "kind": "year",
+     "approx": false,
+     "value": 1945,
+     "verdict": "FOUND",
+     "match": "1945",
+     "offset": 4341,
+     "near_words": 2,
+     "occurrences": 2,
+     "context": "ent of History, University of British Columbia - Okanagan 8.7 Three Sectors 8.8 The Shipping Industry in Canada, 1867 - 1945 Eric W. Sager, Department of History, University of Victoria 8.9 Canada's Ocean Fisheries Miriam Wright, Department of ",
+     "url": "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/",
+     "sha256": "54e58d9c28d0ec8689ea661581b717f4eab41afaf86261e6d9a14ba4f73aebfb",
+     "via": "direct",
+     "key": "S099.1"
+    },
+    {
+     "text": "1949",
+     "kind": "year",
+     "approx": false,
+     "value": 1949,
+     "verdict": "FOUND",
+     "match": "1949",
+     "offset": 10872,
+     "near_words": 2,
+     "occurrences": 2,
+     "context": "the 1940s by the alliance with Stalin's USSR, the appearance of several new communist regimes in Eastern Europe and, in 1949, the People's Republic of China. The most effective case against hard-left dissent was high levels of employment, good ",
+     "url": "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/",
+     "sha256": "54e58d9c28d0ec8689ea661581b717f4eab41afaf86261e6d9a14ba4f73aebfb",
+     "via": "direct",
+     "key": "S099.2"
+    }
+   ]
+  },
+  {
+   "key": "S100",
+   "system": "perplexity-Research",
+   "task": 82,
+   "numbers": [
+    {
+     "text": "3.3%",
+     "kind": "percent",
+     "approx": false,
+     "value": 3.3,
+     "verdict": "FOUND",
+     "match": "3.3%",
+     "offset": 63622,
+     "near_words": 4,
+     "occurrences": 4,
+     "context": "6% 5.5% 3.0% 54.1% 2023 3,123 56,709 1,709 33,147 2.0% 3.8% 3.4% 54.4% 2024 3,065.4 59,526.8 1,879.0 36,488.9 2.7% 2.3% 3.3% 55.2% The following table compares data on some of South Korea's economic indicators between 1962 and 1989.[44]: 137 Ye",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S100.1"
+    },
+    {
+     "text": "1962",
+     "kind": "percent",
+     "approx": false,
+     "value": 1962.0,
+     "verdict": "NOT_FOUND",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S100.2"
+    },
+    {
+     "text": "35.8%",
+     "kind": "percent",
+     "approx": false,
+     "value": 35.8,
+     "verdict": "FOUND_NORMALIZED",
+     "match": "35.8",
+     "offset": 63866,
+     "near_words": 4,
+     "occurrences": 1,
+     "context": "ar GNP (US$ billions) Per capita annual income (US$) Ratio of domestic savings to GNP (%) 1962 2.3 87 3.3 1989 204 4830 35.8 The following graphs illustrate economic indicators over time. Growth of the South Korean economy 1961-2015 South Korea",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S100.3"
+    },
+    {
+     "text": "1989",
+     "kind": "year",
+     "approx": false,
+     "value": 1989,
+     "verdict": "FOUND",
+     "match": "1989",
+     "offset": 63729,
+     "near_words": 4,
+     "occurrences": 4,
+     "context": ".9 2.7% 2.3% 3.3% 55.2% The following table compares data on some of South Korea's economic indicators between 1962 and 1989.[44]: 137 Year GNP (US$ billions) Per capita annual income (US$) Ratio of domestic savings to GNP (%) 1962 2.3 87 3.3 1",
+     "url": "https://en.wikipedia.org/wiki/Economy_of_South_Korea",
+     "sha256": "518e4e307f0b1c214dbf9bb7dfd855b7bfa03fb2a13eecf4801cef288a42c8bc",
+     "via": "direct",
+     "key": "S100.4"
+    }
+   ]
+  }
+ ]
+}

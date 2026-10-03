@@ -1,19 +1,21 @@
 [project]
-name = "verbatim"
-version = "0.3.2"
-description = "Check quotes in an agent's report against byte snapshots of the cited sources"
+name = "buddie"
+version = "0.3.0"
+description = "Receipts for agent work: check what an AI agent reports (quotes, repo state, PR and CI status, command output) against primary evidence, without a model"
+readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}
-keywords = ["ai-agents", "deep-research", "citation-verification", "faithfulness", "oversight"]
+keywords = ["ai-agents", "multi-agent", "oversight", "faithfulness", "citation-verification", "claude-code", "mcp"]
 dependencies = []
 
 [project.urls]
-Repository = "https://github.com/tsyyan/verbatim"
+Repository = "https://github.com/tsyyan/buddie"
 
 [project.optional-dependencies]
-browser = ["playwright"]  # --access browser: render JavaScript pages (verbatim/access.py)
+browser = ["playwright"]  # verbatim --access browser: render JavaScript pages (verbatim/access.py)
 
 [project.scripts]
+buddie = "buddie.cli:main"
 verbatim = "verbatim.cli:main"
 
 [build-system]
@@ -21,4 +23,8 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["verbatim"]
+packages = ["buddie", "verbatim"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"

@@ -1,0 +1,1889 @@
+{
+ "seed": 2029,
+ "tool": "verbatim 0.3.2 + numbers (E009)",
+ "verdicts_sealed_sha256": "04abfba37425cfb8b61ae37f4ef5f06b565f090eb703568a02c0dffabb834147",
+ "items": [
+  {
+   "key": "S001",
+   "system": "openai-deepresearch",
+   "task": 53,
+   "sentence": "As of March 2024, Temasek’s net portfolio value was **S$389 billion (approximately US$288 billion)** ([Temasek Reports S$389 billion Net Portfolio Value, up S$7 billion from Last Year - Temasek](https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value#:~:text=match at L457 portfolio value,portfolio value to S%24420 billion)).",
+   "urls": [
+    "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value#:~:text=match"
+   ],
+   "numbers": [
+    {
+     "key": "S001.1",
+     "text": "March 2024"
+    },
+    {
+     "key": "S001.2",
+     "text": "$389 billion"
+    },
+    {
+     "key": "S001.3",
+     "text": "US$288 billion"
+    }
+   ]
+  },
+  {
+   "key": "S002",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "sentence": "- For vitiligo, 417 nm blue LED combined with Buddleja officinalis promotes melanin production, aiding repigmentation ([The Emerging Role of Visible Light](https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/)).",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/"
+   ],
+   "numbers": [
+    {
+     "key": "S002.1",
+     "text": "417 nm"
+    }
+   ]
+  },
+  {
+   "key": "S003",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 51,
+   "sentence": "Nearly 37% of households headed by someone 65+ used e-commerce in 2020, a marked increase from 26% in 2019 16, and internet usage rates among those in their 60s and 70s have multiplied significantly since the early 2000s.3",
+   "urls": [
+    "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan"
+   ],
+   "numbers": [
+    {
+     "key": "S003.1",
+     "text": "37%"
+    },
+    {
+     "key": "S003.2",
+     "text": "2020"
+    },
+    {
+     "key": "S003.3",
+     "text": "26%"
+    },
+    {
+     "key": "S003.4",
+     "text": "2019"
+    }
+   ]
+  },
+  {
+   "key": "S004",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 57,
+   "sentence": "* **Market/Client ROI (from KPMG Surveys):** Research indicates high ROI realization among AI adopters, with 97% reporting measurable profitability and 94% citing significant productivity gains from GenAI implementations.26",
+   "urls": [
+    "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html"
+   ],
+   "numbers": [
+    {
+     "key": "S004.1",
+     "text": "97%"
+    },
+    {
+     "key": "S004.2",
+     "text": "94%"
+    }
+   ]
+  },
+  {
+   "key": "S005",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 58,
+   "sentence": "* **Tardigrades (\"Water Bears\"): A Case of Contamination Controversy:** Tardigrades, another group of microscopic invertebrates famed for their resilience to extreme conditions, were initially reported to possess an even higher level of HGT than bdelloid rotifers, with one study claiming \\~17.5% of genes in *Hypsibius exemplaris* were foreign-derived.39",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC7248198/"
+   ],
+   "numbers": [
+    {
+     "key": "S005.1",
+     "text": "17.5%"
+    }
+   ]
+  },
+  {
+   "key": "S006",
+   "system": "openai-deepresearch",
+   "task": 52,
+   "sentence": "The largest position is Apple (approx. 300 million shares) ([BERKSHIRE HATHAWAY INC Top 13F Holdings - WhaleWisdom.com](https://whalewisdom.com/filer/berkshire-hathaway-inc#:~:text=copying,with shares held of 300%2C000%2C000)), which at times has been ~40–50% of the entire portfolio by market value ([Warren Buffett’s 2025 Portfolio: What Stocks He’s Betting Big On Right Now](https://www.investopedia.com/warren-buffett-s-stock-portfolio-11719778#:~:text=1,February 2025 letter to shareholders)) ([ This is What Munger Really Thinks About Buffett | Morningstar ](https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Buffett's most high,of Berkshire's stock portfolio)).",
+   "urls": [
+    "https://whalewisdom.com/filer/berkshire-hathaway-inc#:~:text=copying,with",
+    "https://www.investopedia.com/warren-buffett-s-stock-portfolio-11719778#:~:text=1,February",
+    "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx#:~:text=Buffett"
+   ],
+   "numbers": [
+    {
+     "key": "S006.1",
+     "text": "300 million"
+    },
+    {
+     "key": "S006.2",
+     "text": "40"
+    },
+    {
+     "key": "S006.3",
+     "text": "50%"
+    }
+   ]
+  },
+  {
+   "key": "S007",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 93,
+   "sentence": "In the broader \"creative software\" market, the cloud segment reportedly accounted for approximately 64% of revenue share in 2023 13, and it dominates the AI in Video Editing sub-segment.37",
+   "urls": [
+    "https://market.us/report/ai-in-video-editing-market/"
+   ],
+   "numbers": [
+    {
+     "key": "S007.1",
+     "text": "64%"
+    },
+    {
+     "key": "S007.2",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S008",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "sentence": "Notably, McKinsey has demonstrated AI’s value internally and then taken those lessons to clients – a **Harvard-BCG study** in 2023 involving McKinsey showed that consultants using GPT-4 completed work ~25% faster with higher quality ([How AI is Redefining Strategy Consulting:  McKinsey, BCG, and Bain | Takafumi Endo  | Medium](https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab#:~:text=In a large,4.",
+   "urls": [
+    "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab#:~:text=In"
+   ],
+   "numbers": [
+    {
+     "key": "S008.1",
+     "text": "2023"
+    },
+    {
+     "key": "S008.2",
+     "text": "25%"
+    }
+   ]
+  },
+  {
+   "key": "S009",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "sentence": "A prominent example is the 2016 Tesla crash where Autopilot did not recognize a truck turning across its path at an intersection, resulting in a fatal impact ([NTSB: 'Operational Limitations' Played Major Rule in Tesla Autopilot Crash - Business Insider](https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON (Reuters) ,autonomous \"Autopilot\" system)).",
+   "urls": [
+    "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9#:~:text=WASHINGTON"
+   ],
+   "numbers": [
+    {
+     "key": "S009.1",
+     "text": "2016"
+    }
+   ]
+  },
+  {
+   "key": "S010",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 63,
+   "sentence": "This allows the domains to form more readily and uniformly, resulting in more rectangular inverted domain shapes (closer to the ideal 50% duty cycle) and achieving full inversion through the depth of the TFLN film without requiring excessively high or long poling pulses, which could otherwise cause lateral domain broadening.36",
+   "urls": [
+    "https://pubs.aip.org/aip/apl/article/125/26/261103/3328405/Thermal-enhancement-of-defect-motion-for"
+   ],
+   "numbers": [
+    {
+     "key": "S010.1",
+     "text": "50%"
+    }
+   ]
+  },
+  {
+   "key": "S011",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 86,
+   "sentence": "While some forming processes like flow forming (potentially Ra 0.6 µm ID) 41 and rotary swaging 26 can produce relatively smooth surfaces, subsequent finishing operations such as grinding, honing, or roller burnishing are often necessary to achieve the very fine finishes (e.g., Ra \\< 0.4 µm) required for these critical interfaces.43",
+   "urls": [
+    "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S011.1",
+     "text": "0.6 µm"
+    },
+    {
+     "key": "S011.2",
+     "text": "0.4 µm"
+    }
+   ]
+  },
+  {
+   "key": "S012",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "sentence": "In 2023, BCG announced a partnership with **Anthropic** to give BCG consultants and clients access to Anthropic’s advanced generative models (like Claude) for enterprise use cases ([How AI is Redefining Strategy Consulting: McKinsey, BCG, and Bain](https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab#:~:text=How",
+   "urls": [
+    "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab#:~:text=How"
+   ],
+   "numbers": [
+    {
+     "key": "S012.1",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S013",
+   "system": "perplexity-Research",
+   "task": 53,
+   "sentence": "China dominates with two massive funds-China Investment Corporation and SAFE Investment Company-collectively managing approximately \\$2.4 trillion[^1_1].",
+   "urls": [
+    "https://www.visualcapitalist.com/largest-sovereign-wealth-funds-in-the-world/"
+   ],
+   "numbers": [
+    {
+     "key": "S013.1",
+     "text": "$2.4 trillion"
+    }
+   ]
+  },
+  {
+   "key": "S014",
+   "system": "perplexity-Research",
+   "task": 70,
+   "sentence": "The first version appeared in 1998, with official versions 1.0 and 1.1 both released in 1999[^1_2].",
+   "urls": [
+    "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5"
+   ],
+   "numbers": [
+    {
+     "key": "S014.1",
+     "text": "1998"
+    },
+    {
+     "key": "S014.2",
+     "text": "1.0"
+    },
+    {
+     "key": "S014.3",
+     "text": "1.1"
+    },
+    {
+     "key": "S014.4",
+     "text": "1999"
+    }
+   ]
+  },
+  {
+   "key": "S015",
+   "system": "grok-deeper-search",
+   "task": 57,
+   "sentence": "| IBM            | Over $1 billion in AI sales | Not specified | [Marketing AI Institute](https://www.marketingaiinstitute.com/blog/mckinsey-bcg-accenture-ai) |",
+   "urls": [
+    "https://www.marketingaiinstitute.com/blog/mckinsey-bcg-accenture-ai"
+   ],
+   "numbers": [
+    {
+     "key": "S015.1",
+     "text": "$1 billion"
+    }
+   ]
+  },
+  {
+   "key": "S016",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 99,
+   "sentence": "The 1064 nm wavelength penetrates deeper, suitable for dermal pigment and safer in darker skin, while 532 nm is effective for superficial (epidermal) pigment but carries higher risk of PIH in darker skin.61",
+   "urls": [
+    "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S016.1",
+     "text": "1064 nm"
+    },
+    {
+     "key": "S016.2",
+     "text": "532 nm"
+    }
+   ]
+  },
+  {
+   "key": "S017",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 88,
+   "sentence": "In March 2019, Netflix announced it had acquired the rights to develop the novel into a series, a landmark agreement made possible by the author's sons, Rodrigo García Barcha and Gonzalo García Barcha, who control his literary estate.9",
+   "urls": [
+    "https://artsfuse.org/303968/television-review-macondo-redux-a-progress-report-on-netflixs-one-hundred-years-of-solitude/"
+   ],
+   "numbers": [
+    {
+     "key": "S017.1",
+     "text": "March 2019"
+    }
+   ]
+  },
+  {
+   "key": "S018",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 60,
+   "sentence": "The strategically important L2 Lagrange point lies roughly 61,350 km beyond the Moon, placing it about 445,000 km from Earth.3",
+   "urls": [
+    "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S018.1",
+     "text": "61,350 km"
+    },
+    {
+     "key": "S018.2",
+     "text": "445,000 km"
+    }
+   ]
+  },
+  {
+   "key": "S019",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 58,
+   "sentence": "Fungi, particularly parasitic species, also appear to engage in HGT more frequently than initially thought, with one study identifying over 20,000 likely prokaryote-derived genes across 829 fungal genomes, representing about 0.21% of the total genes analyzed but originating from thousands of distinct transfer events.25",
+   "urls": [
+    "https://journals.asm.org/doi/10.1128/mbio.02855-24"
+   ],
+   "numbers": [
+    {
+     "key": "S019.1",
+     "text": "20,000"
+    },
+    {
+     "key": "S019.2",
+     "text": "0.21%"
+    }
+   ]
+  },
+  {
+   "key": "S020",
+   "system": "openai-deepresearch",
+   "task": 82,
+   "sentence": "| **South Korea** | – Liberated from Japan (1945) but devastated by Korean War (1950–53) – 1950s: authoritarian (Rhee), unstable, *very poor* (per capita income <$100); reliant on U.S. aid | – Some mineral deposits but nothing major; limited arable land – Population mostly illiterate peasants in 1940s; **major push on education** in ’50s/’60s led to universal schooling – Culturally cohesive, strong work ethic (in part post-war necessity) | – **Export-led industrialization** from 1960s: focus on labor-intensive exports (textiles, plywood, etc.) then move to heavy industry in 1970s ([Economy of South Korea - Wikipedia](https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=Beginning in 1973%2C South Korea's,54 ]%3A 136)) – Government **Five-Year Plans**; creation of **chaebol** conglomerates with subsidized credit to achieve scale – Strategic sectors: built world-scale **steel (POSCO)**, **shipbuilding**, machinery, electronics industries with state support ([Economy of South Korea - Wikipedia](https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=Beginning",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea#:~:text=Beginning"
+   ],
+   "numbers": [
+    {
+     "key": "S020.1",
+     "text": "1945"
+    },
+    {
+     "key": "S020.2",
+     "text": "1950"
+    },
+    {
+     "key": "S020.3",
+     "text": "$100"
+    }
+   ]
+  },
+  {
+   "key": "S021",
+   "system": "perplexity-Research",
+   "task": 93,
+   "sentence": "The Insight Partners offers a more optimistic outlook, estimating the market to reach US\\$ 3.94 billion by 2031 from US\\$ 2.43 billion in 2023, with a CAGR of 6.2%[^1_2].",
+   "urls": [
+    "https://www.theinsightpartners.com/reports/video-editing-software-market"
+   ],
+   "numbers": [
+    {
+     "key": "S021.1",
+     "text": "$ 3.94 billion"
+    },
+    {
+     "key": "S021.2",
+     "text": "2031"
+    },
+    {
+     "key": "S021.3",
+     "text": "$ 2.43 billion"
+    },
+    {
+     "key": "S021.4",
+     "text": "2023"
+    },
+    {
+     "key": "S021.5",
+     "text": "6.2%"
+    }
+   ]
+  },
+  {
+   "key": "S022",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "sentence": "- **North America**: Dominates with 36-40% market share, driven by the presence of Adobe, Apple, and a strong media industry ([SNS Insider](https://www.snsinsider.com/reports/video-editing-software-market-1543)).",
+   "urls": [
+    "https://www.snsinsider.com/reports/video-editing-software-market-1543"
+   ],
+   "numbers": [
+    {
+     "key": "S022.1",
+     "text": "36"
+    },
+    {
+     "key": "S022.2",
+     "text": "40%"
+    }
+   ]
+  },
+  {
+   "key": "S023",
+   "system": "perplexity-Research",
+   "task": 57,
+   "sentence": "This finding aligns with EY research showing that 97% of senior business leaders whose organizations are investing in AI report positive ROI from their AI investments[^1_19].",
+   "urls": [
+    "https://www.ey.com/en_us/newsroom/2024/12/ey-research-artificial-intelligence-investments-set-to-remain-strong-in-2025-but-senior-leaders-recognize-emerging-risks"
+   ],
+   "numbers": [
+    {
+     "key": "S023.1",
+     "text": "97%"
+    }
+   ]
+  },
+  {
+   "key": "S024",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "sentence": "([2024](https://doi.org/10.1057/s41599-024-03557-6)) noted higher AI talent demand in states like Washington (32.6%) compared to Alaska (17.4%).",
+   "urls": [
+    "https://doi.org/10.1057/s41599-024-03557-6"
+   ],
+   "numbers": [
+    {
+     "key": "S024.1",
+     "text": "32.6%"
+    },
+    {
+     "key": "S024.2",
+     "text": "17.4%"
+    }
+   ]
+  },
+  {
+   "key": "S025",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "sentence": "It has surpassed 1 billion Android downloads as of Q3 2024 and generated $100 million in consumer spending in 2023 ([CapCut Statistics](https://sendshort.ai/statistics/capcut/)).",
+   "urls": [
+    "https://sendshort.ai/statistics/capcut/"
+   ],
+   "numbers": [
+    {
+     "key": "S025.1",
+     "text": "1 billion"
+    },
+    {
+     "key": "S025.2",
+     "text": "2024"
+    },
+    {
+     "key": "S025.3",
+     "text": "$100 million"
+    },
+    {
+     "key": "S025.4",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S026",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 90,
+   "sentence": "NHTSA sets federal safety standards (FMVSS), issues recalls, provides non-binding guidance (e.g., Automated Driving Systems 2.0: A Vision for Safety), and collects crash data through mechanisms like the SGO.25 Actual liability determination primarily falls under state-level tort law (negligence and product liability).78",
+   "urls": [
+    "https://www.clausen.com/wp-content/uploads/2020/11/ClausenMiller_ApportionmentofVehicleLiabilityinAutonomousVehicleAccidents.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S026.1",
+     "text": "2.0"
+    }
+   ]
+  },
+  {
+   "key": "S027",
+   "system": "grok-deeper-search",
+   "task": 94,
+   "sentence": "The Asia-Pacific region, expected to dominate with a 34% revenue share by 2037, and Europe, with 29%, indicate global momentum ([Railway Management System Market Size & Share, Growth Analysis 2037](https://www.researchnester.com/reports/railway-management-system-market/6104)).",
+   "urls": [
+    "https://www.researchnester.com/reports/railway-management-system-market/6104"
+   ],
+   "numbers": [
+    {
+     "key": "S027.1",
+     "text": "34%"
+    },
+    {
+     "key": "S027.2",
+     "text": "2037"
+    },
+    {
+     "key": "S027.3",
+     "text": "29%"
+    }
+   ]
+  },
+  {
+   "key": "S028",
+   "system": "grok-deeper-search",
+   "task": 63,
+   "sentence": "Optical Emission Spectroscopy (OES) monitors the endpoint in the 220–290 nm wavelength region, indicating completion when volatile byproducts like NbF5 or NbOF3 disappear [Optical diagnostic of LiNbO3 etching in NF3/Ar ICP plasma: Part I](https://www.sciencedirect.com/science/article/abs/pii/S0924424721006117).",
+   "urls": [
+    "https://www.sciencedirect.com/science/article/abs/pii/S0924424721006117"
+   ],
+   "numbers": [
+    {
+     "key": "S028.1",
+     "text": "220"
+    },
+    {
+     "key": "S028.2",
+     "text": "290 nm"
+    }
+   ]
+  },
+  {
+   "key": "S029",
+   "system": "perplexity-Research",
+   "task": 64,
+   "sentence": "- Particle Swarm Optimization (PSO) showed advantages for yaw angle control (4%-15% improvement)[^1_12]",
+   "urls": [
+    "https://hrcak.srce.hr/file/440423"
+   ],
+   "numbers": [
+    {
+     "key": "S029.1",
+     "text": "4%"
+    },
+    {
+     "key": "S029.2",
+     "text": "15%"
+    }
+   ]
+  },
+  {
+   "key": "S030",
+   "system": "perplexity-Research",
+   "task": 85,
+   "sentence": "Electrical connections are typically made by applying silver electrodes through screen printing processes with subsequent sintering at approximately 600°C[^1_10].",
+   "urls": [
+    "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes"
+   ],
+   "numbers": [
+    {
+     "key": "S030.1",
+     "text": "600°C"
+    }
+   ]
+  },
+  {
+   "key": "S031",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 75,
+   "sentence": "Based on the strong evidence for improved symptoms, QoL, functional capacity, and reduced HF hospitalizations, major international HF guidelines (including AHA/ACC/HFSA and ESC) now recommend screening all patients with HF for ID and administering IV iron (specifically FCM often cited due to trial evidence) to symptomatic patients with HFrEF (LVEF ≤40%) or HFmrEF (LVEF 41-49%) and documented ID (Class IIa recommendation).39",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/"
+   ],
+   "numbers": [
+    {
+     "key": "S031.1",
+     "text": "40%"
+    },
+    {
+     "key": "S031.2",
+     "text": "41"
+    },
+    {
+     "key": "S031.3",
+     "text": "49%"
+    }
+   ]
+  },
+  {
+   "key": "S032",
+   "system": "openai-deepresearch",
+   "task": 97,
+   "sentence": "In small island nations or remote areas, the effect is even clearer: the **majority of tourists arrive by air**, so the airport is the gateway for a sector that might comprise a substantial portion of GDP (global data show ~58% of international tourists travel by air ([Supporting economic & social development | ATAG](https://atag.org/industry-topics/supporting-economic-social-development#:~:text=million jobs worldwide)); in island regions this can be near 100%).",
+   "urls": [
+    "https://atag.org/industry-topics/supporting-economic-social-development#:~:text=million"
+   ],
+   "numbers": [
+    {
+     "key": "S032.1",
+     "text": "58%"
+    },
+    {
+     "key": "S032.2",
+     "text": "100%"
+    }
+   ]
+  },
+  {
+   "key": "S033",
+   "system": "perplexity-Research",
+   "task": 85,
+   "sentence": "The final and crucial step involves polarization, where the product is exposed to an electric DC field (2-3 kV/mm) at temperatures between 80°C and 140°C to achieve appropriate dipole orientation within the ceramic[^1_10].",
+   "urls": [
+    "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes"
+   ],
+   "numbers": [
+    {
+     "key": "S033.1",
+     "text": "80°C"
+    },
+    {
+     "key": "S033.2",
+     "text": "140°C"
+    }
+   ]
+  },
+  {
+   "key": "S034",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "sentence": "In 2023, Riad pled no contest to vehicular manslaughter – effectively accepting criminal responsibility ([Level 3 Automated Vehicles and Criminal Law - JURIST - Commentary - Legal News & Commentary](https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=Current events focus a spotlight,under driver supervision%2C was engaged)) ([Level 3 Automated Vehicles and Criminal Law - JURIST - Commentary - Legal News & Commentary](https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=In both cases%2C automation controlled,in sentencing without jail time)).",
+   "urls": [
+    "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=Current",
+    "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/#:~:text=In"
+   ],
+   "numbers": [
+    {
+     "key": "S034.1",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S035",
+   "system": "openai-deepresearch",
+   "task": 52,
+   "sentence": "Finally, Berkshire’s habit of *compounding* positions (adding more on dips, as he did with Bank of America in 2020 ([Investment Insights: Duan Yongping's Portfolio Reveals Strategic](https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks#:~:text=Duan Yongping%2C often dubbed as,off in the third quarter)), or trimming when valuations get rich) shows an active application of value judgments even within long-term holdings.",
+   "urls": [
+    "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks#:~:text=Duan"
+   ],
+   "numbers": [
+    {
+     "key": "S035.1",
+     "text": "2020"
+    }
+   ]
+  },
+  {
+   "key": "S036",
+   "system": "perplexity-Research",
+   "task": 60,
+   "sentence": "- A configuration of four mid-latitude narrow field of view angles-only sensors on the lunar surface demonstrated 100% track custody capability[^1_14]",
+   "urls": [
+    "https://amostech.com/TechnicalPapers/2022/Poster/Koblick_2.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S036.1",
+     "text": "100%"
+    }
+   ]
+  },
+  {
+   "key": "S037",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "sentence": "For example, using micro-CT, Hou *et al.* (2019) found that the tendency of maize kernels to break is influenced by specific surface area and the volume of sub-surface cavities ([Frontiers | Precise 3D geometric phenotyping and phenotype interaction network construction of maize kernels](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1438594/full#:~:text=This significantly expands the measurable,the internal structure of kernels)).",
+   "urls": [
+    "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1438594/full#:~:text=This"
+   ],
+   "numbers": [
+    {
+     "key": "S037.1",
+     "text": "2019"
+    }
+   ]
+  },
+  {
+   "key": "S038",
+   "system": "perplexity-Research",
+   "task": 96,
+   "sentence": "The smart home healthcare market is projected to grow from USD 6.40 billion in 2025 to USD 12.71 billion by 2033, reflecting a CAGR of 8.95%[^1_13].",
+   "urls": [
+    "https://straitsresearch.com/report/smart-home-healthcare-market"
+   ],
+   "numbers": [
+    {
+     "key": "S038.1",
+     "text": "USD 6.40 billion"
+    },
+    {
+     "key": "S038.2",
+     "text": "2025"
+    },
+    {
+     "key": "S038.3",
+     "text": "USD 12.71 billion"
+    },
+    {
+     "key": "S038.4",
+     "text": "2033"
+    },
+    {
+     "key": "S038.5",
+     "text": "8.95%"
+    }
+   ]
+  },
+  {
+   "key": "S039",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 88,
+   "sentence": "Spanning an area equivalent to 70 soccer fields, its creation involved over 1,100 workers and took nearly a year, including the installation of functional infrastructure like sewage and electrical systems.19",
+   "urls": [
+    "https://colombia.travel/en/macondo-colombia/macondian-cultural-legacy/details-one-hundred-years-of-solitude"
+   ],
+   "numbers": [
+    {
+     "key": "S039.1",
+     "text": "1,100"
+    }
+   ]
+  },
+  {
+   "key": "S040",
+   "system": "perplexity-Research",
+   "task": 82,
+   "sentence": "Its transformation began with substantial American support-\\$4 billion in financial aid and soft credit between 1945-1965, plus \\$41 billion in development aid through 1975 (equivalent to \\$242 billion in 2024 dollars)[^1_6].",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Taiwan_Miracle"
+   ],
+   "numbers": [
+    {
+     "key": "S040.1",
+     "text": "$4 billion"
+    },
+    {
+     "key": "S040.2",
+     "text": "1945"
+    },
+    {
+     "key": "S040.3",
+     "text": "$41 billion"
+    },
+    {
+     "key": "S040.4",
+     "text": "1975"
+    },
+    {
+     "key": "S040.5",
+     "text": "$242 billion"
+    },
+    {
+     "key": "S040.6",
+     "text": "2024 dollars"
+    }
+   ]
+  },
+  {
+   "key": "S041",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 85,
+   "sentence": "This effect can cause positioning errors exceeding 20% of the travel range, severely limiting open-loop accuracy and potentially affecting closed-loop stability.1",
+   "urls": [
+    "https://precisionmechatronicslab.com/wp-content/publications/J10b.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S041.1",
+     "text": "20%"
+    }
+   ]
+  },
+  {
+   "key": "S042",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 51,
+   "sentence": "Two-or-more HH percentages from FIES 2022 via.64",
+   "urls": [
+    "https://www.stat.go.jp/english/data/handbook/pdf/2023all.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S042.1",
+     "text": "2022"
+    }
+   ]
+  },
+  {
+   "key": "S043",
+   "system": "openai-deepresearch",
+   "task": 61,
+   "sentence": "But by 2024, the market adjusted – possibly via increased imports of Atlantic mackerel and a temporary glut of frozen inventory – and Japan’s mackerel prices **plummeted** to new lows (down to ~$0.9–$8/kg in 2024) ([Frozen Mackerel Price in Japan | Tridge](https://dir.tridge.com/prices/frozen-mackerel/JP#:~:text=The",
+   "urls": [
+    "https://dir.tridge.com/prices/frozen-mackerel/JP#:~:text=The"
+   ],
+   "numbers": [
+    {
+     "key": "S043.1",
+     "text": "2024"
+    },
+    {
+     "key": "S043.2",
+     "text": "$0.9"
+    },
+    {
+     "key": "S043.3",
+     "text": "$8"
+    },
+    {
+     "key": "S043.4",
+     "text": "2024"
+    }
+   ]
+  },
+  {
+   "key": "S044",
+   "system": "openai-deepresearch",
+   "task": 89,
+   "sentence": "GPT) are now being explored for “procedural content generation, mixed-initiative game design, [and] mixed-initiative gameplay” as well as NPC dialogue and player modeling ([GPT for Games: An Updated Scoping Review (2020-2024)](https://arxiv.org/html/2411.00308v1#:~:text=Due",
+   "urls": [
+    "https://arxiv.org/html/2411.00308v1#:~:text=Due"
+   ],
+   "numbers": [
+    {
+     "key": "S044.1",
+     "text": "2020"
+    }
+   ]
+  },
+  {
+   "key": "S045",
+   "system": "grok-deeper-search",
+   "task": 52,
+   "sentence": "He looks at companies holistically, prioritizing those with durable competitive advantages, good management, and consistent earnings, as outlined in a 2024 article on [Investing.com](https://www.investing.com/academy/trading/warren-buffett-investment-strategy-rules-fortune/).",
+   "urls": [
+    "https://www.investing.com/academy/trading/warren-buffett-investment-strategy-rules-fortune/"
+   ],
+   "numbers": [
+    {
+     "key": "S045.1",
+     "text": "2024"
+    }
+   ]
+  },
+  {
+   "key": "S046",
+   "system": "openai-deepresearch",
+   "task": 92,
+   "sentence": "An improved version, **TrackNet v2**, achieved real-time performance (~32 FPS vs 2.6 FPS in the original) by network optimizations, while maintaining high accuracy ([TrackNetV2: Efficient Shuttlecock Tracking Network | Papers With Code](https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking#:~:text=usage,Then%2C to improve the prediction)).",
+   "urls": [
+    "https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking#:~:text=usage,Then%2C"
+   ],
+   "numbers": [
+    {
+     "key": "S046.1",
+     "text": "2.6"
+    }
+   ]
+  },
+  {
+   "key": "S047",
+   "system": "grok-deeper-search",
+   "task": 84,
+   "sentence": "For instance, asymmetrical FinFET SRAM cells with gate underlap engineered transistors have shown read data stability enhancements of up to 72.2% in 15nm FinFET technology, maintaining similar write margins and layout area ([Asymmetrical FinFET SRAM cells with wider read noise margin and lower leakage currents](https://ieeexplore.ieee.org/document/7373000/)).",
+   "urls": [
+    "https://ieeexplore.ieee.org/document/7373000/"
+   ],
+   "numbers": [
+    {
+     "key": "S047.1",
+     "text": "72.2%"
+    },
+    {
+     "key": "S047.2",
+     "text": "15nm"
+    }
+   ]
+  },
+  {
+   "key": "S048",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 93,
+   "sentence": "Its core strengths include advanced timeline editing, robust multicam capabilities (supporting unlimited angles), sophisticated color correction and grading via the Lumetri Color panel, and extensive format support including high resolutions like 8K and HDR formats (Dolby Vision, HDR10+).24",
+   "urls": [
+    "https://hypegig.com/adobe-premiere-pro-review/"
+   ],
+   "numbers": [
+    {
+     "key": "S048.1",
+     "text": "8K"
+    }
+   ]
+  },
+  {
+   "key": "S049",
+   "system": "grok-deeper-search",
+   "task": 62,
+   "sentence": "Cryogenic operation (<10 K) reduces anomalous motional heating (AMH) by ~2 orders of magnitude ([arXiv, 2019](https://arxiv.org/abs/1904.04178)).",
+   "urls": [
+    "https://arxiv.org/abs/1904.04178"
+   ],
+   "numbers": [
+    {
+     "key": "S049.1",
+     "text": "10 K"
+    }
+   ]
+  },
+  {
+   "key": "S050",
+   "system": "perplexity-Research",
+   "task": 65,
+   "sentence": "This pipeline achieves high reconstruction accuracy, with documented correlation coefficients (R²) exceeding 0.96 between automated measurements and manual verification for key dimensional parameters[^1_1].",
+   "urls": [
+    "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2022.974339/full"
+   ],
+   "numbers": [
+    {
+     "key": "S050.1",
+     "text": "0.96"
+    }
+   ]
+  },
+  {
+   "key": "S051",
+   "system": "perplexity-Research",
+   "task": 53,
+   "sentence": "- 20% international investments (primarily US, followed by Japan, India, Hong Kong, Spain, France, and China)[^1_16]",
+   "urls": [
+    "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S051.1",
+     "text": "20%"
+    }
+   ]
+  },
+  {
+   "key": "S052",
+   "system": "perplexity-Research",
+   "task": 72,
+   "sentence": "(2025) employs game theory to model AI adoption decisions, showing how \"differences in substitution elasticity between high-skill, middle-skill, and low-skill occupations lead to divergent outcomes in wage distribution, employment, and firm profitability\"[^1_7].",
+   "urls": [
+    "https://www.ewadirect.com/journal/jemd/article/view/22415/pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S052.1",
+     "text": "2025"
+    }
+   ]
+  },
+  {
+   "key": "S053",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 79,
+   "sentence": "While SRS is theoretically possible, access is mediated by a restrictive review committee within the Medical Syndicate, established in 2003, which includes religious representation from Dar Al Ifta and Al-Azhar.3",
+   "urls": [
+    "https://www.hrw.org/news/2022/04/08/tough-territory-transgender-people-middle-east-and-north-africa"
+   ],
+   "numbers": [
+    {
+     "key": "S053.1",
+     "text": "2003"
+    }
+   ]
+  },
+  {
+   "key": "S054",
+   "system": "grok-deeper-search",
+   "task": 62,
+   "sentence": "Penning micro-traps represent an innovative approach, replacing rf fields with a 3 T static magnetic field to confine ions ([Nature, 2024](https://www.nature.com/articles/s41586-024-07111-x)).",
+   "urls": [
+    "https://www.nature.com/articles/s41586-024-07111-x"
+   ],
+   "numbers": [
+    {
+     "key": "S054.1",
+     "text": "3 T"
+    }
+   ]
+  },
+  {
+   "key": "S055",
+   "system": "perplexity-Research",
+   "task": 97,
+   "sentence": "- Columbia Metropolitan Airport creates approximately \\$1.8 billion in total economic impact[^1_5]",
+   "urls": [
+    "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S055.1",
+     "text": "$1.8 billion"
+    }
+   ]
+  },
+  {
+   "key": "S056",
+   "system": "grok-deeper-search",
+   "task": 63,
+   "sentence": "A sample using RIE, high-temperature annealing with a 300 nm Al layer, and SC-1 wet etching achieved a 90° sidewall angle and 115 nm depth, preserving ferroelectric properties for domain-wall memory devices [Advanced Etching Techniques of LiNbO3 Nanodevices](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/).",
+   "urls": [
+    "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/"
+   ],
+   "numbers": [
+    {
+     "key": "S056.1",
+     "text": "300 nm"
+    },
+    {
+     "key": "S056.2",
+     "text": "90°"
+    },
+    {
+     "key": "S056.3",
+     "text": "115 nm"
+    }
+   ]
+  },
+  {
+   "key": "S057",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 61,
+   "sentence": "The Northwest Pacific consistently accounts for a substantial portion, often exceeding 30%, of the global chub mackerel catch.1",
+   "urls": [
+    "https://www.mdpi.com/2076-2615/15/8/1135"
+   ],
+   "numbers": [
+    {
+     "key": "S057.1",
+     "text": "30%"
+    }
+   ]
+  },
+  {
+   "key": "S058",
+   "system": "perplexity-Research",
+   "task": 83,
+   "sentence": "The global tablet POS systems market was valued at \\$9 billion in 2022 and is projected to reach \\$15 billion by 2030, growing at a CAGR of 5.7%[^1_15].",
+   "urls": [
+    "https://www.zionmarketresearch.com/report/tablet-pos-systems-market"
+   ],
+   "numbers": [
+    {
+     "key": "S058.1",
+     "text": "$9 billion"
+    },
+    {
+     "key": "S058.2",
+     "text": "2022"
+    },
+    {
+     "key": "S058.3",
+     "text": "$15 billion"
+    },
+    {
+     "key": "S058.4",
+     "text": "2030"
+    },
+    {
+     "key": "S058.5",
+     "text": "5.7%"
+    }
+   ]
+  },
+  {
+   "key": "S059",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "sentence": "- A 2021 study on Q-switched Nd:YAG 532 nm for lip melanosis showed promising results ([The Emerging Role of Visible Light](https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/)).",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/"
+   ],
+   "numbers": [
+    {
+     "key": "S059.1",
+     "text": "2021"
+    },
+    {
+     "key": "S059.2",
+     "text": "532 nm"
+    }
+   ]
+  },
+  {
+   "key": "S060",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "sentence": "They reference Nedelkoska and Quintini ([2018](https://doi.org/10.1007/s00146-022-01496-x#ref-CR151)), who estimated 14% of jobs across 32 nations are highly automatable (probability >70%), with 32% at moderate risk (50-70%).",
+   "urls": [
+    "https://doi.org/10.1007/s00146-022-01496-x#ref-CR151"
+   ],
+   "numbers": [
+    {
+     "key": "S060.1",
+     "text": "14%"
+    },
+    {
+     "key": "S060.2",
+     "text": "70%"
+    },
+    {
+     "key": "S060.3",
+     "text": "32%"
+    },
+    {
+     "key": "S060.4",
+     "text": "50"
+    },
+    {
+     "key": "S060.5",
+     "text": "70%"
+    }
+   ]
+  },
+  {
+   "key": "S061",
+   "system": "openai-deepresearch",
+   "task": 91,
+   "sentence": "Additionally, as the Old Master, Dohko had the **Misopetha-Menos** – not an attack, but a mystical state of suspended aging where his heart beat only 100,000 times per year (instead of millions per day) to preserve his life ([Virgo Shaka | Seiyapedia | Fandom](https://saintseiya.fandom.com/wiki/Virgo_Shaka#:~:text=Shaka is one of the,supposed to be Buddha's reincarnation)).",
+   "urls": [
+    "https://saintseiya.fandom.com/wiki/Virgo_Shaka#:~:text=Shaka"
+   ],
+   "numbers": [
+    {
+     "key": "S061.1",
+     "text": "100,000 times"
+    }
+   ]
+  },
+  {
+   "key": "S062",
+   "system": "openai-deepresearch",
+   "task": 61,
+   "sentence": "By **2018**, wholesale mackerel prices were on a clear **upward trend** ([ Stronger mackerel supplies, herring supplies slightly up in 2020 ](https://www.fao.org/in-action/globefish/news-events/news/news-detail/Stronger-mackerel-supplies-herring-supplies-slightly-up-in-2020/en#:~:text=percent increase in the TAC,North America are expected to)).",
+   "urls": [
+    "https://www.fao.org/in-action/globefish/news-events/news/news-detail/Stronger-mackerel-supplies-herring-supplies-slightly-up-in-2020/en#:~:text=percent"
+   ],
+   "numbers": [
+    {
+     "key": "S062.1",
+     "text": "2018"
+    }
+   ]
+  },
+  {
+   "key": "S063",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "sentence": "Liao *et al.* (2020) demonstrated a drone-based phenotyping platform with a **PID double closed-loop control** strategy to maintain flight stability and correct positioning while capturing crop data ([Field Phenotyping Monitoring Systems for High-Throughput: A Survey of Enabling Technologies, Equipment, and Research Challenges](https://www.mdpi.com/2073-4395/13/11/2832#:~:text=controlling the rotation angle is,information at a low altitude)) ([Field Phenotyping Monitoring Systems for High-Throughput: A Survey of Enabling Technologies, Equipment, and Research Challenges](https://www.mdpi.com/2073-4395/13/11/2832#:~:text=closed,information at a low altitude)).",
+   "urls": [
+    "https://www.mdpi.com/2073-4395/13/11/2832#:~:text=controlling",
+    "https://www.mdpi.com/2073-4395/13/11/2832#:~:text=closed,information"
+   ],
+   "numbers": [
+    {
+     "key": "S063.1",
+     "text": "2020"
+    }
+   ]
+  },
+  {
+   "key": "S064",
+   "system": "perplexity-Research",
+   "task": 97,
+   "sentence": "When multiplier effects are included, this creates a total economic impact of approximately \\$1.4 billion, supporting 9,615 jobs and \\$433.3 million in labor income[^1_5].",
+   "urls": [
+    "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S064.1",
+     "text": "$1.4 billion"
+    },
+    {
+     "key": "S064.2",
+     "text": "9,615 jobs"
+    },
+    {
+     "key": "S064.3",
+     "text": "$433.3 million"
+    }
+   ]
+  },
+  {
+   "key": "S065",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 87,
+   "sentence": "The economic stakes are substantial; McKinsey analysis projects that generative AI alone could add between $150 billion and $275 billion to the operating profits of the apparel, fashion, and luxury sectors within three to five years.3",
+   "urls": [
+    "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion"
+   ],
+   "numbers": [
+    {
+     "key": "S065.1",
+     "text": "$150 billion"
+    },
+    {
+     "key": "S065.2",
+     "text": "$275 billion"
+    }
+   ]
+  },
+  {
+   "key": "S066",
+   "system": "perplexity-Research",
+   "task": 53,
+   "sentence": "- 13% other investments[^1_16]",
+   "urls": [
+    "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S066.1",
+     "text": "13%"
+    }
+   ]
+  },
+  {
+   "key": "S067",
+   "system": "openai-deepresearch",
+   "task": 63,
+   "sentence": "LiF in particular has a high sublimation point (~800 °C) and tends to condense on surfaces ([High-Quality Dry Etching of LiNbO3 Assisted by Proton Substitution through H2-Plasma Surface Treatment](https://www.mdpi.com/2079-4991/12/16/2836#:~:text=different plasma etch conditions have,the etching process%2C resulting in)).",
+   "urls": [
+    "https://www.mdpi.com/2079-4991/12/16/2836#:~:text=different"
+   ],
+   "numbers": [
+    {
+     "key": "S067.1",
+     "text": "800 °C"
+    }
+   ]
+  },
+  {
+   "key": "S068",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 83,
+   "sentence": "Feature 11th Gen Intel Core i5/i7 processors, 10.1\" 2K 1000-nit display (optional digitizer), Wi-Fi 6E, optional 5G, IP65 rating, 6 ft drop spec, optional integrated scanner (XPad), and extensive port options.5",
+   "urls": [
+    "https://automation.honeywell.com/gb/en/products/productivity-solutions/mobile-computers/tablets",
+    "https://www.zebra.com/us/en/products/tablets.html"
+   ],
+   "numbers": [
+    {
+     "key": "S068.1",
+     "text": "10.1"
+    },
+    {
+     "key": "S068.2",
+     "text": "2K"
+    },
+    {
+     "key": "S068.3",
+     "text": "1000"
+    }
+   ]
+  },
+  {
+   "key": "S069",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "sentence": "- Studies from 2000–2019 demonstrate IPL’s efficacy in treating solar lentigines, with tunable pulse widths enhancing precision ([The Emerging Role of Visible Light](https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/)).",
+   "urls": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/"
+   ],
+   "numbers": [
+    {
+     "key": "S069.1",
+     "text": "2000"
+    },
+    {
+     "key": "S069.2",
+     "text": "2019"
+    }
+   ]
+  },
+  {
+   "key": "S070",
+   "system": "openai-deepresearch",
+   "task": 53,
+   "sentence": "**Size & Origin:** China Investment Corporation is the Chinese government’s main sovereign fund for foreign investments, managing about **$1.33 trillion** in assets as of end 2023 ([China Investment Corporation (CIC) - Top1000funds.com](https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/#:~:text=,DATE OF ASSET ALLOCATION)).",
+   "urls": [
+    "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/#:~:text=,DATE"
+   ],
+   "numbers": [
+    {
+     "key": "S070.1",
+     "text": "$1.33 trillion"
+    },
+    {
+     "key": "S070.2",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S071",
+   "system": "grok-deeper-search",
+   "task": 99,
+   "sentence": "| LED (RL + NIR) | Photoaging | 630 + 830 | 126 (RL), 66 (NIR) | 9 treatments, 12 weeks | 52% reduced photoaging signs, 81% improved periocular wrinkles | [Unlocking the Power of Light](https://www.mdpi.com/1422-0067/25/8/4483) |",
+   "urls": [
+    "https://www.mdpi.com/1422-0067/25/8/4483"
+   ],
+   "numbers": [
+    {
+     "key": "S071.1",
+     "text": "52%"
+    },
+    {
+     "key": "S071.2",
+     "text": "81%"
+    }
+   ]
+  },
+  {
+   "key": "S072",
+   "system": "openai-deepresearch",
+   "task": 57,
+   "sentence": "Beyond Microsoft, KPMG also invested in partnerships with other AI players – for example, a **$100M alliance with Google Cloud** announced in 2023 to develop enterprise GenAI solutions, expected to drive $1B in new revenue through Google-powered AI offerings ([Generative AI](https://kpmg.com/us/en/ai.html#:~:text=Webcast Replay Webcast Upcoming Listen,Now From The Web)).",
+   "urls": [
+    "https://kpmg.com/us/en/ai.html#:~:text=Webcast"
+   ],
+   "numbers": [
+    {
+     "key": "S072.1",
+     "text": "$100M"
+    },
+    {
+     "key": "S072.2",
+     "text": "2023"
+    },
+    {
+     "key": "S072.3",
+     "text": "$1B"
+    }
+   ]
+  },
+  {
+   "key": "S073",
+   "system": "perplexity-Research",
+   "task": 75,
+   "sentence": "In post-myocardial infarction patients with diabetes mellitus aged ≥50 years, EDTA chelation demonstrated a marked reduction in cardiovascular events, with a 41% decrease in the relative risk of combined cardiovascular events[^1_14][^1_18].",
+   "urls": [
+    "https://www.ahajournals.org/doi/10.1161/CIRCRESAHA.123.323617",
+    "https://www.ahajournals.org/doi/10.1161/circoutcomes.113.000663"
+   ],
+   "numbers": [
+    {
+     "key": "S073.1",
+     "text": "41%"
+    }
+   ]
+  },
+  {
+   "key": "S074",
+   "system": "grok-deeper-search",
+   "task": 82,
+   "sentence": "The US occupation (1945–1952) under General Douglas MacArthur provided a structured environment for reform and recovery ([Milestones: Japan Reconstruction](https://history.state.gov/milestones/1945-1952/japan-reconstruction)).",
+   "urls": [
+    "https://history.state.gov/milestones/1945-1952/japan-reconstruction"
+   ],
+   "numbers": [
+    {
+     "key": "S074.1",
+     "text": "1945"
+    },
+    {
+     "key": "S074.2",
+     "text": "1952"
+    }
+   ]
+  },
+  {
+   "key": "S075",
+   "system": "openai-deepresearch",
+   "task": 81,
+   "sentence": "“Only a fifth of UK universities say they are ‘decolonising’ curriculum.” *The Guardian* (11 June 2020) ([Only a fifth of UK universities say they are 'decolonising' curriculum | Black Lives Matter movement | The Guardian](https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum#:~:text=The campaign to give a,from the Black Lives Matter protesters)) ([Only a fifth of UK universities say they are 'decolonising' curriculum | Black Lives Matter movement | The Guardian](https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum#:~:text=Fope Olaleye%2C black students’ officer,”))",
+   "urls": [
+    "https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum#:~:text=The",
+    "https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum#:~:text=Fope"
+   ],
+   "numbers": [
+    {
+     "key": "S075.1",
+     "text": "11 June 2020"
+    }
+   ]
+  },
+  {
+   "key": "S076",
+   "system": "perplexity-Research",
+   "task": 99,
+   "sentence": "The rate of patient satisfaction was also significantly higher in the 532nm laser group[^1_6].",
+   "urls": [
+    "https://pubmed.ncbi.nlm.nih.gov/38411341/"
+   ],
+   "numbers": [
+    {
+     "key": "S076.1",
+     "text": "532nm"
+    }
+   ]
+  },
+  {
+   "key": "S077",
+   "system": "grok-deeper-search",
+   "task": 68,
+   "sentence": "For example, maintain a 10% buffer for sudden spikes, as suggested in [Overprovision Node Capacity](https://kubernetes.io/docs/tasks/administer-cluster/node-overprovisioning/).",
+   "urls": [
+    "https://kubernetes.io/docs/tasks/administer-cluster/node-overprovisioning/"
+   ],
+   "numbers": [
+    {
+     "key": "S077.1",
+     "text": "10%"
+    }
+   ]
+  },
+  {
+   "key": "S078",
+   "system": "grok-deeper-search",
+   "task": 82,
+   "sentence": "These policies, implemented earlier than in many countries, led to robust growth, with real per capita GDP growing at 5.6% annually from 1990 to 1998 ([How Chile Successfully Transformed Its Economy | The Heritage Foundation](https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy)).",
+   "urls": [
+    "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy"
+   ],
+   "numbers": [
+    {
+     "key": "S078.1",
+     "text": "5.6%"
+    },
+    {
+     "key": "S078.2",
+     "text": "1990"
+    },
+    {
+     "key": "S078.3",
+     "text": "1998"
+    }
+   ]
+  },
+  {
+   "key": "S079",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "sentence": "- **Data Inconsistencies**: Variations in market size estimates (e.g., $0.60 billion vs. $3.09 billion) suggest potential differences in market definitions or methodologies, complicating analysis ([Business Research Insights](https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146)).",
+   "urls": [
+    "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146"
+   ],
+   "numbers": [
+    {
+     "key": "S079.1",
+     "text": "$0.60 billion"
+    },
+    {
+     "key": "S079.2",
+     "text": "$3.09 billion"
+    }
+   ]
+  },
+  {
+   "key": "S080",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 62,
+   "sentence": "While simply extending a linear chain faces severe limitations (Section 2.1), the recent proposal of *optical segmentation* offers a potential path forward.25",
+   "urls": [
+    "https://arxiv.org/html/2311.01168v3"
+   ],
+   "numbers": [
+    {
+     "key": "S080.1",
+     "text": "2.1"
+    }
+   ]
+  },
+  {
+   "key": "S081",
+   "system": "grok-deeper-search",
+   "task": 93,
+   "sentence": "- **Technological Advancements**: Support for 4K/8K editing, advanced color grading, and real-time collaboration tools cater to professional needs ([Business Research Insights](https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146)).",
+   "urls": [
+    "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146"
+   ],
+   "numbers": [
+    {
+     "key": "S081.1",
+     "text": "4K"
+    },
+    {
+     "key": "S081.2",
+     "text": "8K"
+    }
+   ]
+  },
+  {
+   "key": "S082",
+   "system": "perplexity-Research",
+   "task": 92,
+   "sentence": "IMU data collected from players' rackets and wrists, sampled at 100 Hz, can be combined with video data to recognize up to 13 distinct badminton shots with accuracy exceeding 90% using a 2D-CNN architecture[^1_7][^1_15].",
+   "urls": [
+    "https://github.com/BenVanHerbruggen/Badminton_IMU_shot_strategy_recognition",
+    "https://backoffice.biblio.ugent.be/download/01J41JC4BQ1FFZ8JQJX22QHN3Z/01J41JDV2PZFW5ZMKKJCP2DJES"
+   ],
+   "numbers": [
+    {
+     "key": "S082.1",
+     "text": "90%"
+    }
+   ]
+  },
+  {
+   "key": "S083",
+   "system": "grok-deeper-search",
+   "task": 81,
+   "sentence": "Haitian anthropologist Michel-Rolph Trouillot’s *Silencing the Past* (1995) is a foundational text in this field, arguing that historical narratives contain “bundles of silences” created by unequal power dynamics ([Book Summary](https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/)).",
+   "urls": [
+    "https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/"
+   ],
+   "numbers": [
+    {
+     "key": "S083.1",
+     "text": "1995"
+    }
+   ]
+  },
+  {
+   "key": "S084",
+   "system": "grok-deeper-search",
+   "task": 92,
+   "sentence": "A two-stage detection method with context multi-feature fusion is recommended, as outlined in a 2023 study ([Badminton Recognition and Tracking](https://arxiv.org/abs/2306.14492)).",
+   "urls": [
+    "https://arxiv.org/abs/2306.14492"
+   ],
+   "numbers": [
+    {
+     "key": "S084.1",
+     "text": "2023"
+    }
+   ]
+  },
+  {
+   "key": "S085",
+   "system": "perplexity-Research",
+   "task": 96,
+   "sentence": "According to IoT Analytics, internet-connected devices grew 18% in 2024 to over 14 billion globally, with projections of 16% growth in 2025 to 16.7 billion active endpoints[^1_18].",
+   "urls": [
+    "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/"
+   ],
+   "numbers": [
+    {
+     "key": "S085.1",
+     "text": "18%"
+    },
+    {
+     "key": "S085.2",
+     "text": "2024"
+    },
+    {
+     "key": "S085.3",
+     "text": "14 billion"
+    },
+    {
+     "key": "S085.4",
+     "text": "16%"
+    },
+    {
+     "key": "S085.5",
+     "text": "2025"
+    },
+    {
+     "key": "S085.6",
+     "text": "16.7 billion"
+    }
+   ]
+  },
+  {
+   "key": "S086",
+   "system": "perplexity-Research",
+   "task": 92,
+   "sentence": "The lightweight CA-YOLOv7 approach described in recent literature achieved a mAP@0.5 of 0.955 while maintaining real-time performance at 44 frames per second[^1_13].",
+   "urls": [
+    "https://thesai.org/Publications/ViewPaper?Volume=16\\&Issue=2\\&Code=IJACSA\\&SerialNo=35"
+   ],
+   "numbers": [
+    {
+     "key": "S086.1",
+     "text": "0.5"
+    },
+    {
+     "key": "S086.2",
+     "text": "0.955"
+    }
+   ]
+  },
+  {
+   "key": "S087",
+   "system": "openai-deepresearch",
+   "task": 79,
+   "sentence": "Filmmakers who broach topics of gender and sexual nonconformity risk censorship or worse ([Queer Representation in Arab and Middle Eastern Films: A Case Study of Women in Caramel (2007), Circumstance (2011), and In Between (2016)](https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html#:~:text=or",
+   "urls": [
+    "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html#:~:text=or"
+   ],
+   "numbers": [
+    {
+     "key": "S087.1",
+     "text": "2007"
+    },
+    {
+     "key": "S087.2",
+     "text": "2011"
+    },
+    {
+     "key": "S087.3",
+     "text": "2016"
+    }
+   ]
+  },
+  {
+   "key": "S088",
+   "system": "openai-deepresearch",
+   "task": 65,
+   "sentence": "(b) Actual hardware: (d) visible structured light projectors with a relay control ([Structured Light-Based 3D Reconstruction System for Plants](https://www.mdpi.com/1424-8220/15/8/18587#:~:text=camera is upside down relative,f) the target plant)), (e) turn-table for 360° rotation ([Structured Light-Based 3D Reconstruction System for Plants](https://www.mdpi.com/1424-8220/15/8/18587#:~:text=camera",
+   "urls": [
+    "https://www.mdpi.com/1424-8220/15/8/18587#:~:text=camera"
+   ],
+   "numbers": [
+    {
+     "key": "S088.1",
+     "text": "360°"
+    }
+   ]
+  },
+  {
+   "key": "S089",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 57,
+   "sentence": "* **Generative AI Studios:** Launched as part of the $3 billion investment, these studios are physical locations within Accenture Innovation Hubs (initially in Chicago, Houston, New York, San Francisco, Toronto, Washington D.C.).1",
+   "urls": [
+    "https://newsroom.accenture.com/news/2023/accenture-to-launch-network-of-generative-ai-studios-to-help-clients-accelerate-use-of-data-and-ai-technologies"
+   ],
+   "numbers": [
+    {
+     "key": "S089.1",
+     "text": "$3 billion"
+    }
+   ]
+  },
+  {
+   "key": "S090",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 82,
+   "sentence": "The **Canada-US Automotive Products Agreement (Auto Pact) of 1965** eliminated tariffs on vehicles and parts, leading to highly integrated production systems, significant growth in Canadian auto manufacturing and exports, and substantial job creation, particularly in Ontario.211",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Economy_of_Canada"
+   ],
+   "numbers": [
+    {
+     "key": "S090.1",
+     "text": "1965"
+    }
+   ]
+  },
+  {
+   "key": "S091",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 90,
+   "sentence": "* *Joshua Brown Crash (2016, Williston, FL):* A Model S on Autopilot failed to detect a white tractor-trailer turning across the highway against a bright sky, resulting in a fatal collision.77",
+   "urls": [
+    "https://law.marquette.edu/facultyblog/2023/04/tesla-wins-first-trial-involving-autopilot-but-more-serious-cases-loom/"
+   ],
+   "numbers": [
+    {
+     "key": "S091.1",
+     "text": "2016"
+    }
+   ]
+  },
+  {
+   "key": "S092",
+   "system": "openai-deepresearch",
+   "task": 83,
+   "sentence": "One study noted mobile POS would cannibalize ~12% of traditional POS shipments in NA by 2016 as retailers augment with tablets ([Retailers Slow to Adopt Mobile POS: Study](https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study#:~:text=,based specialty chains)).",
+   "urls": [
+    "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study#:~:text=,based"
+   ],
+   "numbers": [
+    {
+     "key": "S092.1",
+     "text": "12%"
+    },
+    {
+     "key": "S092.2",
+     "text": "2016"
+    }
+   ]
+  },
+  {
+   "key": "S093",
+   "system": "grok-deeper-search",
+   "task": 53,
+   "sentence": "- **Extended Investment Horizons:** SWFs are lengthening their investment time frames, with an average horizon of 11.3 years reported in 2023, up from 10.7 years in 2022, to better align with long-term objectives ([Invesco Report on Horizons](https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/)).",
+   "urls": [
+    "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/"
+   ],
+   "numbers": [
+    {
+     "key": "S093.1",
+     "text": "11.3 years"
+    },
+    {
+     "key": "S093.2",
+     "text": "2023"
+    },
+    {
+     "key": "S093.3",
+     "text": "10.7 years"
+    },
+    {
+     "key": "S093.4",
+     "text": "2022"
+    }
+   ]
+  },
+  {
+   "key": "S094",
+   "system": "perplexity-Research",
+   "task": 72,
+   "sentence": "Goos, Manning, and Salomons (2014) provide evidence of pervasive job polarization across 16 Western European countries between 1993-2010, attributing this phenomenon to routine-biased technological change and offshoring[^1_8][^1_19].",
+   "urls": [
+    "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509",
+    "https://personal.lse.ac.uk/manning/work/ExplainingJobPolarization.pdf"
+   ],
+   "numbers": [
+    {
+     "key": "S094.1",
+     "text": "2014"
+    },
+    {
+     "key": "S094.2",
+     "text": "1993"
+    }
+   ]
+  },
+  {
+   "key": "S095",
+   "system": "openai-deepresearch",
+   "task": 90,
+   "sentence": "Advanced Driver-Assistance Systems (ADAS) are increasingly common, promising safety benefits by reducing human error (a factor in roughly 88% of collisions ([UK law makes OEMs responsible for self-driving crashes | Traffic Technology Today](https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html#:~:text=The potential safety benefits are,per cent of road collisions))).",
+   "urls": [
+    "https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html#:~:text=The"
+   ],
+   "numbers": [
+    {
+     "key": "S095.1",
+     "text": "88%"
+    }
+   ]
+  },
+  {
+   "key": "S096",
+   "system": "perplexity-Research",
+   "task": 96,
+   "sentence": "This predictive maintenance capability can save homeowners an average of \\$200 annually on emergency repair costs by scheduling convenient maintenance before catastrophic failures occur[^1_17].",
+   "urls": [
+    "https://www.hdlautomation.com/Articles_100000182859653.html"
+   ],
+   "numbers": [
+    {
+     "key": "S096.1",
+     "text": "$200"
+    }
+   ]
+  },
+  {
+   "key": "S097",
+   "system": "grok-deeper-search",
+   "task": 72,
+   "sentence": "Frey and Osborne ([2017](https://doi.org/10.1016/j.techfore.2016.08.019)) estimated that 47% of U.S. jobs are at high risk of automation within two decades, particularly those involving routine tasks.",
+   "urls": [
+    "https://doi.org/10.1016/j.techfore.2016.08.019"
+   ],
+   "numbers": [
+    {
+     "key": "S097.1",
+     "text": "47%"
+    }
+   ]
+  },
+  {
+   "key": "S098",
+   "system": "openai-deepresearch",
+   "task": 94,
+   "sentence": "In China, the China Association of Metros (CAM) issued a comprehensive standard for smart urban rail IT architecture in 2019, known as the “13531” blueprint ([China’s rail transportation system reaches a smart milestone](https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/#:~:text=development and the latest Information,urban rail transit cloud platform)) ([China’s rail transportation system reaches a smart milestone](https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/#:~:text=If urban rail transport is,it must become information based)).",
+   "urls": [
+    "https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/#:~:text=development",
+    "https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/#:~:text=If"
+   ],
+   "numbers": [
+    {
+     "key": "S098.1",
+     "text": "2019"
+    },
+    {
+     "key": "S098.2",
+     "text": "13531"
+    }
+   ]
+  },
+  {
+   "key": "S099",
+   "system": "gemini-2.5-pro-deepresearch",
+   "task": 82,
+   "sentence": "**Geopolitical Factors:** As a founding member of the **United Nations** (1945) and **NATO** (1949), Canada played an active role in post-war international institutions.203",
+   "urls": [
+    "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/"
+   ],
+   "numbers": [
+    {
+     "key": "S099.1",
+     "text": "1945"
+    },
+    {
+     "key": "S099.2",
+     "text": "1949"
+    }
+   ]
+  },
+  {
+   "key": "S100",
+   "system": "perplexity-Research",
+   "task": 82,
+   "sentence": "A key aspect of Korea's success was its ability to dramatically increase domestic savings, with the ratio of domestic savings to GNP growing from a mere 3.3% in 1962 to 35.8% in 1989[^1_8].",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Economy_of_South_Korea"
+   ],
+   "numbers": [
+    {
+     "key": "S100.1",
+     "text": "3.3%"
+    },
+    {
+     "key": "S100.2",
+     "text": "1962"
+    },
+    {
+     "key": "S100.3",
+     "text": "35.8%"
+    },
+    {
+     "key": "S100.4",
+     "text": "1989"
+    }
+   ]
+  }
+ ]
+}

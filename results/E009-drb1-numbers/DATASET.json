@@ -1,0 +1,518 @@
+{
+ "dataset": "muset-ai/DeepResearch-Bench-Dataset (Apache-2.0), the four E004 report files (sha256 in experiments/E004-deep-research-quotes/raw/DATASET.json)",
+ "seed": 2029,
+ "per_system": 25,
+ "pool_stats": {
+  "gemini-2.5-pro-deepresearch": {
+   "reports": 50,
+   "numeric_sentences": 710,
+   "with_url": 710,
+   "oai_marker_only": 0,
+   "numbers": 1347
+  },
+  "grok-deeper-search": {
+   "reports": 50,
+   "numeric_sentences": 189,
+   "with_url": 189,
+   "oai_marker_only": 0,
+   "numbers": 370
+  },
+  "openai-deepresearch": {
+   "reports": 50,
+   "numeric_sentences": 680,
+   "with_url": 677,
+   "oai_marker_only": 3,
+   "numbers": 1141
+  },
+  "perplexity-Research": {
+   "reports": 50,
+   "numeric_sentences": 359,
+   "with_url": 359,
+   "oai_marker_only": 0,
+   "numbers": 734
+  }
+ },
+ "fetch": {
+  "http://aerospace.csis.org/wp-content/uploads/2020/07/20200714_Kaplan_Cislunar_FINAL.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://aeronautics.sc.gov/sites/default/files/2025-02/250218_SC_Comm_Svc_Airports_Econ_Impact_Study_(Feb_2025)_1.pdf": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://amostech.com/TechnicalPapers/2022/Poster/Koblick_2.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://artsfuse.org/303968/television-review-macondo-redux-a-progress-report-on-netflixs-one-hundred-years-of-solitude/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://arxiv.org/abs/1904.04178": {
+   "readable": true,
+   "tried": []
+  },
+  "https://arxiv.org/abs/2306.14492": {
+   "readable": true,
+   "tried": []
+  },
+  "https://arxiv.org/html/2311.01168v3": {
+   "readable": true,
+   "tried": []
+  },
+  "https://arxiv.org/html/2411.00308v1": {
+   "readable": true,
+   "tried": []
+  },
+  "https://atag.org/industry-topics/supporting-economic-social-development": {
+   "readable": true,
+   "tried": []
+  },
+  "https://automation.honeywell.com/gb/en/products/productivity-solutions/mobile-computers/tablets": {
+   "readable": true,
+   "tried": []
+  },
+  "https://backoffice.biblio.ugent.be/download/01J41JC4BQ1FFZ8JQJX22QHN3Z/01J41JDV2PZFW5ZMKKJCP2DJES": {
+   "readable": true,
+   "tried": []
+  },
+  "https://blog.switch-bot.com/smart-home-market-trends-and-predictions-you-should-know/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://cdn.grovesindustrial.com/pdf/sds/Sandvik_5746684_Catalog.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://colombia.travel/en/macondo-colombia/macondian-cultural-legacy/details-one-hundred-years-of-solitude": {
+   "readable": true,
+   "tried": []
+  },
+  "https://dir.tridge.com/prices/frozen-mackerel/JP": {
+   "readable": true,
+   "tried": []
+  },
+  "https://doi.org/10.1007/s00146-022-01496-x": {
+   "readable": true,
+   "tried": []
+  },
+  "https://doi.org/10.1016/j.techfore.2016.08.019": {
+   "readable": true,
+   "tried": []
+  },
+  "https://doi.org/10.1057/s41599-024-03557-6": {
+   "readable": true,
+   "tried": []
+  },
+  "https://en.wikipedia.org/wiki/Economy_of_Canada": {
+   "readable": true,
+   "tried": []
+  },
+  "https://en.wikipedia.org/wiki/Economy_of_South_Korea": {
+   "readable": true,
+   "tried": []
+  },
+  "https://en.wikipedia.org/wiki/Taiwan_Miracle": {
+   "readable": true,
+   "tried": []
+  },
+  "https://github.com/BenVanHerbruggen/Badminton_IMU_shot_strategy_recognition": {
+   "readable": true,
+   "tried": []
+  },
+  "https://hir.harvard.edu/the-growth-trajectories-of-sovereign-wealth-funds-trends-challenges-and-opportunities/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://history.state.gov/milestones/1945-1952/japan-reconstruction": {
+   "readable": true,
+   "tried": []
+  },
+  "https://hrcak.srce.hr/file/440423": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://hypegig.com/adobe-premiere-pro-review/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://ieeexplore.ieee.org/document/7373000/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://journals.asm.org/doi/10.1128/mbio.02855-24": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://kpmg.com/us/en/ai.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://kpmg.com/us/en/media/news/q1-ai-pulse-2025.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://kubernetes.io/docs/tasks/administer-cluster/node-overprovisioning/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://law.marquette.edu/facultyblog/2023/04/tesla-wins-first-trial-involving-autopilot-but-more-serious-cases-loom/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://market.us/report/ai-in-video-editing-market/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://medium.com/@takafumi.endo/how-ai-is-redefining-strategy-consulting-insights-from-mckinsey-bcg-and-bain-69d6d82f1bab": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://newsroom.accenture.com/news/2023/accenture-to-launch-network-of-generative-ai-studios-to-help-clients-accelerate-use-of-data-and-ai-technologies": {
+   "readable": true,
+   "tried": []
+  },
+  "https://opentextbc.ca/postconfederation/chapter/8-11-fashioning-a-post-war-economy/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://paperswithcode.com/paper/tracknetv2-efficient-shuttlecock-tracking": {
+   "readable": true,
+   "tried": []
+  },
+  "https://personal.lse.ac.uk/manning/work/ExplainingJobPolarization.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://pmc.ncbi.nlm.nih.gov/articles/PMC10707362/": {
+   "readable": true,
+   "tried": [
+    "browser"
+   ]
+  },
+  "https://pmc.ncbi.nlm.nih.gov/articles/PMC7248198/": {
+   "readable": true,
+   "tried": [
+    "browser"
+   ]
+  },
+  "https://pmc.ncbi.nlm.nih.gov/articles/PMC8136455/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://precisionmechatronicslab.com/wp-content/publications/J10b.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://prismatically.blog/2020/08/20/book-summary-silencing-the-past-michel-rolph-trouillot/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/38411341/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://pubs.aip.org/aip/apl/article/125/26/261103/3328405/Thermal-enhancement-of-defect-motion-for": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://saintseiya.fandom.com/wiki/Virgo_Shaka": {
+   "readable": true,
+   "tried": []
+  },
+  "https://sendshort.ai/statistics/capcut/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://straitsresearch.com/report/smart-home-healthcare-market": {
+   "readable": true,
+   "tried": []
+  },
+  "https://thesai.org/Publications/ViewPaper?Volume=16\\&Issue=2\\&Code=IJACSA\\&SerialNo=35": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://whalewisdom.com/filer/berkshire-hathaway-inc": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.aarpinternational.org/initiatives/aging-readiness-competitiveness-arc/japan": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.aeaweb.org/articles?id=10.1257%2Faer.104.8.2509": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.ahajournals.org/doi/10.1161/CIRCRESAHA.123.323617": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.ahajournals.org/doi/10.1161/circoutcomes.113.000663": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.alphavillejournal.com/Issue20/HTML/ArticleKarim.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.businessinsider.com/r-ntsb-operational-limitations-played-major-rule-in-tesla-autopilot-crash-2017-9": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.businessresearchinsights.com/market-reports/video-editing-software-market-102146": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.ceramtec-industrial.com/en/products-applications/piezo-technology/piezoceramics-material/manufacturing-processes": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.clausen.com/wp-content/uploads/2020/11/ClausenMiller_ApportionmentofVehicleLiabilityinAutonomousVehicleAccidents.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.ewadirect.com/journal/jemd/article/view/22415/pdf": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://www.ey.com/en_us/newsroom/2024/12/ey-research-artificial-intelligence-investments-set-to-remain-strong-in-2025-but-senior-leaders-recognize-emerging-risks": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.fao.org/in-action/globefish/news-events/news/news-detail/Stronger-mackerel-supplies-herring-supplies-slightly-up-in-2020/en": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2022.974339/full": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1438594/full": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.globalrailwayreview.com/article/127948/china-rail-smat-milestone/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access"
+   ]
+  },
+  "https://www.gurufocus.com/news/2605466/investment-insights-duan-yongpings-portfolio-reveals-strategic-moves-with-key-stocks": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.hdlautomation.com/Articles_100000182859653.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.heritage.org/international-economies/report/how-chile-successfully-transformed-its-economy": {
+   "readable": true,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.hrw.org/news/2022/04/08/tough-territory-transgender-people-middle-east-and-north-africa": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.informit.com/articles/article.aspx?p=31072\\&seqNum=5": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.investing.com/academy/trading/warren-buffett-investment-strategy-rules-fortune/": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.investopedia.com/warren-buffett-s-stock-portfolio-11719778": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.jurist.org/commentary/2023/08/widen-koopman-automated-vehicles-criminal-law/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.laserandhealthacademy.com/media/uploads/laha/docs/2024/journal/articles/onlinefirst_desai.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.marketingaiinstitute.com/blog/mckinsey-bcg-accenture-ai": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.mckinsey.com/industries/retail/our-insights/generative-ai-unlocking-the-future-of-fashion": {
+   "readable": true,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.mdpi.com/1422-0067/25/8/4483": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.mdpi.com/1424-8220/15/8/18587": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.mdpi.com/2073-4395/13/11/2832": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.mdpi.com/2076-2615/15/8/1135": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.mdpi.com/2079-4991/12/16/2836": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.morningstar.hk/hk/news/243005/this-is-what-munger-really-thinks-about-buffett.aspx": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.nature.com/articles/s41586-024-07111-x": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10609314/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.pif.gov.sa/-/media/project/pif-corporate/pif-corporate-site/investors/credit-rating/pdf/fitch-public-investment-fund-25-dec-2024.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.researchnester.com/reports/railway-management-system-market/6104": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.sciencedirect.com/science/article/abs/pii/S0924424721006117": {
+   "readable": false,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.snsinsider.com/reports/video-editing-software-market-1543": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.stat.go.jp/english/data/handbook/pdf/2023all.pdf": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.supermarketnews.com/foodservice-retail/retailers-slow-to-adopt-mobile-pos-study": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.temasek.com.sg/en/news-and-resources/news-room/news/2024/temasek-review-2024-389-billion-net-portfolio-value": {
+   "readable": true,
+   "tried": [
+    "browser",
+    "open_access",
+    "archive"
+   ]
+  },
+  "https://www.theguardian.com/us-news/2020/jun/11/only-fifth-of-uk-universities-have-said-they-will-decolonise-curriculum": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.theinsightpartners.com/reports/video-editing-software-market": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.top1000funds.com/asset_owner/china-investment-corporation-cic/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.traffictechnologytoday.com/news/autonomous-vehicles/uk-law-makes-oems-responsible-for-self-driving-crashes.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.visualcapitalist.com/largest-sovereign-wealth-funds-in-the-world/": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.zebra.com/us/en/products/tablets.html": {
+   "readable": true,
+   "tried": []
+  },
+  "https://www.zionmarketresearch.com/report/tablet-pos-systems-market": {
+   "readable": true,
+   "tried": []
+  }
+ }
+}

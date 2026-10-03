@@ -803,3 +803,61 @@ def test_page_brackets_and_blanks_keep_words(tmp_path):
     for quote in ("at a hub airport it takes fewer seats", "If water was added, then nothing"):
         r = check_claims([{"id": "t", "line": 1, "urls": ["https://a.example/p"], "quote": quote}], s)[0]
         assert r["verdict"] == "NOT_FOUND", r
+
+
+# --- 0.3.3 (E014) ----------------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("md,quote", [
+    ('He said, "Times New Roman[1](https://t.example/)? More like Times OLD Roman."',
+     "Times New Roman? More like Times OLD Roman."),
+    ('It is "the earth may be borrowed but not bought.[2][11](https://a.example/) It may be used, but not '
+     'owned.[2][11][14](https://b.example/) But we are tenants."[3](https://c.example/)',
+     "the earth may be borrowed but not bought. It may be used, but not owned. But we are tenants."),
+    ('They "read Chapter 11 and weren\'t impressed[1](https://t.example/). So we moved on."',
+     "read Chapter 11 and weren't impressed. So we moved on."),
+    ('She wrote "a bare marker[3] stays out of the words" [4](https://d.example/)', "a bare marker stays out of the words"),
+])
+def test_footnote_markers_inside_a_quote_are_not_its_words(md, quote):
+    claims = from_markdown(md)[0]
+    assert [c["quote"].replace("  ", " ") for c in claims] == [quote]
+
+
+def test_editorial_brackets_and_numbers_stay_in_a_quote():
+    q = from_markdown('He said "she bore [a son] in 1999 and [AI\'s] rise took 11 years" [1](https://e.example/)')[0][0]
+    assert q["quote"] == "she bore [a son] in 1999 and [AI's] rise took 11 years"
+
+
+def test_footnote_link_inside_a_quote_is_found_on_the_page(tmp_path):
+    s = Store(tmp_path)
+    url = "https://t.example/"
+    s.add(url, f"<p>Webmaster: Times New Roman? More like Times OLD Roman.</p>{ARTICLE}".encode(), content_type="text/html")
+    md = f'Delabor is quoted as saying, "Times New Roman[1]({url})? More like Times OLD Roman."'
+    assert check_claims(from_markdown(md)[0], s)[0]["verdict"] in ("FOUND", "FOUND_NORMALIZED")
+
+
+def test_cut_off_body_is_a_failed_fetch_not_a_crash(tmp_path, monkeypatch):
+    import http.client
+    import urllib.request
+
+    class Cut:
+        status, headers = 200, {}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            raise http.client.IncompleteRead(b"<html>half", 5000)
+
+        def geturl(self):
+            return "https://cut.example/"
+
+    monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: Cut())
+    entry = Store(tmp_path).fetch("https://cut.example/")
+    assert entry["sha256"] is None and entry["error"].startswith("incomplete read")
+    r = check_claims([{"id": "t", "line": 1, "quote": "something long enough here", "urls": ["https://cut.example/"]}],
+                     Store(tmp_path), fetch=False)[0]
+    assert r["verdict"] == "SOURCE_UNAVAILABLE"
