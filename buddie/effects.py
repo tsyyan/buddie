@@ -51,6 +51,20 @@ def is_effect(anchor: str) -> bool:
 WORK = re.compile(r"(?<!\w)(?:слит[оаы]?|смержен\w*|влит[оаы]?|merged|CI\s+(?:зел[её]н\w*|green|прош[её]л\w*|pass\w*)|"
                   r"тест\w*\s+(?:прош\w*|зел[её]н\w*)|tests?\s+pass\w*|\d+\s+passed|прогнал\w*|прогнан\w*)(?!\w)", re.I)
 CODE = re.compile(r"`[^`]*`")
+# not claims either (NEXT №52, false hits of №45): a word right after plural «которые» describes a kind of thing
+# («шаги, которые уже влиты, но не запущены»), and a clause after a future or infinitive check verb is a plan («я
+# проверю, что CI зелёный»). Still claims: past «проверил, что CI зелёный», singular «lab#64, который уже влит» and
+# «PR, которые я открыл, слиты» (comma). Missed: «#18 и #19, которые слиты» (a specific plural reads as a kind)
+DESCRIBES = re.compile(r"(?<!\w)которые(?:\s+[^\s,;.:!?]+){0,2}\s+$", re.I)
+PLANS = re.compile(r"(?<!\w)(?:провер|убед|удостовер|посмотр|просле|дожд|увид|узна|свер)\w*"
+                   r"(?:ю|у|юсь|усь|им|ем|ём|имся|емся|ёмся|ит|ет|ёт|ится|ется|ить|ять|еть|ться|ишь|ешь|ёшь)"
+                   r"\s*,?\s+(?:что|ли|когда)(?:\s+[^\s,;.:!?]+){0,3}\s+$", re.I)
+
+
+def claims_work(line: str) -> bool:
+    line = CODE.sub(" ", line)
+    return any(not DESCRIBES.search(line[:m.start()]) and not PLANS.search(line[:m.start()])
+               for m in WORK.finditer(line))
 
 
 def prose_work(text: str, anchor_rx: re.Pattern, limit: int = 5) -> tuple[int, list[str]]:
@@ -58,7 +72,7 @@ def prose_work(text: str, anchor_rx: re.Pattern, limit: int = 5) -> tuple[int, l
     A signal for the measurement of NEXT №43, never a failure."""
     n, examples = 0, []
     for number, line in enumerate(text.splitlines(), 1):
-        if any(is_effect(a) for a in anchor_rx.findall(line)) or not WORK.search(CODE.sub(" ", line)):
+        if any(is_effect(a) for a in anchor_rx.findall(line)) or not claims_work(line):
             continue
         n += 1
         if len(examples) < limit:

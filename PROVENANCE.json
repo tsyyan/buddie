@@ -1,6 +1,6 @@
 {
  "source": "tsyyan/lab",
- "commit": "d996fc387656edd7ae64dbff61585d6c32440e76",
+ "commit": "59f5e82dcc4f61596a0b5862c81e99683e58a662",
  "tool": "tools/export_buddie.py",
  "files": {
   ".claude-plugin/marketplace.json": {
@@ -9,7 +9,7 @@
   },
   ".claude-plugin/plugin.json": {
    "from": "generated from components/buddie/.claude-plugin/plugin.json",
-   "sha256": "5b4b9096b85c189e9545172247978e7070e56db9df37e645f7c7c8a4fedfd5e8"
+   "sha256": "0a99fd62aae944d5dbbaaea2cfdc387492d4cfd6e4cf29721b83b5a006786729"
   },
   ".github/workflows/ci.yml": {
    "from": "publish/buddie/.github/workflows/ci.yml",
@@ -45,7 +45,7 @@
   },
   "buddie/__init__.py": {
    "from": "components/buddie/buddie/__init__.py",
-   "sha256": "19dc6ee59247377963a9030942adf999e62e0535a317e3ba69696c3dce34ac56"
+   "sha256": "25f2b91fe336e6705d23d54da306166a94c7623bd6f2ede36c2e29a3f08bac76"
   },
   "buddie/__main__.py": {
    "from": "components/buddie/buddie/__main__.py",
@@ -57,15 +57,15 @@
   },
   "buddie/cli.py": {
    "from": "components/buddie/buddie/cli.py",
-   "sha256": "33a74074b578513f7c2133623fc6a84043d3edb2f31c1a21c39f7d029708fdfa"
+   "sha256": "5444d2ccd2c2af687375b4d83021ecf5f186dd692274d5412e65467c417d1e50"
   },
   "buddie/effects.py": {
    "from": "components/buddie/buddie/effects.py",
-   "sha256": "1d2b49706e078d0ecb96acc671e4d1cb1ea2fb6bd753fba246b953a54709be2f"
+   "sha256": "7cf22c254522298ae5641f97f6d340ea194bd0b55e3cdbcd75be9e62da5ee380"
   },
   "buddie/hook.py": {
    "from": "components/buddie/buddie/hook.py",
-   "sha256": "d7235a8b7fa17e535048c57a9717f884a827f30ec77a3575c2b17cc516987b0b"
+   "sha256": "538e43a3f6dbfa4f9c18f14c8fbcd5a68bd7cf58736af5c235b678e78c8c96bc"
   },
   "buddie/mandate.py": {
    "from": "components/buddie/buddie/mandate.py",
@@ -73,11 +73,11 @@
   },
   "buddie/mcp.py": {
    "from": "components/buddie/buddie/mcp.py",
-   "sha256": "1eafd5724d01d7b35bc545d72c2811d369ec2cf5112aeac49ec9cf77d9b24371"
+   "sha256": "c6408607676e9f37caf1c3a67d40d327b330211b861f5dd4e9cac5a49d0b1a68"
   },
   "buddie/verify.py": {
    "from": "components/buddie/buddie/verify.py",
-   "sha256": "b4d73441e66b445474888ef49a1ad053896a908e7dd5542cc99d629648acf9ab"
+   "sha256": "edc44d8ccdd5d75ff6b88dca7c183f458ea23f1f7e2a199600ac62589366fe4c"
   },
   "docs/verbatim-method.md": {
    "from": "publish/buddie/docs/verbatim-method.md",
@@ -305,7 +305,11 @@
   },
   "results/E009-drb1-numbers/scripts/fetch.py": {
    "from": "experiments/E009-numbers-dates/scripts/fetch.py",
-   "sha256": "4f7319ea11b06071ad5fea7af393e886de5a33de12d3006fc3c3a8df31d8b0b7"
+   "sha256": "9be503fd9f3bdc18aeae73964e251592bc5a8d7148a1b7e086747a2f7ceff9e1"
+  },
+  "results/E009-drb1-numbers/scripts/remeasure.py": {
+   "from": "experiments/E009-numbers-dates/scripts/remeasure.py",
+   "sha256": "963aae5f9bac4fa93599fff35cc2295ebecf93558cfdde2ceec3f81f6110f1a1"
   },
   "results/E009-drb1-numbers/scripts/run.py": {
    "from": "experiments/E009-numbers-dates/scripts/run.py",
@@ -633,19 +637,19 @@
   },
   "tests/quotes/test_numbers.py": {
    "from": "components/verbatim/tests/test_numbers.py",
-   "sha256": "d7190df99e6f6df5b669da32c7282ab6f11d9c5418c935cf202bf7adc3d9dcd2"
+   "sha256": "e00958677dfcb807629a6a5e1f60c1b6f8a8433571bce35fecc5c0d0ad8de91c"
   },
   "tests/quotes/test_verbatim.py": {
    "from": "components/verbatim/tests/test_verbatim.py",
-   "sha256": "80af098900f3ea41fcd2afc212077a880f12180f0eb910ee8d94c0b6873dbe84"
+   "sha256": "ed19c8448c423f275ea7850103c4a7c3d703cd094e5e435c0eacb7f987e68c51"
   },
   "tests/test_buddie.py": {
    "from": "components/buddie/tests/test_buddie.py",
-   "sha256": "0779a35c56eb4000786b766552ed23fab6dd6cf6933a7468530f46dd8ef88954"
+   "sha256": "b7fa015aed9886dde775df76d9f59a52f6a32155a3fd8eab8502a0c0beae3242"
   },
   "tests/test_effects.py": {
    "from": "components/buddie/tests/test_effects.py",
-   "sha256": "32ee3a57cdd2a200b4c67a16284f1bab541334fd5cc3ae430709a53108910c12"
+   "sha256": "264560233ea47c5d62fde7f53c3a953ffc29f8a25634b58ca6884cb1dede2b6d"
   },
   "tests/test_mandate.py": {
    "from": "components/buddie/tests/test_mandate.py",
@@ -653,7 +657,7 @@
   },
   "verbatim/__init__.py": {
    "from": "components/verbatim/verbatim/__init__.py",
-   "sha256": "12a646980ed64abd62c056237520810df0506293c0069ade15dce949a732cdcc"
+   "sha256": "e7437a4a56d52742d5264a5b7a416b9ab26628c17a5b8bbd175748db79b113a5"
   },
   "verbatim/__main__.py": {
    "from": "components/verbatim/verbatim/__main__.py",
@@ -665,7 +669,7 @@
   },
   "verbatim/check.py": {
    "from": "components/verbatim/verbatim/check.py",
-   "sha256": "ddadc6940e0ec4445c4682b8118db64c85b82894b8106884e08ebd06491080a3"
+   "sha256": "8515042c1dfbea6f8368533459e34c779914b546546fab656c1e2d57af988031"
   },
   "verbatim/cli.py": {
    "from": "components/verbatim/verbatim/cli.py",
@@ -673,7 +677,7 @@
   },
   "verbatim/numbers.py": {
    "from": "components/verbatim/verbatim/numbers.py",
-   "sha256": "bd47389c9d59c9fd7ee13f158b5a61cf10df54745014d427e635010b85f6c52c"
+   "sha256": "98b5fe54e7aa9ffe9114262e4eae4f8dbe831d157672671190f83d90218960cc"
   },
   "verbatim/report.py": {
    "from": "components/verbatim/verbatim/report.py",

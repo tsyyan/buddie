@@ -14,6 +14,7 @@ words of the sentence stand near the best occurrence. Verdicts:
   FOUND_NORMALIZED  same value in another spelling (scale word, commas, unit missing in a table cell)
   FOUND_ROUNDED     a page number that rounds to the claim at its precision (or within 5 % after "about", "nearly")
   NO_CONTEXT        the value is on the page, but no content word of the sentence within WINDOW characters
+                    (a year: no word of its own clause within YEAR_WINDOW characters)
   NOT_FOUND         the value is not on the page in any of these forms
 """
 from __future__ import annotations
@@ -52,6 +53,11 @@ also more most such only other some what when where will would could should afte
 each very much many both being said says according report reported data year years percent million billion trillion
 around approximately nearly roughly total average estimated estimate number share rate level since until within""".split())
 WINDOW = 300
+# A year is on almost every page (footers, archives, reference lists), and the sentence's words are usually somewhere
+# within 300 characters too: E009 called 9 of 15 wrong years found that way. A year counts as found only with a word of
+# its own clause (YEAR_CLAUSE characters around it in the sentence) within YEAR_WINDOW characters on the page.
+YEAR_CLAUSE = 60
+YEAR_WINDOW = 150
 
 
 @dataclass
@@ -175,11 +181,11 @@ class NumberPage:
         for m in self.numbers:
             self.by_kind.setdefault(m.kind, []).append(m)
 
-    def near(self, start: int, end: int, words: set[str]) -> int:
-        window = self.lower[max(0, start - WINDOW):end + WINDOW]
-        return sum(1 for w in words if w in window)
+    def near(self, start: int, end: int, words: set[str], window: int = WINDOW) -> int:
+        span = self.lower[max(0, start - window):end + window]
+        return sum(1 for w in words if w in span)
 
-    def locate(self, claim: Mention, words: set[str]) -> dict:
+    def locate(self, claim: Mention, words: set[str], window: int = WINDOW) -> dict:
         hits: list[tuple[str, Mention]] = []
         if claim.kind in ("date", "month"):
             for m in self.by_kind.get("date", []) + self.by_kind.get("month", []):
@@ -204,7 +210,7 @@ class NumberPage:
         if not hits:
             return {"verdict": "NOT_FOUND"}
         rank = {"FOUND": 0, "FOUND_NORMALIZED": 1, "FOUND_ROUNDED": 2}
-        scored = sorted(((self.near(m.start, m.end, words), -rank[v], v, m) for v, m in hits),
+        scored = sorted(((self.near(m.start, m.end, words, window), -rank[v], v, m) for v, m in hits),
                         key=lambda t: (t[0] > 0, t[1], t[0]), reverse=True)
         near, _, verdict, m = scored[0]
         res = {"verdict": verdict if near else "NO_CONTEXT", "match": m.text, "offset": m.start, "near_words": near,
@@ -235,8 +241,151 @@ def check_sentence(sentence: str, page_text: str | None, page: NumberPage | None
     words = content_words(sentence)
     if page is None and page_text is not None:
         page = NumberPage(page_text)
+    blanked = blank_markup(sentence)
     out = []
     for m in mentions(sentence):
-        r = {**m.as_dict(), **(page.locate(m, words) if page else {"verdict": "SOURCE_UNAVAILABLE"})}
-        out.append(r)
+        if page is None:
+            found = {"verdict": "SOURCE_UNAVAILABLE"}
+        elif m.kind == "year":
+            clause = content_words(blanked[max(0, m.start - YEAR_CLAUSE):m.end + YEAR_CLAUSE])
+            found = page.locate(m, clause, YEAR_WINDOW)
+        else:
+            found = page.locate(m, words)
+        out.append({**m.as_dict(), **found})
     return out
+
+
+# --- cited sentences of a report (E009 scripts/sentences.py, moved here so buddie and the experiments share it) ---
+
+SENT = re.compile(r"(?<=[.!?])\s+(?=[A-Z*\"“(])|\n+")
+INLINE = re.compile(r"\[([^\]]*)\]\((https?://[^)\s]+(?:\([^)\s]*\)[^)\s]*)*)\)")
+NOTE = re.compile(r"\[\^?(\d+(?:_\d+)?)\]")
+DEFN = re.compile(r"^\s{0,3}\[\^?(\d+(?:_\d+)?)\]:\s*(.+)$", re.M)
+LIST = re.compile(r"^\s*(\d{1,3})\.\s+(.+)$", re.M)
+# footnote digits of a report with a numbered source list and no link syntax (Gemini Deep Research): glued after a
+# word ("outlook.5", "infarction.66"), or after a space where a number cannot be one ("in 2019 16, a", "2023 13, and",
+# "ID) 41 and"): after a year, a closing bracket or a percent, before a comma or a small joining word (E009 S003,
+# S007, S011 were checked against the sentence's other note)
+GLUED = re.compile(r"(?<=[a-z\)\"”%])[.,]?(\d{1,3}(?:,\d{1,3})*)(?=[.,]?\s|$)")
+SPACED = re.compile(r"(?:(?<=\b(?:19|20)\d\d)|(?<=[)%\"”])) (\d{1,3}(?:,\d{1,3})*)(?=[,;]\s|[,;]?$|\s(?:and|or|but|while|"
+                    r"which|whereas|with|as|so|yet|although|though|can|is|are|was|were)\b)")
+NOTES_END = re.compile(r"([a-z\)\"”%][.!?]\d{1,3}(?:,\d{1,3})*)[ \t]+(?=[A-Z*])")
+SOURCE_LIST_ENTRY = re.compile(r"^\s*\d{1,3}\.\s")
+ACCESSED = re.compile(r"访问时间|檢索日期|accessed", re.I)
+
+
+def _first_url(text: str) -> str | None:
+    from verbatim.report import URL as BARE
+    m = INLINE.search(text)
+    if m:
+        return m.group(2)
+    m = BARE.search(text.replace("\\_", "_"))
+    return m.group(0) if m else None
+
+
+def note_sources(article: str) -> dict[str, str]:
+    """footnote number -> URL from `[^n]: url` definitions and from a numbered source list after the last heading."""
+    defs = {n: _first_url(t) for n, t in DEFN.findall(article)}
+    tail = article[article.rfind("\n#"):] if "\n#" in article else article[-len(article) // 3:]
+    for n, t in LIST.findall(tail):
+        if n not in defs and _first_url(t):
+            defs[n] = _first_url(t)
+    return {n: u.replace("\\_", "_") for n, u in defs.items() if u}
+
+
+def cites(sentence: str, defs: dict[str, str], bare_notes: bool = False) -> list[str]:
+    """URLs a sentence cites, in order: markdown links, bare URLs, `[^n]`/`[n]` notes; with bare_notes also footnote
+    digits without brackets (GLUED, SPACED)."""
+    from verbatim.report import URL as BARE
+    found = [(m.start(), m.group(2)) for m in INLINE.finditer(sentence)]
+    spans = [(m.start(), m.end()) for m in INLINE.finditer(sentence)]
+    for m in BARE.finditer(sentence):
+        if not any(a <= m.start() < b for a, b in spans):
+            found.append((m.start(), m.group(0)))
+    for m in NOTE.finditer(sentence):
+        if m.group(1) in defs:
+            found.append((m.start(), defs[m.group(1)]))
+    if bare_notes:
+        for rx in (GLUED, SPACED):
+            for m in rx.finditer(sentence):
+                for n in m.group(1).split(","):
+                    if n in defs:
+                        found.append((m.start(), defs[n]))
+    urls: list[str] = []
+    for _, u in sorted(found):
+        u = u.replace("\\_", "_")
+        if u not in urls:
+            urls.append(u)
+    return urls
+
+
+def cited_sentences(article: str, bare_notes: bool | None = None) -> list[dict]:
+    """Every sentence of a markdown report that has a number `mentions` would check and a citation that resolves to a
+    URL: {"n" (sentence index), "sentence", "urls", "numbers"}. bare_notes None: on when the report has a numbered
+    source list and no markdown links (Gemini's export)."""
+    defs = note_sources(article)
+    if bare_notes is None:
+        bare_notes = bool(defs) and not INLINE.search(article) and not DEFN.search(article)
+    if bare_notes:  # "infarction.66 Participants": a footnote glued after the full stop ends the sentence
+        article = NOTES_END.sub(r"\1\n", article)
+    out = []
+    for i, s in enumerate(SENT.split(article)):
+        if s.lstrip().startswith(("[^", "[")) and DEFN.match(s) or ACCESSED.search(s):
+            continue
+        if SOURCE_LIST_ENTRY.match(s) and _first_url(s) and len(s) < 600 and "http" in s[:400]:
+            continue  # an entry of the source list
+        ms = mentions(s)
+        if not ms:
+            continue
+        urls = cites(s, defs, bare_notes)
+        if urls:
+            out.append({"n": i, "sentence": s.strip(), "urls": urls, "numbers": [x.as_dict() for x in ms]})
+    return out
+
+
+RANK = ["FOUND", "FOUND_NORMALIZED", "FOUND_ROUNDED", "NO_CONTEXT", "NOT_FOUND", "SOURCE_UNAVAILABLE"]
+
+
+def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
+    """Verdict for every number of every cited sentence of a markdown report, judged on the readable snapshots of
+    the sentence's links (check.readable: errors, gates, app shells and redirects are SOURCE_UNAVAILABLE); the best
+    verdict over the links wins, as a reader checks the sentence's sources, not one of them. fetch: download a link
+    the store does not have. Rows: {"id" (L<line>.<n>), "line", "sentence", "text", "kind", "verdict", "url",
+    "sha256", "match", "context", ...}."""
+    from verbatim.check import readable
+    pages: dict[str, list] = {}
+
+    def read(url: str) -> list:
+        if url not in pages:
+            entries = store.index().get(_canonical(url), [])
+            if not any(e.get("sha256") for e in entries) and fetch:
+                entries = entries + [store.fetch(url)]
+            pages[url] = []
+            for e in entries:
+                got = readable(store, e, url)
+                if not isinstance(got, dict):
+                    pages[url].append((e, NumberPage(got[1].visible)))
+        return pages[url]
+
+    rows, starts = [], [0] + [i + 1 for i, ch in enumerate(markdown) if ch == "\n"]
+    for c in cited_sentences(markdown):
+        at = markdown.find(c["sentence"])
+        line = sum(1 for s in starts if s <= at) if at >= 0 else None
+        best = None
+        for url in c["urls"]:
+            for e, pg in read(url):
+                res = check_sentence(c["sentence"], None, pg)
+                for r in res:
+                    r.update(url=url, sha256=e["sha256"])
+                best = res if best is None else [min(a, b, key=lambda r: RANK.index(r["verdict"])) for a, b in zip(best, res)]
+        if best is None:
+            best = [dict(r, url=c["urls"][0]) for r in check_sentence(c["sentence"], None)]
+        for k, r in enumerate(best, 1):
+            r.update(id=f"L{line}.n{k}", line=line, sentence=c["sentence"][:300])
+            rows.append(r)
+    return rows
+
+
+def _canonical(url: str) -> str:
+    from verbatim.store import canonical_url
+    return canonical_url(url)

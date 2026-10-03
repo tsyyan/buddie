@@ -117,7 +117,7 @@ def run(event: dict, err=None) -> int:
     receipt = verify(text, name=event.get("tool_name") or name or "answer", repos=env_repos or find_repos(cwd),
                      fetch=os.environ.get("BUDDIE_FETCH", "1") != "0",
                      github=github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None,
-                     transcript=event.get("transcript_path"))
+                     transcript=event.get("transcript_path"), numbers=os.environ.get("BUDDIE_NUMBERS", "gap"))
     pred = receipt["predicate"]
     final = final_answer(text)
     blocking = pred["blocking"] + (unbacked(pred) if final else [])

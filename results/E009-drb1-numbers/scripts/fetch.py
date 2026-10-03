@@ -1,11 +1,12 @@
 """E009 step 2. Run in data/ after sentences.py: snapshot every URL the 100 sampled sentences cite into data/store.
+`fetch.py [SAMPLE.json [LOG.json]]` does the same for another sample (NEXT №42: the out-of-sample set).
 
 Direct fetch first (the E004/E010 fetcher); a page that is not readable after it (error, 4xx, gate page, home page,
 no text) goes through verbatim's access cascade in order: browser, open_access, archive (Common Crawl; Wayback does
 not answer from the cloud container). Same environment as E010:
 VERBATIM_CHROMIUM=/opt/pw-browsers/chromium VERBATIM_BROWSER_CA=/root/.ccr/agent-proxy-ca.crt
 """
-import concurrent.futures as cf, json, urllib.error, urllib.request
+import concurrent.futures as cf, json, sys, urllib.error, urllib.request
 
 from verbatim.access import METHODS
 from verbatim.check import readable
@@ -13,7 +14,7 @@ from verbatim.store import Store, canonical_url, now, request_url
 
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 st = Store("store")
-urls = sorted({canonical_url(u) for x in json.load(open("sample.json"))["items"] for u in x["urls"]})
+urls = sorted({canonical_url(u) for x in json.load(open(sys.argv[1] if len(sys.argv) > 1 else "sample.json"))["items"] for u in x["urls"]})
 todo = [u for u in urls if u not in st.index()]
 
 
@@ -57,5 +58,5 @@ for u in urls:
         tried.append(method)
     log[u] = {"readable": ok(u), "tried": tried}
     print(("ok  " if log[u]["readable"] else "MISS"), tried, u[:100], flush=True)
-json.dump(log, open("fetch_log.json", "w"), indent=1)
+json.dump(log, open(sys.argv[2] if len(sys.argv) > 2 else "fetch_log.json", "w"), indent=1)
 print("urls", len(urls), "readable", sum(v["readable"] for v in log.values()))

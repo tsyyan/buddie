@@ -13,6 +13,10 @@ Outcome, for whoever accepts the report (an orchestrator, a hook before the fina
   PASS      every quote and every anchor checked out
   EMPTY     nothing to check: no quotes, no anchors, no work claims
 
+Numbers and dates of cited sentences ("valued at $3.4 billion in 2022 ([Zion](url))") go through verbatim.numbers
+(NEXT №42): a number NOT_FOUND on the sentence's readable source is a gap by default (`numbers="gap"`) and blocks with
+`numbers="fail"`; E009/E015 measure how often that is the agent's error. NO_CONTEXT and SOURCE_UNAVAILABLE are counted.
+
 Lines that state a count ("73 из 84", "11 %") with no anchor are listed under "unanchored": a reader's signal that
 a number travels without a source (E003), never a failure. Lines that claim work done ("слито", "CI зелёный", "тесты
 прошли") with no pr:/ci:/run: anchor are listed under "prose_work" the same way (NEXT №43).
@@ -54,14 +58,24 @@ def check_quotes(text: str, *, store: str | None = None, fetch: bool = True, acc
     return results, skipped, vv
 
 
-def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = ()) -> str:
-    if not quotes and not anchors and not claims:
+def check_numbers(text: str, *, store: str | None = None, fetch: bool = True) -> list[dict]:
+    from verbatim.numbers import check_report
+    from verbatim.store import Store
+    keep = ("id", "line", "text", "kind", "verdict", "url", "sha256", "match", "near_words", "sentence")
+    return [{k: r[k] for k in keep if r.get(k) not in (None, "")} for r in check_report(text, Store(store), fetch=fetch)]
+
+
+def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), numbers: list[dict] = (),
+            numbers_mode: str = "gap") -> str:
+    if not quotes and not anchors and not claims and not numbers:
         return "EMPTY"
     if any(q["verdict"] == "NOT_FOUND" for q in quotes) or any(a["status"] == anc.BROKEN for a in anchors) \
-            or any(c["status"] == man.BROKEN for c in claims):
+            or any(c["status"] == man.BROKEN for c in claims) \
+            or numbers_mode == "fail" and any(n["verdict"] == "NOT_FOUND" for n in numbers):
         return "FAIL"
     if any(q["verdict"] in QUOTE_GAPS for q in quotes) or any(a["status"] == anc.UNCHECKABLE for a in anchors) \
-            or any(c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE) for c in claims):
+            or any(c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE) for c in claims) \
+            or any(n["verdict"] == "NOT_FOUND" for n in numbers):
         return "GAPS"
     return "PASS"
 
@@ -76,12 +90,13 @@ def _count(values) -> dict[str, int]:
 def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, store: str | None = None,
            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
            mandate: dict | None | bool = True, rev: str | None = None, github=None,
-           transcript: str | None = None) -> dict:
+           transcript: str | None = None, numbers: str = "gap") -> dict:
     """The receipt for `text`. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
     mandate: claims about the course of work, judged by the config of the first repo with buddie.toml (True), by
     the given config (dict), or not at all (False/None); rev: the commit whose queue the claims are judged against.
     github: GET function for pr:/ci: anchors (effects.github_get; None leaves them UNCHECKABLE); transcript: the
-    Claude Code session jsonl for run: anchors."""
+    Claude Code session jsonl for run: anchors. numbers: "gap" (a number NOT_FOUND in its readable source is a gap),
+    "fail" (it blocks) or "off"."""
     from datetime import datetime, timezone
     q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access) if quotes else ([], 0, None)
     a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript})
@@ -93,7 +108,8 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     rows = [_quote_row(r) for r in q_results if r["verdict"] != "NO_SOURCE" or r.get("attributed", True)]
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
-    result = outcome(rows, a_results, claims)
+    n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
+    result = outcome(rows, a_results, claims, n_rows, numbers)
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
                 + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
                 for r in rows if r["verdict"] == "NOT_FOUND"]
@@ -104,6 +120,8 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     blocking += [f"{c['kind']} line {c['line']}: {c.get('why')}" for c in claims if c["status"] == man.BROKEN]
     gaps += [f"{c['kind']} line {c['line']} {c['status']}: {c.get('why')}" for c in claims
              if c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE)]
+    missing = [f"number {n['id']} “{n['text']}” not found in {n.get('url')}" for n in n_rows if n["verdict"] == "NOT_FOUND"]
+    (blocking if numbers == "fail" else gaps).extend(missing)
     return {
         "_type": "https://in-toto.io/Statement/v1",
         "subject": [{"name": name, "digest": {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()}}],
@@ -112,9 +130,9 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
             "tool": {"buddie": __version__, "verbatim": vv},
             "checked_at": now or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "outcome": result,
-            "line": line(result, rows, a_results, skipped, bare, claims, prose),
+            "line": line(result, rows, a_results, skipped, bare, claims, prose, n_rows),
             "summary": {"quotes": _count(r["verdict"] for r in rows), "short_quotes_skipped": skipped,
-                        "unlinked_terms": terms,
+                        "unlinked_terms": terms, "numbers": _count(n["verdict"] for n in n_rows),
                         "anchors": _count(a["status"] for a in a_results), "unanchored_count_lines": bare,
                         "mandate": _count(f"{c['kind']}:{c['status']}" for c in claims),
                         "work": {"anchored": sum(1 for a in a_results if a.get("kind")),
@@ -126,6 +144,7 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
             "blocking": blocking,
             "gaps": gaps,
             "quotes": rows,
+            "numbers": n_rows,
             "anchors": a_results,
             "mandate": claims,
         },
@@ -133,7 +152,7 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
 
 
 def line(result: str, rows: list[dict], anchors: list[dict], skipped: int = 0, bare: int = 0,
-         claims: list[dict] = (), prose: int = 0) -> str:
+         claims: list[dict] = (), prose: int = 0, numbers: list[dict] = ()) -> str:
     """The one line an orchestrator puts next to a report it passes on."""
     ok = sum(r["verdict"] in ("FOUND", "FOUND_NORMALIZED") for r in rows)
     effects = [a for a in anchors if a.get("kind")]
@@ -143,6 +162,10 @@ def line(result: str, rows: list[dict], anchors: list[dict], skipped: int = 0, b
     if rows:
         miss = sum(r["verdict"] == "NOT_FOUND" for r in rows)
         parts.append(f"quotes {ok}/{len(rows)} found" + (f", {miss} not found" if miss else ""))
+    if numbers:
+        miss = sum(n["verdict"] == "NOT_FOUND" for n in numbers)
+        parts.append(f"numbers {sum(n['verdict'].startswith('FOUND') for n in numbers)}/{len(numbers)} found"
+                     + (f", {miss} not found" if miss else ""))
     if anchors:
         broken = sum(a["status"] == anc.BROKEN for a in anchors)
         parts.append(f"anchors {held}/{len(anchors)} hold" + (f", {broken} broken" if broken else ""))
