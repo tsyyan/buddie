@@ -1,6 +1,6 @@
 [project]
 name = "buddie"
-version = "0.3.0"
+version = "0.8.2"
 description = "Receipts for agent work: check what an AI agent reports (quotes, repo state, PR and CI status, command output) against primary evidence, without a model"
 readme = "README.md"
 requires-python = ">=3.11"

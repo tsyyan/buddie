@@ -4,6 +4,7 @@ Tools:
   verify_report   the receipt for a report (text or file): quotes against their snapshots, anchors against repos
   snap            snapshot URLs into the store before reading them (quote from bytes, not from a summary)
   source_text     visible text of a snapshot, optionally only around a regex: copy quotes from here
+  summary         when no subagent is left: what was done and lost, the next steps with auto/ask, a choice card
 """
 from __future__ import annotations
 
@@ -53,6 +54,20 @@ TOOLS = [
         "inputSchema": {"type": "object", "required": ["ref"], "properties": {
             "ref": {"type": "string"}, "grep": {"type": "string"}, "context": {"type": "integer", "default": 160},
             "store": {"type": "string"}}},
+    },
+    {
+        "name": "summary",
+        "description": "When no subagent is left: the summary built by code from the hook's records (what each subagent "
+                       "did with its receipt outcome, who was lost, the next steps with auto/ask verdicts, open PRs "
+                       "and red CI) and `card`, a ready AskUserQuestion input with at most three steps and «Ничего не "
+                       "запускать». Show `text` as is and ask with `card` unchanged; launch `auto` steps yourself and "
+                       "the picked ones with the anchor ⚓ choice:<summary_id>=<step>.",
+        "inputSchema": {"type": "object", "properties": {
+            "session": {"type": "string", "description": "the session id (default: the one whose state changed last)"},
+            "repos": {"type": "array", "items": {"type": "string"},
+                      "description": "repo checkouts with buddie.toml for the queue (default: around the cwd)"},
+            "queue": {"type": "boolean", "default": True, "description": "add the queue's proposed rows"},
+            "stale": {"type": "integer", "default": 30, "description": "minutes before a silent subagent is lost"}}},
     },
 ]
 
@@ -108,7 +123,14 @@ def source_text(args: dict) -> tuple[dict, bool]:
     return dict(head, matches=hits), not hits
 
 
-HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text}
+def summary(args: dict) -> tuple[dict, bool]:
+    from buddie.anchors import find_repos
+    from buddie.summary import summarize
+    repos = [Path(r) for r in args["repos"]] if args.get("repos") else find_repos(Path.cwd())
+    return summarize(args.get("session"), repos, queue=args.get("queue", True), stale=int(args.get("stale", 30))), False
+
+
+HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary}
 
 
 def handle(msg: dict) -> dict | None:
@@ -141,6 +163,8 @@ def handle(msg: dict) -> dict | None:
             text = json.dumps(data, ensure_ascii=False, indent=1)
             if name == "verify_report" and not is_error:
                 text = data["predicate"]["line"] + "\n" + text
+            elif name == "summary" and not is_error:
+                text = data["text"] + "\n" + text
             result = {"content": [{"type": "text", "text": text}], "structuredContent": data, "isError": is_error}
         else:
             return {"jsonrpc": "2.0", "id": mid, "error": {"code": -32601, "message": f"method not found: {method}"}}

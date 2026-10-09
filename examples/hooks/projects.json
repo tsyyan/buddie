@@ -1,0 +1,39 @@
+{
+  "description": "Example: the buddie gate for sessions that send their results through tools other than SendMessage (a project's reply and post tools, cloud sessions). The plugin's hooks/hooks.json matches only SendMessage, Agent and Task; merge these PreToolUse entries into ~/.claude/settings.json or the project's .claude/settings.json and rename the tools to yours. `buddie hook` needs `pip install`; from a clone use `python3 /path/to/buddie/run.py hook`. A project that hands in results through a tool names the mark of its final answer as final_mark in buddie.toml [mandate] (or BUDDIE_FINAL); without one the final answer is the last message at Stop. The PostToolUse entry writes a project's decision card (ask_decision) to the journal at once, so `choice:<card id>=<step>` can be checked after the session that asked is gone; the pick itself is read from the transcript of the session it reaches.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "SendMessage|mcp__hearthbot__reply|mcp__hearthbot__post_message|mcp__claude-code-remote__send_message",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "buddie hook",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Agent|Task|mcp__hearthbot__start_thread_session|mcp__claude-code-remote__create_session",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "buddie hook",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__hearthbot__ask_decision",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "buddie hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

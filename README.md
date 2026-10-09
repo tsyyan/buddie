@@ -25,13 +25,16 @@ oversight** that still works when the overseer is weaker than, or not trusted by
 | Claim in a report | Checked against | Bad outcome |
 |---|---|---|
 | A quotation with a link | the visible text of a SHA-256 snapshot of **that** link (`verbatim`) | `NOT_FOUND`, with the closest passage |
-| A repo anchor ⚓ `path#sha256`, ⚓ `path@commit` | the file's current bytes, or the file at that commit | `BROKEN` |
-| "Merged", "CI green": ⚓ `pr:OWNER/REPO#N=merged@SHA`, ⚓ `ci:OWNER/REPO@SHA=success` | the GitHub API: PR state and merge commit, all check runs and statuses on the commit | `BROKEN` |
-| "I ran it and got this": ⚓ `run:CMD => OUTPUT` | the Claude Code session transcript: a tool call with CMD and OUTPUT in **its result** | `BROKEN`, also when the output was typed by the agent (`echo "41 passed"`) |
+| A repo anchor `⚓ path#sha256`, `⚓ path@commit` | the file's current bytes, or the file at that commit | `BROKEN` |
+| "Merged", "CI green": `⚓ pr:OWNER/REPO#N=merged@SHA`, `⚓ ci:OWNER/REPO@SHA=success` | the GitHub API: PR state and merge commit, all check runs and statuses on the commit | `BROKEN` |
+| "I ran it and got this": `⚓ run:CMD => OUTPUT` | the Claude Code session transcript: a tool call with CMD and OUTPUT in **its result** | `BROKEN`, also when the output was typed by the agent (`echo "41 passed"`) |
 | "Step N is done", "the user agreed", "next step is in the accepted plan" (opt-in, `buddie.toml`) | the task queue at a commit, the accepted-plans list, the user's own messages | `BROKEN` |
+| A number or date in a sentence with a link | the visible text of the snapshot of that link (`verbatim.numbers`) | `NOT_FOUND`: a gap by default, a failure with `--numbers fail` |
 
-The executor writes the anchors; buddie does not parse prose. Lines that state work in prose without an anchor are
-counted in the receipt (`prose_work`), not blocked.
+The executor writes the anchors. Lines that state work in prose without an anchor ("merged", "CI is green", "tests
+passed", "41 passed") are listed in the receipt (`prose_work`); in a final answer the hook returns them with ready
+anchors (PRs named in the text or tool output, the run that printed the count), and a `buddie:` disclosure does not
+let them through (0.7.1). A negated claim ("not merged yet") is not one.
 
 ## Quick start
 
@@ -72,13 +75,66 @@ passage (similarity ≈ 0.98), an invented sentence as a distant one (≈ 0.5).
 
 The plugin brings three things:
 
-- **a hook** (`hooks/hooks.json`) on `PreToolUse` for messages that leave the session (`SendMessage`, project replies)
-  and on `Stop`. On `FAIL` it returns the report to the model with the reasons, before anyone reads it;
-- **an MCP server** (stdio, no SDK): `verify_report`, `snap`, `source_text`;
+- **a hook** (`hooks/hooks.json`) on `PreToolUse` for messages that leave the session (`SendMessage`)
+  and on `Stop`; [`examples/hooks/projects.json`](examples/hooks/projects.json) adds matchers for other reply tools.
+  On `FAIL` it returns the report to the model with the reasons, before anyone reads it. Since 0.6 it
+  also counts live subagents (`SubagentStart`/`SubagentStop`); when none is left, the orchestrator is asked once for
+  a summary built by code and a choice card for the next steps, and the person's pick (`AskUserQuestion`) goes to the
+  journal, where the anchor `choice:<id>=<step>` is checked;
+- **an MCP server** (stdio, no SDK): `verify_report`, `snap`, `source_text`, `summary`;
 - **skills**: [`skills/buddie`](skills/buddie/SKILL.md) for executors and orchestrators,
   [`skills/verbatim`](skills/verbatim/SKILL.md) for quoting from snapshots.
 
+The hook runs through `hooks/run.sh`, which starts the first of `python3`, `python` and `py -3` that is Python 3.11+,
+so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
+
 Without Claude Code: `python3 run.py verify REPORT.md --repo .` from a clone works without installing anything.
+
+### Levels and the intro mode
+
+`buddie init` writes `buddie.toml` in the repo with the default level of each class of claims and turns the intro
+mode on. Each class is `block` (the text goes back to the model), `warn` (the text leaves; you see what the gate would
+have said) or `off`:
+
+| Class | What | Default |
+|---|---|---|
+| `anchors` | a broken anchor: `path@commit`, `path#sha256`, `pr:`, `ci:`, `run:` | `block` |
+| `quotes` | a quote not on its source | `block` |
+| `final` | a final answer with no anchor, or a count line without one | `block` |
+| `prose` | work claimed in prose ("merged", "tests passed") with no anchor on the line | `warn` |
+| `numbers` | a number of a cited sentence not in its source | `warn` |
+| `work` | a claim about the work queue that does not hold (`[mandate]`) | `block` |
+| `summary` | return a `Stop` once for the summary of the subagents' results | `off` |
+| `promises` | return a `Stop` for a promise whose condition holds | `off` |
+
+```toml
+[gates]
+prose = "block"
+
+[intro]
+finals = 20
+```
+
+In the intro mode nothing is returned: each would-be return is a warning that says what it would have returned. It
+ends by itself after `finals` final answers with no false return reported; `buddie intro --false` reports one and
+restarts the count, `buddie intro` shows where it stands, `buddie enforce` ends it now. Without `buddie.toml` the
+defaults apply and there is no intro.
+
+### The loop
+
+The hook also learns from its own returns; none of it is written by the model:
+
+- **How the gate was passed.** A return logs `reasons`; the next attempt of the same tool in the session logs `gate`:
+  per flagged line `proved`, `removed` or `kept`, and the way through (`proof`, `removal`, `mixed`, `disclosure`,
+  `returned`).
+- **Lessons at start.** On `SessionStart` the hook prints a summary of past sessions' journal: how many messages came
+  back, for what, and the shape of a line that passes (at most ten lines).
+- **Ready anchors.** A return offers `pr:`, `ci:` and `run:` anchors that already hold (checked now), to copy onto the
+  line instead of rewording it.
+- **Measure.** `buddie journal measure --sessions 10`: the share of sessions whose first checked message passed, and
+  how returns were passed (proof vs removal).
+- **Context gate.** Past `BUDDIE_CONTEXT_LIMIT` tokens of context a non-final reply is returned with a reminder to hand
+  the result over; final answers, hand-offs to another session and `Stop` are never held.
 
 ## Receipt v0
 
@@ -88,7 +144,7 @@ quote with the snapshot SHA-256 and offset, the status of every anchor, and the 
 
 | Outcome | When | What the receiver does |
 |---|---|---|
-| `FAIL` | a quote `NOT_FOUND` in its readable source, or an anchor or work claim `BROKEN` | does not pass it on as is: fix it, or add a line starting with `buddie:` that discloses what is unconfirmed |
+| `FAIL` | a quote `NOT_FOUND` in its readable source, or an anchor or work claim `BROKEN` | does not pass it on as is: fix it, or add a line starting with `buddie:` that discloses what is unconfirmed; a broken `pr:`/`ci:`/`run:` anchor must be corrected or removed |
 | `GAPS` | something could not be checked: source unavailable, quote without a link, anchor in another repo, GitHub offline | passes it on, naming what was not checked |
 | `PASS` | all quotes found, all anchors hold | passes it on with the receipt line |
 | `EMPTY` | nothing to check | knows that no check took place |
@@ -163,30 +219,67 @@ by DOI, known syndicated copies. `verbatim` never bypasses paywalls, captchas or
 | `BUDDIE_GITHUB` | on | `0`: no GitHub calls, `pr:`/`ci:` become `UNCHECKABLE` |
 | `BUDDIE_GITHUB_TOKEN`, `GITHUB_TOKEN` | none | token for the GitHub API (public repos work without one, within rate limits) |
 | `BUDDIE_REPOS` | git repos around the working directory | `dir:dir` repos for anchors |
-| `BUDDIE_FINAL` | `Следующий шаг:` | marker of a final answer that must carry anchors; empty turns the rule off |
+| `BUDDIE_FINAL` | `final_mark` in `[mandate]` of `buddie.toml`, else none | regex marking a final answer that must carry anchors at any event; with none, the last message at `Stop` is the final answer; empty turns the rule off |
 | `BUDDIE_LOG` | `~/.cache/buddie/hook.jsonl` | hook run log; `0` turns it off |
 | `BUDDIE_SHARED_LOG` | `/mnt/project-files/buddie/hook`, only if that folder exists | second log, one file per session; `0` turns it off |
+| `BUDDIE_STORES` | none | `dir:dir` extra snapshot stores the hook reads with the session's own |
+| `BUDDIE_GATES` | `[gates]` of `buddie.toml` | `class=level,...` overrides the levels above |
+| `BUDDIE_INTRO` | `~/.cache/buddie/intro.json` | the intro mode's count per `buddie.toml`; `0` keeps none |
+| `BUDDIE_NUMBERS` | from the `numbers` level | `gap`, `fail` or `off`: how the receipt judges a number missing from its source |
+| `BUDDIE_JOURNAL_TEXT` | `[journal] text` of `buddie.toml`, else off | `1`: the journal also keeps promise sentences, choice and decision cards as text |
+| `BUDDIE_LESSONS` | on | `0`: no lessons at `SessionStart` |
+| `BUDDIE_CONTEXT_LIMIT` | `200000` | context tokens past which a non-final reply is returned; `0` turns it off |
 
-The hook logs receipts (report hash, outcome, counts), not the report text.
+### What leaves your machine
+
+- **Cited pages.** To check a quote the hook downloads the page it cites (`BUDDIE_FETCH=0`: stored snapshots only).
+  Snapshots go to `VERBATIM_STORE`. Only `--access default` in the CLI or MCP server also asks archive.org, Common
+  Crawl and open-access copies by DOI.
+- **GitHub API.** `pr:` and `ci:` anchors call `api.github.com`, with `BUDDIE_GITHUB_TOKEN` or `GITHUB_TOKEN` if set
+  (`BUDDIE_GITHUB=0`: no calls).
+- Nothing else: no telemetry, no model calls. The full list of what is read, sent and kept is in
+  [PRIVACY.md](PRIVACY.md).
+
+### The transcript and the journal
+
+**The transcript.** The hook reads the current session's transcript (`transcript_path`, and its subagents' files next
+to it) because a claim about a command can only be checked against what the session actually ran:
+`⚓ run:pytest -q => 41 passed` holds only if the transcript shows that call with that output. It also takes the
+final answer at `Stop`, the token count for the context gate, snapshot stores the session named, and the commands
+behind ready anchors from there. It reads the file in place; nothing from it is copied into the journal or sent
+anywhere. No other session, no memory, no chat history is read. There is no switch for this reading yet: without
+the transcript the hook has no final answer to check at `Stop` and no way to tell a real `run:` from an invented one.
+
+**The journal.** Each check appends one line to `BUDDIE_LOG` (`~/.cache/buddie/hook.jsonl`): time, session id, tool,
+outcome, counts of verdicts, exit code and the SHA-256 of the checked text. It never holds the text. Promise lines
+(«launch №N after PR #M») keep the row, the condition and the sentence's SHA-256; choice lines (the person's pick on a
+summary card or an `ask_decision` card) keep hashes of the picked steps and the numbers of a typed answer, and a
+decision card line keeps its options' label hashes and queue numbers, which is enough for `choice:<id>=<step>` to be
+checked. `[journal] text = true` in `buddie.toml` (or `BUDDIE_JOURNAL_TEXT=1`) also keeps
+those sentences and answers. `BUDDIE_LOG=0` turns the journal off; lessons at `SessionStart` then have nothing to sum.
 
 ## Scope and limits
 
 - It checks that words exist in the source, not that they **support** the claim around them. A real quote attached to
   the wrong date or event still passes.
-- Unquoted paraphrase is not checked. Numbers have a module (`verbatim/numbers.py`, E009) that the receipt does not use
-  yet.
+- Unquoted paraphrase is not checked. Numbers are checked only in a sentence with a link, and a missing one is a gap by
+  default (out of sample 6 of 139 checkable numbers were false `NOT_FOUND`).
 - Pages change: a verdict holds for the snapshot hash and time it names. `pr:` and `ci:` judge the state now; write
   `merged@SHA` and `ci:` on a SHA for history.
 - `run:` trusts the transcript, which the harness writes on the same machine as the agent. Its format (Claude Code
   jsonl) is undocumented; other agents are not supported. A command that prints a prepared file passes: the anchor says
   "the command answered this", not "the test passed".
-- Work-claim and final-answer rules match Russian and English phrasing; the default final-answer marker is Russian
-  because that is where the hook was run.
+- Work-claim and final-answer rules match Russian and English phrasing. By default the final answer is the last
+  message at `Stop`; set `BUDDIE_FINAL` or `final_mark` to mark it in replies sent earlier.
+- The gates cost turns: in the E016 pilot (12 tasks with traps per configuration) a session took 6.1 turns on average
+  without buddie and 15.1 and 12.6 with the 0.4 and 0.5 gates. That pilot did not measure the main effect: there were
+  no false "done" claims in any configuration, traps were too easy. Whether buddie makes agents misstate less is not
+  yet measured.
 
 ## Reproduce
 
 ```bash
-pip install -e . pytest && pytest      # 135 self-contained tests; 19 more need third-party snapshots or the lab repo and skip
+pip install -e . pytest && pytest      # 233 self-contained tests; 28 more need third-party snapshots or the lab repo and skip
 python results/E008-drb2-fresh/compare.py   # scripts are kept as they ran; paths assume the lab layout, see results/README.md
 ```
 
@@ -200,7 +293,8 @@ providers' terms) are published as ids, labels, verdicts and hashes only. See [N
 
 ## Status
 
-buddie 0.3 with verbatim 0.3.3, research software. Next: current Claude models with web search and as coding
+buddie 0.8.2 with verbatim 0.3.7, research preview: it checks claims about quotes, numbers, PRs, CI and runs
+against primary data; its effect on agent behaviour is still being measured. Next: current Claude models with web search and as coding
 sub-agents, measured on how often their reports misstate sources, tests or merges; and an intervention study, where the
 agent runs buddie before it reports and we check whether false claims drop or the agent shifts to unverifiable wording.
 
