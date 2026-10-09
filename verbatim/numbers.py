@@ -15,6 +15,10 @@ words of the sentence stand near the best occurrence. Verdicts:
   FOUND_ROUNDED     a page number that rounds to the claim at its precision (or within 5 % after "about", "nearly")
   NO_CONTEXT        the value is on the page, but no content word of the sentence within WINDOW characters
                     (a year: no word of its own clause within YEAR_WINDOW characters)
+  UNCERTAIN         not on the page, but the miss may not be the report's fault ("doubts" says why, as for quotes):
+                    abstract_only - the page is the paper's abstract (arXiv /abs/, OpenAlex), not the paper
+                    rewritten     - a market report whose page now forecasts a later period than the sentence
+                                    (2026-2034 against the sentence's 2025-2033): the agent read an earlier edition
   NOT_FOUND         the value is not on the page in any of these forms
 """
 from __future__ import annotations
@@ -29,7 +33,16 @@ MONTHS["sept"] = 9
 MON = r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?"
 SCALES = {"thousand": 1e3, "k": 1e3, "million": 1e6, "mn": 1e6, "mln": 1e6, "m": 1e6, "billion": 1e9, "bn": 1e9,
           "b": 1e9, "trillion": 1e12, "tn": 1e12, "t": 1e12, "crore": 1e7, "lakh": 1e5}
-SCALE = r"(?:thousand|million|billion|trillion|crore|lakh|mn|mln|bn|tn|k|m|b|t)\b"
+# Russian scale words after a number ("$35.0 млн" is "$35.0 million", E016 de7a5d): abbreviations and full words
+RU_SCALES = (("тыс", 1e3), ("млрд", 1e9), ("млн", 1e6), ("трлн", 1e12), ("миллиард", 1e9), ("миллион", 1e6),
+             ("триллион", 1e12))
+SCALE = (r"(?:thousand|million|billion|trillion|crore|lakh|mn|mln|bn|tn|k|m|b|t|тыс|млрд|млн|трлн|"
+         r"тысяч[аиуе]?|миллиард(?:а|ов|ы)?|миллион(?:а|ов|ы)?|триллион(?:а|ов|ы)?)\b")
+
+
+def scale_of(word: str) -> float:
+    w = word.lower()
+    return SCALES.get(w) or next(mult for stem, mult in RU_SCALES if w.startswith(stem))
 CURRENCY = r"(?:US\$|USD|EUR|GBP|JPY|CNY|RMB|A\$|C\$|HK\$|[$€£¥₹₩])"
 UNIT = (r"(?:%|percent\b|per cent\b|pct\b|percentage points?\b|bps?\b|basis points?\b|yen\b|dollars?\b|euros?\b|"
         r"yuan\b|rupees?\b|pounds?\b|won\b|km\b|kg\b|tons?\b|tonnes?\b|mt\b|gw\b|mw\b|kw\b|twh\b|gwh\b|mwh\b|kwh\b|"
@@ -42,6 +55,9 @@ DATE_MDY = re.compile(rf"\b({MON})\s+(\d{{1,2}})(?:st|nd|rd|th)?,?\s+((?:19|20)\
 DATE_DMY = re.compile(rf"\b(\d{{1,2}})(?:st|nd|rd|th)?\s+(?:of\s+)?({MON}),?\s+((?:19|20)\d\d)\b", re.I)
 DATE_ISO = re.compile(r"\b((?:19|20)\d\d)-(\d\d)-(\d\d)\b")
 DATE_MY = re.compile(rf"\b({MON})\s+((?:19|20)\d\d)\b", re.I)
+# PubMed's citation line ("J Clin Med. 2024 Jan 5;13(2):304", E015 N036) and numeric dates ("10/09/2018", N044)
+DATE_YMD = re.compile(rf"\b((?:19|20)\d\d)\s+({MON})\s+(\d{{1,2}})\b(?![\d,.]\d)", re.I)
+DATE_NUM = re.compile(r"(?<![\d/.])(\d{1,2})/(\d{1,2})/((?:19|20)\d\d)\b(?!/)")
 YEAR = re.compile(r"(?<![\d.,$€£¥/-])((?:19|20)\d\d)(?![\d%]|,\d|\.\d)(?!\s*(?:%|percent|million|billion|trillion))")
 VALUE = re.compile(rf"(?P<cur>{CURRENCY}\s?)?(?<![\w.,])(?P<num>{NUM})(?![\d])(?:\s?(?P<scale>{SCALE}))?"
                    rf"(?:\s?(?P<unit>{UNIT}))?", re.I)
@@ -53,6 +69,15 @@ also more most such only other some what when where will would could should afte
 each very much many both being said says according report reported data year years percent million billion trillion
 around approximately nearly roughly total average estimated estimate number share rate level since until within""".split())
 WINDOW = 300
+# A part of a sentence that says the number is not on the page names the year it is missing for ("за 2023 год на
+# странице её нет", E016 de7a5d): that year is not a claim of the page, and looking for it only finds a false NOT_FOUND
+ABSENT = re.compile(r"на странице\s+(?:\w+\s+){0,2}нет\b|\bнет на странице|\b(?:числа|данных|цифры|значения|выручки)\s+"
+                    r"(?:\w+\s+){0,4}нет\b|\bне (?:указан|приведен|приведён|найден|упомянут|упомина|встречает)\w*|"
+                    r"\b(?:нет|ноль) совпадений|"
+                    r"\bnot (?:on|in|given on|stated on|found on|found in|reported on) the (?:page|source)\b|"
+                    r"\b(?:page|source) (?:does not|doesn't) (?:give|state|report|mention|show|list|contain|include)\b|"
+                    r"\bno (?:figure|number|value|data) (?:for|on)\b", re.I)
+CLAUSE_END = re.compile(r"[.!?;](?=\s|$)|\n|`")
 # A year is on almost every page (footers, archives, reference lists), and the sentence's words are usually somewhere
 # within 300 characters too: E009 called 9 of 15 wrong years found that way. A year counts as found only with a word of
 # its own clause (YEAR_CLAUSE characters around it in the sentence) within YEAR_WINDOW characters on the page.
@@ -83,14 +108,52 @@ def _month(s: str) -> int:
     return MONTHS[s.lower().rstrip(".")[:4] if s.lower().startswith("sept") else s.lower().rstrip(".")[:3]]
 
 
+# Evidence about the report's own work is not a claim of the page (E016, NEXT №99): a `run:` anchor holds a command
+# and its output (`grep -c "2023" => 0` searches for the year the report says is missing), and the time a snapshot
+# was taken ("sha256 a9c616f7…, 2026-10-03T17:21:26Z") is the year of the run, not of the page
+RUN_ANCHOR = re.compile(r"`\s*run:[^`\n]*`?|⚓\s*run:[^`\n]*")
+STAMP = re.compile(r"\b(?:19|20)\d\d-\d\d-\d\d[T ]\d\d:\d\d(?::\d\d(?:\.\d+)?)?(?:Z|[+-]\d\d:?\d\d|\s?UTC)?")
+SNAPSHOT = re.compile(r"sha256|снимок|снимка|снимке|снят|копи[юяи]|сохранил|snapshot|captured|fetched|retrieved|"
+                      r"saved|archived|downloaded", re.I)
+SNAPSHOT_WINDOW = 120
+
+
+def _blank(text: str, pattern: re.Pattern, keep=lambda m: False) -> str:
+    return pattern.sub(lambda m: m.group(0) if keep(m) else " " * len(m.group(0)), text)
+
+
 def blank_markup(text: str) -> str:
-    """Citation markup replaced by spaces of the same length, so offsets stay valid."""
-    return MARKUP.sub(lambda m: " " * len(m.group(0)), text.replace("\\$", " $").replace("\\.", " .").replace("\\-", " -"))
+    """Citation markup, `run:` anchors and snapshot timestamps replaced by spaces of the same length, so offsets stay
+    valid."""
+    text = MARKUP.sub(lambda m: " " * len(m.group(0)), text.replace("\\$", " $").replace("\\.", " .").replace("\\-", " -"))
+    text = _blank(text, RUN_ANCHOR)
+    return _blank(text, STAMP, lambda m: not SNAPSHOT.search(text, max(0, m.start() - SNAPSHOT_WINDOW), m.start()))
+
+
+# thousands grouped by a (thin) space, "94 239" (PMC, E015 N095): text layers collapse U+2009 into a plain space, so
+# on a page a run of 3-digit groups is read both ways, as one number and as separate cells. Five digits or more:
+# "Table 3 100" is more often two numbers than 3,100
+SPACED_GROUPS = re.compile(r"(?<![\w.,])\d{1,3}(?: \d{3})+(?!\d|[.,]\d)")
 
 
 def mentions(sentence: str, *, page: bool = False) -> list[Mention]:
     """Numbers a reader would check. page=True: every number, with small bare integers too (they can be a table
     cell that holds the claim's value), and no markup blanking."""
+    if page:
+        grouped = SPACED_GROUPS.sub(lambda m: m.group(0).replace(" ", ",") if len(m.group(0)) >= 6 else m.group(0),
+                                    sentence)
+        if grouped != sentence:
+            out = _mentions(sentence, True)
+            seen = {(m.start, m.end) for m in out}
+            for m in _mentions(grouped, True):
+                if (m.start, m.end) not in seen and " " in sentence[m.start:m.end].strip() and "," in m.text:
+                    m.text = sentence[m.start:m.end].strip()
+                    out.append(m)
+            return sorted(out, key=lambda x: x.start)
+    return _mentions(sentence, page)
+
+
+def _mentions(sentence: str, page: bool) -> list[Mention]:
     text = sentence if page else blank_markup(sentence)
     out: list[Mention] = []
     taken: list[tuple[int, int]] = []
@@ -102,15 +165,23 @@ def mentions(sentence: str, *, page: bool = False) -> list[Mention]:
         out.append(m)
         taken.append((m.start, m.end))
 
-    for rx, order in ((DATE_MDY, "mdy"), (DATE_DMY, "dmy"), (DATE_ISO, "iso")):
+    for rx, order in ((DATE_MDY, "mdy"), (DATE_DMY, "dmy"), (DATE_ISO, "iso"), (DATE_YMD, "ymd"), (DATE_NUM, "num")):
         for m in rx.finditer(text):
             if not free(m.start(), m.end()):
                 continue
             g = m.groups()
             y, mo, d = ((int(g[2]), _month(g[0]), int(g[1])) if order == "mdy" else
-                        (int(g[2]), _month(g[1]), int(g[0])) if order == "dmy" else (int(g[0]), int(g[1]), int(g[2])))
+                        (int(g[2]), _month(g[1]), int(g[0])) if order == "dmy" else
+                        (int(g[0]), _month(g[1]), int(g[2])) if order == "ymd" else
+                        (int(g[2]), int(g[0]), int(g[1])) if order == "num" else (int(g[0]), int(g[1]), int(g[2])))
+            extra = {}
+            if order == "num":  # 10/09/2018: October 9 in the US, 10 September elsewhere; either reading may be meant
+                if mo > 12:
+                    mo, d = d, mo
+                elif d <= 12 and d != mo:
+                    extra["alt"] = (y, d, mo)
             if 1 <= mo <= 12 and 1 <= d <= 31:
-                add(Mention(m.group(0), m.start(), m.end(), "date", (y, mo, d)))
+                add(Mention(m.group(0), m.start(), m.end(), "date", (y, mo, d), extra=extra))
     for m in DATE_MY.finditer(text):
         if free(m.start(), m.end()):
             add(Mention(m.group(0), m.start(), m.end(), "month", (int(m.group(2)), _month(m.group(1)))))
@@ -129,7 +200,9 @@ def mentions(sentence: str, *, page: bool = False) -> list[Mention]:
         values.append([m.start(), end, num, scale, unit, cur])
     for i, v in enumerate(values):
         # a range ("40-45 cm", "4%-15%", "$1-2 billion"): the first number takes the second one's unit and scale
-        if not (v[3] or v[4]) and i + 1 < len(values) and re.fullmatch(r"\s?(?:-|–|—|to)\s?", text[v[1]:values[i + 1][0]]):
+        # A larger first number is not a range start: "from 12.3 million in 2020 to 16.2 million" (E015 N055)
+        if not (v[3] or v[4]) and i + 1 < len(values) and re.fullmatch(r"\s?(?:-|–|—|to)\s?", text[v[1]:values[i + 1][0]]) \
+                and float(v[2].replace(",", "")) <= float(values[i + 1][2].replace(",", "")):
             nxt = values[i + 1]
             v[3], v[4], v[5] = nxt[3], nxt[4], v[5] or nxt[5]
             v.append("range")
@@ -149,13 +222,27 @@ def mentions(sentence: str, *, page: bool = False) -> list[Mention]:
         if not page and small and (not unit or re.match(r"years?|people|users?|households?|units?|vehicles?|jobs?|"
                                                         r"patients?|times", unit, re.I) and value < 100):
             continue  # bare small integer, or "5 years", "12 people": too common to identify a passage
-        mult = SCALES[scale.lower()] if scale else 1.0
+        mult = scale_of(scale) if scale else 1.0
         before = text[max(0, a - 25):a]
         add(Mention(text[a:b].strip(), a, b, kind, value * mult, digits,
                     len(digits.split(".")[1]) if "." in digits else 0, bool(APPROX.search(before)), mult,
                     {"unit": unit, "currency": (cur or "").strip(), "scale_word": scale, "range": len(v) > 6}))
     out.sort(key=lambda x: x.start)
+    if not page and ABSENT.search(text):
+        out = [m for m in out if m.kind != "year" or not _named_missing(text, m.start)]
     return out
+
+
+def _named_missing(text: str, at: int) -> bool:
+    """The year at `at` names what an ABSENT phrase of its clause says is missing: it stands before the phrase
+    ("за 2023 год на странице её нет") or right after it, before a comma ("the page gives no figure for 2023"), but
+    not in what follows ("нет, есть только перепись 2010")."""
+    a = max([0] + [m.end() for m in CLAUSE_END.finditer(text, 0, at)])
+    b = next((m.end() for m in CLAUSE_END.finditer(text, at)), len(text))
+    for m in ABSENT.finditer(text, a, b):
+        if at < m.start() or not re.search(r"[,:;(—–]", text[m.end():at]):
+            return True
+    return False
 
 
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]{3,}")
@@ -170,16 +257,72 @@ def normalize_page(text: str) -> str:
             .replace("–", "-").replace("’", "'"))
 
 
-class NumberPage:
-    """A page's numbers, parsed once."""
+# a table that declares its unit once: "Population aged 80+ (thousands) ... 2020: 12,347" is the 12.3 million of the
+# sentence (E015 N055, UN ESCAP data sheet). Numbers without a unit of their own after such a declaration are read
+# also at that scale
+DECLARED = re.compile(r"\((?:in )?(thousands?|millions?|billions?)\)|\bin (thousands|millions|billions)\b|"
+                      r"\((?:in )?'?(000)s?'?\)|\('(000)\)", re.I)
+DECLARED_SCALE = {"thousand": 1e3, "000": 1e3, "million": 1e6, "billion": 1e9}
+DECLARED_WINDOW = 1500
 
-    def __init__(self, text: str) -> None:
+
+# a market report's forecast period ("Forecast Period 2026-2034", "forecast period (2026–2033)", "Forecasts, 2026-2034"):
+# these pages are rewritten every year, figures and horizon together (E015 N032, E009 S038)
+FORECAST_PERIOD = re.compile(r"\bforecasts?\b(?: period| years?)?[^.\d]{0,20}?\(?((?:19|20)\d\d)\s?(?:-|to)\s?((?:19|20)\d\d)\b",
+                             re.I)
+# a sentence that states a forecast or growth rate of an edition: its years are that edition's horizon
+FORECAST_CLAIM = re.compile(r"\b(?:CAGR|compound annual growth|forecast\w*|projected|expected to (?:reach|grow|hit)|"
+                            r"anticipated to (?:reach|grow))\b", re.I)
+# a paper's abstract page, not the paper: numbers of the body are not there (E015 N061)
+ABSTRACT_PAGE = re.compile(r"https?://(?:www\.|export\.)?arxiv\.org/abs/", re.I)
+
+
+def page_doubts(entry: dict, url: str | None = None) -> list[str]:
+    """Doubts a snapshot casts on every miss on it: an OpenAlex abstract (access.py) or an arXiv /abs/ page."""
+    if entry.get("abstract_only") or url and ABSTRACT_PAGE.match(url) and not entry.get("provenance") in ("copy", "relay"):
+        return ["abstract_only"]
+    return []
+
+
+class NumberPage:
+    """A page's numbers, parsed once. doubts: what the snapshot itself casts on a miss (page_doubts)."""
+
+    def __init__(self, text: str, doubts: list[str] | tuple = ()) -> None:
+        self.doubts = list(doubts)
         self.text = normalize_page(text)
         self.lower = self.text.lower()
         self.numbers = mentions(self.text, page=True)
+        declared = [(d.end(), DECLARED_SCALE[next(g for g in d.groups() if g).lower().rstrip("s")])
+                    for d in DECLARED.finditer(self.text)]
+        if declared:
+            scaled = []
+            for m in self.numbers:
+                if m.kind not in ("value", "money") or m.scale != 1.0 or m.extra.get("unit"):
+                    continue
+                at = [mult for end, mult in declared if 0 <= m.start - end <= DECLARED_WINDOW]
+                if at:
+                    scaled.append(Mention(m.text, m.start, m.end, m.kind, m.value * at[-1], m.digits, m.decimals,
+                                          m.approx, at[-1], dict(m.extra, declared=True)))
+            self.numbers = sorted(self.numbers + scaled, key=lambda x: x.start)
         self.by_kind: dict[str, list[Mention]] = {}
         for m in self.numbers:
             self.by_kind.setdefault(m.kind, []).append(m)
+        periods = [(int(a), int(b)) for a, b in FORECAST_PERIOD.findall(self.text) if 0 < int(b) - int(a) <= 20]
+        self.horizon = max(periods, key=lambda p: (p[1], p[0])) if periods else None  # the latest period declared
+
+    def rewritten(self, sentence: str) -> bool:
+        """The sentence states a forecast of an earlier edition of this page: its end year ("by 2033", the later year
+        of two) is before the page's forecast end, or its only year (the base: "valued at $266 million in 2023") is
+        before the page's base year, the year before its forecast starts."""
+        if not self.horizon or not FORECAST_CLAIM.search(sentence):
+            return False
+        ys = [m for m in mentions(sentence) if m.kind == "year"]
+        if not ys:
+            return False
+        last = max(ys, key=lambda m: m.value)
+        if len({m.value for m in ys}) > 1 or re.search(r"\bby\s*$", blank_markup(sentence)[:last.start]):
+            return last.value < self.horizon[1]
+        return last.value < self.horizon[0] - 1
 
     def near(self, start: int, end: int, words: set[str], window: int = WINDOW) -> int:
         span = self.lower[max(0, start - window):end + window]
@@ -189,7 +332,9 @@ class NumberPage:
         hits: list[tuple[str, Mention]] = []
         if claim.kind in ("date", "month"):
             for m in self.by_kind.get("date", []) + self.by_kind.get("month", []):
-                if m.value == claim.value or (claim.kind == "month" and m.kind == "date" and m.value[:2] == claim.value):
+                readings = [m.value] + ([m.extra["alt"]] if m.extra.get("alt") else [])
+                if claim.value in readings or (claim.kind == "month" and m.kind == "date"
+                                               and claim.value in [r[:2] for r in readings]):
                     hits.append(("FOUND" if m.text.lower() == claim.text.lower() else "FOUND_NORMALIZED", m))
         elif claim.kind == "year":
             for m in self.numbers:
@@ -242,6 +387,7 @@ def check_sentence(sentence: str, page_text: str | None, page: NumberPage | None
     if page is None and page_text is not None:
         page = NumberPage(page_text)
     blanked = blank_markup(sentence)
+    doubts = page.doubts + (["rewritten"] if page.rewritten(sentence) else []) if page is not None else []
     out = []
     for m in mentions(sentence):
         if page is None:
@@ -251,6 +397,8 @@ def check_sentence(sentence: str, page_text: str | None, page: NumberPage | None
             found = page.locate(m, clause, YEAR_WINDOW)
         else:
             found = page.locate(m, words)
+        if found["verdict"] == "NOT_FOUND" and doubts:
+            found = dict(found, verdict="UNCERTAIN", doubts=doubts)
         out.append({**m.as_dict(), **found})
     return out
 
@@ -343,7 +491,7 @@ def cited_sentences(article: str, bare_notes: bool | None = None) -> list[dict]:
     return out
 
 
-RANK = ["FOUND", "FOUND_NORMALIZED", "FOUND_ROUNDED", "NO_CONTEXT", "NOT_FOUND", "SOURCE_UNAVAILABLE"]
+RANK = ["FOUND", "FOUND_NORMALIZED", "FOUND_ROUNDED", "NO_CONTEXT", "UNCERTAIN", "NOT_FOUND", "SOURCE_UNAVAILABLE"]
 
 
 def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
@@ -364,7 +512,7 @@ def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
             for e in entries:
                 got = readable(store, e, url)
                 if not isinstance(got, dict):
-                    pages[url].append((e, NumberPage(got[1].visible)))
+                    pages[url].append((e, NumberPage(got[1].visible, page_doubts(e, url))))
         return pages[url]
 
     rows, starts = [], [0] + [i + 1 for i, ch in enumerate(markdown) if ch == "\n"]

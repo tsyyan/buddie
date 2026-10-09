@@ -8,7 +8,9 @@ An orchestrator that starts the next step by itself rests on three claims, and e
                                                  `auto` only when it continues a finished parent of the same accepted
                                                  plan (the rule of lab's tools/chain.py, here driven by config)
   consent   «пользователь согласился …»          the line quotes the user («…») with a date, and the quote is in a
-                                                 message of the user's exported messages at that time
+                                                 message of the user's exported messages at that time; or it carries
+                                                 ⚓ choice:<id>=<step>, the person's pick on a summary card, which
+                                                 the hook wrote to its journal (summary.py)
 
 Plus the final answer's «Следующий шаг:» line: it names its queue row (№N), whose verdict is reported.
 
@@ -25,7 +27,7 @@ import json
 import re
 import subprocess
 import tomllib
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from buddie import anchors as anc
@@ -38,6 +40,7 @@ DEFAULTS = {
     "queue": "NEXT.md", "accepted": "ACCEPTED.md", "columns": {"n": 0, "text": 1, "basis": 3, "status": 4},
     "width": 5, "done": "выполнено", "proposed": "предложено", "fix": "fix", "none": "—",
     "parent": r"\s*←\s*№(?P<parent>\d+)$", "max_fix_chain": 2, "ask_words": r"(?!)", "refs": [],
+    "wait_words": r"(?!)", "wait_until": ";", "wait_not_before": r"(?!)", "wait_delay": r"(?!)", "wait_units": {},
     "messages": None, "messages_complete": False, "time_slack_minutes": 10, "final_mark": "Следующий шаг:",
 }
 
@@ -46,7 +49,8 @@ NOT = r"(?<!не )(?<!not )(?<!ещё не )"
 DONE = re.compile(NOT + r"\b(выполнен[аоы]?|сделан[аоы]?|завершён|завершен[аоы]?|done|completed|finished)\b", re.I)
 AUTO = re.compile(r"(вердикт\w*|verdict)\W{0,4}`?(auto|ask)\b(?!/)`?", re.I)
 CONSENT = re.compile(r"(пользовател\w*|user)\W+(\w+\W+){0,2}?(согласил\w*|принял\w*|одобрил\w*|разрешил\w*|решил\w*|"
-                     r"approved|agreed|accepted|authori[sz]ed)\b|(согласи\w+|слов\w*|решени\w*|разрешени\w*)\s+"
+                     r"выбрал\w*|approved|agreed|accepted|authori[sz]ed|picked|chose)\b|(?<!\w)по\s+выбору\s+пользовател\w*|"
+                     r"choice:|(согласи\w+|слов\w*|решени\w*|разрешени\w*)\s+"
                      r"пользовател\w*|(одобрен\w*|принят\w*|разрешен\w*)\s+пользователем", re.I)
 QUOTE = re.compile(r"«([^«»]{8,})»|“([^“”]{8,})”")
 WHEN = re.compile(r"(?P<date>\d{4}-\d{2}-\d{2})(?:[ T](?P<time>\d{2}:\d{2})(?::\d{2})?\s*(?:UTC|Z)?)?")
@@ -179,7 +183,7 @@ def plan_of(cfg: dict, table: dict, n: int, seen: frozenset = frozenset()) -> di
     return None if b["kind"] == "none" else b
 
 
-def verdict(cfg: dict, table: dict, scopes: list[dict], n: int) -> dict:
+def verdict(cfg: dict, table: dict, scopes: list[dict], n: int, start: str | None = None, now: str | None = None) -> dict:
     r, why = table[n], []
     b = parse(cfg, r["basis"])
     if not r["status"].startswith(cfg["proposed"]):
@@ -211,7 +215,42 @@ def verdict(cfg: dict, table: dict, scopes: list[dict], n: int) -> dict:
         why.append(f"{chain} fixes in a row (more than {cfg['max_fix_chain']})")
     if re.search(cfg["ask_words"], r["text"], re.I):
         why.append("names an outward or irreversible action")
+    if cond := waits(cfg, r, start, now):
+        why.append(f"waits for a condition: {cond}")
     return {"n": n, "verdict": "ask" if why else "auto", "reasons": why}
+
+
+def _utc(value: str) -> datetime:
+    return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def conditions(cfg: dict, row: dict, start: str | None = None) -> list[tuple[str, datetime | None]]:
+    """The `wait_words` phrases of the row's text before the first `wait_until`, each with the moment it comes due:
+    `wait_not_before` (groups date, time) matched at the phrase is that moment; `wait_delay`
+    (groups k, unit; unit's prefix in `wait_units` gives hours) matched at the phrase is due that long after `start`, when main got the row;
+    any other phrase (a data condition) has no moment."""
+    head, out = row["text"].split(cfg.get("wait_until", ";"), 1)[0], []
+    units = cfg.get("wait_units", {})
+    for m in re.finditer(cfg.get("wait_words", r"(?!)"), head, re.I):
+        due = None
+        if nb := re.compile(cfg.get("wait_not_before", r"(?!)"), re.I).match(head, m.start()):
+            due = _utc(f"{nb['date']}T{nb['time'] or '00:00'}:00+00:00")
+        elif (d := re.compile(cfg.get("wait_delay", r"(?!)"), re.I).match(head, m.start())) and start:
+            hours = next((h for u, h in units.items() if d["unit"].lower().startswith(u)), None)
+            due = None if hours is None else _utc(start) + timedelta(hours=int(d["k"] or 1) * hours)
+        out.append((m.group(0), due))
+    return out
+
+
+def waits(cfg: dict, row: dict, start: str | None = None, now: str | None = None) -> str | None:
+    """Why a row waits: «status» when its status names `waiting`, else the `wait_words` phrase in its text before the
+    first `wait_until` (a step that cannot start yet is never `auto`). With `now` a time condition stops holding once
+    it is due, and a `waiting` status is lifted when the text names only time conditions, all due (lab NEXT №76)."""
+    conds = conditions(cfg, row, start)
+    pending = [p for p, d in conds if now is None or d is None or d > _utc(now)]
+    if cfg.get("waiting") and cfg["waiting"] in row["status"]:
+        return "status" if now is None or not conds or pending else None
+    return pending[0] if pending else None
 
 
 class Mandate:
@@ -227,8 +266,43 @@ class Mandate:
         self.msgs = messages(cfg)
         self.repos = [Path(cfg["repo"])]
 
-    def verdict(self, n: int) -> dict:
-        return verdict(self.cfg, self.table, self.scopes, n)
+    def verdict(self, n: int, start: str | None = None, now: str | None = None) -> dict:
+        return verdict(self.cfg, self.table, self.scopes, n, start, now)
+
+    def appeared(self, n: int) -> str | None:
+        """When row n's text as of `rev` reached the queue's first-parent history (UTC ISO): the delay of a time
+        condition counts from it, as in lab's chain.py `_appeared`. None when the row is not there, the text differs
+        from the commit's (an uncommitted edit), or the walk hits the bottom of a shallow clone (unknown)."""
+        if not hasattr(self, "_appeared"):
+            self._appeared, self._history = {}, {}
+        if n in self._appeared:
+            return self._appeared[n]
+        repo, col, found = str(self.cfg["repo"]), self.cfg["columns"]["text"], None
+        text = self.table[n]["cells"][col] if n in self.table else None
+        git = lambda *a: subprocess.run(["git", "-C", repo, *a], capture_output=True, text=True)
+        log = git("log", "--first-parent", "--format=%H %cI", self.rev or "HEAD", "--", self.cfg["queue"])
+        commits = [line.split() for line in log.stdout.splitlines()] if not log.returncode else []
+        for sha, time in commits:
+            if sha not in self._history:
+                try:
+                    self._history[sha] = rows(self.cfg, read(self.cfg, self.cfg["queue"], sha))
+                except FileNotFoundError:
+                    self._history[sha] = {}
+            cells = self._history[sha].get(n, {}).get("cells")
+            if text is None or cells is None or len(cells) <= col or cells[col] != text:
+                break
+            found = _utc(time).strftime("%Y-%m-%dT%H:%M:%SZ")
+        else:
+            if found and git("rev-parse", "--is-shallow-repository").stdout.strip() == "true":
+                found = None  # the text was already there at the bottom of the history this clone has
+        self._appeared[n] = found
+        return found
+
+    def verdict_now(self, n: int, now: str | None = None) -> dict:
+        """The verdict at the moment `now` (default: the clock), a time condition counted from `appeared` (lab NEXT
+        №83: the launch gate and the summary gave `ask` «waits for a condition» to a row chain.py already let go)."""
+        now = now or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        return self.verdict(n, self.appeared(n), now)
 
     # each check returns a claim row: {kind, row?, status, why?}
 
@@ -260,6 +334,12 @@ class Mandate:
 
     def consent(self, line: str) -> dict:
         out = {"kind": "consent"}
+        if picks := [a for a in anc.ANCHOR.findall(line) if a.startswith("choice:")]:
+            # the person's pick on a summary card, written to the journal by the hook (summary.py): no quote needed
+            checked = [anc.check_one(a, self.repos, {}) for a in picks]
+            worst = next((st for st in (BROKEN, UNCHECKABLE) if any(c["status"] == st for c in checked)), HOLDS)
+            why = "; ".join(f"⚓ {c['anchor']}: {c['why']}" for c in checked if c.get("why"))
+            return dict(out, choice=picks, status=worst, **({"why": why} if why else {}))
         quotes = [a or b for a, b in QUOTE.findall(line)]
         when = WHEN.search(line)
         if not quotes:
@@ -334,18 +414,40 @@ def _sentence(line: str, pos: int) -> tuple[int, int]:
     return (starts[-1] if starts else 0), (pos + end.start() if end else len(line))
 
 
+def _missing_rev(cfg: dict, rev: str, err: Exception) -> dict:
+    """BROKEN when the repo has its full history and still no such commit; UNCHECKABLE in a shallow clone, where the
+    commit may lie below the cut (as anchors.py says of `path@commit`)."""
+    shallow = subprocess.run(["git", "-C", str(cfg["repo"]), "rev-parse", "--is-shallow-repository"],
+                             capture_output=True, text=True).stdout.strip() == "true"
+    if shallow:
+        return {"status": UNCHECKABLE, "why": f"no commit {rev} in this shallow clone of {cfg['repo']} (fetch the history)"}
+    why = str(err).split(": ", 1)[-1] if ": " in str(err) else str(err)
+    return {"status": BROKEN, "why": f"no commit {rev} with {cfg['queue']} in {cfg['repo']} ({why})"}
+
+
 def check_text(text: str, cfg: dict, rev: str | None = None) -> list[dict]:
     """Every claim about the course of work in `text`, judged against the queue as of `rev`."""
     states = {}
 
     def at(r):
         if r not in states:
-            states[r] = Mandate(cfg, r)
+            try:
+                states[r] = Mandate(cfg, r)
+            except FileNotFoundError as e:
+                if r == rev:
+                    raise                                  # the caller's own --rev: a usage error, not a claim
+                states[r] = e
         return states[r]
 
     out = []
     for number, line in enumerate(text.splitlines(), 1):
-        m, found = at(_line_rev(line, cfg) or rev), []
+        line_rev = _line_rev(line, cfg)
+        m, found = at(line_rev or rev), []
+        if isinstance(m, FileNotFoundError):
+            # `⚓ NEXT.md@<commit>` with no such commit (NEXT №105): the line's claims cannot be judged at it
+            out.append({"kind": "queue", "anchor": f"{cfg['queue']}@{line_rev}", **_missing_rev(cfg, line_rev, m),
+                        "line": number, "text": line.strip()[:160], "rev": line_rev})
+            continue
         if cfg["final_mark"] and cfg["final_mark"] in line:
             found.append(m.next_step(line))
         if v := AUTO.search(line):

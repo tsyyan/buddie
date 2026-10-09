@@ -1,0 +1,1 @@
+{"session_id": "smoke-stop", "transcript_path": "{transcript}", "cwd": "{cwd}", "permission_mode": "default", "effort": {"level": "medium"}, "hook_event_name": "Stop", "stop_hook_active": false, "background_tasks": [], "session_crons": []}

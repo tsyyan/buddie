@@ -70,7 +70,12 @@ class Store:
             self.snapshots.mkdir(parents=True, exist_ok=True)
             tmp = path.with_suffix(f".{os.getpid()}.{threading.get_ident()}.tmp")  # same bytes from two threads
             tmp.write_bytes(data)
-            tmp.replace(path)
+            try:
+                tmp.replace(path)
+            except PermissionError:  # Windows: another thread is replacing the same snapshot right now
+                if not path.exists():
+                    raise
+                tmp.unlink(missing_ok=True)
         return sha
 
     def record(self, url: str, entry: dict) -> dict:
