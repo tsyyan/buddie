@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 def main(root: Path) -> int:
+    root = root.resolve()
     manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     msgs = [{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-06-18"}},
             {"jsonrpc": "2.0", "id": 2, "method": "tools/list"}]
@@ -22,6 +23,8 @@ def main(root: Path) -> int:
                              timeout=60, env={"VERBATIM_STORE": str(Path(cwd) / "store"), "PATH": "",
                                               "SYSTEMROOT": __import__("os").environ.get("SYSTEMROOT", "")})
     replies = [json.loads(line) for line in out.stdout.splitlines()]
+    if len(replies) < 2:
+        sys.exit(f"the bundled server did not answer (exit {out.returncode}):\n{out.stderr[-2000:]}")
     info = replies[0]["result"]["serverInfo"]
     tools = [t["name"] for t in replies[1]["result"]["tools"]]
     assert info["version"] == manifest["version"], (info, manifest["version"])
