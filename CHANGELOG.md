@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Numbers in Russian sentences get their context: Russian words count, cut to a stem so case endings still match
+  («постановления» finds «постановлением»), with Russian stop words. Before, only Latin words counted and every
+  number of a Russian sentence came out `NO_CONTEXT`. English context words are unchanged.
+- Clients without the skill get the quote and anchor format in the MCP instructions and tool descriptions; `EMPTY`
+  is said not to be a pass.
 - Pages in windows-1251 and other non-UTF-8 encodings are read in their own encoding: the Content-Type charset,
   `<meta charset>` / http-equiv, the XML declaration or a byte-order mark. Before, garant.ru's text became U+FFFD,
   and a page with Cyrillic in its first 4 KB was rejected as "binary body, not text", so no quote could be found.
