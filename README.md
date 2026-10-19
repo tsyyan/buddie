@@ -9,8 +9,9 @@ checked cannot talk its way past it. Every check ends in a receipt that anyone c
 [![ci](https://github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg)](https://github.com/tsyyan/buddie/actions/workflows/ci.yml)
 · Python ≥ 3.11 · no dependencies · Apache-2.0 · Claude Code plugin, MCP server and CLI
 
-> This repository was called `verbatim` until October 2026. `verbatim` is now buddie's quote module (the `verbatim/`
-> package here); old links redirect.
+> This repository was called `verbatim` until October 2026. `verbatim` is now buddie's quote module
+> (`buddie.verbatim`, command `buddie-verbatim`; until 0.8 it was a top-level `verbatim` package and command, which
+> clashed with an unrelated `verbatim` on PyPI); old links redirect.
 
 ## Why this matters for oversight
 
@@ -41,7 +42,7 @@ let them through (0.7.1). A negated claim ("not merged yet") is not one.
 ```bash
 pip install git+https://github.com/tsyyan/buddie
 cd examples/quickstart
-verbatim add https://status.example.com/incidents/42 page.html   # or let buddie fetch the page itself
+buddie-verbatim add https://status.example.com/incidents/42 page.html   # or let buddie fetch the page itself
 buddie verify report.md --no-fetch
 ```
 
@@ -199,10 +200,10 @@ sentence, not just any link in the paragraph.
 
 | Command | Does |
 |---|---|
-| `verbatim snap URL…` | fetch and store the bytes (failures are recorded too) |
-| `verbatim text URL --grep RE` | print the visible text of a snapshot: quote from this, not from a summary |
-| `verbatim check REPORT [--fetch] [--access default]` | verdict for every quote in a Markdown or JSON report |
-| `verbatim access METHOD URL…` / `verbatim merge DIR` | run one access method, or merge another store into yours |
+| `buddie-verbatim snap URL…` | fetch and store the bytes (failures are recorded too) |
+| `buddie-verbatim text URL --grep RE` | print the visible text of a snapshot: quote from this, not from a summary |
+| `buddie-verbatim check REPORT [--fetch] [--access default]` | verdict for every quote in a Markdown or JSON report |
+| `buddie-verbatim access METHOD URL…` / `buddie-verbatim merge DIR` | run one access method, or merge another store into yours |
 
 Verdicts: `FOUND` / `FOUND_NORMALIZED`, `HIDDEN_ONLY` (only in markup the reader does not see), `FOUND_IN_COPY`,
 `UNCERTAIN`, `NOT_A_QUOTE`, `NOT_FOUND`, `SOURCE_UNAVAILABLE` / `NO_SOURCE`; see

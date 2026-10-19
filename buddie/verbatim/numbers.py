@@ -423,7 +423,7 @@ ACCESSED = re.compile(r"访问时间|檢索日期|accessed", re.I)
 
 
 def _first_url(text: str) -> str | None:
-    from verbatim.report import URL as BARE
+    from buddie.verbatim.report import URL as BARE
     m = INLINE.search(text)
     if m:
         return m.group(2)
@@ -444,7 +444,7 @@ def note_sources(article: str) -> dict[str, str]:
 def cites(sentence: str, defs: dict[str, str], bare_notes: bool = False) -> list[str]:
     """URLs a sentence cites, in order: markdown links, bare URLs, `[^n]`/`[n]` notes; with bare_notes also footnote
     digits without brackets (GLUED, SPACED)."""
-    from verbatim.report import URL as BARE
+    from buddie.verbatim.report import URL as BARE
     found = [(m.start(), m.group(2)) for m in INLINE.finditer(sentence)]
     spans = [(m.start(), m.end()) for m in INLINE.finditer(sentence)]
     for m in BARE.finditer(sentence):
@@ -500,7 +500,7 @@ def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
     verdict over the links wins, as a reader checks the sentence's sources, not one of them. fetch: download a link
     the store does not have. Rows: {"id" (L<line>.<n>), "line", "sentence", "text", "kind", "verdict", "url",
     "sha256", "match", "context", ...}."""
-    from verbatim.check import readable
+    from buddie.verbatim.check import readable
     pages: dict[str, list] = {}
 
     def read(url: str) -> list:
@@ -535,5 +535,5 @@ def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
 
 
 def _canonical(url: str) -> str:
-    from verbatim.store import canonical_url
+    from buddie.verbatim.store import canonical_url
     return canonical_url(url)

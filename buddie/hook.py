@@ -451,7 +451,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         print("Ready anchors, checked now (copy as is onto the line):", file=err)
         for item in ready:
             print(item, file=err)
-    print("Fix each item (copy the quote from the source text: buddie source_text / verbatim text; refresh the "
+    print("Fix each item (copy the quote from the source text: buddie source_text / buddie-verbatim text; refresh the "
           "anchor or add one), or keep it and add a line starting with 'buddie:' that tells the reader what is "
           "unverified and why.", file=err)
     if hard:

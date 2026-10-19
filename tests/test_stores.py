@@ -9,7 +9,7 @@ import pytest
 
 from buddie import hook
 from buddie.stores import UnionStore, session_stores
-from verbatim.store import Store
+from buddie.verbatim.store import Store
 
 from test_buddie import BAD, GOOD, PAGE, URL
 

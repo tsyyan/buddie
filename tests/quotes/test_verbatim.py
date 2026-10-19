@@ -7,11 +7,11 @@ from pathlib import Path
 
 import pytest
 
-from verbatim.check import check_claims, loose
-from verbatim.cli import main
-from verbatim.report import from_markdown
-from verbatim.store import Store
-from verbatim.textlayer import layers
+from buddie.verbatim.check import check_claims, loose
+from buddie.verbatim.cli import main
+from buddie.verbatim.report import from_markdown
+from buddie.verbatim.store import Store
+from buddie.verbatim.textlayer import layers
 
 # Regression tests read third-party page snapshots kept in the lab repository only; a standalone copy of verbatim
 # (e.g. the public repo) points VERBATIM_LAB at a lab checkout or skips them.
@@ -389,7 +389,7 @@ def test_compressed_body_without_content_encoding_is_decoded(codec):
 
 
 def test_binary_body_is_unreadable_not_text():
-    from verbatim.textlayer import Unreadable
+    from buddie.verbatim.textlayer import Unreadable
     with pytest.raises(Unreadable):
         layers(bytes(range(256)) * 20, "text/html")
 
@@ -440,7 +440,7 @@ def test_attribution_after_the_quote_or_by_its_citation(text):
 
 # --- access cascade (E007): offline, the network methods are replaced by fakes ------------------------------
 
-from verbatim import access as acc  # noqa: E402
+from buddie.verbatim import access as acc  # noqa: E402
 
 QUOTE = "a production studio in the palm of your hand"
 WITH_QUOTE = f"<html><body>{ARTICLE}<p>“You’ve got {QUOTE},” Gahan said.</p>{ARTICLE}</body></html>".encode()

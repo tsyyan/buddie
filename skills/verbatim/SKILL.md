@@ -1,6 +1,6 @@
 ---
 name: verbatim
-description: Check quotations against the bytes of their sources. Use when your result quotes web pages (quotation marks, dates or figures with a link). Snapshot the sources, quote from the snapshot text, and run verbatim check before answering.
+description: Check quotations against the bytes of their sources. Use when your result quotes web pages (quotation marks, dates or figures with a link). Snapshot the sources, quote from the snapshot text, and run buddie-verbatim check before answering.
 ---
 
 # verbatim: quote only from saved bytes
@@ -17,16 +17,16 @@ export VERBATIM_STORE=$PWD/.verbatim      # snapshot store; keep it next to your
 
 ## Workflow
 
-1. **Snapshot sources before reading.** `verbatim snap URL [URL ...]` stores the bytes under their SHA-256 with the
+1. **Snapshot sources before reading.** `buddie-verbatim snap URL [URL ...]` stores the bytes under their SHA-256 with the
    fetch time. A 403 or failed fetch is recorded too. Do not quote such a page; say "source unavailable".
-2. **Read and quote from the snapshot.** `verbatim text URL --grep 'regex'` shows the visible text around the matches,
-   and `verbatim text URL` prints the whole text. Copy quotes from there, character for character.
+2. **Read and quote from the snapshot.** `buddie-verbatim text URL --grep 'regex'` shows the visible text around the matches,
+   and `buddie-verbatim text URL` prints the whole text. Copy quotes from there, character for character.
 3. **Bind each quote to its link.** Put the quote in `“…”`, `«…»` or `"…"`, with its source right after it in the same
    sentence (`[text](url)`, a bare URL or a footnote `[^1]`). The check uses that link, not other links in the
    paragraph. Mark omissions inside a quote with `…`.
 4. **Check before answering.**
    ```bash
-   verbatim check REPORT.md --fetch --json REPORT.verbatim.json
+   buddie-verbatim check REPORT.md --fetch --json REPORT.verbatim.json
    ```
    The exit code is 1 on any `NOT_FOUND`. For each `MISS`, either copy the quote from the `closest` line (similarity
    ≥ 0.9 usually means a wrong digit or word), or drop the quotation marks and mark the sentence as a paraphrase.

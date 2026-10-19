@@ -2,28 +2,48 @@
 name = "buddie"
 version = "0.8.2"
 description = "Receipts for agent work: check what an AI agent reports (quotes, repo state, PR and CI status, command output) against primary evidence, without a model"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.11"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "tsyyan"}]
 keywords = ["ai-agents", "multi-agent", "oversight", "faithfulness", "citation-verification", "claude-code", "mcp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Quality Assurance",
+]
 dependencies = []
 
 [project.urls]
+Homepage = "https://github.com/tsyyan/buddie"
 Repository = "https://github.com/tsyyan/buddie"
+Issues = "https://github.com/tsyyan/buddie/issues"
+Changelog = "https://github.com/tsyyan/buddie/blob/main/CHANGELOG.md"
+Privacy = "https://github.com/tsyyan/buddie/blob/main/PRIVACY.md"
 
 [project.optional-dependencies]
-browser = ["playwright"]  # verbatim --access browser: render JavaScript pages (verbatim/access.py)
+browser = ["playwright"]  # buddie-verbatim --access browser: render JavaScript pages (buddie/verbatim/access.py)
 
 [project.scripts]
 buddie = "buddie.cli:main"
-verbatim = "verbatim.cli:main"
+buddie-verbatim = "buddie.verbatim.cli:main"
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["buddie", "verbatim"]
+packages = ["buddie", "buddie.verbatim"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

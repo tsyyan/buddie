@@ -20,8 +20,8 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
 
 ## Executor: before handing in
 
-1. Snapshot sources before reading them: the `snap` tool (or `verbatim snap URL`). Copy quotes from `source_text`
-   (or `verbatim text URL --grep …`), not from a summary of the page.
+1. Snapshot sources before reading them: the `snap` tool (or `buddie-verbatim snap URL`). Copy quotes from `source_text`
+   (or `buddie-verbatim text URL --grep …`), not from a summary of the page.
 2. Write repo numbers and states with an anchor (`⚓ path@commit` for history, `⚓ path#sha256` for current bytes).
    "Merged", "CI is green", "tests passed" get an anchor too: `⚓ pr:octo/app#54=merged@9653a7c`,
    `⚓ ci:octo/app@dbf390f=success`, `⚓ run:pytest -q => 41 passed`. Copy OUT from the tool output, not from memory.

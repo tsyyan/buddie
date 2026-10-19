@@ -12,7 +12,7 @@ import pytest
 
 from buddie import anchors, hook, mcp
 from buddie.verify import verify
-from verbatim.store import Store
+from buddie.verbatim.store import Store
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://news.example.org/outage"
