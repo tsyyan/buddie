@@ -54,4 +54,4 @@ page itself changed. Confidence intervals are Wilson 95 %.
 ## 6. Pin every number
 
 In the lab repository, every number in a report or plan carries an anchor: a file hash, a commit, or a fact a script
-recomputes. CI checks these anchors. This export lists every file with its SHA-256 in `PROVENANCE.json`.
+recomputes. CI checks these anchors. The last export from lab lists every file with its SHA-256 in `results/PROVENANCE.json`.

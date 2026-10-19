@@ -1,7 +1,7 @@
-"""Launcher for the plugin: works from a lab checkout or a plugin cache without pip install.
+"""Launcher for the plugin: works from a clone or a plugin cache without pip install.
 
-verbatim is found as an installed package, else at $BUDDIE_VERBATIM, else in vendor/ (a symlink to
-components/verbatim/verbatim, followed when the plugin is copied), else next to this component in lab.
+verbatim is found as an installed package, else next to this file (this repository), else at $BUDDIE_VERBATIM, else
+in vendor/ or one level up (the layouts of the old lab checkout).
 """
 import os
 import sys

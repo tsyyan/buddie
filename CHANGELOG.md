@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Development moved here from the private lab repository: this repository is the source of buddie, no longer an
+  export. `PROVENANCE.json` moved to `results/` as the record of the last export (`lab@ed8d971`).
+- CI: `apt-get update` before installing poppler-utils; tests import their sibling modules directly, so bare
+  `pytest` collects them.
+
 ## buddie 0.8.2 (2026-10-08)
 
 - Fewer false returns for work claimed in prose. A word in a clause opened by once, as soon as, after, when, if,
