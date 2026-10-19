@@ -53,11 +53,11 @@ def _quote_row(r: dict) -> dict:
 
 def check_quotes(text: str, *, store=None, fetch: bool = True, access: str | None = None,
                  min_chars: int = 12) -> tuple[list[dict], int, str]:
-    from verbatim import __version__ as vv
-    from verbatim.access import parse
-    from verbatim.check import check_claims
-    from verbatim.report import from_markdown
-    from verbatim.store import Store
+    from buddie.verbatim import __version__ as vv
+    from buddie.verbatim.access import parse
+    from buddie.verbatim.check import check_claims
+    from buddie.verbatim.report import from_markdown
+    from buddie.verbatim.store import Store
     claims, skipped = from_markdown(text, min_chars)
     store = store if isinstance(store, Store) else Store(store)
     results = check_claims(claims, store, fetch=fetch, access=parse(access)) if claims else []
@@ -65,8 +65,8 @@ def check_quotes(text: str, *, store=None, fetch: bool = True, access: str | Non
 
 
 def check_numbers(text: str, *, store=None, fetch: bool = True) -> list[dict]:
-    from verbatim.numbers import check_report
-    from verbatim.store import Store
+    from buddie.verbatim.numbers import check_report
+    from buddie.verbatim.store import Store
     keep = ("id", "line", "text", "kind", "verdict", "url", "sha256", "match", "near_words", "sentence", "doubts")
     store = store if isinstance(store, Store) else Store(store)
     return [{k: r[k] for k in keep if r.get(k) not in (None, "")} for r in check_report(text, store, fetch=fetch)]

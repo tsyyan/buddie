@@ -45,7 +45,7 @@ def request_url(url: str) -> str:
 
 
 class Store:
-    _lock = threading.Lock()  # record() rewrites index.json; `verbatim access --jobs` calls it from threads
+    _lock = threading.Lock()  # record() rewrites index.json; `buddie-verbatim access --jobs` calls it from threads
 
     def __init__(self, root: str | os.PathLike | None = None) -> None:
         self.root = Path(root or os.environ.get("VERBATIM_STORE") or DEFAULT_STORE)

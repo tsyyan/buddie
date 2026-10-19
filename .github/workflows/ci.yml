@@ -23,15 +23,15 @@ jobs:
         working-directory: examples/quickstart
         run: |
           export VERBATIM_STORE=$RUNNER_TEMP/store
-          verbatim add https://status.example.com/incidents/42 page.html
-          set +e; verbatim check report.md --json $RUNNER_TEMP/v.json; code=$?; set -e
+          buddie-verbatim add https://status.example.com/incidents/42 page.html
+          set +e; buddie-verbatim check report.md --json $RUNNER_TEMP/v.json; code=$?; set -e
           test "$code" = 1
           python -c "import json,sys; v=[c['verdict'] for c in json.load(open(sys.argv[1]))['claims']]; assert v==['NOT_FOUND','FOUND','NOT_FOUND'], v" $RUNNER_TEMP/v.json
       - name: buddie examples behave as the README says
         run: |
           export VERBATIM_STORE=$RUNNER_TEMP/store2
           cd examples/quickstart
-          verbatim add https://status.example.com/incidents/42 page.html
+          buddie-verbatim add https://status.example.com/incidents/42 page.html
           set +e; buddie verify report.md --no-fetch --json $RUNNER_TEMP/r.json; code=$?; set -e
           test "$code" = 1
           python -c "import json,sys; p=json.load(open(sys.argv[1]))['predicate']; assert p['outcome']=='FAIL', p['outcome']" $RUNNER_TEMP/r.json
@@ -40,6 +40,20 @@ jobs:
           test "$code" = 1
       - name: plugin runs from a clone without install
         run: python3 run.py verify examples/quickstart/report.md --no-fetch --anchors-only
+  package:
+    # what PyPI would get: sdist and wheel build, pass twine check, carry no top-level module but buddie, and the
+    # installed wheel runs both commands from a clean venv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install build twine && python -m build && python -m twine check --strict dist/*
+      - run: |
+          python -c "import sys,zipfile,glob; tops={n.split('/')[0] for n in zipfile.ZipFile(glob.glob('dist/*.whl')[0]).namelist()}; extra=tops-{'buddie'}-{t for t in tops if t.endswith('.dist-info')}; sys.exit(f'unexpected top-level {extra}' if extra else 0)"
+          python -m venv "$RUNNER_TEMP/venv" && "$RUNNER_TEMP/venv/bin/pip" install -q dist/*.whl
+          cd "$RUNNER_TEMP" && venv/bin/buddie --version && venv/bin/buddie-verbatim --help > /dev/null
   os:
     # the hook on Linux, macOS and Windows: tests from a clone (the smoke run on recorded events through hooks/run.sh
     # among them), then the same smoke run through a clean `pip install`

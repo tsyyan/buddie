@@ -1,14 +1,14 @@
 """verbatim command line.
 
-  verbatim snap URL [URL ...]          fetch each URL and keep its bytes in the store
-  verbatim add URL FILE                put bytes you already have (curl output, a saved page) in the store
-  verbatim text URL|SHA [--grep RE]    print the visible text of a snapshot (read and quote from this, not from a summary)
-  verbatim check REPORT [--fetch]      verdict for every quote in a Markdown/JSON report; exit 1 on any NOT_FOUND
+  buddie-verbatim snap URL [URL ...]          fetch each URL and keep its bytes in the store
+  buddie-verbatim add URL FILE                put bytes you already have (curl output, a saved page) in the store
+  buddie-verbatim text URL|SHA [--grep RE]    print the visible text of a snapshot (read and quote from this, not from a summary)
+  buddie-verbatim check REPORT [--fetch]      verdict for every quote in a Markdown/JSON report; exit 1 on any NOT_FOUND
                  [--access default]    unreadable cited page: try a browser, archives, open-access copies, known copies
                                        (--strict: exit 1 unless every quote is found)
                  [--defer archive]     leave a method for elsewhere; the URLs that need it go to the JSON's "deferred"
-  verbatim access METHOD URL ... | --from JSON   run one access method (archive in GitHub Actions) into the store
-  verbatim merge OTHER_STORE           add another store's snapshots and index entries to this one
+  buddie-verbatim access METHOD URL ... | --from JSON   run one access method (archive in GitHub Actions) into the store
+  buddie-verbatim merge OTHER_STORE           add another store's snapshots and index entries to this one
 
 Store: --store DIR, else $VERBATIM_STORE, else ./.verbatim
 """
@@ -21,12 +21,12 @@ import re
 import sys
 from pathlib import Path
 
-from verbatim import __version__
-from verbatim.access import parse as parse_access
-from verbatim.check import OK, check_claims, summary
-from verbatim.report import load
-from verbatim.store import Store, now
-from verbatim.textlayer import Unreadable, layers
+from buddie.verbatim import __version__
+from buddie.verbatim.access import parse as parse_access
+from buddie.verbatim.check import OK, check_claims, summary
+from buddie.verbatim.report import load
+from buddie.verbatim.store import Store, now
+from buddie.verbatim.textlayer import Unreadable, layers
 
 MARK = {"FOUND": "ok  ", "FOUND_NORMALIZED": "ok~ ", "HIDDEN_ONLY": "HID ", "FOUND_IN_COPY": "copy", "UNCERTAIN": "miss?", "NOT_A_QUOTE": "notq", "NOT_FOUND": "MISS",
         "SOURCE_UNAVAILABLE": "N/A ", "NO_SOURCE": "NOSRC"}
@@ -60,7 +60,7 @@ def cmd_text(args) -> int:
     try:
         entry, data = Store(args.store).resolve(args.ref)
     except KeyError:
-        print(f"no snapshot for {args.ref}; run: verbatim snap {args.ref}", file=sys.stderr)
+        print(f"no snapshot for {args.ref}; run: buddie-verbatim snap {args.ref}", file=sys.stderr)
         return 1
     try:
         lay = layers(data, entry.get("content_type"), entry.get("content_encoding"))
@@ -128,7 +128,7 @@ def cmd_check(args) -> int:
 
 
 def cmd_access(args) -> int:
-    from verbatim import access as acc
+    from buddie.verbatim import access as acc
     if args.method not in acc.METHODS:
         print(f"unknown method {args.method}; known: {', '.join(acc.METHODS)}", file=sys.stderr)
         return 2
@@ -168,7 +168,7 @@ def cmd_merge(args) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(prog="verbatim", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p = argparse.ArgumentParser(prog="buddie-verbatim", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--version", action="version", version=f"verbatim {__version__}")
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--store", help="snapshot store directory (default: $VERBATIM_STORE or ./.verbatim)")

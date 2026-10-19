@@ -93,7 +93,7 @@ def verify_report(args: dict) -> tuple[dict, bool]:
 
 
 def snap(args: dict) -> tuple[dict, bool]:
-    from verbatim.store import Store
+    from buddie.verbatim.store import Store
     store, out = Store(args.get("store")), []
     for url in args["urls"]:
         e = store.fetch(url)
@@ -103,8 +103,8 @@ def snap(args: dict) -> tuple[dict, bool]:
 
 
 def source_text(args: dict) -> tuple[dict, bool]:
-    from verbatim.store import Store
-    from verbatim.textlayer import Unreadable, layers
+    from buddie.verbatim.store import Store
+    from buddie.verbatim.textlayer import Unreadable, layers
     try:
         entry, data = Store(args.get("store")).resolve(args["ref"])
     except KeyError:

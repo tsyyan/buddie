@@ -51,8 +51,8 @@ import re
 import unicodedata
 from urllib.parse import urlsplit
 
-from verbatim.store import Store, canonical_url
-from verbatim.textlayer import Unreadable, collapse, layers
+from buddie.verbatim.store import Store, canonical_url
+from buddie.verbatim.textlayer import Unreadable, collapse, layers
 
 ORDER = ["FOUND", "FOUND_NORMALIZED", "HIDDEN_ONLY", "FOUND_IN_COPY", "UNCERTAIN", "NOT_A_QUOTE", "NOT_FOUND", "SOURCE_UNAVAILABLE", "NO_SOURCE"]
 OK = {"FOUND", "FOUND_NORMALIZED"}
@@ -426,7 +426,7 @@ def check_claims(claims: list[dict], store: Store, *, fetch: bool = False, acces
     def alternatives(url: str):
         """Readable (entry, page) from the access methods in order, each method run at most once per check and
         only when the caller asks for the next one. An earlier run's stored result for a method is reused."""
-        from verbatim import access as acc
+        from buddie.verbatim import access as acc
         state = others.setdefault(url, {"found": [], "tried": [], "next": 0})
         yield from list(state["found"])
         done = {e["via"].split(" ")[0]: e for e in store.index().get(canonical_url(url), []) if e.get("via")}

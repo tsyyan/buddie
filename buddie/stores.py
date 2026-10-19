@@ -20,7 +20,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from verbatim.store import Store, canonical_url
+from buddie.verbatim.store import Store, canonical_url
 
 NAMED = re.compile(r"""(?:VERBATIM_STORE=|--store[= ]+|"store":\s*)["']?([^\s"';&|)]+)""")
 

@@ -1,0 +1,11 @@
+# The sdist is the package plus what a reader of it needs; experiment data stays in the repository.
+include README.md CHANGELOG.md LICENSE NOTICE PRIVACY.md run.py
+prune results
+prune tests
+prune examples
+prune docs
+prune scripts
+prune assets
+prune hooks
+prune skills
+global-exclude __pycache__ *.py[cod]

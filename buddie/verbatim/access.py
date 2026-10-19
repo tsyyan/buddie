@@ -33,7 +33,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from verbatim.store import Store, canonical_url, now, request_url
+from buddie.verbatim.store import Store, canonical_url, now, request_url
 
 DEFAULT = ("browser", "archive", "open_access", "copy")
 ALL = DEFAULT + ("relay",)

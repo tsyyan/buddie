@@ -8,7 +8,6 @@ RUN apt-get update -q && apt-get install -y -q --no-install-recommends poppler-u
 WORKDIR /app
 COPY pyproject.toml README.md LICENSE NOTICE ./
 COPY buddie ./buddie
-COPY verbatim ./verbatim
 RUN pip install --no-cache-dir . && useradd --create-home --uid 10001 buddie && mkdir /data && chown buddie /data
 
 USER buddie

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from verbatim.numbers import NumberPage, check_sentence, content_words, mentions, page_doubts
+from buddie.verbatim.numbers import NumberPage, check_sentence, content_words, mentions, page_doubts
 
 
 def texts(sentence: str) -> list[str]:
@@ -103,7 +103,7 @@ def test_year_needs_a_word_of_its_own_clause_nearby():
 
 
 def test_gemini_footnotes_after_a_space_are_citations():
-    from verbatim.numbers import cited_sentences
+    from buddie.verbatim.numbers import cited_sentences
     article = ("# Report\n\nNearly 37% of households used e-commerce in 2020, up from 26% in 2019 16, and usage has "
                "multiplied since the early 2000s.3\n\n# Works cited\n\n3. AARP, https://aarp.example/japan\n"
                "16. Trade.gov, https://trade.example/japan-ecommerce\n")
@@ -113,14 +113,14 @@ def test_gemini_footnotes_after_a_space_are_citations():
 
 
 def test_spaced_digits_that_are_values_are_not_footnotes():
-    from verbatim.numbers import cites
+    from buddie.verbatim.numbers import cites
     defs = {"10": "https://a.example/10", "16": "https://a.example/16"}
     assert cites("In 2019 16 companies listed, and the top 10 firms grew.", defs, True) == []
 
 
 def test_check_report_judges_numbers_on_readable_links_only(tmp_path):
-    from verbatim.numbers import check_report
-    from verbatim.store import Store
+    from buddie.verbatim.numbers import check_report
+    from buddie.verbatim.store import Store
     s = Store(tmp_path)
     body = ("<p>" + "Market background and other text. " * 40 + "</p><p>The tablet POS market was valued at "
             "USD 3.4 billion in 2022, growing at 7.1% a year.</p>").encode()
@@ -162,7 +162,7 @@ def test_thousands_grouped_by_a_thin_space():
     v = verdicts("A national cohort study of 94,239 veterans with diabetes found a lower risk.",
                  "We assembled a national cohort of 94 239 veterans ≥40 years with diabetes.")
     assert v["94,239"] == "FOUND"
-    from verbatim.numbers import NumberPage
+    from buddie.verbatim.numbers import NumberPage
     cells = [m.text for m in NumberPage("Year 2020 125 340 560 total").numbers]
     assert {"125", "340", "560", "125 340 560"} <= set(cells)  # table cells stay readable one by one
     assert "3 100" not in [m.text for m in NumberPage("Table 3 100 patients").numbers]  # under five digits
@@ -265,7 +265,7 @@ def test_e016_de7a5d_report_has_no_false_not_found():
     import re
     from pathlib import Path
 
-    from verbatim.numbers import NumberPage, cited_sentences
+    from buddie.verbatim.numbers import NumberPage, cited_sentences
     e016 = E016
     report = (e016 / "results" / "raw" / "gate" / "de7a5d.0.txt").read_text(encoding="utf-8")
     page = NumberPage(html.unescape(re.sub(r"<[^>]+>", " ", (e016 / "pages" / "t04" / "acme.html").read_text())))
