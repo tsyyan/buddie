@@ -1,0 +1,11 @@
+.git
+.github
+results
+tests
+examples
+docs
+build
+dist
+*.egg-info
+**/__pycache__
+.verbatim

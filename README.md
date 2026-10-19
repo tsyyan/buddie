@@ -283,8 +283,9 @@ pip install -e . pytest && pytest      # 233 self-contained tests; 28 more need 
 python results/E008-drb2-fresh/compare.py   # scripts are kept as they ran; paths assume the lab layout, see results/README.md
 ```
 
-Every exported file is listed with its SHA-256 and origin in [`PROVENANCE.json`](PROVENANCE.json). Development happens
-in a private lab repository, and this repository is exported from it by script. **We do not redistribute page
+Development happens in this repository. Until 0.8.2 it was exported by script from a private lab repository, where
+the experiments in `results/` were run; [`results/PROVENANCE.json`](results/PROVENANCE.json) is the record of that
+last export (`lab@ed8d971`): every file with its SHA-256 and lab path. **We do not redistribute page
 snapshots**, because they are other people's pages; verdict files keep each page's URL and SHA-256, so a re-fetch shows
 whether the page changed. Report text from DeepResearch Bench I/II is included under its Apache-2.0 license. Sets
 whose answer text we may not redistribute (ydc-deep-research-evals: no license; Search Arena: answers under the
