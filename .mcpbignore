@@ -1,0 +1,27 @@
+# The Claude Desktop bundle (manifest.json) carries the server and the files its listing links to; nothing else.
+.git/
+.github/
+.claude-plugin/
+hooks/
+skills/
+results/
+tests/
+examples/
+docs/
+scripts/
+build/
+dist/
+*.egg-info/
+**/__pycache__/
+.verbatim/
+Dockerfile
+.dockerignore
+CITATION.cff
+CONTRIBUTING.md
+CHANGELOG.md
+.mcp.json
+.gitignore
+.gitattributes
+*.mcpb
+PROVENANCE.json
+pyproject.toml

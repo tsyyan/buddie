@@ -84,3 +84,26 @@ jobs:
           python3 -c "import json; r=json.load(open('ssrf.json'))['result']; e=r['structuredContent']['snapshots'][0]['error']; assert 'not a public address' in e, r"
       - if: always()
         run: docker logs buddie || true
+  mcpb:
+    # the Claude Desktop bundle (manifest.json, .mcpbignore): validate, pack, unpack, start its server from the bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json
+      - run: npx --yes @anthropic-ai/mcpb@2.1.2 pack . "$RUNNER_TEMP/buddie.mcpb"
+      - run: npx --yes @anthropic-ai/mcpb@2.1.2 unpack "$RUNNER_TEMP/buddie.mcpb" "$RUNNER_TEMP/bundle"
+      - name: nothing but the server and its listing files in the bundle
+        run: |
+          cd "$RUNNER_TEMP/bundle" && find . -type f | sort | tee "$RUNNER_TEMP/files.txt"
+          ! grep -E '^\./(tests|results|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"
+      - run: python scripts/smoke_mcpb.py "$RUNNER_TEMP/bundle"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: buddie-mcpb
+          path: ${{ runner.temp }}/buddie.mcpb
