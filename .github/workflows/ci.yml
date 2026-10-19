@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - run: sudo apt-get install -y -q poppler-utils
+      - run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils
       - run: pip install -e . pytest
       - run: pytest -q   # bare pytest, as a contributor runs it (python -m pytest would hide import shadowing)
       - name: quickstart example behaves as the README says
