@@ -1,6 +1,6 @@
 {
   "name": "buddie",
-  "version": "0.8.2",
+  "version": "1.0.0",
   "description": "Evidence layer for orchestrator/executor chats: quotes checked against byte snapshots of their sources, repo-state anchors checked against the repo, a receipt for every report.",
   "author": {
     "name": "tsyyan"
@@ -11,5 +11,16 @@
     "citations",
     "multi-agent",
     "mcp"
-  ]
+  ],
+  "userConfig": {
+    "github_token": {
+      "type": "string",
+      "title": "GitHub token (optional)",
+      "description": "Used only for pr: and ci: anchors, sent only to api.github.com. Without it GitHub allows 60 lookups an hour and private repos can't be checked.",
+      "sensitive": true,
+      "required": false
+    }
+  },
+  "homepage": "https://github.com/tsyyan/buddie",
+  "license": "Apache-2.0"
 }

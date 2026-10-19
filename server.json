@@ -1,0 +1,43 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tsyyan/buddie",
+  "title": "buddie",
+  "description": "Checks agent reports: quotes against source snapshots, repo/PR/CI claims against git and GitHub.",
+  "repository": {
+    "url": "https://github.com/tsyyan/buddie",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/tsyyan/buddie",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "buddie",
+      "version": "1.0.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "serve"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "BUDDIE_GITHUB_TOKEN",
+          "description": "Optional GitHub token for pr: and ci: anchors (higher rate limit, private repos)",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "VERBATIM_STORE",
+          "description": "Folder for page snapshots (default ./.verbatim)",
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

@@ -6,8 +6,8 @@ authors:
   - alias: tsyyan
 repository-code: "https://github.com/tsyyan/buddie"
 license: Apache-2.0
-version: 0.8.2
-date-released: 2026-10-03
+version: 1.0.0
+date-released: 2026-10-19
 keywords:
   - AI agents
   - deep research

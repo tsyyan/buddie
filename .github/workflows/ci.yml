@@ -79,6 +79,21 @@ jobs:
           python -m pip install .
           buddie --version
           cd "$RUNNER_TEMP" && python -m pytest -q -p no:cacheprovider "$GITHUB_WORKSPACE/tests/test_config.py" -k smoke -v
+  catalogs:
+    # what the catalogs read: the Claude Code plugin and marketplace (claude plugin validate), server.json against
+    # the MCP Registry schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install -g --silent @anthropic-ai/claude-code
+      - run: claude plugin validate . && claude plugin validate .claude-plugin/plugin.json
+      - run: |
+          python3 -m pip install -q jsonschema
+          curl -fsSL "$(python3 -c "import json; print(json.load(open('server.json'))['\$schema'])")" -o schema.json
+          python3 -c "import json,jsonschema; jsonschema.validate(json.load(open('server.json')), json.load(open('schema.json')))"
   docker:
     # the remote MCP server as it is deployed (Dockerfile, docs/deploy.md): build, start, health, initialize, tools
     runs-on: ubuntu-latest

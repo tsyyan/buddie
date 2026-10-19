@@ -25,3 +25,7 @@ CHANGELOG.md
 *.mcpb
 PROVENANCE.json
 pyproject.toml
+integrations/
+.codex-plugin/
+server.json
+MANIFEST.in

@@ -108,7 +108,10 @@ class GitHubUnavailable(Exception):
 def github_get(path: str) -> dict | None:
     """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see)."""
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "buddie"}
-    if token := os.environ.get("BUDDIE_GITHUB_TOKEN") or os.environ.get("GITHUB_TOKEN"):
+    # the plugin setting (Claude Code exports userConfig as CLAUDE_PLUGIN_OPTION_*), then the CLI's environment
+    # (an unset option may arrive as the literal placeholder: skip it rather than send it)
+    tokens = (os.environ.get(k, "") for k in ("BUDDIE_GITHUB_TOKEN", "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN", "GITHUB_TOKEN"))
+    if token := next((v for v in tokens if v and not v.startswith("${")), None):
         headers["Authorization"] = f"Bearer {token}"
     try:
         with urllib.request.urlopen(urllib.request.Request(API + path, headers=headers), timeout=20) as r:

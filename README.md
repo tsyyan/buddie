@@ -1,5 +1,7 @@
 # buddie
 
+<!-- mcp-name: io.github.tsyyan/buddie -->
+
 **Receipts for agent work.** In a multi-agent setup an executor reports to an orchestrator, and the orchestrator
 reports to a human. Every hand-off restates claims such as "the source says X", "tests passed" or "PR merged", and a
 wrong claim travels on. `buddie` checks those claims at the hand-off against primary evidence: the bytes of the cited
@@ -7,7 +9,8 @@ page, the repository, the GitHub API and the session transcript. No model takes 
 checked cannot talk its way past it. Every check ends in a receipt that anyone can re-run.
 
 [![ci](https://github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg)](https://github.com/tsyyan/buddie/actions/workflows/ci.yml)
-· Python ≥ 3.11 · no dependencies · Apache-2.0 · Claude Code plugin, MCP server and CLI
+· Python ≥ 3.11 · no dependencies · Apache-2.0 · Claude Code and Codex plugin, Claude Desktop extension, MCP server
+(stdio and HTTP) and CLI
 
 > This repository was called `verbatim` until October 2026. `verbatim` is now buddie's quote module
 > (`buddie.verbatim`, command `buddie-verbatim`; until 0.8 it was a top-level `verbatim` package and command, which
@@ -40,7 +43,7 @@ let them through (0.7.1). A negated claim ("not merged yet") is not one.
 ## Quick start
 
 ```bash
-pip install git+https://github.com/tsyyan/buddie
+pip install buddie
 cd examples/quickstart
 buddie-verbatim add https://status.example.com/incidents/42 page.html   # or let buddie fetch the page itself
 buddie verify report.md --no-fetch
@@ -89,7 +92,22 @@ The plugin brings three things:
 The hook runs through `hooks/run.sh`, which starts the first of `python3`, `python` and `py -3` that is Python 3.11+,
 so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
 
+Optional setting: a GitHub token for `pr:`/`ci:` anchors (the plugin asks for it and stores it as a secret; it is
+sent only to api.github.com). Without it GitHub allows 60 lookups an hour and private repos can't be checked.
+
 Without Claude Code: `python3 run.py verify REPORT.md --repo .` from a clone works without installing anything.
+
+### Other clients
+
+| Client | How | What it gets |
+|---|---|---|
+| Claude Desktop | the `.mcpb` bundle from the [releases](https://github.com/tsyyan/buddie/releases), [docs/install-claude-desktop.md](docs/install-claude-desktop.md) | MCP tools; no hook, `run:` unchecked |
+| Codex (CLI, IDE, app) | `codex plugin marketplace add tsyyan/buddie`, then `codex plugin add buddie@buddie`, [docs/install-codex.md](docs/install-codex.md) | MCP tools, skills, a Stop hook; `run:` unchecked |
+| ChatGPT, claude.ai, the Claude API | a remote server you host: `buddie serve --http` or the Docker image, [docs/deploy.md](docs/deploy.md) | quotes, numbers, `pr:`/`ci:`; no repo anchors, no `run:` |
+| any MCP client that starts a command | `uvx buddie serve`, or `python3 run.py serve` from a clone | MCP tools over stdio |
+| CI | `buddie verify REPORT.md` exits 1 on `FAIL` | the receipt as a CI step |
+
+Releases and catalog listings: [docs/release.md](docs/release.md), [docs/catalogs.md](docs/catalogs.md).
 
 ### Levels and the intro mode
 
@@ -280,7 +298,7 @@ those sentences and answers. `BUDDIE_LOG=0` turns the journal off; lessons at `S
 ## Reproduce
 
 ```bash
-pip install -e . pytest && pytest      # 233 self-contained tests; 28 more need third-party snapshots or the lab repo and skip
+pip install -e . pytest && pytest      # 314 self-contained tests; 44 more need third-party snapshots or the lab repo and skip
 python results/E008-drb2-fresh/compare.py   # scripts are kept as they ran; paths assume the lab layout, see results/README.md
 ```
 
@@ -295,8 +313,10 @@ providers' terms) are published as ids, labels, verdicts and hashes only. See [N
 
 ## Status
 
-buddie 0.8.2 with verbatim 0.3.7, research preview: it checks claims about quotes, numbers, PRs, CI and runs
-against primary data; its effect on agent behaviour is still being measured. Next: current Claude models with web search and as coding
+buddie 1.0.0 with verbatim 0.3.7. 1.0 fixes the interfaces: the receipt (`predicateType …#receipt-v0`), the CLI,
+the MCP tools and `buddie.toml`; changes to them follow semantic versioning. It checks claims about quotes, numbers,
+PRs, CI and runs against primary data. Its effect on agent behaviour is still being measured: a gate that returns a
+false report does not by itself show that agents misstate less. Next: current Claude models with web search and as coding
 sub-agents, measured on how often their reports misstate sources, tests or merges; and an intervention study, where the
 agent runs buddie before it reports and we check whether false claims drop or the agent shifts to unverifiable wording.
 
