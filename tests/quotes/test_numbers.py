@@ -297,3 +297,25 @@ def test_a_snapshot_timestamp_is_not_a_claim_of_the_page():
     assert texts("Saved a snapshot (sha256 618de638a73f…, taken 2026-10-03T17:21:36Z) of the page.") == []
     # a timestamp the page itself gives is still a claim: no snapshot words before it
     assert "2024" in texts("The page says version 3.2 shipped at 2024-05-01T10:00Z.")
+
+
+# Russian context (2026-10-19): only Latin words counted as context, so a Russian sentence's numbers were NO_CONTEXT
+RU_PAGE = ("Глава 32. Исполнение постановлений. Статья 32.14. Исполнение постановления об административном запрете на "
+           "посещение мест проведения официальных спортивных соревнований в дни их проведения. "
+           + "Иные положения кодекса о порядке обжалования решений и сроках давности. " * 30
+           + "Штраф для юридических лиц составляет от 300 тысяч до 500 тысяч рублей.")
+
+
+def test_russian_context_words_are_stemmed_and_stopped():
+    words = content_words("По статье 32.14 исполнение постановлением запрета составило 2023 года")
+    assert {"стат", "исполнен", "постановлени", "запре"} <= words
+    assert not words & {"составило", "года"}
+    assert content_words("The rate rose to 4.5 percent") == {"rose"}  # English as before
+
+
+def test_russian_number_is_found_in_its_context():
+    found = verdicts("Согласно статье 32.14, постановления о запрете посещения соревнований исполняются отдельно.", RU_PAGE)
+    assert found["32.14"] == "FOUND"
+    # the number is on the page, but nowhere near the words of the sentence
+    assert verdicts("Ставка налога на прибыль равна 32.14 по новому закону.", RU_PAGE)["32.14"] == "NO_CONTEXT"
+    assert verdicts("Статья 32.15 об исполнении постановления о запрете посещения соревнований.", RU_PAGE)["32.15"] == "NOT_FOUND"

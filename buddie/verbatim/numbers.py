@@ -246,10 +246,27 @@ def _named_missing(text: str, at: int) -> bool:
 
 
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]{3,}")
+# Russian context words: until 1.0 only Latin words counted, so every number of a Russian sentence was NO_CONTEXT
+# (garant.ru, 2026-10-19). A word is matched as a substring of the page near the number, so it is cut to its stem:
+# the last two letters go, which covers most case endings («постановления» finds «постановлением»), down to 4 letters.
+CYR_WORD = re.compile(r"[а-яё][а-яё-]{3,}", re.I)
+CYR_STOP = frozenset("""этот этого этой этом эти этих тот того также более менее может могут было были будет будут
+который которая которое которые которых после перед между около только через свой своих свою году года годы лет
+всего весь всех если когда тогда здесь даже ещё еще уже очень чем как так или либо при для над под без про согласно
+процент процента процентов тысяч тыс млн млрд рублей рубля рубль число числа данные данным составил составила
+составило составили около примерно почти сообщает сообщил пишет указано указан""".split())
+CYR_MONTHS = re.compile(r"^(?:январ|феврал|март|апрел|ма[йяе]|июн|июл|август|сентябр|октябр|ноябр|декабр)")
+
+
+def _stem(word: str) -> str:
+    return word[:max(4, len(word) - 2)]
 
 
 def content_words(sentence: str) -> set[str]:
-    return {w.lower() for w in WORD.findall(blank_markup(sentence)) if w.lower() not in STOP and w.lower() not in MONTHS}
+    text = blank_markup(sentence)
+    words = {w.lower() for w in WORD.findall(text) if w.lower() not in STOP and w.lower() not in MONTHS}
+    return words | {_stem(w.lower()) for w in CYR_WORD.findall(text)
+                    if w.lower() not in CYR_STOP and not CYR_MONTHS.match(w.lower())}
 
 
 def normalize_page(text: str) -> str:
