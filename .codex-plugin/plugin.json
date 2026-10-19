@@ -1,0 +1,43 @@
+{
+  "name": "buddie",
+  "version": "0.8.2",
+  "description": "Receipts for agent work: quotes checked against the bytes of their sources, repo, PR and CI claims against the repo and GitHub, without a model.",
+  "keywords": [
+    "verification",
+    "citations",
+    "provenance",
+    "agents",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": {
+    "buddie": {
+      "command": "python3",
+      "args": [
+        "run.py",
+        "serve"
+      ],
+      "cwd": ".",
+      "env": {
+        "BUDDIE_DEFAULT_REPOS": "none",
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  },
+  "hooks": "./integrations/codex/hooks.json",
+  "interface": {
+    "displayName": "buddie",
+    "shortDescription": "Check an agent's report against the sources it cites, the repo and GitHub before you rely on it.",
+    "longDescription": "buddie checks what an agent reports: a quotation with a link against a SHA-256 snapshot of that page, a repo anchor (path#sha256, path@commit) against your checkout, pr: and ci: anchors against the GitHub API. No model takes part in the check. In Codex the plugin brings the MCP tools verify_report, snap and source_text, the skills that teach anchors, and a Stop hook that sends a final answer with a false quote or anchor back before it reaches you.",
+    "developerName": "tsyyan",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/tsyyan/buddie",
+    "privacyPolicyURL": "https://github.com/tsyyan/buddie/blob/main/PRIVACY.md",
+    "defaultPrompt": [
+      "Verify this report with buddie before we use it."
+    ]
+  }
+}

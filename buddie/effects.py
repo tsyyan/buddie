@@ -198,6 +198,20 @@ def _text(content) -> str:
     return ""
 
 
+def claude_transcript(files: list[Path]) -> bool:
+    """Whether the files are a Claude Code transcript (entries with a `message` whose content is a list). Codex
+    passes its own session log as transcript_path; its tool calls have another shape, so `run:` is not judged there."""
+    for f in files:
+        for raw in f.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                entry = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(entry, dict) and isinstance((entry.get("message") or {}).get("content"), list):
+                return True
+    return False
+
+
 def tool_calls(files: list[Path]) -> list[dict]:
     """Every tool_use with its tool_result: {id, name, input (command or JSON), output, error}."""
     calls, results = {}, {}
@@ -232,7 +246,11 @@ def _run(m, ctx: dict) -> dict:
     key = ("calls", str(ctx["transcript"]))
     cache = ctx.setdefault("_cache", {})
     if key not in cache:
-        cache[key] = tool_calls(transcript_files(ctx["transcript"]))
+        files = transcript_files(ctx["transcript"])
+        cache[key] = tool_calls(files) if claude_transcript(files) else None
+    if cache[key] is None:
+        return {"status": UNCHECKABLE, "why": "the transcript is not a Claude Code session (e.g. Codex): run: is "
+                                              "judged only against Claude Code transcripts"}
     cmd, out = m["cmd"].strip(), m["out"]
     if cmd.startswith("toolu_"):
         matched = [c for c in cache[key] if c["id"] == cmd]

@@ -260,11 +260,18 @@ def receipt_for(text: str, event: dict, numbers: str = "gap") -> tuple[dict, lis
                   transcript=event.get("transcript_path"), numbers=os.environ.get("BUDDIE_NUMBERS", numbers)), stores
 
 
+def stop_text(event: dict) -> str:
+    """The final answer at Stop: the last assistant text of a Claude Code transcript, else the event's own
+    last_assistant_message (Codex sends it, and its transcript_path is a log of another shape)."""
+    path = event.get("transcript_path")
+    text = last_answer(path) if path and Path(path).is_file() else ""
+    return text if text.strip() else (event.get("last_assistant_message") or "")
+
+
 def outgoing(event: dict) -> str:
     """The text that leaves the session with this event: the final answer at Stop, the tool's text at PreToolUse."""
     if event.get("hook_event_name") == "Stop":
-        path = event.get("transcript_path")
-        return last_answer(path) if path and Path(path).is_file() else ""
+        return stop_text(event)
     return tool_text(event.get("tool_input") or {})
 
 
@@ -369,10 +376,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     from buddie.suggest import ready_anchors
     name = event.get("hook_event_name")
     if name == "Stop":
-        if event.get("stop_hook_active") or not event.get("transcript_path"):
-            text = ""
-        else:
-            text = last_answer(event["transcript_path"])
+        text = "" if event.get("stop_hook_active") else stop_text(event)
     else:
         text = tool_text(event.get("tool_input") or {})
     if not text.strip():

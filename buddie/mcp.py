@@ -31,7 +31,8 @@ TOOLS = [
                        "with outcome FAIL / GAPS / PASS / EMPTY, the blocking items and a one-line summary.",
         "inputSchema": {"type": "object", "properties": dict(_REPORT, **{
             "repos": {"type": "array", "items": {"type": "string"},
-                      "description": "repo checkouts for anchors (default: the git repo at or under the cwd)"},
+                      "description": "repo checkouts for anchors (default: the git repo at or under the server's cwd; "
+                                     "in Codex none, so pass the workspace path)"},
             "fetch": {"type": "boolean", "default": True, "description": "snapshot cited URLs not in the store yet"},
             "access": {"type": "string", "description": "verbatim --access for unreadable pages, e.g. 'default'"},
             "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"},
@@ -80,12 +81,18 @@ def _report(args: dict) -> tuple[str, str]:
     raise ValueError("give text or path")
 
 
-def verify_report(args: dict) -> tuple[dict, bool]:
+def default_repos() -> list[Path]:
+    """The repos around the cwd, unless BUDDIE_DEFAULT_REPOS=none: Codex starts plugin servers in the plugin's own
+    copy (.codex-plugin/plugin.json), where the cwd is buddie's repository, not the user's."""
     from buddie.anchors import find_repos
+    return [] if os.environ.get("BUDDIE_DEFAULT_REPOS") == "none" else find_repos(Path.cwd())
+
+
+def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie.effects import github_get
     from buddie.verify import verify
     text, name = _report(args)
-    repos = [Path(r) for r in args["repos"]] if args.get("repos") else find_repos(Path.cwd())
+    repos = [Path(r) for r in args["repos"]] if args.get("repos") else default_repos()
     receipt = verify(text, name=name, repos=repos, store=args.get("store"), fetch=args.get("fetch", True),
                      access=args.get("access"), github=github_get if args.get("github", True) else None,
                      transcript=args.get("transcript"), numbers=args.get("numbers", "gap"))

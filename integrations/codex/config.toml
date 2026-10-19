@@ -1,0 +1,20 @@
+# buddie as an MCP server for Codex without the plugin: add one of these tables to ~/.codex/config.toml
+# (or .codex/config.toml in a trusted project). The plugin (.codex-plugin/plugin.json) sets the same up for you.
+
+# From a clone, no install (python3 on macOS/Linux; "python" on Windows):
+[mcp_servers.buddie]
+command = "python3"
+args = ["/path/to/buddie/run.py", "serve"]
+env_vars = ["GITHUB_TOKEN"]   # optional: pr:/ci: anchors on private repos, higher rate limit
+tool_timeout_sec = 180         # verify_report fetches every cited page that is not in the store yet
+
+# After `pip install buddie` (or with uvx):
+# [mcp_servers.buddie]
+# command = "uvx"
+# args = ["buddie", "serve"]
+# tool_timeout_sec = 180
+
+# A remote buddie (docs/deploy.md), over Streamable HTTP:
+# [mcp_servers.buddie]
+# url = "https://buddie.example.org/mcp"
+# bearer_token_env_var = "BUDDIE_HTTP_TOKEN"
