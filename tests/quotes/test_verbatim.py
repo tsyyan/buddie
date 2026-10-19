@@ -698,6 +698,8 @@ def test_a_quote_listed_after_an_example_is_an_example_too():
     "The director said “we built it and they never came at all” [p](https://a.example/p).\n",
     "It looks like “the market will keep growing for many more years” [p](https://a.example/p).\n",
     "Nitro’s popular features (“animated emoji, higher game streaming and server boosts”) drive it [p](https://a.example/p).\n",
+    # a standard that speaks is the speaker, not a title (NEXT №37: a wrong quote of RFC 9110 passed the hook)
+    "RFC 9110 says HTTP is “a stateful application-level protocol for distributed systems” ([RFC](https://a.example/p)).\n",
 ])
 def test_quotes_with_a_speaker_stay_quotes(md):
     claims, _ = from_markdown(md)
@@ -923,3 +925,60 @@ def test_resolvers_and_equivalent_paths_stay_the_document(tmp_path, asked, final
     s = Store(tmp_path)
     s.add(asked, ARTICLE.encode(), content_type="text/html", final_url=final)
     assert verdicts(s, "Unrelated filler text on the same page", asked)["verdict"] == "FOUND"
+
+
+# --- 0.3.5 (E015 gates, NEXT №53) -----------------------------------------------------------------------------------
+
+
+def test_anubis_check_is_a_gate(tmp_path):
+    s = Store(tmp_path)
+    s.add("https://gupea.example/handle/2077/70422", (
+        "<p>Making sure you're not a bot! Loading... Please wait a moment while we ensure the security of your "
+        "connection. Protected by Anubis From Techaro. This website is running Anubis version v1.27.0.</p>").encode(),
+        content_type="text/html")
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats", "https://gupea.example/handle/2077/70422")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "gate page" in r["error"]
+
+
+def test_login_page_is_unavailable(tmp_path):
+    # Facebook's video page for a visitor without an account: navigation in the locale's language and a sign-in form
+    s = Store(tmp_path)
+    page = ('<html><body><form id="login_form"><input type="text" name="email"><input dir="rtl" type="password" '
+            'name="pass"></form><p>' + "ویڈیو ہوم Live Reels ایکسپلور کریں " * 40 + "</p></body></html>")
+    s.add("https://social.example/county/videos/2496721583791745/", page.encode(), content_type="text/html")
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats",
+                 "https://social.example/county/videos/2496721583791745/")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "login page" in r["error"]
+
+
+def test_article_with_a_sign_in_box_is_still_read(tmp_path):
+    s = Store(tmp_path)
+    s.add("https://news.example/story", ('<form><input type="password" name="pw"></form><p>' + ARTICLE * 2 + "</p>")
+          .encode(), content_type="text/html")
+    assert verdicts(s, "Unrelated filler text on the same page", "https://news.example/story")["verdict"] == "FOUND"
+
+
+def test_encoded_payload_is_unavailable(tmp_path):
+    import base64
+    blob = base64.b64encode(bytes(range(256)) * 12).decode()
+    s = Store(tmp_path)
+    s.add("https://journal.example/articles/OJ93", f"<p>Loading</p><p>{blob}</p>".encode(), content_type="text/html")
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats", "https://journal.example/articles/OJ93")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "encoded payload" in r["error"]
+
+
+def test_prose_without_spaces_is_not_a_payload(tmp_path):
+    s = Store(tmp_path)
+    prose = "截至2月5日0时，导演饺子的哪吒系列两部电影总票房已超100亿元，哪吒成为影史首位3岁百亿影人相关话题冲上热搜。" * 20
+    s.add("https://cn.example/a/1", f"<p>{prose}</p>".encode(), content_type="text/html")
+    assert verdicts(s, "导演饺子的哪吒系列两部电影总票房已超100亿元", "https://cn.example/a/1")["verdict"] == "FOUND"
+
+
+def test_redirect_to_a_local_address_is_unavailable(tmp_path):
+    # DSpace links its PDF to the repository's internal host; the browser got the local proxy's error page
+    s = Store(tmp_path)
+    s.add("https://ir.example.edu.tw/bitstream/11536/5298/1/000277884100024.pdf", ("<p>Proxy error.</p>" + ARTICLE)
+          .encode(), content_type="text/html", final_url="http://0.0.0.0:4000/bitstreams/2b22093a/download")
+    r = verdicts(s, "HDB was able to efficiently build over 54,000 flats",
+                 "https://ir.example.edu.tw/bitstream/11536/5298/1/000277884100024.pdf")
+    assert r["verdict"] == "SOURCE_UNAVAILABLE" and "local address" in r["error"]

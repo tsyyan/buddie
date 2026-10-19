@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
@@ -47,7 +49,7 @@ def repo(tmp_path):
     path = tmp_path / "repo"
     path.mkdir()
     (path / "buddie.toml").write_text(CONFIG, encoding="utf-8")
-    (path / "data.txt").write_text("hello\n")
+    (path / "data.txt").write_bytes(b"hello\n")
     (path / "messages.jsonl").write_text("".join(json.dumps(m, ensure_ascii=False) + "\n" for m in MESSAGES))
     (path / "ACCEPTED.md").write_text("| Область | Слова |\n|---|---|\n| `PLAN этап 0-3` | x |\n| `audit/07 §2` | x |\n",
                                       encoding="utf-8")
@@ -154,7 +156,7 @@ def test_receipt_and_hook(repo, tmp_path, monkeypatch):
     monkeypatch.setenv("BUDDIE_FETCH", "0")
     event = {"hook_event_name": "PreToolUse", "tool_name": "mcp__hearthbot__reply", "cwd": str(repo),
              "tool_input": {"text": "Запускаю сам (вердикт `auto`): шаг №3."}}
-    assert hook.run(event, err=open("/dev/null", "w")) == 2
+    assert hook.run(event, err=open(os.devnull, "w")) == 2
 
 
 @pytest.mark.skipif(not (LAB / "tools" / "chain.py").is_file(), reason="outside lab")
@@ -166,3 +168,58 @@ def test_lab_config_matches_chain_py():
     m = man.Mandate(man.load_config(LAB))
     assert set(m.table) == set(table)
     assert [m.verdict(n)["verdict"] for n in sorted(table)] == [chain.verdict(n, table)["verdict"] for n in sorted(table)]
+    # and the same when time conditions are judged at a moment (NEXT №76): every row as if main got it at `start`
+    assert (m.cfg["wait_words"], m.cfg["wait_not_before"], m.cfg["wait_delay"], m.cfg["wait_units"]) == (
+        chain.CONDITION.pattern, chain.NOT_BEFORE.pattern, chain.DELAY.pattern, chain.UNIT_HOURS)
+    for start, now in [("2026-10-03T01:00:00Z", "2026-10-03T02:00:00Z"), ("2026-10-03T01:00:00Z", "2026-10-05T02:00:00Z"),
+                       (None, "2999-01-01T00:00:00Z")]:
+        assert [m.verdict(n, start, now)["verdict"] for n in sorted(table)] == [
+            chain.verdict(n, table, start=start, now=now)["verdict"] for n in sorted(table)]
+    # and at the clock with each row's own start (NEXT №83): buddie's `appeared` is chain.py's, so the launch gate and
+    # the summary give a row whose time came due the verdict `debt` gives it
+    if history := chain._first_parent("HEAD"):
+        appeared, now = chain._appeared(history)[0], chain._utc(datetime.now(timezone.utc).isoformat())
+        h, head = man.Mandate(man.load_config(LAB), "HEAD"), chain.rows(chain._show("HEAD", "NEXT.md"))
+        assert {n: h.appeared(n) for n in h.table} == {n: appeared.get(n) for n in head}
+        assert [h.verdict_now(n, now)["verdict"] for n in sorted(h.table)] == [
+            chain.verdict(n, head, start=appeared.get(n), now=now)["verdict"] for n in sorted(head)]
+
+
+def test_time_condition_comes_due():
+    cfg = {**man.DEFAULTS, "waiting": "ждёт условия", "wait_words": r"\bчерез сутки|\bне раньше \d{4}-\d{2}-\d{2}|\bкогда наберутся",
+           "wait_not_before": r"не раньше (?P<date>\d{4}-\d{2}-\d{2})(?:[ T](?P<time>\d{2}:\d{2}))?",
+           "wait_delay": r"(?:через )?(?:(?P<k>\d+) )?(?P<unit>сут|час)\w*", "wait_units": {"сут": 24, "час": 1}}
+    row = lambda text, status="предложено": {"text": text, "status": status}
+    assert man.waits(cfg, row("через сутки снять")) == "через сутки"
+    assert man.waits(cfg, row("через сутки снять"), "2026-10-03T01:00:00Z", "2026-10-04T00:59:00Z") == "через сутки"
+    assert man.waits(cfg, row("через сутки снять"), "2026-10-03T01:00:00Z", "2026-10-04T01:00:00Z") is None
+    assert man.waits(cfg, row("через сутки снять"), None, "2999-01-01T00:00:00Z") == "через сутки"  # no start, no due
+    assert man.waits(cfg, row("не раньше 2026-10-04 02:00 UTC пройти"), None, "2026-10-04T02:00:00Z") is None
+    assert man.waits(cfg, row("через сутки, когда наберутся 3"), "2026-10-03T01:00:00Z", "2026-10-05T00:00:00Z") == "когда наберутся"
+    assert man.waits(cfg, row("через сутки снять", "предложено; ждёт условия"), "2026-10-03T01:00:00Z",
+                     "2026-10-05T00:00:00Z") is None
+    assert man.waits(cfg, row("снять", "предложено; ждёт условия"), "2026-10-03T01:00:00Z", "2026-10-05T00:00:00Z") == "status"
+
+
+def test_queue_anchor_at_a_missing_commit_is_a_claim_not_a_crash(repo, tmp_path):
+    # NEXT №105: `⚓ NEXT.md@<no such commit>` used to raise FileNotFoundError out of verify (exit 1, like FAIL)
+    line = "Вердикт `auto` для №2 (`⚓ NEXT.md@deadbeef1234`)."
+    (c,) = claims(repo, line)
+    assert c["kind"] == "queue" and c["status"] == man.BROKEN and "deadbeef1234" in c["why"]
+    receipt = verify(line, repos=[repo], quotes=False)
+    assert receipt["predicate"]["outcome"] == "FAIL"
+    assert any("queue line 1" in b for b in receipt["predicate"]["blocking"])
+    # in a shallow clone the commit may lie below the cut: a gap, not a refutation
+    shallow = tmp_path / "shallow"
+    subprocess.run(["git", "clone", "-q", "--depth", "1", f"file://{repo}", str(shallow)], check=True)
+    (c,) = claims(shallow, line)
+    assert c["status"] == man.UNCHECKABLE and "shallow" in c["why"]
+
+
+def test_cli_missing_rev_is_a_usage_error(repo, tmp_path, capsys):
+    from buddie.cli import main
+    report = tmp_path / "r.md"
+    report.write_text("Вердикт `auto` для №2 (`⚓ NEXT.md@deadbeef1234`).\n", encoding="utf-8")
+    assert main(["verify", str(report), "--repo", str(repo), "--anchors-only", "--no-github"]) == 1   # FAIL
+    assert main(["mandate", "queue", "--repo", str(repo), "--rev", "deadbeef1234"]) == 2
+    assert "deadbeef1234" in capsys.readouterr().err

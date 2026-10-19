@@ -32,8 +32,9 @@ NOT_FOUND           none of the above; "closest" gives the nearest visible passa
 SOURCE_UNAVAILABLE  no snapshot for any cited URL, the fetch failed / returned an HTTP error, its text
                     cannot be extracted here (a PDF without pdftotext, a binary body), the snapshot is a short
                     bot/cookie gate (or opens with a captcha), has almost no text (EMPTY_PAGE_CHARS), is an app
-                    shell (SHELL_RATIO), or an article URL redirected to the site's home page, a section above
-                    it or an unrelated page of another site. Judged on the quote's own links only:
+                    shell (SHELL_RATIO), a login page (a password field, LOGIN_PAGE_CHARS), an encoded payload
+                    (BLOB), or an article URL redirected to the site's home page, a section above it, an unrelated
+                    page of another site or a local address. Judged on the quote's own links only:
                     a readable neighbour link in the same paragraph does not turn it into NOT_FOUND (E005)
 NO_SOURCE           the quote cites no URL at all
 
@@ -76,7 +77,7 @@ BRACKET_KEEP = re.compile(r"\[([^\[\]]{1,60})\]")  # "bore [a son]" where the pa
 WALL = re.compile(r"enable (?:cookies|javascript)|cookies must be enabled|just a moment|checking your browser|"
                   r"verify (?:that )?you are (?:a )?human|are you a robot|access denied|please turn javascript on|"
                   r"client challenge|a required part of this site couldn.t load|complete the (?:captcha|security check)|"
-                  r"confirm you are a human", re.I)
+                  r"confirm you are a human|making sure you.re not a bot", re.I)  # Anubis (E015 gupea.ub.gu.se)
 WALL_MAX_CHARS = 2000
 # a gate can also sit on top of a long page: ScienceDirect's captcha ("Just a moment... Help Are you a robot?") came
 # with 112k characters of script text behind it (E009). A gate phrase in the first WALL_HEAD_CHARS marks it at any length
@@ -89,6 +90,20 @@ SHELL_RATIO = 100
 THIN_PAGE_CHARS = 1200
 # below this there is nothing to check against (IMDb, app shells: 0-70 characters in E005)
 EMPTY_PAGE_CHARS = 200
+# a login wall: a password field on a page this short is the sign-in form, not the post (E015: a Facebook video page
+# with 2000 characters of navigation in Urdu, "this video is no longer available"); articles with a sign-in box in
+# their header run far longer
+LOGIN_PAGE_CHARS = 3000
+PASSWORD_FIELD = re.compile(rb"<input\b[^>]*\btype=[\"']?password", re.I)
+# an encoded payload instead of text: most of the page is runs of 200+ ASCII characters without a space (E015: a
+# Wayback capture of researching.cn holding a JS challenge's base64 blob). ASCII only: Chinese and Japanese prose has
+# no spaces at all (E008, chinawriter.com.cn)
+BLOB = re.compile(r"[!-~]{200,}")
+BLOB_SHARE = 0.5
+# hosts a browser cannot reach from the open web: a site's internal link (E015: a DSpace PDF link to 0.0.0.0:4000,
+# answered by the local proxy's own error page)
+LOCAL_HOST = re.compile(r"(?:localhost|0\.0\.0\.0|127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|"
+                        r"172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+|\[?::1\]?)", re.I)
 # share of these words among a text's words: >= 0.1 in English prose, < 0.05 on a Spanish, French or Japanese page
 EN_WORDS = frozenset("the of and to in is that for it with as was on be by this are from at an or have has not "
                      "which but their they its were been".split())
@@ -376,9 +391,13 @@ def readable(store: Store, entry: dict | None, url: str = "") -> tuple[dict, Pag
         return {"error": f"redirected to {moved}, not the document: {entry.get('final_url')}"}
     if len(pg.visible) < EMPTY_PAGE_CHARS:
         return {"error": f"no text to check: {len(pg.visible)} visible characters"}
-    if len(pg.visible) < THIN_PAGE_CHARS and "html" in (entry.get("content_type") or "html").lower() \
-            and len(pg.data) > SHELL_RATIO * len(pg.visible):
+    html = "html" in (entry.get("content_type") or "html").lower()
+    if len(pg.visible) < THIN_PAGE_CHARS and html and len(pg.data) > SHELL_RATIO * len(pg.visible):
         return {"error": f"app shell, not the document: {len(pg.visible)} visible characters in {len(pg.data)} bytes"}
+    if len(pg.visible) < LOGIN_PAGE_CHARS and html and PASSWORD_FIELD.search(pg.data):
+        return {"error": f"login page, not the document: a password field and {len(pg.visible)} visible characters"}
+    if sum(len(m) for m in BLOB.findall(pg.visible)) > BLOB_SHARE * len(pg.visible):
+        return {"error": "encoded payload, not text: most of the page is runs without a space"}
     return entry, pg
 
 
@@ -510,6 +529,8 @@ def _redirected(url: str, final_url: str | None) -> str | None:
     if not final_url:
         return None
     asked, got = urlsplit(url), urlsplit(final_url)
+    if LOCAL_HOST.fullmatch(got.hostname or "") and not LOCAL_HOST.fullmatch(asked.hostname or ""):
+        return "a local address"
     a = [p for p in asked.path.split("/") if p]
     g = [p for p in got.path.split("/") if p]
     if not a or got.query:

@@ -16,10 +16,14 @@ Outcome, for whoever accepts the report (an orchestrator, a hook before the fina
 Numbers and dates of cited sentences ("valued at $3.4 billion in 2022 ([Zion](url))") go through verbatim.numbers
 (NEXT №42): a number NOT_FOUND on the sentence's readable source is a gap by default (`numbers="gap"`) and blocks with
 `numbers="fail"`; E009/E015 measure how often that is the agent's error. NO_CONTEXT and SOURCE_UNAVAILABLE are counted.
+A miss on an abstract page or on a market report rewritten for a later forecast horizon is UNCERTAIN (verbatim 0.3.6,
+NEXT №66): a gap in either mode, never blocking.
 
 Lines that state a count ("73 из 84", "11 %") with no anchor are listed under "unanchored": a reader's signal that
-a number travels without a source (E003), never a failure. Lines that claim work done ("слито", "CI зелёный", "тесты
-прошли") with no pr:/ci:/run: anchor are listed under "prose_work" the same way (NEXT №43).
+a number travels without a source (E003), never a failure. A line whose quote is FOUND on the page at a URL written
+on that same line already carries its source (NEXT №71, E016 de7a5d): it is listed under "quote_backed", not there. Lines that claim work done ("слито", "CI зелёный", "тесты
+прошли") with no pr:/ci:/run: anchor are listed under "prose_work" the same way (NEXT №43), their numbers under
+"prose_lines"; the hook returns a final answer for them (NEXT №63).
 """
 from __future__ import annotations
 
@@ -32,6 +36,7 @@ from buddie import effects as eff
 from buddie import mandate as man
 
 PREDICATE = "https://github.com/tsyyan/buddie#receipt-v0"  # the receipt format is described in the public repo
+FOUND = {"FOUND", "FOUND_NORMALIZED"}
 QUOTE_GAPS = {"UNCERTAIN", "SOURCE_UNAVAILABLE", "NO_SOURCE", "HIDDEN_ONLY", "FOUND_IN_COPY"}
 KEEP = ("id", "line", "quote", "url", "verdict", "sha256", "fetched_at", "via", "provenance", "visible_offset",
         "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read")
@@ -46,7 +51,7 @@ def _quote_row(r: dict) -> dict:
     return row
 
 
-def check_quotes(text: str, *, store: str | None = None, fetch: bool = True, access: str | None = None,
+def check_quotes(text: str, *, store=None, fetch: bool = True, access: str | None = None,
                  min_chars: int = 12) -> tuple[list[dict], int, str]:
     from verbatim import __version__ as vv
     from verbatim.access import parse
@@ -54,15 +59,17 @@ def check_quotes(text: str, *, store: str | None = None, fetch: bool = True, acc
     from verbatim.report import from_markdown
     from verbatim.store import Store
     claims, skipped = from_markdown(text, min_chars)
-    results = check_claims(claims, Store(store), fetch=fetch, access=parse(access)) if claims else []
+    store = store if isinstance(store, Store) else Store(store)
+    results = check_claims(claims, store, fetch=fetch, access=parse(access)) if claims else []
     return results, skipped, vv
 
 
-def check_numbers(text: str, *, store: str | None = None, fetch: bool = True) -> list[dict]:
+def check_numbers(text: str, *, store=None, fetch: bool = True) -> list[dict]:
     from verbatim.numbers import check_report
     from verbatim.store import Store
-    keep = ("id", "line", "text", "kind", "verdict", "url", "sha256", "match", "near_words", "sentence")
-    return [{k: r[k] for k in keep if r.get(k) not in (None, "")} for r in check_report(text, Store(store), fetch=fetch)]
+    keep = ("id", "line", "text", "kind", "verdict", "url", "sha256", "match", "near_words", "sentence", "doubts")
+    store = store if isinstance(store, Store) else Store(store)
+    return [{k: r[k] for k in keep if r.get(k) not in (None, "")} for r in check_report(text, store, fetch=fetch)]
 
 
 def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), numbers: list[dict] = (),
@@ -75,9 +82,26 @@ def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), nu
         return "FAIL"
     if any(q["verdict"] in QUOTE_GAPS for q in quotes) or any(a["status"] == anc.UNCHECKABLE for a in anchors) \
             or any(c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE) for c in claims) \
-            or any(n["verdict"] == "NOT_FOUND" for n in numbers):
+            or any(n["verdict"] in ("NOT_FOUND", "UNCERTAIN") for n in numbers):
         return "GAPS"
     return "PASS"
+
+
+def quote_backed(text: str, rows: list[dict]) -> list[int]:
+    """Lines with a quote FOUND on the page whose URL is written on the same line: their numbers have a source.
+    A quote's `line` is the first line of its paragraph, so the paragraph's lines are searched for the one holding
+    both the start of the quote and the URL."""
+    lines, out = text.splitlines(), set()
+    for r in rows:
+        if r["verdict"] not in FOUND or not r.get("url") or not r.get("line"):
+            continue
+        head = " ".join(r["quote"].split())[:40]
+        for n in range(r["line"], len(lines) + 1):
+            if not lines[n - 1].strip():
+                break
+            if r["url"] in lines[n - 1] and head in " ".join(lines[n - 1].split()):
+                out.add(n)
+    return sorted(out)
 
 
 def _count(values) -> dict[str, int]:
@@ -87,7 +111,7 @@ def _count(values) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
-def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, store: str | None = None,
+def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, store=None,
            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
            mandate: dict | None | bool = True, rev: str | None = None, github=None,
            transcript: str | None = None, numbers: str = "gap") -> dict:
@@ -100,12 +124,13 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     from datetime import datetime, timezone
     q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access) if quotes else ([], 0, None)
     a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript})
-    bare, bare_examples = anc.unanchored(text)
     prose, prose_examples = eff.prose_work(text, anc.ANCHOR)
     # words in quotation marks with no link and no speaker are a term or an example, not a citation (134 of 164
     # unlinked "quotes" in lab's own reports): counted, not judged
     terms = sum(r["verdict"] == "NO_SOURCE" and not r.get("attributed", True) for r in q_results)
     rows = [_quote_row(r) for r in q_results if r["verdict"] != "NO_SOURCE" or r.get("attributed", True)]
+    backed = quote_backed(text, rows)
+    bare, bare_examples = anc.unanchored(text, backed=backed)
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
     n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
@@ -122,6 +147,8 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
              if c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE)]
     missing = [f"number {n['id']} “{n['text']}” not found in {n.get('url')}" for n in n_rows if n["verdict"] == "NOT_FOUND"]
     (blocking if numbers == "fail" else gaps).extend(missing)
+    gaps += [f"number {n['id']} “{n['text']}” UNCERTAIN ({', '.join(n.get('doubts', []))}): {n.get('url')}"
+             for n in n_rows if n["verdict"] == "UNCERTAIN"]
     return {
         "_type": "https://in-toto.io/Statement/v1",
         "subject": [{"name": name, "digest": {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()}}],
@@ -140,7 +167,9 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
                                  "prose": prose}},
             "notes": [eff.NOTE] if any(a.get("kind") in ("ci", "run") for a in a_results) else [],
             "unanchored": bare_examples,
+            "quote_backed": backed,
             "prose_work": prose_examples,
+            "prose_lines": eff.prose_lines(text, anc.ANCHOR),
             "blocking": blocking,
             "gaps": gaps,
             "quotes": rows,

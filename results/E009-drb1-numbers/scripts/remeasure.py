@@ -16,7 +16,7 @@ from verbatim.check import readable
 from verbatim.store import Store, canonical_url
 
 HERE = Path(__file__).resolve().parents[1]
-RANK = ["FOUND", "FOUND_NORMALIZED", "FOUND_ROUNDED", "NO_CONTEXT", "NOT_FOUND", "SOURCE_UNAVAILABLE"]
+RANK = getattr(nb, "RANK", ["FOUND", "FOUND_NORMALIZED", "FOUND_ROUNDED", "NO_CONTEXT", "NOT_FOUND", "SOURCE_UNAVAILABLE"])
 A = {x["key"]: x for x in json.load(open(HERE / "labels_A.json"))}
 B = {x["key"]: x for x in json.load(open(HERE / "labels_B.json"))}
 label = {k: A[k]["label"] if A[k]["label"] == B[k]["label"] else "DISAGREE" for k in A}
@@ -47,7 +47,7 @@ def pages(url):
             if isinstance(r, dict):
                 gates.setdefault(u, []).append(r["error"][:120])
             else:
-                cache[u].append((e, nb.NumberPage(r[1].visible)))
+                cache[u].append((e, nb.NumberPage(r[1].visible, *([nb.page_doubts(e, u)] if hasattr(nb, "page_doubts") else []))))
     return cache[u]
 
 
@@ -90,6 +90,8 @@ def rates(keys):
         "unverifiable_not_found": [k for k in keys if label[k] == "UNVERIFIABLE" and verdict[k] == "NOT_FOUND"],
         "unverifiable_flagged": [k for k in keys if label[k] == "UNVERIFIABLE" and verdict[k] in FLAG],
         "unverifiable_found": [k for k in keys if label[k] == "UNVERIFIABLE" and verdict[k] in FOUND],
+        "uncertain": [k for k in keys if verdict[k] == "UNCERTAIN"],  # 0.3.6 (NEXT №66)
+        "errors_uncertain": [k for k in err if verdict[k] == "UNCERTAIN"],
     }
 
 

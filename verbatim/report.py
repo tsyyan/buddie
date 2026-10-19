@@ -130,7 +130,9 @@ def not_a_quote(quote: str, before: str, after: str) -> str | None:
         and re.search(r"[,.–—]\s*$", before)
     spoken = list(SPEECH.finditer(sentence))
     near = sentence[-60:]
-    if STANDARD.search(near) or DOC_NOUN.search(near):
+    standard = STANDARD.search(near)
+    # "RFC 9110 says HTTP is “…”": the standard is the speaker, not the title (buddie hook dogfood, NEXT №37)
+    if standard and not SPEECH.search(near[standard.start():]) or DOC_NOUN.search(near):
         return "title"
     if head and not spoken and REFERENCE.search(before):
         return "title"

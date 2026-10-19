@@ -37,7 +37,9 @@ CI = re.compile(r"^ci:(?P<repo>[\w.-]+/[\w.-]+)@(?P<sha>[0-9a-f]{7,40})(?:/(?P<c
 RUN = re.compile(r"^run:(?P<cmd>.+?)(?:\s+=>\s+(?P<out>.+))?$")
 KINDS = ("pr:", "ci:", "run:")
 OK_CONCLUSIONS = {"success", "neutral", "skipped"}
-NOT_RUNS = re.compile(r"^(mcp__hearthbot__|mcp__claude-code-remote__send_message$|SendMessage$|Write$|Edit$|NotebookEdit$)")
+# tools that carry the report or write a file, not runs; SubagentHandback hands a subagent's report back (E017)
+NOT_RUNS = re.compile(r"^(mcp__hearthbot__|mcp__claude-code-remote__send_message$|SendMessage$|SubagentHandback$|"
+                      r"Write$|Edit$|NotebookEdit$)")
 API = os.environ.get("BUDDIE_GITHUB_API", "https://api.github.com")
 
 
@@ -51,6 +53,8 @@ def is_effect(anchor: str) -> bool:
 WORK = re.compile(r"(?<!\w)(?:слит[оаы]?|смержен\w*|влит[оаы]?|merged|CI\s+(?:зел[её]н\w*|green|прош[её]л\w*|pass\w*)|"
                   r"тест\w*\s+(?:прош\w*|зел[её]н\w*)|tests?\s+pass\w*|\d+\s+passed|прогнал\w*|прогнан\w*)(?!\w)", re.I)
 CODE = re.compile(r"`[^`]*`")
+# a line quoted in «…» or “…” is cited, not claimed (NEXT №63: this thread's own reply quoting «в main влиты №40…»)
+QUOTED = re.compile(r"«[^»\n]*»|“[^”\n]*”")
 # not claims either (NEXT №52, false hits of №45): a word right after plural «которые» describes a kind of thing
 # («шаги, которые уже влиты, но не запущены»), and a clause after a future or infinitive check verb is a plan («я
 # проверю, что CI зелёный»). Still claims: past «проверил, что CI зелёный», singular «lab#64, который уже влит» and
@@ -60,24 +64,41 @@ PLANS = re.compile(r"(?<!\w)(?:провер|убед|удостовер|посм
                    r"(?:ю|у|юсь|усь|им|ем|ём|имся|емся|ёмся|ит|ет|ёт|ится|ется|ить|ять|еть|ться|ишь|ешь|ёшь)"
                    r"\s*,?\s+(?:что|ли|когда)(?:\s+[^\s,;.:!?]+){0,3}\s+$", re.I)
 
+# a negated word states work not done («PR ещё не слит», «not merged»), not a claim (NEXT №63: the line now blocks)
+NEGATED = re.compile(r"(?<!\w)(?:не|not)(?:\s+(?:yet|ещё|еще))?\s+$", re.I)
+# nor a condition or a plan («Once automerge has merged it, start row 119», «когда PR будет слит»): the word sits in a
+# clause opened by once/after/when/if/until… within three words (NEXT №128: a false return of №82), and nor is an
+# adjective before a noun («a container that already has the merged code», the other false return of №82)
+CONDITION = re.compile(r"(?<!\w)(?:once|as\s+soon\s+as|after|when(?:ever)?|if|until|unless|before|"
+                       r"после\s+того,?\s+как|как\s+только|когда|если|пока\s+не|до\s+того,?\s+как)"
+                       r"(?:\s+[^\s,;.:!?]+){0,3}\s+$", re.I)
+ADJECTIVE = re.compile(r"(?<!\w)(?:the|a|an|its|their|our|my|your|his|her)"
+                       r"(?:\s+(?:already|freshly|newly|just|recently))?\s+$", re.I)
+NOUN_AFTER = re.compile(r"\s+(?!(?:at|in|into|on|onto|to|by|after|before|and|but|or|with|without|as|via|from|for|"
+                        r"cleanly|today|yesterday|now|already|successfully)(?!\w))[A-Za-z]", re.I)
+
 
 def claims_work(line: str) -> bool:
-    line = CODE.sub(" ", line)
+    line = QUOTED.sub(" ", CODE.sub(" ", line))
     return any(not DESCRIBES.search(line[:m.start()]) and not PLANS.search(line[:m.start()])
+               and not NEGATED.search(line[:m.start()]) and not CONDITION.search(line[:m.start()])
+               and not (m.group().lower() == "merged" and ADJECTIVE.search(line[:m.start()])
+                        and NOUN_AFTER.match(line, m.end()))
                for m in WORK.finditer(line))
 
 
+def prose_lines(text: str, anchor_rx: re.Pattern) -> list[int]:
+    """Numbers of the lines that claim work done (merged, CI green, tests passed, ran) with no pr:/ci:/run: anchor
+    on the line."""
+    return [number for number, line in enumerate(text.splitlines(), 1)
+            if not any(is_effect(a) for a in anchor_rx.findall(line)) and claims_work(line)]
+
+
 def prose_work(text: str, anchor_rx: re.Pattern, limit: int = 5) -> tuple[int, list[str]]:
-    """Lines that claim work done (merged, CI green, tests passed, ran) with no pr:/ci:/run: anchor on the line.
-    A signal for the measurement of NEXT №43, never a failure."""
-    n, examples = 0, []
-    for number, line in enumerate(text.splitlines(), 1):
-        if any(is_effect(a) for a in anchor_rx.findall(line)) or not claims_work(line):
-            continue
-        n += 1
-        if len(examples) < limit:
-            examples.append(f"line {number}: {line.strip()[:120]}")
-    return n, examples
+    """The count of prose_lines and the first `limit` of them. A final answer is returned for them (NEXT №63,
+    buddie/hook.py); elsewhere a signal for the measurement of NEXT №43."""
+    numbers, lines = prose_lines(text, anchor_rx), text.splitlines()
+    return len(numbers), [f"line {n}: {lines[n - 1].strip()[:120]}" for n in numbers[:limit]]
 
 
 class GitHubUnavailable(Exception):
