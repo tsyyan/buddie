@@ -17,12 +17,16 @@
                                     where the intro mode stands; --false: the last return was false, restart the count
   buddie enforce [--repo DIR]       end the intro mode: returns block from now on
   buddie serve                      MCP server on stdio (verify_report, snap, source_text, summary)
+  buddie serve --http [--host 127.0.0.1] [--port 8000]
+                                    remote MCP server over Streamable HTTP at /mcp (remote.py: no files, no
+                                    local repos, public addresses only)
   buddie hook                       Claude Code hook: reads the event on stdin, exit 2 blocks a FAIL answer
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -130,6 +134,9 @@ def cmd_intro(args, enforce: bool = False) -> int:
 
 
 def cmd_serve(args) -> int:
+    if args.http:
+        from buddie.remote import serve as serve_http
+        return serve_http(args.host, args.port)
     from buddie.mcp import serve
     return serve()
 
@@ -191,7 +198,12 @@ def main(argv: list[str] | None = None) -> int:
     e = sub.add_parser("enforce", help="end the intro mode")
     e.add_argument("--repo", action="append", help="repo with buddie.toml (default: around cwd)")
     e.set_defaults(func=lambda args: cmd_intro(args, enforce=True))
-    sub.add_parser("serve", help="MCP server on stdio").set_defaults(func=cmd_serve)
+    s = sub.add_parser("serve", help="MCP server on stdio, or over HTTP with --http")
+    s.add_argument("--http", action="store_true", help="Streamable HTTP at /mcp instead of stdio (remote.py)")
+    s.add_argument("--host", default=os.environ.get("BUDDIE_HTTP_HOST", "127.0.0.1"),
+                   help="address to listen on (default 127.0.0.1; 0.0.0.0 in a container)")
+    s.add_argument("--port", type=int, default=int(os.environ.get("PORT") or 8000), help="default $PORT or 8000")
+    s.set_defaults(func=cmd_serve)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     try:

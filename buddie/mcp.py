@@ -139,9 +139,23 @@ def summary(args: dict) -> tuple[dict, bool]:
 
 HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary}
 
+# MCP tool annotations (clients and app directories ask for them): nothing here changes the user's data; the
+# fetching tools reach the open web, summary only reads this machine's journal
+_ANNOTATIONS = {
+    "verify_report": {"title": "Verify a report", "openWorldHint": True},
+    "snap": {"title": "Snapshot pages", "openWorldHint": True},
+    "source_text": {"title": "Read a snapshot", "openWorldHint": False},
+    "summary": {"title": "Subagent summary", "openWorldHint": False},
+}
+for _tool in TOOLS:
+    _tool["annotations"] = dict(_ANNOTATIONS[_tool["name"]], readOnlyHint=True, destructiveHint=False,
+                                idempotentHint=True)
 
-def handle(msg: dict) -> dict | None:
-    """The response to one JSON-RPC message; None for notifications."""
+
+def handle(msg: dict, handlers: dict | None = None) -> dict | None:
+    """The response to one JSON-RPC message; None for notifications. handlers: the tool set (remote.py's is
+    narrower)."""
+    handlers = HANDLERS if handlers is None else handlers
     method, mid = msg.get("method"), msg.get("id")
     if mid is None:
         return None
@@ -161,10 +175,10 @@ def handle(msg: dict) -> dict | None:
         elif method == "tools/call":
             params = msg.get("params") or {}
             name = params.get("name")
-            if name not in HANDLERS:
+            if name not in handlers:
                 return {"jsonrpc": "2.0", "id": mid, "error": {"code": -32602, "message": f"unknown tool {name}"}}
             try:
-                data, is_error = HANDLERS[name](params.get("arguments") or {})
+                data, is_error = handlers[name](params.get("arguments") or {})
             except Exception as error:  # a tool failure is a result the model can read, not a protocol error
                 data, is_error = {"error": f"{type(error).__name__}: {error}"}, True
             text = json.dumps(data, ensure_ascii=False, indent=1)

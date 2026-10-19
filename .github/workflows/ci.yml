@@ -65,3 +65,22 @@ jobs:
           python -m pip install .
           buddie --version
           cd "$RUNNER_TEMP" && python -m pytest -q -p no:cacheprovider "$GITHUB_WORKSPACE/tests/test_config.py" -k smoke -v
+  docker:
+    # the remote MCP server as it is deployed (Dockerfile, docs/deploy.md): build, start, health, initialize, tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t buddie:ci .
+      - name: the container answers MCP over HTTP
+        run: |
+          docker run -d --name buddie -p 8000:8000 buddie:ci
+          for i in $(seq 30); do curl -fsS http://127.0.0.1:8000/healthz && break; sleep 1; done
+          rpc() { curl -fsS -X POST http://127.0.0.1:8000/mcp -H 'Content-Type: application/json' \
+                    -H 'Accept: application/json, text/event-stream' -d "$1"; }
+          rpc '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' | tee init.json
+          rpc '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' > tools.json
+          python3 -c "import json; t=[x['name'] for x in json.load(open('tools.json'))['result']['tools']]; assert sorted(t)==['snap','source_text','verify_report'], t"
+          rpc '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"snap","arguments":{"urls":["http://169.254.169.254/latest/meta-data/"]}}}' > ssrf.json
+          python3 -c "import json; r=json.load(open('ssrf.json'))['result']; e=r['structuredContent']['snapshots'][0]['error']; assert 'not a public address' in e, r"
+      - if: always()
+        run: docker logs buddie || true
