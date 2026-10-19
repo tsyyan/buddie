@@ -1,0 +1,18 @@
+{
+  "description": "buddie gate for Codex: a final answer that quotes a source it does not match, or states a repo, PR or CI fact that does not hold, is sent back to the model before the turn ends",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/run.py\" hook",
+            "commandWindows": "python \"${PLUGIN_ROOT}/run.py\" hook",
+            "timeout": 120,
+            "statusMessage": "buddie: checking the answer"
+          }
+        ]
+      }
+    ]
+  }
+}
