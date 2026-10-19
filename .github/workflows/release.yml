@@ -98,6 +98,27 @@ jobs:
         with:
           repository-url: https://test.pypi.org/legacy/
 
+  mcp-registry:
+    # registry.modelcontextprotocol.io lists io.github.tsyyan/buddie (server.json) once the PyPI package exists:
+    # the registry checks its README for the mcp-name line. GitHub OIDC proves the namespace, no secret needed.
+    if: github.ref_type == 'tag'
+    needs: [build, pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: server.json carries the released version
+        run: |
+          v=$(python3 -c "import json; print(json.load(open('server.json'))['version'])")
+          test "$v" = "${{ needs.build.outputs.version }}" || { echo "::error::server.json is $v"; exit 1; }
+      - name: mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
+
   github-release:
     if: github.ref_type == 'tag'
     needs: [build, pypi]

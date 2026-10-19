@@ -1,6 +1,33 @@
 # Changelog
 
-## Unreleased
+## buddie 1.0.0 (2026-10-19)
+
+First stable release: the receipt, the CLI, the MCP tools and `buddie.toml` follow semantic versioning from here on.
+
+New places to run:
+- Claude Desktop: an MCP Bundle (`manifest.json`, `.mcpb` built and attached to each release),
+  `docs/install-claude-desktop.md`.
+- Codex: plugin manifest `.codex-plugin/plugin.json` with the MCP server, the skills and a Stop hook; this repository
+  is a Codex marketplace too. `docs/install-codex.md`.
+- ChatGPT, claude.ai and the Claude API: a remote MCP server over Streamable HTTP (`buddie serve --http`) with a
+  narrower tool set and a fetch guard (public addresses only, every redirect checked), a Docker image,
+  `docs/deploy.md`.
+- PyPI: `pip install buddie`, `uvx buddie serve`; release workflow with trusted publishing, MCP Registry entry
+  `io.github.tsyyan/buddie` (`server.json`).
+
+Changes:
+- **Breaking:** the quote module is `buddie.verbatim` and its command `buddie-verbatim`. The top-level `verbatim`
+  package and command clashed with an unrelated `verbatim` on PyPI.
+- The final answer at `Stop` comes from the event's `last_assistant_message` when the transcript has none (Codex).
+- `run:` against a transcript that is not Claude Code's is `UNCHECKABLE`, not a false `BROKEN`.
+- `BUDDIE_DEFAULT_REPOS=none` stops `verify_report` from defaulting to the repo around the server's cwd.
+- The Claude Code plugin asks for an optional GitHub token (`userConfig`, stored as a secret) instead of relying on
+  `GITHUB_TOKEN` in the environment; an unset option is never sent.
+- MCP tool annotations (read-only, non-destructive) for clients and directories.
+- Development moved here from the private lab repository: this repository is the source of buddie, no longer an
+  export. `PROVENANCE.json` moved to `results/` as the record of the last export (`lab@ed8d971`).
+- CI: `apt-get update` before installing poppler-utils; tests import their sibling modules directly, so bare
+  `pytest` collects them; jobs for the package, the bundle, the Docker image and the catalog manifests.
 
 - Development moved here from the private lab repository: this repository is the source of buddie, no longer an
   export. `PROVENANCE.json` moved to `results/` as the record of the last export (`lab@ed8d971`).

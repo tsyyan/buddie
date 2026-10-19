@@ -1,0 +1,25 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "buddie",
+  "version": "1.0.0",
+  "description": "Check an agent's report against the sources it cites and GitHub before you rely on it.",
+  "author": {"name": "tsyyan", "url": "https://github.com/tsyyan"},
+  "homepage": "https://github.com/tsyyan/buddie",
+  "repository": "https://github.com/tsyyan/buddie",
+  "license": "Apache-2.0",
+  "keywords": ["verification", "citations", "provenance", "agents"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "buddie",
+        "shortDescription": "Check a report's quotes and PR/CI claims against their sources.",
+        "longDescription": "buddie checks what an agent reports: each quotation with a link is looked up in a SHA-256 snapshot of that page, and pr: and ci: anchors are checked against the GitHub API. No model takes part in the check; every check ends in a receipt (FAIL, GAPS, PASS or EMPTY) that anyone can re-run.",
+        "developerName": "tsyyan",
+        "category": "Productivity",
+        "websiteURL": "https://github.com/tsyyan/buddie",
+        "privacyPolicyURL": "https://github.com/tsyyan/buddie/blob/main/PRIVACY.md",
+        "defaultPrompt": ["Verify this report with buddie before we use it."]
+      }
+    }
+  }
+}
