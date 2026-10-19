@@ -12,6 +12,7 @@ Feeds (RSS/Atom) are XML whose descriptions carry escaped HTML, so they are unes
 """
 from __future__ import annotations
 
+import codecs
 import gzip
 import html
 import re
@@ -106,14 +107,38 @@ def pdf_text(data: bytes) -> str:
     return re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", text)
 
 
-def looks_binary(data: bytes) -> bool:
-    """More than 10 % of the first 4 KB is not text: undecodable bytes or control characters."""
-    head = data[:4096].decode("utf-8", errors="replace")
+CHARSET_HEADER = re.compile(r"""charset\s*=\s*["']?([\w.:-]+)""", re.I)
+CHARSET_META = re.compile(rb"""<meta[^>]+charset\s*=\s*["']?([\w.:-]+)""", re.I)
+CHARSET_XML = re.compile(rb"""<\?xml[^>]+encoding\s*=\s*["']([\w.:-]+)""", re.I)
+
+
+def charset(data: bytes, content_type: str | None = None) -> str:
+    """The body's text encoding: a byte-order mark, else the Content-Type charset, else <meta charset> or
+    http-equiv, else the XML declaration, else UTF-8. Russian legal sites (garant.ru, pravo.gov.ru) send
+    windows-1251; read as UTF-8 their text became U+FFFD, or the page was called binary, and no quote was found."""
+    for bom, name in ((codecs.BOM_UTF8, "utf-8-sig"), (codecs.BOM_UTF16_LE, "utf-16"), (codecs.BOM_UTF16_BE, "utf-16")):
+        if data.startswith(bom):
+            return name
+    found = CHARSET_HEADER.search(content_type or "")
+    names = [found.group(1)] if found else []
+    head = data[:4096]
+    names += [m.group(1).decode("ascii", "replace") for m in (CHARSET_META.search(head), CHARSET_XML.search(head)) if m]
+    for name in names:
+        try:
+            return codecs.lookup(name).name
+        except LookupError:
+            continue
+    return "utf-8"
+
+
+def looks_binary(data: bytes, encoding: str = "utf-8") -> bool:
+    """More than 10 % of the first 4 KB is not text in `encoding`: undecodable bytes or control characters."""
+    head = data[:4096].decode(encoding, errors="replace")
     bad = sum(1 for ch in head if ch == "\ufffd" or (ord(ch) < 32 and ch not in "\t\n\r\f"))
     return bool(head) and bad > len(head) / 10
 
 
-def decode_body(data: bytes, content_encoding: str | None = None) -> bytes:
+def decode_body(data: bytes, content_encoding: str | None = None, content_type: str | None = None) -> bytes:
     """Undo a Content-Encoding the server applied even though none was asked for (bytes are stored as sent).
 
     Servers also compress without saying so (E005: gzip from longportapp and ojs.aaai.org, brotli from
@@ -124,10 +149,11 @@ def decode_body(data: bytes, content_encoding: str | None = None) -> bytes:
     if not enc and data[:5] != b"%PDF-":
         if data[:1] == b"\x78" and data[1:2] in (b"\x01", b"\x5e", b"\x9c", b"\xda"):
             enc = "deflate"
-        elif looks_binary(data) and data[:2] != b"\x1f\x8b":
+        elif looks_binary(data, charset(data, content_type)) and data[:2] != b"\x1f\x8b":
             try:
                 import brotli
-                return _text_or_unreadable(brotli.decompress(data))
+                body = brotli.decompress(data)
+                return _text_or_unreadable(body, charset(body, content_type))
             except Exception as error:  # noqa: BLE001 - brotli.error, ImportError: either way not readable text
                 raise Unreadable("binary body, not text (and not gzip, deflate or brotli)") from error
     try:
@@ -151,18 +177,19 @@ def decode_body(data: bytes, content_encoding: str | None = None) -> bytes:
     return data
 
 
-def _text_or_unreadable(data: bytes) -> bytes:
-    if looks_binary(data):
+def _text_or_unreadable(data: bytes, encoding: str = "utf-8") -> bytes:
+    if looks_binary(data, encoding):
         raise Unreadable("binary body, not text")
     return data
 
 
 def layers(data: bytes, content_type: str | None = None, content_encoding: str | None = None) -> dict[str, str]:
-    data = decode_body(data, content_encoding)
+    data = decode_body(data, content_encoding, content_type)
     if data[:5] == b"%PDF-" or "pdf" in (content_type or "").lower():
         return {"visible": collapse(pdf_text(data)), "hidden": ""}
-    _text_or_unreadable(data)
-    text = data.decode("utf-8", errors="replace")
+    encoding = charset(data, content_type)
+    _text_or_unreadable(data, encoding)
+    text = data.decode(encoding, errors="replace")
     if is_feed(data, content_type):
         once = html.unescape(TAG.sub(" ", text))
         return {"visible": collapse(html.unescape(TAG.sub(" ", once))), "hidden": ""}
