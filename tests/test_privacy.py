@@ -12,8 +12,8 @@ import json
 import pytest
 
 from buddie import anchors, config, promises, summary
-from tests import test_promises as tp
-from tests import test_summary as ts
+import test_promises as tp
+import test_summary as ts
 
 SECRET = "запусти №5 сейчас, пароль кот"
 
@@ -85,7 +85,7 @@ def test_promise_line_keeps_a_hash_and_the_loop_still_works(tmp_path, monkeypatc
 
 
 def test_decision_card_and_pick_lines_have_no_words(tmp_path, monkeypatch):
-    from tests import test_decisions as td
+    import test_decisions as td
     env = td.env.__wrapped__(tmp_path, monkeypatch)
     monkeypatch.chdir(tmp_path)  # no buddie.toml around: the plugin's default, not lab's [journal] text = true
     t1 = td._write(env, "s1.jsonl", td._entries(pick=None))
