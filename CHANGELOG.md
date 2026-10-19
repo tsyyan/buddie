@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Pages in windows-1251 and other non-UTF-8 encodings are read in their own encoding: the Content-Type charset,
+  `<meta charset>` / http-equiv, the XML declaration or a byte-order mark. Before, garant.ru's text became U+FFFD,
+  and a page with Cyrillic in its first 4 KB was rejected as "binary body, not text", so no quote could be found.
+
 ## buddie 1.0.0 (2026-10-19)
 
 First stable release: the receipt, the CLI, the MCP tools and `buddie.toml` follow semantic versioning from here on.
