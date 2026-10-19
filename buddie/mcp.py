@@ -23,12 +23,40 @@ _REPORT = {
     "text": {"type": "string", "description": "the report itself (Markdown); or give path"},
     "path": {"type": "string", "description": "a Markdown file to check instead of text"},
 }
+# What a client model needs to write a checkable report. Clients without buddie's skill (ChatGPT, claude.ai, Codex
+# without the plugin) get only this and the tool descriptions; the examples are tested (tests/test_instructions.py).
+QUOTE_EXAMPLE = ("Article 2.10 says «Юридическое лицо, присоединившее другое юридическое лицо, подлежит ответственности» "
+                 "([КоАП РФ, ст. 2.10](https://www.zakonrf.info/koap/2.10/)).")
+ANCHOR_EXAMPLE = "The fix is merged and CI passed. ⚓ `pr:octo/app#54=merged@9653a7c` ⚓ `ci:octo/app@9653a7c=success`"
+FORMAT = (
+    "buddie checks by code, without a model, only two things. "
+    "1) Quotations: words inside “…”, «…» or \"…\", at least 12 characters, copied character for character from the page, "
+    "with a Markdown link to that same page in the same sentence, e.g. " + QUOTE_EXAMPLE + " "
+    "Call snap with the URL first and copy the words from source_text, not from memory or a summary. "
+    "A paraphrase, a quote without a link and a link without a quote are not checked. "
+    "2) Anchors: the sign ⚓ and then, in backticks, `pr:OWNER/REPO#N=merged@SHA` or `=open`, "
+    "`ci:OWNER/REPO@SHA=success`, `path#sha256` or `path@commit` (a file in a repo checkout), "
+    "`run:COMMAND => OUTPUT` (a command and what it printed), e.g. " + ANCHOR_EXAMPLE + ". "
+)
+OUTCOMES = (
+    "Outcomes: FAIL means a quote is not in its source or an anchor does not hold: fix each blocking item, or keep it "
+    "and add a line starting with 'buddie:' that says what is unverified and why. GAPS means something could not be "
+    "checked (source unreachable, anchor not checkable here): say what. PASS means every quote was found and every "
+    "anchor holds. EMPTY means the text had no quotations and no anchors, so nothing was verified: it is not a pass. "
+    "Do not delete a true claim only to get PASS. Put the receipt's predicate.line under the report."
+)
+INSTRUCTIONS = ("Before you accept a report or hand in a final answer that quotes sources or states facts about a repo, "
+                "a PR or CI, call verify_report with the whole text. " + FORMAT + OUTCOMES)
+
 TOOLS = [
     {
         "name": "verify_report",
         "description": "Check a report before accepting or passing it on: every quote must be in the bytes of the "
-                       "source it links to (verbatim), every `⚓` anchor must hold in the repos, on GitHub (pr:, ci:) or in the session transcript (run:). Returns a receipt "
-                       "with outcome FAIL / GAPS / PASS / EMPTY, the blocking items and a one-line summary.",
+                       "source it links to (verbatim), every `⚓` anchor must hold in the repos, on GitHub (pr:, ci:) or "
+                       "in the session transcript (run:). Returns a receipt with outcome FAIL / GAPS / PASS / EMPTY, "
+                       "the blocking items and a one-line summary. Only quotations in quotation marks with a link to "
+                       "their page in the same sentence, and ⚓ anchors in backticks, are checked: write e.g. "
+                       + QUOTE_EXAMPLE + " EMPTY means nothing was checkable, not that the text is right.",
         "inputSchema": {"type": "object", "properties": dict(_REPORT, **{
             "repos": {"type": "array", "items": {"type": "string"},
                       "description": "repo checkouts for anchors (default: the git repo at or under the server's cwd; "
@@ -44,14 +72,16 @@ TOOLS = [
     },
     {
         "name": "snap",
-        "description": "Snapshot URLs (bytes by sha256) so quotes can be taken from and checked against them.",
+        "description": "Snapshot URLs (bytes by sha256) so quotes can be taken from and checked against them. Call "
+                       "it before quoting a page, then copy the words from source_text and link the same URL.",
         "inputSchema": {"type": "object", "required": ["urls"], "properties": {
             "urls": {"type": "array", "items": {"type": "string"}}, "store": {"type": "string"}}},
     },
     {
         "name": "source_text",
         "description": "Visible text of a snapshot (URL or sha256 prefix). With grep, only the matches with context. "
-                       "Copy quotes from here character for character.",
+                       "Copy quotes from here character for character, put them in quotation marks “…” or «…», and "
+                       "link the snapshot's URL right after the quote in the same sentence.",
         "inputSchema": {"type": "object", "required": ["ref"], "properties": {
             "ref": {"type": "string"}, "grep": {"type": "string"}, "context": {"type": "integer", "default": 160},
             "store": {"type": "string"}}},
@@ -165,9 +195,7 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
             result = {"protocolVersion": asked if asked in PROTOCOLS else PROTOCOLS[0],
                       "capabilities": {"tools": {"listChanged": False}},
                       "serverInfo": {"name": "buddie", "version": __version__},
-                      "instructions": "Before accepting an executor's report or sending a final answer that quotes "
-                                      "sources or states repo facts, call verify_report and put its predicate.line "
-                                      "next to the report. FAIL means fix or disclose before passing it on."}
+                      "instructions": INSTRUCTIONS}
         elif method == "ping":
             result = {}
         elif method == "tools/list":

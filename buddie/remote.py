@@ -156,6 +156,14 @@ _DROP = {"verify_report": {"path", "repos", "store", "transcript", "access"}, "s
          "source_text": {"store"}}
 
 
+REMOTE_SCOPE = (
+    "On this remote server only quotations, numbers with a link and pr:/ci: anchors on GitHub are checked: repo "
+    "anchors (path#sha256, path@commit) and run: anchors come out unchecked (GAPS), because the server has no "
+    "checkout and no session transcript of yours. The server fetches pages from abroad; a site that refuses foreign "
+    "visitors comes out as source unavailable (GAPS), so quote a mirror the server can read. ")
+INSTRUCTIONS = mcp.INSTRUCTIONS.replace(mcp.OUTCOMES, REMOTE_SCOPE + mcp.OUTCOMES)
+
+
 def tools() -> list[dict]:
     """The stdio tools without the arguments the remote server refuses."""
     out = []
@@ -167,6 +175,7 @@ def tools() -> list[dict]:
         if tool["name"] == "verify_report":
             schema["required"] = ["text"]
             schema["properties"]["text"] = {"type": "string", "description": "the report itself (Markdown)"}
+            tool = dict(tool, description=tool["description"] + " " + REMOTE_SCOPE.strip())
         out.append(dict(tool, inputSchema=schema))
     return out
 
@@ -180,7 +189,10 @@ def handle(msg: dict) -> dict | None:
         name = (msg.get("params") or {}).get("name")
         if name not in HANDLERS:
             return {"jsonrpc": "2.0", "id": msg.get("id"), "error": {"code": -32602, "message": f"unknown tool {name}"}}
-    return mcp.handle(msg, handlers=HANDLERS)
+    reply = mcp.handle(msg, handlers=HANDLERS)
+    if method == "initialize" and reply and "result" in reply:
+        reply["result"]["instructions"] = INSTRUCTIONS
+    return reply
 
 
 # --- HTTP ------------------------------------------------------------------------------------------------------
