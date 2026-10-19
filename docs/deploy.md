@@ -51,6 +51,25 @@ a reverse proxy such as Caddy. What matters:
   store yet.
 - **Rate limits at the proxy** if the URL is public. Every call can make the server fetch up to 20 pages.
 
+### Render (free plan)
+
+[`render.yaml`](../render.yaml) is a Render Blueprint for this image on the free plan: Frankfurt, health check
+`/healthz`, a redeploy on every commit to `main`. In the Render dashboard choose New → Blueprint, connect the
+GitHub repository, and apply. The endpoint is then `https://<service>.onrender.com/mcp`.
+
+What the free plan means for buddie:
+
+- **Sleep.** After 15 minutes without requests the service sleeps, and the next request wakes it in about a
+  minute. A client can time out on that first call. An external monitor that requests `/healthz` every 10 minutes
+  keeps it awake; one service awake all month fits in the 750 free hours.
+- **No disk.** Snapshots are kept in `/tmp/store` until the next restart. They are fetched again when needed.
+- **No rate limiting in front.** Calls at once are capped by `BUDDIE_HTTP_WORKERS` (4 here); bandwidth over the
+  free allowance suspends the service for the rest of the month.
+- Render describes the free plan as not meant for production and may restart the service at any time.
+
+A GitHub token for `pr:`/`ci:` anchors can be added later under the service's Environment as `BUDDIE_GITHUB_TOKEN`.
+Give it no access beyond public data, since every caller's lookups use it.
+
 A minimal Caddy front for a VPS:
 
 ```
