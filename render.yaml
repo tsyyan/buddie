@@ -1,0 +1,19 @@
+# Render Blueprint: buddie's remote MCP server on the free plan (docs/deploy.md, "Render").
+# Render builds the Dockerfile, sets PORT and gives an https://<name>.onrender.com URL; the endpoint is /mcp.
+services:
+  - type: web
+    name: buddie
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      # 0.1 CPU on the free plan: fewer calls at once, the rest get 503 with Retry-After
+      - key: BUDDIE_HTTP_WORKERS
+        value: "4"
+      # the free plan has no disk; snapshots live until the next restart or spin-down
+      - key: VERBATIM_STORE
+        value: /tmp/store
