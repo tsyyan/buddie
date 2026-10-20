@@ -190,3 +190,18 @@ def test_without_buddie_toml_a_false_quote_goes_back(plain):
     assert _stop(plain, good)[0] == 0
     code, err, _ = _stop(plain, bad)
     assert code == 2 and err.startswith(hook.RETURNED) and "not found" in err
+
+
+def test_a_disclosure_covers_a_false_quote_only_after_it_was_returned(plain, monkeypatch):
+    """Eval run of 2026-10-20: an altered quote went out under a 'buddie: unverified' line written before any check."""
+    from buddie.verbatim.store import Store
+    url = "https://status.example.com/incidents/42"
+    page = "<html><body>" + "<p>We saw elevated error rates on the API between 14:59 and 15:41 UTC.</p>" * 30 + "</body></html>"
+    Store(plain / "store").add(url, page.encode(), content_type="text/html")
+    bad = (f"The status page says “elevated error rates on the API between 14:58 and 15:41 UTC” ([status]({url})).\n\n"
+           "buddie: unverified, I could not open the page")
+    code, err, _ = _stop(plain, bad)
+    assert code == 2 and "written before buddie checked it" in err
+    assert _stop(plain, bad)[0] == 0  # returned once: the line now discloses what buddie found
+    monkeypatch.setenv("BUDDIE_STATE", "0")  # returns not tracked: as before 1.1
+    assert _stop(plain, bad.replace("status page says", "page says"))[0] == 0

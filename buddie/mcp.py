@@ -43,7 +43,8 @@ OUTCOMES = (
     "and add a line starting with 'buddie:' that says what is unverified and why. GAPS means something could not be "
     "checked (source unreachable, anchor not checkable here): say what. PASS means every quote was found and every "
     "anchor holds. EMPTY means the text had no quotations and no anchors, so nothing was verified: it is not a pass. "
-    "Do not delete a true claim only to get PASS. Put the receipt's predicate.line under the report."
+    "Do not delete a true claim only to get PASS. Put the receipt's predicate.line under the report, copied from the "
+    "tool's result; never write a receipt line yourself, and if the tool cannot be called, say that nothing was checked."
 )
 INSTRUCTIONS = ("Before you accept a report or hand in a final answer that quotes sources or states facts about a repo, "
                 "a PR or CI, call verify_report with the whole text. " + FORMAT + OUTCOMES)
