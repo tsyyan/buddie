@@ -30,3 +30,4 @@ integrations/
 server.json
 MANIFEST.in
 render.yaml
+commands/

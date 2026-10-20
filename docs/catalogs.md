@@ -38,8 +38,8 @@ What the checks will find, as far as the published checklist says:
   The GitHub token comes through `userConfig` with `sensitive: true`.
 - **Likely held for a reviewer (not a rejection):**
   - two files over 256 KiB: `results/E008-drb2-fresh/results.json` and `sample_blind.json` (research data);
-  - the CLI also reads `GITHUB_TOKEN` from the environment (for CI). The plugin itself uses its setting first, but
-    a scan may flag the fallback as "uses a credential from the user's machine".
+  - "Uses a credential from the user's machine": until 1.1 buddie also read an ambient `GITHUB_TOKEN`. Since 1.1
+    it takes only `BUDDIE_GITHUB_TOKEN` or the plugin's `github_token` setting; a scan may still flag the names.
 - **Policy questions a reviewer may ask:** the hook reads the Claude Code session transcript to find the final
   answer and to check `run:` anchors, and keeps a journal of receipts (hashes, verdicts, no conversation text by
   default). README's "The transcript and the journal" section and [PRIVACY.md](../PRIVACY.md) describe this. Point to

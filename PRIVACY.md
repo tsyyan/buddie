@@ -6,7 +6,8 @@ it. This page lists everything it reads, everything it sends off your machine, a
 ## What it reads on your machine
 
 - **The text that leaves the session.** At `PreToolUse` on a tool that sends a message (`SendMessage` and the matchers
-  you add) the hook reads the text in that tool call. At `Stop` it reads the last assistant message of the session.
+  you add) the hook reads the text in that tool call. At `Stop` it reads the last assistant message, which Claude Code
+  sends with the event (`last_assistant_message`).
 - **The session transcript** (`transcript_path`, the Claude Code jsonl file of the current session, and its subagents'
   files next to it). The hook reads it for these checks only:
   - the final answer at `Stop` (the last assistant message);
@@ -19,6 +20,11 @@ it. This page lists everything it reads, everything it sends off your machine, a
 
   It does not read other sessions' transcripts, Claude's memory or chat history. The transcript is read in place and
   never copied, stored or sent anywhere.
+
+  **To turn transcript reading off:** the plugin setting "Read the session transcript" (`read_transcript`),
+  `BUDDIE_TRANSCRIPT=0`, or `[transcript] read = false` in `buddie.toml`. The hook then never opens the session log:
+  the final answer comes from the `Stop` event, `run:` anchors are reported as unchecked, and the context gate,
+  ready `run:` anchors and choice cards are off.
 - **Your repositories** (git repos around the working directory, or `BUDDIE_REPOS`): files and commits named by
   `path@commit` and `path#sha256` anchors, and `buddie.toml`.
 
@@ -28,7 +34,8 @@ it. This page lists everything it reads, everything it sends off your machine, a
   (`BUDDIE_FETCH=0`: stored snapshots only, no requests). Only `--access default` in the CLI or MCP server also asks
   archive.org, Common Crawl and open-access copies by DOI. No text of your session is sent with these requests.
 - **GitHub API.** `pr:` and `ci:` anchors call `api.github.com` for the state of the named PR or commit, with
-  `BUDDIE_GITHUB_TOKEN` or `GITHUB_TOKEN` if set (`BUDDIE_GITHUB=0`: no calls). The request carries the owner, repo
+  the token you gave buddie (the plugin's `github_token` setting or `BUDDIE_GITHUB_TOKEN`; an ambient `GITHUB_TOKEN`
+  is not used) (`BUDDIE_GITHUB=0`: no calls). The request carries the owner, repo
   and PR number or commit from the anchor, nothing else.
 
 Nothing else leaves your machine.

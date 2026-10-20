@@ -12,7 +12,8 @@ The executor writes the anchor itself, as with numbers; buddie checks it, with n
                                    CMD may also be a tool_use id (toolu_…). OUT written in the command itself does
                                    not count (`echo "41 passed"` proves nothing)
 
-GitHub goes through the REST API (GITHUB_TOKEN if set; a cloud session's proxy adds its own). The transcript is the
+GitHub goes through the REST API (BUDDIE_GITHUB_TOKEN or the plugin's token setting if given; a cloud session's
+proxy adds its own). The transcript is the
 Claude Code jsonl the hooks get as transcript_path; the subagent transcripts next to it are searched too.
 
 What these anchors prove: that the PR is in that state, that checks on that commit ended so, that the session ran
@@ -108,9 +109,10 @@ class GitHubUnavailable(Exception):
 def github_get(path: str) -> dict | None:
     """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see)."""
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "buddie"}
-    # the plugin setting (Claude Code exports userConfig as CLAUDE_PLUGIN_OPTION_*), then the CLI's environment
-    # (an unset option may arrive as the literal placeholder: skip it rather than send it)
-    tokens = (os.environ.get(k, "") for k in ("BUDDIE_GITHUB_TOKEN", "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN", "GITHUB_TOKEN"))
+    # only a token given to buddie by name: BUDDIE_GITHUB_TOKEN, or the plugin setting (Claude Code exports userConfig
+    # as CLAUDE_PLUGIN_OPTION_*). An ambient GITHUB_TOKEN is never picked up and sent (1.1); in CI set
+    # BUDDIE_GITHUB_TOKEN: ${{ github.token }}. An unset option may arrive as the literal placeholder: skip it.
+    tokens = (os.environ.get(k, "") for k in ("BUDDIE_GITHUB_TOKEN", "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN"))
     if token := next((v for v in tokens if v and not v.startswith("${")), None):
         headers["Authorization"] = f"Bearer {token}"
     try:

@@ -2,6 +2,22 @@
 
 <!-- mcp-name: io.github.tsyyan/buddie -->
 
+**Checks that what an AI agent tells you is true, before you read it.** When Claude quotes a page, buddie looks the
+words up in a snapshot of that very page. When it states "merged", "CI is green" or "tests passed" with an anchor,
+buddie asks GitHub, git and the session log. No model takes part in the check, so the agent cannot talk its way past
+it, and every check ends in a receipt anyone can re-run.
+
+In Claude Code the plugin checks each answer as it ends. A quote that is not on its page goes back to Claude with the
+closest real passage, before you see the answer:
+
+```
+buddie FAIL: quotes 1/2 found, 1 not found
+- quote L3.1 not found in https://status.example.com/incidents/42: “elevated error rates on the API between 14:58 and 15:41 UTC” (closest 0.98: “elevated error rates on the API between 14:59 and 15:41 UTC”)
+```
+
+An answer with nothing to check passes untouched. Why it matters: in 929 checkable quotations from published
+deep-research reports, one in five was altered or absent from the page it cited ([What we found](#what-we-found)).
+
 **Receipts for agent work.** In a multi-agent setup an executor reports to an orchestrator, and the orchestrator
 reports to a human. Every hand-off restates claims such as "the source says X", "tests passed" or "PR merged", and a
 wrong claim travels on. `buddie` checks those claims at the hand-off against primary evidence: the bytes of the cited
@@ -36,9 +52,10 @@ oversight** that still works when the overseer is weaker than, or not trusted by
 | A number or date in a sentence with a link | the visible text of the snapshot of that link (`verbatim.numbers`) | `NOT_FOUND`: a gap by default, a failure with `--numbers fail` |
 
 The executor writes the anchors. Lines that state work in prose without an anchor ("merged", "CI is green", "tests
-passed", "41 passed") are listed in the receipt (`prose_work`); in a final answer the hook returns them with ready
-anchors (PRs named in the text or tool output, the run that printed the count), and a `buddie:` disclosure does not
-let them through (0.7.1). A negated claim ("not merged yet") is not one.
+passed", "41 passed") are listed in the receipt (`prose_work`). In a project whose `buddie.toml` blocks prose, the
+hook returns them in a final answer with ready anchors (PRs named in the text or tool output, the run that printed
+the count), and a `buddie:` disclosure does not let them through (0.7.1). A negated claim ("not merged yet") is not
+one.
 
 ## Quick start
 
@@ -77,7 +94,7 @@ passage (similarity ≈ 0.98), an invented sentence as a distant one (≈ 0.5).
 /plugin install buddie@buddie
 ```
 
-The plugin brings three things:
+The plugin brings four things:
 
 - **a hook** (`hooks/hooks.json`) on `PreToolUse` for messages that leave the session (`SendMessage`)
   and on `Stop`; [`examples/hooks/projects.json`](examples/hooks/projects.json) adds matchers for other reply tools.
@@ -87,7 +104,10 @@ The plugin brings three things:
   journal, where the anchor `choice:<id>=<step>` is checked;
 - **an MCP server** (stdio, no SDK): `verify_report`, `snap`, `source_text`, `summary`;
 - **skills**: [`skills/buddie`](skills/buddie/SKILL.md) for executors and orchestrators,
-  [`skills/verbatim`](skills/verbatim/SKILL.md) for quoting from snapshots.
+  [`skills/verbatim`](skills/verbatim/SKILL.md) for quoting from snapshots;
+- **commands** you run yourself: `/buddie:check [file or text]` checks a text now (your last answer by default),
+  `/buddie:status` shows what is checked in this project and what was returned lately, `/buddie:init` turns on the
+  project's full checks (`buddie.toml`, starting in intro mode).
 
 The hook runs through `hooks/run.sh`, which starts the first of `python3`, `python` and `py -3` that is Python 3.11+,
 so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
@@ -272,10 +292,12 @@ by DOI, known syndicated copies. `verbatim` never bypasses paywalls, captchas or
 **The transcript.** The hook reads the current session's transcript (`transcript_path`, and its subagents' files next
 to it) because a claim about a command can only be checked against what the session actually ran:
 `⚓ run:pytest -q => 41 passed` holds only if the transcript shows that call with that output. It also takes the
-final answer at `Stop`, the token count for the context gate, snapshot stores the session named, and the commands
-behind ready anchors from there. It reads the file in place; nothing from it is copied into the journal or sent
-anywhere. No other session, no memory, no chat history is read. There is no switch for this reading yet: without
-the transcript the hook has no final answer to check at `Stop` and no way to tell a real `run:` from an invented one.
+token count for the context gate, snapshot stores the session named, and the commands behind ready anchors from
+there; the final answer at `Stop` comes from the event itself (`last_assistant_message`), and from the transcript only
+when the event has none. It reads the file in place; nothing from it is copied into the journal or sent anywhere. No
+other session, no memory, no chat history is read. To turn it off, set the plugin's "Read the session transcript"
+option to off, `BUDDIE_TRANSCRIPT=0`, or `[transcript] read = false` in `buddie.toml`: answers are still checked,
+and `run:` anchors are reported as unchecked.
 
 **The journal.** Each check appends one line to `BUDDIE_LOG` (`~/.cache/buddie/hook.jsonl`): time, session id, tool,
 outcome, counts of verdicts, exit code and the SHA-256 of the checked text. It never holds the text. Promise lines

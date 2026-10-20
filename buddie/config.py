@@ -128,6 +128,21 @@ def classify(item: str) -> str | None:
     return None  # anything new: always block
 
 
+def reads_transcript(cfg: dict) -> bool:
+    """Whether the hook may open the session transcript (run: anchors, the context gate, decision cards). Off: the
+    final answer comes from the Stop event's last_assistant_message, run: anchors are UNCHECKABLE. BUDDIE_TRANSCRIPT=0
+    or 1, then the plugin option read_transcript (CLAUDE_PLUGIN_OPTION_READ_TRANSCRIPT), then [transcript] read in
+    buddie.toml; default on."""
+    for name in ("BUDDIE_TRANSCRIPT", "CLAUDE_PLUGIN_OPTION_READ_TRANSCRIPT"):
+        value = os.environ.get(name, "").strip().lower()
+        if value in ("0", "false", "no", "off"):
+            return False
+        if value in ("1", "true", "yes", "on"):
+            return True
+    read = (cfg.get("transcript") or {}).get("read")
+    return read is not False
+
+
 def journal_text(cfg: dict) -> bool:
     """Whether the journal may keep words of the conversation (promise sentences, choice cards); default no."""
     env = os.environ.get("BUDDIE_JOURNAL_TEXT")

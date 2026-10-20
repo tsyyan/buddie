@@ -268,11 +268,14 @@ def receipt_for(text: str, event: dict, numbers: str = "gap") -> tuple[dict, lis
 
 
 def stop_text(event: dict) -> str:
-    """The final answer at Stop: the last assistant text of a Claude Code transcript, else the event's own
-    last_assistant_message (Codex sends it, and its transcript_path is a log of another shape)."""
+    """The final answer at Stop: the event's own last_assistant_message (Claude Code and Codex send it; Claude Code's
+    docs say the transcript is written asynchronously and may not hold the turn's last message yet), else the last
+    assistant text of a Claude Code transcript."""
+    sent = event.get("last_assistant_message")
+    if isinstance(sent, str) and sent.strip():
+        return sent
     path = event.get("transcript_path")
-    text = last_answer(path) if path and Path(path).is_file() else ""
-    return text if text.strip() else (event.get("last_assistant_message") or "")
+    return last_answer(path) if path and Path(path).is_file() else ""
 
 
 def outgoing(event: dict) -> str:
@@ -285,6 +288,9 @@ def outgoing(event: dict) -> str:
 def run(event: dict, err=None, out=None) -> int:
     from buddie import config, context, decisions, promises, summary
     err = err or sys.stderr
+    if not config.reads_transcript(config.of_event(event)[1]):
+        # the person turned transcript reading off: nothing below opens the session log
+        event = {**event, "transcript_path": None, "agent_transcript_path": None}
     name = event.get("hook_event_name")
     if name == "SessionStart":
         return session_start(event)
