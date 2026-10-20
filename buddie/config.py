@@ -11,9 +11,12 @@ the gate would have said, as a systemMessage) or "off" (not checked):
   work      a claim about the work queue that does not hold ([mandate])      default block
   summary   a Stop returned once for the summary of the subagents' results   default off
   promises  a Stop returned for a promise whose condition holds              default off
+  context   a reply or a subagent launch past the context limit (context.py)  default block
 
-BUDDIE_GATES="prose=block,summary=block" overrides the file (per class). A project without buddie.toml gets the
-defaults.
+A project without buddie.toml gets the defaults with final, prose and context off (ZERO_CONFIG): someone who only
+installed the plugin is returned an answer only for what is false, a quote not on its page or an anchor that does not
+hold, not for what is merely unanchored. `buddie init` writes the full defaults. BUDDIE_GATES="prose=block,
+summary=block" overrides either (per class).
 
 [intro] finals = N (what `buddie init` writes): until N final answers have passed since the last false return was
 reported (`buddie intro --false`), nothing is returned: each would-be return is a warning that says what it would
@@ -36,7 +39,10 @@ from pathlib import Path
 CONFIG = "buddie.toml"
 LEVELS = ("block", "warn", "off")
 DEFAULTS = {"anchors": "block", "quotes": "block", "final": "block", "prose": "warn", "numbers": "warn",
-            "work": "block", "summary": "off", "promises": "off"}
+            "work": "block", "summary": "off", "promises": "off", "context": "block"}
+# no buddie.toml: return only what is false (1.1, before the plugin directory); unanchored answers, prose about work
+# and the context rule are the project's choice, made with `buddie init`
+ZERO_CONFIG = {**DEFAULTS, "final": "off", "prose": "off", "context": "off"}
 INIT_FINALS = 20
 
 TEMPLATE = f"""# buddie config (buddie init). Each class of claims is "block", "warn" or "off".
@@ -48,6 +54,7 @@ prose = "warn"      # "merged", "tests passed" in prose with no anchor on the li
 numbers = "warn"    # a number of a cited sentence not in its source
 summary = "off"     # return a Stop once for the summary of the subagents' results
 promises = "off"    # return a Stop for a promise whose condition holds
+context = "block"   # a reply or a subagent launch past the context limit (BUDDIE_CONTEXT_LIMIT, default 200k)
 
 # The journal keeps receipts only (counts, verdicts, hashes), no words of the conversation; true keeps promise
 # sentences and choice cards in it.
@@ -83,8 +90,10 @@ def of_event(event: dict) -> tuple[Path | None, dict]:
     return path, load(path)
 
 
-def levels(cfg: dict) -> dict[str, str]:
-    out = dict(DEFAULTS)
+def levels(cfg: dict, configured: bool = True) -> dict[str, str]:
+    """The level of each class: the defaults (ZERO_CONFIG when the project has no buddie.toml), then the file's
+    [gates], then BUDDIE_GATES."""
+    out = dict(DEFAULTS if configured else ZERO_CONFIG)
     for k, v in (cfg.get("gates") or {}).items():
         if k in out and v in LEVELS:
             out[k] = v
@@ -108,13 +117,15 @@ def classify(item: str) -> str | None:
         return "anchors"
     if item.startswith(("final answer has no anchor", "number without anchor")):
         return "final"
+    if item.startswith("context "):
+        return "context"
     if item.startswith("number "):
         return "numbers"
     if item.startswith("work claimed in prose"):
         return "prose"
     if " line " in item.split(":", 1)[0]:
         return "work"
-    return None  # the context gate and anything new: always block
+    return None  # anything new: always block
 
 
 def journal_text(cfg: dict) -> bool:

@@ -17,8 +17,9 @@ def _project_final_mark(monkeypatch):
 @pytest.fixture(autouse=True)
 def _project_gates(monkeypatch, tmp_path):
     """The same: lab's buddie.toml blocks prose claims and returns a Stop for the summary and promises (0.8, NEXT
-    №93); the plugin's defaults have their own tests (test_config.py). The intro count never goes to ~/.cache."""
-    monkeypatch.setenv("BUDDIE_GATES", "prose=block,summary=block,promises=block")
+    №93), and as a configured project it keeps final and context at "block" (1.1: a project without buddie.toml has
+    them off). The plugin's defaults have their own tests (test_config.py). The intro count never goes to ~/.cache."""
+    monkeypatch.setenv("BUDDIE_GATES", "prose=block,summary=block,promises=block,final=block,context=block")
     monkeypatch.setenv("BUDDIE_INTRO", str(tmp_path / "intro.json"))
 
 

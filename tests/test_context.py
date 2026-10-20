@@ -146,3 +146,13 @@ def test_woken_reads_turns_not_tool_results(tmp_path):
     assert not context.woken(_woken(tmp_path / "b.jsonl", 1, final_turn_before=False), final)
     assert not context.woken(_woken(tmp_path / "c.jsonl", 1, final_now=True), final)
     assert not context.woken(str(tmp_path / "missing.jsonl"), final) and not context.woken(None, final)
+
+
+def test_context_gate_is_off_without_buddie_toml(env, monkeypatch):
+    """1.1: the 200k rule is lab's (project rule №32), not every plugin user's; a project turns it on with buddie.toml."""
+    monkeypatch.delenv("BUDDIE_GATES")
+    high = _transcript(env / "t.jsonl", 250_000)
+    assert _spawn(high)[0] == 0
+    (env / "norepo").mkdir()
+    (env / "norepo" / "buddie.toml").write_text("[journal]\ntext = false\n", encoding="utf-8")
+    assert _spawn(high)[0] == 2

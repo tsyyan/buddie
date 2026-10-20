@@ -25,9 +25,10 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
 2. Write repo numbers and states with an anchor (`⚓ path@commit` for history, `⚓ path#sha256` for current bytes).
    "Merged", "CI is green", "tests passed" get an anchor too: `⚓ pr:octo/app#54=merged@9653a7c`,
    `⚓ ci:octo/app@dbf390f=success`, `⚓ run:pytest -q => 41 passed`. Copy OUT from the tool output, not from memory.
-   A PR that is not merged yet is `⚓ pr:…=open`, not "will be merged". A final answer that claims work in prose with
-   no anchor on the line is returned by the hook with ready anchors, and a `buddie:` line does not let it through;
-   other messages only count such lines (`prose_work` in the receipt).
+   A PR that is not merged yet is `⚓ pr:…=open`, not "will be merged". In a project whose `buddie.toml` blocks
+   prose (`prose = "block"`), a final answer that claims work in prose with no anchor on the line is returned by the
+   hook with ready anchors, and a `buddie:` line does not let it through; otherwise such lines are only counted
+   (`prose_work` in the receipt).
 3. Before sending, call `verify_report` with the report text. Fix every `FAIL`. What cannot be fixed stays, with a line
    starting with `buddie:` that says what is unconfirmed and why. A broken `pr:`, `ci:` or `run:` anchor, or work claimed
    in prose in a final answer, cannot stay: correct or add the anchor, or remove the claim.
@@ -58,7 +59,8 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
 
 Before a message leaves the session and when the turn stops, the hook runs the same `verify_report`. On `FAIL` it
 returns the items to the model (exit code 2), and the message goes out only fixed or with a `buddie:` line; a `buddie:` line does not cover a broken effect anchor. `GAPS` does
-not block. `BUDDIE_FETCH=0` turns off page fetching in the hook; `BUDDIE_REPOS=dir:dir` sets the repositories for
+not block. Without `buddie.toml` only what is false goes back (a quote not on its page, an anchor that does not
+hold); a missing anchor goes back only in a project that asks for it (`final = "block"`, written by `buddie init`). `BUDDIE_FETCH=0` turns off page fetching in the hook; `BUDDIE_REPOS=dir:dir` sets the repositories for
 anchors.
 
 ## What buddie does not check

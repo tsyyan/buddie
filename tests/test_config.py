@@ -62,7 +62,20 @@ def test_levels_file_then_env(monkeypatch):
     assert lv["prose"] == "off" and lv["numbers"] == "block"
 
 
-def test_default_prose_warns_and_final_blocks(plain):
+def test_without_buddie_toml_only_what_is_false_goes_back(plain):
+    """1.1, before the plugin directory: someone who only installed the plugin is not returned every final answer
+    for having no anchor; an anchor that does not hold still goes back."""
+    assert config.levels({}, configured=False) == config.ZERO_CONFIG
+    assert _stop(plain, BARE) == (0, "", "")
+    assert _stop(plain, "I updated the README with the install steps.") == (0, "", "")
+    assert _stop(plain, "Done `⚓ build=ok`.\n\nThe PR is merged.") == (0, "", "")
+    (plain / "README.md").write_text("hi\n", encoding="utf-8")
+    code, err, _ = _stop(plain, "Done. ⚓ `README.md#" + "0" * 64 + "`")
+    assert code == 2 and err.startswith(hook.RETURNED) and "sha256 is now" in err and hook.FIX in err
+
+
+def test_a_project_with_buddie_toml_keeps_the_full_defaults(plain):
+    (plain / "buddie.toml").write_text("[journal]\ntext = false\n", encoding="utf-8")
     code, err, out = _stop(plain, BARE)
     assert code == 2 and "final answer has no anchor" in err and "work claimed in prose" not in err
     anchored = "Done `⚓ build=ok`.\n\nThe PR is merged."
@@ -145,8 +158,9 @@ def _event(name, transcript, cwd):
 
 @pytest.mark.parametrize("launcher", _launchers(), ids=lambda c: Path(c[0]).stem + "-" + Path(c[-2]).name)
 def test_smoke_on_recorded_events(launcher, tmp_path):
-    """The hook as Claude Code runs it, on every OS of CI: a bare Stop goes back, an anchored one passes, a
-    PreToolUse with a run: anchor the session does not show goes back, and after `buddie init` nothing goes back."""
+    """The hook as Claude Code runs it, on every OS of CI: with no buddie.toml a bare Stop and an anchored one pass,
+    a PreToolUse with a run: anchor the session does not show goes back; after `buddie init` the bare Stop would go
+    back, and the intro mode turns that into a warning."""
     env = {k: v for k, v in os.environ.items() if not k.startswith(("BUDDIE_", "VERBATIM_"))}
     env.update(BUDDIE_LOG=str(tmp_path / "hook.jsonl"), BUDDIE_STATE=str(tmp_path / "pending"),
                BUDDIE_INTRO=str(tmp_path / "intro.json"), BUDDIE_SHARED_LOG="0", BUDDIE_GITHUB="0",
@@ -157,11 +171,22 @@ def test_smoke_on_recorded_events(launcher, tmp_path):
                            cwd=tmp_path, timeout=120)
         return p.returncode, p.stdout.decode("utf-8"), p.stderr.decode("utf-8")
 
-    code, _, err = hook_run("stop.json", "transcript.jsonl")
-    assert code == 2 and "final answer has no anchor" in err and "⚓ run:python -m pytest -q => 3 passed" in err
+    assert hook_run("stop.json", "transcript.jsonl")[0] == 0  # no buddie.toml: an unanchored answer is not false
     assert hook_run("stop.json", "transcript-anchored.jsonl")[0] == 0
     code, _, err = hook_run("pretooluse.json", "transcript.jsonl")
     assert code == 2 and "anchor line 1" in err
     (tmp_path / "buddie.toml").write_text(config.TEMPLATE, encoding="utf-8")
     code, out, err = hook_run("stop.json", "transcript.jsonl")
     assert code == 0 and "intro, final 1 of" in json.loads(out)["systemMessage"]
+
+
+def test_without_buddie_toml_a_false_quote_goes_back(plain):
+    from buddie.verbatim.store import Store
+    url = "https://status.example.com/incidents/42"
+    page = "<html><body>" + "<p>We saw elevated error rates on the API between 14:59 and 15:41 UTC.</p>" * 30 + "</body></html>"
+    Store(plain / "store").add(url, page.encode(), content_type="text/html")
+    good = f"The status page says “elevated error rates on the API between 14:59 and 15:41 UTC” ([status]({url}))."
+    bad = good.replace("14:59", "14:58")
+    assert _stop(plain, good)[0] == 0
+    code, err, _ = _stop(plain, bad)
+    assert code == 2 and err.startswith(hook.RETURNED) and "not found" in err

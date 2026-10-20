@@ -111,20 +111,27 @@ Releases and catalog listings: [docs/release.md](docs/release.md), [docs/catalog
 
 ### Levels and the intro mode
 
+**Right after installing** (no `buddie.toml` in the repo), the hook returns an answer only for what is false: a
+quote that is not on the page it links to, or an anchor that does not hold. An answer with no quotes and no anchors
+passes untouched, and so does one whose source could not be read. Numbers of cited sentences that are not on their
+page only warn. Asking for anchors on every final answer, prose about work and the context limit are a project's
+choice, made with `buddie init`.
+
 `buddie init` writes `buddie.toml` in the repo with the default level of each class of claims and turns the intro
 mode on. Each class is `block` (the text goes back to the model), `warn` (the text leaves; you see what the gate would
 have said) or `off`:
 
-| Class | What | Default |
-|---|---|---|
-| `anchors` | a broken anchor: `path@commit`, `path#sha256`, `pr:`, `ci:`, `run:` | `block` |
-| `quotes` | a quote not on its source | `block` |
-| `final` | a final answer with no anchor, or a count line without one | `block` |
-| `prose` | work claimed in prose ("merged", "tests passed") with no anchor on the line | `warn` |
-| `numbers` | a number of a cited sentence not in its source | `warn` |
-| `work` | a claim about the work queue that does not hold (`[mandate]`) | `block` |
-| `summary` | return a `Stop` once for the summary of the subagents' results | `off` |
-| `promises` | return a `Stop` for a promise whose condition holds | `off` |
+| Class | What | With `buddie.toml` | Without |
+|---|---|---|---|
+| `anchors` | a broken anchor: `path@commit`, `path#sha256`, `pr:`, `ci:`, `run:` | `block` | `block` |
+| `quotes` | a quote not on its source | `block` | `block` |
+| `final` | a final answer with no anchor, or a count line without one | `block` | `off` |
+| `prose` | work claimed in prose ("merged", "tests passed") with no anchor on the line | `warn` | `off` |
+| `numbers` | a number of a cited sentence not in its source | `warn` | `warn` |
+| `work` | a claim about the work queue that does not hold (`[mandate]`) | `block` | `block` |
+| `summary` | return a `Stop` once for the summary of the subagents' results | `off` | `off` |
+| `promises` | return a `Stop` for a promise whose condition holds | `off` | `off` |
+| `context` | a reply or a subagent launch past the context limit (`BUDDIE_CONTEXT_LIMIT`, 200k) | `block` | `off` |
 
 ```toml
 [gates]
@@ -137,7 +144,8 @@ finals = 20
 In the intro mode nothing is returned: each would-be return is a warning that says what it would have returned. It
 ends by itself after `finals` final answers with no false return reported; `buddie intro --false` reports one and
 restarts the count, `buddie intro` shows where it stands, `buddie enforce` ends it now. Without `buddie.toml` the
-defaults apply and there is no intro.
+"Without" column applies and there is no intro: nothing that is merely unanchored is returned, so there is nothing
+to get used to.
 
 ### The loop
 
