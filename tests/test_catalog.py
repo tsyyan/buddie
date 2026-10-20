@@ -108,3 +108,16 @@ def test_commands_and_listing_fields():
     assert all(manifest[k].startswith("https://") for k in ("documentationUrl", "supportUrl", "privacyPolicyUrl"))
     assert {"github_token", "read_transcript"} <= set(manifest["userConfig"])
     assert manifest["userConfig"]["github_token"]["sensitive"] is True
+
+
+def test_plugin_files_install_nothing_unpinned():
+    """The directory flags download-and-run commands; skills, commands and hooks are what an installed plugin runs or
+    tells Claude to run. A pip install there names one exact release, and that release is this one."""
+    import re
+    from buddie import __version__
+    pin = re.compile(r"pip install[^\n`]*?\bbuddie==([\d.]+)")
+    for path in [*(ROOT / "skills").rglob("*.md"), *(ROOT / "commands").glob("*.md"), *(ROOT / "hooks").iterdir()]:
+        text = path.read_text(encoding="utf-8")
+        assert "git+https" not in text and not re.search(r"\b(?:npx|uvx|pipx run)\b", text), path
+        for line in re.findall(r"pip install[^\n`]*", text):
+            assert pin.search(line) and pin.search(line).group(1) == __version__, (path, line)

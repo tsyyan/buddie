@@ -1,5 +1,12 @@
 # Changelog
 
+## buddie 1.1.1 (2026-10-20)
+
+- The `verbatim` skill no longer tells Claude to `pip install` buddie from git: inside the plugin it uses the plugin's
+  own MCP tools (`snap`, `source_text`, `verify_report`), and outside it names one pinned PyPI release. Flagged by
+  the plugin directory's listing check. A test keeps skills, commands and hooks free of unpinned installs and
+  download-and-run launchers.
+
 ## buddie 1.1.0 (2026-10-20)
 
 Ready for Anthropic's plugin directory. A fresh install now returns an answer only for what is false, the plugin has
