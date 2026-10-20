@@ -1,6 +1,6 @@
 {
   "name": "buddie",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Receipts for agent work: quotes checked against the bytes of their sources, repo, PR and CI claims against the repo and GitHub, without a model.",
   "keywords": [
     "verification",

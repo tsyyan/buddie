@@ -1,7 +1,7 @@
 {
   "name": "buddie",
   "displayName": "buddie: claim checker",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Checks Claude's answers before you read them: each quote against the page it links to, and anchored claims like merged, CI green or tests passed against git, GitHub and the session log. No model in the check; a false claim goes back to Claude with the reason.",
   "author": {
     "name": "tsyyan"

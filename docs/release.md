@@ -31,8 +31,11 @@ reviewer on `pypi` makes every PyPI upload wait for your click.
 
 ## Cutting a release
 
-1. Bump the version in `buddie/__init__.py`, `pyproject.toml`, `CITATION.cff`, `.claude-plugin/plugin.json` and
-   `manifest.json` (`tests/test_version.py` and `tests/test_manifest.py` fail until they agree).
+1. Bump the version in `buddie/__init__.py`, `pyproject.toml`, `CITATION.cff`, `.claude-plugin/plugin.json`,
+   `.codex-plugin/plugin.json`, `manifest.json`, `server.json` (both fields), `integrations/chatgpt/plugin.json` and the
+   pinned `pip install buddie==…` in `skills/verbatim/SKILL.md` (`tests/test_version.py`, `tests/test_manifest.py`
+   and `tests/test_catalog.py` fail until they agree). `plugin.json`'s version is what moves installed plugin users
+   to the release.
 2. Rename `## Unreleased` in `CHANGELOG.md` to `## buddie X.Y.Z (YYYY-MM-DD)`.
 3. Merge to `main` with CI green.
 4. Optional dry run: Actions → release → Run workflow (target `testpypi`), then
