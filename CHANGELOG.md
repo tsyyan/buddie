@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## buddie 1.1.0 (2026-10-20)
+
+Ready for Anthropic's plugin directory. A fresh install now returns an answer only for what is false, the plugin has
+listing fields, commands and a transcript switch, and an eval suite measures what the gate adds.
+
+Measured with `claude plugin eval` (evals/, 2 runs per arm, Claude Opus 5.5): with the plugin the person got the truth
+in every trap run (altered quote, `pr:` open-but-merged, `ci:` green-but-failed), without it in none of 6; the honest
+control passed in both arms. The gate costs turns: 3.7 to 5 turns per run against 1, about twice the cost.
 
 - **A `buddie:` line written before any check no longer covers what buddie finds false.** For a quote not on its
   page, an anchor or a number that does not hold, the line counts only after the hook has returned the text once,

@@ -40,10 +40,16 @@ What the checks will find, as far as the published checklist says:
   - two files over 256 KiB: `results/E008-drb2-fresh/results.json` and `sample_blind.json` (research data);
   - "Uses a credential from the user's machine": until 1.1 buddie also read an ambient `GITHUB_TOKEN`. Since 1.1
     it takes only `BUDDIE_GITHUB_TOKEN` or the plugin's `github_token` setting; a scan may still flag the names.
-- **Policy questions a reviewer may ask:** the hook reads the Claude Code session transcript to find the final
-  answer and to check `run:` anchors, and keeps a journal of receipts (hashes, verdicts, no conversation text by
-  default). README's "The transcript and the journal" section and [PRIVACY.md](../PRIVACY.md) describe this. Point to
-  them in the data-handling step.
+- **Policy questions a reviewer may ask:** the hook reads the Claude Code session transcript to check `run:` anchors
+  (the final answer comes from the `Stop` event), and keeps a journal of receipts (hashes, verdicts, no conversation
+  text by default). Since 1.1 the person can turn transcript reading off in the plugin's settings. README's "The
+  transcript and the journal" section and [PRIVACY.md](../PRIVACY.md) describe this. Point to them in the
+  data-handling step.
+- **Evidence for the listing:** the eval results in README's "Plugin evals" section (with the plugin the person got
+  the truth in every trap run, without it in none; about twice the turns). The portal's pre-submission page asks for
+  exactly this comparison.
+
+Submit on the tag `v1.1.0` or later: earlier versions return every unanchored final answer of a fresh install.
 
 Suggested data-handling answers (check them against what you know):
 
