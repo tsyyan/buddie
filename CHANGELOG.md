@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- **A `buddie:` line written before any check no longer covers what buddie finds false.** For a quote not on its
+  page, an anchor or a number that does not hold, the line counts only after the hook has returned the text once,
+  with what it found. Found by the plugin evals: an altered quote went out under "buddie: unverified" in 2 of 2 runs.
+  An up-front line about what cannot be checked (a count made by hand, a missing anchor) works as before, and so
+  does everything with `BUDDIE_STATE=0`.
+- The skill and the MCP instructions say never to write a receipt line by hand; in the evals a model without the tool
+  wrote one.
 - **Safe defaults for a fresh install.** Without `buddie.toml` the hook returns an answer only for what is false: a
   quote not on its page, an anchor that does not hold. Before, every final answer without an anchor went back
   ("final answer has no anchor"), and the intro mode only came with `buddie init`. `final`, `prose` and the new

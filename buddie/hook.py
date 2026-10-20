@@ -426,10 +426,19 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         warned, blocking, hard = warned + blocking, [], False
         if final:
             tour["seen"] = config.count_final(path)
-    code = 2 if hard or (blocking and not DISCLOSED.search(text)) else 0
-    items = journal.flagged(pred, text, final) + extra if code else []
     session, tool = event.get("session_id"), event.get("tool_name") or name
     before = journal.take_pending(session, tool)
+    # a 'buddie:' line may say up front what cannot be checked (a count made by hand, a missing anchor). What buddie
+    # checked against its source and found false (a quote not on its page, an anchor or a number that does not hold)
+    # it covers only once buddie has returned the text: written before, it pre-empts the check (an eval run,
+    # 2026-10-20: a quote buddie had found altered went out under "buddie: unverified"). Returns not tracked
+    # (BUDDIE_STATE=0): as before
+    found_false = [i for i in blocking if config.classify(i) in ("quotes", "anchors", "numbers")]
+    preempted = (bool(DISCLOSED.search(text)) and bool(found_false) and before is None
+                 and journal.tracks_returns())
+    disclosed = bool(DISCLOSED.search(text)) and not preempted
+    code = 2 if hard or (blocking and not disclosed) else 0
+    items = journal.flagged(pred, text, final) + extra if code else []
     entry = {"at": pred["checked_at"], "session": session, "event": name, "tool": event.get("tool_name"),
              "final": final, "context": tokens, "work": pred["summary"]["work"],
              "quotes": pred["summary"]["quotes"], "stores": len(stores),
@@ -473,6 +482,10 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         for item in ready:
             print(item, file=err)
     print(FIX, file=err)
+    if preempted and not hard:
+        print("The 'buddie:' line in this text was written before buddie checked it, so it does not count yet: buddie "
+              "found the items above. Fix them; a 'buddie:' line about an item counts once you have seen it here.",
+              file=err)
     if hard:
         print("A 'buddie:' line does not cover a broken pr:/ci:/run: anchor or work claimed in prose: correct the "
               "anchor or add one (the ready anchors above), or remove the claim and say in prose what is not done.",

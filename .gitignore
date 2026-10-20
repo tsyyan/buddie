@@ -8,3 +8,4 @@ dist/
 verdicts.json
 receipt.json
 *.mcpb
+evals/results/

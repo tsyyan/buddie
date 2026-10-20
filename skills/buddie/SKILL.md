@@ -31,8 +31,11 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
    (`prose_work` in the receipt).
 3. Before sending, call `verify_report` with the report text. Fix every `FAIL`. What cannot be fixed stays, with a line
    starting with `buddie:` that says what is unconfirmed and why. A broken `pr:`, `ci:` or `run:` anchor, or work claimed
-   in prose in a final answer, cannot stay: correct or add the anchor, or remove the claim.
-4. Put the receipt's `predicate.line` at the end of the report.
+   in prose in a final answer, cannot stay: correct or add the anchor, or remove the claim. A `buddie:` line written
+   before any check does not cover a quote buddie finds not on its page, or an anchor or number it finds not to hold:
+   the hook returns the text once, with what it found, and only then does the line count.
+4. Put the receipt's `predicate.line` at the end of the report, copied from the tool's result. Never write a receipt
+   line yourself: when the tool is not available, say that nothing was checked.
 
 ## Orchestrator: when receiving a report
 

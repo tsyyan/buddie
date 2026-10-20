@@ -161,6 +161,11 @@ def _state_file(session: str | None, tool: str | None) -> Path | None:
     return Path(root) / f"{name}.json"
 
 
+def tracks_returns() -> bool:
+    """Whether the gate remembers what it returned (BUDDIE_STATE not 0): then a disclosure counts only after a return."""
+    return _state_file(None, None) is not None
+
+
 def take_pending(session: str | None, tool: str | None) -> list[dict] | None:
     f = _state_file(session, tool)
     try:

@@ -191,7 +191,7 @@ quote with the snapshot SHA-256 and offset, the status of every anchor, and the 
 
 | Outcome | When | What the receiver does |
 |---|---|---|
-| `FAIL` | a quote `NOT_FOUND` in its readable source, or an anchor or work claim `BROKEN` | does not pass it on as is: fix it, or add a line starting with `buddie:` that discloses what is unconfirmed; a broken `pr:`/`ci:`/`run:` anchor must be corrected or removed |
+| `FAIL` | a quote `NOT_FOUND` in its readable source, or an anchor or work claim `BROKEN` | does not pass it on as is: fix it, or add a line starting with `buddie:` that discloses what is unconfirmed (for a quote, anchor or number buddie found false, the line counts only after buddie returned the text once); a broken `pr:`/`ci:`/`run:` anchor must be corrected or removed |
 | `GAPS` | something could not be checked: source unavailable, quote without a link, anchor in another repo, GitHub offline | passes it on, naming what was not checked |
 | `PASS` | all quotes found, all anchors hold | passes it on with the receipt line |
 | `EMPTY` | nothing to check | knows that no check took place |
