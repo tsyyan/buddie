@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **Safe defaults for a fresh install.** Without `buddie.toml` the hook returns an answer only for what is false: a
+  quote not on its page, an anchor that does not hold. Before, every final answer without an anchor went back
+  ("final answer has no anchor"), and the intro mode only came with `buddie init`. `final`, `prose` and the new
+  `context` class (the 200k context rule) are off without `buddie.toml`; a project with `buddie.toml` keeps the
+  full defaults, so existing setups behave as before.
+- A returned text starts with one plain line saying what buddie is and that only the listed items were judged, and
+  ends with clearer fix instructions.
+
 ## buddie 1.0.1 (2026-10-20), verbatim 0.3.8
 
 - Numbers in Russian sentences get their context: Russian words count, cut to a stem so case endings still match

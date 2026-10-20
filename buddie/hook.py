@@ -181,6 +181,13 @@ def last_answer(transcript: str) -> str:
     return text
 
 
+# what the model reads first when its text is returned: it may not know buddie (a plugin someone just installed)
+RETURNED = ("buddie (a plugin that checks claims against their sources, without a model) sent this text back: the "
+            "items below do not hold. Nothing else in the text was judged.")
+FIX = ("Fix each item: copy a quote character for character from its page (buddie's source_text tool, after snap), "
+       "or correct the anchor (ready anchors are listed above when buddie could compute them). If an item cannot be "
+       "fixed, keep it and add a line starting with 'buddie:' that tells the reader what is unverified and why.")
+
 SEND = re.compile(r"(?:^|__)(?:reply|post_message|send_message)$|^SendMessage$")
 
 
@@ -312,7 +319,8 @@ def run(event: dict, err=None, out=None) -> int:
         promises.record(event, outgoing(event))
         if name != "Stop":
             return []
-        lv, why = config.levels(config.of_event(event)[1]), []
+        path, cfg = config.of_event(event)
+        lv, why = config.levels(cfg, path is not None), []
         for cls, demand in (("summary", summary.on_stop), ("promises", promises.on_stop)):
             if lv[cls] != "off" and (w := demand(event)):
                 why.append(w) if lv[cls] == "block" else warn([w], out)
@@ -332,11 +340,13 @@ def spawn_held(event: dict, err, out=None) -> bool:
     from buddie import config, context
     from buddie.promises import strings
     from buddie.summary import now_iso
+    path, cfg = config.of_event(event)
+    if config.levels(cfg, path is not None)["context"] == "off":
+        return False
     tokens = context.last_context(event.get("transcript_path"))
     heavy = context.over(event, False, tokens)
     if not heavy:
         return False
-    path, cfg = config.of_event(event)
     disclosed = bool(DISCLOSED.search("\n".join(strings(event.get("tool_input") or {}))))
     tour = config.intro(path, cfg)
     held = not disclosed and not tour
@@ -388,12 +398,12 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         return 0, why
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
     path, cfg = config.of_event(event)
-    lv = config.levels(cfg)
+    lv = config.levels(cfg, path is not None)
     receipt, stores = receipt_for(text, event, config.numbers_mode(lv["numbers"]))
     pred = receipt["predicate"]
     final = final_answer(text, event)
     tokens = context.last_context(event.get("transcript_path"))
-    heavy = context.over(event, final, tokens, lambda t: final_answer(t, event))
+    heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event))
     extra = [{"kind": "context", "line": None, "text": ""}] if heavy else []
     prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event)) else []
     every = pred["blocking"] + (unbacked(pred) if final else []) + prose + ([heavy] if heavy else [])
@@ -444,6 +454,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         warn([head] + [f"- {i}" for i in warned] + tail, out)
     if not code:
         return 0, why
+    print(RETURNED, file=err)
     print(pred["line"], file=err)
     for item in blocking:
         print(f"- {item}", file=err)
@@ -455,9 +466,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         print("Ready anchors, checked now (copy as is onto the line):", file=err)
         for item in ready:
             print(item, file=err)
-    print("Fix each item (copy the quote from the source text: buddie source_text / buddie-verbatim text; refresh the "
-          "anchor or add one), or keep it and add a line starting with 'buddie:' that tells the reader what is "
-          "unverified and why.", file=err)
+    print(FIX, file=err)
     if hard:
         print("A 'buddie:' line does not cover a broken pr:/ci:/run: anchor or work claimed in prose: correct the "
               "anchor or add one (the ready anchors above), or remove the claim and say in prose what is not done.",
