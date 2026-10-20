@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## buddie 1.0.1 (2026-10-20), verbatim 0.3.8
 
 - Numbers in Russian sentences get their context: Russian words count, cut to a stem so case endings still match
   («постановления» finds «постановлением»), with Russian stop words. Before, only Latin words counted and every
