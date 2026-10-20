@@ -7,6 +7,17 @@
   ("final answer has no anchor"), and the intro mode only came with `buddie init`. `final`, `prose` and the new
   `context` class (the 200k context rule) are off without `buddie.toml`; a project with `buddie.toml` keeps the
   full defaults, so existing setups behave as before.
+- Slash commands: `/buddie:check [file or text]` checks a text now (the last answer by default), `/buddie:status`
+  shows what is checked in this project and what the journal says, `/buddie:init` turns on the full checks. New CLI
+  command `buddie status`.
+- The final answer at `Stop` comes from the event's `last_assistant_message` first: Claude Code's docs say the
+  transcript is written asynchronously and may not hold the turn's last message yet.
+- Transcript reading can be turned off: the plugin option "Read the session transcript", `BUDDIE_TRANSCRIPT=0` or
+  `[transcript] read = false`. Answers are still checked; `run:` anchors are then reported as unchecked.
+- **Changed:** an ambient `GITHUB_TOKEN` is no longer picked up. buddie uses only a token given to it by name, the
+  plugin's `github_token` setting or `BUDDIE_GITHUB_TOKEN` (in CI: `BUDDIE_GITHUB_TOKEN: ${{ github.token }}`).
+- Listing fields for Anthropic's plugin directory in `plugin.json` (display name, icon, documentation, support and
+  privacy links), a description by task, and a README that opens with what the plugin does and an example.
 - A returned text starts with one plain line saying what buddie is and that only the listed items were judged, and
   ends with clearer fix instructions.
 

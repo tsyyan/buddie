@@ -4,13 +4,13 @@
     "name": "tsyyan"
   },
   "metadata": {
-    "description": "buddie: receipts for agent work in Claude Code"
+    "description": "buddie: checks that quotes and claims in AI agents' answers hold against their sources"
   },
   "plugins": [
     {
       "name": "buddie",
       "source": "./",
-      "description": "Checks an agent's report before it leaves the session: quotes against source snapshots, repo anchors, PR/CI state, command output; verify_report MCP tool, skill and hook"
+      "description": "Checks Claude's answers before you read them: each quote against the page it links to, and anchored claims like merged, CI green or tests passed against git, GitHub and the session log. No model in the check; a false claim goes back to Claude with the reason."
     }
   ]
 }

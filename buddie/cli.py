@@ -13,6 +13,9 @@
                                     when no subagent is left: what they did, what was lost, the next steps with
                                     auto/ask and a ready AskUserQuestion card (JSON; --text only the text)
   buddie init [--repo DIR]          write buddie.toml with the default levels and the intro mode on
+  buddie status [--repo DIR] [--last 50]
+                                    what the hook does here now (config, levels, intro, transcript) and what the
+                                    journal says about the last checks
   buddie intro [--false] [--repo DIR]
                                     where the intro mode stands; --false: the last return was false, restart the count
   buddie enforce [--repo DIR]       end the intro mode: returns block from now on
@@ -133,6 +136,50 @@ def cmd_intro(args, enforce: bool = False) -> int:
     return 0
 
 
+def cmd_status(args) -> int:
+    """What the hook does in this repo now: the config, the level of each class, the intro, transcript reading, and
+    what the journal says about the last checks."""
+    from collections import Counter
+
+    from buddie import __version__, config, hook
+    path = _config_path(args)
+    cfg = config.load(path)
+    lv = config.levels(cfg, path is not None)
+    print(f"buddie {__version__}")
+    if path:
+        print(f"config: {path}")
+        tour = config.intro(path, cfg)
+        if tour:
+            print(f"intro mode: {tour['seen']} of {tour['finals']} final answers passed; until then nothing is returned, "
+                  "only warned (`buddie enforce` ends it)")
+    else:
+        print(f"config: no {config.CONFIG} (fresh-install defaults): only a quote that is not on its page or an anchor "
+              "that does not hold goes back; `buddie init` turns on the project's full checks")
+    print("levels: " + ", ".join(f"{k}={v}" for k, v in lv.items()))
+    print("transcript: " + ("read (run: anchors are checked)" if config.reads_transcript(cfg)
+                            else "not read (run: anchors are unchecked)"))
+    logs = [p for p in hook.log_targets(None)[:1] if p.is_file()]
+    if not logs:
+        print("journal: none yet")
+        return 0
+    rows = []
+    for raw in logs[0].read_text(encoding="utf-8", errors="replace").splitlines()[-args.last:]:
+        try:
+            rows.append(json.loads(raw))
+        except json.JSONDecodeError:
+            continue
+    checks = [r for r in rows if "outcome" in r]
+    returned = [r for r in checks if r.get("exit") == 2]
+    reasons = Counter(k for r in returned for k in (r.get("reasons") or {}))
+    print(f"journal: {logs[0]}")
+    print(f"last {len(checks)} checks: {len(checks) - len(returned)} let through, {len(returned)} returned, "
+          f"{sum(1 for r in checks if r.get('warned'))} with warnings; outcomes "
+          + ", ".join(f"{k} {v}" for k, v in Counter(r["outcome"] for r in checks).most_common()))
+    if reasons:
+        print("returned for: " + ", ".join(f"{k} {v}" for k, v in reasons.most_common()))
+    return 0
+
+
 def cmd_serve(args) -> int:
     if args.http:
         from buddie.remote import serve as serve_http
@@ -191,6 +238,10 @@ def main(argv: list[str] | None = None) -> int:
     i = sub.add_parser("init", help="write buddie.toml with the default levels and the intro mode on")
     i.add_argument("--repo", action="append", help="where to write it (default: the repo around cwd)")
     i.set_defaults(func=cmd_init)
+    st = sub.add_parser("status", help="what the hook does in this repo now, and what it did lately")
+    st.add_argument("--repo", action="append", help="repo with buddie.toml (default: around cwd)")
+    st.add_argument("--last", type=int, default=50, help="journal lines to read (default 50)")
+    st.set_defaults(func=cmd_status)
     t = sub.add_parser("intro", help="where the intro mode stands; --false reports a false return")
     t.add_argument("--false", action="store_true", help="the last return was false: restart the count")
     t.add_argument("--repo", action="append", help="repo with buddie.toml (default: around cwd)")
