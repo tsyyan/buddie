@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "buddie",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Check an agent's report against the sources it cites and GitHub before you rely on it.",
   "author": {"name": "tsyyan", "url": "https://github.com/tsyyan"},
   "homepage": "https://github.com/tsyyan/buddie",
