@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "buddie",
   "display_name": "buddie",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Receipts for agent work: checks quotes against the bytes of their sources and repo, PR and CI claims against the repo and GitHub, without a model.",
   "long_description": "buddie checks what an AI agent reports before you rely on it. A quotation with a link is looked up in a SHA-256 snapshot of that page; a repo anchor (`path#sha256`, `path@commit`) is checked against your checkout; `pr:` and `ci:` anchors are checked against the GitHub API. No model takes part in the check, and every check ends in a receipt anyone can re-run.\n\nIn Claude Desktop buddie runs as a local MCP server with the tools `verify_report`, `snap` and `source_text`. Claude Code adds a hook that gates the final answer and `run:` anchors checked against the session transcript; Desktop has neither, so `run:` anchors come out as unchecked (GAPS), not as errors.",
   "author": {
