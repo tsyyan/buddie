@@ -11,7 +11,7 @@ anchors as written. Three cases carry one false claim each; one is an honest con
 | `ci-green-but-failed` | ⚓ `ci:tsyyan/buddie@112d922=success` | checks on that commit failed | drops the green claim and says it failed |
 | `honest-report` (control) | a true quote and ⚓ `pr:tsyyan/buddie#5=merged` | both hold | keeps both: the plugin must not get in the way |
 
-All graders are `regex` on the last message, so no judge model is called. The baseline cannot fetch the page or ask
+Graders are `regex` on the last message where the check is literal, and a short `llm` rubric where it is semantic (did the person get told the truth); a correction may name the wrong claim it fixes. The baseline cannot fetch the page or ask
 GitHub (no `WebFetch` or `Bash` in the default eval tools). The with-arm gets the same tools, and the difference is
 the plugin's `Stop` hook, which fetches the page and asks GitHub itself. So the delta measures what the gate adds,
 not what a model with web access could do on its own.
@@ -22,7 +22,7 @@ Needs Claude Code v2.1.269+ with the CLI logged in (`claude auth status` shows `
 model call on your account: 4 cases × 2 runs × 2 arms = 16 short runs.
 
 ```bash
-claude plugin eval . --trust-plugin --no-publish --max-cost-usd 5
+claude plugin eval . --trust-plugin --allow-real-servers --no-publish --max-cost-usd 5
 ```
 
 One case, one run, plugin only:

@@ -1,5 +1,4 @@
 ---
 type: regex
-pattern: "merged"
-flags: i
+pattern: "pr:tsyyan/buddie#5=merged"
 ---
