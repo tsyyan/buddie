@@ -109,7 +109,8 @@ def test_the_return_does_not_loop_and_a_disclosure_passes(env, monkeypatch, caps
     [repo] = repos(BAD_TOML)
     assert main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys)[0] == 0
     text = GOOD + "\nbuddie: the project's buddie.toml is broken, so its own settings were not applied."
-    assert main(stop(repo, text), monkeypatch, capsys)[0] == 0
+    assert main(stop(repo, text), monkeypatch, capsys)[0] == 2  # written before buddie said anything
+    assert main(stop(repo, text), monkeypatch, capsys)[0] == 0  # after the return
 
 
 def test_fixing_the_file_ends_the_return(env, monkeypatch, capsys):
@@ -179,3 +180,117 @@ def test_a_mismatch_blocks_every_item_and_is_journaled(env, monkeypatch, capsys)
     assert last_line(tmp)["typed_mismatch"] == {"findings": 0, "items": 1}
     items, mismatch = hook.gate_items({"blocking": ["anchor line 1 ⚓ x: y"]}, [], "gap")
     assert items == [("anchor line 1 ⚓ x: y", None)] and mismatch == {"findings": 0, "items": 1}
+
+
+# --- a 'buddie:' line written before buddie said anything does not release an unchecked text ---------------------
+
+PRE = "\nbuddie: some things here may be unchecked."
+
+
+def journal(tmp: Path) -> list[dict]:
+    return [json.loads(x) for x in (tmp / "hook.jsonl").read_text(encoding="utf-8").splitlines()]
+
+
+def test_a_pre_written_disclosure_does_not_pass_a_broken_toml(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(BAD_TOML)
+    code, err, _ = main(stop(repo, GOOD + PRE), monkeypatch, capsys)
+    assert code == 2 and "written before buddie checked it" in err
+    # after the return, the same line is a disclosure the model wrote knowing: it passes
+    assert main(stop(repo, GOOD + PRE), monkeypatch, capsys)[0] == 0
+
+
+def test_a_pre_written_disclosure_does_not_pass_a_checker_error(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setattr(verify, "assess", _explode)
+    code, err, _ = main(stop(repo, GOOD + PRE), monkeypatch, capsys)
+    assert code == 2 and "could not check" in err
+    assert journal(tmp)[-1]["status"] == "internal_error"
+    code, err, _ = main(stop(repo, GOOD + PRE), monkeypatch, capsys)  # now after a return
+    assert code == 0 and journal(tmp)[-1]["status"] == "unchecked_disclosed"
+    assert not any(line.get("outcome") == "PASS" for line in journal(tmp))
+
+
+def test_a_pre_written_disclosure_does_not_pass_a_typed_mismatch(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setattr(verify, "blocking_findings", lambda found, numbers="gap": [])
+    code, err, _ = main(stop(repo, BROKEN_ANCHOR + PRE), monkeypatch, capsys)
+    assert code == 2 and "written before buddie checked it" in err
+
+
+def test_a_re_entered_stop_after_an_error_tells_the_person(env, monkeypatch, capsys):
+    """Claude Code re-enters Stop (stop_hook_active) after a return; buddie never blocks there, so the loop ends.
+    After an error return the answer that follows was not checked either: the person is told (systemMessage, which
+    the agent does not write) and the journal says unchecked, never PASS."""
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setattr(verify, "assess", _explode)
+    assert main(stop(repo, GOOD), monkeypatch, capsys)[0] == 2
+    code, err, out = main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys)
+    assert code == 0 and "not checked" in json.loads(out)["systemMessage"]
+    line = journal(tmp)[-1]
+    assert (line["status"], line["by"]) == ("unchecked_disclosed", "buddie") and "outcome" not in line
+    code, _, out = main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys)
+    assert code == 0  # however many re-entries: never a block
+
+
+def test_a_re_entered_stop_after_a_broken_toml_tells_the_person(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(BAD_TOML)
+    assert main(stop(repo, GOOD), monkeypatch, capsys)[0] == 2
+    code, _, out = main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys)
+    assert code == 0 and "buddie.toml" in json.loads(out)["systemMessage"]
+
+
+def test_a_re_entered_stop_after_an_ordinary_return_is_unchanged(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    assert main(stop(repo, BROKEN_ANCHOR), monkeypatch, capsys)[0] == 2
+    assert main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys) == (0, "", "")
+
+
+def test_recovery_between_attempts_is_checked_normally(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setattr(verify, "assess", _explode)
+    assert main(stop(repo, GOOD + PRE), monkeypatch, capsys)[0] == 2
+    monkeypatch.undo()  # the checker works again; undo also dropped the fixture's environment, set it back
+    for k, v in (("BUDDIE_FETCH", "0"), ("BUDDIE_GITHUB", "0"), ("BUDDIE_LOG", str(tmp / "hook.jsonl")),
+                 ("BUDDIE_STATE", str(tmp / "pending")), ("BUDDIE_SHARED_LOG", "0"), ("BUDDIE_INTRO", "0"),
+                 ("VERBATIM_STORE", str(tmp / "store")), ("BUDDIE_REPOS", str(repo)), ("BUDDIE_PROMISES", "0")):
+        monkeypatch.setenv(k, v)
+    code, _, _ = main(stop(repo, BROKEN_ANCHOR + PRE), monkeypatch, capsys)  # the check runs: the anchor is false
+    assert code == 0 and journal(tmp)[-1]["outcome"] == "FAIL"  # a disclosure after a return, as always
+    assert main(stop(repo, GOOD), monkeypatch, capsys)[0] == 0 and journal(tmp)[-1]["outcome"] == "PASS"
+
+
+def test_an_ordinary_disclosure_after_a_false_quote_still_passes(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    assert main(stop(repo, BROKEN_ANCHOR), monkeypatch, capsys)[0] == 2
+    assert main(stop(repo, BROKEN_ANCHOR + "\nbuddie: the anchor is stale."), monkeypatch, capsys)[0] == 0
+
+
+def test_a_text_tool_after_an_error(env, monkeypatch, capsys):
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setattr(verify, "assess", _explode)
+    sent = {"hook_event_name": "PreToolUse", "session_id": "s", "cwd": str(repo), "tool_name": "mcp__x__send_message",
+            "tool_input": {"text": GOOD + PRE}}
+    assert main(sent, monkeypatch, capsys)[0] == 2  # pre-written: held
+    assert main(sent, monkeypatch, capsys)[0] == 0  # after the return: let out, unchecked and disclosed
+    assert journal(tmp)[-1]["status"] == "unchecked_disclosed"
+
+
+def test_without_return_state_an_error_is_always_held(env, monkeypatch, capsys):
+    """BUDDIE_STATE=0: buddie cannot tell a line written after its return, so no line releases an unchecked text;
+    only the re-entered Stop ends it, with the person told."""
+    tmp, repos = env
+    [repo] = repos(None)
+    monkeypatch.setenv("BUDDIE_STATE", "0")
+    monkeypatch.setattr(verify, "assess", _explode)
+    assert main(stop(repo, GOOD + PRE), monkeypatch, capsys)[0] == 2
+    assert main(stop(repo, GOOD + PRE), monkeypatch, capsys)[0] == 2
+    assert main(stop(repo, GOOD, stop_hook_active=True), monkeypatch, capsys)[0] == 0

@@ -6,6 +6,11 @@
   used to make the check raise and the hook let the answer out unchecked (exit 0). Now none of its settings apply,
   buddie's full defaults do, and the gate returns the answer with the file and the reason until the file is fixed
   or a `buddie:` line tells the reader. `buddie status` says so too.
+- Security: a `buddie:` line the agent wrote before buddie returned the text no longer lets out an answer buddie
+  could not check (a broken buddie.toml, an error in the check, findings that do not line up): it counts only on
+  the attempt after that return. The Stop Claude Code re-enters after such a return is never held (no loop), and
+  buddie tells the person, as a systemMessage, that the answer went out unchecked. The journal marks these lines
+  `status`: `internal_error`, or `unchecked_disclosed` with `by` agent or buddie; a checked answer's line is as before.
 - Security: an error inside the check of a text the gate guards (a final answer at Stop, a text tool's message) no
   longer lets it out as checked: it goes back once with the error (exit 2). A re-entered Stop, a `buddie:` line and
   every other event (SessionStart, PostToolUse, launches) are let through as before.

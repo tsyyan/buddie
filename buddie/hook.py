@@ -84,6 +84,11 @@ from buddie.logbook import SHARED_ROOT, journal_paths, log, log_targets  # noqa:
 DISCLOSED = re.compile(r"^\s*buddie\s*:", re.I | re.M)
 EFFECT_KINDS = ("pr", "ci", "run")
 HANDBACK = "SubagentHandback"
+# returns about a check that could not be done as configured: a text the agent writes afterwards cannot show it was
+# checked, so a re-entered Stop after one of them tells the person (systemMessage) that the answer went out unchecked
+UNCHECKED = {"internal_error": "buddie could not run its check",
+             "config": "the project's buddie.toml cannot be used",
+             "typed_mismatch": "buddie's findings did not line up with its items"}
 
 
 def final_answer(text: str, event: dict | None = None, ctx=None) -> bool:
@@ -174,6 +179,14 @@ def handed_in(event: dict, ctx=None) -> bool:
             elif c.get("type") == "tool_result" and sent.pop(c.get("tool_use_id"), False) and not c.get("is_error"):
                 passed = True
     return passed
+
+
+def unchecked_return(event: dict) -> list[str]:
+    """What the last return of this session's Stop was about, of the kinds that mean it was not checked as
+    configured (UNCHECKED); [] when there is none or the state is off."""
+    from buddie import journal
+    before = journal.take_pending(event.get("session_id"), event.get("tool_name") or event.get("hook_event_name"))
+    return sorted({UNCHECKED[i["kind"]] for i in before or [] if i.get("kind") in UNCHECKED})
 
 
 def beat(event: dict, **extra) -> None:
@@ -362,6 +375,13 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
         why = passed()
         if why:
             demanded(event, why)
+        elif name == "Stop" and event.get("stop_hook_active") and (left := unchecked_return(event)):
+            # Claude Code re-enters Stop after a return; the gate never holds it (that is what ends the loop), so
+            # the answer the model gives now goes out unchecked. The person hears it from buddie, not from the agent
+            warn([f"buddie: this answer was not checked ({', '.join(left)}). buddie returned it once and does not "
+                  "hold a re-entered Stop; read it as unverified."], out)
+            beat(event, empty=True, active=True, exit=0, status="unchecked_disclosed", by="buddie",
+                 unchecked=sorted(left))
         elif name == "Stop":
             beat(event, empty=True, active=bool(event.get("stop_hook_active")), exit=0)
         return 0, why
@@ -387,6 +407,8 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     blocking = [i for (i, _), lvl in zip(every, level) if lvl == "block"]
     warned = [i for (i, _), lvl in zip(every, level) if lvl == "warn"]
     blocked = [cls for (_, cls), lvl in zip(every, level) if lvl == "block"]
+    if mismatch:
+        extra.append({"kind": "typed_mismatch", "line": None, "text": ""})
     # a broken effect anchor is a false claim about work, not a miss to disclose: only fixing or removing it lets the
     # text through (NEXT №62; №40 13:55 sent `pr:…=open` for a merged PR with a `buddie:` line and passed). Work
     # claimed in prose in a final answer is the same (NEXT №63, audit/15 «в main влиты №40, №58…» with no pr:)
@@ -404,7 +426,7 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     # it covers only once buddie has returned the text: written before, it pre-empts the check (an eval run,
     # 2026-10-20: a quote buddie had found altered went out under "buddie: unverified"). Returns not tracked
     # (BUDDIE_STATE=0): as before
-    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers")]
+    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers", "config", None)]
     preempted = (bool(DISCLOSED.search(text)) and bool(found_false) and before is None
                  and journal.tracks_returns())
     disclosed = bool(DISCLOSED.search(text)) and not preempted
@@ -517,20 +539,38 @@ def failed(event: dict, error: Exception, err=None) -> int:
     once with the error (exit 2). A re-entered Stop (stop_hook_active) never gets here with text, so this cannot
     loop; a `buddie:` line telling the reader it was not checked lets it out. Any other event goes on (exit 0): its
     hook only keeps the journal and the summary, and a failure there must not stop the session."""
+    from buddie import journal
     err = err or sys.stderr
     why = f"{type(error).__name__}: {error}"
     text = guarded_text(event)
-    held = bool(text.strip()) and not DISCLOSED.search(text)
+    session, tool = event.get("session_id"), event.get("tool_name") or event.get("hook_event_name")
+    # the 'buddie:' line counts only on an attempt after buddie returned this text for a failed check (the state
+    # the gate keeps per session and tool); written before, it is the agent's own word that nothing needs checking
+    before = journal.take_pending(session, tool) if text.strip() else None
+    after_return = any(i.get("kind") == "internal_error" for i in before or [])
+    disclosed = bool(text.strip()) and bool(DISCLOSED.search(text)) and after_return
+    held = bool(text.strip()) and not disclosed
     if held:
         print(f"buddie could not check this text ({why}), so it does not go out as checked. Send it again: the next "
               "attempt is checked anew. If buddie keeps failing, keep the text and add a line starting with "
-              "'buddie:' that tells the reader it was not checked.", file=err)
+              "'buddie:' that tells the reader it was not checked (a line written before this return does not "
+              "count).", file=err)
+        journal.keep_pending(session, tool, [{"kind": "internal_error", "line": None, "text": ""}])
     else:
         print(f"buddie hook error ({'answer not checked' if text.strip() else 'nothing to check'}): {why}", file=err)
+        if disclosed:
+            journal.keep_pending(session, tool, None)
+    status = "unchecked_disclosed" if disclosed else "internal_error"
     try:
         from buddie.summary import now_iso
-        log({"at": now_iso(), "session": event.get("session_id"), "event": event.get("hook_event_name"),
-             "tool": event.get("tool_name"), "error": why[:300], "exit": 2 if held else 0})
+        # the error's type and where it was raised, not its message: a message may carry the answer's words
+        tb = error.__traceback__
+        while tb is not None and tb.tb_next is not None:
+            tb = tb.tb_next
+        where = f"{Path(tb.tb_frame.f_code.co_filename).name}:{tb.tb_lineno}" if tb is not None else None
+        log({"at": now_iso(), "session": session, "event": event.get("hook_event_name"), "tool": event.get("tool_name"),
+             "status": status, **({"by": "agent"} if disclosed else {}), "error": type(error).__name__,
+             "where": where, "exit": 2 if held else 0})
     except Exception:  # noqa: BLE001 - the journal is a convenience: the exit code is what matters
         pass
     return 2 if held else 0
