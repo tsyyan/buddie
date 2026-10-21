@@ -18,6 +18,7 @@ from buddie import __version__
 
 PROTOCOLS = ("2025-06-18", "2025-03-26", "2024-11-05")
 TEXT_LIMIT = 20000
+MAX_REPORT_BYTES = 16 * 2**20  # a report to verify: text or file
 
 _REPORT = {
     "text": {"type": "string", "description": "the report itself (Markdown); or give path"},
@@ -105,10 +106,23 @@ TOOLS = [
 
 
 def _report(args: dict) -> tuple[str, str]:
+    """The report and its name. `path` is a file the client names on purpose, as `buddie verify FILE` would read it:
+    any regular file the user running the server can read (the client's tool approval is the consent). Nothing in a
+    report makes buddie open a path of its own; that is what anchors.py's repo rule is for."""
     if args.get("text"):
+        if len(args["text"]) > MAX_REPORT_BYTES:
+            raise ValueError(f"text over {MAX_REPORT_BYTES // 2**20} MiB")
         return args["text"], "report"
     if args.get("path"):
-        return Path(args["path"]).read_text(encoding="utf-8"), args["path"]
+        path = Path(args["path"])
+        if not path.is_file():
+            raise ValueError(f"{path}: not a regular file")
+        with path.open("rb") as f:
+            data = f.read(MAX_REPORT_BYTES + 1)
+        if len(data) > MAX_REPORT_BYTES:
+            raise ValueError(f"{path}: over {MAX_REPORT_BYTES // 2**20} MiB")
+        from buddie.anchors import text_of
+        return text_of(data), args["path"]
     raise ValueError("give text or path")
 
 

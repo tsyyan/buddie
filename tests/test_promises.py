@@ -11,6 +11,7 @@ from __future__ import annotations
 import io
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -261,6 +262,17 @@ def test_launch_returned_when_the_automerge_comment_says_taken(merged_repo, tmp_
     assert _launch("s", {"description": "№2", "prompt": f"`⚓ NEXT.md@{short}`"}) == (0, "")
     lines = [e["launch"] for e in _journal(tmp_path, "launch")]
     assert [(e["outcome"], e.get("free")) for e in lines] == [("taken", False), ("passed", None), ("passed", None)]
+
+
+def test_a_free_command_in_the_repos_buddie_toml_never_runs(merged_repo, repo, tmp_path, monkeypatch):
+    # Phase 1 / PR 3: buddie.toml belongs to the repo under check; a [launch] free there was run with shell=True
+    short, _, _ = merged_repo
+    ran = tmp_path / "ran"
+    cmd = f'"{sys.executable}" -c "open(r\'{ran}\', \'w\')"'
+    (repo / "buddie.toml").write_text((repo / "buddie.toml").read_text() + f"free = '''{cmd}'''\n")
+    monkeypatch.setenv("BUDDIE_GITHUB", "0")
+    assert _launch("s", {"description": "№2", "prompt": f"`⚓ NEXT.md@{short}`"}) == (0, "")
+    assert not ran.exists()
 
 
 def test_free_command_after_the_comment_and_without_it(merged_repo, tmp_path, monkeypatch):

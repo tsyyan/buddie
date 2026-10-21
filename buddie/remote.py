@@ -26,6 +26,7 @@ import hmac
 import ipaddress
 import json
 import os
+import re
 import socket
 import sys
 import threading
@@ -124,14 +125,40 @@ def _only(args: dict, allowed: set[str]) -> None:
         raise ValueError(f"not available on the remote server: {', '.join(extra)}")
 
 
+MAX_REPORT_URLS = 100  # distinct links a report may make the server fetch
+LINK = re.compile(r"https?://[^\s<>()\[\]\"'`]+")
+
+
+def public_github(get):
+    """`get` (effects.github_get, with the server's token) limited to public repositories. Anyone who can reach the
+    server sends the anchors, while the token may see its owner's private repos: a pr:/ci: anchor on one of those
+    would tell a stranger its PR states, commits and check names. A private or invisible repo answers None, as a
+    missing PR does, so the answer does not even say that it exists."""
+    seen: dict[str, bool] = {}
+
+    def public_get(path: str):
+        m = re.match(r"/repos/([^/]+)/([^/?]+)(?:[/?]|$)", path)
+        if not m:
+            return None
+        slug = f"{m[1]}/{m[2]}".lower()
+        if slug not in seen:
+            repo = get(f"/repos/{m[1]}/{m[2]}")
+            seen[slug] = isinstance(repo, dict) and repo.get("private") is False
+        return get(path) if seen[slug] else None
+    return public_get
+
+
 def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie.effects import github_get
     from buddie.verify import verify
     _only(args, {"text", "fetch", "numbers", "github"})
     if not args.get("text"):
         raise ValueError("give text")
+    if len(set(LINK.findall(args["text"]))) > MAX_REPORT_URLS:
+        raise ValueError(f"at most {MAX_REPORT_URLS} distinct links per report on the remote server")
     receipt = verify(args["text"], name="report", repos=[], fetch=args.get("fetch", True), mandate=False,
-                     github=github_get if args.get("github", True) else None, numbers=args.get("numbers", "gap"))
+                     github=public_github(github_get) if args.get("github", True) else None,
+                     numbers=args.get("numbers", "gap"))
     return receipt, False
 
 
@@ -157,8 +184,9 @@ _DROP = {"verify_report": {"path", "repos", "store", "transcript", "access"}, "s
 
 
 REMOTE_SCOPE = (
-    "On this remote server only quotations, numbers with a link and pr:/ci: anchors on GitHub are checked: repo "
-    "anchors (path#sha256, path@commit) and run: anchors come out unchecked (GAPS), because the server has no "
+    "On this remote server only quotations, numbers with a link and pr:/ci: anchors on public GitHub repositories "
+    "are checked: repo anchors (path#sha256, path@commit), private repositories and run: anchors come out unchecked "
+    "(GAPS), because the server has no "
     "checkout and no session transcript of yours. The server fetches pages from abroad; a site that refuses foreign "
     "visitors comes out as source unavailable (GAPS), so quote a mirror the server can read. ")
 INSTRUCTIONS = mcp.INSTRUCTIONS.replace(mcp.OUTCOMES, REMOTE_SCOPE + mcp.OUTCOMES)

@@ -131,11 +131,34 @@ def _inside(repo: Path, rel: str) -> Path | str | None:
     return target if target != root and target.is_relative_to(root) else OUTSIDE
 
 
-def _read(target: Path, root: Path) -> bytes | None:
-    """The bytes of `target` (a path _inside resolved), or None when it is not a plain file of its own or was swapped
-    after the check. Where the system allows (Linux, macOS) each part of the path is opened under the one before it
-    without following symlinks, so a part replaced by a symlink after _inside fails to open. Elsewhere (Windows) the
-    opened file must be the one that was checked; a swap and swap back between the two is not caught there."""
+MAX_FILE_BYTES = 256 * 2**20  # a file anchor larger than this is not hashed (UNCHECKABLE): about a second of sha256
+MAX_TEXT_BYTES = 16 * 2**20   # a config-named file (the queue, the messages) larger than this is not read
+
+
+def _final_path(fd: int) -> str | None:
+    """Windows: the path of the file the handle `fd` is open on, as the system resolved it at open time; None when
+    it cannot be had. This is the object read, whatever a path was swapped to before or after the open."""
+    import ctypes
+    import msvcrt
+    from ctypes import wintypes
+    get = ctypes.WinDLL("kernel32", use_last_error=True).GetFinalPathNameByHandleW
+    get.argtypes, get.restype = [wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD], wintypes.DWORD
+    buf = ctypes.create_unicode_buffer(32768)
+    n = get(msvcrt.get_osfhandle(fd), buf, len(buf), 0)
+    if not n or n >= len(buf):
+        return None
+    path = buf.value
+    if path.startswith("\\\\?\\UNC\\"):  # \\?\UNC\server\share\x -> \\server\share\x
+        return "\\\\" + path[8:]
+    return path.removeprefix("\\\\?\\")  # \\?\C:\x -> C:\x
+
+
+def _open(target: Path, root: Path) -> int | None:
+    """A read-only fd on `target` (a path _inside resolved), or None when it is not a plain file of its own or was
+    swapped after the check. Linux and macOS: each part of the path is opened under the one before it without
+    following symlinks, so a part replaced by a symlink after _inside fails to open. Windows: the path of the opened
+    handle (_final_path) must be inside the root. A hard link is refused everywhere: it makes a file outside the repo
+    look like one inside it (a git checkout has none)."""
     nofollow = getattr(os, "O_NOFOLLOW", 0)
     flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0)
     try:
@@ -150,22 +173,49 @@ def _read(target: Path, root: Path) -> bytes | None:
             finally:
                 os.close(fd)
         else:
-            checked = os.stat(target)
             f = os.open(target, flags)
-            opened = os.fstat(f)
-            if (opened.st_dev, opened.st_ino) != (checked.st_dev, checked.st_ino) \
-                    or not os.path.realpath(target).startswith(str(root) + os.sep):
+            final = _final_path(f) if os.name == "nt" else os.path.realpath(target)
+            if final is None or not os.path.normcase(final).startswith(os.path.normcase(str(root)) + os.sep):
                 os.close(f)
                 return None
     except OSError:
         return None
     st = os.fstat(f)
-    # a hard link can make a file outside the repo look like one inside it (a git checkout has none)
     if not stat.S_ISREG(st.st_mode) or st.st_nlink > 1:
         os.close(f)
         return None
+    return f
+
+
+def _digest(target: Path, root: Path) -> tuple[str | None, str]:
+    """sha256 of the file, read in chunks and never past MAX_FILE_BYTES; (None, why) when it is not read."""
+    if (f := _open(target, root)) is None:
+        return None, "is not a plain file in the repo, not read"
+    h, size = hashlib.sha256(), 0
     with os.fdopen(f, "rb") as fh:
-        return fh.read()
+        while chunk := fh.read(2**20):
+            size += len(chunk)
+            if size > MAX_FILE_BYTES:
+                return None, f"is over {MAX_FILE_BYTES // 2**20} MiB, not hashed"
+            h.update(chunk)
+    return h.hexdigest(), ""
+
+
+def read_inside(repo: Path, rel: str, limit: int | None = None) -> bytes | None:
+    """The bytes of a file a repo's config names (`rel`), by the same rule as a file anchor, or None when it is
+    missing, leads out of the repo, is not a plain file or is over `limit` (MAX_TEXT_BYTES) bytes."""
+    limit = MAX_TEXT_BYTES if limit is None else limit
+    target = _inside(repo, rel)
+    if target is None or target == OUTSIDE or (f := _open(target, repo.resolve())) is None:
+        return None
+    with os.fdopen(f, "rb") as fh:
+        data = fh.read(limit + 1)
+    return data if len(data) <= limit else None
+
+
+def text_of(data: bytes) -> str:
+    """UTF-8 bytes as Path.read_text gives them: universal newlines (CRLF and a lone CR read as LF)."""
+    return data.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
 
 
 def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = None) -> dict:
@@ -182,12 +232,10 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
             target = _inside(repo, m["path"])
             if target is None:
                 continue
-            data = None if target == OUTSIDE else _read(target, repo.resolve())
-            if data is None:
-                refused = refused or (f"{m['path']} leads outside the repo, not read" if target == OUTSIDE
-                                      else f"{m['path']} is not a plain file in the repo, not read")
+            actual, why = (None, "leads outside the repo, not read") if target == OUTSIDE                 else _digest(target, repo.resolve())
+            if actual is None:
+                refused = refused or f"{m['path']} {why}"
                 continue
-            actual = hashlib.sha256(data).hexdigest()
             if actual.startswith(m["sha"]):
                 return dict(out, status=HOLDS, repo=str(repo))
             out.update(status=BROKEN, repo=str(repo), why=f"sha256 is now {actual[:12]}")

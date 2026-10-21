@@ -13,7 +13,6 @@ Feeds (RSS/Atom) are XML whose descriptions carry escaped HTML, so they are unes
 from __future__ import annotations
 
 import codecs
-import gzip
 import html
 import re
 import shutil
@@ -36,6 +35,28 @@ HIDDEN_ATTRS = {"alt", "title", "aria-label"}
 
 class Unreadable(Exception):
     """The snapshot exists but its text cannot be extracted here."""
+
+
+MAX_DECODED_BYTES = 64 * 2**20  # a compressed body that expands past this is not read
+GZIP, ZLIB, RAW = 16 + zlib.MAX_WBITS, zlib.MAX_WBITS, -zlib.MAX_WBITS
+
+
+def inflate(data: bytes, wbits: int = GZIP, limit: int | None = None) -> bytes:
+    """gzip, zlib or raw deflate `data` decompressed, never past `limit` bytes (MAX_DECODED_BYTES): a body of a few
+    MiB can expand a thousandfold. Unreadable past the limit; EOFError for a cut-off stream and zlib.error for bad
+    data, as gzip.decompress and zlib.decompress raise them. gzip members after the first are read in turn."""
+    limit = MAX_DECODED_BYTES if limit is None else limit
+    out = bytearray()
+    while True:
+        d = zlib.decompressobj(wbits)
+        out += d.decompress(data, limit + 1 - len(out))
+        if len(out) > limit or d.unconsumed_tail:
+            raise Unreadable(f"compressed body expands past {limit // 2**20} MiB, not read")
+        if not d.eof:
+            raise EOFError("compressed stream ended before the end-of-stream marker")
+        data = d.unused_data
+        if wbits != GZIP or not data.startswith(b"\x1f\x8b"):
+            return bytes(out)
 
 
 def collapse(text: str) -> str:
@@ -158,12 +179,12 @@ def decode_body(data: bytes, content_encoding: str | None = None, content_type: 
                 raise Unreadable("binary body, not text (and not gzip, deflate or brotli)") from error
     try:
         if enc in ("gzip", "x-gzip") or data[:2] == b"\x1f\x8b":
-            return gzip.decompress(data)
+            return inflate(data, GZIP)
         if enc == "deflate":
             try:
-                return zlib.decompress(data)
+                return inflate(data, ZLIB)
             except zlib.error:
-                return zlib.decompress(data, -zlib.MAX_WBITS)
+                return inflate(data, RAW)
         if enc == "br":
             try:
                 import brotli  # optional: pip install brotli

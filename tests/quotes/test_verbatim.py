@@ -851,7 +851,7 @@ def test_cut_off_body_is_a_failed_fetch_not_a_crash(tmp_path, monkeypatch):
         def __exit__(self, *a):
             return False
 
-        def read(self):
+        def read(self, amt=None):
             raise http.client.IncompleteRead(b"<html>half", 5000)
 
         def geturl(self):

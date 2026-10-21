@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Security: a `[launch] free` command in `buddie.toml` is ignored. buddie.toml belongs to the repo under check, and
+  the launch gate ran that command with a shell. The free command now comes from `BUDDIE_FREE` only.
+- Security: the files `buddie.toml` names (`queue`, `accepted`, `messages`) are held to the repo by the same rule as
+  file anchors, and are not read past 16 MiB.
+- Security: the remote server answers `pr:`/`ci:` anchors only for public repositories. Its token may see private
+  ones, and a stranger's anchor would have learned their PR states, commits and check names. A GitHub anchor whose
+  owner or repo is `.` or `..` is not looked up.
+- Limits: a file anchor is hashed in chunks and not past 256 MiB; a fetched page is not read past 32 MiB; a
+  compressed body is not inflated past 64 MiB; a report given to `verify_report` is at most 16 MiB; a remote report
+  may make the server fetch at most 100 distinct links.
+- Windows: a file anchor's file is accepted only when the path of the opened handle (GetFinalPathNameByHandleW) is
+  inside the repo, which closes the gap between the check and the open that #23 left there.
 - Security: checking a report no longer runs code from the repository it names. A `fact=` anchor used to import and
   run that repo's `tools/anchors.py`; it is now always `UNCHECKABLE` (audit R1).
 - Security: a file anchor `path#sha256` reads only a plain file inside the repo. An absolute path, a drive, `..`

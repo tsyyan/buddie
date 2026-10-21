@@ -131,6 +131,8 @@ def _get(ctx: dict, path: str):
     get = ctx.get("github")
     if get is None:
         raise GitHubUnavailable("GitHub lookups are off (offline)")
+    if any(part in (".", "..") for part in path.split("?")[0].split("/")):  # pr:../x#1: no other API path
+        raise GitHubUnavailable(f"not a repository path: {path}")
     cache = ctx.setdefault("_cache", {})
     if path not in cache:
         cache[path] = get(path)

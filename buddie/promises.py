@@ -12,7 +12,7 @@ launch of row N passes only with a basis in its own text:
 otherwise it is returned (exit 2) with the reasons and, when the queue at HEAD gives `auto`, the anchor to copy.
 A launch with a basis is still returned when the row is taken (0.7.2, NEXT №85): the verdict for row N in the
 automerge comment on the PR merged as the anchor's commit says `free: false` ([launch] `comment`: the comment's
-first words; its fenced ```json block holds `chain.py merged`), or the [launch] `free` command («{n}» is the row;
+first words; its fenced ```json block holds `chain.py merged`), or the free command BUDDIE_FREE («{n}» is the row;
 JSON with `free` and `reasons`, exit 1 when taken) says so now. A comment's `free: true` is as of the merge, so the
 command runs after it too: a second launch from the same comment finds the first thread's branch. With neither the
 gate does not know and lets the launch through, logged `free: null`.
@@ -33,7 +33,8 @@ SessionStart prints the open promises of all sessions (the shared folder holds t
 audit/12, the lost autostart of №42); Stop returns the turn once per promise of this session whose condition holds.
 
 Env: BUDDIE_PROMISES=0 turns promises off; BUDDIE_LAUNCH=<regex> sets the launch tools (0 turns the gate off);
-BUDDIE_FREE=<command> sets the free command (0 turns it off); BUDDIE_GITHUB=0 skips the automerge comment.
+BUDDIE_FREE=<command> sets the free command (0 or unset: off; a [launch] `free` in buddie.toml is ignored, since the
+repo under check would run it); BUDDIE_GITHUB=0 skips the automerge comment.
 """
 from __future__ import annotations
 
@@ -214,8 +215,10 @@ def comment_verdict(n: int, commit: str, cfg: dict, launch: dict) -> dict | None
 
 
 def free_now(n: int, cfg: dict, launch: dict) -> dict | None:
-    """The [launch] free command's answer for row n ({free, reasons}), None when it is off or gives none."""
-    cmd = os.environ.get("BUDDIE_FREE", launch.get("free") or "")
+    """The free command's answer for row n ({free, reasons}), None when it is off or gives none. The command comes
+    from BUDDIE_FREE only, the environment of the person running buddie: buddie.toml belongs to the repo under check,
+    and a [launch] `free` there would be a shell command any repo could run in the checker. It is ignored."""
+    cmd = os.environ.get("BUDDIE_FREE", "")
     if cmd in ("", "0"):
         return None
     try:

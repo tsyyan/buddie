@@ -23,6 +23,20 @@ from urllib.parse import quote, urldefrag, urlsplit, urlunsplit
 
 USER_AGENT = "Mozilla/5.0 (compatible; verbatim/0.2; quote checker)"
 DEFAULT_STORE = ".verbatim"
+MAX_PAGE_BYTES = 32 * 2**20  # a body larger than this is a failed fetch, not a snapshot: read no further than this
+
+
+class TooLarge(OSError):
+    pass
+
+
+def read_body(response, limit: int | None = None) -> bytes:
+    """The body of an HTTP response, never more than `limit` (MAX_PAGE_BYTES) + 1 bytes in memory; TooLarge past it."""
+    limit = MAX_PAGE_BYTES if limit is None else limit
+    data = response.read(limit + 1)
+    if len(data) > limit:
+        raise TooLarge(f"body over {limit // 2**20} MiB, not stored")
+    return data
 
 
 def now() -> str:
@@ -100,7 +114,7 @@ class Store:
         request = urllib.request.Request(request_url(url), headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
-                return self.add(url, response.read(), content_type=response.headers.get("Content-Type"),
+                return self.add(url, read_body(response), content_type=response.headers.get("Content-Type"),
                                 http_status=response.status, final_url=response.geturl(),
                                 content_encoding=response.headers.get("Content-Encoding"))
         except urllib.error.HTTPError as error:
