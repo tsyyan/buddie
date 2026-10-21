@@ -96,10 +96,11 @@ def test_anchor_sign_before_the_backticks(repo):
 
 
 @pytest.mark.skipif(not (ROOT.parents[1] / "tools" / "anchors.py").is_file(), reason="outside lab")
-def test_lab_facts_resolve():
+def test_lab_facts_are_not_computed():
+    # audit R1: computing a fact ran lab's tools/anchors.py inside the checker
     lab = ROOT.parents[1]
     value = anchors.check_text("`⚓ e002.claims=115`", [lab])[0]
-    assert value["status"] == "HOLDS"
+    assert value["status"] == "UNCHECKABLE"
 
 
 def test_empty():

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Security: checking a report no longer runs code from the repository it names. A `fact=` anchor used to import and
+  run that repo's `tools/anchors.py`; it is now always `UNCHECKABLE` (audit R1).
+- Security: a file anchor `path#sha256` reads only a plain file inside the repo. An absolute path, a drive, `..`
+  (with `/` or `\`), a symlink whose target is outside the repo, or a hard link is `UNCHECKABLE` and is not read.
+  Before, `../x#sha` or `/etc/x#sha` hashed the file outside the repo, and a wrong hash printed 12 hex characters of
+  the real one. On Linux and macOS each path part is opened without following symlinks, so a part swapped after
+  the check is refused (audit R2).
 - A number whose source could not be read (`SOURCE_UNAVAILABLE`) or whose value stood apart from the sentence's words
   (`NO_CONTEXT`) made a receipt `PASS` ("buddie PASS: numbers 0/1 found"). Both are now gaps and are listed under
   `gaps`. A quote or number verdict that verify does not know, for example from a newer verbatim, is a gap too,

@@ -4,10 +4,12 @@ This is the repo-agnostic half of lab's tools/anchors.py: the report is a messag
 repository it talks about is not known in advance. Each anchor is resolved against the given repos in order:
 
   path#sha     HOLDS when some repo has the file and its sha256 starts with the prefix; BROKEN when a repo has
-               the file with other bytes; UNCHECKABLE when no repo has that path
+               the file with other bytes; UNCHECKABLE when no repo has that path, or the path leads out of the repo
+               (absolute, "..", a symlink to outside) or is not a plain file: such a file is not read (audit R2)
   path@commit  HOLDS when some repo has the commit and the file in it; BROKEN when the commit is there without
                the file; UNCHECKABLE when no repo has the commit (shallow clone, another repository)
-  fact=value   computed by FACTS of the first repo with tools/anchors.py (lab); UNCHECKABLE when none has it
+  fact=value   always UNCHECKABLE: its value was computed by the repo's own tools/anchors.py, and a repo under
+               check does not get to run code in the checker (audit R1)
 
 pr:, ci: and run: anchors (a PR's state, checks on a commit, a command and its output) are judged by effects.py
 against GitHub and the session transcript given in ctx; choice:<id>=<step> (what the person picked on a summary card)
@@ -16,8 +18,9 @@ by summary.py against the hook's journal.
 from __future__ import annotations
 
 import hashlib
-import importlib.util
+import os
 import re
+import stat
 import subprocess
 from pathlib import Path
 
@@ -110,15 +113,59 @@ def _git(repo: Path, *args: str) -> int:
     return subprocess.run(["git", "-C", str(repo), *args], capture_output=True).returncode
 
 
-def _facts(repo: Path):
-    """tools/anchors.py of a repo that has one (lab), loaded once; None otherwise."""
-    path = repo / "tools" / "anchors.py"
-    if not path.is_file():
+OUTSIDE = "outside"  # _inside's answer for a path that leads out of the repo
+
+
+def _inside(repo: Path, rel: str) -> Path | str | None:
+    """The file `rel` names in `repo`, every symlink followed: a Path when it exists inside the repo, OUTSIDE when
+    the path or its target is not in the repo, None when there is no such file. "\\" counts as a separator on every
+    system; an absolute path, a drive ("C:", also NTFS streams "file:stream") or a ".." part is OUTSIDE unread."""
+    parts = rel.replace("\\", "/").split("/")
+    if not parts[0] or ":" in rel or "\0" in rel or ".." in parts:
+        return OUTSIDE
+    try:
+        root = repo.resolve(strict=True)
+        target = root.joinpath(*[p for p in parts if p not in ("", ".")]).resolve(strict=True)
+    except (OSError, RuntimeError):  # missing, or a symlink loop
         return None
-    spec = importlib.util.spec_from_file_location(f"buddie_facts_{abs(hash(str(repo)))}", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+    return target if target != root and target.is_relative_to(root) else OUTSIDE
+
+
+def _read(target: Path, root: Path) -> bytes | None:
+    """The bytes of `target` (a path _inside resolved), or None when it is not a plain file of its own or was swapped
+    after the check. Where the system allows (Linux, macOS) each part of the path is opened under the one before it
+    without following symlinks, so a part replaced by a symlink after _inside fails to open. Elsewhere (Windows) the
+    opened file must be the one that was checked; a swap and swap back between the two is not caught there."""
+    nofollow = getattr(os, "O_NOFOLLOW", 0)
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0)
+    try:
+        if nofollow and os.open in os.supports_dir_fd and hasattr(os, "O_DIRECTORY"):
+            fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                for part in target.relative_to(root).parts[:-1]:
+                    nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | nofollow, dir_fd=fd)
+                    os.close(fd)
+                    fd = nxt
+                f = os.open(target.name, flags | nofollow, dir_fd=fd)
+            finally:
+                os.close(fd)
+        else:
+            checked = os.stat(target)
+            f = os.open(target, flags)
+            opened = os.fstat(f)
+            if (opened.st_dev, opened.st_ino) != (checked.st_dev, checked.st_ino) \
+                    or not os.path.realpath(target).startswith(str(root) + os.sep):
+                os.close(f)
+                return None
+    except OSError:
+        return None
+    st = os.fstat(f)
+    # a hard link can make a file outside the repo look like one inside it (a git checkout has none)
+    if not stat.S_ISREG(st.st_mode) or st.st_nlink > 1:
+        os.close(f)
+        return None
+    with os.fdopen(f, "rb") as fh:
+        return fh.read()
 
 
 def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = None) -> dict:
@@ -130,14 +177,23 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
         return check_choice(anchor, ctx)
     out = {"anchor": anchor}
     if m := FILE_SHA.match(anchor):
+        refused = None
         for repo in repos:
-            target = repo / m["path"]
-            if target.is_file():
-                actual = hashlib.sha256(target.read_bytes()).hexdigest()
-                if actual.startswith(m["sha"]):
-                    return dict(out, status=HOLDS, repo=str(repo))
-                out.update(status=BROKEN, repo=str(repo), why=f"sha256 is now {actual[:12]}")
-        return out if "status" in out else dict(out, status=UNCHECKABLE, why=f"no repo has {m['path']}")
+            target = _inside(repo, m["path"])
+            if target is None:
+                continue
+            data = None if target == OUTSIDE else _read(target, repo.resolve())
+            if data is None:
+                refused = refused or (f"{m['path']} leads outside the repo, not read" if target == OUTSIDE
+                                      else f"{m['path']} is not a plain file in the repo, not read")
+                continue
+            actual = hashlib.sha256(data).hexdigest()
+            if actual.startswith(m["sha"]):
+                return dict(out, status=HOLDS, repo=str(repo))
+            out.update(status=BROKEN, repo=str(repo), why=f"sha256 is now {actual[:12]}")
+        if "status" in out:
+            return out
+        return dict(out, status=UNCHECKABLE, why=refused or f"no repo has {m['path']}")
     if m := FILE_AT.match(anchor):
         for repo in repos:
             if _git(repo, "cat-file", "-e", f"{m['commit']}^{{commit}}") != 0:
@@ -146,23 +202,9 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
                 return dict(out, status=HOLDS, repo=str(repo))
             return dict(out, status=BROKEN, repo=str(repo), why=f"{m['commit']} has no {m['path']}")
         return dict(out, status=UNCHECKABLE, why=f"no repo has commit {m['commit']} (fetch it, or full history)")
-    if m := FACT.match(anchor):
-        for repo in repos:
-            key = ("facts", str(repo))
-            if key not in cache:
-                cache[key] = _facts(repo)
-            module = cache[key]
-            if module is None:
-                continue
-            if m["name"] not in module.FACTS:
-                return dict(out, status=BROKEN, repo=str(repo), why=f"unknown fact {m['name']}")
-            vkey = ("value", str(repo), m["name"])
-            if vkey not in cache:
-                cache[vkey] = str(module.fact(m["name"]))
-            if cache[vkey] == m["value"]:
-                return dict(out, status=HOLDS, repo=str(repo))
-            return dict(out, status=BROKEN, repo=str(repo), why=f"is now {cache[vkey]}")
-        return dict(out, status=UNCHECKABLE, why="no repo defines facts (tools/anchors.py)")
+    if FACT.match(anchor):
+        return dict(out, status=UNCHECKABLE,
+                    why="fact= is not checked: computing it would run the repo's own code (tools/anchors.py)")
     return dict(out, status=BROKEN, why="not an anchor: expected path#sha256, path@commit, fact=value, pr:, ci:, run: or choice:")
 
 
