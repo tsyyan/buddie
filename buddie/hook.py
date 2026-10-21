@@ -77,37 +77,24 @@ import re
 import sys
 from pathlib import Path
 
-TEXT_KEYS = ("text", "message", "body", "content")
+from buddie.config import final_mark  # noqa: F401 - hook.final_mark, as before
+from buddie.event import TEXT_KEYS, tool_text  # noqa: F401
+from buddie.logbook import SHARED_ROOT, journal_paths, log, log_targets  # noqa: F401 - hook.log, as before
+
 DISCLOSED = re.compile(r"^\s*buddie\s*:", re.I | re.M)
 EFFECT_KINDS = ("pr", "ci", "run")
-SHARED_ROOT = Path("/mnt/project-files")
 HANDBACK = "SubagentHandback"
+# returns about a check that could not be done as configured: a text the agent writes afterwards cannot show it was
+# checked, so a re-entered Stop after one of them tells the person (systemMessage) that the answer went out unchecked
+UNCHECKED = {"internal_error": "buddie could not run its check",
+             "config": "the project's buddie.toml cannot be used",
+             "typed_mismatch": "buddie's findings did not line up with its items"}
 
 
-def final_mark(event: dict) -> str | None:
-    """The regex of a final answer: BUDDIE_FINAL, else final_mark of the first buddie.toml [mandate] around the
-    session, else None (the plugin's default, 0.7.4: the last message at Stop is the final answer)."""
-    env = os.environ.get("BUDDIE_FINAL")
-    if env is not None:
-        return env
-    from buddie.mandate import CONFIG
-    from buddie.promises import repos_of
-    for repo in repos_of(event):
-        path = repo / CONFIG
-        if path.is_file():
-            import tomllib
-            try:
-                mark = tomllib.loads(path.read_text(encoding="utf-8")).get("mandate", {}).get("final_mark")
-            except (OSError, tomllib.TOMLDecodeError):
-                continue
-            if mark is not None:
-                return mark
-    return None
-
-
-def final_answer(text: str, event: dict | None = None) -> bool:
+def final_answer(text: str, event: dict | None = None, ctx=None) -> bool:
+    """Whether `text` is a final answer (ctx: the event's ResolvedEventContext, whose final mark is already read)."""
     event = event or {}
-    mark = final_mark(event)
+    mark = ctx.final_mark if ctx is not None else final_mark(event)
     if mark is None:
         return event.get("hook_event_name") == "Stop"
     return bool(mark) and re.search(mark, text) is not None
@@ -130,34 +117,6 @@ def prose_claims(text: str, pred: dict) -> list[str]:
     return [f"work claimed in prose, line {n}: “{lines[n - 1].strip()[:120]}”: anchor it on the line "
             "(⚓ pr:OWNER/REPO#N=merged@SHA, ⚓ ci:OWNER/REPO@SHA=success, ⚓ run:CMD => OUTPUT) or drop the claim"
             for n in pred.get("prose_lines", ())]
-
-
-def log_targets(session: str | None) -> list[Path]:
-    out = []
-    target = os.environ.get("BUDDIE_LOG", str(Path.home() / ".cache" / "buddie" / "hook.jsonl"))
-    if target not in ("", "0"):
-        out.append(Path(target))
-    shared = os.environ.get("BUDDIE_SHARED_LOG")
-    if shared is None and SHARED_ROOT.is_dir():
-        shared = str(SHARED_ROOT / "buddie" / "hook")
-    if shared not in (None, "", "0"):
-        name = re.sub(r"[^\w.-]", "_", session or "nosession")
-        out.append(Path(shared) / f"{name}.jsonl")
-    return out
-
-
-def log(entry: dict) -> None:
-    for target in log_targets(entry.get("session")):
-        try:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            with open(target, "a", encoding="utf-8") as f:
-                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-        except OSError:
-            pass
-
-
-def tool_text(tool_input: dict) -> str:
-    return "\n\n".join(v for k in TEXT_KEYS if isinstance(v := tool_input.get(k), str))
 
 
 def last_answer(transcript: str) -> str:
@@ -191,7 +150,7 @@ FIX = ("Fix each item: copy a quote character for character from its page (buddi
 SEND = re.compile(r"(?:^|__)(?:reply|post_message|send_message)$|^SendMessage$")
 
 
-def handed_in(event: dict) -> bool:
+def handed_in(event: dict, ctx=None) -> bool:
     """Whether this turn already sent a final answer through a text tool (reply, send_message…) that the gate let
     out: its tool_use has a tool_result that is not an error. Then the Stop text after it reaches no one, and it is
     not checked for prose (NEXT №128: 3 of 8 prose returns of №82 were on such Stop text)."""
@@ -215,19 +174,19 @@ def handed_in(event: dict) -> bool:
             if not isinstance(c, dict):
                 continue
             if entry.get("type") == "assistant" and c.get("type") == "tool_use" and SEND.search(str(c.get("name"))):
-                if final_answer(tool_text(c.get("input") or {}), dict(event, hook_event_name="PreToolUse")):
+                if final_answer(tool_text(c.get("input") or {}), dict(event, hook_event_name="PreToolUse"), ctx):
                     sent[c.get("id")] = True
             elif c.get("type") == "tool_result" and sent.pop(c.get("tool_use_id"), False) and not c.get("is_error"):
                 passed = True
     return passed
 
 
-def journal_paths() -> list[Path]:
-    """Where past sessions' journal lines are: the local log, and the whole shared folder when there is one."""
-    out = []
-    for target in log_targets(None):
-        out.append(target.parent if target.name == "nosession.jsonl" else target)
-    return out
+def unchecked_return(event: dict) -> list[str]:
+    """What the last return of this session's Stop was about, of the kinds that mean it was not checked as
+    configured (UNCHECKED); [] when there is none or the state is off."""
+    from buddie import journal
+    before = journal.take_pending(event.get("session_id"), event.get("tool_name") or event.get("hook_event_name"))
+    return sorted({UNCHECKED[i["kind"]] for i in before or [] if i.get("kind") in UNCHECKED})
 
 
 def beat(event: dict, **extra) -> None:
@@ -250,21 +209,35 @@ def session_start(event: dict, out=None) -> int:
     return 0
 
 
-def receipt_for(text: str, event: dict, numbers: str = "gap") -> tuple[dict, list]:
+def receipt_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[dict, list]:
     """The receipt of `text`, and the snapshot stores its quotes were judged against (numbers: verify's mode,
     BUDDIE_NUMBERS overrides it)."""
-    from buddie.anchors import find_repos
+    receipt, stores, _ = assess_for(text, event, numbers, ctx)
+    return receipt, stores
+
+
+def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[dict, list, list]:
+    """receipt_for with the typed findings the receipt's outcome came from (verify.assess). ctx: the event's
+    ResolvedEventContext, whose repos and [mandate] config are used instead of being looked up again."""
     from buddie.effects import github_get
+    from buddie.event import repos_of
     from buddie.stores import UnionStore, session_stores
-    from buddie.verify import verify
+    from buddie.verify import assess
     cwd = Path(event.get("cwd") or os.getcwd())
-    env_repos = [Path(p) for p in os.environ.get("BUDDIE_REPOS", "").split(os.pathsep) if p]
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
-    repos = env_repos or find_repos(cwd)
+    repos = list(ctx.repos) if ctx is not None else repos_of(event)
     stores = session_stores(cwd, repos, event.get("transcript_path"))
-    return verify(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer", repos=repos,
-                  store=UnionStore(None, stores), fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
-                  transcript=event.get("transcript_path"), numbers=os.environ.get("BUDDIE_NUMBERS", numbers)), stores
+    receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
+                               repos=repos, store=UnionStore(None, stores),
+                               fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
+                               transcript=event.get("transcript_path"),
+                               mandate=ctx.mandate if ctx is not None else True, numbers=effective_numbers(numbers))
+    return receipt, stores, found
+
+
+def effective_numbers(numbers: str) -> str:
+    """verify's numbers mode: the level's, unless BUDDIE_NUMBERS names one."""
+    return os.environ.get("BUDDIE_NUMBERS", numbers)
 
 
 def stop_text(event: dict) -> str:
@@ -286,11 +259,13 @@ def outgoing(event: dict) -> str:
 
 
 def run(event: dict, err=None, out=None) -> int:
-    from buddie import config, context, decisions, promises, summary
+    from buddie import context, decisions, promises, resolved, summary
     err = err or sys.stderr
-    if not config.reads_transcript(config.of_event(event)[1]):
+    ctx = resolved.resolve(event)  # once per event: the repos, their buddie.toml, the settings and their sources
+    if ctx.transcript.value != "on":
         # the person turned transcript reading off: nothing below opens the session log
         event = {**event, "transcript_path": None, "agent_transcript_path": None}
+        ctx = ctx.with_event(event)
     name = event.get("hook_event_name")
     if name == "SessionStart":
         return session_start(event)
@@ -303,7 +278,7 @@ def run(event: dict, err=None, out=None) -> int:
         text = event.get("last_assistant_message") or (
             last_answer(event["agent_transcript_path"]) if Path(event.get("agent_transcript_path") or "").is_file()
             else "")
-        summary.on_stop_subagent(event, text, receipt_for(text, event)[0] if text.strip() else None)
+        summary.on_stop_subagent(event, text, receipt_for(text, event, ctx=ctx)[0] if text.strip() else None)
         return 0
     if name == "PostToolUse":
         if event.get("tool_name") == "AskUserQuestion":
@@ -316,38 +291,38 @@ def run(event: dict, err=None, out=None) -> int:
             decisions.sync(event)
         except Exception as error:  # the journal is a convenience; a failure here must not skip the gate below
             print(f"buddie: decision cards not journaled: {type(error).__name__}: {error}", file=err)
-    if context.spawning(event) and spawn_held(event, err, out):
+    if context.spawning(event) and spawn_held(event, err, out, ctx):
         return 2
     if promises.is_launch(event):
         return promises.gate(event, err)
 
     def passed() -> list[str]:
-        promises.record(event, outgoing(event))
+        promises.record(event, outgoing(event), words=ctx.journal_text)
         if name != "Stop":
             return []
-        path, cfg = config.of_event(event)
-        lv, why = config.levels(cfg, path is not None), []
+        lv, why = ctx.level, []
         for cls, demand in (("summary", summary.on_stop), ("promises", promises.on_stop)):
             if lv[cls] != "off" and (w := demand(event)):
                 why.append(w) if lv[cls] == "block" else warn([w], out)
         return why
 
-    code, why = gate(event, err, passed, out)
+    code, why = gate(event, err, passed, out, ctx)
     if why:
         print("\n\n".join(why), file=err)
         return 2
     return code
 
 
-def spawn_held(event: dict, err, out=None) -> bool:
+def spawn_held(event: dict, err, out=None, ctx=None) -> bool:
     """The context gate on a subagent launch (NEXT №106): past the limit the launch is returned, unless its prompt
     carries a `buddie:` line (the user asked for it); in the intro mode it only warns. The launch has no text to
     verify, so this runs before the launch gate and the journal line is its own."""
-    from buddie import config, context
+    from buddie import config, context, resolved
     from buddie.promises import strings
     from buddie.summary import now_iso
-    path, cfg = config.of_event(event)
-    if config.levels(cfg, path is not None)["context"] == "off":
+    ctx = ctx if ctx is not None else resolved.resolve(event)
+    path, cfg = ctx.config_path, ctx.config
+    if ctx.level["context"] == "off":
         return False
     tokens = context.last_context(event.get("transcript_path"))
     heavy = context.over(event, False, tokens)
@@ -382,14 +357,15 @@ def warn(lines: list[str], out=None) -> None:
     print(json.dumps({"systemMessage": "\n".join(lines)}, ensure_ascii=False), file=out or sys.stdout)
 
 
-def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]:
+def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, list[str]]:
     """The gate's exit code, and when it lets the text out, what `passed` returns (the reasons to return a Stop
     anyway). The journal line is written after `passed`, so it carries the exit code the hook really returns.
     Each blocking item goes by its class's level in buddie.toml [gates] (buddie/config.py): block returns the
     text, warn lets it out with a systemMessage, off drops it; in the intro mode nothing is returned."""
-    from buddie import config, context, journal
+    from buddie import config, context, journal, resolved
     from buddie.effects import github_get
     from buddie.suggest import ready_anchors
+    ctx = ctx if ctx is not None else resolved.resolve(event)
     name = event.get("hook_event_name")
     if name == "Stop":
         text = "" if event.get("stop_hook_active") else stop_text(event)
@@ -399,27 +375,44 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
         why = passed()
         if why:
             demanded(event, why)
+        elif name == "Stop" and event.get("stop_hook_active") and (left := unchecked_return(event)):
+            # Claude Code re-enters Stop after a return; the gate never holds it (that is what ends the loop), so
+            # the answer the model gives now goes out unchecked. The person hears it from buddie, not from the agent
+            warn([f"buddie: this answer was not checked ({', '.join(left)}). buddie returned it once and does not "
+                  "hold a re-entered Stop; read it as unverified."], out)
+            beat(event, empty=True, active=True, exit=0, status="unchecked_disclosed", by="buddie",
+                 unchecked=sorted(left))
         elif name == "Stop":
             beat(event, empty=True, active=bool(event.get("stop_hook_active")), exit=0)
         return 0, why
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
-    path, cfg = config.of_event(event)
-    lv = config.levels(cfg, path is not None)
-    receipt, stores = receipt_for(text, event, config.numbers_mode(lv["numbers"]))
+    path, cfg = ctx.config_path, ctx.config
+    lv = ctx.level
+    numbers = effective_numbers(config.numbers_mode(lv["numbers"]))
+    receipt, stores, found = assess_for(text, event, numbers, ctx)
     pred = receipt["predicate"]
-    final = final_answer(text, event)
+    final = final_answer(text, event, ctx)
     tokens = context.last_context(event.get("transcript_path"))
-    heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event))
-    extra = [{"kind": "context", "line": None, "text": ""}] if heavy else []
-    prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event)) else []
-    every = pred["blocking"] + (unbacked(pred) if final else []) + prose + ([heavy] if heavy else [])
-    level = {item: lv.get(config.classify(item) or "", "block") for item in every}
-    blocking = [i for i in every if level[i] == "block"]
-    warned = [i for i in every if level[i] == "warn"]
+    heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event, ctx))
+    extra = ([{"kind": "context", "line": None, "text": ""}] if heavy else []) \
+        + [{"kind": "config", "line": None, "text": ""} for _ in ctx.config_errors]
+    prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event, ctx)) else []
+    # each item with its class: verify's items by the check of the finding behind each (gate_items), the gate's own
+    # items by what makes them. A class the levels do not know blocks, as an unclassified item always did
+    typed, mismatch = gate_items(pred, found, numbers)
+    every = typed + [(i, "final") for i in (unbacked(pred) if final else [])] \
+        + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else []) \
+        + [(config_item(e), "config") for e in ctx.config_errors]
+    level = [lv.get(cls or "", "block") for _, cls in every]
+    blocking = [i for (i, _), lvl in zip(every, level) if lvl == "block"]
+    warned = [i for (i, _), lvl in zip(every, level) if lvl == "warn"]
+    blocked = [cls for (_, cls), lvl in zip(every, level) if lvl == "block"]
+    if mismatch:
+        extra.append({"kind": "typed_mismatch", "line": None, "text": ""})
     # a broken effect anchor is a false claim about work, not a miss to disclose: only fixing or removing it lets the
     # text through (NEXT №62; №40 13:55 sent `pr:…=open` for a merged PR with a `buddie:` line and passed). Work
     # claimed in prose in a final answer is the same (NEXT №63, audit/15 «в main влиты №40, №58…» with no pr:)
-    hard = any(level[i] == "block" for i in prose) or lv["anchors"] == "block" and any(
+    hard = "prose" in blocked or lv["anchors"] == "block" and any(
         a.get("kind") in EFFECT_KINDS and a["status"] == "BROKEN" for a in pred["anchors"])
     tour = config.intro(path, cfg)
     if tour:  # the intro mode: what would be returned only warns (audit/20 §3.3)
@@ -433,7 +426,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     # it covers only once buddie has returned the text: written before, it pre-empts the check (an eval run,
     # 2026-10-20: a quote buddie had found altered went out under "buddie: unverified"). Returns not tracked
     # (BUDDIE_STATE=0): as before
-    found_false = [i for i in blocking if config.classify(i) in ("quotes", "anchors", "numbers")]
+    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers", "config", None)]
     preempted = (bool(DISCLOSED.search(text)) and bool(found_false) and before is None
                  and journal.tracks_returns())
     disclosed = bool(DISCLOSED.search(text)) and not preempted
@@ -448,6 +441,10 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
                          for a in pred["anchors"] if a.get("kind")}}
     if code:
         entry["reasons"] = journal.reasons(items)
+    if ctx.config_errors:
+        entry["config_errors"] = [{"path": str(e.path), "reason": e.reason} for e in ctx.config_errors]
+    if mismatch:
+        entry["typed_mismatch"] = mismatch
     if warned:
         entry["warned"] = len(warned)
     if tour:
@@ -473,7 +470,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     print(pred["line"], file=err)
     for item in blocking:
         print(f"- {item}", file=err)
-    if any(item.startswith("quote ") for item in blocking):
+    if "quotes" in blocked:
         print("Quotes were judged against the snapshots in " + (", ".join(map(str, stores)) or "no session store")
               + " (newest with bytes per URL; a URL in none of them was fetched now).", file=err)
     ready = ready_anchors(text, items, transcript=event.get("transcript_path"), github=github)
@@ -493,6 +490,25 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     return 2, []
 
 
+def gate_items(pred: dict, found: list, numbers: str) -> tuple[list[tuple[str, str | None]], dict | None]:
+    """predicate.blocking with each item's gate class, from the finding behind it (verify.blocking_findings and
+    config.CLASS_OF_CHECK), and None, or the mismatch when the findings do not line up with the items. Then no
+    item gets a class: each blocks whatever the levels say (no level demotes what cannot be told apart), and the
+    gate journals {findings, items}. The words' class (config.classify) is never the decision."""
+    from buddie import config, verify
+    behind = verify.blocking_findings(found, numbers)
+    if len(behind) != len(pred["blocking"]):
+        return [(i, None) for i in pred["blocking"]], {"findings": len(behind), "items": len(pred["blocking"])}
+    return [(i, config.CLASS_OF_CHECK.get(f.check)) for i, f in zip(pred["blocking"], behind)], None
+
+
+def config_item(error) -> str:
+    """The gate's item for a buddie.toml that cannot be used (resolved.ResolvedEventContext.config_errors)."""
+    return (f"buddie.toml cannot be used: {error.path}: {error.reason}. None of its settings applied: the checks ran "
+            "on buddie's defaults, without its [gates], [mandate] or [intro]. Fix the file, or keep the answer and add a "
+            "line starting with 'buddie:' telling the reader the project's buddie settings were not applied")
+
+
 def main() -> int:
     try:
         event = json.loads(sys.stdin.buffer.read().decode("utf-8"))  # Claude Code sends UTF-8 (Windows: not the locale's)
@@ -500,6 +516,61 @@ def main() -> int:
         return 0
     try:
         return run(event)
-    except Exception as error:  # a broken gate must not stop the session; say so and let the answer through
-        print(f"buddie hook error (answer not checked): {type(error).__name__}: {error}", file=sys.stderr)
-        return 0
+    except Exception as error:
+        return failed(event, error)
+
+
+def guarded_text(event: dict) -> str:
+    """The text this event lets out when the gate guards it: the final answer at a Stop that is not a re-entry, a
+    text tool's message at PreToolUse. Empty for every other event (SessionStart, PostToolUse, a launch...)."""
+    name = event.get("hook_event_name")
+    try:
+        if name == "Stop" and not event.get("stop_hook_active"):
+            return stop_text(event)
+        if name == "PreToolUse" and SEND.search(str(event.get("tool_name") or "")):
+            return tool_text(event.get("tool_input") or {})
+    except Exception:  # noqa: BLE001 - not even the text can be had: there is nothing to hold
+        return ""
+    return ""
+
+
+def failed(event: dict, error: Exception, err=None) -> int:
+    """The hook failed. A text the gate guards was not checked, so it does not leave as if it had been: it goes back
+    once with the error (exit 2). A re-entered Stop (stop_hook_active) never gets here with text, so this cannot
+    loop; a `buddie:` line telling the reader it was not checked lets it out. Any other event goes on (exit 0): its
+    hook only keeps the journal and the summary, and a failure there must not stop the session."""
+    from buddie import journal
+    err = err or sys.stderr
+    why = f"{type(error).__name__}: {error}"
+    text = guarded_text(event)
+    session, tool = event.get("session_id"), event.get("tool_name") or event.get("hook_event_name")
+    # the 'buddie:' line counts only on an attempt after buddie returned this text for a failed check (the state
+    # the gate keeps per session and tool); written before, it is the agent's own word that nothing needs checking
+    before = journal.take_pending(session, tool) if text.strip() else None
+    after_return = any(i.get("kind") == "internal_error" for i in before or [])
+    disclosed = bool(text.strip()) and bool(DISCLOSED.search(text)) and after_return
+    held = bool(text.strip()) and not disclosed
+    if held:
+        print(f"buddie could not check this text ({why}), so it does not go out as checked. Send it again: the next "
+              "attempt is checked anew. If buddie keeps failing, keep the text and add a line starting with "
+              "'buddie:' that tells the reader it was not checked (a line written before this return does not "
+              "count).", file=err)
+        journal.keep_pending(session, tool, [{"kind": "internal_error", "line": None, "text": ""}])
+    else:
+        print(f"buddie hook error ({'answer not checked' if text.strip() else 'nothing to check'}): {why}", file=err)
+        if disclosed:
+            journal.keep_pending(session, tool, None)
+    status = "unchecked_disclosed" if disclosed else "internal_error"
+    try:
+        from buddie.summary import now_iso
+        # the error's type and where it was raised, not its message: a message may carry the answer's words
+        tb = error.__traceback__
+        while tb is not None and tb.tb_next is not None:
+            tb = tb.tb_next
+        where = f"{Path(tb.tb_frame.f_code.co_filename).name}:{tb.tb_lineno}" if tb is not None else None
+        log({"at": now_iso(), "session": session, "event": event.get("hook_event_name"), "tool": event.get("tool_name"),
+             "status": status, **({"by": "agent"} if disclosed else {}), "error": type(error).__name__,
+             "where": where, "exit": 2 if held else 0})
+    except Exception:  # noqa: BLE001 - the journal is a convenience: the exit code is what matters
+        pass
+    return 2 if held else 0

@@ -67,7 +67,7 @@ def spawning(event: dict) -> bool:
 def woken(transcript: str | None, final) -> bool:
     """The thread handed in a final answer (`final(text)`) before its current turn and was woken again: the last
     user turn of the main chain comes after the last final answer. A tool result is not a turn."""
-    from buddie.hook import tool_text
+    from buddie.event import tool_text
     if not transcript:
         return False
     try:

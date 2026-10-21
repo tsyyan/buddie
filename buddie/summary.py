@@ -204,7 +204,7 @@ def transcript_source(transcript: str | None, tool_use_id: str | None) -> str:
 
 def on_choice(event: dict) -> dict | None:
     """PostToolUse on AskUserQuestion: write the options and the person's answer to the journal, codewise."""
-    from buddie.hook import log
+    from buddie.logbook import log
     tin, tout = event.get("tool_input") or {}, event.get("tool_response") or {}
     if isinstance(tout, str):
         try:
@@ -437,7 +437,7 @@ def summarize(session: str | None, repos: list[Path], *, queue: bool = True, sta
 
 def choices(paths=None) -> list[dict]:
     """The `choice` lines of the journal (files or dirs of *.jsonl; default the hook's own)."""
-    from buddie.hook import journal_paths
+    from buddie.logbook import journal_paths
     files = []
     for p in map(Path, paths if paths is not None else journal_paths()):
         files += sorted(p.glob("*.jsonl")) if p.is_dir() else [p] if p.is_file() else []

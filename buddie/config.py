@@ -28,13 +28,25 @@ verdicts, exit code, the sha256 of the text), never words of the conversation. A
 condition and the sha256 of its sentence, not the sentence; a choice line keeps the hashes of the steps the person
 picked and the queue rows of a typed answer, not the questions, options or answer. text = true keeps those words
 (lab's dogfood); BUDDIE_JOURNAL_TEXT=1 or 0 overrides the file.
+
+Where a setting comes from (Source), most trusted first: TRANSPORT (what a server or transport imposes: the remote
+server's dropped arguments and Budget), USER (the person's environment, BUDDIE_*, and plugin settings,
+CLAUDE_PLUGIN_OPTION_*: outside the repo), CALL (the arguments of one CLI or MCP call: a person at a CLI, or the
+agent itself through an MCP tool), DEFAULT (buddie's own), REPO (buddie.toml in the repo under check, which the agent
+can edit). Today REPO overrides DEFAULT in both directions; `influence()` says where it weakens what would apply
+without the file, the rule a later release can enforce (a less trusted source never widens what a more trusted one
+set). Nothing here changes a value.
 """
 from __future__ import annotations
 
 import json
 import os
 import tomllib
+from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
+
+from buddie.core import Check
 
 CONFIG = "buddie.toml"
 LEVELS = ("block", "warn", "off")
@@ -68,6 +80,68 @@ finals = {INIT_FINALS}
 """
 
 
+class Source(str, Enum):
+    TRANSPORT = "transport"
+    USER = "user"
+    CALL = "call"
+    DEFAULT = "default"
+    REPO = "repo"
+
+
+TRUST = {Source.TRANSPORT: 4, Source.USER: 3, Source.CALL: 2, Source.DEFAULT: 1, Source.REPO: 0}
+STRENGTH = {"block": 2, "warn": 1, "off": 0}
+
+
+@dataclass(frozen=True)
+class Setting:
+    value: str
+    source: Source
+
+
+@dataclass(frozen=True)
+class Influence:
+    """Where the repo's buddie.toml makes a check weaker (or, `weakens` False, stronger) than it would be without it."""
+    setting: str
+    without: object
+    with_repo: object
+    weakens: bool
+
+
+class ConfigError(ValueError):
+    """A buddie.toml that exists but cannot be used: unreadable, not UTF-8, or not TOML. Nothing of it applies."""
+
+    def __init__(self, path: Path, reason: str):
+        super().__init__(f"{path}: {reason}")
+        self.path, self.reason = path, reason
+
+
+def read_toml(path: Path) -> dict:
+    """A buddie.toml parsed, or ConfigError saying why it cannot be: the one reader of the file's bytes."""
+    try:
+        raw = path.read_bytes()
+    except OSError as error:
+        raise ConfigError(path, f"cannot be read: {error.strerror or error}") from error
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ConfigError(path, f"not UTF-8 (byte {error.start})") from error
+    try:
+        return tomllib.loads(text)
+    except tomllib.TOMLDecodeError as error:
+        raise ConfigError(path, f"not valid TOML: {error}") from error
+
+
+def problem(path: Path | None) -> str | None:
+    """Why the buddie.toml at `path` cannot be used, or None when it can (or there is none)."""
+    if path is None:
+        return None
+    try:
+        read_toml(path)
+    except ConfigError as error:
+        return error.reason
+    return None
+
+
 def find(repos: list[Path]) -> Path | None:
     for repo in repos:
         if (repo / CONFIG).is_file():
@@ -76,32 +150,85 @@ def find(repos: list[Path]) -> Path | None:
 
 
 def load(path: Path | None) -> dict:
+    """The file's settings, {} when there is none or it cannot be used (problem() says why; the hook reads files
+    through resolved.py, which keeps the error)."""
     if path is None:
         return {}
     try:
-        return tomllib.loads(path.read_text(encoding="utf-8"))
-    except (OSError, tomllib.TOMLDecodeError):
+        return read_toml(path)
+    except ConfigError:
         return {}
 
 
 def of_event(event: dict) -> tuple[Path | None, dict]:
-    from buddie.promises import repos_of
+    from buddie.event import repos_of
     path = find(repos_of(event))
     return path, load(path)
 
 
-def levels(cfg: dict, configured: bool = True) -> dict[str, str]:
-    """The level of each class: the defaults (ZERO_CONFIG when the project has no buddie.toml), then the file's
-    [gates], then BUDDIE_GATES."""
-    out = dict(DEFAULTS if configured else ZERO_CONFIG)
+def final_mark(event: dict) -> str | None:
+    """The regex of a final answer: BUDDIE_FINAL, else final_mark of the first buddie.toml [mandate] around the
+    session that sets one, else None (the plugin's default, 0.7.4: the last message at Stop is the final answer)."""
+    env = os.environ.get("BUDDIE_FINAL")
+    if env is not None:
+        return env
+    from buddie.event import repos_of
+    for repo in repos_of(event):
+        path = repo / CONFIG
+        if path.is_file():
+            try:
+                mark = tomllib.loads(path.read_text(encoding="utf-8")).get("mandate", {}).get("final_mark")
+            except (OSError, tomllib.TOMLDecodeError):
+                continue
+            if mark is not None:
+                return mark
+    return None
+
+
+def resolve_levels(cfg: dict, configured: bool = True) -> dict[str, Setting]:
+    """The level of each class and where it comes from: the defaults (ZERO_CONFIG when the project has no
+    buddie.toml), then the file's [gates] (REPO), then BUDDIE_GATES (USER)."""
+    out = {k: Setting(v, Source.DEFAULT) for k, v in (DEFAULTS if configured else ZERO_CONFIG).items()}
     for k, v in (cfg.get("gates") or {}).items():
         if k in out and v in LEVELS:
-            out[k] = v
+            out[k] = Setting(v, Source.REPO)
     for pair in os.environ.get("BUDDIE_GATES", "").split(","):
         k, _, v = pair.strip().partition("=")
         if k in out and v.strip() in LEVELS:
-            out[k] = v.strip()
+            out[k] = Setting(v.strip(), Source.USER)
     return out
+
+
+def levels(cfg: dict, configured: bool = True) -> dict[str, str]:
+    """The level of each class (resolve_levels without the sources)."""
+    return {k: s.value for k, s in resolve_levels(cfg, configured).items()}
+
+
+def influence(cfg: dict) -> list[Influence]:
+    """What the repo's buddie.toml changes against the same session without it (the fresh-install levels, the
+    person's environment applied to both). The settings it can weaken today: a gate's level, the intro mode (every
+    return a warning), reading the transcript (run: anchors and the context gate), and the final mark (a regex no
+    answer matches turns the final rule off); it can also widen what the journal keeps (the conversation's words)."""
+    out = []
+    without, with_repo = levels({}, configured=False), levels(cfg, configured=True)
+    for k in DEFAULTS:
+        if with_repo[k] != without[k]:
+            out.append(Influence(f"gates.{k}", without[k], with_repo[k], STRENGTH[with_repo[k]] < STRENGTH[without[k]]))
+    if isinstance(n := (cfg.get("intro") or {}).get("finals"), int) and n > 0:
+        out.append(Influence("intro.finals", None, n, True))
+    if reads_transcript({}) and not reads_transcript(cfg):
+        out.append(Influence("transcript.read", True, False, True))
+    if os.environ.get("BUDDIE_FINAL") is None and "final_mark" in (cfg.get("mandate") or {}):
+        out.append(Influence("mandate.final_mark", None, cfg["mandate"]["final_mark"], True))
+    if not journal_text({}) and journal_text(cfg):
+        out.append(Influence("journal.text", False, True, True))
+    return out
+
+
+# The gate class of each check's finding (core.Check): what classify() reads from the blocking item's words.
+# tests/test_layers.py holds the two equal, so the gate can move from the words to the findings.
+CLASS_OF_CHECK = {Check.QUOTE: "quotes", Check.NUMBER: "numbers", Check.WORK_CLAIM: "work",
+                  **{c: "anchors" for c in Check if c.name.endswith("_ANCHOR")}}
 
 
 def numbers_mode(level: str) -> str:
@@ -133,14 +260,22 @@ def reads_transcript(cfg: dict) -> bool:
     final answer comes from the Stop event's last_assistant_message, run: anchors are UNCHECKABLE. BUDDIE_TRANSCRIPT=0
     or 1, then the plugin option read_transcript (CLAUDE_PLUGIN_OPTION_READ_TRANSCRIPT), then [transcript] read in
     buddie.toml; default on."""
+    return resolve_transcript(cfg).value == "on"
+
+
+def resolve_transcript(cfg: dict) -> Setting:
+    """reads_transcript with its source: BUDDIE_TRANSCRIPT and the plugin option are the person's (USER), [transcript]
+    read the repo's (REPO), else the default (on)."""
     for name in ("BUDDIE_TRANSCRIPT", "CLAUDE_PLUGIN_OPTION_READ_TRANSCRIPT"):
         value = os.environ.get(name, "").strip().lower()
         if value in ("0", "false", "no", "off"):
-            return False
+            return Setting("off", Source.USER)
         if value in ("1", "true", "yes", "on"):
-            return True
+            return Setting("on", Source.USER)
     read = (cfg.get("transcript") or {}).get("read")
-    return read is not False
+    if read is False:
+        return Setting("off", Source.REPO)
+    return Setting("on", Source.REPO if read is True else Source.DEFAULT)
 
 
 def journal_text(cfg: dict) -> bool:

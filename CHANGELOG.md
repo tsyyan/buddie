@@ -2,6 +2,30 @@
 
 ## Unreleased
 
+- Security: a buddie.toml that cannot be used (not TOML, not UTF-8, unreadable) no longer turns the gate off. It
+  used to make the check raise and the hook let the answer out unchecked (exit 0). Now none of its settings apply,
+  buddie's full defaults do, and the gate returns the answer with the file and the reason until the file is fixed
+  or a `buddie:` line tells the reader. `buddie status` says so too.
+- Security: a `buddie:` line the agent wrote before buddie returned the text no longer lets out an answer buddie
+  could not check (a broken buddie.toml, an error in the check, findings that do not line up): it counts only on
+  the attempt after that return. The Stop Claude Code re-enters after such a return is never held (no loop), and
+  buddie tells the person, as a systemMessage, that the answer went out unchecked. The journal marks these lines
+  `status`: `internal_error`, or `unchecked_disclosed` with `by` agent or buddie; a checked answer's line is as before.
+- Security: an error inside the check of a text the gate guards (a final answer at Stop, a text tool's message) no
+  longer lets it out as checked: it goes back once with the error (exit 2). A re-entered Stop, a `buddie:` line and
+  every other event (SessionStart, PostToolUse, launches) are let through as before.
+- The typed gate no longer falls back to the items' words when the findings do not line up with them: each item
+  then blocks whatever its level, and the journal line says `typed_mismatch`.
+- Internal: the Stop and PreToolUse gate takes each blocking item's class from the finding behind it
+  (`verify.blocking_findings`, `config.CLASS_OF_CHECK`) instead of from the item's words; `config.classify` stays
+  for compatibility and as the fallback. The hook resolves an event once (`buddie/resolved.py`,
+  ResolvedEventContext: repos, buddie.toml, settings with their sources): a Stop now runs `git rev-parse` once and
+  reads buddie.toml once, where it ran 6 to 8 git commands and read the file 4 to 6 times. The gate's output on 819
+  recorded scenarios is unchanged (`tests/data/gate_golden.json`).
+- Internal: the journal writer (`buddie/logbook.py`) and the event helpers (`buddie/event.py`: a tool's text, the
+  repos of a session) moved out of `hook.py` and `promises.py`; the summary, decision cards, promises, context gate
+  and config no longer import the hook. `config` names each setting's source (`Source`, `resolve_levels`,
+  `resolve_transcript`) and lists what a repo's buddie.toml weakens (`influence`); values are unchanged.
 - Internal: a typed contract for what a check found (`buddie/core.py`: Finding, Fact, Sufficiency, Decision, Policy,
   Outcome, ReasonCode, EvidenceRef with Provenance, Coverage) and its adapter from the checkers' rows
   (`buddie/findings.py`). verify's outcome now comes from the findings; receipt-v0, the CLI, MCP, the hooks and

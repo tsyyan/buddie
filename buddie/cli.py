@@ -81,7 +81,7 @@ def cmd_mandate(args) -> int:
 
 def cmd_journal(args) -> int:
     from buddie import journal
-    from buddie.hook import journal_paths
+    from buddie.logbook import journal_paths
     rows = journal.entries([Path(p) for p in args.paths] if args.paths else journal_paths())
     if args.what == "lessons":
         print(journal.lessons(rows, skip_session=args.skip))
@@ -141,13 +141,16 @@ def cmd_status(args) -> int:
     what the journal says about the last checks."""
     from collections import Counter
 
-    from buddie import __version__, config, hook
+    from buddie import __version__, config, logbook
     path = _config_path(args)
     cfg = config.load(path)
     lv = config.levels(cfg, path is not None)
     print(f"buddie {__version__}")
     if path:
         print(f"config: {path}")
+        if why := config.problem(path):
+            print(f"config error: {config.CONFIG} cannot be read ({why}): none of its settings apply, buddie's full "
+                  "defaults do, and the hook returns each answer until the file is fixed")
         tour = config.intro(path, cfg)
         if tour:
             print(f"intro mode: {tour['seen']} of {tour['finals']} final answers passed; until then nothing is returned, "
@@ -158,7 +161,7 @@ def cmd_status(args) -> int:
     print("levels: " + ", ".join(f"{k}={v}" for k, v in lv.items()))
     print("transcript: " + ("read (run: anchors are checked)" if config.reads_transcript(cfg)
                             else "not read (run: anchors are unchecked)"))
-    logs = [p for p in hook.log_targets(None)[:1] if p.is_file()]
+    logs = [p for p in logbook.log_targets(None)[:1] if p.is_file()]
     if not logs:
         print("journal: none yet")
         return 0

@@ -59,10 +59,11 @@ WHEN = re.compile(r"(?P<date>\d{4}-\d{2}-\d{2})(?:[ T](?P<time>\d{2}:\d{2})(?::\
 # --- config and sources -------------------------------------------------------------------------------------------
 
 def load_config(repo: Path) -> dict | None:
+    from buddie.config import read_toml
     path = repo / CONFIG
     if not path.is_file():
         return None
-    section = tomllib.loads(path.read_text(encoding="utf-8")).get("mandate")
+    section = read_toml(path).get("mandate")  # config.ConfigError when the file cannot be used
     return None if section is None else {**DEFAULTS, **section, "repo": str(repo)}
 
 
