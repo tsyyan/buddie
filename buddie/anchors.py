@@ -159,11 +159,12 @@ def _read(target: Path, root: Path) -> bytes | None:
                 return None
     except OSError:
         return None
+    st = os.fstat(f)
+    # a hard link can make a file outside the repo look like one inside it (a git checkout has none)
+    if not stat.S_ISREG(st.st_mode) or st.st_nlink > 1:
+        os.close(f)
+        return None
     with os.fdopen(f, "rb") as fh:
-        st = os.fstat(fh.fileno())
-        # a hard link can make a file outside the repo look like one inside it (a git checkout has none)
-        if not stat.S_ISREG(st.st_mode) or st.st_nlink > 1:
-            return None
         return fh.read()
 
 
