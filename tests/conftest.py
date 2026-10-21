@@ -28,3 +28,11 @@ def _project_journal_text(monkeypatch):
     """The same: lab's buddie.toml keeps promise sentences and choice cards in the journal ([journal] text = true);
     the plugin's default, receipts only (NEXT №104), has its own tests (test_privacy.py)."""
     monkeypatch.setenv("BUDDIE_JOURNAL_TEXT", "1")
+
+
+@pytest.fixture(autouse=True)
+def _no_system_policy(monkeypatch, tmp_path):
+    """The protected policy lives at a fixed system path (buddie/policy.py); a machine that has one must not change
+    what these tests see. tests/test_policy.py points it at files of its own."""
+    from buddie import policy
+    monkeypatch.setattr(policy, "location", lambda: tmp_path / "no-system-policy" / "policy.toml")

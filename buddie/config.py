@@ -81,6 +81,7 @@ finals = {INIT_FINALS}
 
 
 class Source(str, Enum):
+    PROTECTED = "protected"   # the administrator's policy file, out of the agent's reach (buddie/policy.py)
     TRANSPORT = "transport"
     USER = "user"
     CALL = "call"
@@ -88,7 +89,8 @@ class Source(str, Enum):
     REPO = "repo"
 
 
-TRUST = {Source.TRANSPORT: 4, Source.USER: 3, Source.CALL: 2, Source.DEFAULT: 1, Source.REPO: 0}
+TRUST = {Source.PROTECTED: 5, Source.TRANSPORT: 4, Source.USER: 3, Source.CALL: 2, Source.DEFAULT: 1,
+         Source.REPO: 0}
 STRENGTH = {"block": 2, "warn": 1, "off": 0}
 
 
@@ -279,7 +281,12 @@ def resolve_transcript(cfg: dict) -> Setting:
 
 
 def journal_text(cfg: dict) -> bool:
-    """Whether the journal may keep words of the conversation (promise sentences, choice cards); default no."""
+    """Whether the journal may keep words of the conversation (promise sentences, choice cards); default no, and
+    never under a protected policy that forbids it (buddie/policy.py: the project cannot grant collection)."""
+    from buddie import policy
+    limits = policy.load().effective
+    if limits is not None and limits.journal_text == "forbidden":
+        return False
     env = os.environ.get("BUDDIE_JOURNAL_TEXT")
     if env in ("0", "1"):
         return env == "1"

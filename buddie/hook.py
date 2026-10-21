@@ -88,6 +88,7 @@ HANDBACK = "SubagentHandback"
 # checked, so a re-entered Stop after one of them tells the person (systemMessage) that the answer went out unchecked
 UNCHECKED = {"internal_error": "buddie could not run its check",
              "config": "the project's buddie.toml cannot be used",
+             "policy": "the protected policy cannot be used",
              "typed_mismatch": "buddie's findings did not line up with its items"}
 
 
@@ -185,8 +186,16 @@ def unchecked_return(event: dict) -> list[str]:
     """What the last return of this session's Stop was about, of the kinds that mean it was not checked as
     configured (UNCHECKED); [] when there is none or the state is off."""
     from buddie import journal
-    before = journal.take_pending(event.get("session_id"), event.get("tool_name") or event.get("hook_event_name"))
+    before = journal.take_pending(event.get("session_id"), event.get("tool_name") or event.get("hook_event_name"),
+                                  _state_root())
     return sorted({UNCHECKED[i["kind"]] for i in before or [] if i.get("kind") in UNCHECKED})
+
+
+def _state_root() -> str | None:
+    """Where the return state lives: as the environment says, unless a protected policy keeps tracking on."""
+    from buddie import resolved
+    from buddie.policy import load
+    return resolved.state_root(load().effective)
 
 
 def beat(event: dict, **extra) -> None:
@@ -224,12 +233,13 @@ def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[
     from buddie.stores import UnionStore, session_stores
     from buddie.verify import assess
     cwd = Path(event.get("cwd") or os.getcwd())
-    github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
+    network = ctx.network_allowed if ctx is not None else True  # a protected policy may forbid it, nothing grants it
+    github = github_get if network and os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
     repos = list(ctx.repos) if ctx is not None else repos_of(event)
     stores = session_stores(cwd, repos, event.get("transcript_path"))
     receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
                                repos=repos, store=UnionStore(None, stores),
-                               fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
+                               fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
                                transcript=event.get("transcript_path"),
                                mandate=ctx.mandate if ctx is not None else True, numbers=effective_numbers(numbers))
     return receipt, stores, found
@@ -329,7 +339,7 @@ def spawn_held(event: dict, err, out=None, ctx=None) -> bool:
     if not heavy:
         return False
     disclosed = bool(DISCLOSED.search("\n".join(strings(event.get("tool_input") or {}))))
-    tour = config.intro(path, cfg)
+    tour = config.intro(path, cfg) if ctx.intro_allowed else None
     held = not disclosed and not tour
     entry = {"at": now_iso(), "session": event.get("session_id"), "event": "PreToolUse", "tool": event.get("tool_name"),
              "context": tokens, "exit": 2 if held else 0}
@@ -385,7 +395,7 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
         elif name == "Stop":
             beat(event, empty=True, active=bool(event.get("stop_hook_active")), exit=0)
         return 0, why
-    github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
+    github = github_get if ctx.network_allowed and os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
     path, cfg = ctx.config_path, ctx.config
     lv = ctx.level
     numbers = effective_numbers(config.numbers_mode(lv["numbers"]))
@@ -395,14 +405,16 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     tokens = context.last_context(event.get("transcript_path"))
     heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event, ctx))
     extra = ([{"kind": "context", "line": None, "text": ""}] if heavy else []) \
-        + [{"kind": "config", "line": None, "text": ""} for _ in ctx.config_errors]
+        + [{"kind": "config", "line": None, "text": ""} for _ in ctx.config_errors] \
+        + ([{"kind": "policy", "line": None, "text": ""}] if ctx.policy and ctx.policy.status.value == "invalid" else [])
     prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event, ctx)) else []
     # each item with its class: verify's items by the check of the finding behind each (gate_items), the gate's own
     # items by what makes them. A class the levels do not know blocks, as an unclassified item always did
     typed, mismatch = gate_items(pred, found, numbers)
     every = typed + [(i, "final") for i in (unbacked(pred) if final else [])] \
         + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else []) \
-        + [(config_item(e), "config") for e in ctx.config_errors]
+        + [(config_item(e), "config") for e in ctx.config_errors] \
+        + ([(policy_item(ctx.policy), "policy")] if ctx.policy and ctx.policy.status.value == "invalid" else [])
     level = [lv.get(cls or "", "block") for _, cls in every]
     blocking = [i for (i, _), lvl in zip(every, level) if lvl == "block"]
     warned = [i for (i, _), lvl in zip(every, level) if lvl == "warn"]
@@ -414,22 +426,23 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     # claimed in prose in a final answer is the same (NEXT №63, audit/15 «в main влиты №40, №58…» with no pr:)
     hard = "prose" in blocked or lv["anchors"] == "block" and any(
         a.get("kind") in EFFECT_KINDS and a["status"] == "BROKEN" for a in pred["anchors"])
-    tour = config.intro(path, cfg)
+    tour = config.intro(path, cfg) if ctx.intro_allowed else None
     if tour:  # the intro mode: what would be returned only warns (audit/20 §3.3)
         warned, blocking, hard = warned + blocking, [], False
         if final:
             tour["seen"] = config.count_final(path)
     session, tool = event.get("session_id"), event.get("tool_name") or name
-    before = journal.take_pending(session, tool)
+    before = journal.take_pending(session, tool, ctx.state_root)
     # a 'buddie:' line may say up front what cannot be checked (a count made by hand, a missing anchor). What buddie
     # checked against its source and found false (a quote not on its page, an anchor or a number that does not hold)
     # it covers only once buddie has returned the text: written before, it pre-empts the check (an eval run,
     # 2026-10-20: a quote buddie had found altered went out under "buddie: unverified"). Returns not tracked
     # (BUDDIE_STATE=0): as before
-    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers", "config", None)]
+    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers", "config", "policy", None)]
     preempted = (bool(DISCLOSED.search(text)) and bool(found_false) and before is None
-                 and journal.tracks_returns())
-    disclosed = bool(DISCLOSED.search(text)) and not preempted
+                 and journal.tracks_returns(ctx.state_root))
+    # a protected policy may say no `buddie:` line lets a returned answer out: then only a fix does
+    disclosed = bool(DISCLOSED.search(text)) and not preempted and ctx.disclosure_allowed
     code = 2 if hard or (blocking and not disclosed) else 0
     items = journal.flagged(pred, text, final) + extra if code else []
     entry = {"at": pred["checked_at"], "session": session, "event": name, "tool": event.get("tool_name"),
@@ -445,6 +458,8 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
         entry["config_errors"] = [{"path": str(e.path), "reason": e.reason} for e in ctx.config_errors]
     if mismatch:
         entry["typed_mismatch"] = mismatch
+    if ctx.policy is not None and (ctx.policy.status.value != "absent" or ctx.refused):
+        entry["policy"] = {"status": ctx.policy.status.value, **({"refused": list(ctx.refused)} if ctx.refused else {})}
     if warned:
         entry["warned"] = len(warned)
     if tour:
@@ -457,7 +472,7 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     if why:
         entry["exit"], entry["demand"] = 2, [w.splitlines()[0] for w in why]
     log(entry)
-    journal.keep_pending(session, tool, items)
+    journal.keep_pending(session, tool, items, ctx.state_root)
     if warned and not code:
         head = (f"buddie (intro, final {tour['seen']} of {tour['finals']}): would have returned this answer for"
                 if tour else "buddie warns:")
@@ -500,6 +515,13 @@ def gate_items(pred: dict, found: list, numbers: str) -> tuple[list[tuple[str, s
     if len(behind) != len(pred["blocking"]):
         return [(i, None) for i in pred["blocking"]], {"findings": len(behind), "items": len(pred["blocking"])}
     return [(i, config.CLASS_OF_CHECK.get(f.check)) for i, f in zip(pred["blocking"], behind)], None
+
+
+def policy_item(loaded) -> str:
+    """The gate's item for a protected policy that is there but cannot be used (buddie/policy.py)."""
+    return (f"buddie's protected policy cannot be used: {loaded.path}: {loaded.error}. buddie runs on its strictest "
+            "limits until an administrator fixes or removes that file. This is not a fact of the text: keep the "
+            "answer and add a line starting with 'buddie:' telling the reader the policy is broken")
 
 
 def config_item(error) -> str:
@@ -546,20 +568,27 @@ def failed(event: dict, error: Exception, err=None) -> int:
     session, tool = event.get("session_id"), event.get("tool_name") or event.get("hook_event_name")
     # the 'buddie:' line counts only on an attempt after buddie returned this text for a failed check (the state
     # the gate keeps per session and tool); written before, it is the agent's own word that nothing needs checking
-    before = journal.take_pending(session, tool) if text.strip() else None
+    from buddie.policy import load
+    try:
+        limits, root = load().effective, _state_root()
+    except Exception:  # noqa: BLE001 - not even the policy: take its strictest reading, no disclosure
+        from buddie.policy import STRICTEST
+        limits, root = STRICTEST, None
+    allowed = limits is None or limits.disclosure
+    before = journal.take_pending(session, tool, root) if text.strip() else None
     after_return = any(i.get("kind") == "internal_error" for i in before or [])
-    disclosed = bool(text.strip()) and bool(DISCLOSED.search(text)) and after_return
+    disclosed = bool(text.strip()) and bool(DISCLOSED.search(text)) and after_return and allowed
     held = bool(text.strip()) and not disclosed
     if held:
         print(f"buddie could not check this text ({why}), so it does not go out as checked. Send it again: the next "
               "attempt is checked anew. If buddie keeps failing, keep the text and add a line starting with "
               "'buddie:' that tells the reader it was not checked (a line written before this return does not "
               "count).", file=err)
-        journal.keep_pending(session, tool, [{"kind": "internal_error", "line": None, "text": ""}])
+        journal.keep_pending(session, tool, [{"kind": "internal_error", "line": None, "text": ""}], root)
     else:
         print(f"buddie hook error ({'answer not checked' if text.strip() else 'nothing to check'}): {why}", file=err)
         if disclosed:
-            journal.keep_pending(session, tool, None)
+            journal.keep_pending(session, tool, None, root)
     status = "unchecked_disclosed" if disclosed else "internal_error"
     try:
         from buddie.summary import now_iso

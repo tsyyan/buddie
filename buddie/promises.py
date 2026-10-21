@@ -214,7 +214,10 @@ def free_now(n: int, cfg: dict, launch: dict) -> dict | None:
     """The free command's answer for row n ({free, reasons}), None when it is off or gives none. The command comes
     from BUDDIE_FREE only, the environment of the person running buddie: buddie.toml belongs to the repo under check,
     and a [launch] `free` there would be a shell command any repo could run in the checker. It is ignored."""
-    cmd = os.environ.get("BUDDIE_FREE", "")
+    from buddie import policy
+    limits = policy.load().effective
+    # under a protected policy only its own free_command runs: BUDDIE_FREE can come from the project's settings
+    cmd = (limits.free_command or "") if limits is not None else os.environ.get("BUDDIE_FREE", "")
     if cmd in ("", "0"):
         return None
     try:
