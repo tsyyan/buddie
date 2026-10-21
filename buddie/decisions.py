@@ -152,7 +152,7 @@ def scan(transcript: str | None) -> tuple[dict, list[dict]]:
 
 def journal_cards(paths=None) -> dict:
     """The `card` lines of the journal, {id: card}."""
-    from buddie.hook import journal_paths
+    from buddie.logbook import journal_paths
     out = {}
     files = []
     for p in map(Path, paths if paths is not None else journal_paths()):
@@ -226,7 +226,7 @@ def choices(transcript: str | None, paths=None) -> list[dict]:
 
 def sync(event: dict) -> None:
     """Write the cards and picks of the session's transcript that the journal does not have yet."""
-    from buddie.hook import log
+    from buddie.logbook import log
     from buddie.summary import choices as journal_choices, now_iso
     transcript = event.get("transcript_path")
     cards, picks = scan(transcript)
@@ -251,7 +251,7 @@ def sync(event: dict) -> None:
 
 def on_post(event: dict) -> dict | None:
     """PostToolUse on ask_decision: the card goes to the journal at once (the session may end before another hook)."""
-    from buddie.hook import log
+    from buddie.logbook import log
     from buddie.summary import now_iso
     card = card_of(event.get("tool_input") or {}, event.get("tool_response"))
     if card and card["id"] not in journal_cards():

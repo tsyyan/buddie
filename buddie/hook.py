@@ -77,32 +77,13 @@ import re
 import sys
 from pathlib import Path
 
-TEXT_KEYS = ("text", "message", "body", "content")
+from buddie.config import final_mark  # noqa: F401 - hook.final_mark, as before
+from buddie.event import TEXT_KEYS, tool_text  # noqa: F401
+from buddie.logbook import SHARED_ROOT, journal_paths, log, log_targets  # noqa: F401 - hook.log, as before
+
 DISCLOSED = re.compile(r"^\s*buddie\s*:", re.I | re.M)
 EFFECT_KINDS = ("pr", "ci", "run")
-SHARED_ROOT = Path("/mnt/project-files")
 HANDBACK = "SubagentHandback"
-
-
-def final_mark(event: dict) -> str | None:
-    """The regex of a final answer: BUDDIE_FINAL, else final_mark of the first buddie.toml [mandate] around the
-    session, else None (the plugin's default, 0.7.4: the last message at Stop is the final answer)."""
-    env = os.environ.get("BUDDIE_FINAL")
-    if env is not None:
-        return env
-    from buddie.mandate import CONFIG
-    from buddie.promises import repos_of
-    for repo in repos_of(event):
-        path = repo / CONFIG
-        if path.is_file():
-            import tomllib
-            try:
-                mark = tomllib.loads(path.read_text(encoding="utf-8")).get("mandate", {}).get("final_mark")
-            except (OSError, tomllib.TOMLDecodeError):
-                continue
-            if mark is not None:
-                return mark
-    return None
 
 
 def final_answer(text: str, event: dict | None = None) -> bool:
@@ -130,34 +111,6 @@ def prose_claims(text: str, pred: dict) -> list[str]:
     return [f"work claimed in prose, line {n}: “{lines[n - 1].strip()[:120]}”: anchor it on the line "
             "(⚓ pr:OWNER/REPO#N=merged@SHA, ⚓ ci:OWNER/REPO@SHA=success, ⚓ run:CMD => OUTPUT) or drop the claim"
             for n in pred.get("prose_lines", ())]
-
-
-def log_targets(session: str | None) -> list[Path]:
-    out = []
-    target = os.environ.get("BUDDIE_LOG", str(Path.home() / ".cache" / "buddie" / "hook.jsonl"))
-    if target not in ("", "0"):
-        out.append(Path(target))
-    shared = os.environ.get("BUDDIE_SHARED_LOG")
-    if shared is None and SHARED_ROOT.is_dir():
-        shared = str(SHARED_ROOT / "buddie" / "hook")
-    if shared not in (None, "", "0"):
-        name = re.sub(r"[^\w.-]", "_", session or "nosession")
-        out.append(Path(shared) / f"{name}.jsonl")
-    return out
-
-
-def log(entry: dict) -> None:
-    for target in log_targets(entry.get("session")):
-        try:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            with open(target, "a", encoding="utf-8") as f:
-                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-        except OSError:
-            pass
-
-
-def tool_text(tool_input: dict) -> str:
-    return "\n\n".join(v for k in TEXT_KEYS if isinstance(v := tool_input.get(k), str))
 
 
 def last_answer(transcript: str) -> str:
@@ -222,14 +175,6 @@ def handed_in(event: dict) -> bool:
     return passed
 
 
-def journal_paths() -> list[Path]:
-    """Where past sessions' journal lines are: the local log, and the whole shared folder when there is one."""
-    out = []
-    for target in log_targets(None):
-        out.append(target.parent if target.name == "nosession.jsonl" else target)
-    return out
-
-
 def beat(event: dict, **extra) -> None:
     """A heartbeat line (NEXT №118): SessionStart and a Stop with no text to check write one, so the journal shows
     that these hooks fire. `beat` keeps it out of the gate's counts (journal.entries skips it)."""
@@ -253,14 +198,13 @@ def session_start(event: dict, out=None) -> int:
 def receipt_for(text: str, event: dict, numbers: str = "gap") -> tuple[dict, list]:
     """The receipt of `text`, and the snapshot stores its quotes were judged against (numbers: verify's mode,
     BUDDIE_NUMBERS overrides it)."""
-    from buddie.anchors import find_repos
     from buddie.effects import github_get
+    from buddie.event import repos_of
     from buddie.stores import UnionStore, session_stores
     from buddie.verify import verify
     cwd = Path(event.get("cwd") or os.getcwd())
-    env_repos = [Path(p) for p in os.environ.get("BUDDIE_REPOS", "").split(os.pathsep) if p]
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
-    repos = env_repos or find_repos(cwd)
+    repos = repos_of(event)
     stores = session_stores(cwd, repos, event.get("transcript_path"))
     return verify(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer", repos=repos,
                   store=UnionStore(None, stores), fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,

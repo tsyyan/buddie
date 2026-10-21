@@ -47,6 +47,8 @@ import tomllib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from buddie.event import repos_of  # noqa: F401 - promises.repos_of, as before
+
 ROW = re.compile(r"№\s?(\d+)")
 SHORT_KEYS = ("description", "title", "name", "subject")
 LONG_KEYS = ("prompt", "message", "text", "task")
@@ -79,12 +81,6 @@ def _parse(at: str) -> datetime:
 
 def on() -> bool:
     return os.environ.get("BUDDIE_PROMISES", "1") != "0"
-
-
-def repos_of(event: dict) -> list[Path]:
-    from buddie.anchors import find_repos
-    env = [Path(p) for p in os.environ.get("BUDDIE_REPOS", "").split(os.pathsep) if p]
-    return env or find_repos(Path(event.get("cwd") or os.getcwd()))
 
 
 def launch_config(repos: list[Path]) -> dict:
@@ -250,7 +246,7 @@ def taken(n: int, found: dict, cfg: dict | None, repos: list[Path]) -> dict:
 
 def gate(event: dict, err) -> int:
     from buddie import mandate
-    from buddie.hook import log
+    from buddie.logbook import log
     tin = event.get("tool_input") or {}
     n = launched_row(tin)
     entry = {"at": now_iso(), "session": event.get("session_id"), "event": "PreToolUse", "tool": event.get("tool_name"),
@@ -330,7 +326,7 @@ def promise_id(session: str | None, p: dict) -> str:
 
 def record(event: dict, text: str) -> list[dict]:
     """Journal the promises of a text the gate let out, and what the text keeps or drops."""
-    from buddie.hook import log
+    from buddie.logbook import log
     if not on() or not text.strip():
         return []
     session = event.get("session_id")
@@ -362,7 +358,7 @@ def record(event: dict, text: str) -> list[dict]:
 
 def lines(key: str, paths=None) -> list[dict]:
     """Journal lines that carry `key` (files or dirs of *.jsonl; default the hook's own), each once."""
-    from buddie.hook import journal_paths
+    from buddie.logbook import journal_paths
     files = []
     for p in map(Path, paths if paths is not None else journal_paths()):
         files += sorted(p.glob("*.jsonl")) if p.is_dir() else [p] if p.is_file() else []
