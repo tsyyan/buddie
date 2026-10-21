@@ -233,3 +233,20 @@ def test_assess_gives_the_receipt_verify_gives(tmp_path):
         (Check.FACT_ANCHOR, Fact.UNDETERMINED, ReasonCode.NOT_COMPUTED)]
     assert core.outcome(found, covered) is Outcome.FAIL
     assert [s.what for s in covered.capabilities_off] == ["quotes", "numbers"]
+
+
+def test_verify_keeps_its_public_signature():
+    """verify() as it was on main before #25: every parameter but the text keyword-only, same defaults and types."""
+    import inspect
+    sig = inspect.signature(v.verify)
+    kw = inspect.Parameter.KEYWORD_ONLY
+    expected = [("text", inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.empty, "str"),
+                ("name", kw, "report", "str"), ("repos", kw, None, "list[Path] | None"),
+                ("store", kw, None, inspect.Parameter.empty), ("fetch", kw, True, "bool"),
+                ("access", kw, None, "str | None"), ("quotes", kw, True, "bool"), ("now", kw, None, "str | None"),
+                ("mandate", kw, True, "dict | None | bool"), ("rev", kw, None, "str | None"),
+                ("github", kw, None, inspect.Parameter.empty), ("transcript", kw, None, "str | None"),
+                ("numbers", kw, "gap", "str")]
+    assert [(p.name, p.kind, p.default, p.annotation) for p in sig.parameters.values()] == expected
+    assert sig.return_annotation == "dict"
+    assert list(inspect.signature(v.assess).parameters) == [name for name, *_ in expected]

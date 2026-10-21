@@ -107,9 +107,13 @@ def _count(values) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
-def verify(text: str, **kwargs) -> dict:
-    """The receipt (receipt-v0) for `text`; the keyword arguments are assess's."""
-    return assess(text, **kwargs)[0]
+def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, store=None,
+           fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
+           mandate: dict | None | bool = True, rev: str | None = None, github=None,
+           transcript: str | None = None, numbers: str = "gap") -> dict:
+    """The receipt (receipt-v0) for `text`; see assess for the arguments."""
+    return assess(text, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes, now=now,
+                  mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers)[0]
 
 
 def assess(text: str, *, name: str = "report", repos: list[Path] | None = None, store=None,
