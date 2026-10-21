@@ -148,6 +148,9 @@ def cmd_status(args) -> int:
     print(f"buddie {__version__}")
     if path:
         print(f"config: {path}")
+        if why := config.problem(path):
+            print(f"config error: {config.CONFIG} cannot be read ({why}): none of its settings apply, buddie's full "
+                  "defaults do, and the hook returns each answer until the file is fixed")
         tour = config.intro(path, cfg)
         if tour:
             print(f"intro mode: {tour['seen']} of {tour['finals']} final answers passed; until then nothing is returned, "

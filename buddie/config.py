@@ -107,6 +107,41 @@ class Influence:
     weakens: bool
 
 
+class ConfigError(ValueError):
+    """A buddie.toml that exists but cannot be used: unreadable, not UTF-8, or not TOML. Nothing of it applies."""
+
+    def __init__(self, path: Path, reason: str):
+        super().__init__(f"{path}: {reason}")
+        self.path, self.reason = path, reason
+
+
+def read_toml(path: Path) -> dict:
+    """A buddie.toml parsed, or ConfigError saying why it cannot be: the one reader of the file's bytes."""
+    try:
+        raw = path.read_bytes()
+    except OSError as error:
+        raise ConfigError(path, f"cannot be read: {error.strerror or error}") from error
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ConfigError(path, f"not UTF-8 (byte {error.start})") from error
+    try:
+        return tomllib.loads(text)
+    except tomllib.TOMLDecodeError as error:
+        raise ConfigError(path, f"not valid TOML: {error}") from error
+
+
+def problem(path: Path | None) -> str | None:
+    """Why the buddie.toml at `path` cannot be used, or None when it can (or there is none)."""
+    if path is None:
+        return None
+    try:
+        read_toml(path)
+    except ConfigError as error:
+        return error.reason
+    return None
+
+
 def find(repos: list[Path]) -> Path | None:
     for repo in repos:
         if (repo / CONFIG).is_file():
@@ -115,11 +150,13 @@ def find(repos: list[Path]) -> Path | None:
 
 
 def load(path: Path | None) -> dict:
+    """The file's settings, {} when there is none or it cannot be used (problem() says why; the hook reads files
+    through resolved.py, which keeps the error)."""
     if path is None:
         return {}
     try:
-        return tomllib.loads(path.read_text(encoding="utf-8"))
-    except (OSError, tomllib.TOMLDecodeError):
+        return read_toml(path)
+    except ConfigError:
         return {}
 
 

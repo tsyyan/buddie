@@ -374,12 +374,15 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     final = final_answer(text, event, ctx)
     tokens = context.last_context(event.get("transcript_path"))
     heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event, ctx))
-    extra = [{"kind": "context", "line": None, "text": ""}] if heavy else []
+    extra = ([{"kind": "context", "line": None, "text": ""}] if heavy else []) \
+        + [{"kind": "config", "line": None, "text": ""} for _ in ctx.config_errors]
     prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event, ctx)) else []
     # each item with its class: verify's items by the check of the finding behind each (gate_items), the gate's own
     # items by what makes them. A class the levels do not know blocks, as an unclassified item always did
-    every = gate_items(pred, found, numbers) + [(i, "final") for i in (unbacked(pred) if final else [])] \
-        + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else [])
+    typed, mismatch = gate_items(pred, found, numbers)
+    every = typed + [(i, "final") for i in (unbacked(pred) if final else [])] \
+        + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else []) \
+        + [(config_item(e), "config") for e in ctx.config_errors]
     level = [lv.get(cls or "", "block") for _, cls in every]
     blocking = [i for (i, _), lvl in zip(every, level) if lvl == "block"]
     warned = [i for (i, _), lvl in zip(every, level) if lvl == "warn"]
@@ -416,6 +419,10 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
                          for a in pred["anchors"] if a.get("kind")}}
     if code:
         entry["reasons"] = journal.reasons(items)
+    if ctx.config_errors:
+        entry["config_errors"] = [{"path": str(e.path), "reason": e.reason} for e in ctx.config_errors]
+    if mismatch:
+        entry["typed_mismatch"] = mismatch
     if warned:
         entry["warned"] = len(warned)
     if tour:
@@ -461,16 +468,23 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     return 2, []
 
 
-def gate_items(pred: dict, found: list, numbers: str) -> list[tuple[str, str | None]]:
+def gate_items(pred: dict, found: list, numbers: str) -> tuple[list[tuple[str, str | None]], dict | None]:
     """predicate.blocking with each item's gate class, from the finding behind it (verify.blocking_findings and
-    config.CLASS_OF_CHECK). Should the two ever differ in length, each item keeps the class its words give
-    (config.classify), as before #27, rather than lose one."""
-    from buddie import config
-    from buddie.verify import blocking_findings
-    behind = blocking_findings(found, numbers)
+    config.CLASS_OF_CHECK), and None, or the mismatch when the findings do not line up with the items. Then no
+    item gets a class: each blocks whatever the levels say (no level demotes what cannot be told apart), and the
+    gate journals {findings, items}. The words' class (config.classify) is never the decision."""
+    from buddie import config, verify
+    behind = verify.blocking_findings(found, numbers)
     if len(behind) != len(pred["blocking"]):
-        return [(i, config.classify(i)) for i in pred["blocking"]]
-    return [(i, config.CLASS_OF_CHECK.get(f.check)) for i, f in zip(pred["blocking"], behind)]
+        return [(i, None) for i in pred["blocking"]], {"findings": len(behind), "items": len(pred["blocking"])}
+    return [(i, config.CLASS_OF_CHECK.get(f.check)) for i, f in zip(pred["blocking"], behind)], None
+
+
+def config_item(error) -> str:
+    """The gate's item for a buddie.toml that cannot be used (resolved.ResolvedEventContext.config_errors)."""
+    return (f"buddie.toml cannot be used: {error.path}: {error.reason}. None of its settings applied: the checks ran "
+            "on buddie's defaults, without its [gates], [mandate] or [intro]. Fix the file, or keep the answer and add a "
+            "line starting with 'buddie:' telling the reader the project's buddie settings were not applied")
 
 
 def main() -> int:
@@ -480,6 +494,43 @@ def main() -> int:
         return 0
     try:
         return run(event)
-    except Exception as error:  # a broken gate must not stop the session; say so and let the answer through
-        print(f"buddie hook error (answer not checked): {type(error).__name__}: {error}", file=sys.stderr)
-        return 0
+    except Exception as error:
+        return failed(event, error)
+
+
+def guarded_text(event: dict) -> str:
+    """The text this event lets out when the gate guards it: the final answer at a Stop that is not a re-entry, a
+    text tool's message at PreToolUse. Empty for every other event (SessionStart, PostToolUse, a launch...)."""
+    name = event.get("hook_event_name")
+    try:
+        if name == "Stop" and not event.get("stop_hook_active"):
+            return stop_text(event)
+        if name == "PreToolUse" and SEND.search(str(event.get("tool_name") or "")):
+            return tool_text(event.get("tool_input") or {})
+    except Exception:  # noqa: BLE001 - not even the text can be had: there is nothing to hold
+        return ""
+    return ""
+
+
+def failed(event: dict, error: Exception, err=None) -> int:
+    """The hook failed. A text the gate guards was not checked, so it does not leave as if it had been: it goes back
+    once with the error (exit 2). A re-entered Stop (stop_hook_active) never gets here with text, so this cannot
+    loop; a `buddie:` line telling the reader it was not checked lets it out. Any other event goes on (exit 0): its
+    hook only keeps the journal and the summary, and a failure there must not stop the session."""
+    err = err or sys.stderr
+    why = f"{type(error).__name__}: {error}"
+    text = guarded_text(event)
+    held = bool(text.strip()) and not DISCLOSED.search(text)
+    if held:
+        print(f"buddie could not check this text ({why}), so it does not go out as checked. Send it again: the next "
+              "attempt is checked anew. If buddie keeps failing, keep the text and add a line starting with "
+              "'buddie:' that tells the reader it was not checked.", file=err)
+    else:
+        print(f"buddie hook error ({'answer not checked' if text.strip() else 'nothing to check'}): {why}", file=err)
+    try:
+        from buddie.summary import now_iso
+        log({"at": now_iso(), "session": event.get("session_id"), "event": event.get("hook_event_name"),
+             "tool": event.get("tool_name"), "error": why[:300], "exit": 2 if held else 0})
+    except Exception:  # noqa: BLE001 - the journal is a convenience: the exit code is what matters
+        pass
+    return 2 if held else 0

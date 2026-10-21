@@ -11,13 +11,10 @@ config.Source: buddie.toml is REPO (the agent can write it), the environment and
 from __future__ import annotations
 
 import os
-import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from buddie import config
-
-BROKEN_TOML = object()  # a buddie.toml that does not parse: each reader treats it as it always did
 
 
 @dataclass(frozen=True)
@@ -31,10 +28,10 @@ class ResolvedEventContext:
     transcript: config.Setting
     journal_text: bool
     final_mark: str | None                # config.final_mark
-    mandate: dict | bool                  # for verify(mandate=): the [mandate] config found, {} when no repo has
-                                          # one (verify then judges no work claims, as find_config's None did), or
-                                          # True when a buddie.toml does not parse: verify looks and raises, as always
-    files: dict[Path, object] = field(default_factory=dict, repr=False)  # repo -> parsed buddie.toml / BROKEN_TOML
+    mandate: dict                         # for verify(mandate=): the [mandate] config found, {} when no usable
+                                          # repo has one (verify then judges no work claims, as find_config's None did)
+    files: dict[Path, object] = field(default_factory=dict, repr=False)  # repo -> parsed buddie.toml / ConfigError
+    config_errors: tuple[config.ConfigError, ...] = ()  # each buddie.toml that exists but cannot be used
 
     @property
     def configured(self) -> bool:
@@ -47,7 +44,8 @@ class ResolvedEventContext:
     def with_event(self, event: dict) -> "ResolvedEventContext":
         """The same resolution for an event the hook rewrote (transcript paths dropped when reading is off)."""
         return ResolvedEventContext(event, self.session, self.repos, self.config_path, self.config, self.levels,
-                                    self.transcript, self.journal_text, self.final_mark, self.mandate, self.files)
+                                    self.transcript, self.journal_text, self.final_mark, self.mandate, self.files,
+                                    self.config_errors)
 
 
 def _read(repos) -> dict[Path, object]:
@@ -57,9 +55,9 @@ def _read(repos) -> dict[Path, object]:
         if not path.is_file():
             continue
         try:
-            files[repo] = tomllib.loads(path.read_text(encoding="utf-8"))
-        except (OSError, tomllib.TOMLDecodeError, UnicodeDecodeError):
-            files[repo] = BROKEN_TOML
+            files[repo] = config.read_toml(path)
+        except config.ConfigError as error:
+            files[repo] = error
     return files
 
 
@@ -68,23 +66,20 @@ def resolve(event: dict, repos: list[Path] | None = None) -> ResolvedEventContex
     from buddie.event import repos_of
     repos = tuple(repos if repos is not None else repos_of(event))
     files = _read(repos)
+    # a file that cannot be used counts as there (the full defaults apply, not the fresh-install ones) and gives
+    # nothing: no level, no final mark, no [mandate] regex is taken from it; config_errors says so, and the gate
+    # returns the answer until it is fixed or disclosed
+    errors = tuple(f for f in files.values() if isinstance(f, config.ConfigError))
+    usable = {r: f for r, f in files.items() if isinstance(f, dict)}
     first = next((r for r in repos if r in files), None)
     path = first / config.CONFIG if first is not None else None
-    cfg = files[first] if first is not None and files[first] is not BROKEN_TOML else {}
+    cfg = usable.get(first, {}) if first is not None else {}
     mark = os.environ.get("BUDDIE_FINAL")
     if mark is None:
-        mark = next((m for r in repos if isinstance(files.get(r), dict)
-                     and (m := files[r].get("mandate", {}).get("final_mark")) is not None), None)
-    man: dict | bool = {}
-    for r in repos:
-        if r not in files:
-            continue
-        if files[r] is BROKEN_TOML:
-            man = True  # mandate.find_config would raise here: leave it to verify, which does
-            break
-        if (section := files[r].get("mandate")) is not None:
-            man = {**mandate.DEFAULTS, **section, "repo": str(r)}
-            break
+        mark = next((m for r in repos if r in usable
+                     and (m := usable[r].get("mandate", {}).get("final_mark")) is not None), None)
+    man: dict = next(({**mandate.DEFAULTS, **usable[r]["mandate"], "repo": str(r)} for r in repos
+                      if r in usable and usable[r].get("mandate") is not None), {})
     return ResolvedEventContext(event, event.get("session_id"), repos, path, cfg,
                                 config.resolve_levels(cfg, path is not None), config.resolve_transcript(cfg),
-                                config.journal_text(cfg), mark, man, files)
+                                config.journal_text(cfg), mark, man, files, errors)

@@ -50,8 +50,8 @@ def test_typed_classes_equal_the_words_classes(world, text, numbers):
     repo, store = world
     receipt, found, _ = assess(text, store=store, fetch=False, repos=[repo], numbers=numbers)
     pred = receipt["predicate"]
-    typed = hook.gate_items(pred, found, numbers)
-    assert typed == [(i, config.classify(i)) for i in pred["blocking"]]
+    typed, mismatch = hook.gate_items(pred, found, numbers)
+    assert mismatch is None and typed == [(i, config.classify(i)) for i in pred["blocking"]]
     assert all(cls is not None for _, cls in typed)
 
 
@@ -62,16 +62,18 @@ def test_an_unknown_check_blocks_whatever_the_levels_say(world, monkeypatch):
     receipt, found, _ = assess(gs.TEXTS["bad_quote"], store=store, fetch=False, repos=[repo])
     monkeypatch.setattr(config, "CLASS_OF_CHECK", {k: v for k, v in config.CLASS_OF_CHECK.items()
                                                    if k is not core.Check.QUOTE})
-    [(item, cls)] = hook.gate_items(receipt["predicate"], found, "gap")
+    [(item, cls)], _ = hook.gate_items(receipt["predicate"], found, "gap")
     lv = config.levels({"gates": {"quotes": "off"}})
     assert cls is None and lv.get(cls or "", "block") == "block"
 
 
-def test_a_count_mismatch_falls_back_to_the_words(world):
+def test_a_count_mismatch_leaves_every_item_unclassed(world):
+    """No item lost, none given a class from its words: each blocks (tests/test_failsafe.py checks the gate)."""
     repo, store = world
     receipt, found, _ = assess(gs.TEXTS["bad_quote"], store=store, fetch=False, repos=[repo])
     pred = dict(receipt["predicate"], blocking=receipt["predicate"]["blocking"] + ["anchor line 9 ⚓ x: made up"])
-    assert hook.gate_items(pred, found, "gap") == [(i, config.classify(i)) for i in pred["blocking"]]
+    items, mismatch = hook.gate_items(pred, found, "gap")
+    assert items == [(i, None) for i in pred["blocking"]] and mismatch == {"findings": 1, "items": 2}
 
 
 def test_blocking_findings_follow_the_receipt_order(world):
@@ -114,11 +116,10 @@ def test_the_context_resolves_as_the_readers_it_replaces(tmp_path, monkeypatch, 
     assert (ctx.config_path, ctx.config, ctx.final_mark) == (path, cfg, config.final_mark(event))
     assert ctx.levels == config.resolve_levels(cfg, path is not None)
     assert ctx.transcript == config.resolve_transcript(cfg) and ctx.journal_text == config.journal_text(cfg)
-    try:
-        expected = mandate.find_config(repos) or {}
-    except Exception:  # a buddie.toml that does not parse: verify is left to raise, as it always did
-        expected = True
-    assert ctx.mandate == expected
+    broken = [r for r in repos if config.problem(r / "buddie.toml" if (r / "buddie.toml").is_file() else None)]
+    # a buddie.toml that cannot be used gives nothing and is reported (find_config raised on it before #27's fix)
+    assert [e.path.parent for e in ctx.config_errors] == broken
+    assert ctx.mandate == (mandate.find_config([r for r in repos if r not in broken]) or {})
     assert ctx.session == "s" and ctx.repos == tuple(repos)
 
 
@@ -159,7 +160,7 @@ def counted(tmp_path, monkeypatch):
                  ("BUDDIE_SHARED_LOG", "0"), ("BUDDIE_INTRO", "0")):
         monkeypatch.setenv(k, v)
     calls = {"git": [], "toml": 0, "resolve": 0}
-    real_run, real_read, real_resolve = subprocess.run, Path.read_text, resolved.resolve
+    real_run, real_read, real_bytes, real_resolve = subprocess.run, Path.read_text, Path.read_bytes, resolved.resolve
 
     def run(cmd, *a, **k):
         if isinstance(cmd, list) and cmd and Path(str(cmd[0])).stem == "git":
@@ -170,11 +171,16 @@ def counted(tmp_path, monkeypatch):
         calls["toml"] += self.name == "buddie.toml"
         return real_read(self, *a, **k)
 
+    def read_bytes(self):
+        calls["toml"] += self.name == "buddie.toml"
+        return real_bytes(self)
+
     def resolve(*a, **k):
         calls["resolve"] += 1
         return real_resolve(*a, **k)
     monkeypatch.setattr(subprocess, "run", run)
     monkeypatch.setattr(Path, "read_text", read_text)
+    monkeypatch.setattr(Path, "read_bytes", read_bytes)
     monkeypatch.setattr(resolved, "resolve", resolve)
     monkeypatch.setattr(config, "of_event", lambda e: pytest.fail("config.of_event on the hook's main path"))
     return repo, calls
@@ -190,18 +196,3 @@ def test_one_resolution_one_read_per_stop(counted, text, code):
     # before #27: 8 git calls and 6 reads of buddie.toml on the pass, 6 and 4 on the fail
     assert calls["resolve"] == 1 and calls["toml"] == 1
     assert calls["git"].count("rev-parse") == 1 and len(calls["git"]) <= 3  # + the session's stores: status, merge-base
-
-
-@pytest.mark.xfail(strict=True, reason="known since before #27, not fixed here: a buddie.toml that does not parse "
-                   "makes verify raise (mandate.find_config), and the hook lets the answer out unchecked")
-def test_a_broken_buddie_toml_does_not_turn_the_gate_off(tmp_path, monkeypatch):
-    repo = _repo(tmp_path, "r", "this is [ not toml")
-    (repo / "data.txt").write_bytes(b"hello\n")
-    for k, v in (("BUDDIE_FETCH", "0"), ("BUDDIE_GITHUB", "0"), ("BUDDIE_LOG", str(tmp_path / "h")),
-                 ("BUDDIE_STATE", str(tmp_path / "p")), ("BUDDIE_REPOS", str(repo)), ("BUDDIE_SHARED_LOG", "0"),
-                 ("BUDDIE_INTRO", "0"), ("VERBATIM_STORE", str(tmp_path / "s"))):
-        monkeypatch.setenv(k, v)
-    event = {"hook_event_name": "Stop", "session_id": "s", "cwd": str(repo),
-             "last_assistant_message": f"Done. `⚓ data.txt#{'0' * 12}`"}
-    monkeypatch.setattr(sys, "stdin", io.TextIOWrapper(io.BytesIO(json.dumps(event).encode("utf-8"))))
-    assert hook.main() == 2

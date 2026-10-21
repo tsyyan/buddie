@@ -41,6 +41,8 @@ REASONS = {
     "work": ("work claim contradicts the queue or the user's messages",
              "state the row's status as NEXT.md has it on main, with its anchor"),
     "number": ("number not found in its cited source", "copy the number from the snapshot text, or drop the link"),
+    "config": ("buddie.toml that cannot be used (not UTF-8, not TOML, unreadable)",
+               "fix buddie.toml, or add a 'buddie:' line saying the project's settings were not applied"),
     "context": ("reply past 200k tokens of context that is not the result",
                 "hand in the result with «Следующий шаг:», or keep the reply with "
                 "`buddie: контекст треда N тыс., дальше лучше новым тредом`"),
