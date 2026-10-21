@@ -36,6 +36,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
 from buddie import __version__, mcp
+from buddie.verbatim.store import BUDGET, Budget, OverBudget
 
 PORTS = (80, 443)
 MAX_URLS = 20
@@ -65,6 +66,9 @@ def _connect(address, timeout=socket._GLOBAL_DEFAULT_TIMEOUT, source_address=Non
     host, port = address
     if port not in PORTS:
         raise Blocked(f"port {port}: only 80 and 443")
+    if (budget := BUDGET.get()) is not None:  # every request, retry, redirect and alternative source opens one
+        left = budget.connect()
+        timeout = left if timeout in (None, socket._GLOBAL_DEFAULT_TIMEOUT) else min(timeout, left)
     error = None
     for family, kind, proto, _, sockaddr in socket.getaddrinfo(host, port, type=socket.SOCK_STREAM):
         ip = ipaddress.ip_address(sockaddr[0].split("%")[0])
@@ -125,27 +129,55 @@ def _only(args: dict, allowed: set[str]) -> None:
         raise ValueError(f"not available on the remote server: {', '.join(extra)}")
 
 
-MAX_REPORT_URLS = 100  # distinct links a report may make the server fetch
+MAX_REPORT_URLS = 100  # distinct links in a report: an early refusal; the Budget is what holds
 LINK = re.compile(r"https?://[^\s<>()\[\]\"'`]+")
+# What one call may spend (a Budget, enforced at the socket and in read_body): connections, body bytes, seconds
+CALL_REQUESTS, CALL_BYTES, CALL_SECONDS = 60, 64 * 2**20, 90
+GITHUB_PATHS = re.compile(r"^/repos/(?P<owner>[A-Za-z0-9_.-]{1,100})/(?P<repo>[A-Za-z0-9_.-]{1,100})/(?P<rest>"
+                          r"pulls/\d{1,9}|commits/[0-9a-f]{7,40}/(?:check-runs\?per_page=100&page=\d{1,3}|status))$")
 
 
 def public_github(get):
     """`get` (effects.github_get, with the server's token) limited to public repositories. Anyone who can reach the
     server sends the anchors, while the token may see its owner's private repos: a pr:/ci: anchor on one of those
-    would tell a stranger its PR states, commits and check names. A private or invisible repo answers None, as a
-    missing PR does, so the answer does not even say that it exists."""
+    would tell a stranger its PR states, commits and check names. Only the paths effects.py asks for pass
+    (GITHUB_PATHS: a PR, a commit's check runs or status), with ASCII owner and repo names and no . or .. part; the
+    repo is looked up first and must say `private: false` under the very name asked for (a renamed or redirected
+    repo, whose full_name differs, is not followed); a PR's own base repo must say so too. Anything else answers
+    None, as a missing PR does, so the answer does not even say that a private repo exists."""
     seen: dict[str, bool] = {}
 
     def public_get(path: str):
-        m = re.match(r"/repos/([^/]+)/([^/?]+)(?:[/?]|$)", path)
-        if not m:
+        m = GITHUB_PATHS.match(path)
+        if not m or m["owner"] in (".", "..") or m["repo"] in (".", ".."):
             return None
-        slug = f"{m[1]}/{m[2]}".lower()
+        slug = f"{m['owner']}/{m['repo']}".lower()
         if slug not in seen:
-            repo = get(f"/repos/{m[1]}/{m[2]}")
-            seen[slug] = isinstance(repo, dict) and repo.get("private") is False
-        return get(path) if seen[slug] else None
+            repo = get(f"/repos/{m['owner']}/{m['repo']}")
+            seen[slug] = isinstance(repo, dict) and repo.get("private") is False                 and str(repo.get("full_name", "")).lower() == slug
+        if not seen[slug]:
+            return None
+        data = get(path)
+        if m["rest"].startswith("pulls/") and isinstance(data, dict):
+            base = (data.get("base") or {}).get("repo") or {}
+            if base.get("private") is not False or str(base.get("full_name", "")).lower() != slug:
+                return None
+        return data
     return public_get
+
+
+def budgeted(tool):
+    """A remote tool run under one Budget (CALL_*): past it, fetches fail (sources unavailable, GAPS) and the check's
+    own long loops stop with an error. Not a hard deadline: DNS lookups and a single parse are not interrupted."""
+    def run(args: dict) -> tuple[dict, bool]:
+        token = BUDGET.set(Budget(CALL_REQUESTS, CALL_BYTES, CALL_SECONDS))
+        try:
+            return tool(args)
+        except OverBudget as error:
+            raise ValueError(str(error)) from error
+        finally:
+            BUDGET.reset(token)
+    return run
 
 
 def verify_report(args: dict) -> tuple[dict, bool]:
@@ -178,7 +210,8 @@ def source_text(args: dict) -> tuple[dict, bool]:
     return mcp.source_text(args)
 
 
-HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text}
+HANDLERS = {"verify_report": budgeted(verify_report), "snap": budgeted(snap),
+            "source_text": budgeted(source_text)}
 _DROP = {"verify_report": {"path", "repos", "store", "transcript", "access"}, "snap": {"store"},
          "source_text": {"store"}}
 

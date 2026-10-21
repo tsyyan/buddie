@@ -10,11 +10,13 @@ so "the source was unavailable" is evidence, not a silent gap.
 """
 from __future__ import annotations
 
+import contextvars
 import hashlib
 import http.client
 import json
 import os
 import threading
+import time
 import urllib.error
 import urllib.request
 from datetime import UTC, datetime
@@ -30,10 +32,68 @@ class TooLarge(OSError):
     pass
 
 
+class BudgetSpent(OSError):
+    """A network call past the budget of the check it serves: a failed fetch, so the source is unavailable."""
+
+
+class OverBudget(Exception):
+    """The check ran past its time budget in work that is not a fetch: it stops, and gives no receipt."""
+
+
+class Budget:
+    """What one check may spend on the network: TCP connections (every request, retry and redirect opens one), body
+    bytes read, and wall time. The caller that serves strangers (remote.py) sets BUDGET; local checks run without.
+    The connection side is enforced where sockets are opened (remote._connect), the bytes in read_body, the time
+    there and at check_time() in the loops whose cost grows with page size."""
+
+    def __init__(self, requests: int, total_bytes: int, seconds: float):
+        self.requests, self.bytes, self.until = requests, total_bytes, time.monotonic() + seconds
+        self.seconds = seconds
+
+    def left(self) -> float:
+        return self.until - time.monotonic()
+
+    def connect(self) -> float:
+        """Spend one connection; the seconds left, for its socket timeout."""
+        if self.left() <= 0:
+            raise BudgetSpent(f"time budget of {self.seconds:g} s spent")
+        if self.requests <= 0:
+            raise BudgetSpent("request budget spent")
+        self.requests -= 1
+        return self.left()
+
+
+BUDGET: contextvars.ContextVar[Budget | None] = contextvars.ContextVar("verbatim_budget", default=None)
+
+
+def check_time() -> None:
+    """For loops whose cost grows with the page (closest passage, numbers): stop when the check's time is spent."""
+    budget = BUDGET.get()
+    if budget is not None and budget.left() <= 0:
+        raise OverBudget(f"the check ran past its time budget of {budget.seconds:g} s")
+
+
 def read_body(response, limit: int | None = None) -> bytes:
-    """The body of an HTTP response, never more than `limit` (MAX_PAGE_BYTES) + 1 bytes in memory; TooLarge past it."""
+    """The body of an HTTP response, never more than `limit` (MAX_PAGE_BYTES) + 1 bytes in memory; TooLarge past it.
+    Under a Budget the body also counts against its bytes and is read in pieces with the time checked between them,
+    so a server that sends a byte now and then cannot hold the check past its time."""
     limit = MAX_PAGE_BYTES if limit is None else limit
-    data = response.read(limit + 1)
+    budget = BUDGET.get()
+    if budget is None:
+        data = response.read(limit + 1)
+    else:
+        read, data = getattr(response, "read1", None) or response.read, bytearray()
+        while len(data) <= limit:
+            if budget.left() <= 0:
+                raise BudgetSpent(f"time budget of {budget.seconds:g} s spent while reading")
+            chunk = read(min(1 << 16, limit + 1 - len(data)))
+            if not chunk:
+                break
+            data += chunk
+            budget.bytes -= len(chunk)
+            if budget.bytes < 0:
+                raise BudgetSpent("byte budget spent")
+        data = bytes(data)
     if len(data) > limit:
         raise TooLarge(f"body over {limit // 2**20} MiB, not stored")
     return data

@@ -51,7 +51,7 @@ import re
 import unicodedata
 from urllib.parse import urlsplit
 
-from buddie.verbatim.store import Store, canonical_url
+from buddie.verbatim.store import Store, canonical_url, check_time
 from buddie.verbatim.textlayer import Unreadable, collapse, layers
 
 ORDER = ["FOUND", "FOUND_NORMALIZED", "HIDDEN_ONLY", "FOUND_IN_COPY", "UNCERTAIN", "NOT_A_QUOTE", "NOT_FOUND", "SOURCE_UNAVAILABLE", "NO_SOURCE"]
@@ -246,6 +246,8 @@ def closest(quote: str, text: str) -> dict:
     sm.set_seq2(quote)
     scored = []
     for i in range(0, max(1, len(text) - n + 1), step):
+        if i % (step << 12) == 0:
+            check_time()
         sm.set_seq1(text[i:i + n])
         scored.append((sm.quick_ratio(), i))
     scored.sort(reverse=True)
@@ -449,6 +451,7 @@ def check_claims(claims: list[dict], store: Store, *, fetch: bool = False, acces
 
     results = []
     for claim in claims:
+        check_time()
         out = dict(claim)
         if not claim["urls"]:
             out["verdict"] = "NO_SOURCE"
