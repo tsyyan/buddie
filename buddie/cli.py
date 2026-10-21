@@ -196,6 +196,31 @@ def cmd_hook(args) -> int:
     return main()
 
 
+def cmd_policy(args) -> int:
+    """The protected policy: where it is, whether it is in force, and what it changes for the repo around cwd. buddie
+    never writes it: `template` prints one for an administrator to install (docs/policy.md)."""
+    from buddie import policy, resolved
+    if args.what == "template":
+        print(policy.TEMPLATE, end="")
+        return 0
+    loaded = policy.load()
+    print(f"policy: {loaded.path}")
+    print(f"status: {loaded.status.value}" + (f" ({loaded.error})" if loaded.error else ""))
+    if args.what == "check":
+        return 1 if loaded.status is policy.Status.INVALID else 0
+    if loaded.status is policy.Status.ABSENT:
+        print("no protected policy: buddie.toml and the hook's environment decide everything, as before")
+        return 0
+    ctx = resolved.resolve({"cwd": os.getcwd()}, [Path(r) for r in args.repo] if args.repo else None)
+    print("levels: " + ", ".join(f"{k}={v.value}" + ("*" if v.source.value == "protected" else "")
+                                 for k, v in ctx.levels.items()) + "   (* raised to the policy's floor)")
+    print(f"intro allowed: {ctx.intro_allowed}; disclosure: {ctx.disclosure_allowed}; transcript: "
+          f"{ctx.transcript.value} ({ctx.transcript.source.value}); journal words: {ctx.journal_text}; "
+          f"network: {'allowed' if ctx.network_allowed else 'forbidden'}")
+    print("refused here: " + (", ".join(ctx.refused) or "nothing"))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     from buddie import __version__
     for stream in (sys.stdout, sys.stderr):  # quotes, anchors and reasons are UTF-8 on every OS (Windows: cp1252)
@@ -258,6 +283,10 @@ def main(argv: list[str] | None = None) -> int:
                    help="address to listen on (default 127.0.0.1; 0.0.0.0 in a container)")
     s.add_argument("--port", type=int, default=int(os.environ.get("PORT") or 8000), help="default $PORT or 8000")
     s.set_defaults(func=cmd_serve)
+    po = sub.add_parser("policy", help="the protected policy: show it, check it, or print a template to install")
+    po.add_argument("what", choices=("show", "check", "template"))
+    po.add_argument("--repo", action="append", help="repo whose buddie.toml to judge (default: around cwd)")
+    po.set_defaults(func=cmd_policy)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     try:

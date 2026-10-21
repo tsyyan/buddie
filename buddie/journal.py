@@ -155,29 +155,32 @@ def passage(before: list[dict], text: str, now: list[dict], code: int) -> dict:
 
 
 # local state between a return and the next attempt: the flagged lines (text) stay on this machine only
-def _state_file(session: str | None, tool: str | None) -> Path | None:
-    root = os.environ.get("BUDDIE_STATE", str(Path.home() / ".cache" / "buddie" / "pending"))
+def _state_file(session: str | None, tool: str | None, root: str | None = None) -> Path | None:
+    """root: where the state lives when the caller has it resolved (a protected policy that keeps tracking on);
+    else BUDDIE_STATE, default ~/.cache/buddie/pending, and BUDDIE_STATE=0 turns tracking off."""
+    root = root if root is not None else os.environ.get("BUDDIE_STATE", str(Path.home() / ".cache" / "buddie" / "pending"))
     if root in ("", "0"):
         return None
     name = re.sub(r"[^\w.-]", "_", f"{session or 'nosession'}--{tool or 'answer'}")
     return Path(root) / f"{name}.json"
 
 
-def tracks_returns() -> bool:
+def tracks_returns(root: str | None = None) -> bool:
     """Whether the gate remembers what it returned (BUDDIE_STATE not 0): then a disclosure counts only after a return."""
-    return _state_file(None, None) is not None
+    return _state_file(None, None, root) is not None
 
 
-def take_pending(session: str | None, tool: str | None) -> list[dict] | None:
-    f = _state_file(session, tool)
+def take_pending(session: str | None, tool: str | None, root: str | None = None) -> list[dict] | None:
+    f = _state_file(session, tool, root)
     try:
         return json.loads(f.read_text(encoding="utf-8")) if f and f.is_file() else None
     except (OSError, json.JSONDecodeError):
         return None
 
 
-def keep_pending(session: str | None, tool: str | None, items: list[dict] | None) -> None:
-    f = _state_file(session, tool)
+def keep_pending(session: str | None, tool: str | None, items: list[dict] | None,
+                 root: str | None = None) -> None:
+    f = _state_file(session, tool, root)
     if f is None:
         return
     try:

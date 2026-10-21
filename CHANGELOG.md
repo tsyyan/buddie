@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+- Security: a protected policy (`buddie/policy.py`, docs/policy.md). A file only an administrator can write
+  (`/etc/buddie/policy.toml`; `<ProgramData>\buddie\policy.toml` on Windows) sets floors for each gate class and
+  what buddie.toml and the hook's environment may still decide: the intro mode, the final mark, transcript reading,
+  conversation words in the journal, turning return tracking off, the launch free command, the network, and whether
+  a `buddie:` line may let a returned answer out. Lower sources may tighten, never weaken; each refusal is journaled.
+  With no policy nothing changes; a policy that is there but unprotected or invalid makes buddie run on its strictest
+  limits and return each answer with the reason. `buddie policy show|check|template`; buddie never writes the file.
+- Security: on Windows the policy counts as protected only when the file and every directory above it are owned by
+  SYSTEM, Administrators or TrustedInstaller, no ACE lets a low-privilege principal or this user change or replace
+  them, and AccessCheck with the hook's token agrees (`buddie/winacl.py`, ctypes only). An applicable allow ACE the
+  check does not read (object, callback/conditional, compound) makes the policy invalid instead of being skipped.
+- Security: the hook launcher runs Python isolated (`-I`, also for its version probe), so PYTHONPATH and friends from
+  a project's settings load nothing into it; with no Python 3.11+ a Stop's answer goes back once with the reason
+  instead of passing (the re-entered Stop goes on with a systemMessage). docs/policy.md, "A trusted launcher".
+- The hook reads the protected policy once per event (`policy.snapshot()`).
 - Security: a buddie.toml that cannot be used (not TOML, not UTF-8, unreadable) no longer turns the gate off. It
   used to make the check raise and the hook let the answer out unchecked (exit 0). Now none of its settings apply,
   buddie's full defaults do, and the gate returns the answer with the file and the reason until the file is fixed
