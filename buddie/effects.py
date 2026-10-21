@@ -108,6 +108,7 @@ class GitHubUnavailable(Exception):
 
 def github_get(path: str) -> dict | None:
     """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see)."""
+    from buddie.verbatim.store import read_body
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "buddie"}
     # only a token given to buddie by name: BUDDIE_GITHUB_TOKEN, or the plugin setting (Claude Code exports userConfig
     # as CLAUDE_PLUGIN_OPTION_*). An ambient GITHUB_TOKEN is never picked up and sent (1.1); in CI set
@@ -117,7 +118,7 @@ def github_get(path: str) -> dict | None:
         headers["Authorization"] = f"Bearer {token}"
     try:
         with urllib.request.urlopen(urllib.request.Request(API + path, headers=headers), timeout=20) as r:
-            return json.load(r)
+            return json.loads(read_body(r))
     except urllib.error.HTTPError as error:
         if error.code == 404:
             return None
@@ -131,6 +132,8 @@ def _get(ctx: dict, path: str):
     get = ctx.get("github")
     if get is None:
         raise GitHubUnavailable("GitHub lookups are off (offline)")
+    if any(part in (".", "..") for part in path.split("?")[0].split("/")):  # pr:../x#1: no other API path
+        raise GitHubUnavailable(f"not a repository path: {path}")
     cache = ctx.setdefault("_cache", {})
     if path not in cache:
         cache[path] = get(path)

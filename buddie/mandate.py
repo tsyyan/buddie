@@ -74,9 +74,14 @@ def find_config(repos: list[Path]) -> dict | None:
 
 
 def read(cfg: dict, path: str, rev: str | None = None) -> str:
+    """A file buddie.toml names, from the working tree or from commit `rev`. buddie.toml belongs to the repo under
+    check, so its paths are held to the repo like a file anchor: absolute, "..", a symlink out of the repo or a file
+    over anchors.MAX_TEXT_BYTES is not read (FileNotFoundError, as for a missing file)."""
     repo = Path(cfg["repo"])
     if rev is None:
-        return (repo / path).read_text(encoding="utf-8")
+        if (data := anc.read_inside(repo, path)) is None:
+            raise FileNotFoundError(f"{path}: not a plain file inside {repo} under {anc.MAX_TEXT_BYTES} bytes")
+        return anc.text_of(data)
     out = subprocess.run(["git", "-C", str(repo), "show", f"{rev}:{path}"], capture_output=True, text=True)
     if out.returncode:
         raise FileNotFoundError(f"{path} at {rev}: {out.stderr.strip()}")
@@ -87,11 +92,10 @@ def messages(cfg: dict) -> list[dict] | None:
     """The user's messages, one JSON object per line: id, at (ISO, UTC), optional edited_at, author, text."""
     if not cfg.get("messages"):
         return None
-    path = Path(cfg["repo"]) / cfg["messages"]
-    if not path.is_file():
+    if (data := anc.read_inside(Path(cfg["repo"]), cfg["messages"])) is None:
         return None
     out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in anc.text_of(data).splitlines():
         if line.strip():
             m = json.loads(line)
             if m.get("author", "user") == "user":

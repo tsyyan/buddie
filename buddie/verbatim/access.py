@@ -20,7 +20,6 @@ Nothing here defeats a paywall, a CAPTCHA or a bot filter: a page that refuses a
 from __future__ import annotations
 
 import functools
-import gzip
 import http.client
 import json
 import os
@@ -33,7 +32,8 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from buddie.verbatim.store import Store, canonical_url, now, request_url
+from buddie.verbatim.store import Store, TooLarge, canonical_url, now, read_body, request_url
+from buddie.verbatim.textlayer import Unreadable, inflate
 
 DEFAULT = ("browser", "archive", "open_access", "copy")
 ALL = DEFAULT + ("relay",)
@@ -63,7 +63,7 @@ def _get(url: str, headers: dict | None = None, timeout: float = 60) -> tuple[in
     req = urllib.request.Request(request_url(url), headers={"User-Agent": BROWSER_UA, "Accept": "*/*", **(headers or {})})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.status, {k.lower(): v for k, v in r.headers.items()}, r.read(), r.geturl()
+            return r.status, {k.lower(): v for k, v in r.headers.items()}, read_body(r), r.geturl()
     except urllib.error.HTTPError as e:
         return e.code, {k.lower(): v for k, v in (e.headers or {}).items()}, b"", url
 
@@ -151,7 +151,9 @@ def _cc(path: str, rng: tuple[int, int] | None = None, method: str = "GET") -> t
         try:
             req = urllib.request.Request(CC_DATA + path, headers=headers, method=method)
             with urllib.request.urlopen(req, timeout=60) as r:
-                return dict(r.headers), r.read()
+                return dict(r.headers), read_body(r)
+        except TooLarge:
+            raise
         except urllib.error.HTTPError as e:
             if e.code not in (403, 429, 503):
                 raise
@@ -193,7 +195,7 @@ def cc_lookup(url: str, crawl: str) -> list[dict]:
     hits = []
     for l in lines[i:i + 2]:  # a URL's rows can spill into the next block
         _, f, off, ln, _ = l.split("\t")
-        raw = gzip.decompress(_cc_bytes(f"cc-index/collections/{crawl}/indexes/{f}", int(off), int(off) + int(ln) - 1))
+        raw = inflate(_cc_bytes(f"cc-index/collections/{crawl}/indexes/{f}", int(off), int(off) + int(ln) - 1))
         for row in raw.decode("utf-8", "replace").splitlines():
             k, ts, js = row.split(" ", 2)
             if k == key:
@@ -221,12 +223,12 @@ def cc_lookup_index(url: str, crawl: str) -> list[dict] | None:
 
 def cc_record(hit: dict) -> tuple[int, str | None, bytes]:
     off, ln = int(hit["offset"]), int(hit["length"])
-    warc = gzip.decompress(_cc_bytes(hit["filename"], off, off + ln - 1))
+    warc = inflate(_cc_bytes(hit["filename"], off, off + ln - 1))
     head, body = warc.split(b"\r\n\r\n", 1)[1].split(b"\r\n\r\n", 1)
     lines = head.decode("latin-1").split("\r\n")
     hdr = {h.split(":", 1)[0].lower(): h.split(":", 1)[1].strip() for h in lines[1:] if ":" in h}
     if "gzip" in hdr.get("content-encoding", ""):
-        body = gzip.decompress(body)
+        body = inflate(body)
     return int(lines[0].split(" ")[1]), hdr.get("content-type"), body
 
 
@@ -259,7 +261,7 @@ def archive(store: Store, url: str, **_) -> dict:
                 return _store(store, url, "archive", st, ctype, body, h["url"],
                               f"{crawl} {h['filename']}@{h['offset']}", archived_at=h["timestamp"])
         errors.append(f"commoncrawl: no capture in {CC_CRAWLS} crawls")
-    except (OSError, ValueError, KeyError, http.client.HTTPException) as e:
+    except (OSError, ValueError, KeyError, EOFError, Unreadable, http.client.HTTPException) as e:
         errors.append(f"commoncrawl: {str(e)[:80]}")
     return store.record(url, {"sha256": None, "fetched_at": now(), "http_status": None, "content_type": None,
                               "final_url": url, "error": "archive: " + "; ".join(errors), "via": "archive",

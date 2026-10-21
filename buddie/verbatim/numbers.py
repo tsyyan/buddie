@@ -518,6 +518,7 @@ def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
     the store does not have. Rows: {"id" (L<line>.<n>), "line", "sentence", "text", "kind", "verdict", "url",
     "sha256", "match", "context", ...}."""
     from buddie.verbatim.check import readable
+    from buddie.verbatim.store import check_time
     pages: dict[str, list] = {}
 
     def read(url: str) -> list:
@@ -534,6 +535,7 @@ def check_report(markdown: str, store, *, fetch: bool = False) -> list[dict]:
 
     rows, starts = [], [0] + [i + 1 for i, ch in enumerate(markdown) if ch == "\n"]
     for c in cited_sentences(markdown):
+        check_time()
         at = markdown.find(c["sentence"])
         line = sum(1 for s in starts if s <= at) if at >= 0 else None
         best = None

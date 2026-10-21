@@ -13,13 +13,16 @@ Feeds (RSS/Atom) are XML whose descriptions carry escaped HTML, so they are unes
 from __future__ import annotations
 
 import codecs
-import gzip
 import html
+import os
 import re
 import shutil
 import subprocess
+import tempfile
 import zlib
 from html.parser import HTMLParser
+
+from buddie.verbatim.store import BUDGET
 
 WS = re.compile(r"\s+")
 TAG = re.compile(r"<[^>]+>")
@@ -36,6 +39,28 @@ HIDDEN_ATTRS = {"alt", "title", "aria-label"}
 
 class Unreadable(Exception):
     """The snapshot exists but its text cannot be extracted here."""
+
+
+MAX_DECODED_BYTES = 64 * 2**20  # a compressed body that expands past this is not read
+GZIP, ZLIB, RAW = 16 + zlib.MAX_WBITS, zlib.MAX_WBITS, -zlib.MAX_WBITS
+
+
+def inflate(data: bytes, wbits: int = GZIP, limit: int | None = None) -> bytes:
+    """gzip, zlib or raw deflate `data` decompressed, never past `limit` bytes (MAX_DECODED_BYTES): a body of a few
+    MiB can expand a thousandfold. Unreadable past the limit; EOFError for a cut-off stream and zlib.error for bad
+    data, as gzip.decompress and zlib.decompress raise them. gzip members after the first are read in turn."""
+    limit = MAX_DECODED_BYTES if limit is None else limit
+    out = bytearray()
+    while True:
+        d = zlib.decompressobj(wbits)
+        out += d.decompress(data, limit + 1 - len(out))
+        if len(out) > limit or d.unconsumed_tail:
+            raise Unreadable(f"compressed body expands past {limit // 2**20} MiB, not read")
+        if not d.eof:
+            raise EOFError("compressed stream ended before the end-of-stream marker")
+        data = d.unused_data
+        if wbits != GZIP or not data.startswith(b"\x1f\x8b"):
+            return bytes(out)
 
 
 def collapse(text: str) -> str:
@@ -94,16 +119,33 @@ def is_html(data: bytes, content_type: str | None) -> bool:
 
 
 def pdf_text(data: bytes) -> str:
+    """The PDF's text through pdftotext, written to a file that may not grow past MAX_DECODED_BYTES: on Linux and
+    macOS the shell's `ulimit -f` stops pdftotext there (a small PDF can draw a page's text thousands of times); on
+    Windows the file is only not read past it. Under a Budget the timeout is what is left of it."""
     exe = shutil.which("pdftotext")
     if not exe:
         raise Unreadable("PDF: pdftotext (poppler-utils) is not installed")
-    try:
-        out = subprocess.run([exe, "-enc", "UTF-8", "-", "-"], input=data, capture_output=True, timeout=120)
-    except subprocess.TimeoutExpired as error:
-        raise Unreadable("PDF: pdftotext timed out") from error
-    if out.returncode != 0:
-        raise Unreadable(f"PDF: pdftotext failed ({out.stderr.decode(errors='replace')[:120].strip()})")
-    text = out.stdout.decode("utf-8", errors="replace")
+    budget = BUDGET.get()
+    timeout = 120 if budget is None else max(1.0, min(120, budget.left()))
+    with tempfile.TemporaryDirectory() as tmp:
+        src, dst = os.path.join(tmp, "in.pdf"), os.path.join(tmp, "out.txt")
+        with open(src, "wb") as f:
+            f.write(data)
+        cmd = [exe, "-enc", "UTF-8", src, dst]
+        if os.name == "posix" and (sh := shutil.which("sh")):
+            cmd = [sh, "-c", f'ulimit -f {MAX_DECODED_BYTES // 512 + 1} && exec "$0" "$@"', *cmd]
+        try:
+            out = subprocess.run(cmd, capture_output=True, timeout=timeout)
+        except subprocess.TimeoutExpired as error:
+            raise Unreadable("PDF: pdftotext timed out") from error
+        if out.returncode != 0:
+            raise Unreadable(f"PDF: pdftotext failed ({out.stderr.decode(errors='replace')[:120].strip()}"
+                             f"{', text over the size limit' if out.returncode in (-25, 153) else ''})")
+        with open(dst, "rb") as f:
+            raw = f.read(MAX_DECODED_BYTES + 1)
+    if len(raw) > MAX_DECODED_BYTES:
+        raise Unreadable(f"PDF: text over {MAX_DECODED_BYTES // 2**20} MiB, not read")
+    text = raw.decode("utf-8", errors="replace")
     return re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", text)
 
 
@@ -138,6 +180,18 @@ def looks_binary(data: bytes, encoding: str = "utf-8") -> bool:
     return bool(head) and bad > len(head) / 10
 
 
+def _brotli(data: bytes) -> bytes:
+    """brotli has no output limit in its one-call API, so it is refused under a Budget (the remote server, which
+    serves strangers); locally it runs as before, when the optional brotli module is installed."""
+    if BUDGET.get() is not None:
+        raise Unreadable("brotli body: not decompressed on this server (no size limit for it)")
+    try:
+        import brotli  # optional: pip install brotli
+    except ImportError as error:
+        raise Unreadable("body is brotli-compressed and the brotli module is not installed") from error
+    return brotli.decompress(data)
+
+
 def decode_body(data: bytes, content_encoding: str | None = None, content_type: str | None = None) -> bytes:
     """Undo a Content-Encoding the server applied even though none was asked for (bytes are stored as sent).
 
@@ -151,25 +205,20 @@ def decode_body(data: bytes, content_encoding: str | None = None, content_type: 
             enc = "deflate"
         elif looks_binary(data, charset(data, content_type)) and data[:2] != b"\x1f\x8b":
             try:
-                import brotli
-                body = brotli.decompress(data)
+                body = _brotli(data)
                 return _text_or_unreadable(body, charset(body, content_type))
             except Exception as error:  # noqa: BLE001 - brotli.error, ImportError: either way not readable text
                 raise Unreadable("binary body, not text (and not gzip, deflate or brotli)") from error
     try:
         if enc in ("gzip", "x-gzip") or data[:2] == b"\x1f\x8b":
-            return gzip.decompress(data)
+            return inflate(data, GZIP)
         if enc == "deflate":
             try:
-                return zlib.decompress(data)
+                return inflate(data, ZLIB)
             except zlib.error:
-                return zlib.decompress(data, -zlib.MAX_WBITS)
+                return inflate(data, RAW)
         if enc == "br":
-            try:
-                import brotli  # optional: pip install brotli
-            except ImportError as error:
-                raise Unreadable("body is brotli-compressed and the brotli module is not installed") from error
-            return brotli.decompress(data)
+            return _brotli(data)
     except (OSError, EOFError, zlib.error) as error:
         if not content_encoding and enc == "deflate":
             return data  # the magic bytes were a coincidence
