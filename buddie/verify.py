@@ -15,7 +15,8 @@ Outcome, for whoever accepts the report (an orchestrator, a hook before the fina
 
 Numbers and dates of cited sentences ("valued at $3.4 billion in 2022 ([Zion](url))") go through verbatim.numbers
 (NEXT №42): a number NOT_FOUND on the sentence's readable source is a gap by default (`numbers="gap"`) and blocks with
-`numbers="fail"`; E009/E015 measure how often that is the agent's error. NO_CONTEXT and SOURCE_UNAVAILABLE are counted.
+`numbers="fail"`; E009/E015 measure how often that is the agent's error. NO_CONTEXT and SOURCE_UNAVAILABLE are gaps
+in either mode: the number was not checked to the end, so it cannot pass.
 A miss on an abstract page or on a market report rewritten for a later forecast horizon is UNCERTAIN (verbatim 0.3.6,
 NEXT №66): a gap in either mode, never blocking.
 
@@ -37,7 +38,24 @@ from buddie import mandate as man
 
 PREDICATE = "https://github.com/tsyyan/buddie#receipt-v0"  # the receipt format is described in the public repo
 FOUND = {"FOUND", "FOUND_NORMALIZED"}
-QUOTE_GAPS = {"UNCERTAIN", "SOURCE_UNAVAILABLE", "NO_SOURCE", "HIDDEN_ONLY", "FOUND_IN_COPY"}
+# What each verdict means for the outcome: HOLDS (checked and true; NOT_A_QUOTE is checked and makes no claim), GAP
+# (not checked to the end) or MISS (checked and absent). A MISS fails a quote always and a number in numbers="fail"
+# mode only. A verdict missing here, say from a newer verbatim, is a GAP: it never passes. tests/test_outcome.py
+# keeps both tables equal to the verdicts verbatim returns.
+HOLDS, GAP, MISS = "HOLDS", "GAP", "MISS"
+QUOTE_OUTCOME = {"FOUND": HOLDS, "FOUND_NORMALIZED": HOLDS, "NOT_A_QUOTE": HOLDS, "HIDDEN_ONLY": GAP,
+                 "FOUND_IN_COPY": GAP, "UNCERTAIN": GAP, "SOURCE_UNAVAILABLE": GAP, "NO_SOURCE": GAP,
+                 "NOT_FOUND": MISS}
+NUMBER_OUTCOME = {"FOUND": HOLDS, "FOUND_NORMALIZED": HOLDS, "FOUND_ROUNDED": HOLDS, "NO_CONTEXT": GAP,
+                  "UNCERTAIN": GAP, "SOURCE_UNAVAILABLE": GAP, "NOT_FOUND": MISS}
+
+
+def quote_meaning(verdict: str) -> str:
+    return QUOTE_OUTCOME.get(verdict, GAP)
+
+
+def number_meaning(verdict: str) -> str:
+    return NUMBER_OUTCOME.get(verdict, GAP)
 KEEP = ("id", "line", "quote", "url", "verdict", "sha256", "fetched_at", "via", "provenance", "visible_offset",
         "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read")
 
@@ -76,13 +94,13 @@ def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), nu
             numbers_mode: str = "gap") -> str:
     if not quotes and not anchors and not claims and not numbers:
         return "EMPTY"
-    if any(q["verdict"] == "NOT_FOUND" for q in quotes) or any(a["status"] == anc.BROKEN for a in anchors) \
+    if any(quote_meaning(q["verdict"]) == MISS for q in quotes) or any(a["status"] == anc.BROKEN for a in anchors) \
             or any(c["status"] == man.BROKEN for c in claims) \
-            or numbers_mode == "fail" and any(n["verdict"] == "NOT_FOUND" for n in numbers):
+            or numbers_mode == "fail" and any(number_meaning(n["verdict"]) == MISS for n in numbers):
         return "FAIL"
-    if any(q["verdict"] in QUOTE_GAPS for q in quotes) or any(a["status"] == anc.UNCHECKABLE for a in anchors) \
+    if any(quote_meaning(q["verdict"]) == GAP for q in quotes) or any(a["status"] == anc.UNCHECKABLE for a in anchors) \
             or any(c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE) for c in claims) \
-            or any(n["verdict"] in ("NOT_FOUND", "UNCERTAIN") for n in numbers):
+            or any(number_meaning(n["verdict"]) != HOLDS for n in numbers):
         return "GAPS"
     return "PASS"
 
@@ -137,18 +155,19 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     result = outcome(rows, a_results, claims, n_rows, numbers)
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
                 + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
-                for r in rows if r["verdict"] == "NOT_FOUND"]
+                for r in rows if quote_meaning(r["verdict"]) == MISS]
     blocking += [f"anchor line {a['line']} ⚓ {a['anchor']}: {a.get('why')}" for a in a_results if a["status"] == anc.BROKEN]
     gaps = [f"quote {r['id']} {r['verdict']}" + (f" ({', '.join(r['doubts'])})" if r.get("doubts") else "")
-            + (f": {r['url']}" if r.get("url") else "") for r in rows if r["verdict"] in QUOTE_GAPS]
+            + (f": {r['url']}" if r.get("url") else "") for r in rows if quote_meaning(r["verdict"]) == GAP]
     gaps += [f"anchor line {a['line']} ⚓ {a['anchor']}: {a.get('why')}" for a in a_results if a["status"] == anc.UNCHECKABLE]
     blocking += [f"{c['kind']} line {c['line']}: {c.get('why')}" for c in claims if c["status"] == man.BROKEN]
     gaps += [f"{c['kind']} line {c['line']} {c['status']}: {c.get('why')}" for c in claims
              if c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE)]
-    missing = [f"number {n['id']} “{n['text']}” not found in {n.get('url')}" for n in n_rows if n["verdict"] == "NOT_FOUND"]
+    missing = [f"number {n['id']} “{n['text']}” not found in {n.get('url')}" for n in n_rows
+               if number_meaning(n["verdict"]) == MISS]
     (blocking if numbers == "fail" else gaps).extend(missing)
-    gaps += [f"number {n['id']} “{n['text']}” UNCERTAIN ({', '.join(n.get('doubts', []))}): {n.get('url')}"
-             for n in n_rows if n["verdict"] == "UNCERTAIN"]
+    gaps += [f"number {n['id']} “{n['text']}” {n['verdict']}" + (f" ({', '.join(n['doubts'])})" if n.get("doubts") else "")
+             + f": {n.get('url')}" for n in n_rows if number_meaning(n["verdict"]) == GAP]
     return {
         "_type": "https://in-toto.io/Statement/v1",
         "subject": [{"name": name, "digest": {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()}}],
