@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Internal: the journal writer (`buddie/logbook.py`) and the event helpers (`buddie/event.py`: a tool's text, the
+  repos of a session) moved out of `hook.py` and `promises.py`; the summary, decision cards, promises, context gate
+  and config no longer import the hook. `config` names each setting's source (`Source`, `resolve_levels`,
+  `resolve_transcript`) and lists what a repo's buddie.toml weakens (`influence`); values are unchanged.
 - Internal: a typed contract for what a check found (`buddie/core.py`: Finding, Fact, Sufficiency, Decision, Policy,
   Outcome, ReasonCode, EvidenceRef with Provenance, Coverage) and its adapter from the checkers' rows
   (`buddie/findings.py`). verify's outcome now comes from the findings; receipt-v0, the CLI, MCP, the hooks and
