@@ -31,31 +31,18 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from buddie import __version__
+from buddie import __version__, core
 from buddie import anchors as anc
 from buddie import effects as eff
+from buddie import findings as fnd
 from buddie import mandate as man
 
 PREDICATE = "https://github.com/tsyyan/buddie#receipt-v0"  # the receipt format is described in the public repo
 FOUND = {"FOUND", "FOUND_NORMALIZED"}
-# What each verdict means for the outcome: HOLDS (checked and true; NOT_A_QUOTE is checked and makes no claim), GAP
-# (not checked to the end) or MISS (checked and absent). A MISS fails a quote always and a number in numbers="fail"
-# mode only. A verdict missing here, say from a newer verbatim, is a GAP: it never passes. tests/test_outcome.py
-# keeps both tables equal to the verdicts verbatim returns.
-HOLDS, GAP, MISS = "HOLDS", "GAP", "MISS"
-QUOTE_OUTCOME = {"FOUND": HOLDS, "FOUND_NORMALIZED": HOLDS, "NOT_A_QUOTE": HOLDS, "HIDDEN_ONLY": GAP,
-                 "FOUND_IN_COPY": GAP, "UNCERTAIN": GAP, "SOURCE_UNAVAILABLE": GAP, "NO_SOURCE": GAP,
-                 "NOT_FOUND": MISS}
-NUMBER_OUTCOME = {"FOUND": HOLDS, "FOUND_NORMALIZED": HOLDS, "FOUND_ROUNDED": HOLDS, "NO_CONTEXT": GAP,
-                  "UNCERTAIN": GAP, "SOURCE_UNAVAILABLE": GAP, "NOT_FOUND": MISS}
-
-
-def quote_meaning(verdict: str) -> str:
-    return QUOTE_OUTCOME.get(verdict, GAP)
-
-
-def number_meaning(verdict: str) -> str:
-    return NUMBER_OUTCOME.get(verdict, GAP)
+# What each verdict means: the tables live in findings.py (core.Fact per verdict, exhaustive, an unknown word is
+# never support); these names stay for the code and tests that read them here.
+QUOTE_OUTCOME, NUMBER_OUTCOME = fnd.QUOTE_FACTS, fnd.NUMBER_FACTS
+CONTRADICTED, OPEN = core.Fact.CONTRADICTED, (core.Fact.UNDETERMINED, core.Fact.UNRECOGNIZED)
 KEEP = ("id", "line", "quote", "url", "verdict", "sha256", "fetched_at", "via", "provenance", "visible_offset",
         "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read")
 
@@ -92,17 +79,8 @@ def check_numbers(text: str, *, store=None, fetch: bool = True) -> list[dict]:
 
 def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), numbers: list[dict] = (),
             numbers_mode: str = "gap") -> str:
-    if not quotes and not anchors and not claims and not numbers:
-        return "EMPTY"
-    if any(quote_meaning(q["verdict"]) == MISS for q in quotes) or any(a["status"] == anc.BROKEN for a in anchors) \
-            or any(c["status"] == man.BROKEN for c in claims) \
-            or numbers_mode == "fail" and any(number_meaning(n["verdict"]) == MISS for n in numbers):
-        return "FAIL"
-    if any(quote_meaning(q["verdict"]) == GAP for q in quotes) or any(a["status"] == anc.UNCHECKABLE for a in anchors) \
-            or any(c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE) for c in claims) \
-            or any(number_meaning(n["verdict"]) != HOLDS for n in numbers):
-        return "GAPS"
-    return "PASS"
+    """receipt-v0's outcome for these rows: core.v0_outcome of their findings under the numbers mode's policy."""
+    return core.v0_outcome(fnd.from_rows(quotes, anchors, claims, numbers), core.Policy(numbers_mode == "fail"))
 
 
 def quote_backed(text: str, rows: list[dict]) -> list[int]:
@@ -129,11 +107,17 @@ def _count(values) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
-def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, store=None,
+def verify(text: str, **kwargs) -> dict:
+    """The receipt (receipt-v0) for `text`; the keyword arguments are assess's."""
+    return assess(text, **kwargs)[0]
+
+
+def assess(text: str, *, name: str = "report", repos: list[Path] | None = None, store=None,
            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
            mandate: dict | None | bool = True, rev: str | None = None, github=None,
-           transcript: str | None = None, numbers: str = "gap") -> dict:
-    """The receipt for `text`. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
+           transcript: str | None = None, numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
+    """The receipt for `text`, with the typed findings (core.Finding) its outcome comes from and the coverage
+    (core.Coverage: what was not judged, and why); the findings stay internal, receipt-v0 is unchanged. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
     mandate: claims about the course of work, judged by the config of the first repo with buddie.toml (True), by
     the given config (dict), or not at all (False/None); rev: the commit whose queue the claims are judged against.
     github: GET function for pr:/ci: anchors (effects.github_get; None leaves them UNCHECKABLE); transcript: the
@@ -152,23 +136,30 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
     n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
-    result = outcome(rows, a_results, claims, n_rows, numbers)
+    found = fnd.from_rows(rows, a_results, claims, n_rows)
+    result = core.v0_outcome(found, core.Policy(numbers == "fail"))
+    covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
+                           mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,
+                           unanchored_lines=bare, prose_claims=prose)
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
                 + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
-                for r in rows if quote_meaning(r["verdict"]) == MISS]
+                for r in rows if fnd.quote_fact(r["verdict"]) is CONTRADICTED]
     blocking += [f"anchor line {a['line']} ⚓ {a['anchor']}: {a.get('why')}" for a in a_results if a["status"] == anc.BROKEN]
     gaps = [f"quote {r['id']} {r['verdict']}" + (f" ({', '.join(r['doubts'])})" if r.get("doubts") else "")
-            + (f": {r['url']}" if r.get("url") else "") for r in rows if quote_meaning(r["verdict"]) == GAP]
+            + (f": {r['url']}" if r.get("url") else "") for r in rows if fnd.quote_fact(r["verdict"]) in OPEN]
     gaps += [f"anchor line {a['line']} ⚓ {a['anchor']}: {a.get('why')}" for a in a_results if a["status"] == anc.UNCHECKABLE]
+    gaps += [f"anchor line {a['line']} ⚓ {a['anchor']}: unknown status {a['status']}" for a in a_results
+             if fnd.status_fact(a["status"]) is core.Fact.UNRECOGNIZED]
     blocking += [f"{c['kind']} line {c['line']}: {c.get('why')}" for c in claims if c["status"] == man.BROKEN]
     gaps += [f"{c['kind']} line {c['line']} {c['status']}: {c.get('why')}" for c in claims
-             if c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE)]
+             if c["status"] in (man.UNSUPPORTED, man.UNCHECKABLE)
+             or fnd.status_fact(c["status"]) is core.Fact.UNRECOGNIZED]
     missing = [f"number {n['id']} “{n['text']}” not found in {n.get('url')}" for n in n_rows
-               if number_meaning(n["verdict"]) == MISS]
+               if fnd.number_fact(n["verdict"]) is CONTRADICTED]
     (blocking if numbers == "fail" else gaps).extend(missing)
     gaps += [f"number {n['id']} “{n['text']}” {n['verdict']}" + (f" ({', '.join(n['doubts'])})" if n.get("doubts") else "")
-             + f": {n.get('url')}" for n in n_rows if number_meaning(n["verdict"]) == GAP]
-    return {
+             + f": {n.get('url')}" for n in n_rows if fnd.number_fact(n["verdict"]) in OPEN]
+    receipt = {
         "_type": "https://in-toto.io/Statement/v1",
         "subject": [{"name": name, "digest": {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()}}],
         "predicateType": PREDICATE,
@@ -197,6 +188,7 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
             "mandate": claims,
         },
     }
+    return receipt, found, covered
 
 
 def line(result: str, rows: list[dict], anchors: list[dict], skipped: int = 0, bare: int = 0,
