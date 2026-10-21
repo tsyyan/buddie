@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- A number whose source could not be read (`SOURCE_UNAVAILABLE`) or whose value stood apart from the sentence's words
+  (`NO_CONTEXT`) made a receipt `PASS` ("buddie PASS: numbers 0/1 found"). Both are now gaps and are listed under
+  `gaps`. A quote or number verdict that verify does not know, for example from a newer verbatim, is a gap too,
+  never a pass. Each verdict's meaning now sits in one table in `buddie/verify.py`, and a test keeps that table equal
+  to the verdicts verbatim returns. Exit codes and blocking are unchanged: gaps never block.
+
 ## buddie 1.1.1 (2026-10-20)
 
 - The `verbatim` skill no longer tells Claude to `pip install` buddie from git: inside the plugin it uses the plugin's
