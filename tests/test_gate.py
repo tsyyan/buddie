@@ -190,3 +190,18 @@ def test_one_resolution_one_read_per_stop(counted, text, code):
     # before #27: 8 git calls and 6 reads of buddie.toml on the pass, 6 and 4 on the fail
     assert calls["resolve"] == 1 and calls["toml"] == 1
     assert calls["git"].count("rev-parse") == 1 and len(calls["git"]) <= 3  # + the session's stores: status, merge-base
+
+
+@pytest.mark.xfail(strict=True, reason="known since before #27, not fixed here: a buddie.toml that does not parse "
+                   "makes verify raise (mandate.find_config), and the hook lets the answer out unchecked")
+def test_a_broken_buddie_toml_does_not_turn_the_gate_off(tmp_path, monkeypatch):
+    repo = _repo(tmp_path, "r", "this is [ not toml")
+    (repo / "data.txt").write_bytes(b"hello\n")
+    for k, v in (("BUDDIE_FETCH", "0"), ("BUDDIE_GITHUB", "0"), ("BUDDIE_LOG", str(tmp_path / "h")),
+                 ("BUDDIE_STATE", str(tmp_path / "p")), ("BUDDIE_REPOS", str(repo)), ("BUDDIE_SHARED_LOG", "0"),
+                 ("BUDDIE_INTRO", "0"), ("VERBATIM_STORE", str(tmp_path / "s"))):
+        monkeypatch.setenv(k, v)
+    event = {"hook_event_name": "Stop", "session_id": "s", "cwd": str(repo),
+             "last_assistant_message": f"Done. `⚓ data.txt#{'0' * 12}`"}
+    monkeypatch.setattr(sys, "stdin", io.TextIOWrapper(io.BytesIO(json.dumps(event).encode("utf-8"))))
+    assert hook.main() == 2
