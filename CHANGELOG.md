@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Internal: a typed contract for what a check found (`buddie/core.py`: Finding, Fact, Sufficiency, Decision, Policy,
+  Outcome, ReasonCode, EvidenceRef with Provenance, Coverage) and its adapter from the checkers' rows
+  (`buddie/findings.py`). verify's outcome now comes from the findings; receipt-v0, the CLI, MCP, the hooks and
+  exit codes are unchanged (the same receipts, byte for byte, on the comparison set). One edge: an anchor or work
+  claim status no checker returns used to fall through to PASS and is now a gap.
 - Security: a `[launch] free` command in `buddie.toml` is ignored. buddie.toml belongs to the repo under check, and
   the launch gate ran that command with a shell. The free command now comes from `BUDDIE_FREE` only.
 - Security: the files `buddie.toml` names (`queue`, `accepted`, `messages`) are held to the repo by the same rule as
