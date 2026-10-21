@@ -11,7 +11,7 @@ be checked without a model, at both ends of the hand-off, and writes a receipt.
 | In the report | Checked by | Bad outcome |
 |---|---|---|
 | A quotation in quotation marks with a link | `verbatim`: the words are in the bytes of a snapshot of that link | `NOT_FOUND` |
-| Anchor `⚓ path#sha256`, `⚓ path@commit`, `⚓ fact=value` | the file, commit or fact in the session's repositories | `BROKEN` |
+| Anchor `⚓ path#sha256`, `⚓ path@commit` | the file or commit in the session's repositories (`fact=value` is never computed: `UNCHECKABLE`) | `BROKEN` |
 | Anchor `⚓ pr:OWNER/REPO#N=merged[@SHA]`, `⚓ ci:OWNER/REPO@SHA=success` | PR state and the checks on the commit, via the GitHub API | `BROKEN` |
 | Anchor `⚓ run:CMD => OUT` ("I ran it and got this") | a call with CMD and a result containing OUT in the session transcript | `BROKEN` |
 
