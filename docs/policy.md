@@ -13,7 +13,7 @@ weakens what it requires.
 | System | Path | Protected when |
 |---|---|---|
 | Linux, macOS | `/etc/buddie/policy.toml` | owned by root and not writable by group or others, and the same holds for every directory above its real path |
-| Windows | `<ProgramData>\buddie\policy.toml` | this user cannot open it for writing through its ACL. A read-only attribute alone does not count, because its owner can clear it |
+| Windows | `<ProgramData>\buddie\policy.toml` | the file and every directory above its real path are owned by SYSTEM, Administrators or TrustedInstaller. No ACE that applies to them lets Everyone, Authenticated Users, Users, INTERACTIVE, Guests, OWNER RIGHTS or this user change or replace them. When the hook is not elevated, `AccessCheck` with its own token agrees (`buddie/winacl.py`) |
 
 The path is fixed in code. No environment variable or argument moves it. On Windows, buddie asks the system for
 ProgramData (`SHGetFolderPathW`) instead of reading `%ProgramData%`, which a process can set.
@@ -45,6 +45,19 @@ buddie policy show
 `check` exits 1 when the file is there but cannot be used. `show` lists the effective levels for the repo around
 the current directory and what the policy refused there. To change or remove the policy, edit or delete the file
 with the same rights. It takes effect at the next hook run, because buddie keeps no copy of it.
+
+On Windows, an administrator who creates `%ProgramData%\buddie` from an elevated shell gets Administrators as its
+owner, and ProgramData's default ACL lets Users read the file and add new files to the directory. Neither lets them
+replace the file. If the owner comes out as a single account instead (some tools set the creating user), fix it:
+
+```bash
+icacls "%ProgramData%\buddie" /setowner *S-1-5-32-544 /T
+```
+
+Deny ACEs are not subtracted, so a file can be judged unprotected when it is in fact protected, never the other way
+round. Anything the check cannot read or decide makes the policy *invalid*: protection is established or not claimed.
+An elevated hook (an administrator's token) is outside the threat model, as root is on POSIX. For it, only the owner
+and the ACL are judged.
 
 ## What it says
 
@@ -112,11 +125,51 @@ An unconfigured installation is *absent*, not *invalid*. Nothing changes for it.
 Runtime observations (a page's text, a tool's result, a model's message, a `buddie:` line) never set policy. A
 `buddie:` line is a disclosure to the reader, not a permission.
 
+The hook reads the policy once per event (`policy.snapshot()` in `hook.main`). The gate, the return state, the free
+command and the journal's words all judge by that one reading, even if the file is replaced during the event. The CLI
+reads it anew on each command.
+
+## A trusted launcher
+
+Claude Code runs the plugin's hook as `sh "${CLAUDE_PLUGIN_ROOT}/hooks/run.sh" hook`. What that launcher can and
+cannot promise:
+
+- **It finds Python on `PATH`.** A project's `.claude/settings.json` can set `PATH` for hooks, so an agent can put
+  its own `python3` first, one that always succeeds. The launcher cannot tell, and neither can the protected policy,
+  which takes Python to read.
+- **It runs Python isolated (`-I`)**, for the version probe as well as for buddie. `PYTHONPATH`, `PYTHONSTARTUP` and
+  the user's site-packages, which project settings can also set, load no code into it. Optional modules installed
+  only in the user's site-packages (brotli) are therefore not used by the hook.
+- **Without Python 3.11+ it does not pass the answer as checked.** A Stop's answer goes back once with the reason
+  (exit 2). The Stop that Claude Code re-enters with (`stop_hook_active`) goes on, and a `systemMessage` tells the
+  person the answer was not checked, so this never loops. Other events go on with the reason on stderr. This is an
+  observable failure, not enforcement: the shell launcher does not read the protected policy and cannot know
+  whether one is installed.
+- **The plugin's own files are the user's.** A plugin installed under the user's home can be edited by the agent,
+  `run.sh` and buddie's code included.
+
+Enforcement that does not depend on the agent's reach needs all of these at once:
+
+1. buddie installed where only an administrator can write. For example, `sudo pip install buddie==<version>` into a
+   system Python, or a root-owned checkout in `/opt/buddie`.
+2. A hook command with absolute paths for the interpreter and buddie, such as
+   `/usr/bin/python3 -I /opt/buddie/run.py hook`, defined in Claude Code settings the agent cannot edit. Check your
+   Claude Code version's documentation for its administrator-managed settings and how they take precedence over
+   project settings. buddie cannot verify that from inside a hook.
+3. The protected policy.
+
+The plugin as distributed gives observable failures and the policy's limits within its threat model. It does not give
+that guarantee.
+
 ## What it does not cover
 
-- **The hook's own launch.** `hooks/run.sh` finds Python on `PATH`, and a project's settings can change `PATH`. An
-  agent that replaces `python3` with a program that always succeeds bypasses buddie entirely. Only the person's
-  Claude Code settings outside the project, or a managed installation, can rule that out.
+- **The hook's own launch and code**: see "A trusted launcher". A replaced `python3` on `PATH`, or edited plugin files,
+  bypass buddie entirely. The policy cannot see them.
+- **Where evidence comes from.** `BUDDIE_REPOS` (which checkouts anchors are judged against), `VERBATIM_STORE` and
+  `BUDDIE_STORES` (which snapshots quotes are judged against) and `BUDDIE_LOG` come from the hook's environment, which
+  the agent can set. They cannot turn an unchecked claim into a checked one: a missing repo or snapshot is a gap. But
+  they choose the evidence a claim is judged on, and an agent that controls a store controls what "found" means.
+  Authorizing evidence sources is planned for PR #29.
 - **buddie's state and journal** live under the user's home directory, which the agent can write. An agent that
   forges the return state can make a pre-written `buddie:` line count as written after a return. A policy with
   `disclosure = false` closes that path: then only a fix lets a returned answer out.

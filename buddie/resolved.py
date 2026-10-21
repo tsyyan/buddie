@@ -94,7 +94,7 @@ def resolve(event: dict, repos: list[Path] | None = None) -> ResolvedEventContex
     ctx = ResolvedEventContext(event, event.get("session_id"), repos, path, cfg,
                                config.resolve_levels(cfg, path is not None), config.resolve_transcript(cfg),
                                config.journal_text(cfg), mark, man, files, errors)
-    return limited(ctx, pol.load())
+    return limited(ctx, pol.current())
 
 
 def limited(ctx: ResolvedEventContext, loaded: pol.Loaded) -> ResolvedEventContext:

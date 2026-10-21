@@ -218,7 +218,8 @@ def test_a_read_only_attribute_is_not_protection(world):
     place = policy.location()
     os.chmod(place, stat.S_IREAD)  # FILE_ATTRIBUTE_READONLY: its owner can clear it
     try:
-        assert policy.protection_problem(place) == "protected only by the read-only attribute, which its owner can clear"
+        # write-open is now refused, but the file is still this user's: its owner can clear the attribute
+        assert "is owned by this user" in policy.protection_problem(place)
         assert policy.load().status is policy.Status.INVALID
     finally:
         os.chmod(place, stat.S_IREAD | stat.S_IWRITE)

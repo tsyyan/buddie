@@ -284,7 +284,7 @@ def journal_text(cfg: dict) -> bool:
     """Whether the journal may keep words of the conversation (promise sentences, choice cards); default no, and
     never under a protected policy that forbids it (buddie/policy.py: the project cannot grant collection)."""
     from buddie import policy
-    limits = policy.load().effective
+    limits = policy.current().effective
     if limits is not None and limits.journal_text == "forbidden":
         return False
     env = os.environ.get("BUDDIE_JOURNAL_TEXT")

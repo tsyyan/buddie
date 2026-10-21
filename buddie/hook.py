@@ -194,8 +194,8 @@ def unchecked_return(event: dict) -> list[str]:
 def _state_root() -> str | None:
     """Where the return state lives: as the environment says, unless a protected policy keeps tracking on."""
     from buddie import resolved
-    from buddie.policy import load
-    return resolved.state_root(load().effective)
+    from buddie.policy import current
+    return resolved.state_root(current().effective)
 
 
 def beat(event: dict, **extra) -> None:
@@ -536,9 +536,14 @@ def main() -> int:
         event = json.loads(sys.stdin.buffer.read().decode("utf-8"))  # Claude Code sends UTF-8 (Windows: not the locale's)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return 0
+    from buddie import policy
     try:
-        return run(event)
-    except Exception as error:
+        with policy.snapshot():  # one reading of the protected policy for the whole event
+            try:
+                return run(event)
+            except Exception as error:
+                return failed(event, error)
+    except Exception as error:  # noqa: BLE001 - not even the snapshot: failed() reads the policy itself
         return failed(event, error)
 
 
@@ -568,9 +573,9 @@ def failed(event: dict, error: Exception, err=None) -> int:
     session, tool = event.get("session_id"), event.get("tool_name") or event.get("hook_event_name")
     # the 'buddie:' line counts only on an attempt after buddie returned this text for a failed check (the state
     # the gate keeps per session and tool); written before, it is the agent's own word that nothing needs checking
-    from buddie.policy import load
+    from buddie.policy import current
     try:
-        limits, root = load().effective, _state_root()
+        limits, root = current().effective, _state_root()
     except Exception:  # noqa: BLE001 - not even the policy: take its strictest reading, no disclosure
         from buddie.policy import STRICTEST
         limits, root = STRICTEST, None

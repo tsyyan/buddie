@@ -9,9 +9,11 @@ system in a system directory. That file, and only that file, is the protected po
   Linux, macOS  /etc/buddie/policy.toml          owned by root, not writable by group or others, nor any directory
                                                  above it (the real path, after symlinks)
   Windows       <ProgramData>\\buddie\\policy.toml  ProgramData as the system names it (not the %ProgramData%
-                                                 variable, which a process can set), and the file not openable for
-                                                 writing by this user through its ACL (a read-only attribute is not
-                                                 protection: its owner can clear it)
+                                                 variable, which a process can set); the file and every directory
+                                                 above it owned by SYSTEM, Administrators or TrustedInstaller, no
+                                                 ACE letting a low-privilege principal or this user change or
+                                                 replace them, and AccessCheck with this token agreeing
+                                                 (buddie/winacl.py)
 
 The location is fixed here; no variable or argument moves it. buddie never writes it: `buddie policy template` prints
 one, the person installs it with their own elevation (docs/policy.md).
@@ -30,10 +32,12 @@ as for a broken buddie.toml, until the person fixes the file. A failure never yi
 """
 from __future__ import annotations
 
+import contextvars
 import os
 import stat
 import sys
 import tomllib
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
@@ -108,20 +112,10 @@ def location() -> Path | None:
 def protection_problem(path: Path) -> str | None:
     """Why the file at `path` is not out of this user's reach, or None when it is."""
     if sys.platform == "win32":
-        try:
-            attrs = os.stat(path).st_file_attributes
-        except OSError as error:
-            return f"cannot be inspected: {error.strerror or error}"
-        try:
-            fd = os.open(path, os.O_WRONLY | os.O_APPEND)  # opened and closed, nothing written
-        except PermissionError:
-            if attrs & stat.FILE_ATTRIBUTE_READONLY:
-                return "protected only by the read-only attribute, which its owner can clear"
-            return None
-        except OSError as error:
-            return f"cannot be inspected: {error.strerror or error}"
-        os.close(fd)
-        return "writable by this user"
+        # owner, DACL and this token's AccessCheck, for the file and each directory above it (buddie/winacl.py):
+        # not a write-open probe, which a read-only attribute or a passing lock would fool
+        from buddie import winacl
+        return winacl.problem(str(path))
     real = Path(os.path.realpath(path))
     for p in [real, *real.parents]:
         try:
@@ -195,7 +189,11 @@ def load(path: Path | None = None) -> Loaded:
         return Loaded(Status.ABSENT, None, path)
     if not path.is_file():
         return Loaded(Status.INVALID, None, path, "not a regular file")
-    if why := protection_problem(path):
+    try:
+        why = protection_problem(path)
+    except Exception as error:  # noqa: BLE001 - what cannot be established is not claimed
+        why = f"cannot establish protection: {type(error).__name__}: {error}"
+    if why:
         return Loaded(Status.INVALID, None, path, f"not protected: {why}")
     try:
         text = path.read_bytes().decode("utf-8")
@@ -209,6 +207,26 @@ def load(path: Path | None = None) -> Loaded:
         return Loaded(Status.INVALID, None, path, f"not valid TOML: {error}")
     except ValueError as error:
         return Loaded(Status.INVALID, None, path, str(error))
+
+
+# One reading per hook event: the hook takes a snapshot when an event starts (hook.main) and every part of that event
+# asks current(), so the gate, the journal state, the free command and the journal's words judge by the same file
+# even if an administrator replaces it meanwhile. Outside an event (the CLI, tests) current() reads it anew.
+_SNAPSHOT: contextvars.ContextVar[Loaded | None] = contextvars.ContextVar("buddie_policy", default=None)
+
+
+def current() -> Loaded:
+    return _SNAPSHOT.get() or load()
+
+
+@contextmanager
+def snapshot():
+    """The policy read once for the code inside the block (one hook event)."""
+    token = _SNAPSHOT.set(load())
+    try:
+        yield _SNAPSHOT.get()
+    finally:
+        _SNAPSHOT.reset(token)
 
 
 TEMPLATE = f"""# buddie protected policy (docs/policy.md). Install it where only an administrator can write:
