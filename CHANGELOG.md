@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Internal: the Stop and PreToolUse gate takes each blocking item's class from the finding behind it
+  (`verify.blocking_findings`, `config.CLASS_OF_CHECK`) instead of from the item's words; `config.classify` stays
+  for compatibility and as the fallback. The hook resolves an event once (`buddie/resolved.py`,
+  ResolvedEventContext: repos, buddie.toml, settings with their sources): a Stop now runs `git rev-parse` once and
+  reads buddie.toml once, where it ran 6 to 8 git commands and read the file 4 to 6 times. The gate's output on 819
+  recorded scenarios is unchanged (`tests/data/gate_golden.json`).
 - Internal: the journal writer (`buddie/logbook.py`) and the event helpers (`buddie/event.py`: a tool's text, the
   repos of a session) moved out of `hook.py` and `promises.py`; the summary, decision cards, promises, context gate
   and config no longer import the hook. `config` names each setting's source (`Source`, `resolve_levels`,

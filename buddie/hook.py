@@ -86,9 +86,10 @@ EFFECT_KINDS = ("pr", "ci", "run")
 HANDBACK = "SubagentHandback"
 
 
-def final_answer(text: str, event: dict | None = None) -> bool:
+def final_answer(text: str, event: dict | None = None, ctx=None) -> bool:
+    """Whether `text` is a final answer (ctx: the event's ResolvedEventContext, whose final mark is already read)."""
     event = event or {}
-    mark = final_mark(event)
+    mark = ctx.final_mark if ctx is not None else final_mark(event)
     if mark is None:
         return event.get("hook_event_name") == "Stop"
     return bool(mark) and re.search(mark, text) is not None
@@ -144,7 +145,7 @@ FIX = ("Fix each item: copy a quote character for character from its page (buddi
 SEND = re.compile(r"(?:^|__)(?:reply|post_message|send_message)$|^SendMessage$")
 
 
-def handed_in(event: dict) -> bool:
+def handed_in(event: dict, ctx=None) -> bool:
     """Whether this turn already sent a final answer through a text tool (reply, send_message…) that the gate let
     out: its tool_use has a tool_result that is not an error. Then the Stop text after it reaches no one, and it is
     not checked for prose (NEXT №128: 3 of 8 prose returns of №82 were on such Stop text)."""
@@ -168,7 +169,7 @@ def handed_in(event: dict) -> bool:
             if not isinstance(c, dict):
                 continue
             if entry.get("type") == "assistant" and c.get("type") == "tool_use" and SEND.search(str(c.get("name"))):
-                if final_answer(tool_text(c.get("input") or {}), dict(event, hook_event_name="PreToolUse")):
+                if final_answer(tool_text(c.get("input") or {}), dict(event, hook_event_name="PreToolUse"), ctx):
                     sent[c.get("id")] = True
             elif c.get("type") == "tool_result" and sent.pop(c.get("tool_use_id"), False) and not c.get("is_error"):
                 passed = True
@@ -195,20 +196,35 @@ def session_start(event: dict, out=None) -> int:
     return 0
 
 
-def receipt_for(text: str, event: dict, numbers: str = "gap") -> tuple[dict, list]:
+def receipt_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[dict, list]:
     """The receipt of `text`, and the snapshot stores its quotes were judged against (numbers: verify's mode,
     BUDDIE_NUMBERS overrides it)."""
+    receipt, stores, _ = assess_for(text, event, numbers, ctx)
+    return receipt, stores
+
+
+def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[dict, list, list]:
+    """receipt_for with the typed findings the receipt's outcome came from (verify.assess). ctx: the event's
+    ResolvedEventContext, whose repos and [mandate] config are used instead of being looked up again."""
     from buddie.effects import github_get
     from buddie.event import repos_of
     from buddie.stores import UnionStore, session_stores
-    from buddie.verify import verify
+    from buddie.verify import assess
     cwd = Path(event.get("cwd") or os.getcwd())
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
-    repos = repos_of(event)
+    repos = list(ctx.repos) if ctx is not None else repos_of(event)
     stores = session_stores(cwd, repos, event.get("transcript_path"))
-    return verify(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer", repos=repos,
-                  store=UnionStore(None, stores), fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
-                  transcript=event.get("transcript_path"), numbers=os.environ.get("BUDDIE_NUMBERS", numbers)), stores
+    receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
+                               repos=repos, store=UnionStore(None, stores),
+                               fetch=os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
+                               transcript=event.get("transcript_path"),
+                               mandate=ctx.mandate if ctx is not None else True, numbers=effective_numbers(numbers))
+    return receipt, stores, found
+
+
+def effective_numbers(numbers: str) -> str:
+    """verify's numbers mode: the level's, unless BUDDIE_NUMBERS names one."""
+    return os.environ.get("BUDDIE_NUMBERS", numbers)
 
 
 def stop_text(event: dict) -> str:
@@ -230,11 +246,13 @@ def outgoing(event: dict) -> str:
 
 
 def run(event: dict, err=None, out=None) -> int:
-    from buddie import config, context, decisions, promises, summary
+    from buddie import context, decisions, promises, resolved, summary
     err = err or sys.stderr
-    if not config.reads_transcript(config.of_event(event)[1]):
+    ctx = resolved.resolve(event)  # once per event: the repos, their buddie.toml, the settings and their sources
+    if ctx.transcript.value != "on":
         # the person turned transcript reading off: nothing below opens the session log
         event = {**event, "transcript_path": None, "agent_transcript_path": None}
+        ctx = ctx.with_event(event)
     name = event.get("hook_event_name")
     if name == "SessionStart":
         return session_start(event)
@@ -247,7 +265,7 @@ def run(event: dict, err=None, out=None) -> int:
         text = event.get("last_assistant_message") or (
             last_answer(event["agent_transcript_path"]) if Path(event.get("agent_transcript_path") or "").is_file()
             else "")
-        summary.on_stop_subagent(event, text, receipt_for(text, event)[0] if text.strip() else None)
+        summary.on_stop_subagent(event, text, receipt_for(text, event, ctx=ctx)[0] if text.strip() else None)
         return 0
     if name == "PostToolUse":
         if event.get("tool_name") == "AskUserQuestion":
@@ -260,38 +278,38 @@ def run(event: dict, err=None, out=None) -> int:
             decisions.sync(event)
         except Exception as error:  # the journal is a convenience; a failure here must not skip the gate below
             print(f"buddie: decision cards not journaled: {type(error).__name__}: {error}", file=err)
-    if context.spawning(event) and spawn_held(event, err, out):
+    if context.spawning(event) and spawn_held(event, err, out, ctx):
         return 2
     if promises.is_launch(event):
         return promises.gate(event, err)
 
     def passed() -> list[str]:
-        promises.record(event, outgoing(event))
+        promises.record(event, outgoing(event), words=ctx.journal_text)
         if name != "Stop":
             return []
-        path, cfg = config.of_event(event)
-        lv, why = config.levels(cfg, path is not None), []
+        lv, why = ctx.level, []
         for cls, demand in (("summary", summary.on_stop), ("promises", promises.on_stop)):
             if lv[cls] != "off" and (w := demand(event)):
                 why.append(w) if lv[cls] == "block" else warn([w], out)
         return why
 
-    code, why = gate(event, err, passed, out)
+    code, why = gate(event, err, passed, out, ctx)
     if why:
         print("\n\n".join(why), file=err)
         return 2
     return code
 
 
-def spawn_held(event: dict, err, out=None) -> bool:
+def spawn_held(event: dict, err, out=None, ctx=None) -> bool:
     """The context gate on a subagent launch (NEXT №106): past the limit the launch is returned, unless its prompt
     carries a `buddie:` line (the user asked for it); in the intro mode it only warns. The launch has no text to
     verify, so this runs before the launch gate and the journal line is its own."""
-    from buddie import config, context
+    from buddie import config, context, resolved
     from buddie.promises import strings
     from buddie.summary import now_iso
-    path, cfg = config.of_event(event)
-    if config.levels(cfg, path is not None)["context"] == "off":
+    ctx = ctx if ctx is not None else resolved.resolve(event)
+    path, cfg = ctx.config_path, ctx.config
+    if ctx.level["context"] == "off":
         return False
     tokens = context.last_context(event.get("transcript_path"))
     heavy = context.over(event, False, tokens)
@@ -326,14 +344,15 @@ def warn(lines: list[str], out=None) -> None:
     print(json.dumps({"systemMessage": "\n".join(lines)}, ensure_ascii=False), file=out or sys.stdout)
 
 
-def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]:
+def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, list[str]]:
     """The gate's exit code, and when it lets the text out, what `passed` returns (the reasons to return a Stop
     anyway). The journal line is written after `passed`, so it carries the exit code the hook really returns.
     Each blocking item goes by its class's level in buddie.toml [gates] (buddie/config.py): block returns the
     text, warn lets it out with a systemMessage, off drops it; in the intro mode nothing is returned."""
-    from buddie import config, context, journal
+    from buddie import config, context, journal, resolved
     from buddie.effects import github_get
     from buddie.suggest import ready_anchors
+    ctx = ctx if ctx is not None else resolved.resolve(event)
     name = event.get("hook_event_name")
     if name == "Stop":
         text = "" if event.get("stop_hook_active") else stop_text(event)
@@ -347,23 +366,28 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
             beat(event, empty=True, active=bool(event.get("stop_hook_active")), exit=0)
         return 0, why
     github = github_get if os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
-    path, cfg = config.of_event(event)
-    lv = config.levels(cfg, path is not None)
-    receipt, stores = receipt_for(text, event, config.numbers_mode(lv["numbers"]))
+    path, cfg = ctx.config_path, ctx.config
+    lv = ctx.level
+    numbers = effective_numbers(config.numbers_mode(lv["numbers"]))
+    receipt, stores, found = assess_for(text, event, numbers, ctx)
     pred = receipt["predicate"]
-    final = final_answer(text, event)
+    final = final_answer(text, event, ctx)
     tokens = context.last_context(event.get("transcript_path"))
-    heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event))
+    heavy = lv["context"] != "off" and context.over(event, final, tokens, lambda t: final_answer(t, event, ctx))
     extra = [{"kind": "context", "line": None, "text": ""}] if heavy else []
-    prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event)) else []
-    every = pred["blocking"] + (unbacked(pred) if final else []) + prose + ([heavy] if heavy else [])
-    level = {item: lv.get(config.classify(item) or "", "block") for item in every}
-    blocking = [i for i in every if level[i] == "block"]
-    warned = [i for i in every if level[i] == "warn"]
+    prose = prose_claims(text, pred) if final and not (name == "Stop" and handed_in(event, ctx)) else []
+    # each item with its class: verify's items by the check of the finding behind each (gate_items), the gate's own
+    # items by what makes them. A class the levels do not know blocks, as an unclassified item always did
+    every = gate_items(pred, found, numbers) + [(i, "final") for i in (unbacked(pred) if final else [])] \
+        + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else [])
+    level = [lv.get(cls or "", "block") for _, cls in every]
+    blocking = [i for (i, _), lvl in zip(every, level) if lvl == "block"]
+    warned = [i for (i, _), lvl in zip(every, level) if lvl == "warn"]
+    blocked = [cls for (_, cls), lvl in zip(every, level) if lvl == "block"]
     # a broken effect anchor is a false claim about work, not a miss to disclose: only fixing or removing it lets the
     # text through (NEXT №62; №40 13:55 sent `pr:…=open` for a merged PR with a `buddie:` line and passed). Work
     # claimed in prose in a final answer is the same (NEXT №63, audit/15 «в main влиты №40, №58…» with no pr:)
-    hard = any(level[i] == "block" for i in prose) or lv["anchors"] == "block" and any(
+    hard = "prose" in blocked or lv["anchors"] == "block" and any(
         a.get("kind") in EFFECT_KINDS and a["status"] == "BROKEN" for a in pred["anchors"])
     tour = config.intro(path, cfg)
     if tour:  # the intro mode: what would be returned only warns (audit/20 §3.3)
@@ -377,7 +401,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     # it covers only once buddie has returned the text: written before, it pre-empts the check (an eval run,
     # 2026-10-20: a quote buddie had found altered went out under "buddie: unverified"). Returns not tracked
     # (BUDDIE_STATE=0): as before
-    found_false = [i for i in blocking if config.classify(i) in ("quotes", "anchors", "numbers")]
+    found_false = [c for c in blocked if c in ("quotes", "anchors", "numbers")]
     preempted = (bool(DISCLOSED.search(text)) and bool(found_false) and before is None
                  and journal.tracks_returns())
     disclosed = bool(DISCLOSED.search(text)) and not preempted
@@ -417,7 +441,7 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
     print(pred["line"], file=err)
     for item in blocking:
         print(f"- {item}", file=err)
-    if any(item.startswith("quote ") for item in blocking):
+    if "quotes" in blocked:
         print("Quotes were judged against the snapshots in " + (", ".join(map(str, stores)) or "no session store")
               + " (newest with bytes per URL; a URL in none of them was fetched now).", file=err)
     ready = ready_anchors(text, items, transcript=event.get("transcript_path"), github=github)
@@ -435,6 +459,18 @@ def gate(event: dict, err, passed=lambda: [], out=None) -> tuple[int, list[str]]
               "anchor or add one (the ready anchors above), or remove the claim and say in prose what is not done.",
               file=err)
     return 2, []
+
+
+def gate_items(pred: dict, found: list, numbers: str) -> list[tuple[str, str | None]]:
+    """predicate.blocking with each item's gate class, from the finding behind it (verify.blocking_findings and
+    config.CLASS_OF_CHECK). Should the two ever differ in length, each item keeps the class its words give
+    (config.classify), as before #27, rather than lose one."""
+    from buddie import config
+    from buddie.verify import blocking_findings
+    behind = blocking_findings(found, numbers)
+    if len(behind) != len(pred["blocking"]):
+        return [(i, config.classify(i)) for i in pred["blocking"]]
+    return [(i, config.CLASS_OF_CHECK.get(f.check)) for i, f in zip(pred["blocking"], behind)]
 
 
 def main() -> int:

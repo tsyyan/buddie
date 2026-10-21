@@ -83,6 +83,16 @@ def outcome(quotes: list[dict], anchors: list[dict], claims: list[dict] = (), nu
     return core.v0_outcome(fnd.from_rows(quotes, anchors, claims, numbers), core.Policy(numbers_mode == "fail"))
 
 
+def blocking_findings(found: list[core.Finding], numbers: str = "gap") -> list[core.Finding]:
+    """The findings behind predicate.blocking, one per item and in its order (quotes, anchors, work claims, numbers
+    in numbers="fail" mode), so a gate can take each item's check from the finding instead of from its words."""
+    def contradicted(*checks):
+        return [f for f in found if f.check in checks and f.fact is CONTRADICTED]
+    anchor_checks = [c for c in core.Check if c.name.endswith("_ANCHOR")]
+    return (contradicted(core.Check.QUOTE) + contradicted(*anchor_checks) + contradicted(core.Check.WORK_CLAIM)
+            + (contradicted(core.Check.NUMBER) if numbers == "fail" else []))
+
+
 def quote_backed(text: str, rows: list[dict]) -> list[int]:
     """Lines with a quote FOUND on the page whose URL is written on the same line: their numbers have a source.
     A quote's `line` is the first line of its paragraph, so the paragraph's lines are searched for the one holding

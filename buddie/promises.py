@@ -324,8 +324,9 @@ def promise_id(session: str | None, p: dict) -> str:
     return hashlib.sha256(key.encode()).hexdigest()[:12]
 
 
-def record(event: dict, text: str) -> list[dict]:
-    """Journal the promises of a text the gate let out, and what the text keeps or drops."""
+def record(event: dict, text: str, words: bool | None = None) -> list[dict]:
+    """Journal the promises of a text the gate let out, and what the text keeps or drops. words: whether the journal
+    keeps their sentences (config.journal_text), when the caller has it resolved already."""
     from buddie.logbook import log
     if not on() or not text.strip():
         return []
@@ -333,8 +334,9 @@ def record(event: dict, text: str) -> list[dict]:
     base = {"at": now_iso(), "session": session, "event": event.get("hook_event_name"), "tool": event.get("tool_name")}
     known = {e["promise"]["id"] for e in lines("promise")}
     found = extract(text)
-    from buddie import config
-    words = config.journal_text(config.of_event(event)[1])
+    if words is None:
+        from buddie import config
+        words = config.journal_text(config.of_event(event)[1])
     out = []
     for p in found:
         p = dict(p, id=promise_id(session, p))
