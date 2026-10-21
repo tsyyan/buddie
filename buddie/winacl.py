@@ -8,7 +8,8 @@ For the file and for every directory above its real path:
           Authenticated Users, Users, INTERACTIVE, Guests, OWNER RIGHTS, or this user) a right that controls it: on
           the file writing, appending, writing attributes, deleting, changing its DACL or owner; on a directory
           deleting it or a child, or changing its DACL or owner. Deny ACEs are not subtracted: an ACE that would be
-          overridden still counts, so the check can only err towards "not protected"
+          overridden still counts, so the check can only err towards "not protected". An allow ACE of any other
+          type that applies (object, callback/conditional, compound) is not read, so it is a problem too
   access  when the process is not elevated, AccessCheck with this process's own token must grant none of those
           rights either: that covers groups this user is in that the list above does not name. An elevated process
           (an administrator's) is outside the threat model, as root is on POSIX: its token can do anything, so only
@@ -30,6 +31,7 @@ FILE_CONTROL = 0x2 | 0x4 | 0x10 | 0x100 | DELETE | WRITE_DAC | WRITE_OWNER | GEN
 DIR_CONTROL = 0x40 | DELETE | WRITE_DAC | WRITE_OWNER | GENERIC_ALL | GENERIC_WRITE  # 0x40: FILE_DELETE_CHILD
 INHERIT_ONLY = 0x08
 ACCESS_ALLOWED = 0
+DENIED = {1, 6, 10, 12}  # ACCESS_DENIED, _OBJECT, _CALLBACK, _CALLBACK_OBJECT: never subtracted, so never a problem
 
 
 @dataclass(frozen=True)
@@ -53,7 +55,11 @@ def judge(nodes: list[Node], user_sid: str) -> str | None:
         if n.aces is None:
             return f"{n.path} has no DACL: everyone may do anything with it"
         for kind, flags, mask, sid in n.aces:
-            if kind == ACCESS_ALLOWED and not flags & INHERIT_ONLY and sid in low and mask & control:
+            if flags & INHERIT_ONLY or kind in DENIED:
+                continue
+            if kind != ACCESS_ALLOWED:
+                return f"{n.path} has an allow ACE of type {kind} that this check does not read"
+            if sid in low and mask & control:
                 return f"{n.path}: {low[sid]} may change or replace it (ACE mask {mask:#x})"
         if n.granted is not None and n.granted & control:
             return f"{n.path}: this user's token is granted {n.granted & control:#x} on it"

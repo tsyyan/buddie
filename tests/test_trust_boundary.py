@@ -72,6 +72,19 @@ def test_inherit_only_aces_do_not_apply_and_deny_aces_do_not_help():
     assert judge([file_(aces=deny_then_allow), dir_()], ME) is not None
 
 
+@pytest.mark.parametrize("kind", [5, 9, 11, 4, 0x7F])  # allowed object, callback, callback object; compound; unknown
+def test_an_allow_ace_this_check_does_not_read_is_not_protection(kind):
+    # a conditional or object ACE may grant this user anything; what is not read is not judged harmless
+    got = judge([file_(aces=file_().aces + ((kind, 0, 0x2, ""),)), dir_()], ME)
+    assert got is not None and f"type {kind}" in got
+    assert judge([file_(), dir_(aces=dir_().aces + ((kind, INHERIT_ONLY, 0x2, ""),))], ME) is None  # children only
+
+
+@pytest.mark.parametrize("kind", [1, 6, 10, 12])  # denied, denied object, denied callback, denied callback object
+def test_deny_aces_of_any_type_are_not_a_problem(kind):
+    assert judge([file_(aces=file_().aces + ((kind, 0, 0x2, ""),)), dir_()], ME) is None
+
+
 def test_a_check_that_raises_makes_the_policy_invalid(tmp_path, monkeypatch):
     place = tmp_path / "policy.toml"
     place.write_text("version = 1\n", encoding="utf-8")

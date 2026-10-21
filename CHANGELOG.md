@@ -11,7 +11,8 @@
   limits and return each answer with the reason. `buddie policy show|check|template`; buddie never writes the file.
 - Security: on Windows the policy counts as protected only when the file and every directory above it are owned by
   SYSTEM, Administrators or TrustedInstaller, no ACE lets a low-privilege principal or this user change or replace
-  them, and AccessCheck with the hook's token agrees (`buddie/winacl.py`, ctypes only).
+  them, and AccessCheck with the hook's token agrees (`buddie/winacl.py`, ctypes only). An applicable allow ACE the
+  check does not read (object, callback/conditional, compound) makes the policy invalid instead of being skipped.
 - Security: the hook launcher runs Python isolated (`-I`, also for its version probe), so PYTHONPATH and friends from
   a project's settings load nothing into it; with no Python 3.11+ a Stop's answer goes back once with the reason
   instead of passing (the re-entered Stop goes on with a systemMessage). docs/policy.md, "A trusted launcher".

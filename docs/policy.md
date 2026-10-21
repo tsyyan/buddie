@@ -55,7 +55,10 @@ icacls "%ProgramData%\buddie" /setowner *S-1-5-32-544 /T
 ```
 
 Deny ACEs are not subtracted, so a file can be judged unprotected when it is in fact protected, never the other way
-round. Anything the check cannot read or decide makes the policy *invalid*: protection is established or not claimed.
+round. Only plain allow and deny ACEs are read: an allow ACE of any other type that applies to the file or a directory
+above it (object, callback or conditional, compound) makes the policy *invalid*, as does anything else the check
+cannot read or decide. Protection is established or not claimed. The default ACLs of `%ProgramData%` and the
+system directories carry only plain ACEs.
 An elevated hook (an administrator's token) is outside the threat model, as root is on POSIX. For it, only the owner
 and the ACL are judged.
 
