@@ -182,8 +182,9 @@ def comment_verdict(n: int, commit: str, cfg: dict, launch: dict) -> dict | None
     if not prefix or os.environ.get("BUDDIE_GITHUB", "1") == "0":
         return None
     repo = Path(cfg["repo"])
+    # the subject is UTF-8: in cp1251 «И» (d0 98) does not decode at all, and the hook failed on it
     out = subprocess.run(["git", "-C", str(repo), "show", "-s", "--format=%H%n%s", commit],
-                         capture_output=True, text=True)
+                         capture_output=True, encoding="utf-8", errors="replace")
     if out.returncode or len(out.stdout.split("\n")) < 2:
         return None
     sha, subject = out.stdout.split("\n")[:2]

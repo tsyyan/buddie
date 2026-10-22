@@ -302,7 +302,9 @@ def unanchored(text: str, limit: int = 5, backed=()) -> tuple[int, list[str]]:
 
 def find_repos(cwd: Path) -> list[Path]:
     """The git repo around cwd, else the git repos directly under it (a cloud session clones each repo there)."""
-    top = subprocess.run(["git", "-C", str(cwd), "rev-parse", "--show-toplevel"], capture_output=True, text=True)
+    # git prints the path in UTF-8 (Git for Windows too); the locale's encoding garbled one like C:/Users/Иван
+    top = subprocess.run(["git", "-C", str(cwd), "rev-parse", "--show-toplevel"], capture_output=True,
+                         encoding="utf-8", errors="replace")
     if top.returncode == 0:
         return [Path(top.stdout.strip())]
     return sorted(p for p in cwd.iterdir() if (p / ".git").exists()) if cwd.is_dir() else []

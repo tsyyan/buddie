@@ -18,8 +18,10 @@
   through an environment proxy is caller supplied, not observed from GitHub.
 - Security: the Codex Stop hook runs `python3 -I` / `python -I`, so `PYTHONPATH` from the environment loads nothing.
 - Windows: a `[mandate]` queue read at a commit (`git show`) is decoded as UTF-8, as the file in the tree is, not in
-  the locale's encoding (cp1251 misread a Russian queue's words). Test fixtures write and read UTF-8 explicitly, so
-  the suite passes without UTF-8 mode.
+  the locale's encoding (cp1251 misread a Russian queue's words). The same for the repo path git prints (a checkout
+  under `C:\Users\Иван` was not found), a merge commit's subject (cp1251 cannot decode «И»; the launch gate failed
+  on it) and the snapshot store's `index.json` (written as UTF-8; an index an older version wrote in the locale's
+  encoding is still read). Test fixtures write and read UTF-8 explicitly, so the suite passes without UTF-8 mode.
 - Security: a protected policy (`buddie/policy.py`, docs/policy.md). A file only an administrator can write
   (`/etc/buddie/policy.toml`; `<ProgramData>\buddie\policy.toml` on Windows) sets floors for each gate class and
   what buddie.toml and the hook's environment may still decide: the intro mode, the final mark, transcript reading,

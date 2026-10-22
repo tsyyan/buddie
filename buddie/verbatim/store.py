@@ -129,13 +129,18 @@ class Store:
 
     def index(self) -> dict[str, list[dict]]:
         if self.index_path.exists():
-            return json.loads(self.index_path.read_text())
+            raw = self.index_path.read_bytes()
+            try:
+                return json.loads(raw.decode("utf-8"))
+            except UnicodeDecodeError:  # an index an older version wrote in the locale's encoding (Windows)
+                import locale
+                return json.loads(raw.decode(locale.getpreferredencoding(False)))
         return {}
 
     def _write_index(self, index: dict) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         tmp = self.index_path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False) + "\n")
+        tmp.write_text(json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
         tmp.replace(self.index_path)
 
     def put(self, data: bytes) -> str:
