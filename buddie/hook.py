@@ -245,9 +245,11 @@ def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[
                     fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
                     transcript=event.get("transcript_path"), mandate=ctx.mandate if ctx is not None else True,
                     numbers=effective_numbers(numbers))
-        run = ctx.run_checks() if ctx is not None else None
-        # no profile: verify.assess, every check, as before profiles; a profile: the checks its levels leave on
-        receipt, found, _ = assess(text, **args) if run is None else assess_selected(text, checks=run, **args)
+        # no profile: verify.assess, every check, as before profiles; a profile: exactly the checks its levels
+        # leave on after the policy's floors, none if none is (an empty selection is not "all")
+        selection = ctx.effective() if ctx is not None else None
+        receipt, found, _ = assess(text, **args) if selection is None else assess_selected(text, selection=selection,
+                                                                                          **args)
     return receipt, [s.path for s in chosen if s.origin is not evidence.Origin.OBSERVED], found
 
 
@@ -471,7 +473,7 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     if mismatch:
         entry["typed_mismatch"] = mismatch
     if ctx.profile is not None:
-        entry["profile"] = {"name": ctx.profile.profile, "checks": list(ctx.run_checks() or ())}
+        entry["profile"] = {"name": ctx.profile.profile, "checks": list(ctx.run_checks())}
     if ctx.policy is not None and (ctx.policy.status.value != "absent" or ctx.refused):
         entry["policy"] = {"status": ctx.policy.status.value, **({"refused": list(ctx.refused)} if ctx.refused else {})}
     if warned:

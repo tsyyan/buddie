@@ -75,6 +75,22 @@ An explicit level beats the profile: `profile = "developer"` with `[gates] quote
 floor beats everything below it: `profile = "research"` under a policy with `anchors = "block"` checks anchors,
 and the refusal is journaled (`gates.anchors`). A class that ends up on is run, whatever the profile said.
 
+### No profile, and a profile with nothing left
+
+Two different states:
+
+- **No profile** (`ResolvedEventContext.run_checks()` is `None`). The hook runs every check through `verify.assess`,
+  exactly as before profiles.
+- **A profile whose effective selection is empty** (`run_checks()` is `()`). The profile and the levels above it
+  turned off every class a check feeds, for example `profile = "research"` with `[gates] quotes = "off"` and
+  `numbers = "off"`. Then no check runs: no page is fetched and GitHub is not asked. The receipt holds no rows, and
+  its outcome is `EMPTY` ("nothing to check"), never `PASS`. The journal line says
+  `"profile": {"name": "research", "checks": []}`. `buddie status` says
+  `the hook runs: no verification check (…): nothing an answer claims is verified`, and the note (Python:
+  `profiles.note`) begins `No verification checks ran under the effective profile research and gate levels`.
+
+An empty selection can only come from levels. A person asking for `custom` with nothing in it gets an error.
+
 ### Who can choose
 
 `buddie.toml`, the hook's environment and CLI or MCP arguments are all within the agent's reach (policy.md, "Who
@@ -99,8 +115,21 @@ Three different things:
 - **Verified**: the check ran and the evidence holds. That says the claim matches its evidence: the quote is on the
   page, the PR is in that state. It doesn't say the evidence is right.
 
-Receipt-v0 itself is unchanged. Its `outcome` word for a profile is computed as it always was for the checks that
-ran, as with `--anchors-only`, and that is why the note and Coverage say what was left out.
+### What receipt-v0 says, and what it does not
+
+Receipt-v0 is unchanged. Its `outcome` is computed as it always was, from the checks that ran:
+- `PASS` means the checks that ran established no failure and found nothing open. It does not certify that every
+  claim in the report was checked: under a profile, or with `--anchors-only`, a kind of claim may not have been
+  looked at.
+- `EMPTY` means nothing was checked, never "verified".
+- The scope (what ran, what a profile left out, how many claims of the left-out kinds the text holds) lives outside
+  the receipt: in Coverage (`core.outcome` gives GAPS for a smaller check, UNKNOWN for an empty one), in the CLI's
+  `note` line, in MCP's text beside the receipt, in the hook's journal line and in `buddie status`.
+
+A consumer that reads only the receipt cannot tell a complete check from a partial one. The CLI's exit code is
+unchanged too (1 only on FAIL). Making scope part of the receipt is left to the receipt contract (PR #31), which
+has to answer one question: **how should a receipt keep the verification outcome, the executed scope, the excluded
+checks and completeness apart, so that PASS is never read as full coverage?**
 
 ## Unknown names
 
@@ -134,6 +163,16 @@ checks = ["pr_anchor"]
 Nothing changes until you choose a profile. Without one, the CLI, MCP, the hook and the Python API run every check,
 and the receipts, levels, journal and golden gate scenarios are identical to before. #29's `--modules` and MCP
 `modules` still work and now mean `custom`.
+
+## Decisions (approved for #30)
+
+- **No protected-policy key for profiles.** The policy's floors are the enforcement: a floor brings back any class a
+  profile turns off (tested for `quotes` under `developer` and `anchors` under `research`). No profile allowlist,
+  no second mechanism.
+- **The hook selects by gate class.** `custom` with only `pr_anchor` turns the `anchors` class on, and the hook then
+  runs every anchor check of that class; its journal line lists them (tested). CLI, MCP and the Python API select
+  exactly the checks named.
+- **Receipt evolution belongs to PR #31.** Receipt-v0 and its guarantees stay as they are.
 
 ## Limits
 

@@ -141,13 +141,17 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
                     fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
                     mandate: dict | None | bool = True, rev: str | None = None, github=None,
                     transcript: str | None = None, numbers: str = "gap", profile: str | None = None,
-                    checks=None) -> tuple[dict, list[core.Finding], core.Coverage]:
+                    checks=None, selection=None) -> tuple[dict, list[core.Finding], core.Coverage]:
     """_assess under one reading of the protected policy (the event's inside the hook, its own outside), so the
     GitHub API asked and the one a finding's provenance names are the same. profile, modules, checks: what to run
     (buddie/profiles.py: developer, research, complete, or custom with modules and/or checks); none of them: every
-    check, as before profiles. An unknown name raises profiles.UnknownProfile."""
+    check, as before profiles. An unknown name raises profiles.UnknownProfile. selection: a profiles.Selection
+    already resolved instead (the hook's effective one, which may hold no check: then none runs)."""
     from buddie import policy, profiles
-    selection = profiles.resolve(profile, modules, checks)
+    if selection is None:
+        selection = profiles.resolve(profile, modules, checks)
+    elif profile is not None or modules is not None or checks is not None:
+        raise profiles.UnknownProfile("give a selection or a profile with its modules and checks, not both")
     with policy.held():
         return _assess(text, selection, name=name, repos=repos, store=store, fetch=fetch, access=access,
                        quotes=quotes, now=now, mandate=mandate, rev=rev, github=github, transcript=transcript,

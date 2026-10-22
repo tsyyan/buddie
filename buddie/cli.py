@@ -168,6 +168,12 @@ def cmd_status(args) -> int:
         print(f"config: no {config.CONFIG} (fresh-install defaults): only a quote that is not on its page or an anchor "
               "that does not hold goes back; `buddie init` turns on the project's full checks")
     print("levels: " + ", ".join(f"{k}={v}" for k, v in lv.items()))
+    if path and not config.problem(path) and config.load(path).get("verify") is not None:
+        from buddie import resolved
+        ctx = resolved.resolve({"cwd": str(path.parent)}, [path.parent])  # with the protected policy's floors
+        run = ctx.run_checks()
+        print(f"profile: {ctx.profile.profile}; the hook runs: " + (", ".join(run) if run else
+              "no verification check (every class it feeds is off): nothing an answer claims is verified"))
     print("transcript: " + ("read (run: anchors are checked)" if config.reads_transcript(cfg)
                             else "not read (run: anchors are unchecked)"))
     logs = [p for p in logbook.log_targets(None)[:1] if p.is_file()]

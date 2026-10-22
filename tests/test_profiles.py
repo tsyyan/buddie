@@ -316,3 +316,114 @@ def test_the_remote_server_takes_no_profile():
     assert not {"profile", "checks", "modules"} & set(schema)
     with pytest.raises(ValueError):
         remote.verify_report({"text": GOOD_Q, "profile": "research"})
+
+
+# --- review follow-up: an empty effective selection is empty, not "everything" ------------------------------------
+
+@pytest.fixture
+def counted(monkeypatch):
+    """Every page fetch and every GitHub GET the hook makes, counted (and answered with nothing)."""
+    calls = {"fetch": 0, "github": 0}
+
+    def fetch(self, url, timeout=30):
+        calls["fetch"] += 1
+        return self.record(url, {"sha256": None, "fetched_at": "t", "http_status": None, "error": "counted"})
+
+    def github(path):
+        calls["github"] += 1
+        return None
+    monkeypatch.setattr(Store, "fetch", fetch)
+    monkeypatch.setattr(effects, "github_get", github)
+    monkeypatch.setenv("BUDDIE_FETCH", "1")
+    monkeypatch.setenv("BUDDIE_GITHUB", "1")
+    return calls
+
+
+EVERY_KIND = f"The vendor wrote that “{QUOTE}” ([r](https://other.example/page)).\nMerged. `⚓ pr:o/r#1=open`"
+
+
+def test_no_profile_runs_every_legacy_check(world, counted, monkeypatch, capsys):
+    repo, tmp = world
+    toml(repo, '[gates]\nanchors = "block"\n')
+    assert resolved.resolve({"cwd": str(repo)}).run_checks() is None  # None: the legacy path, every check
+    stop(repo, EVERY_KIND, monkeypatch, capsys)
+    assert counted["fetch"] >= 1 and counted["github"] >= 1
+
+
+def test_a_profile_with_every_class_off_runs_no_check(world, counted, monkeypatch, capsys):
+    repo, tmp = world
+    toml(repo, '[verify]\nprofile = "research"\n[gates]\nquotes = "off"\nnumbers = "off"\n')
+    ctx = resolved.resolve({"cwd": str(repo)})
+    assert ctx.run_checks() == ()  # a profile and nothing left on: empty, not None
+    stop(repo, EVERY_KIND, monkeypatch, capsys)
+    assert counted == {"fetch": 0, "github": 0}  # nothing excluded was looked up
+    entry = last(tmp)
+    assert entry["profile"] == {"name": "research", "checks": []}
+    assert entry["outcome"] != "PASS"  # nothing ran, so nothing passed
+    _, found, covered = verify.assess_selected(EVERY_KIND, selection=ctx.effective(), repos=[repo], fetch=True,
+                                               mandate=False, github=effects.github_get)
+    assert found == [] and counted == {"fetch": 0, "github": 0}
+    assert {s.what for s in covered.capabilities_off} >= {"module:sources", "module:github", "module:execution"}
+    assert core.outcome(found, covered) is core.Outcome.UNKNOWN
+    note = profiles.note(ctx.effective(), covered)
+    assert note.startswith("No verification checks ran under the effective profile research")
+    assert "1 quote" in note and "1 pr_anchor" in note
+
+
+def test_a_partly_enabled_profile_runs_only_what_is_on(world, counted, monkeypatch, capsys):
+    repo, tmp = world
+    toml(repo, '[verify]\nprofile = "complete"\n[gates]\nquotes = "off"\nnumbers = "off"\n')
+    assert Check.QUOTE.value not in resolved.resolve({"cwd": str(repo)}).run_checks()
+    stop(repo, EVERY_KIND, monkeypatch, capsys)
+    assert counted["fetch"] == 0 and counted["github"] >= 1  # anchors on: GitHub asked; quotes off: no page
+
+
+def test_a_policy_floor_runs_the_checks_of_the_class_it_restores(world, counted, monkeypatch, capsys):
+    repo, tmp = world
+    toml(repo, '[verify]\nprofile = "research"\n[gates]\nquotes = "off"\nnumbers = "off"\n')
+    admin(tmp, monkeypatch, 'version = 1\n[gates]\nanchors = "block"\n')
+    with policy.snapshot():
+        run = resolved.resolve({"cwd": str(repo)}).run_checks()
+    assert Check.PR_ANCHOR.value in run and Check.QUOTE.value not in run
+    stop(repo, EVERY_KIND, monkeypatch, capsys)
+    assert counted["github"] >= 1 and counted["fetch"] == 0
+
+
+def test_in_the_hook_a_custom_check_brings_its_whole_class(world, monkeypatch, capsys):
+    """Decision B: the hook selects by gate class. custom with only pr_anchor turns the anchors class on, and every
+    anchor check of that class runs there; the journal lists them. CLI, MCP and the API select exactly."""
+    repo, tmp = world
+    toml(repo, '[verify]\nprofile = "custom"\nchecks = ["pr_anchor"]\n')
+    run = resolved.resolve({"cwd": str(repo)}).run_checks()
+    assert set(run) == {c.value for c in ANCHORS}
+    stop(repo, f"Done. {HOLDS}", monkeypatch, capsys)
+    assert set(last(tmp)["profile"]["checks"]) == {c.value for c in ANCHORS}
+    assert profiles.resolve("custom", None, ["pr_anchor"]).checks == {Check.PR_ANCHOR}
+
+
+def test_buddie_status_says_what_the_hook_runs_and_when_it_runs_nothing(world, monkeypatch, capsys):
+    repo, _ = world
+    monkeypatch.chdir(repo)
+    toml(repo, '[verify]\nprofile = "research"\n')
+    assert cli.main(["status"]) == 0
+    assert "profile: research; the hook runs: quote, number" in capsys.readouterr().out
+    toml(repo, '[verify]\nprofile = "research"\n[gates]\nquotes = "off"\nnumbers = "off"\n')
+    cli.main(["status"])
+    assert "the hook runs: no verification check" in capsys.readouterr().out
+    toml(repo, '[gates]\nquotes = "off"\n')  # no profile: no profile line, as before
+    cli.main(["status"])
+    assert "profile:" not in capsys.readouterr().out
+
+
+def test_an_empty_selection_cannot_be_asked_for_by_name():
+    """A person's custom with nothing in it is an error (resolve); an empty selection only comes from the hook's
+    levels, and verify takes it as it is, never as "all"."""
+    with pytest.raises(profiles.UnknownProfile):
+        profiles.resolve("custom", [], [])
+    empty = profiles.effective("developer", ())
+    assert empty.checks == frozenset() and empty.modules == () and empty.describe() == "profile developer: no checks"
+    receipt, found, _ = verify.assess_selected("Merged. `⚓ pr:o/r#1=open`", selection=empty, fetch=False,
+                                               mandate=False)
+    assert found == [] and receipt["predicate"]["outcome"] == "EMPTY"  # receipt-v0's own word for nothing checked
+    with pytest.raises(profiles.UnknownProfile, match="not both"):
+        verify.assess_selected("x", selection=empty, profile="developer")

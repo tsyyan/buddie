@@ -12,6 +12,9 @@
   unusable). Without a profile nothing changes.
 - The final rule reads whether an answer carries an anchor from its text, not from the anchors that were checked
   (the same thing without a profile).
+- A profile whose effective selection is empty (every class it feeds turned off) runs no check: no fetch, no GitHub
+  call, an EMPTY receipt, a journal line with `"checks": []` and an explicit note in `buddie status`. Only "no
+  profile" means every check.
 - Verification modules (`buddie/modules.py`, docs/architecture.md): `sources` (quotes, numbers), `github` (repo
   anchors, `pr:`, `ci:`) and `execution` (`run:`, `choice:`, work claims), each with a stable id and its checks.
   `buddie modules`; `buddie verify --modules`, MCP `verify_report` `modules`, `verify.assess_selected`. An unknown

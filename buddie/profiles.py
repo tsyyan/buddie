@@ -67,6 +67,8 @@ class Selection:
 
     def describe(self) -> str:
         """One line for a person: what this selection checks and what it leaves out."""
+        if not self.checks:
+            return f"profile {self.profile}: no checks"
         out = f"profile {self.profile}: modules {', '.join(m.id for m in self.modules)}"
         return out + (f"; not checked: {', '.join(self.excluded)}" if self.excluded else "; every check")
 
@@ -105,6 +107,13 @@ def resolve(profile: str | None = None, modules: Iterable[str] | None = None,
     return Selection(name, tuple(m for m in mods.REGISTRY if chosen & set(m.checks)), frozenset(chosen))
 
 
+def effective(profile: str, checks: Iterable[str]) -> Selection:
+    """The selection a profile comes to once gate levels and the policy's floors are applied (the hook's
+    ResolvedEventContext.effective): exactly `checks`, possibly none. Not for names a person gives: resolve() is."""
+    chosen = {_check(c) for c in checks}
+    return Selection(profile, tuple(m for m in mods.REGISTRY if chosen & set(m.checks)), frozenset(chosen))
+
+
 def from_config(cfg: dict) -> Selection | None:
     """The Selection buddie.toml's [verify] names (profile, modules, checks), None without one. UnknownProfile when
     it names something unknown or is not a table of strings: buddie.toml then counts as unusable
@@ -130,7 +139,11 @@ def note(selection: Selection | None, coverage) -> str | None:
     if selection is None:
         return None
     seen = [f"{s.count} {s.what.removeprefix('excluded:')}" for s in coverage.skipped if s.what.startswith("excluded:")]
-    return selection.describe() + (f"; in the text and not checked: {', '.join(seen)}" if seen else "")
+    tail = f"; in the text and not checked: {', '.join(seen)}" if seen else ""
+    if not selection.checks:
+        return (f"No verification checks ran under the effective profile {selection.profile} and gate levels: "
+                f"nothing in this text was verified{tail}")
+    return selection.describe() + tail
 
 
 def gate_levels(selection: Selection | None) -> dict[str, str]:

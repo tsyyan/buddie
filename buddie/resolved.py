@@ -47,13 +47,20 @@ class ResolvedEventContext:
     profile: object = None                # profiles.Selection of buddie.toml's [verify], None without one
 
     def run_checks(self) -> tuple[str, ...] | None:
-        """The checks the hook runs: with a profile, each check whose gate class is on after every source and the
-        policy's floors (a floor brings back what a profile turned off); None: every check, as without profiles."""
+        """The checks the hook runs. None: no profile, so every check, as before profiles (verify.assess). With a
+        profile, each check whose gate class is on after every source and the policy's floors (a floor brings back
+        what a profile turned off), in core.Check order; () when none is: then none runs, which is not "all"."""
         if self.profile is None:
             return None
         from buddie.core import Check
-        on = tuple(c.value for c in Check if self.levels[config.CLASS_OF_CHECK[c]].value != "off")
-        return on or None  # every class off: nothing the gate would act on, so run as without a profile
+        return tuple(c.value for c in Check if self.levels[config.CLASS_OF_CHECK[c]].value != "off")
+
+    def effective(self):
+        """run_checks as a profiles.Selection under the profile's name (None without a profile), for
+        verify.assess_selected(selection=): it may be empty, which a name given by a person may not."""
+        from buddie import profiles
+        run = self.run_checks()
+        return None if run is None else profiles.effective(self.profile.profile, run)
 
     @property
     def configured(self) -> bool:
