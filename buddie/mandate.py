@@ -25,7 +25,6 @@ from __future__ import annotations
 
 import json
 import re
-import subprocess
 import tomllib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -74,6 +73,11 @@ def find_config(repos: list[Path]) -> dict | None:
     return None
 
 
+class GitUnavailable(FileNotFoundError):
+    """git did not answer (missing, timed out, the file at the commit is over the limit, or the repository cannot be
+    read): nothing is known of the commit, so it is never taken for a commit that is not there."""
+
+
 def read(cfg: dict, path: str, rev: str | None = None) -> str:
     """A file buddie.toml names, from the working tree or from commit `rev`. buddie.toml belongs to the repo under
     check, so its paths are held to the repo like a file anchor: absolute, "..", a symlink out of the repo or a file
@@ -85,10 +89,13 @@ def read(cfg: dict, path: str, rev: str | None = None) -> str:
         return anc.text_of(data)
     # the file at a commit is read as the file in the tree is (UTF-8, universal newlines), not in the locale's
     # encoding: text=True decoded it as cp1251 on a Russian Windows, so a queue's words did not match at a commit
-    out = subprocess.run(["git", "-C", str(repo), "show", f"{rev}:{path}"], capture_output=True)
-    if out.returncode:
-        raise FileNotFoundError(f"{path} at {rev}: {out.stderr.decode('utf-8', 'replace').strip()}")
-    return anc.text_of(out.stdout)
+    from buddie import runner
+    got = runner.git(repo, "show", f"{rev}:{path}", limit=anc.MAX_TEXT_BYTES)
+    if got.state != "ok":
+        raise GitUnavailable(f"{path} at {rev}: git {got.state.replace('_', ' ')}")
+    if got.code:
+        raise FileNotFoundError(f"{path} at {rev}: no such file at that commit")
+    return anc.text_of(got.out)
 
 
 def messages(cfg: dict) -> list[dict] | None:
@@ -286,9 +293,10 @@ class Mandate:
             return self._appeared[n]
         repo, col, found = str(self.cfg["repo"]), self.cfg["columns"]["text"], None
         text = self.table[n]["cells"][col] if n in self.table else None
-        git = lambda *a: subprocess.run(["git", "-C", repo, *a], capture_output=True, text=True)
-        log = git("log", "--first-parent", "--format=%H %cI", self.rev or "HEAD", "--", self.cfg["queue"])
-        commits = [line.split() for line in log.stdout.splitlines()] if not log.returncode else []
+        from buddie import runner
+        log = runner.git_text(repo, "log", "--first-parent", "--format=%H %cI", self.rev or "HEAD", "--",
+                              self.cfg["queue"], timeout=30, limit=anc.MAX_TEXT_BYTES)
+        commits = [line.split() for line in log.splitlines()] if log is not None else []
         for sha, time in commits:
             if sha not in self._history:
                 try:
@@ -300,7 +308,7 @@ class Mandate:
                 break
             found = _utc(time).strftime("%Y-%m-%dT%H:%M:%SZ")
         else:
-            if found and git("rev-parse", "--is-shallow-repository").stdout.strip() == "true":
+            if found and (runner.git_text(repo, "rev-parse", "--is-shallow-repository") or "").strip() != "false":
                 found = None  # the text was already there at the bottom of the history this clone has
         self._appeared[n] = found
         return found
@@ -424,9 +432,13 @@ def _sentence(line: str, pos: int) -> tuple[int, int]:
 def _missing_rev(cfg: dict, rev: str, err: Exception) -> dict:
     """BROKEN when the repo has its full history and still no such commit; UNCHECKABLE in a shallow clone, where the
     commit may lie below the cut (as anchors.py says of `path@commit`)."""
-    shallow = subprocess.run(["git", "-C", str(cfg["repo"]), "rev-parse", "--is-shallow-repository"],
-                             capture_output=True, text=True).stdout.strip() == "true"
-    if shallow:
+    from buddie import runner
+    if isinstance(err, GitUnavailable):
+        return {"status": UNCHECKABLE, "why": f"{err}: the commit was not looked up"}
+    shallow = runner.git_text(cfg["repo"], "rev-parse", "--is-shallow-repository")
+    if shallow is None:  # git cannot read the repository at all (not one, another user's, ...): nothing is known
+        return {"status": UNCHECKABLE, "why": f"git could not read {cfg['repo']}: commit {rev} was not looked up"}
+    if shallow.strip() == "true":
         return {"status": UNCHECKABLE, "why": f"no commit {rev} in this shallow clone of {cfg['repo']} (fetch the history)"}
     why = str(err).split(": ", 1)[-1] if ": " in str(err) else str(err)
     return {"status": BROKEN, "why": f"no commit {rev} with {cfg['queue']} in {cfg['repo']} ({why})"}

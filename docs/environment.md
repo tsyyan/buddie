@@ -73,17 +73,19 @@ clone cannot fetch a missing object.
 **git, hardened.** A repository's `.git/config` is the agent's to write, and it can name commands git runs during
 `git status`: `core.fsmonitor` and the clean filter of a `filter.<driver>` for files whose stat changed. The process
 running buddie may hold the person's GitHub token (the plugin's setting); a planted command would see it. So the
-collector:
-- runs git from a fixed argument list, without a shell, with nothing on stdin, stderr discarded, a 10-second timeout
-  per command and at most 1 MiB of output read (a longer `git status` is `dirty` with `changes` unavailable);
-- gives git an environment of its own: `PATH` (to find git; Windows also needs `SYSTEMROOT`), and git's own settings,
-  never a variable of buddie's environment. No system or global git configuration is read
-  (`GIT_CONFIG_NOSYSTEM`, `GIT_CONFIG_GLOBAL` set to the null device), and `GIT_OPTIONAL_LOCKS=0` keeps
-  `git status` from writing the index;
-- switches off on the command line, which wins over every config file, `core.fsmonitor`, the untracked cache,
-  `core.ignoreStat`, implicit bare repositories, and every filter driver the repository's config names (its
-  `clean`, `smudge` and `process`). A driver whose name cannot be passed that way (it holds `=`) means git status
-  is not run (`unneutralized_filter`).
+collector runs git as every git buddie starts runs ([security.md](security.md), `buddie/runner.py`):
+- from a fixed argument list, without a shell, with nothing on stdin, stderr discarded, a 10-second timeout per
+  command, at most 1 MiB of output kept (a longer `git status` is `dirty` with `changes` unavailable) or 64 MiB
+  streamed (`git ls-files`, read entry by entry: a longer listing, or an entry over 64 KiB, leaves the tree
+  `output_limit`, not `clean`), and the program's whole process tree stopped at the end;
+- in an environment of its own: `PATH` (to find git; Windows also needs `SYSTEMROOT`), and git's own settings,
+  never a variable of buddie's environment. No system or global git configuration is read (`GIT_CONFIG_NOSYSTEM`,
+  `GIT_CONFIG_GLOBAL` set to the null device) but the person's `safe.directory` entries, and
+  `GIT_OPTIONAL_LOCKS=0` keeps `git status` from writing the index;
+- with switched off on the command line, which wins over every config file, `core.fsmonitor`, the untracked cache,
+  `core.ignoreStat`, implicit bare repositories, signature display, and every filter driver the repository's config
+  names (its `clean`, `smudge` and `process`). A driver whose name cannot be passed that way (it holds `=`) means
+  git status is not run (`unneutralized_filter`).
 
 Because the system and global configuration are not read, `core.autocrlf` from them does not apply: a file whose
 stat changed but whose content did not may show as changed. That errs towards `dirty`, never towards `clean`.

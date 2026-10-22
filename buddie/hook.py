@@ -250,7 +250,8 @@ def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[
         selection = ctx.effective() if ctx is not None else None
         receipt, found, _ = assess(text, **args) if selection is None else assess_selected(text, selection=selection,
                                                                                           **args)
-    return receipt, [s.path for s in chosen if s.origin is not evidence.Origin.OBSERVED], found
+    return (receipt, evidence.Chosen([s.path for s in chosen if s.origin is not evidence.Origin.OBSERVED],
+                                     chosen.unavailable), found)
 
 
 def observed_only() -> bool:
@@ -468,6 +469,8 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
                          for a in pred["anchors"] if a.get("kind")}}
     if code:
         entry["reasons"] = journal.reasons(items)
+    if getattr(stores, "unavailable", None):
+        entry["stores_unavailable"] = sorted({why for _, why in stores.unavailable})
     if ctx.config_errors:
         entry["config_errors"] = [{"path": str(e.path), "reason": e.reason} for e in ctx.config_errors]
     if mismatch:
@@ -507,6 +510,10 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     elif "quotes" in blocked:
         print("Quotes were judged against the snapshots in " + (", ".join(map(str, stores)) or "no session store")
               + " (newest with bytes per URL; a URL in none of them was fetched now).", file=err)
+    if "quotes" in blocked and getattr(stores, "unavailable", None):
+        print("The sources/ stores a repo changed could not all be listed, so they may be missing from the above: "
+              + "; ".join(f"{repo} ({why})" for repo, why in stores.unavailable)
+              + ". git was not run unsafely for them (docs/security.md).", file=err)
     ready = ready_anchors(text, items, transcript=event.get("transcript_path"), github=github)
     if ready:
         print("Ready anchors, checked now (copy as is onto the line):", file=err)
@@ -550,16 +557,22 @@ def config_item(error) -> str:
             "line starting with 'buddie:' telling the reader the project's buddie settings were not applied")
 
 
+EVENT_PROGRAMS = 40.0  # seconds all of an event's git (and the free command) may take together; the gating hooks
+                       # have 60 to 120 seconds before the host stops them
+
+
 def main() -> int:
     try:
         event = json.loads(sys.stdin.buffer.read().decode("utf-8"))  # Claude Code sends UTF-8 (Windows: not the locale's)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return 0
-    from buddie import evidence, policy
+    from buddie import evidence, policy, runner
     try:
         with policy.snapshot():  # one reading of the protected policy for the whole event
             try:
-                with evidence.collector():  # the policy's network for the event's fetches (isolated or as set)
+                # the policy's network for the event's fetches (isolated or as set); one time budget for every
+                # program the event starts, so a slow repository cannot hold the hook past the host's timeout
+                with evidence.collector(), runner.deadline(EVENT_PROGRAMS):
                     return run(event)
             except Exception as error:
                 return failed(event, error)

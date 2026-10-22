@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Security (docs/security.md): every program buddie starts goes through `buddie/runner.py`: a fixed argument list,
+  a timeout, output bounded whether kept or streamed, the whole process tree stopped (a process group on Linux and
+  macOS, a job object on Windows), and one 40-second budget for all of a hook event's git and free command. git gets
+  an environment of its own (`PATH`, git's own settings; no token, no `GIT_DIR`, no `GIT_CONFIG_*`, no proxy, no
+  protocol), reads no system or global configuration but the person's `safe.directory` entries, and runs with
+  `core.fsmonitor`, signature display and, for `git status`, every filter driver the repository's config names
+  switched off.
+  - SEC-01 (high): the hook's `git status` for the session's `sources/` stores ran the repository's filter and
+    fsmonitor commands in the hook's environment, where the plugin's GitHub token is. They no longer run. When the
+    stores cannot all be listed safely, the hook says so and journals `stores_unavailable`.
+  - SEC-09 (high): the launch gate's free command (`BUDDIE_FREE`, settable by a project, or the policy's
+    `free_command`) ran with the plugin's token in its environment. It now runs without `CLAUDE_PLUGIN_OPTION_*`,
+    `BUDDIE_GITHUB_TOKEN` and `BUDDIE_HTTP_TOKEN`, and cannot hold the hook past its timeout on Windows.
+  - SEC-08: `GIT_DIR` and the like in the environment no longer choose the repository an anchor is checked in.
+  - A git that does not answer is `UNCHECKABLE`, never `BROKEN` (`path@commit`, a queue at a commit).
+  - Snapshots: `git ls-files` output is bounded when streamed; `environment.problems()` takes only plain JSON data.
+  - Behaviour: system and global git configuration (but `safe.directory`) no longer apply to buddie's git; git status
+    for the session's stores leaves out submodules and rename detection; one more git call per Stop in a repository.
 - Environment snapshots (`buddie/environment.py`, docs/environment.md): `buddie snapshot` and
   `environment.collect()` record what buddie observes itself of the place a check ran in: the interpreter (Python,
   OS, architecture), the git repository (the commit HEAD names; whether the tree is clean or dirty, and how many

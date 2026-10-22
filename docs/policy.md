@@ -95,7 +95,9 @@ The rules:
   - `journal_text = "forbidden"` keeps conversation words out of the journal, whatever `buddie.toml` or
     `BUDDIE_JOURNAL_TEXT` say.
   - `transcript = "forbidden"` keeps the session log closed, and `"required"` keeps it open.
-  - Under a policy, only its own `free_command` is run.
+  - Under a policy, only its own `free_command` is run. With or without one, the command gets the hook's
+    environment without the plugin's settings and buddie's tokens, and its process tree is stopped after 20
+    seconds ([security.md](security.md)).
   - `network = "forbidden"` stops page fetches and GitHub lookups.
 - **The policy never makes buddie more permissive than it is without one.** If a policy somehow appeared that its
   administrator did not write, the worst it could do is leave things as they would be with no policy at all.

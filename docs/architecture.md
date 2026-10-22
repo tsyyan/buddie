@@ -16,6 +16,7 @@ decide either (the protected policy, [policy.md](policy.md)).
 | Verification | `buddie/verify.py` | one text in, one Assessment out: receipt-v0, typed findings, coverage, what ran |
 | Receipts | `buddie/receipts.py` | an Assessment rendered as receipt-v0 or receipt-v1 ([receipts.md](receipts.md)) |
 | Evidence | `buddie/evidence.py`, `stores.py`, `logbook.py` | which repos, stores and journal a check uses, who named them |
+| Programs | `buddie/runner.py` | every program buddie starts, bounded; git hardened against the repo's config and the hook's environment ([security.md](security.md)) |
 | Environment | `buddie/environment.py` | what buddie observes of the runtime, the repo and named files ([environment.md](environment.md)); a separate document, read by no check |
 | Policy | `buddie/policy.py`, `resolved.py`, `config.py` | who may decide what, per event |
 | Transports | `hook.py`, `cli.py`, `mcp.py`, `remote.py` | how a text arrives and what is done with the receipt |

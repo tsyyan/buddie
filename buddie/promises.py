@@ -42,7 +42,6 @@ import hashlib
 import json
 import os
 import re
-import subprocess
 import tomllib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -132,11 +131,11 @@ def launched_row(tool_input: dict) -> int | None:
 def _head(cfg: dict) -> str | None:
     """The commit the ready anchor names: origin/main, where the queue is merged, else HEAD. A working branch's HEAD
     carries its own commits (the row's «запущено»), and the verdict there is not the one on main (live run, №77)."""
+    from buddie import runner
     for ref in ("origin/main", "HEAD"):
-        out = subprocess.run(["git", "-C", cfg["repo"], "rev-parse", "--verify", "-q", "--short", f"{ref}^{{commit}}"],
-                             capture_output=True, text=True)
-        if out.returncode == 0 and out.stdout.strip():
-            return out.stdout.strip()
+        out = runner.git_text(cfg["repo"], "rev-parse", "--verify", "-q", "--short", f"{ref}^{{commit}}")
+        if out and out.strip():
+            return out.strip()
     return None
 
 
@@ -183,11 +182,11 @@ def comment_verdict(n: int, commit: str, cfg: dict, launch: dict) -> dict | None
         return None
     repo = Path(cfg["repo"])
     # the subject is UTF-8: in cp1251 «И» (d0 98) does not decode at all, and the hook failed on it
-    out = subprocess.run(["git", "-C", str(repo), "show", "-s", "--format=%H%n%s", commit],
-                         capture_output=True, encoding="utf-8", errors="replace")
-    if out.returncode or len(out.stdout.split("\n")) < 2:
+    from buddie import runner
+    out = runner.git_text(repo, "show", "-s", "--format=%H%n%s", commit)
+    if out is None or len(out.split("\n")) < 2:
         return None
-    sha, subject = out.stdout.split("\n")[:2]
+    sha, subject = out.split("\n")[:2]
     if not (m := MERGE_PR.search(subject)) or not (slug := _slug(repo)):
         return None
     from buddie.effects import GitHubUnavailable, github_get
@@ -221,11 +220,16 @@ def free_now(n: int, cfg: dict, launch: dict) -> dict | None:
     cmd = (limits.free_command or "") if limits is not None else os.environ.get("BUDDIE_FREE", "")
     if cmd in ("", "0"):
         return None
+    # bounded, its process tree stopped, and without the plugin's settings and buddie's tokens: BUDDIE_FREE can come
+    # from the project's settings, and the command it names never needed the person's GitHub token
+    from buddie import runner
+    got = runner.run(cmd.replace("{n}", str(int(n))), env=runner.without_credentials(), timeout=FREE_TIMEOUT,
+                     cwd=cfg["repo"], shell=True)
+    if got.state != "ok":
+        return None
     try:
-        out = subprocess.run(cmd.replace("{n}", str(int(n))), shell=True, cwd=cfg["repo"], capture_output=True,
-                             text=True, timeout=FREE_TIMEOUT)
-        data = json.loads(out.stdout.strip().splitlines()[-1])
-    except (subprocess.SubprocessError, OSError, json.JSONDecodeError, IndexError):
+        data = json.loads(got.out.decode("utf-8", "replace").strip().splitlines()[-1])
+    except (json.JSONDecodeError, IndexError):
         return None
     if not isinstance(data, dict) or not isinstance(data.get("free"), bool):
         return None
@@ -386,11 +390,11 @@ def lines(key: str, paths=None) -> list[dict]:
 
 def merged(repo: str, n: int, repos: list[Path]) -> bool:
     """PR #n is merged: its merge commit is in a local repo, or GitHub says so (BUDDIE_GITHUB=0 skips it)."""
+    from buddie import runner
     for r in repos:
         for grep in (f"Merge pull request #{n} ", f"(#{n})"):
-            out = subprocess.run(["git", "-C", str(r), "log", "--all", "-F", "--grep", grep, "-1", "--format=%h"],
-                                 capture_output=True, text=True)
-            if out.returncode == 0 and out.stdout.strip():
+            out = runner.git_text(r, "log", "--all", "-F", "--grep", grep, "-1", "--format=%h", timeout=30)
+            if out and out.strip():
                 return True
     if os.environ.get("BUDDIE_GITHUB", "1") == "0":
         return False
@@ -406,8 +410,9 @@ def merged(repo: str, n: int, repos: list[Path]) -> bool:
 
 
 def _slug(repo: Path) -> str | None:
-    out = subprocess.run(["git", "-C", str(repo), "remote", "get-url", "origin"], capture_output=True, text=True)
-    m = re.search(r"([\w.-]+)/([\w.-]+?)(?:\.git)?/?$", out.stdout.strip()) if out.returncode == 0 else None
+    from buddie import runner
+    out = runner.git_text(repo, "remote", "get-url", "origin")
+    m = re.search(r"([\w.-]+)/([\w.-]+?)(?:\.git)?/?$", out.strip()) if out is not None else None
     return f"{m[1]}/{m[2]}" if m else None
 
 
