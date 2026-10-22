@@ -415,3 +415,67 @@ def test_the_hook_and_the_journal_stay_on_v0():
     for name in ("hook", "journal"):
         source = (ROOT / "buddie" / f"{name}.py").read_text(encoding="utf-8")
         assert "receipts" not in source and "receipt-v1" not in source
+
+
+# --- review follow-up: exclusion reasons agree with the requested selection --------------------------------------
+
+def _gate_level_receipt(world):
+    """research asked for, quote left on and number turned off by the levels (as the hook's effective selection)."""
+    return receipts.render(run(world, f"{GOOD_Q} {HOLDS} `⚓ pr:o/r#1=open`",
+                               selection=profiles.effective("research", ["quote"]),
+                               requested=profiles.resolve("research")), "v1")
+
+
+def _reason(r, check, reason):
+    next(e for e in r["predicate"]["scope"]["excluded"] if e["check"] == check)["reason"] = reason
+
+
+def test_a_requested_check_marked_profile_is_inconsistent(world):
+    r = _gate_level_receipt(world)
+    valid(r)
+    _reason(r, "number", "profile")  # number was requested: what turned it off was the levels
+    assert any("number" in p and "requested" in p for p in receipts.problems(r))
+
+
+def test_an_unrequested_check_marked_gate_level_is_inconsistent(world):
+    r = _gate_level_receipt(world)
+    _reason(r, "pr_anchor", "gate_level")  # research never asked for pr_anchor: the profile left it out
+    assert any("pr_anchor" in p and "requested" in p for p in receipts.problems(r))
+
+
+def test_a_receipt_with_nothing_requested_cannot_exclude_by_profile(world):
+    r = _gate_level_receipt(world)
+    r["predicate"]["scope"]["requested"] = {"profile": None, "checks": None}  # nothing asked: everything requested
+    assert any("pr_anchor" in p and "requested" in p for p in receipts.problems(r))
+
+
+@pytest.mark.parametrize("mutate, needle", [
+    (lambda s: s["requested"].update(checks=["number", "quote"]), "scope.requested.checks"),
+    (lambda s: s["requested"].update(checks=["quote", "llm_judge"]), "scope.requested.checks"),
+    (lambda s: s["requested"].update(profile=None), "scope.requested"),
+    (lambda s: s["requested"].update(checks=None), "scope.requested"),
+    (lambda s: s["excluded"].insert(0, {"check": "quote", "module": "sources", "reason": "call_option",
+                                        "detected": 1}), "both executed and excluded"),
+])
+def test_inconsistent_requested_effective_and_excluded_scopes_are_caught(world, mutate, needle):
+    r = _gate_level_receipt(world)
+    mutate(r["predicate"]["scope"])
+    assert any(needle in p for p in receipts.problems(r)), receipts.problems(r)
+
+
+@pytest.mark.parametrize("kw", [{"profile": "developer"}, {"profile": "research"}, {"profile": "complete"},
+                                {"profile": "custom", "modules": ["github"], "checks": ["quote"]}, {}])
+def test_receipts_of_every_profile_hold_together(world, kw):
+    valid(receipts.render(run(world, f"{GOOD_Q} {HOLDS} `⚓ pr:o/r#1=open`", **kw), "v1"))
+
+
+def test_a_check_a_policy_floor_brings_back_is_not_a_profile_exclusion(world):
+    """A floor puts into effective (and executed) a check the requested profile does not have: that is consistent,
+    and nothing about it may read as excluded."""
+    restored = profiles.effective("research", ["quote", "number", "file_anchor"])
+    r = receipts.render(run(world, f"{GOOD_Q} {BROKEN}", selection=restored, requested=profiles.resolve("research")),
+                        "v1")
+    valid(r)
+    scope = r["predicate"]["scope"]
+    assert "file_anchor" in scope["executed"] and "file_anchor" not in scope["requested"]["checks"]
+    assert "file_anchor" not in {e["check"] for e in scope["excluded"]}

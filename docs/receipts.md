@@ -121,6 +121,17 @@ established without running it. `detected` counts what can be counted without ch
 | `UNKNOWN` | only `unavailable` checks are missing, so whether they would have applied cannot be told. This is the common case for a project without `[mandate]` |
 | `NONE` | no check ran |
 
+**`FULL` means full execution coverage of buddie's registered verification checks, not exhaustive factual
+coverage of the report.** Every check ran; that says nothing about how many of the report's claims were in a form a
+check detects. So:
+
+| Outcome and coverage | Means |
+|---|---|
+| `PASS` + `FULL` | every check ran and established no failure. The answer is **not** thereby true: a claim not written as a quotation with its link, an anchor or a work claim was not detected by any check |
+| `EMPTY` + `FULL` | every check ran and found no claim it can judge |
+| `PASS` + `PARTIAL` | the selected checks passed, and others were left out on purpose (`excluded`) |
+| `NOT_RUN` + `NONE` | no verification was performed |
+
 There is no percentage. The number of checks is not a denominator of the claims in a text. `excluded[].detected`
 gives the counts that can be had.
 
@@ -198,9 +209,12 @@ no field claims that, and a reader cannot learn it from a receipt.
 
 A receipt is made by whoever ran buddie and is not signed. Anyone who can run buddie, or edit a JSON file, can
 produce one. `receipts.problems(receipt)` checks a receipt-v1 for internal consistency:
-- every check once and in order;
-- `executed` within `effective`;
-- `excluded` exactly the rest, with a reason that fits;
+- every check once and in order, `requested.checks` included;
+- `requested.profile` and `requested.checks` both given or both null (null: every registered check requested);
+- `executed` within `effective`, and no check both executed and excluded;
+- `excluded` exactly the rest, with the reason the scope implies: `profile` for a check neither requested nor
+  effective, `gate_level` for one requested but not effective, `call_option` or `unavailable` for one effective that
+  did not run. A check `effective` holds beyond the request (a protected-policy floor's) ran: it is not an exclusion;
 - coverage and outcome as the rest of the receipt implies;
 - counts and provenance as the findings say.
 

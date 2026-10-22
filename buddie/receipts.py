@@ -264,7 +264,9 @@ SCHEMA = {
 
 def problems(receipt: dict) -> list[str]:
     """What is inconsistent in a receipt-v1 beyond its JSON Schema: each check once and in core.Check order,
-    executed within effective, excluded exactly the rest with a reason that fits, coverage and outcome as the rest of
+    executed within effective, excluded exactly the rest with the reason the requested and effective selections
+    imply (profile: neither; gate_level: requested, not effective; call_option, unavailable: effective, not run;
+    nothing requested is every check requested), coverage and outcome as the rest of
     the receipt implies, counts and provenance as its findings say. [] when it holds together. A receipt anyone
     edited can still hold together: this is consistency, not authenticity."""
     out: list[str] = []
@@ -286,16 +288,32 @@ def problems(receipt: dict) -> list[str]:
     ordered("effective", effective)
     ordered("executed", executed)
     ordered("excluded", [e.get("check") for e in excluded])
+    requested = scope.get("requested") or {}
+    asked = requested.get("checks")
+    if (requested.get("profile") is None) != (asked is None):
+        out.append("scope.requested: a profile and its checks, or neither (nothing requested: every check)")
+    if asked is not None:
+        ordered("requested.checks", asked)
+    asked = set(CHECKS) if asked is None else set(asked)  # nothing requested is every registered check
     if set(executed) - set(effective):
         out.append(f"scope.executed has checks not in scope.effective: {sorted(set(executed) - set(effective))}")
+    if both := sorted(set(executed) & {e.get("check") for e in excluded}):
+        out.append(f"scope: {both} both executed and excluded")
     if {e.get("check") for e in excluded} != set(CHECKS) - set(executed):
         out.append("scope.excluded is not exactly the checks that did not run")
+    # a check outside effective was left out by the requested profile (profile) or, though requested, by the levels
+    # it came to (gate_level); a check inside effective that did not run was turned off by the call (call_option) or
+    # had nothing to be checked with (unavailable). A check effective holds beyond the request (a policy floor's) ran
     for e in excluded:
-        inside = e.get("check") in effective
-        if e.get("reason") in ("profile", "gate_level") and inside:
-            out.append(f"scope.excluded {e.get('check')}: {e.get('reason')} but it is in scope.effective")
-        if e.get("reason") in ("call_option", "unavailable") and not inside:
-            out.append(f"scope.excluded {e.get('check')}: {e.get('reason')} but it is not in scope.effective")
+        check, reason, inside = e.get("check"), e.get("reason"), e.get("check") in effective
+        if reason in ("profile", "gate_level") and inside:
+            out.append(f"scope.excluded {check}: {reason} but it is in scope.effective")
+        if reason in ("call_option", "unavailable") and not inside:
+            out.append(f"scope.excluded {check}: {reason} but it is not in scope.effective")
+        if not inside and reason == "profile" and check in asked:
+            out.append(f"scope.excluded {check}: profile, but it is in the requested checks (gate_level)")
+        if not inside and reason == "gate_level" and check not in asked:
+            out.append(f"scope.excluded {check}: gate_level, but it is not in the requested checks (profile)")
         if e.get("module") != (mods.module_of(core.Check(e["check"])).id if e.get("check") in CHECKS else None):
             out.append(f"scope.excluded {e.get('check')}: module {e.get('module')!r} is not its module")
     reasons = {e.get("check"): e.get("reason") for e in excluded}

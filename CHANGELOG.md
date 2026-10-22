@@ -9,7 +9,8 @@
   UNKNOWN, NONE) and the evidence's provenance. The version is the predicateType. One check, rendered as either
   contract: `verify.assessment()` runs once, rendering never checks again. receipt-v0 stays the default everywhere
   and is unchanged; the hook, the journal and the remote server stay on v0. `buddie receipt-schema`;
-  `receipts.problems()` checks a receipt-v1 for consistency (not authenticity).
+  `receipts.problems()` checks a receipt-v1 for consistency (not authenticity), exclusion reasons
+  against the requested and effective selections included.
 - Verification profiles (`buddie/profiles.py`, docs/profiles.md): `developer` (github, execution), `research`
   (sources), `complete` (everything) and `custom` (listed modules and/or checks), resolved to an explicit,
   deterministic set of checks run by the same core. `buddie profiles`; `buddie verify --profile/--checks`, MCP
