@@ -21,7 +21,6 @@ import hashlib
 import os
 import re
 import stat
-import subprocess
 from pathlib import Path
 
 # the sign inside the backticks (`⚓ x`) or right before them (⚓ `x`, as people and the buddie skill write it)
@@ -109,8 +108,12 @@ ANCHOR = _Anchors()
 HOLDS, BROKEN, UNCHECKABLE = "HOLDS", "BROKEN", "UNCHECKABLE"
 
 
-def _git(repo: Path, *args: str) -> int:
-    return subprocess.run(["git", "-C", str(repo), *args], capture_output=True).returncode
+def _git(repo: Path, *args: str) -> int | None:
+    """git's exit code, or None when git is missing or did not answer in time (buddie/runner.py: bounded, nothing
+    the repo's config names is run, none of buddie's environment). None is never taken for an answer."""
+    from buddie import runner
+    got = runner.git(repo, *args)
+    return got.code if got.state == "ok" else None
 
 
 OUTSIDE = "outside"  # _inside's answer for a path that leads out of the repo
@@ -243,12 +246,21 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
             return out
         return dict(out, status=UNCHECKABLE, why=refused or f"no repo has {m['path']}")
     if m := FILE_AT.match(anchor):
+        silent = None
         for repo in repos:
-            if _git(repo, "cat-file", "-e", f"{m['commit']}^{{commit}}") != 0:
+            has = _git(repo, "cat-file", "-e", f"{m['commit']}^{{commit}}")
+            if has != 0:
+                silent = silent or (repo if has is None else None)
                 continue
-            if _git(repo, "cat-file", "-e", f"{m['commit']}:{m['path']}") == 0:
+            got = _git(repo, "cat-file", "-e", f"{m['commit']}:{m['path']}")
+            if got == 0:
                 return dict(out, status=HOLDS, repo=str(repo))
+            if got is None:
+                return dict(out, status=UNCHECKABLE, repo=str(repo), why=f"git did not answer in {repo}")
             return dict(out, status=BROKEN, repo=str(repo), why=f"{m['commit']} has no {m['path']}")
+        if silent is not None:
+            return dict(out, status=UNCHECKABLE, why=f"git did not answer in {silent}; no other repo has "
+                                                     f"commit {m['commit']}")
         return dict(out, status=UNCHECKABLE, why=f"no repo has commit {m['commit']} (fetch it, or full history)")
     if FACT.match(anchor):
         return dict(out, status=UNCHECKABLE,
@@ -302,9 +314,10 @@ def unanchored(text: str, limit: int = 5, backed=()) -> tuple[int, list[str]]:
 
 def find_repos(cwd: Path) -> list[Path]:
     """The git repo around cwd, else the git repos directly under it (a cloud session clones each repo there)."""
-    # git prints the path in UTF-8 (Git for Windows too); the locale's encoding garbled one like C:/Users/Иван
-    top = subprocess.run(["git", "-C", str(cwd), "rev-parse", "--show-toplevel"], capture_output=True,
-                         encoding="utf-8", errors="replace")
-    if top.returncode == 0:
-        return [Path(top.stdout.strip())]
+    # git prints the path in UTF-8 (Git for Windows too); the locale's encoding garbled one like C:/Users/Иван. Not
+    # GIT_DIR or GIT_WORK_TREE of the environment: buddie's git does not see it (buddie/runner.py)
+    from buddie import runner
+    top = runner.git_text(cwd, "rev-parse", "--show-toplevel")
+    if top is not None and top.strip():
+        return [Path(top.strip())]
     return sorted(p for p in cwd.iterdir() if (p / ".git").exists()) if cwd.is_dir() else []

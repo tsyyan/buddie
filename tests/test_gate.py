@@ -161,11 +161,19 @@ def counted(tmp_path, monkeypatch):
         monkeypatch.setenv(k, v)
     calls = {"git": [], "toml": 0, "resolve": 0}
     real_run, real_read, real_bytes, real_resolve = subprocess.run, Path.read_text, Path.read_bytes, resolved.resolve
+    from buddie import runner
+    real_runner = runner.run
 
     def run(cmd, *a, **k):
         if isinstance(cmd, list) and cmd and Path(str(cmd[0])).stem == "git":
             calls["git"].append(cmd[3] if len(cmd) > 3 else cmd[1])
         return real_run(cmd, *a, **k)
+
+    def run_program(argv, *a, **k):  # every git buddie runs goes through runner.run: git -C ROOT COMMAND ...
+        if isinstance(argv, list) and argv and Path(str(argv[0])).stem == "git" and "-C" in argv:
+            calls["git"].append(argv[argv.index("-C") + 2])
+        return real_runner(argv, *a, **k)
+    monkeypatch.setattr(runner, "run", run_program)
 
     def read_text(self, *a, **k):
         calls["toml"] += self.name == "buddie.toml"
@@ -195,4 +203,6 @@ def test_one_resolution_one_read_per_stop(counted, text, code):
     assert got == code
     # before #27: 8 git calls and 6 reads of buddie.toml on the pass, 6 and 4 on the fail
     assert calls["resolve"] == 1 and calls["toml"] == 1
-    assert calls["git"].count("rev-parse") == 1 and len(calls["git"]) <= 3  # + the session's stores: status, merge-base
+    # + the session's stores: the listing of the repo's filter drivers (switched off for status, docs/security.md),
+    # status, merge-base
+    assert calls["git"].count("rev-parse") == 1 and len(calls["git"]) <= 4, calls["git"]

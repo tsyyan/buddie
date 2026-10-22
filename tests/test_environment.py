@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from buddie import environment as env
+from buddie import runner
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = "2026-10-23T00:00:00Z"
@@ -276,20 +277,63 @@ def test_oversized_files_and_collections_are_bounded(tmp_path, monkeypatch):
     assert len(snap["artifacts"]) == 2 and "artifact_count_limit" in snap["limitations"]
 
 
+class _ReadingOs:
+    """The collector's `os`, with read() changing the file under it: only on a descriptor open on that very file
+    (os.path.samestat with the file's identity before the read, not a read size), once, and only in the collector
+    (environment.os is replaced; os itself and every other module's reads, git's pipe among them, are untouched)."""
+
+    def __init__(self, path: Path, mutate):
+        self._identity, self._mutate, self.triggered = os.stat(path), mutate, 0
+
+    def read(self, fd, n):
+        if not self.triggered and os.path.samestat(os.fstat(fd), self._identity):
+            self.triggered += 1
+            self._mutate()
+        return os.read(fd, n)
+
+    def __getattr__(self, name):
+        return getattr(os, name)
+
+
+def _while_reading(monkeypatch, path: Path, mutate) -> _ReadingOs:
+    fake = _ReadingOs(path, mutate)
+    monkeypatch.setattr(env, "os", fake)
+    return fake
+
+
+def test_the_fault_injection_itself_changes_nothing_when_it_does_nothing(tmp_path, monkeypatch):
+    """The control: the same hook with no change gives the digest, so the tests below see the change, not the hook."""
+    f = tmp_path / "same.txt"
+    f.write_bytes(b"x" * 10)
+    fake = _while_reading(monkeypatch, f, lambda: None)
+    [a] = collect(tmp_path, ["same.txt"])["artifacts"]
+    import hashlib
+    assert fake.triggered == 1 and a["status"] == "observed" and a["sha256"] == hashlib.sha256(b"x" * 10).hexdigest()
+
+
 def test_a_file_that_grows_while_it_is_read_gets_no_digest(tmp_path, monkeypatch):
     f = tmp_path / "log.txt"
     f.write_bytes(b"x" * 10)
-    real, grew = os.read, []
 
-    def read(fd, n):
-        if not grew and n == env.CHUNK:  # the collector's read, not subprocess's (it reads a pipe on POSIX)
-            grew.append(1)
-            with open(f, "ab") as fh:
-                fh.write(b"more")
-        return real(fd, n)
-    monkeypatch.setattr(os, "read", read)
+    def grow():
+        with open(f, "ab") as fh:
+            fh.write(b"more")
+    fake = _while_reading(monkeypatch, f, grow)
     [a] = collect(tmp_path, ["log.txt"])["artifacts"]
-    assert grew and a["reason"] == "changed_during_read" and a["sha256"] is None and a["bytes"] is None
+    assert fake.triggered == 1
+    assert a["reason"] == "changed_during_read" and a["sha256"] is None and a["bytes"] is None
+
+
+def test_a_file_truncated_while_it_is_read_gets_no_digest(tmp_path, monkeypatch):
+    f = tmp_path / "log.txt"
+    f.write_bytes(b"x" * 100)
+
+    def truncate():
+        with open(f, "r+b") as fh:
+            fh.truncate(3)
+    fake = _while_reading(monkeypatch, f, truncate)
+    [a] = collect(tmp_path, ["log.txt"])["artifacts"]
+    assert fake.triggered == 1 and a["reason"] == "changed_during_read" and a["sha256"] is None
 
 
 def test_a_file_rewritten_in_place_while_it_is_read_gets_no_digest(tmp_path, monkeypatch):
@@ -297,34 +341,46 @@ def test_a_file_rewritten_in_place_while_it_is_read_gets_no_digest(tmp_path, mon
     f = tmp_path / "data.bin"
     f.write_bytes(b"a" * 10)
     st = f.stat()
-    real, done = os.read, []
 
-    def read(fd, n):
-        if not done and n == env.CHUNK:
-            done.append(1)
-            f.write_bytes(b"b" * 10)
-            os.utime(f, ns=(st.st_atime_ns, st.st_mtime_ns + 10**9))
-        return real(fd, n)
-    monkeypatch.setattr(os, "read", read)
+    def rewrite():
+        with open(f, "r+b") as fh:
+            fh.write(b"b" * 10)
+        os.utime(f, ns=(st.st_atime_ns, st.st_mtime_ns + 10**9))
+    fake = _while_reading(monkeypatch, f, rewrite)
     [a] = collect(tmp_path, ["data.bin"])["artifacts"]
-    assert a["reason"] == "changed_during_read"
+    assert fake.triggered == 1 and a["reason"] == "changed_during_read" and a["sha256"] is None
 
 
-@pytest.mark.skipif(os.name == "nt", reason="Windows does not let an open file be replaced (sharing mode)")
 def test_a_file_replaced_while_it_is_read_gets_no_digest(tmp_path, monkeypatch):
+    """Linux, macOS: renamed over while open, the path names another file afterwards (detected). Windows: an open
+    file cannot be renamed over (sharing mode), so there is nothing to detect: the digest is of the one file."""
     f = tmp_path / "out.txt"
     f.write_bytes(b"first")
     (tmp_path / "other").write_bytes(b"other")
-    real, done = os.read, []
+    refused = []
 
-    def read(fd, n):
-        if not done and n == env.CHUNK:
-            done.append(1)
+    def replace():
+        try:
             os.replace(tmp_path / "other", f)
-        return real(fd, n)
-    monkeypatch.setattr(os, "read", read)
+        except PermissionError:
+            refused.append(1)
+    fake = _while_reading(monkeypatch, f, replace)
     [a] = collect(tmp_path, ["out.txt"])["artifacts"]
-    assert a["reason"] == "changed_during_read"
+    assert fake.triggered == 1
+    if os.name == "nt":
+        assert refused and a["status"] == "observed" and a["bytes"] == len(b"first")
+    else:
+        assert not refused and a["reason"] == "changed_during_read" and a["sha256"] is None
+
+
+def test_a_digest_says_what_was_read_not_what_is_there_now(tmp_path):
+    """A file changed after its observation keeps its old digest in the snapshot: stable while read, not since."""
+    f = tmp_path / "a.txt"
+    f.write_bytes(b"before")
+    [a] = collect(tmp_path, ["a.txt"])["artifacts"]
+    f.write_bytes(b"after!")
+    import hashlib
+    assert a["sha256"] == hashlib.sha256(b"before").hexdigest() != hashlib.sha256(f.read_bytes()).hexdigest()
 
 
 def test_a_platform_without_a_guarded_open_says_so(tmp_path, monkeypatch):
@@ -379,7 +435,7 @@ def test_a_repository_without_commits_or_git(tmp_path, monkeypatch):
     if shutil.which("git"):
         git(tmp_path, "init", "-q")
         assert collect(tmp_path)["repository"]["head"]["reason"] == "no_commit"
-    monkeypatch.setattr(env.shutil, "which", lambda *a, **k: None)
+    monkeypatch.setattr(runner, "git_executable", lambda: None)
     r = collect(tmp_path)["repository"]
     assert {r[k]["reason"] for k in ("head", "worktree", "changes", "origin")} == {"git_unavailable"}
 
@@ -465,24 +521,31 @@ def test_git_runs_without_a_shell_in_an_environment_of_its_own(repo, monkeypatch
         seen.append((argv, kw))
         return real(argv, **kw)
     monkeypatch.setattr(subprocess, "Popen", spy)
+    runner.safe_directories.cache_clear()  # its own two calls are seen too
     snap = collect(repo)
     assert snap["repository"]["head"]["status"] == "observed"
     assert seen
     for argv, kw in seen:
         assert kw["shell"] is False and isinstance(argv, list) and kw["stdin"] is subprocess.DEVNULL
-        assert set(kw["env"]) <= set(env.GIT_INHERITED) | set(env.GIT_ENV)
-        assert not any(v in " ".join(kw["env"].values()) for v in SECRETS.values())
-        assert kw["env"]["GIT_CONFIG_NOSYSTEM"] == "1" and kw["env"]["GIT_ALLOW_PROTOCOL"] == "none"
+        assert not any(v in " ".join(kw["env"].values()) for v in SECRETS.values()) and "GIT_DIR" not in kw["env"]
+        assert kw["env"]["GIT_ALLOW_PROTOCOL"] == "none" and "HTTPS_PROXY" not in kw["env"]
+        if argv[2:4] == ["config", "--system"] or argv[2:4] == ["config", "--global"]:
+            # the person's safe.directory entries, read from the system and global config alone
+            assert argv[-2:] == ["--get-all", "safe.directory"]
+            assert set(kw["env"]) <= set(runner.GIT_INHERITED) | set(runner._CONFIG_PLACES) | set(runner.GIT_ENV)
+            continue
+        assert set(kw["env"]) <= set(runner.GIT_INHERITED) | set(runner.GIT_ENV)
+        assert kw["env"]["GIT_CONFIG_NOSYSTEM"] == "1"
         assert argv[1:3] == ["--no-pager", "-c"] and "core.fsmonitor=" in argv
     assert not any(v in env.dumps(snap) for v in SECRETS.values())
 
 
-def test_git_is_stopped_at_its_timeout_and_its_output_bound(monkeypatch):
-    monkeypatch.setattr(env, "GIT_TIMEOUT", 0.5)
-    state, code, _ = env._run([sys.executable, "-c", "import time; time.sleep(30)"])
+def test_git_is_stopped_at_its_timeout_and_its_output_bound():
+    state, code, _ = runner.run([sys.executable, "-c", "import time; time.sleep(30)"], env=dict(os.environ),
+                                timeout=0.5)
     assert (state, code) == ("timeout", None)
-    monkeypatch.setattr(env, "GIT_OUTPUT", 1000)
-    state, code, out = env._run([sys.executable, "-c", "import sys; sys.stdout.write('x' * 100000)"])
+    state, code, out = runner.run([sys.executable, "-c", "import sys; sys.stdout.write('x' * 100000)"],
+                                  env=dict(os.environ), limit=1000)
     assert (state, code) == ("output_limit", None) and len(out) <= 1000
 
 

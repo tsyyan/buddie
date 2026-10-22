@@ -52,6 +52,15 @@ class Selected:
     origin: Origin
 
 
+class Chosen(list):
+    """The places chosen (Selected, or their paths), and `unavailable`: (repo, why) for each repo whose changed
+    snapshot stores could not all be listed (stores.changed_sources_of): a smaller choice is said, not hidden."""
+
+    def __init__(self, items=(), unavailable=()):
+        super().__init__(items)
+        self.unavailable = list(unavailable)
+
+
 def limits():
     """The protected policy's limits for this event (None: no policy, everything as before)."""
     from buddie import policy
@@ -81,10 +90,11 @@ def store_for(cwd: Path, repo_paths: list[Path], transcript: str | None):
     lim = limits()
     if lim is not None and lim.stores == "observed":
         with tempfile.TemporaryDirectory(prefix="buddie-observed-") as tmp:
-            yield UnionStore(tmp, []), [Selected("store", Path(tmp), Origin.OBSERVED)]
+            yield UnionStore(tmp, []), Chosen([Selected("store", Path(tmp), Origin.OBSERVED)])
         return
-    chosen = session_sources(cwd, repo_paths, transcript)
-    yield UnionStore(None, [s.path for s in chosen]), chosen
+    missing: list = []
+    chosen = session_sources(cwd, repo_paths, transcript, unavailable=missing)
+    yield UnionStore(None, [s.path for s in chosen]), Chosen(chosen, missing)
 
 
 def network_clean() -> bool:

@@ -17,7 +17,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import subprocess
 from pathlib import Path
 
 from buddie.verbatim.store import Store, canonical_url
@@ -43,31 +42,70 @@ def named_in_transcript(transcript: str | None, bases: list[Path]) -> list[Path]
     return out
 
 
-def _git(repo: Path, *args: str) -> list[str]:
-    try:
-        run = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, timeout=20)
-    except (OSError, subprocess.TimeoutExpired):
-        return []
-    return run.stdout.splitlines() if run.returncode == 0 else []
+GIT_TIMEOUT = 20.0   # seconds for git status in a large checkout
+MAX_ENTRY = 2**16    # bytes of one path git lists; a longer one refuses the output
+
+
+class _Stores:
+    """The `sources/` directories among the NUL-separated paths git writes, read piece by piece: what is kept is the
+    stores found and one unfinished entry, so a checkout with millions of untracked files costs no more memory."""
+
+    def __init__(self, repo: Path, status: bool):
+        self.repo, self.status, self.found, self._rest = repo, status, [], b""
+
+    def __call__(self, chunk: bytes) -> bool:
+        entries = (self._rest + chunk).split(b"\0")
+        self._rest = entries.pop()
+        if len(self._rest) > MAX_ENTRY:
+            return False
+        for raw in entries:
+            path = raw.decode("utf-8", "surrogateescape")
+            parts = Path(path[3:] if self.status else path).parts
+            if "sources" in parts:
+                store = self.repo.joinpath(*parts[:parts.index("sources") + 1])
+                if store not in self.found:
+                    self.found.append(store)
+        return True
+
+
+def changed_sources_of(repo: Path) -> tuple[list[Path], str | None]:
+    """(`sources/` stores the repo has changed and not merged: untracked or modified, or on this branch only; None),
+    or what of them could be listed and why not all: git is missing or did not answer ("unavailable", "timeout",
+    "output_limit", "git_error"), or the repository's config names a filter driver git status would run that cannot
+    be switched off ("unneutralized_filter"). git runs through buddie/runner.py: nothing the repository's config
+    names is executed, and git never sees the hook's environment (where the person's token is)."""
+    from buddie import runner
+    got = _Stores(repo, status=True)
+    st = runner.git(repo, "status", "--porcelain=v1", "-z", "--untracked-files=all", "--ignore-submodules=all",
+                    "--no-renames", timeout=GIT_TIMEOUT, consume=got, filters=True)
+    if st.state != "ok":
+        return [], st.state
+    if st.code != 0:  # not a repository has nothing to list, which is no gap; asked only when status failed
+        inside = runner.git(repo, "rev-parse", "--git-dir")
+        if inside.state == "ok" and inside.code != 0 and not (repo / ".git").exists():
+            return [], None
+        return [], "git_error"
+    base = runner.git_text(repo, "merge-base", "HEAD", "origin/main")  # none without origin/main: nothing to add
+    if base and base.strip():
+        branch = _Stores(repo, status=False)
+        diff = runner.git(repo, "diff", "--name-only", "-z", base.strip(), "HEAD", timeout=GIT_TIMEOUT,
+                          consume=branch)
+        if diff.state != "ok" or diff.code != 0:
+            return got.found, diff.state if diff.state != "ok" else "git_error"
+        got.found += [s for s in branch.found if s not in got.found]
+    return got.found, None
 
 
 def changed_sources(repo: Path) -> list[Path]:
-    """`sources/` stores the repo has changed and not merged: untracked or modified, or on this branch only."""
-    paths = [line[3:] for line in _git(repo, "status", "--porcelain", "--untracked-files=all")]
-    base = _git(repo, "merge-base", "HEAD", "origin/main")
-    if base:
-        paths += _git(repo, "diff", "--name-only", base[0], "HEAD")
-    out = []
-    for p in paths:
-        parts = Path(p.strip('"')).parts
-        if "sources" in parts:
-            out.append(repo.joinpath(*parts[:parts.index("sources") + 1]))
-    return out
+    """`sources/` stores the repo has changed and not merged (changed_sources_of, without why some may be missing)."""
+    return changed_sources_of(repo)[0]
 
 
-def session_sources(cwd: Path, repos: list[Path], transcript: str | None = None) -> list:
+def session_sources(cwd: Path, repos: list[Path], transcript: str | None = None,
+                    unavailable: list | None = None) -> list:
     """session_stores with who named each (evidence.Selected): the environment, the transcript, the event's cwd, a
-    repo. Every one of them is a directory the agent can write; the origin says who chose it, not that it is true."""
+    repo. Every one of them is a directory the agent can write; the origin says who chose it, not that it is true.
+    unavailable: a list to which (repo, why) is added for each repo whose changed stores could not all be listed."""
     from buddie.evidence import Origin, Selected, env_paths
     bases = [cwd, *repos]
     found = [(p, Origin.ENVIRONMENT) for p in env_paths("BUDDIE_STORES")]
@@ -76,7 +114,10 @@ def session_sources(cwd: Path, repos: list[Path], transcript: str | None = None)
     found += [(p, Origin.TRANSCRIPT) for p in named_in_transcript(transcript, bases)]
     found += [(cwd / ".verbatim", Origin.EVENT)] + [(r / ".verbatim", Origin.REPO) for r in repos]
     for repo in repos:
-        found += [(p, Origin.REPO) for p in changed_sources(repo)]
+        changed, why = changed_sources_of(repo)
+        found += [(p, Origin.REPO) for p in changed]
+        if why is not None and unavailable is not None:
+            unavailable.append((repo, why))
     out, seen = [], set()
     for p, origin in found:
         key = p.resolve()

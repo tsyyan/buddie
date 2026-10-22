@@ -23,11 +23,11 @@ and anyone can write one by hand. buddie never reads a snapshot back as evidence
 
 How it is collected. Nothing goes to the network. Files are opened as file anchors are (anchors._inside, _open:
 inside the root, no symlink out of it, no hard link, a plain file), read with a size limit, and checked before and
-after the read: a file that changed while being read gets no digest. git runs from a fixed argument list, without
-a shell, with a short timeout and a bound on its output, in an environment of its own (no variable of buddie's but
-PATH, and none of git's own configuration but the repository's) and with every command the repository's config can
-name switched off (core.fsmonitor, filter drivers): a repository's .git/config is the agent's to write, and the
-process running buddie may hold a token the agent does not.
+after the read: a file that changed while being read gets no digest. git runs through buddie/runner.py, as every
+git buddie starts does: a fixed argument list, no shell, a timeout, bounded output kept or streamed, its process tree
+stopped, an environment of its own and every command the repository's config can name switched off (core.fsmonitor,
+filter drivers): a repository's .git/config is the agent's to write, and the process running buddie may hold a token
+the agent does not.
 
 Standard library only; nothing here imports a transport (tests/test_environment.py).
 """
@@ -38,14 +38,13 @@ import json
 import os
 import platform
 import re
-import shutil
 import stat
-import subprocess
 import sys
-import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
+
+from buddie import runner
 
 FORMAT = "https://github.com/tsyyan/buddie#environment-v0"
 OBSERVED, UNAVAILABLE = "observed", "unavailable"
@@ -54,21 +53,10 @@ BUDDIE, AGENT_WRITABLE, CALLER_SUPPLIED = "buddie", "agent_writable", "caller_su
 MAX_ARTIFACTS = 256           # artifacts read per snapshot; the rest are not looked at (a limitation says so)
 MAX_TOTAL_BYTES = 2**30       # bytes read for all artifacts of one snapshot
 CHUNK = 2**20
-GIT_TIMEOUT = 10.0            # seconds per git command
-GIT_OUTPUT = 2**20            # bytes of git's output read per command
 MAX_SUPPLIED = 64
 MAX_SUPPLIED_CHARS = 1024
 SUPPLIED_KEY = re.compile(r"^[a-z][a-z0-9_.-]{0,63}$")
 SHA = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
-# what git reads from its own environment, set here; everything else of buddie's environment stays out of git's
-GIT_ENV = {"GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull, "GIT_ATTR_NOSYSTEM": "1",
-           "GIT_OPTIONAL_LOCKS": "0", "GIT_TERMINAL_PROMPT": "0", "GIT_NO_LAZY_FETCH": "1",
-           "GIT_ALLOW_PROTOCOL": "none", "GIT_NO_REPLACE_OBJECTS": "1", "LC_ALL": "C", "LANG": "C"}
-GIT_INHERITED = ("PATH", "SYSTEMROOT", "WINDIR")  # where git is; Windows needs its system directory to start it
-# what a repository's config could make git run during these commands, switched off on the command line (which wins
-# over every config file); filter drivers are found per repository and switched off the same way (_git_filters)
-GIT_SAFE = ("-c", "core.fsmonitor=", "-c", "core.untrackedCache=false", "-c", "core.ignoreStat=false",
-            "-c", "safe.bareRepository=explicit")
 
 
 def _now() -> str:
@@ -93,85 +81,25 @@ def runtime() -> dict:
 
 # --- git ------------------------------------------------------------------------------------------------------------
 
-def _git_env() -> dict:
-    env = {k: os.environ[k] for k in GIT_INHERITED if k in os.environ}
-    env.update(GIT_ENV)
-    return env
-
-
-def _run(argv: list[str], consume=None) -> tuple[str, int | None, bytes]:
-    """("ok", exit code, output) of one command, or ("timeout" | "output_limit" | "unavailable", None, output so far).
-    No shell, nothing on stdin, stderr discarded, at most GIT_OUTPUT bytes read, killed after GIT_TIMEOUT. consume:
-    a function given each piece of the output instead of keeping it (no bound on the length, the timeout holds)."""
-    try:
-        proc = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
-                                env=_git_env(), shell=False)
-    except OSError:
-        return "unavailable", None, b""
-    out, over = bytearray(), threading.Event()
-
-    def read():
-        while chunk := proc.stdout.read(65536):
-            if consume is not None:
-                consume(chunk)
-                continue
-            if len(out) + len(chunk) > GIT_OUTPUT:
-                over.set()
-                proc.kill()
-                break
-            out.extend(chunk)
-
-    reader = threading.Thread(target=read, daemon=True)
-    reader.start()
-    reader.join(GIT_TIMEOUT)
-    if reader.is_alive():
-        proc.kill()
-        reader.join(5)  # a child git started may still hold the pipe: the reader is a daemon, left to end with it
-        try:
-            proc.wait(5)
-        except subprocess.TimeoutExpired:
-            pass
-        return "timeout", None, bytes(out)
-    code = proc.wait()
-    proc.stdout.close()
-    return ("output_limit", None, bytes(out)) if over.is_set() else ("ok", code, bytes(out))
-
-
-def _git_filters(git: str, root: Path) -> list[str] | None:
-    """`-c` arguments that switch off every filter driver the repository's config names (clean, smudge, process),
-    or None when a driver's name cannot be given on a command line (it holds "="): then git status is not run."""
-    state, code, out = _run([git, "--no-pager", *GIT_SAFE, "-C", str(root), "config", "-z", "--name-only",
-                             "--get-regexp", r"^filter\."])
-    if state != "ok":
-        return None
-    if code not in (0, 1):  # 1: no such key
-        return None
-    args, seen = [], set()
-    for name in out.decode("utf-8", "surrogateescape").split("\0"):
-        if not name.startswith("filter.") or name.count(".") < 2:
-            continue
-        driver = name[len("filter."):name.rindex(".")]
-        if not driver or "=" in driver:
-            return None
-        if driver not in seen:
-            seen.add(driver)
-            args += ["-c", f"filter.{driver}.clean=", "-c", f"filter.{driver}.smudge=",
-                     "-c", f"filter.{driver}.process=", "-c", f"filter.{driver}.required=false"]
-    return args
+MAX_ENTRY = 2**16  # bytes of one `git ls-files` entry (its tag and path); a longer one is refused, not buffered
 
 
 class _Hidden:
     """Counts the index entries `git ls-files -v -z` tags assume-unchanged (a lowercase tag) or skip-worktree (S, s):
     git status does not compare their files, so a tree with one is not shown clean. The index is the agent's to
-    write, as the rest of .git is."""
+    write, as the rest of .git is. Memory stays bounded: what is kept between pieces is one unfinished entry, and an
+    entry over MAX_ENTRY refuses the output (runner.run stops git: "output_limit")."""
 
     def __init__(self):
         self.count, self._rest = 0, b""
 
-    def __call__(self, chunk: bytes) -> None:
+    def __call__(self, chunk: bytes) -> bool:
         entries = (self._rest + chunk).split(b"\0")
         self._rest = entries.pop()
+        if len(self._rest) > MAX_ENTRY or any(len(e) > MAX_ENTRY for e in entries):
+            return False
         self.count += sum(1 for e in entries if e[:1].islower() or e[:1] == b"S")
+        return True
 
 
 def origin_url(url: str) -> tuple[str | None, str | None]:
@@ -199,11 +127,9 @@ def repository(root: Path, clock=_now) -> tuple[dict, list[str]]:
     can write (basis agent_writable): its .git, its files, and the git executable PATH finds."""
     unavailable = lambda why: {k: fact(basis=AGENT_WRITABLE, reason=why)  # noqa: E731
                                for k in ("head", "worktree", "changes", "origin")}
-    git = shutil.which("git", path=_git_env().get("PATH"))
-    if git is None:
+    if runner.git_executable() is None:
         return {"observed_at": clock(), **unavailable("git_unavailable")}, []
-    base = [git, "--no-pager", *GIT_SAFE, "-C", str(root)]
-    state, code, out = _run([*base, "rev-parse", "--show-toplevel"])
+    state, code, out = runner.git(root, "rev-parse", "--show-toplevel")
     if state != "ok":
         return {"observed_at": clock(), **unavailable(state)}, []
     if code != 0:
@@ -215,7 +141,7 @@ def repository(root: Path, clock=_now) -> tuple[dict, list[str]]:
     except OSError:
         limits.append("repository_wider_than_root")
     facts = {}
-    state, code, out = _run([*base, "rev-parse", "--verify", "--quiet", "HEAD^{commit}"])
+    state, code, out = runner.git(root, "rev-parse", "--verify", "--quiet", "HEAD^{commit}")
     head = out.decode("ascii", "replace").strip()
     if state != "ok":
         facts["head"] = fact(basis=AGENT_WRITABLE, reason=state)
@@ -224,13 +150,11 @@ def repository(root: Path, clock=_now) -> tuple[dict, list[str]]:
     else:
         facts["head"] = (fact(head, AGENT_WRITABLE) if SHA.match(head) else
                          fact(basis=AGENT_WRITABLE, reason="git_error"))
-    filters = _git_filters(git, root)
-    if filters is None:
+    state, code, out = runner.git(root, "status", "--porcelain=v1", "-z", "--untracked-files=normal",
+                                  "--ignore-submodules=all", "--no-renames", filters=True)
+    if state == runner.UNNEUTRALIZED:
         facts["worktree"] = facts["changes"] = fact(basis=AGENT_WRITABLE, reason="unneutralized_filter")
     else:
-        state, code, out = _run([git, "--no-pager", *GIT_SAFE, *filters, "-C", str(root), "status",
-                                 "--porcelain=v1", "-z", "--untracked-files=normal", "--ignore-submodules=all",
-                                 "--no-renames"])
         if state == "output_limit":  # more entries than are read: not clean, however many
             facts["worktree"] = fact("dirty", AGENT_WRITABLE)
             facts["changes"] = fact(basis=AGENT_WRITABLE, reason="output_limit")
@@ -243,11 +167,11 @@ def repository(root: Path, clock=_now) -> tuple[dict, list[str]]:
             facts["changes"] = fact(n, AGENT_WRITABLE)
             if not n:  # "clean" only when git status looked at every tracked file
                 hidden = _Hidden()
-                state, code, _ = _run([*base, "ls-files", "-v", "-z"], consume=hidden)
+                state, code, _ = runner.git(root, "ls-files", "-v", "-z", consume=hidden)
                 if state != "ok" or code != 0 or hidden.count:
                     why = state if state != "ok" else "git_error" if code != 0 else "index_hides_entries"
                     facts["worktree"] = fact(basis=AGENT_WRITABLE, reason=why)
-    state, code, out = _run([*base, "config", "--get", "remote.origin.url"])
+    state, code, out = runner.git(root, "config", "--get", "remote.origin.url")
     if state != "ok":
         facts["origin"] = fact(basis=AGENT_WRITABLE, reason=state)
     elif code != 0:
@@ -457,15 +381,41 @@ TOP = {"format", "collector", "started_at", "finished_at", "root", "runtime", "r
 _TIME = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
 
+def _plain(doc, limit: int = 200_000) -> bool:
+    """`doc` is made only of the exact types json.loads gives, string keys, at most 16 levels and `limit` values."""
+    todo, seen = [(doc, 0)], 0
+    while todo:
+        x, depth = todo.pop()
+        seen += 1
+        if seen > limit or depth > 16:
+            return False
+        t = type(x)
+        if t is dict:
+            if any(type(k) is not str for k in x):
+                return False
+            todo += [(v, depth + 1) for v in x.values()]
+        elif t is list:
+            todo += [(v, depth + 1) for v in x]
+        elif x is not None and t not in (str, int, float, bool):
+            return False
+    return True
+
+
+def _known(value, names) -> bool:
+    """`value` is one of `names`, tested without hashing or comparing anything but a plain str (a hostile object's
+    __hash__ or __eq__ is never called, and an unhashable one is an answer, not an exception)."""
+    return type(value) is str and value in names
+
+
 def _fact_problems(where: str, f, bases) -> list[str]:
     if type(f) is not dict or set(f) != {"status", "value", "basis", "reason"}:
         return [f"{where}: not a fact (status, value, basis, reason)"]
-    out = [] if f["basis"] in bases else [f"{where}: basis {f['basis']!r}"]
+    out = [] if type(f["basis"]) is str and f["basis"] in bases else [f"{where}: basis {f['basis']!r}"]
     if f["status"] == OBSERVED:
         if f["value"] is None or f["reason"] is not None:
             out.append(f"{where}: observed with no value, or with a reason")
     elif f["status"] == UNAVAILABLE:
-        if f["value"] is not None or f["reason"] not in REASONS:
+        if f["value"] is not None or not _known(f["reason"], REASONS):
             out.append(f"{where}: unavailable with a value, or with an unknown reason")
     else:
         out.append(f"{where}: status {f['status']!r}")
@@ -475,9 +425,13 @@ def _fact_problems(where: str, f, bases) -> list[str]:
 def problems(doc) -> list[str]:
     """What makes `doc` not a consistent environment-v0 snapshot: its shape, and rules a shape cannot say (an
     unavailable fact has no value, an observed artifact has its digest, nothing caller-supplied is outside
-    `supplied`). Consistency, not authenticity: a consistent snapshot may still be written by hand."""
+    `supplied`). Consistency, not authenticity: a consistent snapshot may still be written by hand. Anything but
+    plain JSON data (exact dict, list, str, int, float, bool, None: what json.loads gives) is refused before any
+    rule is read, so no method of the caller's objects runs here."""
     if type(doc) is not dict:
         return ["not an object"]
+    if not _plain(doc):
+        return ["not plain JSON data (a subclass, another type, or nested too deep or too large)"]
     out = []
     if set(doc) != TOP:
         return [f"keys: missing {sorted(TOP - set(doc))}, unknown {sorted(set(doc) - TOP)}"]
@@ -534,12 +488,14 @@ def problems(doc) -> list[str]:
                     out.append(f"{where}: observed needs path, sha256, bytes, observed_at and no reason")
             elif a["status"] == UNAVAILABLE:
                 if a["sha256"] is not None or a["bytes"] is not None or a["observed_at"] is not None \
-                        or a["reason"] not in REASONS:
+                        or not _known(a["reason"], REASONS):
                     out.append(f"{where}: unavailable has a reason and no digest, length or time")
             else:
                 out.append(f"{where}: status {a['status']!r}")
         named = [a["path"] for a in arts if type(a) is dict and a.get("path") is not None]
-        if len(named) != len(set(named)):
+        if any(type(p) is not str for p in named):
+            out.append("artifacts: a path that is not a string")
+        elif len(named) != len(set(named)):
             out.append("artifacts: a path twice")
     rep = doc["report"]
     if rep is not None and not (type(rep) is dict and set(rep) == {"sha256"} and type(rep["sha256"]) is str
@@ -550,6 +506,6 @@ def problems(doc) -> list[str]:
     except ValueError as error:
         out.append(str(error))
     lim = doc["limitations"]
-    if type(lim) is not list or any(x not in LIMITATIONS for x in lim) or lim != sorted(set(lim)):
+    if type(lim) is not list or any(not _known(x, LIMITATIONS) for x in lim) or lim != sorted(set(lim)):
         out.append("limitations: known codes, sorted, each once")
     return out
