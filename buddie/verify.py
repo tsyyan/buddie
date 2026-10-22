@@ -175,6 +175,11 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
     if core.Check.WORK_CLAIM not in on:
         mandate = False
     store = store if isinstance(store, Store) else Store(store)  # one instance: what it fetched is known (collected)
+    # what this check fetched counts as collected only with buddie's own store classes (a subclass may record any
+    # bytes as fetched) and only what was added to `collected` during the check (a caller may fill it beforehand)
+    from buddie.stores import UnionStore
+    own_store = type(store) in (Store, UnionStore) and type(store.collected) is set
+    before = frozenset(store.collected) if own_store else frozenset()
     q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access) if quotes else ([], 0, None)
     keep = None if selected == mods.REGISTRY else (lambda a: fnd.anchor_check(a) in on)
     a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript}, keep=keep)
@@ -189,9 +194,9 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
     claims = man.check_text(text, cfg, rev) if cfg else []
     n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
     clean = clean and evidence.network_clean()
-    observed = frozenset(store.collected) if clean else frozenset()
+    observed = frozenset(store.collected) - before if clean and own_store else frozenset()
     found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed,
-                          github_collected=clean and getattr(github, "buddie_collector", False))
+                          github_collected=clean and eff.own_get(github))
     result = core.v0_outcome(found, core.Policy(numbers == "fail"))
     covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
                            mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,

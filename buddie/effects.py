@@ -27,6 +27,7 @@ import re
 import urllib.error
 import urllib.parse
 import urllib.request
+import weakref
 from pathlib import Path
 
 HOLDS, BROKEN, UNCHECKABLE = "HOLDS", "BROKEN", "UNCHECKABLE"
@@ -174,7 +175,25 @@ def github_get(path: str) -> dict | None:
     return None
 
 
-github_get.buddie_collector = True  # verify.assess: answers from here are buddie's own collection (findings.py)
+# Which GitHub GETs are buddie's own collection (findings.github_provenance), by identity: github_get and the
+# wrappers buddie's own code makes of it (remote.public_github). Kept here, not as an attribute of the function: a
+# caller can set any attribute on a callback it hands in, while handing one in adds nothing to this list. Weak, so a
+# wrapper the remote server drops after its call is not kept alive.
+_OWN_GETS: weakref.WeakSet = weakref.WeakSet()
+
+
+def own_get(get) -> bool:
+    """Whether `get` is buddie's own GitHub GET: github_get, or a wrapper of it registered by buddie's code."""
+    return get is github_get or any(get is g for g in _OWN_GETS)  # `is`: a callback's __eq__ or __hash__ is not asked
+
+
+def _own_wrapper(wrapper, inner):
+    """`wrapper`, registered as buddie's own when `inner` is (remote.public_github). For buddie's modules: a caller
+    that runs code in this interpreter could call it, as it could replace github_get itself; a caller that only
+    hands verify a callback cannot."""
+    if own_get(inner):
+        _OWN_GETS.add(wrapper)
+    return wrapper
 
 
 def _get(ctx: dict, path: str):

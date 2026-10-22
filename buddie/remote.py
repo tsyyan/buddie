@@ -163,8 +163,8 @@ def public_github(get):
             if base.get("private") is not False or str(base.get("full_name", "")).lower() != slug:
                 return None
         return data
-    public_get.buddie_collector = getattr(get, "buddie_collector", False)  # buddie's own collection, if `get` is
-    return public_get
+    from buddie import effects
+    return effects._own_wrapper(public_get, get)  # buddie's own collection when `get` is (only filters its answers)
 
 
 def budgeted(tool):

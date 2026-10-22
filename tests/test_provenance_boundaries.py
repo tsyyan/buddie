@@ -262,16 +262,16 @@ def test_provenance_never_changes_a_verdict_and_a_failure_stays_a_gap():
     def answer(path):
         return {"state": "open", "head": {"sha": "abc"}}
 
-    def buddies(path):
+    def marked(path):  # a callback that claims to be buddie's collector: the claim counts for nothing
         return answer(path)
-    buddies.buddie_collector = True
+    marked.buddie_collector = True
 
     def down(path):
         raise effects.GitHubUnavailable("GitHub unreachable: no route")
     handed, _ = verify.assess(text, repos=[], fetch=False, mandate=False, github=answer, now="t")[:2]
-    collected, found = verify.assess(text, repos=[], fetch=False, mandate=False, github=buddies, now="t")[:2]
-    assert handed == collected  # the same receipt-v0, whatever the provenance
-    assert found[0].evidence[0].provenance is Provenance.COLLECTOR_OBSERVED
+    claimed, found = verify.assess(text, repos=[], fetch=False, mandate=False, github=marked, now="t")[:2]
+    assert handed == claimed  # the same receipt-v0 (test_provenance_unforgeable.py: with github_get too)
+    assert found[0].evidence[0].provenance is Provenance.CALLER_SUPPLIED
     receipt, found, _ = verify.assess(text, repos=[], fetch=False, mandate=False, github=down, now="t")
     assert receipt["predicate"]["outcome"] == "GAPS" and found[0].fact.value == "undetermined"
     assert found[0].evidence == ()  # nothing was observed, so nothing is claimed

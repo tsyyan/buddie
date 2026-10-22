@@ -22,7 +22,9 @@
   from another origin is not taken (the anchor stays unchecked).
 - Provenance says what buddie observed: a snapshot is collector observed only when this check fetched the cited
   https URL itself (not bytes added to the store, not plain http, not archive or browser copies), and a `pr:`/`ci:`
-  answer only when buddie's own GitHub GET asked the default or the policy's API. The network is judged before and
+  answer only when buddie's own GitHub GET asked the default or the policy's API. "Own" is by identity
+  (`effects.github_get`, the remote server's wrapper of it; `Store`/`UnionStore` and only what they fetched during
+  the check), never an attribute or a set a caller can fill. The network is judged before and
   after a check, and the isolated collector nests and overlaps across threads without leaving its opener behind;
   it no longer touches `os.environ`. docs/policy.md, "Provenance" and "The collector's scope".
 - Security: the Codex Stop hook runs `python3 -I` / `python -I`, so `PYTHONPATH` from the environment loads nothing.

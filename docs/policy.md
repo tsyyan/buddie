@@ -242,12 +242,18 @@ answered. It does not say the answer is true, and a page can be observed and wro
   ended on `https://`. Everything else is *unknown*: snapshots already on disk (whatever their index says), bytes a
   caller `add()`ed, plain `http://` pages (anyone on the path may have answered), and copies from the access
   cascade (archives, relays, a browser, which take other routes). For a redirected page, the host that answered is
-  the one the request ended at; buddie does not judge the redirect chain.
+  the one the request ended at; buddie does not judge the redirect chain. Only what buddie's own store classes
+  (`Store`, `UnionStore`) fetch during the check counts: a subclass a caller hands in may record any bytes as
+  fetched, and a store's `collected` set filled before the check proves nothing.
 - **A `pr:`/`ci:` answer** is observed only when buddie's own `github_get` asked it, not a function a caller handed
   in, of `api.github.com` or the policy's `github_api`, with the network clean for the check. With
   `BUDDIE_GITHUB_API`, a proxy or a CA override from the environment, or a caller's function, it is *caller
   supplied*. A policy's `github_api` counts as observed because the administrator named it: buddie trusts the
   administrator's choice of endpoint, not anything about the endpoint itself.
+- **Which callback is buddie's own** is decided by identity, never by anything the callback carries:
+  `effects.github_get` itself, or a wrapper buddie's own code registered (`remote.public_github`, which only filters
+  `github_get`'s answers). Handing verify a callback, whatever its attributes, adds nothing to that list. Code that
+  runs inside buddie's interpreter could still change buddie itself; that is outside what provenance can describe.
 - **"Nothing in between"** is judged before and after the check (`evidence.network_clean`). Both must hold, so a
   collector that another thread starts or ends meanwhile cannot make an unclean fetch look clean.
 
