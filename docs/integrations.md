@@ -32,6 +32,7 @@ Two kinds of integration, and the difference matters:
 | ChatGPT (via the remote server) | `integrations/chatgpt/` | your remote server's URL | v0 only | not a gate |
 | CLI | `pyproject.toml` `buddie`, `buddie-verbatim` | `buddie verify report.md` | v0; v1 with `--receipt v1` | not a gate |
 | Python API | `buddie.verify`, `buddie.receipts` | `verify(text)`, `assessment(text, …)` | v0; v1 with `receipts.render(a, "v1")` | not a gate |
+| Environment snapshot | `buddie snapshot`, `buddie.environment` | `buddie snapshot --report report.md` | none: a separate document ([environment.md](environment.md)) | not a gate |
 
 ## Audit (PR #32)
 

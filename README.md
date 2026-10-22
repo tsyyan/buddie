@@ -215,6 +215,14 @@ the checks that ran, the ones that did not and why, the coverage (`FULL`, `PARTI
 provenance of the evidence. Its reference, JSON Schema and v0 mapping: [docs/receipts.md](docs/receipts.md). `PASS`
 in either never means that every statement of a report is true.
 
+## Environment snapshots
+
+`buddie snapshot` records what buddie itself observes of the place a check ran in: the interpreter, the commit HEAD
+names and whether the working tree differs from it, and the sha256 of files you name, each fact marked with what it
+rests on, an unobservable one marked unavailable, and what you state yourself (a command) kept apart and unchecked.
+`--report` pairs it with the receipt of the same report. It is not signed and no check reads it; what it does and
+does not show: [docs/environment.md](docs/environment.md).
+
 ## What we found
 
 **Deep-research reports quote wrongly.** On 929 checkable quotations from published deep-research reports, labelled
