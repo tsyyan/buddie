@@ -50,7 +50,7 @@ def _repo(tmp_path, monkeypatch, hours_ago: float):
     r = tmp_path / "repo"
     r.mkdir()
     for name, text in (("NEXT.md", QUEUE), ("ACCEPTED.md", ACCEPTED), ("buddie.toml", CONFIG)):
-        (r / name).write_text(text)
+        (r / name).write_text(text, encoding="utf-8")
     when = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(hours=hours_ago)
     env = dict(os.environ, GIT_COMMITTER_DATE=when.isoformat(), GIT_AUTHOR_DATE=when.isoformat())
     git = lambda *a: subprocess.run(["git", "-C", str(r), "-c", "user.name=t", "-c", "user.email=t@t", *a],
@@ -59,7 +59,7 @@ def _repo(tmp_path, monkeypatch, hours_ago: float):
     git("add", ".")
     git("commit", "-qm", "Merge pull request #1 from tsyyan/claude/x")
     sha = git("rev-parse", "--short", "HEAD")
-    (r / "PLAN.md").write_text("plan\n")  # a later commit that does not touch the queue
+    (r / "PLAN.md").write_text("plan\n", encoding="utf-8")  # a later commit that does not touch the queue
     subprocess.run(["git", "-C", str(r), "-c", "user.name=t", "-c", "user.email=t@t", "add", "."], check=True)
     subprocess.run(["git", "-C", str(r), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "plan"],
                    check=True)
@@ -93,7 +93,7 @@ def test_appeared_is_the_commit_that_brought_the_row(tmp_path, monkeypatch):
 
 def test_uncommitted_text_has_no_start(tmp_path, monkeypatch):
     r, _, _ = _repo(tmp_path, monkeypatch, 30)
-    (r / "NEXT.md").write_text(QUEUE.replace("Замерить через", "Замерить снова через"))
+    (r / "NEXT.md").write_text(QUEUE.replace("Замерить через", "Замерить снова через"), encoding="utf-8")
     m = man.Mandate(man.load_config(r))
     assert m.appeared(2) is None and m.verdict_now(2)["verdict"] == "ask"
 

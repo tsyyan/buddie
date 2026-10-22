@@ -125,16 +125,22 @@ class Store:
         self.root = Path(root or os.environ.get("VERBATIM_STORE") or DEFAULT_STORE)
         self.snapshots = self.root / "snapshots"
         self.index_path = self.root / "index.json"
+        self.collected: set[str] = set()  # sha256 of what fetch() itself received from the cited URL over https
 
     def index(self) -> dict[str, list[dict]]:
         if self.index_path.exists():
-            return json.loads(self.index_path.read_text())
+            raw = self.index_path.read_bytes()
+            try:
+                return json.loads(raw.decode("utf-8"))
+            except UnicodeDecodeError:  # an index an older version wrote in the locale's encoding (Windows)
+                import locale
+                return json.loads(raw.decode(locale.getpreferredencoding(False)))
         return {}
 
     def _write_index(self, index: dict) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         tmp = self.index_path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False) + "\n")
+        tmp.write_text(json.dumps(index, indent=1, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
         tmp.replace(self.index_path)
 
     def put(self, data: bytes) -> str:
@@ -174,9 +180,12 @@ class Store:
         request = urllib.request.Request(request_url(url), headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
-                return self.add(url, read_body(response), content_type=response.headers.get("Content-Type"),
-                                http_status=response.status, final_url=response.geturl(),
-                                content_encoding=response.headers.get("Content-Encoding"))
+                entry = self.add(url, read_body(response), content_type=response.headers.get("Content-Type"),
+                                 http_status=response.status, final_url=response.geturl(),
+                                 content_encoding=response.headers.get("Content-Encoding"))
+            if url.lower().startswith("https://") and str(entry.get("final_url", "")).lower().startswith("https://"):
+                self.collected.add(entry["sha256"])  # asked and answered over TLS: not add()ed, not plain http
+            return entry
         except urllib.error.HTTPError as error:
             return self.record(url, {"sha256": None, "fetched_at": now(), "http_status": error.code,
                                      "content_type": error.headers.get("Content-Type"), "final_url": url,

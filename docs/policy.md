@@ -164,15 +164,119 @@ Enforcement that does not depend on the agent's reach needs all of these at once
 The plugin as distributed gives observable failures and the policy's limits within its threat model. It does not give
 that guarantee.
 
+## Evidence
+
+A check is only as good as what it is judged on. The hook takes evidence from places it is told about, and the
+agent can tell it about most of them:
+
+| Variable | What it chooses | Who can set it |
+|---|---|---|
+| `BUDDIE_REPOS` | the checkouts `path#sha256` and `path@commit` are judged against | the hook's environment |
+| `VERBATIM_STORE`, `BUDDIE_STORES` | the snapshot stores quotes and numbers are judged against | the hook's environment |
+| (none) | stores the session named in its tool calls, `./.verbatim`, `sources/` the repos changed | the session itself |
+| `BUDDIE_LOG`, `BUDDIE_SHARED_LOG` | where the journal goes, or that it is off | the hook's environment |
+| `HTTPS_PROXY` and friends, `SSL_CERT_FILE`, `SSL_CERT_DIR` | who stands between the hook and a page or GitHub | the hook's environment |
+| `BUDDIE_GITHUB_API` | which server answers `pr:` and `ci:` (and receives the token) | the hook's environment |
+
+None of these is a person's decision, so none is taken as one once the policy's `[evidence]` table says so:
+
+```toml
+[evidence]
+repos = "event"          # only the git checkout around the event; BUDDIE_REPOS is set aside
+stores = "observed"      # quotes and numbers judged only on bytes the hook fetches in this check
+journal = "fixed"        # ~/.cache/buddie/hook.jsonl (and the cloud's shared folder); BUDDIE_LOG=0 does not turn it off
+collector = "isolated"   # the hook's fetches go direct, TLS verified without SSL_CERT_FILE / SSL_CERT_DIR
+github_api = "https://github.example.com/api/v3"   # GitHub Enterprise only; BUDDIE_GITHUB_API is set aside
+```
+
+**Each key left out keeps the behaviour without a policy** (`"environment"`, `"session"`, no `github_api`). That is
+different from the keys above, whose defaults are restrictive, and it is deliberate: a policy written before
+`[evidence]` existed decides exactly as it did. `buddie policy template` writes the restrictive values, except
+`stores`, which stays `"session"` because `"observed"` changes results (below). Refusals are journaled by name:
+`evidence.repos`, `evidence.stores`, `evidence.journal`, `evidence.collector`, `evidence.github_api`.
+
+What each key guarantees, and what it does not:
+- **`repos = "event"`** makes anchors be judged against the checkout the session is in, not a decoy that makes them
+  hold. The checkout is still the agent's to write: a file it edits, it can make match. The change then shows in
+  that repo's own diff, where the person looks.
+- **`stores = "observed"`** is the one that closes forged snapshots. Every snapshot store on the machine is a
+  directory the agent can write, and a snapshot is only bytes with a hash: a hash names bytes, not who served them.
+  With `"observed"` the hook makes an empty store for the check, fetches each cited page itself, and deletes the
+  store afterwards, so a quote is found only if the page says it now. The cost: a page that changed since it was
+  quoted, or that refuses the hook, is a gap (`NOT_FOUND` or `SOURCE_UNAVAILABLE`), where a session snapshot would
+  have held. With `BUDDIE_FETCH=0` or `network = "forbidden"` nothing is fetched and every quote is a gap, never a
+  pass.
+- **`journal = "fixed"`** keeps the record where the person looks for it and keeps the hook's environment from
+  turning it off. It does not make the journal tamper-evident: the agent can edit a file in the user's home.
+- **`collector = "isolated"`** makes the hook's own fetches (pages, GitHub) ignore proxies from the environment and
+  from the user's system settings, and the CA locations the environment names, so a local proxy cannot answer for
+  a site. TLS is verified against the system's CA store as installed (see "The collector's scope"), which on
+  Windows includes the user's own root store; a CA the person was prompted to add there is trusted. `http://`
+  pages are not authenticated by anyone. An installation that needs a proxy to reach the web cannot use
+  `"isolated"`.
+- **`github_api`** fixes the server `pr:` and `ci:` are asked of, and where either token may be sent (below).
+
+### The GitHub token
+
+`github_get` sends a token only where it belongs:
+- `BUDDIE_GITHUB_TOKEN` comes from the hook's environment, as `BUDDIE_GITHUB_API` does, so it may go to that API.
+- The plugin's token setting (`CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN`) is the person's. It goes only to
+  `api.github.com` or the policy's `github_api`, never to an API the environment named: otherwise an agent could
+  name its own server and receive it. A GitHub Enterprise installation that uses the plugin setting names its API
+  in the policy.
+- The token is an unredirected header, which urllib never copies to a redirect's target. An answer from another
+  origin than the API's (scheme, host and port) is not taken, and the anchor stays unchecked. A redirect on the
+  API's own origin (a renamed repo) is asked again there, with the token.
+- Requests go through the opener installed in the process: the remote server's guarded one, the hook's isolated
+  collector, or urllib's default.
+
+### Provenance
+
+Separately from the policy, buddie records how far each finding's evidence is known (`core.Provenance`, internal:
+receipt-v0 does not change, and no verdict or gate decision depends on it).
+
+*Collector observed* means one thing: buddie's own collector received these bytes during this check, over TLS,
+from the endpoint buddie chose, with nothing the environment set in between for the whole check. It says who
+answered. It does not say the answer is true, and a page can be observed and wrong.
+- **A snapshot** is observed only when this check's `Store.fetch` asked the cited `https://` URL and the response
+  ended on `https://`. Everything else is *unknown*: snapshots already on disk (whatever their index says), bytes a
+  caller `add()`ed, plain `http://` pages (anyone on the path may have answered), and copies from the access
+  cascade (archives, relays, a browser, which take other routes). For a redirected page, the host that answered is
+  the one the request ended at; buddie does not judge the redirect chain. Only what buddie's own store classes
+  (`Store`, `UnionStore`) fetch during the check counts: a subclass a caller hands in may record any bytes as
+  fetched, and a store's `collected` set filled before the check proves nothing.
+- **A `pr:`/`ci:` answer** is observed only when buddie's own `github_get` asked it, not a function a caller handed
+  in, of `api.github.com` or the policy's `github_api`, with the network clean for the check. With
+  `BUDDIE_GITHUB_API`, a proxy or a CA override from the environment, or a caller's function, it is *caller
+  supplied*. A policy's `github_api` counts as observed because the administrator named it: buddie trusts the
+  administrator's choice of endpoint, not anything about the endpoint itself.
+- **Which callback is buddie's own** is decided by identity, never by anything the callback carries:
+  `effects.github_get` itself, or a wrapper buddie's own code registered (`remote.public_github`, which only filters
+  `github_get`'s answers). Handing verify a callback, whatever its attributes, adds nothing to that list. Code that
+  runs inside buddie's interpreter could still change buddie itself; that is outside what provenance can describe.
+- **"Nothing in between"** is judged before and after the check (`evidence.network_clean`). Both must hold, so a
+  collector that another thread starts or ends meanwhile cannot make an unclean fetch look clean.
+
+### The collector's scope
+
+The isolated collector changes urllib's opener for the whole process while it is active: every urllib request of
+the process goes direct and verifies TLS against the system's CA store. The hook runs one process per event, so that
+scope is the event. Collectors nest and may overlap across threads. The first to start installs the opener, the
+last to end restores the one before, under a lock, after an exception too. Two overlapping collectors share one
+isolated opener. The CA store is built from OpenSSL's compiled-in file and directory, and on Windows the system's
+CA and ROOT stores; `SSL_CERT_FILE` and `SSL_CERT_DIR` are never read, and `os.environ` is never changed for it.
+Not covered:
+- `OPENSSL_CONF` and similar variables that OpenSSL reads when it starts;
+- a CA in the user's own Windows root store;
+- a Python interpreter installed where the agent can write (see "A trusted launcher").
+
 ## What it does not cover
 
 - **The hook's own launch and code**: see "A trusted launcher". A replaced `python3` on `PATH`, or edited plugin files,
   bypass buddie entirely. The policy cannot see them.
-- **Where evidence comes from.** `BUDDIE_REPOS` (which checkouts anchors are judged against), `VERBATIM_STORE` and
-  `BUDDIE_STORES` (which snapshots quotes are judged against) and `BUDDIE_LOG` come from the hook's environment, which
-  the agent can set. They cannot turn an unchecked claim into a checked one: a missing repo or snapshot is a gap. But
-  they choose the evidence a claim is judged on, and an agent that controls a store controls what "found" means.
-  Authorizing evidence sources is planned for PR #29.
+- **Local evidence is never trusted**, with or without `[evidence]`: repos, session snapshots, the journal and the
+  session transcript (`run:`, `choice:`) are files the agent can write. `[evidence]` controls who *chooses* them and
+  lets quotes be judged on fresh fetches; it does not make a local file the person's word.
 - **buddie's state and journal** live under the user's home directory, which the agent can write. An agent that
   forges the return state can make a pre-written `buddie:` line count as written after a return. A policy with
   `disclosure = false` closes that path: then only a fix lets a returned answer out.

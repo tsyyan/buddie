@@ -94,7 +94,10 @@ class Provenance(str, Enum):
     CALLER_SUPPLIED = "caller_supplied"          # handed in by whoever runs the check (a transcript path, a config)
     AGENT_WRITABLE = "agent_writable"            # a place the agent under check can write (the repo, its history,
                                                  # buddie's own journal and snapshot store on the same machine)
-    COLLECTOR_OBSERVED = "collector_observed"    # fetched by this check from a third party during the call
+    COLLECTOR_OBSERVED = "collector_observed"    # received by buddie's own collector during this check, over TLS,
+                                                 # from the endpoint buddie chose (the cited https URL, GitHub's API
+                                                 # or the policy's), with nothing the environment set in between.
+                                                 # Who answered, not whether the answer is true
     UNKNOWN = "unknown"                          # bytes whose origin this check cannot tell
 
 

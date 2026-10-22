@@ -65,22 +65,29 @@ def changed_sources(repo: Path) -> list[Path]:
     return out
 
 
-def session_stores(cwd: Path, repos: list[Path], transcript: str | None = None) -> list[Path]:
+def session_sources(cwd: Path, repos: list[Path], transcript: str | None = None) -> list:
+    """session_stores with who named each (evidence.Selected): the environment, the transcript, the event's cwd, a
+    repo. Every one of them is a directory the agent can write; the origin says who chose it, not that it is true."""
+    from buddie.evidence import Origin, Selected, env_paths
     bases = [cwd, *repos]
-    found = [Path(p) for p in os.environ.get("BUDDIE_STORES", "").split(os.pathsep) if p]
+    found = [(p, Origin.ENVIRONMENT) for p in env_paths("BUDDIE_STORES")]
     if os.environ.get("VERBATIM_STORE"):
-        found.append(Path(os.environ["VERBATIM_STORE"]))
-    found += named_in_transcript(transcript, bases)
-    found += [b / ".verbatim" for b in bases]
+        found.append((Path(os.environ["VERBATIM_STORE"]), Origin.ENVIRONMENT))
+    found += [(p, Origin.TRANSCRIPT) for p in named_in_transcript(transcript, bases)]
+    found += [(cwd / ".verbatim", Origin.EVENT)] + [(r / ".verbatim", Origin.REPO) for r in repos]
     for repo in repos:
-        found += changed_sources(repo)
+        found += [(p, Origin.REPO) for p in changed_sources(repo)]
     out, seen = [], set()
-    for p in found:
+    for p, origin in found:
         key = p.resolve()
         if key not in seen and (p / "index.json").is_file():
             seen.add(key)
-            out.append(p)
+            out.append(Selected("store", p, origin))
     return out
+
+
+def session_stores(cwd: Path, repos: list[Path], transcript: str | None = None) -> list[Path]:
+    return [s.path for s in session_sources(cwd, repos, transcript)]
 
 
 class UnionStore(Store):

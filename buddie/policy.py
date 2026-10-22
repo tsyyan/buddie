@@ -21,7 +21,9 @@ one, the person installs it with their own elevation (docs/policy.md).
 What it can say. A policy only sets limits for the sources below it (buddie.toml, the environment, plugin options):
 a floor for each gate class (they may make a class stricter, never weaker), whether they may turn the intro mode on,
 set the final mark, change transcript reading, keep conversation words in the journal, turn return tracking off, or
-name a command to run; whether a `buddie:` line may let a returned answer out; whether buddie may use the network.
+name a command to run; whether a `buddie:` line may let a returned answer out; whether buddie may use the network;
+and where the hook may take its evidence from ([evidence]: which repos, which snapshot stores, where the journal
+goes, whether fetches follow the environment's proxy and CA settings, which GitHub API answers pr: and ci:).
 With no policy buddie behaves as before. A policy grants nothing that buddie without one would not do, so a policy
 someone else managed to plant can at most leave things as they were.
 
@@ -67,6 +69,14 @@ class Policy:
     project_state: bool = False          # may BUDDIE_STATE=0 turn return tracking off
     free_command: str | None = None      # the only launch free command when ACTIVE (BUDDIE_FREE is ignored)
     network: str = "allowed"             # "allowed" (as below sources set), "forbidden" (no fetch, no GitHub)
+    # [evidence] (buddie/evidence.py): where the hook's evidence may come from. Unlike the keys above, each default
+    # is the behaviour without a policy, so a policy written before [evidence] existed decides exactly as it did;
+    # the template sets the restrictive values
+    repos: str = "environment"           # "event": only the checkout around the event, BUDDIE_REPOS set aside
+    stores: str = "session"              # "observed": quotes and numbers judged only on bytes fetched in the check
+    journal: str = "environment"         # "fixed": the default places, BUDDIE_LOG / BUDDIE_SHARED_LOG set aside
+    collector: str = "environment"       # "isolated": the hook's fetches take no proxy or CA from the environment
+    github_api: str | None = None        # the API for pr:/ci: (BUDDIE_GITHUB_API then set aside); None: as below
 
 
 # INVALID: every class that judges a claim blocks, nothing is granted to the sources below (no intro, no final mark,
@@ -137,7 +147,7 @@ def parse(data: dict) -> Policy:
     if data.get("version") != VERSION:
         raise ValueError(f"unsupported version {data.get('version')!r} (this buddie reads version {VERSION})")
     known = {"version", "gates", "project", "final_mark", "transcript", "journal_text", "disclosure", "free_command",
-             "network"}
+             "network", "evidence"}
     if extra := sorted(set(data) - known):
         raise ValueError(f"unknown keys: {', '.join(extra)}")
     floors = data.get("gates", {})
@@ -162,6 +172,19 @@ def parse(data: dict) -> Policy:
             raise ValueError(f"{key}: a string")
     if not isinstance(data.get("disclosure", True), bool):
         raise ValueError("disclosure: true or false")
+    evidence = data.get("evidence", {})
+    choices = {"repos": ("environment", "event"), "stores": ("session", "observed"),
+               "journal": ("environment", "fixed"), "collector": ("environment", "isolated")}  # the default first
+    if not isinstance(evidence, dict) or (bad := sorted(set(evidence) - set(choices) - {"github_api"})):
+        raise ValueError(f"[evidence]: {', '.join(bad) if isinstance(evidence, dict) else 'not a table'}: keys "
+                         f"{', '.join([*choices, 'github_api'])}")
+    for key, values in choices.items():
+        if evidence.get(key, values[0]) not in values:
+            raise ValueError(f"[evidence] {key} = {evidence[key]!r}: one of {', '.join(values)}")
+    api = evidence.get("github_api")
+    if api is not None and (not isinstance(api, str) or not api.startswith("https://")
+                            or any(c.isspace() or c in "?#" for c in api)):
+        raise ValueError(f"[evidence] github_api = {api!r}: an https:// URL")
     if mark is not None:
         import re
         try:
@@ -173,7 +196,8 @@ def parse(data: dict) -> Policy:
                   transcript=one_of("transcript", ("required", "forbidden", "project"), "project"),
                   journal_text=one_of("journal_text", ("forbidden", "project"), "forbidden"),
                   disclosure=data.get("disclosure", True), project_state=project.get("state", False),
-                  free_command=free, network=one_of("network", ("allowed", "forbidden"), "allowed"))
+                  free_command=free, network=one_of("network", ("allowed", "forbidden"), "allowed"),
+                  **{k: evidence.get(k, v[0]) for k, v in choices.items()}, github_api=api.rstrip("/") if api else None)
 
 
 def load(path: Path | None = None) -> Loaded:
@@ -229,6 +253,17 @@ def snapshot():
         _SNAPSHOT.reset(token)
 
 
+@contextmanager
+def held():
+    """The snapshot already in force (a hook event's), else one for the block: a CLI or MCP check reads the policy
+    once, not once per question it asks of it."""
+    if (got := _SNAPSHOT.get()) is not None:
+        yield got
+        return
+    with snapshot() as got:
+        yield got
+
+
 TEMPLATE = f"""# buddie protected policy (docs/policy.md). Install it where only an administrator can write:
 #   Linux, macOS:  sudo install -d -o root -m 0755 /etc/buddie
 #                  sudo install -o root -m 0644 policy.toml /etc/buddie/policy.toml
@@ -254,4 +289,13 @@ numbers = "warn"
 intro = false        # the intro mode, in which every return is only a warning
 final_mark = false   # which answers are final ([mandate] final_mark, BUDDIE_FINAL)
 state = false        # BUDDIE_STATE=0, which stops buddie telling a `buddie:` line written before a return from one after
+
+# Where the hook's evidence may come from (docs/policy.md, "Evidence"). The environment and the repo are the agent's.
+# A key left out keeps the behaviour without a policy ("environment", "session"); these are the restrictive values.
+[evidence]
+repos = "event"          # only the checkout around the event; "environment": BUDDIE_REPOS may name other repos
+stores = "session"       # "observed": quotes and numbers judged only on bytes the hook fetches in this check
+journal = "fixed"        # the default journal places; "environment": BUDDIE_LOG / BUDDIE_SHARED_LOG may move it
+collector = "isolated"   # no proxy or CA location from the environment; "environment": as the environment says
+# github_api = "https://github.example.com/api/v3"   # GitHub Enterprise; BUDDIE_GITHUB_API is ignored
 """

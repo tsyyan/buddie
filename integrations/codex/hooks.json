@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${PLUGIN_ROOT}/run.py\" hook",
-            "commandWindows": "python \"${PLUGIN_ROOT}/run.py\" hook",
+            "command": "python3 -I \"${PLUGIN_ROOT}/run.py\" hook",
+            "commandWindows": "python -I \"${PLUGIN_ROOT}/run.py\" hook",
             "timeout": 120,
             "statusMessage": "buddie: checking the answer"
           }

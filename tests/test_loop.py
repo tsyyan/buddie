@@ -29,7 +29,7 @@ def _transcript(path, calls):
             {"type": "tool_use", "id": f"toolu_{i}", "name": "Bash", "input": {"command": cmd}}]}})
         rows.append({"type": "user", "message": {"content": [
             {"type": "tool_result", "tool_use_id": f"toolu_{i}", "content": out}]}})
-    path.write_text("\n".join(json.dumps(r) for r in rows))
+    path.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
     return str(path)
 
 
@@ -41,7 +41,7 @@ def _send(text, session="s1", transcript=None, cwd="."):
 
 
 def _log(env):
-    return [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()]
+    return [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()]
 
 
 def test_pass_through_proof_is_journaled(env):
@@ -148,7 +148,7 @@ def test_ready_run_anchor_never_offers_an_echo(tmp_path):
 
 def test_hooks_json_has_session_start():
     from pathlib import Path
-    cfg = json.loads((Path(__file__).resolve().parents[1] / "hooks" / "hooks.json").read_text())
+    cfg = json.loads((Path(__file__).resolve().parents[1] / "hooks" / "hooks.json").read_text(encoding="utf-8"))
     assert "SessionStart" in cfg["hooks"]
 
 
@@ -193,7 +193,8 @@ def test_session_start_and_empty_stop_write_heartbeats(env):
     assert hook.run({"hook_event_name": "SessionStart", "session_id": "hb", "source": "startup"}) == 0
     t = env / "empty.jsonl"
     t.write_text(json.dumps({"type": "assistant", "message": {"content": [
-        {"type": "tool_use", "id": "toolu_0", "name": "mcp__hearthbot__reply", "input": {"text": "x"}}]}}))
+        {"type": "tool_use", "id": "toolu_0", "name": "mcp__hearthbot__reply", "input": {"text": "x"}}]}}),
+            encoding="utf-8")
     assert hook.run({"hook_event_name": "Stop", "session_id": "hb", "transcript_path": str(t)}, io.StringIO()) == 0
     assert hook.run({"hook_event_name": "Stop", "session_id": "hb", "stop_hook_active": True}, io.StringIO()) == 0
     start, stop, again = _log(env)
@@ -210,5 +211,5 @@ def test_session_start_and_empty_stop_write_heartbeats(env):
 def test_heartbeat_goes_to_shared_folder(env, monkeypatch):
     monkeypatch.setenv("BUDDIE_SHARED_LOG", str(env / "shared"))
     hook.run({"hook_event_name": "SessionStart", "session_id": "hb2"})
-    line = json.loads((env / "shared" / "hb2.jsonl").read_text())
+    line = json.loads((env / "shared" / "hb2.jsonl").read_text(encoding="utf-8"))
     assert line["event"] == "SessionStart" and line["beat"]

@@ -50,7 +50,8 @@ def repo(tmp_path):
     path.mkdir()
     (path / "buddie.toml").write_text(CONFIG, encoding="utf-8")
     (path / "data.txt").write_bytes(b"hello\n")
-    (path / "messages.jsonl").write_text("".join(json.dumps(m, ensure_ascii=False) + "\n" for m in MESSAGES))
+    (path / "messages.jsonl").write_text("".join(json.dumps(m, ensure_ascii=False) + "\n" for m in MESSAGES),
+        encoding="utf-8")
     (path / "ACCEPTED.md").write_text("| Область | Слова |\n|---|---|\n| `PLAN этап 0-3` | x |\n| `audit/07 §2` | x |\n",
                                       encoding="utf-8")
     subprocess.run(["git", "init", "-q", str(path)], check=True)

@@ -163,7 +163,8 @@ def public_github(get):
             if base.get("private") is not False or str(base.get("full_name", "")).lower() != slug:
                 return None
         return data
-    return public_get
+    from buddie import effects
+    return effects._own_wrapper(public_get, get)  # buddie's own collection when `get` is (only filters its answers)
 
 
 def budgeted(tool):
@@ -212,7 +213,7 @@ def source_text(args: dict) -> tuple[dict, bool]:
 
 HANDLERS = {"verify_report": budgeted(verify_report), "snap": budgeted(snap),
             "source_text": budgeted(source_text)}
-_DROP = {"verify_report": {"path", "repos", "store", "transcript", "access"}, "snap": {"store"},
+_DROP = {"verify_report": {"path", "repos", "store", "transcript", "access", "modules"}, "snap": {"store"},
          "source_text": {"store"}}
 
 

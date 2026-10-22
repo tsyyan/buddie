@@ -45,25 +45,30 @@ def _reason(word: str, fact: Fact) -> ReasonCode:
     return ReasonCode.UNKNOWN_VERDICT if fact is Fact.UNRECOGNIZED else REASONS[word]
 
 
-def _snapshot(row: dict) -> tuple[EvidenceRef, ...]:
-    """The snapshot a quote or a number was judged on. Its origin is UNKNOWN: the store is a directory that a
-    fetch in this call, an earlier `snap`, or anyone with write access may have filled."""
+def _snapshot(row: dict, observed=frozenset()) -> tuple[EvidenceRef, ...]:
+    """The snapshot a quote or a number was judged on. Bytes this check fetched itself from the cited URL over
+    https, over a network nothing in the environment stood in (`observed`, verify.assess; Store.collected), are
+    COLLECTOR_OBSERVED: buddie received them over TLS from the host the request ended at, which says nothing of
+    whether the page is right. Any other snapshot's origin is UNKNOWN: a store is a directory an earlier `snap`, the
+    agent or anyone with write access may have filled, whatever its index says of itself (`source`); a plain http
+    page may have come from anyone on the path; an archive, a relay or a browser copy came by another way."""
     if not row.get("sha256"):
         return ()
-    return (EvidenceRef("snapshot", row.get("url") or "", Provenance.UNKNOWN, digest=row["sha256"],
+    provenance = Provenance.COLLECTOR_OBSERVED if row["sha256"] in observed else Provenance.UNKNOWN
+    return (EvidenceRef("snapshot", row.get("url") or "", provenance, digest=row["sha256"],
                         source=row.get("provenance"), observed_at=row.get("fetched_at")),)
 
 
-def quote(row: dict) -> Finding:
+def quote(row: dict, observed=frozenset()) -> Finding:
     fact = quote_fact(row["verdict"])
     return Finding(Check.QUOTE, row.get("quote", ""), row["verdict"], fact, _reason(row["verdict"], fact),
-                   _snapshot(row), row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
+                   _snapshot(row, observed), row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
 
 
-def number(row: dict) -> Finding:
+def number(row: dict, observed=frozenset()) -> Finding:
     fact = number_fact(row["verdict"])
     return Finding(Check.NUMBER, row.get("text", ""), row["verdict"], fact, _reason(row["verdict"], fact),
-                   _snapshot(row), row.get("line"), None, tuple(row.get("doubts") or ()))
+                   _snapshot(row, observed), row.get("line"), None, tuple(row.get("doubts") or ()))
 
 
 def anchor_check(anchor: str) -> Check:
@@ -89,14 +94,29 @@ def anchor_check(anchor: str) -> Check:
 ANCHOR_EVIDENCE = {
     Check.FILE_ANCHOR: ("file", Provenance.AGENT_WRITABLE),        # the working tree
     Check.COMMIT_ANCHOR: ("git_commit", Provenance.AGENT_WRITABLE),  # local history: the agent can commit
-    Check.PR_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # asked of GitHub during this check
-    Check.CI_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),
+    Check.PR_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # asked of GitHub during this check, when
+    Check.CI_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # github_provenance says so
     Check.RUN_ANCHOR: ("transcript", Provenance.CALLER_SUPPLIED),   # the session log the caller pointed to
     Check.CHOICE_ANCHOR: ("journal", Provenance.AGENT_WRITABLE),    # buddie's journal, a file on the same machine
 }
 
 
-def anchor(row: dict) -> Finding:
+def github_provenance(collected: bool | None = None) -> Provenance:
+    """What a pr:/ci: answer is. COLLECTOR_OBSERVED only when all of these hold: buddie's own GET asked
+    (effects.github_get; not a function a caller handed in), over a network nothing in the environment stood in
+    for the whole check, of the default API or the protected policy's github_api. That says buddie received the
+    answer from that endpoint over TLS; it does not say the answer is right, and a policy's github_api is trusted
+    because the administrator named it. Anything less is CALLER_SUPPLIED: whoever named the API, routed the request
+    or wrote the GET function may have written the answer. `collected`: the first two, as verify.assess judged
+    them for the check; None (a finding built outside a check) asks the network as it is now."""
+    from buddie import evidence
+    if collected is None:
+        collected = evidence.network_clean()
+    _, chosen = eff.api()
+    return Provenance.COLLECTOR_OBSERVED if collected and chosen != "environment" else Provenance.CALLER_SUPPLIED
+
+
+def anchor(row: dict, github_collected: bool | None = None) -> Finding:
     check, status = anchor_check(row["anchor"]), row["status"]
     fact = status_fact(status)
     if fact is Fact.UNRECOGNIZED:
@@ -110,6 +130,8 @@ def anchor(row: dict) -> Finding:
     evidence = ()
     if fact in (Fact.SUPPORTED, Fact.CONTRADICTED) and check in ANCHOR_EVIDENCE:
         kind, provenance = ANCHOR_EVIDENCE[check]
+        if provenance is Provenance.COLLECTOR_OBSERVED:
+            provenance = github_provenance(github_collected)
         where = f"{row['repo']}:{row['anchor']}" if row.get("repo") else row["anchor"]
         evidence = (EvidenceRef(kind, where, provenance, observed_at=row.get("at")),)
     return Finding(check, row["anchor"], status, fact, reason, evidence, row.get("line"), row.get("why"))
@@ -125,18 +147,21 @@ def work_claim(row: dict) -> Finding:
                    row.get("why"))
 
 
-def from_rows(quotes=(), anchors=(), claims=(), numbers=()) -> list[Finding]:
-    return ([quote(r) for r in quotes] + [number(r) for r in numbers] + [anchor(r) for r in anchors]
-            + [work_claim(c) for c in claims])
+def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset(),
+              github_collected: bool | None = None) -> list[Finding]:
+    """observed: sha256 of the snapshots this check fetched itself (see _snapshot); github_collected: whether its
+    pr:/ci: answers are buddie's own collection over a clean network (see github_provenance)."""
+    return ([quote(r, observed) for r in quotes] + [number(r, observed) for r in numbers]
+            + [anchor(r, github_collected) for r in anchors] + [work_claim(c) for c in claims])
 
 
 def coverage(findings: list[Finding], *, quotes: bool, numbers: str, mandate_off: bool, mandate_config: bool,
              short_quotes: int = 0, unlinked_terms: int = 0, unanchored_lines: int = 0,
-             prose_claims: int = 0) -> Coverage:
+             prose_claims: int = 0, modules_off=()) -> Coverage:
     checked: dict[Check, int] = {}
     for f in findings:
         checked[f.check] = checked.get(f.check, 0) + 1
-    skipped = []
+    skipped = [Skip(f"module:{m}", "not selected") for m in modules_off]
     if not quotes:
         skipped.append(Skip("quotes", "off: anchors only"))
     if not quotes or numbers == "off":

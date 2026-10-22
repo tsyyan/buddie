@@ -51,9 +51,9 @@ def _git(repo, *args):
 def repo(tmp_path, monkeypatch):
     r = tmp_path / "repo"
     r.mkdir()
-    (r / "NEXT.md").write_text(QUEUE)
-    (r / "ACCEPTED.md").write_text(ACCEPTED)
-    (r / "buddie.toml").write_text(CONFIG)
+    (r / "NEXT.md").write_text(QUEUE, encoding="utf-8")
+    (r / "ACCEPTED.md").write_text(ACCEPTED, encoding="utf-8")
+    (r / "buddie.toml").write_text(CONFIG, encoding="utf-8")
     _git(tmp_path, "init", "-q", str(r))
     _git(r, "-c", "user.name=t", "-c", "user.email=t@t", "add", ".")
     _git(r, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "queue")
@@ -76,7 +76,8 @@ def _merge(repo, n):
 
 def _transcript(tmp, text, name="t.jsonl"):
     p = Path(tmp) / name
-    p.write_text(json.dumps({"type": "assistant", "message": {"content": [{"type": "text", "text": text}]}}) + "\n")
+    p.write_text(json.dumps({"type": "assistant", "message": {"content": [{"type": "text", "text": text}]}}) + "\n",
+        encoding="utf-8")
     return str(p)
 
 
@@ -95,7 +96,7 @@ def _launch(session, tool_input, tool="Agent"):
 
 
 def _journal(tmp, key):
-    return [e for e in map(json.loads, (Path(tmp) / "hook.jsonl").read_text().splitlines()) if key in e]
+    return [e for e in map(json.loads, (Path(tmp) / "hook.jsonl").read_text(encoding="utf-8").splitlines()) if key in e]
 
 
 def test_extract_recorded_texts():
@@ -221,7 +222,8 @@ def test_live_launch_events(repo, tmp_path, monkeypatch):
 def test_ready_anchor_names_main_not_the_branch(repo, tmp_path):
     main = _git(repo, "rev-parse", "--short", "HEAD")
     _git(repo, "update-ref", "refs/remotes/origin/main", "HEAD")
-    (repo / "NEXT.md").write_text(QUEUE.replace("дальше | t | PLAN этап 1 ← №1 | предложено", "дальше | t | PLAN этап 1 ← №1 | запущено"))
+    (repo / "NEXT.md").write_text(QUEUE.replace("дальше | t | PLAN этап 1 ← №1 | предложено", "дальше | t | PLAN этап 1 ← №1 | запущено"),
+        encoding="utf-8")
     _git(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qam", "№42 запущено")  # the working branch
     code, err = _launch("s", {"description": "№42 продолжить этап дальше", "prompt": "Сделай строку №42."})
     assert code == 2 and f"`⚓ NEXT.md@{main}`" in err and "not «предложено»" not in err
@@ -239,7 +241,7 @@ def _comment(sha, n, free, reasons=()):
 @pytest.fixture
 def merged_repo(repo, tmp_path, monkeypatch):
     from buddie import effects
-    (repo / "buddie.toml").write_text(CONFIG + 'comment = "automerge: слито как"\n')
+    (repo / "buddie.toml").write_text(CONFIG + 'comment = "automerge: слито как"\n', encoding="utf-8")
     _git(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qam", "config")
     _git(repo, "remote", "add", "origin", "https://github.com/tsyyan/lab.git")
     short = _merge(repo, 104)
@@ -269,7 +271,8 @@ def test_a_free_command_in_the_repos_buddie_toml_never_runs(merged_repo, repo, t
     short, _, _ = merged_repo
     ran = tmp_path / "ran"
     cmd = f'"{sys.executable}" -c "open(r\'{ran}\', \'w\')"'
-    (repo / "buddie.toml").write_text((repo / "buddie.toml").read_text() + f"free = '''{cmd}'''\n")
+    (repo / "buddie.toml").write_text((repo / "buddie.toml").read_text(encoding="utf-8") + f"free = '''{cmd}'''\n",
+        encoding="utf-8")
     monkeypatch.setenv("BUDDIE_GITHUB", "0")
     assert _launch("s", {"description": "№2", "prompt": f"`⚓ NEXT.md@{short}`"}) == (0, "")
     assert not ran.exists()
@@ -280,7 +283,7 @@ def test_free_command_after_the_comment_and_without_it(merged_repo, tmp_path, mo
     comments["/repos/tsyyan/lab/issues/104/comments?per_page=100"] = [_comment(sha, 2, True)]
     taken = tmp_path / "taken.py"
     taken.write_text("import json, sys\nprint(json.dumps({'n': int(sys.argv[1]), 'free': False, "
-                     "'reasons': ['ветка claude/y отметила строку']}))\nsys.exit(1)\n")
+                     "'reasons': ['ветка claude/y отметила строку']}))\nsys.exit(1)\n", encoding="utf-8")
     monkeypatch.setenv("BUDDIE_FREE", f"python3 {taken} {{n}}")
     # the comment's free: true is as of the merge; a branch that took the row since is found by the command
     code, err = _launch("s", {"description": "№2", "prompt": f"`⚓ NEXT.md@{short}`"})

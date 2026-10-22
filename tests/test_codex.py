@@ -61,3 +61,40 @@ def test_codex_plugin_server_does_not_judge_against_its_own_repo(tmp_path, monke
         assert path.startswith("./") and (ROOT / path).exists()
     hooks = json.loads((ROOT / manifest["hooks"]).read_text(encoding="utf-8"))["hooks"]
     assert set(hooks) == {"Stop"} and "${PLUGIN_ROOT}/run.py" in hooks["Stop"][0]["hooks"][0]["command"]
+
+
+# --- the hook command: Python isolated (-I) -----------------------------------------------------------------------
+
+def _codex_hook(windows: bool) -> list[str]:
+    """The Codex Stop hook's command as argv, with this interpreter for python3/python."""
+    import shlex
+    import sys
+    spec = json.loads((ROOT / "integrations" / "codex" / "hooks.json").read_text(encoding="utf-8"))
+    hook_def = spec["hooks"]["Stop"][0]["hooks"][0]
+    line = hook_def["commandWindows" if windows else "command"].replace("${PLUGIN_ROOT}", ROOT.as_posix())
+    argv = shlex.split(line)
+    assert argv[0] == ("python" if windows else "python3")
+    return [sys.executable, *argv[1:]]
+
+
+def test_the_codex_hook_runs_python_isolated(tmp_path):
+    """A project's settings can set PYTHONPATH for the hook; with -I nothing on it loads into buddie, and the hook
+    still answers (run.py puts its own folder on sys.path). Without -I the injected module runs first."""
+    import os
+    import subprocess
+    inject = tmp_path / "inject"
+    inject.mkdir()
+    marker = tmp_path / "loaded"
+    (inject / "sitecustomize.py").write_text(f"open(r'{marker}', 'w').write('x')\n", encoding="utf-8")
+    env = {**os.environ, "PYTHONPATH": str(inject), "BUDDIE_LOG": str(tmp_path / "h.jsonl"), "BUDDIE_FETCH": "0",
+           "BUDDIE_GITHUB": "0", "BUDDIE_STATE": str(tmp_path / "p"), "BUDDIE_LESSONS": "0"}
+    event = json.dumps({"hook_event_name": "Stop", "session_id": "s", "cwd": str(tmp_path),
+                        "last_assistant_message": "Nothing to check here."}).encode()
+    for windows in (False, True):
+        argv = _codex_hook(windows)
+        assert argv[1] == "-I"
+        got = subprocess.run(argv, input=event, capture_output=True, env=env, timeout=120)
+        assert got.returncode == 0 and not marker.exists(), got.stderr
+    unisolated = [a for a in _codex_hook(False) if a != "-I"]
+    subprocess.run(unisolated, input=event, capture_output=True, env=env, timeout=120)
+    assert marker.exists()  # what -I prevents

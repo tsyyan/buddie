@@ -166,7 +166,7 @@ def test_hook_final_answer_must_carry_its_numbers(store, repo, monkeypatch, tmp_
     monkeypatch.setenv("BUDDIE_FINAL", "")
     event["tool_input"]["text"] = "Done: 3 из 4.\n\nСледующий шаг: rerun."
     assert hook.run(event, io.StringIO()) == 0
-    logged = [json.loads(x) for x in (tmp_path / "hook.jsonl").read_text().splitlines()]
+    logged = [json.loads(x) for x in (tmp_path / "hook.jsonl").read_text(encoding="utf-8").splitlines()]
     assert [x["exit"] for x in logged] == [2, 0, 0, 0, 0] and logged[0]["final"] is True
 
 
@@ -180,15 +180,15 @@ def test_plugin_default_final_answer_is_the_last_message_at_stop(store, repo, mo
     transcript = tmp_path / "t.jsonl"
     rows = [{"type": "user", "message": {"content": "go"}},
             {"type": "assistant", "message": {"content": [{"type": "text", "text": "Done: 3 of 4 checks pass."}]}}]
-    transcript.write_text("\n".join(json.dumps(r) for r in rows))
+    transcript.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
     stop = {"hook_event_name": "Stop", "transcript_path": str(transcript), "cwd": str(tmp_path)}
     err = io.StringIO()
     assert hook.run(stop, err) == 2 and "no anchor" in err.getvalue()
     reply = {"hook_event_name": "PreToolUse", "tool_name": "SendMessage", "cwd": str(tmp_path),
              "tool_input": {"message": "Done: 3 of 4 checks pass.\n\nСледующий шаг: rerun."}}
     assert hook.run(reply, io.StringIO()) == 0  # a message to another session is not the final answer by default
-    (path / "buddie.toml").write_text('[mandate]\nfinal_mark = "Следующий шаг:"\n')
-    (path / "NEXT.md").write_text("| # | Step | From | Basis | Status |\n|---|---|---|---|---|\n")
+    (path / "buddie.toml").write_text('[mandate]\nfinal_mark = "Следующий шаг:"\n', encoding="utf-8")
+    (path / "NEXT.md").write_text("| # | Step | From | Basis | Status |\n|---|---|---|---|---|\n", encoding="utf-8")
     assert hook.final_mark(reply) == "Следующий шаг:"
     assert hook.run(reply, io.StringIO()) == 2
     monkeypatch.setenv("BUDDIE_FINAL", "")
@@ -201,7 +201,7 @@ def test_hook_stop_reads_transcript_and_never_loops(store, monkeypatch, tmp_path
     rows = [{"type": "user", "message": {"content": "go"}},
             {"type": "assistant", "message": {"content": [{"type": "text", "text": BAD}]}},
             {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "x"}]}}]
-    transcript.write_text("\n".join(json.dumps(r) for r in rows))
+    transcript.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
     event = {"hook_event_name": "Stop", "transcript_path": str(transcript), "cwd": str(tmp_path)}
     assert hook.run(event, io.StringIO()) == 2
     assert hook.run(dict(event, stop_hook_active=True), io.StringIO()) == 0
@@ -216,10 +216,10 @@ def test_launcher_serves_over_stdio(store):
 
 def test_plugin_manifests_parse():
     for rel in (".claude-plugin/plugin.json", ".mcp.json", "hooks/hooks.json"):
-        json.loads((ROOT / rel).read_text())
+        json.loads((ROOT / rel).read_text(encoding="utf-8"))
     # lab keeps the marketplace at its root; the public buddie repo is plugin and marketplace at once
     home = ROOT if (ROOT / ".claude-plugin" / "marketplace.json").is_file() else ROOT.parents[1]
-    market = json.loads((home / ".claude-plugin" / "marketplace.json").read_text())
+    market = json.loads((home / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
     assert (home / market["plugins"][0]["source"] / ".claude-plugin" / "plugin.json").is_file()
 
 
@@ -282,7 +282,7 @@ def test_e016_de7a5d_quote_backed_numbers_are_not_returned(tmp_path, monkeypatch
     path = tmp_path / "store"
     page = "http://127.0.0.1:8765/t04/acme.html"
     Store(path).add(page, (E016 / "pages" / "t04" / "acme.html").read_bytes(), content_type="text/html")
-    text = json.loads((E016 / "results" / "runs.json").read_text())["de7a5d"]["reports"][0]
+    text = json.loads((E016 / "results" / "runs.json").read_text(encoding="utf-8"))["de7a5d"]["reports"][0]
     pred = verify(text, store=str(path), fetch=False, mandate=False)["predicate"]
     assert pred["summary"]["quotes"] == {"FOUND": 3} and pred["quote_backed"] == [3, 4, 6]
     assert pred["unanchored"] == [] and not hook.unbacked(pred)
@@ -339,6 +339,6 @@ def test_one_version_everywhere():
     from pathlib import Path
     from buddie import __version__
     root = Path(__file__).parents[1]
-    assert tomllib.loads((root / "pyproject.toml").read_text())["project"]["version"] == __version__
+    assert tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"] == __version__
     plugin = root / ".claude-plugin" / "plugin.json"
-    assert json.loads(plugin.read_text())["version"] == __version__
+    assert json.loads(plugin.read_text(encoding="utf-8"))["version"] == __version__

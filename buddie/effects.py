@@ -25,7 +25,9 @@ import json
 import os
 import re
 import urllib.error
+import urllib.parse
 import urllib.request
+import weakref
 from pathlib import Path
 
 HOLDS, BROKEN, UNCHECKABLE = "HOLDS", "BROKEN", "UNCHECKABLE"
@@ -41,7 +43,21 @@ OK_CONCLUSIONS = {"success", "neutral", "skipped"}
 # tools that carry the report or write a file, not runs; SubagentHandback hands a subagent's report back (E017)
 NOT_RUNS = re.compile(r"^(mcp__hearthbot__|mcp__claude-code-remote__send_message$|SendMessage$|SubagentHandback$|"
                       r"Write$|Edit$|NotebookEdit$)")
-API = os.environ.get("BUDDIE_GITHUB_API", "https://api.github.com")
+DEFAULT_API = "https://api.github.com"
+ENV_API = os.environ.get("BUDDIE_GITHUB_API")  # GitHub Enterprise; the hook's environment, so the agent's to set
+API = ENV_API or DEFAULT_API
+
+
+def api() -> tuple[str, str]:
+    """The API base pr:/ci: are asked of, and who chose it: "policy" (the protected policy's [evidence]
+    github_api, which sets BUDDIE_GITHUB_API aside), "environment" (BUDDIE_GITHUB_API) or "default". The token goes
+    only there, so an API from the environment is also where the token goes (findings.py does not count its answers
+    as observed from GitHub)."""
+    from buddie import policy
+    limits = policy.current().effective
+    if limits is not None and limits.github_api:
+        return limits.github_api, "policy"
+    return API, "environment" if API != DEFAULT_API else "default"
 
 
 def is_effect(anchor: str) -> bool:
@@ -106,25 +122,78 @@ class GitHubUnavailable(Exception):
     pass
 
 
+def _origin(url: str) -> tuple:
+    u = urllib.parse.urlsplit(url)
+    scheme = u.scheme.lower()
+    return scheme, (u.hostname or "").lower(), u.port or {"https": 443, "http": 80}.get(scheme)
+
+
 def github_get(path: str) -> dict | None:
-    """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see)."""
+    """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see).
+
+    The token goes only to the API it belongs with. BUDDIE_GITHUB_TOKEN comes from the hook's environment, as
+    BUDDIE_GITHUB_API does, so it may go to that API. The plugin's token setting is the person's and goes only to
+    the default API or the protected policy's github_api, never to one the environment named (the agent could name
+    its own server and receive it). It is sent as an unredirected header, which urllib never copies to a redirect's
+    target; an answer that came from another origin than the API's (scheme, host, port) is not taken
+    (GitHubUnavailable: the anchor stays unchecked). A redirect on the API's own origin, as a renamed repo's, is
+    asked again there with the token. The request goes through urllib's installed opener: the remote server's
+    guarded one, the hook's isolated collector, or urllib's default."""
     from buddie.verbatim.store import read_body
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "buddie"}
+    base, chosen = api()
+    home = _origin(base)
     # only a token given to buddie by name: BUDDIE_GITHUB_TOKEN, or the plugin setting (Claude Code exports userConfig
     # as CLAUDE_PLUGIN_OPTION_*). An ambient GITHUB_TOKEN is never picked up and sent (1.1); in CI set
     # BUDDIE_GITHUB_TOKEN: ${{ github.token }}. An unset option may arrive as the literal placeholder: skip it.
-    tokens = (os.environ.get(k, "") for k in ("BUDDIE_GITHUB_TOKEN", "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN"))
-    if token := next((v for v in tokens if v and not v.startswith("${")), None):
-        headers["Authorization"] = f"Bearer {token}"
-    try:
-        with urllib.request.urlopen(urllib.request.Request(API + path, headers=headers), timeout=20) as r:
+    names = ("BUDDIE_GITHUB_TOKEN",) + (("CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN",) if chosen != "environment" else ())
+    token = next((v for v in (os.environ.get(k, "") for k in names) if v and not v.startswith("${")), None)
+
+    def ask(url: str):
+        req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "buddie"})
+        if token:
+            req.add_unredirected_header("Authorization", f"Bearer {token}")
+        with urllib.request.urlopen(req, timeout=20) as r:
+            if _origin(r.geturl()) != home:
+                raise GitHubUnavailable(f"GitHub redirected {path} to another host; its answer is not taken")
             return json.loads(read_body(r))
-    except urllib.error.HTTPError as error:
-        if error.code == 404:
-            return None
-        raise GitHubUnavailable(f"GitHub {error.code} on {path}") from error
-    except (urllib.error.URLError, TimeoutError, OSError) as error:
-        raise GitHubUnavailable(f"GitHub unreachable: {error}") from error
+    url = base + path
+    for attempt in range(2):
+        try:
+            return ask(url)
+        except urllib.error.HTTPError as error:
+            final = error.geturl() or url
+            if _origin(final) != home:
+                raise GitHubUnavailable(f"GitHub redirected {path} to another host; its answer is not taken") from error
+            if error.code == 404 and token and final != url and attempt == 0:
+                url = final  # redirected on the API's origin without the token: ask there with it
+                continue
+            if error.code == 404:
+                return None
+            raise GitHubUnavailable(f"GitHub {error.code} on {path}") from error
+        except (urllib.error.URLError, TimeoutError, OSError) as error:
+            raise GitHubUnavailable(f"GitHub unreachable: {error}") from error
+    return None
+
+
+# Which GitHub GETs are buddie's own collection (findings.github_provenance), by identity: github_get and the
+# wrappers buddie's own code makes of it (remote.public_github). Kept here, not as an attribute of the function: a
+# caller can set any attribute on a callback it hands in, while handing one in adds nothing to this list. Weak, so a
+# wrapper the remote server drops after its call is not kept alive.
+_OWN_GETS: weakref.WeakSet = weakref.WeakSet()
+
+
+def own_get(get) -> bool:
+    """Whether `get` is buddie's own GitHub GET: github_get, or a wrapper of it registered by buddie's code."""
+    return get is github_get or any(get is g for g in _OWN_GETS)  # `is`: a callback's __eq__ or __hash__ is not asked
+
+
+def _own_wrapper(wrapper, inner):
+    """`wrapper`, registered as buddie's own when `inner` is (remote.public_github). For buddie's modules: a caller
+    that runs code in this interpreter could call it, as it could replace github_get itself; a caller that only
+    hands verify a callback cannot."""
+    if own_get(inner):
+        _OWN_GETS.add(wrapper)
+    return wrapper
 
 
 def _get(ctx: dict, path: str):

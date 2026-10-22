@@ -37,13 +37,13 @@ from pathlib import Path
 def cmd_verify(args) -> int:
     from buddie.anchors import find_repos
     from buddie.effects import github_get
-    from buddie.verify import verify
+    from buddie.verify import assess_selected
     text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
     repos = [Path(r) for r in args.repo] if args.repo else find_repos(Path.cwd())
-    receipt = verify(text, name=args.report, repos=repos, store=args.store, fetch=not args.no_fetch,
-                     access=args.access, quotes=not args.anchors_only, rev=args.rev,
-                     github=None if args.no_github else github_get, transcript=args.transcript,
-                     numbers=args.numbers)
+    receipt = assess_selected(text, args.modules, name=args.report, repos=repos, store=args.store,
+                              fetch=not args.no_fetch, access=args.access, quotes=not args.anchors_only,
+                              rev=args.rev, github=None if args.no_github else github_get,
+                              transcript=args.transcript, numbers=args.numbers)[0]
     pred = receipt["predicate"]
     if args.json:
         Path(args.json).write_text(json.dumps(receipt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -196,6 +196,24 @@ def cmd_hook(args) -> int:
     return main()
 
 
+def _module_ids(spec: str) -> list[str]:
+    """--modules: known ids only, so a misspelt one is a usage error (exit 2), not a silently smaller check."""
+    from buddie.modules import UnknownModule, parse
+    try:
+        return [m.id for m in parse(spec)]
+    except UnknownModule as error:
+        raise argparse.ArgumentTypeError(str(error)) from error
+
+
+def cmd_modules(args) -> int:
+    """The verification modules buddie has (buddie/modules.py), with what each checks and reads."""
+    from buddie.modules import REGISTRY
+    for m in REGISTRY:
+        print(f"{m.id:<10} {m.summary}")
+        print(f"{'':<10} checks: {', '.join(c.value for c in m.checks)}; reads: {', '.join(m.inputs)}")
+    return 0
+
+
 def cmd_policy(args) -> int:
     """The protected policy: where it is, whether it is in force, and what it changes for the repo around cwd. buddie
     never writes it: `template` prints one for an administrator to install (docs/policy.md)."""
@@ -217,6 +235,9 @@ def cmd_policy(args) -> int:
     print(f"intro allowed: {ctx.intro_allowed}; disclosure: {ctx.disclosure_allowed}; transcript: "
           f"{ctx.transcript.value} ({ctx.transcript.source.value}); journal words: {ctx.journal_text}; "
           f"network: {'allowed' if ctx.network_allowed else 'forbidden'}")
+    lim = loaded.effective
+    print(f"evidence: repos={lim.repos}, stores={lim.stores}, journal={lim.journal}, collector={lim.collector}, "
+          f"github_api={lim.github_api or 'as the environment says'}")
     print("refused here: " + (", ".join(ctx.refused) or "nothing"))
     return 0
 
@@ -236,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--no-fetch", action="store_true", help="only use snapshots already in the store")
     s.add_argument("--access", help="verbatim access cascade for unreadable pages, e.g. default")
     s.add_argument("--anchors-only", action="store_true", help="skip quotes")
+    s.add_argument("--modules", type=_module_ids,
+                   help="only these modules, comma separated (default: all; see `buddie modules`)")
     s.add_argument("--json", help="write the receipt here")
     s.add_argument("--rev", help="judge work claims against the queue as of this commit")
     s.add_argument("--transcript", help="Claude Code session jsonl for run: anchors")
@@ -287,6 +310,7 @@ def main(argv: list[str] | None = None) -> int:
     po.add_argument("what", choices=("show", "check", "template"))
     po.add_argument("--repo", action="append", help="repo whose buddie.toml to judge (default: around cwd)")
     po.set_defaults(func=cmd_policy)
+    sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     try:

@@ -83,10 +83,12 @@ def read(cfg: dict, path: str, rev: str | None = None) -> str:
         if (data := anc.read_inside(repo, path)) is None:
             raise FileNotFoundError(f"{path}: not a plain file inside {repo} under {anc.MAX_TEXT_BYTES} bytes")
         return anc.text_of(data)
-    out = subprocess.run(["git", "-C", str(repo), "show", f"{rev}:{path}"], capture_output=True, text=True)
+    # the file at a commit is read as the file in the tree is (UTF-8, universal newlines), not in the locale's
+    # encoding: text=True decoded it as cp1251 on a Russian Windows, so a queue's words did not match at a commit
+    out = subprocess.run(["git", "-C", str(repo), "show", f"{rev}:{path}"], capture_output=True)
     if out.returncode:
-        raise FileNotFoundError(f"{path} at {rev}: {out.stderr.strip()}")
-    return out.stdout
+        raise FileNotFoundError(f"{path} at {rev}: {out.stderr.decode('utf-8', 'replace').strip()}")
+    return anc.text_of(out.stdout)
 
 
 def messages(cfg: dict) -> list[dict] | None:

@@ -24,7 +24,10 @@ The plugin brings:
   repo, PR and CI facts as anchors;
 - **a Stop hook** (`integrations/codex/hooks.json`): a final answer with a quote its source does not contain, or an
   anchor that does not hold, is sent back to the model with the reasons before the turn ends. Codex runs plugin
-  hooks only after you review and trust them: open `/hooks` in a session once after installing.
+  hooks only after you review and trust them: open `/hooks` in a session once after installing. The hook runs
+  Python isolated (`python3 -I`), so a `PYTHONPATH` or user site-packages the project's environment sets loads no
+  code into it. That is not a trusted launcher: Codex finds `python3` on `PATH`, and the plugin's files are yours to
+  edit, so an agent with your account can still replace either (docs/policy.md, "A trusted launcher").
 
 Plugins with hooks cannot be listed in the public plugin directory, so this plugin is installed from the
 marketplace above, not from the directory.
