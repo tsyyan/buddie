@@ -42,8 +42,10 @@ FORMAT = (
 OUTCOMES = (
     "Outcomes: FAIL means a quote is not in its source or an anchor does not hold: fix each blocking item, or keep it "
     "and add a line starting with 'buddie:' that says what is unverified and why. GAPS means something could not be "
-    "checked (source unreachable, anchor not checkable here): say what. PASS means every quote was found and every "
-    "anchor holds. EMPTY means the text had no quotations and no anchors, so nothing was verified: it is not a pass. "
+    "checked (source unreachable, anchor not checkable here): say what. PASS means every quote and anchor that was "
+    "checked holds; it does not make the report true, and with a profile the kinds it left out were not checked (the "
+    "result says which). EMPTY means the text had no quotations and no anchors, so nothing was verified: it is not "
+    "a pass. "
     "Do not delete a true claim only to get PASS. Put the receipt's predicate.line under the report, copied from the "
     "tool's result; never write a receipt line yourself, and if the tool cannot be called, say that nothing was checked."
 )

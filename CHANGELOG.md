@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Security: the Claude Code plugin's MCP server receives the GitHub token setting as
+  `CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN` (`.mcp.json`), as the hook does, so it goes only to api.github.com or the
+  protected policy's `github_api`; under `BUDDIE_GITHUB_TOKEN` it could go to an API a project's environment named.
+- `buddie verify` on a directory or a non-UTF-8 report exits 2 with the reason instead of a traceback with exit 1
+  (the code of a FAIL). `buddie status` names an active or invalid protected policy. MCP's instructions no longer say
+  PASS means every quote and anchor holds. docs/integrations.md: every shipped surface, the PR #32 audit, setup,
+  reading results, troubleshooting.
 - receipt-v1 (`buddie/receipts.py`, docs/receipts.md, docs/receipt-v1.schema.json), given only when asked for:
   `buddie verify --receipt v1`, MCP `verify_report` `receipt: "v1"`, `receipts.render(verify.assessment(...),
   "v1")`. It keeps apart the outcome of what ran (PASS, FAIL, GAPS, UNKNOWN, EMPTY, NOT_RUN), the scope (requested,

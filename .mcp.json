@@ -7,7 +7,7 @@
         "serve"
       ],
       "env": {
-        "BUDDIE_GITHUB_TOKEN": "${user_config.github_token}"
+        "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN": "${user_config.github_token}"
       }
     }
   }
