@@ -164,15 +164,71 @@ Enforcement that does not depend on the agent's reach needs all of these at once
 The plugin as distributed gives observable failures and the policy's limits within its threat model. It does not give
 that guarantee.
 
+## Evidence
+
+A check is only as good as what it is judged on. The hook takes evidence from places it is told about, and the
+agent can tell it about most of them:
+
+| Variable | What it chooses | Who can set it |
+|---|---|---|
+| `BUDDIE_REPOS` | the checkouts `path#sha256` and `path@commit` are judged against | the hook's environment |
+| `VERBATIM_STORE`, `BUDDIE_STORES` | the snapshot stores quotes and numbers are judged against | the hook's environment |
+| (none) | stores the session named in its tool calls, `./.verbatim`, `sources/` the repos changed | the session itself |
+| `BUDDIE_LOG`, `BUDDIE_SHARED_LOG` | where the journal goes, or that it is off | the hook's environment |
+| `HTTPS_PROXY` and friends, `SSL_CERT_FILE`, `SSL_CERT_DIR` | who stands between the hook and a page or GitHub | the hook's environment |
+| `BUDDIE_GITHUB_API` | which server answers `pr:` and `ci:` (and receives the token) | the hook's environment |
+
+None of these is a person's decision, so none is taken as one once the policy's `[evidence]` table says so:
+
+```toml
+[evidence]
+repos = "event"          # only the git checkout around the event; BUDDIE_REPOS is set aside
+stores = "observed"      # quotes and numbers judged only on bytes the hook fetches in this check
+journal = "fixed"        # ~/.cache/buddie/hook.jsonl (and the cloud's shared folder); BUDDIE_LOG=0 does not turn it off
+collector = "isolated"   # the hook's fetches go direct, TLS verified without SSL_CERT_FILE / SSL_CERT_DIR
+github_api = "https://github.example.com/api/v3"   # GitHub Enterprise only; BUDDIE_GITHUB_API is set aside
+```
+
+**Each key left out keeps the behaviour without a policy** (`"environment"`, `"session"`, no `github_api`). That is
+different from the keys above, whose defaults are restrictive, and it is deliberate: a policy written before
+`[evidence]` existed decides exactly as it did. `buddie policy template` writes the restrictive values, except
+`stores`, which stays `"session"` because `"observed"` changes results (below). Refusals are journaled by name:
+`evidence.repos`, `evidence.stores`, `evidence.journal`, `evidence.collector`, `evidence.github_api`.
+
+What each key guarantees, and what it does not:
+- **`repos = "event"`** makes anchors be judged against the checkout the session is in, not a decoy that makes them
+  hold. The checkout is still the agent's to write: a file it edits, it can make match. The change then shows in
+  that repo's own diff, where the person looks.
+- **`stores = "observed"`** is the one that closes forged snapshots. Every snapshot store on the machine is a
+  directory the agent can write, and a snapshot is only bytes with a hash: a hash names bytes, not who served them.
+  With `"observed"` the hook makes an empty store for the check, fetches each cited page itself, and deletes the
+  store afterwards, so a quote is found only if the page says it now. The cost: a page that changed since it was
+  quoted, or that refuses the hook, is a gap (`NOT_FOUND` or `SOURCE_UNAVAILABLE`), where a session snapshot would
+  have held. With `BUDDIE_FETCH=0` or `network = "forbidden"` nothing is fetched and every quote is a gap, never a
+  pass.
+- **`journal = "fixed"`** keeps the record where the person looks for it and keeps the hook's environment from
+  turning it off. It does not make the journal tamper-evident: the agent can edit a file in the user's home.
+- **`collector = "isolated"`** makes the hook's own fetches (pages, GitHub) ignore proxies from the environment and
+  from the user's system settings, and the CA locations the environment names, so a local proxy cannot answer for
+  a site. TLS is still verified against the interpreter's default CA store, which on Windows includes the user's
+  own root store; a CA the person was prompted to add there is trusted. `http://` pages are not authenticated by
+  anyone. An installation that needs a proxy to reach the web cannot use `"isolated"`.
+- **`github_api`** fixes the server `pr:` and `ci:` are asked of, and where `BUDDIE_GITHUB_TOKEN` is sent.
+
+Separately from the policy, buddie now records how far each finding's evidence is known (`core.Provenance`,
+internal: receipt-v0 does not change). A snapshot this check fetched itself, with no proxy or CA override in
+between, is *observed*; any other snapshot's origin is *unknown*, whatever its index says. A `pr:`/`ci:` answer is
+observed from GitHub only when the API is the default one or the policy's and nothing stood between; with
+`BUDDIE_GITHUB_API` or a proxy from the environment it is *caller supplied*. This never changes a verdict or a gate
+decision.
+
 ## What it does not cover
 
 - **The hook's own launch and code**: see "A trusted launcher". A replaced `python3` on `PATH`, or edited plugin files,
   bypass buddie entirely. The policy cannot see them.
-- **Where evidence comes from.** `BUDDIE_REPOS` (which checkouts anchors are judged against), `VERBATIM_STORE` and
-  `BUDDIE_STORES` (which snapshots quotes are judged against) and `BUDDIE_LOG` come from the hook's environment, which
-  the agent can set. They cannot turn an unchecked claim into a checked one: a missing repo or snapshot is a gap. But
-  they choose the evidence a claim is judged on, and an agent that controls a store controls what "found" means.
-  Authorizing evidence sources is planned for PR #29.
+- **Local evidence is never trusted**, with or without `[evidence]`: repos, session snapshots, the journal and the
+  session transcript (`run:`, `choice:`) are files the agent can write. `[evidence]` controls who *chooses* them and
+  lets quotes be judged on fresh fetches; it does not make a local file the person's word.
 - **buddie's state and journal** live under the user's home directory, which the agent can write. An agent that
   forges the return state can make a pre-written `buddie:` line count as written after a return. A policy with
   `disclosure = false` closes that path: then only a fix lets a returned answer out.

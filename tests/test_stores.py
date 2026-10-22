@@ -34,7 +34,7 @@ def transcript(path, command):
                 {"type": "tool_use", "id": "toolu_1", "name": "Bash", "input": {"command": command}}]}},
             {"type": "user", "message": {"content": [
                 {"type": "tool_result", "tool_use_id": "toolu_1", "content": "snapped 1"}]}}]
-    path.write_text("\n".join(json.dumps(r) for r in rows))
+    path.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
     return str(path)
 
 
@@ -51,7 +51,7 @@ def test_store_exported_in_the_threads_shell_is_found(bare):
     assert hook.run(event(bare, BAD, t), err) == 2
     assert "14:59" in err.getvalue() and str(bare / "snaps") in err.getvalue()
     assert hook.run(event(bare, GOOD, t), io.StringIO()) == 0
-    logged = [json.loads(x) for x in (bare / "hook.jsonl").read_text().splitlines()]
+    logged = [json.loads(x) for x in (bare / "hook.jsonl").read_text(encoding="utf-8").splitlines()]
     assert logged[-1]["quotes"] == {"FOUND": 1} and logged[-1]["stores"] == 1 and logged[-1]["outcome"] == "PASS"
 
     import importlib.util
@@ -72,7 +72,8 @@ def test_without_the_sessions_store_a_wrong_quote_slipped_through(bare):
     (bare / "work").mkdir()
     Store(bare / "snaps").add(URL, PAGE, content_type="text/html")
     assert hook.run(event(bare, BAD), io.StringIO()) == 0
-    assert json.loads((bare / "hook.jsonl").read_text().splitlines()[-1])["quotes"] == {"SOURCE_UNAVAILABLE": 1}
+    last = json.loads((bare / "hook.jsonl").read_text(encoding="utf-8").splitlines()[-1])
+    assert last["quotes"] == {"SOURCE_UNAVAILABLE": 1}
 
 
 def test_relative_store_and_dotverbatim_next_to_cwd(bare):

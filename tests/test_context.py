@@ -30,7 +30,7 @@ def _transcript(path, read, sidechain=None):
     if sidechain:
         rows.append({"type": "assistant", "isSidechain": True,
                      "message": {"usage": {"input_tokens": 1, "cache_read_input_tokens": sidechain}}})
-    path.write_text("\n".join(json.dumps(r) for r in rows) + "\nnot json\n")
+    path.write_text("\n".join(json.dumps(r) for r in rows) + "\nnot json\n", encoding="utf-8")
     return str(path)
 
 
@@ -51,7 +51,7 @@ def test_reply_past_the_limit_is_returned(env):
     code, err = _send("Беру ещё одну подзадачу.", _transcript(env / "t.jsonl", 250_000))
     assert code == 2
     assert "250k tokens is over 200k" in err
-    entry = json.loads((env / "hook.jsonl").read_text().splitlines()[-1])
+    entry = json.loads((env / "hook.jsonl").read_text(encoding="utf-8").splitlines()[-1])
     assert entry["context"] == 250_503 and entry["reasons"] == {"context": 1}
 
 
@@ -63,7 +63,7 @@ def test_under_the_limit_final_handover_and_disclosure_pass(env):
     assert _send("Передаю шаг координатору.", high, tool="mcp__claude-code-remote__send_message")[0] == 0
     code, _ = _send("Отвечаю на вопрос.\nbuddie: контекст треда 250 тыс., дальше лучше новым тредом", high)
     assert code == 0
-    gate = json.loads((env / "hook.jsonl").read_text().splitlines()[-1])
+    gate = json.loads((env / "hook.jsonl").read_text(encoding="utf-8").splitlines()[-1])
     assert gate["context"] == 250_503
 
 
@@ -95,7 +95,7 @@ def _spawn(transcript, prompt="Собери выгрузку.", tool="Agent"):
 def test_subagent_launch_past_the_limit_is_returned(env):
     code, err = _spawn(_transcript(env / "t.jsonl", 250_000))
     assert code == 2 and "do not launch a subagent" in err
-    entry = json.loads((env / "hook.jsonl").read_text().splitlines()[-1])
+    entry = json.loads((env / "hook.jsonl").read_text(encoding="utf-8").splitlines()[-1])
     assert entry["tool"] == "Agent" and entry["context"] == 250_503 and entry["reasons"] == {"context": 1}
     assert _spawn(_transcript(env / "u.jsonl", 250_000), tool="Task")[0] == 2
 
@@ -105,7 +105,7 @@ def test_subagent_launch_under_the_limit_or_disclosed_passes(env):
     high = _transcript(env / "high.jsonl", 250_000)
     code, _ = _spawn(high, "Собери выгрузку.\nbuddie: контекст треда 250 тыс., запуск по просьбе пользователя")
     assert code == 0
-    assert json.loads((env / "hook.jsonl").read_text().splitlines()[-1])["exit"] == 0
+    assert json.loads((env / "hook.jsonl").read_text(encoding="utf-8").splitlines()[-1])["exit"] == 0
 
 
 def _woken(path, read, final_turn_before=True, final_now=False):
@@ -121,7 +121,7 @@ def _woken(path, read, final_turn_before=True, final_now=False):
     rows.append({"type": "assistant", "message": {"content": [{"type": "text", "text": "Смотрю."}], "usage": usage}})
     if final_now:
         rows.append({"type": "assistant", "message": {"content": [final], "usage": usage}})
-    path.write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+    path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
     return str(path)
 
 

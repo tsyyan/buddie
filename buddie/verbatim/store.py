@@ -125,6 +125,7 @@ class Store:
         self.root = Path(root or os.environ.get("VERBATIM_STORE") or DEFAULT_STORE)
         self.snapshots = self.root / "snapshots"
         self.index_path = self.root / "index.json"
+        self.collected: set[str] = set()  # sha256 of the bytes this instance recorded (fetched or added) itself
 
     def index(self) -> dict[str, list[dict]]:
         if self.index_path.exists():
@@ -157,6 +158,8 @@ class Store:
             index = self.index()
             index.setdefault(canonical_url(url), []).append(entry)
             self._write_index(index)
+        if entry.get("sha256"):
+            self.collected.add(entry["sha256"])
         return entry
 
     def add(self, url: str, data: bytes, *, content_type: str | None = None, fetched_at: str | None = None,

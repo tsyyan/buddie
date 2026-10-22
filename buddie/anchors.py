@@ -256,12 +256,14 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
     return dict(out, status=BROKEN, why="not an anchor: expected path#sha256, path@commit, fact=value, pr:, ci:, run: or choice:")
 
 
-def check_text(text: str, repos: list[Path], ctx: dict | None = None) -> list[dict]:
-    """ctx for effect anchors: {"github": a GET function or None (offline), "transcript": the session jsonl}."""
+def check_text(text: str, repos: list[Path], ctx: dict | None = None, keep=None) -> list[dict]:
+    """ctx for effect anchors: {"github": a GET function or None (offline), "transcript": the session jsonl}.
+    keep: which anchors to check (a function of the anchor's text; verify passes the selected modules'), else all."""
     results, cache, ctx = [], {}, ctx if ctx is not None else {}
     for number, line in enumerate(text.splitlines(), 1):
         for anchor in ANCHOR.findall(line):
-            results.append(dict(check_one(anchor, repos, cache, ctx), line=number))
+            if keep is None or keep(anchor):
+                results.append(dict(check_one(anchor, repos, cache, ctx), line=number))
     return results
 
 

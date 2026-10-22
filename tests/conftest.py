@@ -36,3 +36,24 @@ def _no_system_policy(monkeypatch, tmp_path):
     what these tests see. tests/test_policy.py points it at files of its own."""
     from buddie import policy
     monkeypatch.setattr(policy, "location", lambda: tmp_path / "no-system-policy" / "policy.toml")
+
+
+@pytest.fixture(autouse=True)
+def _no_home_journal(monkeypatch, tmp_path):
+    """A protected policy with [evidence] journal = "fixed" writes the journal to its default place whatever
+    BUDDIE_LOG says; in tests that place is a file of the test's own, not ~/.cache."""
+    from buddie import logbook
+    monkeypatch.setattr(logbook, "default_log", lambda: tmp_path / "default-journal" / "hook.jsonl")
+
+
+@pytest.fixture(autouse=True)
+def _no_ambient_network_settings(monkeypatch):
+    """Whether a fetched snapshot or a pr:/ci: answer counts as observed depends on the environment's proxy and CA
+    settings (buddie/evidence.py); a machine or CI runner that sets them must not change what these tests see."""
+    import urllib.request
+
+    from buddie import evidence
+    for k in evidence.PROXY_VARS + evidence.CA_VARS:
+        monkeypatch.delenv(k, raising=False)
+    monkeypatch.setattr(urllib.request, "getproxies", lambda: {})
+    monkeypatch.setattr(urllib.request, "_opener", None)

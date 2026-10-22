@@ -212,7 +212,7 @@ def source_text(args: dict) -> tuple[dict, bool]:
 
 HANDLERS = {"verify_report": budgeted(verify_report), "snap": budgeted(snap),
             "source_text": budgeted(source_text)}
-_DROP = {"verify_report": {"path", "repos", "store", "transcript", "access"}, "snap": {"store"},
+_DROP = {"verify_report": {"path", "repos", "store", "transcript", "access", "modules"}, "snap": {"store"},
          "source_text": {"store"}}
 
 

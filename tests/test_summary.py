@@ -47,9 +47,9 @@ def env(tmp_path, monkeypatch):
 def repo(tmp_path):
     r = tmp_path / "repo"
     r.mkdir()
-    (r / "NEXT.md").write_text(QUEUE)
-    (r / "ACCEPTED.md").write_text(ACCEPTED)
-    (r / "buddie.toml").write_text(CONFIG)
+    (r / "NEXT.md").write_text(QUEUE, encoding="utf-8")
+    (r / "ACCEPTED.md").write_text(ACCEPTED, encoding="utf-8")
+    (r / "buddie.toml").write_text(CONFIG, encoding="utf-8")
     subprocess.run(["git", "init", "-q", str(r)], check=True)
     return r
 
@@ -166,7 +166,7 @@ def test_choice_goes_to_the_journal_and_backs_the_anchor(env, repo):
     out = summary.summarize("s1", [repo])
     labels = [o["label"] for o in out["options"]]
     assert _choose(out["card"], f"{labels[0]}, {labels[1]}") == (0, "")
-    line = [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()][-1]
+    line = [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()][-1]
     assert line["choice"]["summary_id"] == out["summary_id"]
     assert line["choice"]["chosen"] == [out["options"][0]["key"], out["options"][1]["key"]]
     assert "exit" not in line  # not a gate check: lessons and measure skip it
@@ -190,7 +190,7 @@ def test_other_text_is_kept_and_counts(env, repo):
     _stop_sub("a1", "Готово.\n\nСледующий шаг: №3 новое направление.")
     out = summary.summarize("s1", [repo])
     _choose(out["card"], "запусти №5 сейчас")
-    c = [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()][-1]["choice"]
+    c = [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()][-1]["choice"]
     assert c["chosen"] == [] and c["other"] == ["запусти №5 сейчас"]
     assert anchors.check_one(f"choice:{out['summary_id']}=№5", [], {})["status"] == "HOLDS"
     assert anchors.check_one(f"choice:{out['summary_id']}=№3", [], {})["status"] == "BROKEN"
@@ -293,11 +293,11 @@ def test_live_stop_demanding_the_summary_is_logged_with_exit_2(env):
     stop["transcript_path"] = str(main)
     code, err = _run(stop)
     assert code == 2 and err
-    line = [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()][-1]
+    line = [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()][-1]
     assert line["event"] == "Stop" and line["exit"] == 2 and line["demand"]
-    lines = (env / "hook.jsonl").read_text().count("\n")
+    lines = (env / "hook.jsonl").read_text(encoding="utf-8").count("\n")
     assert _run(dict(stop, stop_hook_active=True)) == (0, "")  # the re-entered Stop passes
-    after = (env / "hook.jsonl").read_text().splitlines()  # with only a heartbeat line (NEXT №118)
+    after = (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()  # with only a heartbeat line (NEXT №118)
     assert len(after) == lines + 1 and json.loads(after[-1])["beat"] and json.loads(after[-1])["active"]
 
 
@@ -320,7 +320,7 @@ def test_live_choice_finds_the_card_metadata_in_the_transcript(env, k, sid, chos
     summary.state_file(session).write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
     choice["transcript_path"] = _live_transcript(env, f"{session}.jsonl")
     assert _run(choice)[0] == 0
-    c = [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()][-1]["choice"]
+    c = [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()][-1]["choice"]
     assert c["summary_id"] == sid and c["chosen"] == chosen and c["other"] == other
     for step in chosen:
         assert anchors.check_one(f"choice:{sid}={step}", [], {})["status"] == "HOLDS"

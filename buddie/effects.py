@@ -41,7 +41,21 @@ OK_CONCLUSIONS = {"success", "neutral", "skipped"}
 # tools that carry the report or write a file, not runs; SubagentHandback hands a subagent's report back (E017)
 NOT_RUNS = re.compile(r"^(mcp__hearthbot__|mcp__claude-code-remote__send_message$|SendMessage$|SubagentHandback$|"
                       r"Write$|Edit$|NotebookEdit$)")
-API = os.environ.get("BUDDIE_GITHUB_API", "https://api.github.com")
+DEFAULT_API = "https://api.github.com"
+ENV_API = os.environ.get("BUDDIE_GITHUB_API")  # GitHub Enterprise; the hook's environment, so the agent's to set
+API = ENV_API or DEFAULT_API
+
+
+def api() -> tuple[str, str]:
+    """The API base pr:/ci: are asked of, and who chose it: "policy" (the protected policy's [evidence]
+    github_api, which sets BUDDIE_GITHUB_API aside), "environment" (BUDDIE_GITHUB_API) or "default". The token goes
+    only there, so an API from the environment is also where the token goes (findings.py does not count its answers
+    as observed from GitHub)."""
+    from buddie import policy
+    limits = policy.current().effective
+    if limits is not None and limits.github_api:
+        return limits.github_api, "policy"
+    return API, "environment" if API != DEFAULT_API else "default"
 
 
 def is_effect(anchor: str) -> bool:
@@ -117,7 +131,7 @@ def github_get(path: str) -> dict | None:
     if token := next((v for v in tokens if v and not v.startswith("${")), None):
         headers["Authorization"] = f"Bearer {token}"
     try:
-        with urllib.request.urlopen(urllib.request.Request(API + path, headers=headers), timeout=20) as r:
+        with urllib.request.urlopen(urllib.request.Request(api()[0] + path, headers=headers), timeout=20) as r:
             return json.loads(read_body(r))
     except urllib.error.HTTPError as error:
         if error.code == 404:

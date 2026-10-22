@@ -228,21 +228,29 @@ def receipt_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple
 def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[dict, list, list]:
     """receipt_for with the typed findings the receipt's outcome came from (verify.assess). ctx: the event's
     ResolvedEventContext, whose repos and [mandate] config are used instead of being looked up again."""
+    from buddie import evidence
     from buddie.effects import github_get
     from buddie.event import repos_of
-    from buddie.stores import UnionStore, session_stores
     from buddie.verify import assess
     cwd = Path(event.get("cwd") or os.getcwd())
     network = ctx.network_allowed if ctx is not None else True  # a protected policy may forbid it, nothing grants it
     github = github_get if network and os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
     repos = list(ctx.repos) if ctx is not None else repos_of(event)
-    stores = session_stores(cwd, repos, event.get("transcript_path"))
-    receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
-                               repos=repos, store=UnionStore(None, stores),
-                               fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
-                               transcript=event.get("transcript_path"),
-                               mandate=ctx.mandate if ctx is not None else True, numbers=effective_numbers(numbers))
-    return receipt, stores, found
+    # the snapshot stores the session used, or (policy: stores = "observed") one made for this check alone
+    with evidence.store_for(cwd, repos, event.get("transcript_path")) as (store, chosen):
+        receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
+                                   repos=repos, store=store,
+                                   fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
+                                   transcript=event.get("transcript_path"),
+                                   mandate=ctx.mandate if ctx is not None else True,
+                                   numbers=effective_numbers(numbers))
+    return receipt, [s.path for s in chosen if s.origin is not evidence.Origin.OBSERVED], found
+
+
+def observed_only() -> bool:
+    from buddie.evidence import limits
+    lim = limits()
+    return lim is not None and lim.stores == "observed"
 
 
 def effective_numbers(numbers: str) -> str:
@@ -485,7 +493,10 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     print(pred["line"], file=err)
     for item in blocking:
         print(f"- {item}", file=err)
-    if "quotes" in blocked:
+    if "quotes" in blocked and observed_only():
+        print("Quotes were judged only against pages fetched in this check (the protected policy's [evidence] "
+              "stores = \"observed\"): snapshots the session took do not count.", file=err)
+    elif "quotes" in blocked:
         print("Quotes were judged against the snapshots in " + (", ".join(map(str, stores)) or "no session store")
               + " (newest with bytes per URL; a URL in none of them was fetched now).", file=err)
     ready = ready_anchors(text, items, transcript=event.get("transcript_path"), github=github)
@@ -536,11 +547,12 @@ def main() -> int:
         event = json.loads(sys.stdin.buffer.read().decode("utf-8"))  # Claude Code sends UTF-8 (Windows: not the locale's)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return 0
-    from buddie import policy
+    from buddie import evidence, policy
     try:
         with policy.snapshot():  # one reading of the protected policy for the whole event
             try:
-                return run(event)
+                with evidence.collector():  # the policy's network for the event's fetches (isolated or as set)
+                    return run(event)
             except Exception as error:
                 return failed(event, error)
     except Exception as error:  # noqa: BLE001 - not even the snapshot: failed() reads the policy itself

@@ -68,10 +68,10 @@ def _transcript(tmp_path, calls, sub=()):
                 {"type": "tool_result", "tool_use_id": uid, "content": result, "is_error": error}]}})
         return "\n".join(json.dumps(r) for r in out)
     path = tmp_path / "session.jsonl"
-    path.write_text(rows(calls))
+    path.write_text(rows(calls), encoding="utf-8")
     if sub:
         (tmp_path / "session" / "subagents").mkdir(parents=True)
-        (tmp_path / "session" / "subagents" / "agent-1.jsonl").write_text(rows(sub, "sub"))
+        (tmp_path / "session" / "subagents" / "agent-1.jsonl").write_text(rows(sub, "sub"), encoding="utf-8")
     return str(path)
 
 
@@ -138,7 +138,7 @@ def test_prose_work_claims_are_counted_and_block_a_final_answer(tmp_path, monkey
     assert hook.run(event, io.StringIO()) == 0  # not a final answer: counted only
     event["tool_input"]["text"] = "PR слит `⚓ pr:o/r#54=merged`, ещё не влит lab#55.\n\nСледующий шаг: дальше."
     assert hook.run(event, io.StringIO()) == 0
-    logged = [json.loads(x) for x in (tmp_path / "shared-log" / "s1.jsonl").read_text().splitlines()]
+    logged = [json.loads(x) for x in (tmp_path / "shared-log" / "s1.jsonl").read_text(encoding="utf-8").splitlines()]
     assert [x["work"]["prose"] for x in logged] == [2, 2, 2, 0] and logged[0]["session"] == "s1"
     assert logged[0]["reasons"] == {"prose": 2} and logged[1]["gate"]["way"] == "returned"
 
@@ -188,7 +188,7 @@ def test_measure_recounts_prose_from_known_texts(tmp_path):
     texts = tmp_path / "texts.json"
     texts.write_text(json.dumps({"answers": [
         {"sha256": sha, "whole": True, "text": whole},
-        {"sha256": "b" * 64, "whole": False, "counted": 1, "text": "Я проверю, что CI зелёный."}]}))
+        {"sha256": "b" * 64, "whole": False, "counted": 1, "text": "Я проверю, что CI зелёный."}]}), encoding="utf-8")
     row = {"at": "1", "session": "s", "exit": 0, "outcome": "PASS", "final": True}
     rows = [dict(row, sha256=sha, work={"anchored": 0, "broken": 0, "prose": 2}),
             dict(row, sha256="b" * 64, work={"anchored": 1, "broken": 0, "prose": 3}),
@@ -326,7 +326,7 @@ def _turn(tmp_path, reply: str, error: bool, after: str) -> str:
                                                       "content": "hook error" if error else "sent"}]}},
             {"type": "assistant", "message": {"content": [{"type": "text", "text": after}]}}]
     path = tmp_path / "turn.jsonl"
-    path.write_text("\n".join(json.dumps(r) for r in rows))
+    path.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
     return str(path)
 
 
@@ -355,6 +355,7 @@ def test_stop_after_a_final_reply_is_not_checked_for_prose(tmp_path, monkeypatch
     path = tmp_path / "turn.jsonl"
     path.write_text(open(_turn(tmp_path, reply, False, after), encoding="utf-8").read().replace(
         '{"type": "assistant", "message": {"content": [{"type": "text"',
-        '{"type": "user", "message": {"content": "next"}}\n{"type": "assistant", "message": {"content": [{"type": "text"'))
+        '{"type": "user", "message": {"content": "next"}}\n{"type": "assistant", "message": {"content": [{"type": "text"'),
+            encoding="utf-8")
     event["transcript_path"] = str(path)
     assert not hook.handed_in(event)  # the reply went out in the turn before

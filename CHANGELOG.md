@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Verification modules (`buddie/modules.py`, docs/architecture.md): `sources` (quotes, numbers), `github` (repo
+  anchors, `pr:`, `ci:`) and `execution` (`run:`, `choice:`, work claims), each with a stable id and its checks.
+  `buddie modules`; `buddie verify --modules`, MCP `verify_report` `modules`, `verify.assess_selected`. An unknown
+  id is an error; a module left out shows in Coverage. With no selection everything runs as before; the hook always
+  runs every module.
+- Security: the protected policy's `[evidence]` table (docs/policy.md, "Evidence"): `repos = "event"` sets
+  `BUDDIE_REPOS` aside, `stores = "observed"` judges quotes and numbers only on pages the hook fetches in the check
+  (forged snapshots no longer count), `journal = "fixed"` keeps `BUDDIE_LOG`/`BUDDIE_SHARED_LOG` from moving or
+  turning off the journal, `collector = "isolated"` keeps proxies and CA overrides of the environment off the hook's
+  fetches, `github_api` fixes the GitHub API and where the token goes. Keys left out keep the legacy behaviour, so a
+  policy without `[evidence]` decides as before.
+- Findings record their evidence's provenance more exactly (internal; receipt-v0 unchanged): a snapshot this check
+  fetched itself is observed, another is of unknown origin; a `pr:`/`ci:` answer from `BUDDIE_GITHUB_API` or
+  through an environment proxy is caller supplied, not observed from GitHub.
+- Security: the Codex Stop hook runs `python3 -I` / `python -I`, so `PYTHONPATH` from the environment loads nothing.
+- Windows: a `[mandate]` queue read at a commit (`git show`) is decoded as UTF-8, as the file in the tree is, not in
+  the locale's encoding (cp1251 misread a Russian queue's words). Test fixtures write and read UTF-8 explicitly, so
+  the suite passes without UTF-8 mode.
 - Security: a protected policy (`buddie/policy.py`, docs/policy.md). A file only an administrator can write
   (`/etc/buddie/policy.toml`; `<ProgramData>\buddie\policy.toml` on Windows) sets floors for each gate class and
   what buddie.toml and the hook's environment may still decide: the intro mode, the final mark, transcript reading,

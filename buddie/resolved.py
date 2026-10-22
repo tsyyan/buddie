@@ -132,6 +132,8 @@ def limited(ctx: ResolvedEventContext, loaded: pol.Loaded) -> ResolvedEventConte
         journal_text = False
     if (root := state_root(limits)) is not None:
         refused.append("state")
+    from buddie import evidence
+    refused += evidence.refused(limits)  # applied where the evidence is chosen (evidence.py), listed here
     return replace(ctx, levels=levels, final_mark=mark, transcript=transcript, journal_text=journal_text,
                    policy=loaded, refused=tuple(refused), intro_allowed=intro_allowed,
                    disclosure_allowed=limits.disclosure, state_root=root,

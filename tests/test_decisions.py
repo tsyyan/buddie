@@ -147,7 +147,7 @@ def test_card_and_pick_go_to_the_journal_for_the_next_coordinator(env):
     t1 = _write(env, "s1.jsonl", _entries(pick=None))
     hook.run({"hook_event_name": "PreToolUse", "session_id": "s1", "tool_name": "mcp__hearthbot__post_message",
               "tool_input": {"text": "Карточка выше."}, "transcript_path": t1, "cwd": "."}, io.StringIO())
-    lines = [json.loads(x) for x in (env / "hook.jsonl").read_text().splitlines()]
+    lines = [json.loads(x) for x in (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()]
     assert [x["card"]["id"] for x in lines if "card" in x] == [CARD_ID]
     # session 2, after the recycle, gets the pick: the card comes from the journal
     t2 = _write(env, "s2.jsonl", _entries(card=False, pick=wake()))
@@ -155,7 +155,7 @@ def test_card_and_pick_go_to_the_journal_for_the_next_coordinator(env):
     # its hook run writes the resolved pick, once; a session with no transcript then finds it in the journal
     for _ in range(2):
         decisions.sync({"session_id": "s2", "transcript_path": t2})
-    picks = [x for x in map(json.loads, (env / "hook.jsonl").read_text().splitlines()) if "choice" in x]
+    picks = [x for x in map(json.loads, (env / "hook.jsonl").read_text(encoding="utf-8").splitlines()) if "choice" in x]
     assert len(picks) == 1 and picks[0]["choice"]["chosen"][0] == "Всё по buddie"
     assert check("№96", None)["status"] == "HOLDS" and check("№95", None)["status"] == "BROKEN"
 
@@ -181,9 +181,9 @@ def _git(cwd, *args):
 def test_the_launches_of_17_02_pass_now(env, monkeypatch):
     r = env / "repo"
     r.mkdir()
-    (r / "NEXT.md").write_text(QUEUE)
-    (r / "ACCEPTED.md").write_text("| Область | Слова |\n|---|---|\n")
-    (r / "buddie.toml").write_text(CONFIG)
+    (r / "NEXT.md").write_text(QUEUE, encoding="utf-8")
+    (r / "ACCEPTED.md").write_text("| Область | Слова |\n|---|---|\n", encoding="utf-8")
+    (r / "buddie.toml").write_text(CONFIG, encoding="utf-8")
     _git(env, "init", "-q", str(r))
     _git(r, "-c", "user.name=t", "-c", "user.email=t@t", "add", ".")
     _git(r, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "queue")

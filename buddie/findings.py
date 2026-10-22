@@ -45,25 +45,28 @@ def _reason(word: str, fact: Fact) -> ReasonCode:
     return ReasonCode.UNKNOWN_VERDICT if fact is Fact.UNRECOGNIZED else REASONS[word]
 
 
-def _snapshot(row: dict) -> tuple[EvidenceRef, ...]:
-    """The snapshot a quote or a number was judged on. Its origin is UNKNOWN: the store is a directory that a
-    fetch in this call, an earlier `snap`, or anyone with write access may have filled."""
+def _snapshot(row: dict, observed=frozenset()) -> tuple[EvidenceRef, ...]:
+    """The snapshot a quote or a number was judged on. Bytes this check fetched itself, over a network nothing in
+    the environment stood in (`observed`, verify.assess), are COLLECTOR_OBSERVED. Any other snapshot's origin is
+    UNKNOWN: the store is a directory that an earlier `snap`, the agent or anyone with write access may have filled,
+    whatever its index says of itself (`source`)."""
     if not row.get("sha256"):
         return ()
-    return (EvidenceRef("snapshot", row.get("url") or "", Provenance.UNKNOWN, digest=row["sha256"],
+    provenance = Provenance.COLLECTOR_OBSERVED if row["sha256"] in observed else Provenance.UNKNOWN
+    return (EvidenceRef("snapshot", row.get("url") or "", provenance, digest=row["sha256"],
                         source=row.get("provenance"), observed_at=row.get("fetched_at")),)
 
 
-def quote(row: dict) -> Finding:
+def quote(row: dict, observed=frozenset()) -> Finding:
     fact = quote_fact(row["verdict"])
     return Finding(Check.QUOTE, row.get("quote", ""), row["verdict"], fact, _reason(row["verdict"], fact),
-                   _snapshot(row), row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
+                   _snapshot(row, observed), row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
 
 
-def number(row: dict) -> Finding:
+def number(row: dict, observed=frozenset()) -> Finding:
     fact = number_fact(row["verdict"])
     return Finding(Check.NUMBER, row.get("text", ""), row["verdict"], fact, _reason(row["verdict"], fact),
-                   _snapshot(row), row.get("line"), None, tuple(row.get("doubts") or ()))
+                   _snapshot(row, observed), row.get("line"), None, tuple(row.get("doubts") or ()))
 
 
 def anchor_check(anchor: str) -> Check:
@@ -89,11 +92,23 @@ def anchor_check(anchor: str) -> Check:
 ANCHOR_EVIDENCE = {
     Check.FILE_ANCHOR: ("file", Provenance.AGENT_WRITABLE),        # the working tree
     Check.COMMIT_ANCHOR: ("git_commit", Provenance.AGENT_WRITABLE),  # local history: the agent can commit
-    Check.PR_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # asked of GitHub during this check
-    Check.CI_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),
+    Check.PR_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # asked of GitHub during this check, when
+    Check.CI_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # github_provenance says so
     Check.RUN_ANCHOR: ("transcript", Provenance.CALLER_SUPPLIED),   # the session log the caller pointed to
     Check.CHOICE_ANCHOR: ("journal", Provenance.AGENT_WRITABLE),    # buddie's journal, a file on the same machine
 }
+
+
+def github_provenance() -> Provenance:
+    """What a pr:/ci: answer is: observed from GitHub when the API is the default one or the protected policy's
+    and nothing in the environment stood between (evidence.network_clean); CALLER_SUPPLIED when the hook's
+    environment named the API (BUDDIE_GITHUB_API) or routed the request (a proxy, a CA file), since whoever set
+    that may have written the answer."""
+    from buddie import evidence
+    _, chosen = eff.api()
+    if chosen != "environment" and evidence.network_clean():
+        return Provenance.COLLECTOR_OBSERVED
+    return Provenance.CALLER_SUPPLIED
 
 
 def anchor(row: dict) -> Finding:
@@ -110,6 +125,8 @@ def anchor(row: dict) -> Finding:
     evidence = ()
     if fact in (Fact.SUPPORTED, Fact.CONTRADICTED) and check in ANCHOR_EVIDENCE:
         kind, provenance = ANCHOR_EVIDENCE[check]
+        if provenance is Provenance.COLLECTOR_OBSERVED:
+            provenance = github_provenance()
         where = f"{row['repo']}:{row['anchor']}" if row.get("repo") else row["anchor"]
         evidence = (EvidenceRef(kind, where, provenance, observed_at=row.get("at")),)
     return Finding(check, row["anchor"], status, fact, reason, evidence, row.get("line"), row.get("why"))
@@ -125,18 +142,19 @@ def work_claim(row: dict) -> Finding:
                    row.get("why"))
 
 
-def from_rows(quotes=(), anchors=(), claims=(), numbers=()) -> list[Finding]:
-    return ([quote(r) for r in quotes] + [number(r) for r in numbers] + [anchor(r) for r in anchors]
-            + [work_claim(c) for c in claims])
+def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset()) -> list[Finding]:
+    """observed: sha256 of the snapshots this check fetched itself (see _snapshot)."""
+    return ([quote(r, observed) for r in quotes] + [number(r, observed) for r in numbers]
+            + [anchor(r) for r in anchors] + [work_claim(c) for c in claims])
 
 
 def coverage(findings: list[Finding], *, quotes: bool, numbers: str, mandate_off: bool, mandate_config: bool,
              short_quotes: int = 0, unlinked_terms: int = 0, unanchored_lines: int = 0,
-             prose_claims: int = 0) -> Coverage:
+             prose_claims: int = 0, modules_off=()) -> Coverage:
     checked: dict[Check, int] = {}
     for f in findings:
         checked[f.check] = checked.get(f.check, 0) + 1
-    skipped = []
+    skipped = [Skip(f"module:{m}", "not selected") for m in modules_off]
     if not quotes:
         skipped.append(Skip("quotes", "off: anchors only"))
     if not quotes or numbers == "off":

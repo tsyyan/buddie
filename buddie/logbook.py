@@ -16,12 +16,22 @@ from pathlib import Path
 SHARED_ROOT = Path("/mnt/project-files")
 
 
+def default_log() -> Path:
+    return Path.home() / ".cache" / "buddie" / "hook.jsonl"
+
+
 def log_targets(session: str | None) -> list[Path]:
+    """The journal files. A protected policy with [evidence] journal = "fixed" sets BUDDIE_LOG and BUDDIE_SHARED_LOG
+    aside: the journal stays in its default places and cannot be turned off from the hook's environment. That keeps
+    the record where the person looks for it; it does not keep the agent, the same OS user, from editing it."""
+    from buddie import policy
+    limits = policy.current().effective
+    env = {} if limits is not None and limits.journal == "fixed" else os.environ
     out = []
-    target = os.environ.get("BUDDIE_LOG", str(Path.home() / ".cache" / "buddie" / "hook.jsonl"))
+    target = env.get("BUDDIE_LOG", str(default_log()))
     if target not in ("", "0"):
         out.append(Path(target))
-    shared = os.environ.get("BUDDIE_SHARED_LOG")
+    shared = env.get("BUDDIE_SHARED_LOG")
     if shared is None and SHARED_ROOT.is_dir():
         shared = str(SHARED_ROOT / "buddie" / "hook")
     if shared not in (None, "", "0"):

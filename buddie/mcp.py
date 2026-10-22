@@ -70,6 +70,9 @@ TOOLS = [
             "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
                         "description": "a number of a cited sentence not in its source: gap, fail or off"},
             "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
+            "modules": {"type": "array", "items": {"type": "string", "enum": ["sources", "github", "execution"]},
+                        "description": "only these verification modules (default: all): sources (quotes, numbers), "
+                                       "github (repo anchors, pr:, ci:), execution (run:, choice:, work claims)"},
         })},
     },
     {
@@ -135,12 +138,13 @@ def default_repos() -> list[Path]:
 
 def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie.effects import github_get
-    from buddie.verify import verify
+    from buddie.verify import assess_selected
     text, name = _report(args)
     repos = [Path(r) for r in args["repos"]] if args.get("repos") else default_repos()
-    receipt = verify(text, name=name, repos=repos, store=args.get("store"), fetch=args.get("fetch", True),
-                     access=args.get("access"), github=github_get if args.get("github", True) else None,
-                     transcript=args.get("transcript"), numbers=args.get("numbers", "gap"))
+    receipt = assess_selected(text, args.get("modules"), name=name, repos=repos, store=args.get("store"),
+                              fetch=args.get("fetch", True), access=args.get("access"),
+                              github=github_get if args.get("github", True) else None,
+                              transcript=args.get("transcript"), numbers=args.get("numbers", "gap"))[0]
     return receipt, False
 
 

@@ -36,6 +36,7 @@ from buddie import anchors as anc
 from buddie import effects as eff
 from buddie import findings as fnd
 from buddie import mandate as man
+from buddie import modules as mods
 
 PREDICATE = "https://github.com/tsyyan/buddie#receipt-v0"  # the receipt format is described in the public repo
 FOUND = {"FOUND", "FOUND_NORMALIZED"}
@@ -121,7 +122,7 @@ def verify(text: str, *, name: str = "report", repos: list[Path] | None = None, 
            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
            mandate: dict | None | bool = True, rev: str | None = None, github=None,
            transcript: str | None = None, numbers: str = "gap") -> dict:
-    """The receipt (receipt-v0) for `text`; see assess for the arguments."""
+    """The receipt (receipt-v0) for `text`, every module run; see assess_selected for the arguments."""
     return assess(text, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes, now=now,
                   mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers)[0]
 
@@ -130,16 +131,39 @@ def assess(text: str, *, name: str = "report", repos: list[Path] | None = None, 
            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
            mandate: dict | None | bool = True, rev: str | None = None, github=None,
            transcript: str | None = None, numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
+    """assess_selected with every module: verify's own arguments, as they were before modules existed."""
+    return assess_selected(text, None, name=name, repos=repos, store=store, fetch=fetch, access=access,
+                           quotes=quotes, now=now, mandate=mandate, rev=rev, github=github, transcript=transcript,
+                           numbers=numbers)
+
+
+def assess_selected(text: str, modules=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
+                    fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
+                    mandate: dict | None | bool = True, rev: str | None = None, github=None,
+                    transcript: str | None = None,
+                    numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
     """The receipt for `text`, with the typed findings (core.Finding) its outcome comes from and the coverage
     (core.Coverage: what was not judged, and why); the findings stay internal, receipt-v0 is unchanged. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
     mandate: claims about the course of work, judged by the config of the first repo with buddie.toml (True), by
     the given config (dict), or not at all (False/None); rev: the commit whose queue the claims are judged against.
     github: GET function for pr:/ci: anchors (effects.github_get; None leaves them UNCHECKABLE); transcript: the
     Claude Code session jsonl for run: anchors. numbers: "gap" (a number NOT_FOUND in its readable source is a gap),
-    "fail" (it blocks) or "off"."""
+    "fail" (it blocks) or "off". modules: the ids of the modules to run (buddie/modules.py; None: all, as before
+    modules existed); the checks of the others are not run, and Coverage names them."""
     from datetime import datetime, timezone
+
+    from buddie import evidence
+    from buddie.verbatim.store import Store
+    selected = mods.select(modules)
+    on = mods.checks(selected)
+    quotes = quotes and core.Check.QUOTE in on
+    numbers = numbers if core.Check.NUMBER in on else "off"
+    if core.Check.WORK_CLAIM not in on:
+        mandate = False
+    store = store if isinstance(store, Store) else Store(store)  # one instance: what it fetched is known (collected)
     q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access) if quotes else ([], 0, None)
-    a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript})
+    keep = None if selected == mods.REGISTRY else (lambda a: fnd.anchor_check(a) in on)
+    a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript}, keep=keep)
     prose, prose_examples = eff.prose_work(text, anc.ANCHOR)
     # words in quotation marks with no link and no speaker are a term or an example, not a citation (134 of 164
     # unlinked "quotes" in lab's own reports): counted, not judged
@@ -150,11 +174,13 @@ def assess(text: str, *, name: str = "report", repos: list[Path] | None = None, 
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
     n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
-    found = fnd.from_rows(rows, a_results, claims, n_rows)
+    observed = frozenset(store.collected) if evidence.network_clean() else frozenset()
+    found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed)
     result = core.v0_outcome(found, core.Policy(numbers == "fail"))
     covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
                            mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,
-                           unanchored_lines=bare, prose_claims=prose)
+                           unanchored_lines=bare, prose_claims=prose,
+                           modules_off=[m.id for m in mods.REGISTRY if m not in selected])
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
                 + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
                 for r in rows if fnd.quote_fact(r["verdict"]) is CONTRADICTED]
