@@ -46,10 +46,12 @@ def _reason(word: str, fact: Fact) -> ReasonCode:
 
 
 def _snapshot(row: dict, observed=frozenset()) -> tuple[EvidenceRef, ...]:
-    """The snapshot a quote or a number was judged on. Bytes this check fetched itself, over a network nothing in
-    the environment stood in (`observed`, verify.assess), are COLLECTOR_OBSERVED. Any other snapshot's origin is
-    UNKNOWN: the store is a directory that an earlier `snap`, the agent or anyone with write access may have filled,
-    whatever its index says of itself (`source`)."""
+    """The snapshot a quote or a number was judged on. Bytes this check fetched itself from the cited URL over
+    https, over a network nothing in the environment stood in (`observed`, verify.assess; Store.collected), are
+    COLLECTOR_OBSERVED: buddie received them over TLS from the host the request ended at, which says nothing of
+    whether the page is right. Any other snapshot's origin is UNKNOWN: a store is a directory an earlier `snap`, the
+    agent or anyone with write access may have filled, whatever its index says of itself (`source`); a plain http
+    page may have come from anyone on the path; an archive, a relay or a browser copy came by another way."""
     if not row.get("sha256"):
         return ()
     provenance = Provenance.COLLECTOR_OBSERVED if row["sha256"] in observed else Provenance.UNKNOWN
@@ -99,19 +101,22 @@ ANCHOR_EVIDENCE = {
 }
 
 
-def github_provenance() -> Provenance:
-    """What a pr:/ci: answer is: observed from GitHub when the API is the default one or the protected policy's
-    and nothing in the environment stood between (evidence.network_clean); CALLER_SUPPLIED when the hook's
-    environment named the API (BUDDIE_GITHUB_API) or routed the request (a proxy, a CA file), since whoever set
-    that may have written the answer."""
+def github_provenance(collected: bool | None = None) -> Provenance:
+    """What a pr:/ci: answer is. COLLECTOR_OBSERVED only when all of these hold: buddie's own GET asked
+    (effects.github_get; not a function a caller handed in), over a network nothing in the environment stood in
+    for the whole check, of the default API or the protected policy's github_api. That says buddie received the
+    answer from that endpoint over TLS; it does not say the answer is right, and a policy's github_api is trusted
+    because the administrator named it. Anything less is CALLER_SUPPLIED: whoever named the API, routed the request
+    or wrote the GET function may have written the answer. `collected`: the first two, as verify.assess judged
+    them for the check; None (a finding built outside a check) asks the network as it is now."""
     from buddie import evidence
+    if collected is None:
+        collected = evidence.network_clean()
     _, chosen = eff.api()
-    if chosen != "environment" and evidence.network_clean():
-        return Provenance.COLLECTOR_OBSERVED
-    return Provenance.CALLER_SUPPLIED
+    return Provenance.COLLECTOR_OBSERVED if collected and chosen != "environment" else Provenance.CALLER_SUPPLIED
 
 
-def anchor(row: dict) -> Finding:
+def anchor(row: dict, github_collected: bool | None = None) -> Finding:
     check, status = anchor_check(row["anchor"]), row["status"]
     fact = status_fact(status)
     if fact is Fact.UNRECOGNIZED:
@@ -126,7 +131,7 @@ def anchor(row: dict) -> Finding:
     if fact in (Fact.SUPPORTED, Fact.CONTRADICTED) and check in ANCHOR_EVIDENCE:
         kind, provenance = ANCHOR_EVIDENCE[check]
         if provenance is Provenance.COLLECTOR_OBSERVED:
-            provenance = github_provenance()
+            provenance = github_provenance(github_collected)
         where = f"{row['repo']}:{row['anchor']}" if row.get("repo") else row["anchor"]
         evidence = (EvidenceRef(kind, where, provenance, observed_at=row.get("at")),)
     return Finding(check, row["anchor"], status, fact, reason, evidence, row.get("line"), row.get("why"))
@@ -142,10 +147,12 @@ def work_claim(row: dict) -> Finding:
                    row.get("why"))
 
 
-def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset()) -> list[Finding]:
-    """observed: sha256 of the snapshots this check fetched itself (see _snapshot)."""
+def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset(),
+              github_collected: bool | None = None) -> list[Finding]:
+    """observed: sha256 of the snapshots this check fetched itself (see _snapshot); github_collected: whether its
+    pr:/ci: answers are buddie's own collection over a clean network (see github_provenance)."""
     return ([quote(r, observed) for r in quotes] + [number(r, observed) for r in numbers]
-            + [anchor(r) for r in anchors] + [work_claim(c) for c in claims])
+            + [anchor(r, github_collected) for r in anchors] + [work_claim(c) for c in claims])
 
 
 def coverage(findings: list[Finding], *, quotes: bool, numbers: str, mandate_off: bool, mandate_config: bool,

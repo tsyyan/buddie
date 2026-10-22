@@ -25,6 +25,7 @@ import json
 import os
 import re
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -120,25 +121,60 @@ class GitHubUnavailable(Exception):
     pass
 
 
+def _origin(url: str) -> tuple:
+    u = urllib.parse.urlsplit(url)
+    scheme = u.scheme.lower()
+    return scheme, (u.hostname or "").lower(), u.port or {"https": 443, "http": 80}.get(scheme)
+
+
 def github_get(path: str) -> dict | None:
-    """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see)."""
+    """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see).
+
+    The token goes only to the API it belongs with. BUDDIE_GITHUB_TOKEN comes from the hook's environment, as
+    BUDDIE_GITHUB_API does, so it may go to that API. The plugin's token setting is the person's and goes only to
+    the default API or the protected policy's github_api, never to one the environment named (the agent could name
+    its own server and receive it). It is sent as an unredirected header, which urllib never copies to a redirect's
+    target; an answer that came from another origin than the API's (scheme, host, port) is not taken
+    (GitHubUnavailable: the anchor stays unchecked). A redirect on the API's own origin, as a renamed repo's, is
+    asked again there with the token. The request goes through urllib's installed opener: the remote server's
+    guarded one, the hook's isolated collector, or urllib's default."""
     from buddie.verbatim.store import read_body
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "buddie"}
+    base, chosen = api()
+    home = _origin(base)
     # only a token given to buddie by name: BUDDIE_GITHUB_TOKEN, or the plugin setting (Claude Code exports userConfig
     # as CLAUDE_PLUGIN_OPTION_*). An ambient GITHUB_TOKEN is never picked up and sent (1.1); in CI set
     # BUDDIE_GITHUB_TOKEN: ${{ github.token }}. An unset option may arrive as the literal placeholder: skip it.
-    tokens = (os.environ.get(k, "") for k in ("BUDDIE_GITHUB_TOKEN", "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN"))
-    if token := next((v for v in tokens if v and not v.startswith("${")), None):
-        headers["Authorization"] = f"Bearer {token}"
-    try:
-        with urllib.request.urlopen(urllib.request.Request(api()[0] + path, headers=headers), timeout=20) as r:
+    names = ("BUDDIE_GITHUB_TOKEN",) + (("CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN",) if chosen != "environment" else ())
+    token = next((v for v in (os.environ.get(k, "") for k in names) if v and not v.startswith("${")), None)
+
+    def ask(url: str):
+        req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "buddie"})
+        if token:
+            req.add_unredirected_header("Authorization", f"Bearer {token}")
+        with urllib.request.urlopen(req, timeout=20) as r:
+            if _origin(r.geturl()) != home:
+                raise GitHubUnavailable(f"GitHub redirected {path} to another host; its answer is not taken")
             return json.loads(read_body(r))
-    except urllib.error.HTTPError as error:
-        if error.code == 404:
-            return None
-        raise GitHubUnavailable(f"GitHub {error.code} on {path}") from error
-    except (urllib.error.URLError, TimeoutError, OSError) as error:
-        raise GitHubUnavailable(f"GitHub unreachable: {error}") from error
+    url = base + path
+    for attempt in range(2):
+        try:
+            return ask(url)
+        except urllib.error.HTTPError as error:
+            final = error.geturl() or url
+            if _origin(final) != home:
+                raise GitHubUnavailable(f"GitHub redirected {path} to another host; its answer is not taken") from error
+            if error.code == 404 and token and final != url and attempt == 0:
+                url = final  # redirected on the API's origin without the token: ask there with it
+                continue
+            if error.code == 404:
+                return None
+            raise GitHubUnavailable(f"GitHub {error.code} on {path}") from error
+        except (urllib.error.URLError, TimeoutError, OSError) as error:
+            raise GitHubUnavailable(f"GitHub unreachable: {error}") from error
+    return None
+
+
+github_get.buddie_collector = True  # verify.assess: answers from here are buddie's own collection (findings.py)
 
 
 def _get(ctx: dict, path: str):

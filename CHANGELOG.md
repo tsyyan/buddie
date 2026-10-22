@@ -16,6 +16,15 @@
 - Findings record their evidence's provenance more exactly (internal; receipt-v0 unchanged): a snapshot this check
   fetched itself is observed, another is of unknown origin; a `pr:`/`ci:` answer from `BUDDIE_GITHUB_API` or
   through an environment proxy is caller supplied, not observed from GitHub.
+- Security: the GitHub token goes only where it belongs. The plugin's token setting is no longer sent to an API
+  named by `BUDDIE_GITHUB_API` (the agent could name its own server), only to `api.github.com` or the policy's
+  `github_api`; the token is an unredirected header, so a redirect never carries it to another host, and an answer
+  from another origin is not taken (the anchor stays unchecked).
+- Provenance says what buddie observed: a snapshot is collector observed only when this check fetched the cited
+  https URL itself (not bytes added to the store, not plain http, not archive or browser copies), and a `pr:`/`ci:`
+  answer only when buddie's own GitHub GET asked the default or the policy's API. The network is judged before and
+  after a check, and the isolated collector nests and overlaps across threads without leaving its opener behind;
+  it no longer touches `os.environ`. docs/policy.md, "Provenance" and "The collector's scope".
 - Security: the Codex Stop hook runs `python3 -I` / `python -I`, so `PYTHONPATH` from the environment loads nothing.
 - Windows: a `[mandate]` queue read at a commit (`git show`) is decoded as UTF-8, as the file in the tree is, not in
   the locale's encoding (cp1251 misread a Russian queue's words). The same for the repo path git prints (a checkout

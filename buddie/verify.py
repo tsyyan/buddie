@@ -142,6 +142,19 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
                     mandate: dict | None | bool = True, rev: str | None = None, github=None,
                     transcript: str | None = None,
                     numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
+    """_assess under one reading of the protected policy (the event's inside the hook, its own outside), so the
+    GitHub API asked and the one a finding's provenance names are the same."""
+    from buddie import policy
+    with policy.held():
+        return _assess(text, modules, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes,
+                       now=now, mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers)
+
+
+def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
+            fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
+            mandate: dict | None | bool = True, rev: str | None = None, github=None,
+            transcript: str | None = None,
+            numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
     """The receipt for `text`, with the typed findings (core.Finding) its outcome comes from and the coverage
     (core.Coverage: what was not judged, and why); the findings stay internal, receipt-v0 is unchanged. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
     mandate: claims about the course of work, judged by the config of the first repo with buddie.toml (True), by
@@ -156,6 +169,7 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
     from buddie.verbatim.store import Store
     selected = mods.select(modules)
     on = mods.checks(selected)
+    clean = evidence.network_clean()  # asked again after the check: a collector may start or end meanwhile
     quotes = quotes and core.Check.QUOTE in on
     numbers = numbers if core.Check.NUMBER in on else "off"
     if core.Check.WORK_CLAIM not in on:
@@ -174,8 +188,10 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
     n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
-    observed = frozenset(store.collected) if evidence.network_clean() else frozenset()
-    found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed)
+    clean = clean and evidence.network_clean()
+    observed = frozenset(store.collected) if clean else frozenset()
+    found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed,
+                          github_collected=clean and getattr(github, "buddie_collector", False))
     result = core.v0_outcome(found, core.Policy(numbers == "fail"))
     covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
                            mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,

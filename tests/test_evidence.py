@@ -174,13 +174,14 @@ def test_a_forged_snapshot_passes_from_the_session_store_and_not_with_stores_obs
     (tmp_path / "t").mkdir()
     pred, stores, found, ctx = judged(text, cwd)
     assert pred["quotes"][0]["verdict"] == "NOT_FOUND" and stores == []
-    assert found[0].evidence[0].provenance is Provenance.COLLECTOR_OBSERVED
+    # fetched now, but over plain http (the test's server): anyone on the path may have answered, so not observed
+    assert found[0].evidence[0].provenance is Provenance.UNKNOWN
     assert "evidence.stores" in ctx.refused and list((tmp_path / "t").iterdir()) == []  # the check's store is gone
     code, err = stop(cwd, text, monkeypatch, capsys)
     assert code == 2 and "only against pages fetched in this check" in err
-    pages["/outage"] = FORGED  # the page itself says it: observed, it holds
+    pages["/outage"] = FORGED  # the page itself says it: fetched in this check, it holds
     pred, _, found, _ = judged(text, cwd)
-    assert pred["quotes"][0]["verdict"] == "FOUND" and found[0].evidence[0].provenance is Provenance.COLLECTOR_OBSERVED
+    assert pred["quotes"][0]["verdict"] == "FOUND" and found[0].evidence[0].provenance is Provenance.UNKNOWN
 
 
 def test_observed_with_no_fetch_is_a_gap_not_a_pass(admin, tmp_path, monkeypatch):
@@ -256,7 +257,7 @@ def test_a_proxy_from_the_environment_cannot_answer_for_a_page_with_collector_is
         assert not any(isinstance(h, urllib.request.ProxyHandler) for h in urllib.request._opener.handlers)
         assert "evidence.collector" in resolved.resolve({"cwd": str(tmp_path)}).refused
     assert urllib.request._opener is before and evidence.network_clean() is False  # restored after the event
-    assert evidence._isolated is False
+    assert not evidence._isolated()
 
 
 def test_a_snapshot_fetched_through_a_proxy_is_not_observed(server, tmp_path, monkeypatch):
@@ -264,6 +265,13 @@ def test_a_snapshot_fetched_through_a_proxy_is_not_observed(server, tmp_path, mo
     pages["/a"] = FORGED
     text = f"It said “{QUOTE}” ([s]({base}/a))."
     monkeypatch.setenv("VERBATIM_STORE", str(tmp_path / "s"))
+    original = Store.fetch
+
+    def as_if_https(self, url, timeout=30):  # the test's server speaks http; count its bytes as an https fetch's
+        entry = original(self, url, timeout)
+        self.collected.add(entry["sha256"])
+        return entry
+    monkeypatch.setattr(Store, "fetch", as_if_https)
     _, _, found, _ = judged(text, tmp_path)
     assert found[0].evidence[0].provenance is Provenance.COLLECTOR_OBSERVED  # fetched now, nothing in between
     monkeypatch.setenv("VERBATIM_STORE", str(tmp_path / "s2"))
@@ -286,12 +294,19 @@ def test_an_api_from_the_environment_is_not_github_and_the_policy_can_fix_it(adm
     asked = []
 
     class Answer(io.BytesIO):
+        def __init__(self, req):
+            super().__init__(b"{}")
+            self.url = req.full_url
+
+        def geturl(self):
+            return self.url
+
         def __enter__(self):
             return self
 
         def __exit__(self, *a):
             return False
-    monkeypatch.setattr(urllib.request, "urlopen", lambda req, timeout: asked.append(req) or Answer(b"{}"))
+    monkeypatch.setattr(urllib.request, "urlopen", lambda req, timeout: asked.append(req) or Answer(req))
     monkeypatch.setenv("BUDDIE_GITHUB_TOKEN", "t0ken")
     with policy.snapshot():
         assert effects.api() == ("https://ghe.example/api/v3", "policy")

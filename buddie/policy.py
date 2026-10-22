@@ -253,6 +253,17 @@ def snapshot():
         _SNAPSHOT.reset(token)
 
 
+@contextmanager
+def held():
+    """The snapshot already in force (a hook event's), else one for the block: a CLI or MCP check reads the policy
+    once, not once per question it asks of it."""
+    if (got := _SNAPSHOT.get()) is not None:
+        yield got
+        return
+    with snapshot() as got:
+        yield got
+
+
 TEMPLATE = f"""# buddie protected policy (docs/policy.md). Install it where only an administrator can write:
 #   Linux, macOS:  sudo install -d -o root -m 0755 /etc/buddie
 #                  sudo install -o root -m 0644 policy.toml /etc/buddie/policy.toml

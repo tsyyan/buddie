@@ -125,7 +125,7 @@ class Store:
         self.root = Path(root or os.environ.get("VERBATIM_STORE") or DEFAULT_STORE)
         self.snapshots = self.root / "snapshots"
         self.index_path = self.root / "index.json"
-        self.collected: set[str] = set()  # sha256 of the bytes this instance recorded (fetched or added) itself
+        self.collected: set[str] = set()  # sha256 of what fetch() itself received from the cited URL over https
 
     def index(self) -> dict[str, list[dict]]:
         if self.index_path.exists():
@@ -163,8 +163,6 @@ class Store:
             index = self.index()
             index.setdefault(canonical_url(url), []).append(entry)
             self._write_index(index)
-        if entry.get("sha256"):
-            self.collected.add(entry["sha256"])
         return entry
 
     def add(self, url: str, data: bytes, *, content_type: str | None = None, fetched_at: str | None = None,
@@ -182,9 +180,12 @@ class Store:
         request = urllib.request.Request(request_url(url), headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
-                return self.add(url, read_body(response), content_type=response.headers.get("Content-Type"),
-                                http_status=response.status, final_url=response.geturl(),
-                                content_encoding=response.headers.get("Content-Encoding"))
+                entry = self.add(url, read_body(response), content_type=response.headers.get("Content-Type"),
+                                 http_status=response.status, final_url=response.geturl(),
+                                 content_encoding=response.headers.get("Content-Encoding"))
+            if url.lower().startswith("https://") and str(entry.get("final_url", "")).lower().startswith("https://"):
+                self.collected.add(entry["sha256"])  # asked and answered over TLS: not add()ed, not plain http
+            return entry
         except urllib.error.HTTPError as error:
             return self.record(url, {"sha256": None, "fetched_at": now(), "http_status": error.code,
                                      "content_type": error.headers.get("Content-Type"), "final_url": url,

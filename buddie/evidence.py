@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import os
 import tempfile
+import threading
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
@@ -87,44 +88,77 @@ def store_for(cwd: Path, repo_paths: list[Path], transcript: str | None):
 
 
 def network_clean() -> bool:
-    """Whether the hook's fetches reach their hosts with nothing the environment set in between: the collector is
-    isolated, or no proxy (environment, or the system settings urllib reads) and no CA location is set."""
+    """Whether the hook's fetches reach their hosts with nothing the environment set in between: a collector is
+    isolated, or no proxy (environment, or the system settings urllib reads) and no CA location is set. It
+    describes the moment it is asked: verify.assess asks before and after a check and needs both (a collector of
+    another thread may start or end meanwhile)."""
     import urllib.request
-    if _isolated:
+    if _isolated():
         return True
     return not any(os.environ.get(k) for k in PROXY_VARS + CA_VARS) and not urllib.request.getproxies()
 
 
-_isolated = False
+# The collector's state is process-wide, as urllib's installed opener is: while any collector is active, every
+# urllib request of the process goes direct and verifies TLS against the fixed CA store (the hook is one process per
+# event, so that is the event). Collectors nest and overlap across threads: the first to start installs the opener,
+# the last to end restores the one before; a lock keeps that bookkeeping whole.
+_lock = threading.Lock()
+_depth = 0
+_saved_opener = None
+
+
+def _isolated() -> bool:
+    return _depth > 0
+
+
+def _context():
+    """TLS that trusts the system's CA store as installed, never SSL_CERT_FILE / SSL_CERT_DIR: OpenSSL's compiled-in
+    file and directory, and on Windows the system's CA and ROOT stores (ssl.create_default_context would read the
+    variables, and taking them out of os.environ for it would change them for every thread)."""
+    import ssl
+    import sys
+    ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)  # certificates and host names verified
+    if sys.platform == "win32":
+        pem = [ssl.DER_cert_to_PEM_cert(cert) for store in ("CA", "ROOT") for cert, kind, trust in
+               ssl.enum_certificates(store)
+               if kind == "x509_asn" and (trust is True or ssl.Purpose.SERVER_AUTH.oid in trust)]
+        if pem:
+            ctx.load_verify_locations(cadata="".join(pem))
+    paths = ssl.get_default_verify_paths()
+    if paths.openssl_cafile and os.path.isfile(paths.openssl_cafile):
+        ctx.load_verify_locations(cafile=paths.openssl_cafile)
+    if paths.openssl_capath and os.path.isdir(paths.openssl_capath):
+        ctx.load_verify_locations(capath=paths.openssl_capath)
+    return ctx
 
 
 @contextmanager
 def collector():
-    """The hook's network for one event. collector = "isolated" (the policy's default): urllib goes direct (no
-    proxy from the environment or the system settings) and verifies TLS against the default CA store, without the
-    SSL_CERT_FILE / SSL_CERT_DIR the environment may point elsewhere. Without a policy, or with "environment",
-    nothing changes. Yields whether the collector is isolated."""
-    global _isolated
+    """The hook's network for one event. collector = "isolated": urllib goes direct (no proxy from the environment
+    or the system settings) and verifies TLS against the system's CA store, not the SSL_CERT_FILE / SSL_CERT_DIR the
+    environment may point elsewhere. Without a policy, or with "environment", nothing changes. Yields whether the
+    collector is isolated. Everything is restored when the last active collector ends, by an exception too."""
+    global _depth, _saved_opener
     lim = limits()
     if lim is None or lim.collector == "environment":
         yield False
         return
-    import ssl
     import urllib.request
-    saved = {k: os.environ.pop(k) for k in CA_VARS if k in os.environ}
-    try:
-        context = ssl.create_default_context()
-    finally:
-        os.environ.update(saved)
-    before = urllib.request._opener  # urlopen's installed opener (None: it builds the default one)
-    urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler({}),
-                                                              urllib.request.HTTPSHandler(context=context)))
-    _isolated = True
+    with _lock:
+        if _depth == 0:
+            isolated = urllib.request.build_opener(urllib.request.ProxyHandler({}),
+                                                   urllib.request.HTTPSHandler(context=_context()))
+            _saved_opener = urllib.request._opener  # urlopen's installed opener (None: it builds the default one)
+            urllib.request.install_opener(isolated)
+        _depth += 1
     try:
         yield True
     finally:
-        _isolated = False
-        urllib.request._opener = before
+        with _lock:
+            _depth -= 1
+            if _depth == 0:
+                urllib.request._opener = _saved_opener
+                _saved_opener = None
 
 
 def refused(lim) -> list[str]:

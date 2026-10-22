@@ -210,17 +210,59 @@ What each key guarantees, and what it does not:
   turning it off. It does not make the journal tamper-evident: the agent can edit a file in the user's home.
 - **`collector = "isolated"`** makes the hook's own fetches (pages, GitHub) ignore proxies from the environment and
   from the user's system settings, and the CA locations the environment names, so a local proxy cannot answer for
-  a site. TLS is still verified against the interpreter's default CA store, which on Windows includes the user's
-  own root store; a CA the person was prompted to add there is trusted. `http://` pages are not authenticated by
-  anyone. An installation that needs a proxy to reach the web cannot use `"isolated"`.
-- **`github_api`** fixes the server `pr:` and `ci:` are asked of, and where `BUDDIE_GITHUB_TOKEN` is sent.
+  a site. TLS is verified against the system's CA store as installed (see "The collector's scope"), which on
+  Windows includes the user's own root store; a CA the person was prompted to add there is trusted. `http://`
+  pages are not authenticated by anyone. An installation that needs a proxy to reach the web cannot use
+  `"isolated"`.
+- **`github_api`** fixes the server `pr:` and `ci:` are asked of, and where either token may be sent (below).
 
-Separately from the policy, buddie now records how far each finding's evidence is known (`core.Provenance`,
-internal: receipt-v0 does not change). A snapshot this check fetched itself, with no proxy or CA override in
-between, is *observed*; any other snapshot's origin is *unknown*, whatever its index says. A `pr:`/`ci:` answer is
-observed from GitHub only when the API is the default one or the policy's and nothing stood between; with
-`BUDDIE_GITHUB_API` or a proxy from the environment it is *caller supplied*. This never changes a verdict or a gate
-decision.
+### The GitHub token
+
+`github_get` sends a token only where it belongs:
+- `BUDDIE_GITHUB_TOKEN` comes from the hook's environment, as `BUDDIE_GITHUB_API` does, so it may go to that API.
+- The plugin's token setting (`CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN`) is the person's. It goes only to
+  `api.github.com` or the policy's `github_api`, never to an API the environment named: otherwise an agent could
+  name its own server and receive it. A GitHub Enterprise installation that uses the plugin setting names its API
+  in the policy.
+- The token is an unredirected header, which urllib never copies to a redirect's target. An answer from another
+  origin than the API's (scheme, host and port) is not taken, and the anchor stays unchecked. A redirect on the
+  API's own origin (a renamed repo) is asked again there, with the token.
+- Requests go through the opener installed in the process: the remote server's guarded one, the hook's isolated
+  collector, or urllib's default.
+
+### Provenance
+
+Separately from the policy, buddie records how far each finding's evidence is known (`core.Provenance`, internal:
+receipt-v0 does not change, and no verdict or gate decision depends on it).
+
+*Collector observed* means one thing: buddie's own collector received these bytes during this check, over TLS,
+from the endpoint buddie chose, with nothing the environment set in between for the whole check. It says who
+answered. It does not say the answer is true, and a page can be observed and wrong.
+- **A snapshot** is observed only when this check's `Store.fetch` asked the cited `https://` URL and the response
+  ended on `https://`. Everything else is *unknown*: snapshots already on disk (whatever their index says), bytes a
+  caller `add()`ed, plain `http://` pages (anyone on the path may have answered), and copies from the access
+  cascade (archives, relays, a browser, which take other routes). For a redirected page, the host that answered is
+  the one the request ended at; buddie does not judge the redirect chain.
+- **A `pr:`/`ci:` answer** is observed only when buddie's own `github_get` asked it, not a function a caller handed
+  in, of `api.github.com` or the policy's `github_api`, with the network clean for the check. With
+  `BUDDIE_GITHUB_API`, a proxy or a CA override from the environment, or a caller's function, it is *caller
+  supplied*. A policy's `github_api` counts as observed because the administrator named it: buddie trusts the
+  administrator's choice of endpoint, not anything about the endpoint itself.
+- **"Nothing in between"** is judged before and after the check (`evidence.network_clean`). Both must hold, so a
+  collector that another thread starts or ends meanwhile cannot make an unclean fetch look clean.
+
+### The collector's scope
+
+The isolated collector changes urllib's opener for the whole process while it is active: every urllib request of
+the process goes direct and verifies TLS against the system's CA store. The hook runs one process per event, so that
+scope is the event. Collectors nest and may overlap across threads. The first to start installs the opener, the
+last to end restores the one before, under a lock, after an exception too. Two overlapping collectors share one
+isolated opener. The CA store is built from OpenSSL's compiled-in file and directory, and on Windows the system's
+CA and ROOT stores; `SSL_CERT_FILE` and `SSL_CERT_DIR` are never read, and `os.environ` is never changed for it.
+Not covered:
+- `OPENSSL_CONF` and similar variables that OpenSSL reads when it starts;
+- a CA in the user's own Windows root store;
+- a Python interpreter installed where the agent can write (see "A trusted launcher").
 
 ## What it does not cover
 

@@ -121,8 +121,6 @@ class UnionStore(Store):
             index = Store.index(self)
             index.setdefault(canonical_url(url), []).append(entry)
             self._write_index(index)
-        if entry.get("sha256"):
-            self.collected.add(entry["sha256"])
         return entry
 
     def latest(self, url: str) -> dict | None:
