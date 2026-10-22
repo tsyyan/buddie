@@ -37,8 +37,8 @@ from pathlib import Path
 def cmd_verify(args) -> int:
     from buddie.anchors import find_repos
     from buddie.effects import github_get
-    from buddie import profiles
-    from buddie.verify import assess_selected
+    from buddie import profiles, receipts
+    from buddie.verify import assessment
     try:
         selection = profiles.resolve(args.profile, args.modules, args.checks)
     except profiles.UnknownProfile as error:  # a usage error, not a smaller check
@@ -46,14 +46,15 @@ def cmd_verify(args) -> int:
         return 2
     text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
     repos = [Path(r) for r in args.repo] if args.repo else find_repos(Path.cwd())
-    receipt, _, covered = assess_selected(text, args.modules, name=args.report, repos=repos, store=args.store,
-                                          fetch=not args.no_fetch, access=args.access, quotes=not args.anchors_only,
-                                          rev=args.rev, github=None if args.no_github else github_get,
-                                          transcript=args.transcript, numbers=args.numbers, profile=args.profile,
-                                          checks=args.checks)
+    got = assessment(text, args.modules, name=args.report, repos=repos, store=args.store, fetch=not args.no_fetch,
+                     access=args.access, quotes=not args.anchors_only, rev=args.rev,
+                     github=None if args.no_github else github_get, transcript=args.transcript, numbers=args.numbers,
+                     profile=args.profile, checks=args.checks)
+    receipt, covered = got.receipt, got.coverage  # receipt-v0: the lines and the exit code, whatever --receipt
     pred = receipt["predicate"]
+    chosen = receipts.render(got, args.receipt)  # the same check, in the contract asked for
     if args.json:
-        Path(args.json).write_text(json.dumps(receipt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        Path(args.json).write_text(json.dumps(chosen, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     for item in pred["blocking"]:
         print(f"BLOCK {item}")
     for item in pred["gaps"]:
@@ -62,8 +63,8 @@ def cmd_verify(args) -> int:
         print(f"note  {item}")
     if line := profiles.note(selection, covered):
         print(f"note  {line}")
-    print(pred["line"])
-    return 1 if pred["outcome"] == "FAIL" else 0
+    print(receipts.line(chosen) if args.receipt == "v1" else pred["line"])
+    return 1 if pred["outcome"] == "FAIL" else 0  # v0 FAIL is v1 FAIL: the exit code is the same for both
 
 
 def cmd_mandate(args) -> int:
@@ -220,6 +221,21 @@ def _module_ids(spec: str) -> list[str]:
         raise argparse.ArgumentTypeError(str(error)) from error
 
 
+def cmd_receipt_schema(args) -> int:
+    """The JSON Schema of receipt-v1 (buddie/receipts.py; docs/receipt-v1.schema.json is the same)."""
+    from buddie import receipts
+    print(json.dumps(receipts.SCHEMA, ensure_ascii=False, indent=1))
+    return 0
+
+
+def _receipt_version(name: str) -> str:
+    from buddie import receipts
+    try:
+        return receipts.version_of(name)
+    except receipts.UnknownReceiptVersion as error:
+        raise argparse.ArgumentTypeError(str(error)) from error
+
+
 def cmd_profiles(args) -> int:
     """The verification profiles and the modules and checks each one resolves to (buddie/profiles.py)."""
     from buddie import profiles
@@ -285,6 +301,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--access", help="verbatim access cascade for unreadable pages, e.g. default")
     s.add_argument("--anchors-only", action="store_true", help="skip quotes")
     s.add_argument("--profile", help="developer, research, complete or custom (see `buddie profiles`)")
+    s.add_argument("--receipt", type=_receipt_version, default="v0",
+                   help="receipt contract for --json and the summary line: v0 (default) or v1 (docs/receipts.md)")
     s.add_argument("--checks", type=lambda v: [c for c in v.split(",") if c.strip()],
                    help="custom profile: these checks, comma separated (with or without --modules)")
     s.add_argument("--modules", type=_module_ids,
@@ -342,6 +360,7 @@ def main(argv: list[str] | None = None) -> int:
     po.set_defaults(func=cmd_policy)
     sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
     sub.add_parser("profiles", help="the verification profiles and what each checks").set_defaults(func=cmd_profiles)
+    sub.add_parser("receipt-schema", help="the JSON Schema of receipt-v1").set_defaults(func=cmd_receipt_schema)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     try:
