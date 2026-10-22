@@ -13,3 +13,7 @@ pytest            # bare pytest, as CI runs it; tests that need the lab's snapsh
 - The version lives in `buddie/__init__.py`; `pyproject.toml`, `CITATION.cff` and `.claude-plugin/plugin.json`
   carry the same number (`tests/test_version.py`).
 - buddie checks claims without a model. A change that adds a model call to a verdict needs its own discussion first.
+- Claude Code opened in a clone of this repository loads its `.mcp.json` as a project MCP server. That file is the
+  plugin's: `${CLAUDE_PLUGIN_ROOT}` is set only for an installed plugin, so in a clone the server starts `/run.py` and
+  fails (`/mcp` shows it failed). Disable it for the project there, or add your own server with
+  `python3 /path/to/clone/run.py serve`. The plugin itself is not affected (docs/integrations.md, finding 6).

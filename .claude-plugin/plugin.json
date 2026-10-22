@@ -27,7 +27,7 @@
     "github_token": {
       "type": "string",
       "title": "GitHub token (optional)",
-      "description": "Used only for pr: and ci: anchors, sent only to api.github.com. Without it GitHub allows 60 lookups an hour and private repos can't be checked.",
+      "description": "Used only for pr: and ci: anchors, sent only to api.github.com (or the GitHub API an administrator's protected policy names). Without it GitHub allows 60 lookups an hour and private repos can't be checked.",
       "sensitive": true,
       "required": false
     },

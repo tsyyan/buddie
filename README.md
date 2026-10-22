@@ -113,7 +113,8 @@ The hook runs through `hooks/run.sh`, which starts the first of `python3`, `pyth
 so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
 
 Optional setting: a GitHub token for `pr:`/`ci:` anchors (the plugin asks for it and stores it as a secret; it is
-sent only to api.github.com). Without it GitHub allows 60 lookups an hour and private repos can't be checked.
+sent only to api.github.com, or to the GitHub API an administrator's protected policy names: never to one the
+environment names). Without it GitHub allows 60 lookups an hour and private repos can't be checked.
 
 Without Claude Code: `python3 run.py verify REPORT.md --repo .` from a clone works without installing anything.
 
@@ -199,6 +200,11 @@ quote with the snapshot SHA-256 and offset, the status of every anchor, and the 
 `ci:` and `run:` receipts carry a note: an anchor shows what happened (a PR in that state, checks on that commit, a
 command and its output), not that the code is correct. A green CI on weak tests stays weak.
 
+## Integrations at a glance
+
+Which surfaces enforce (the Claude Code and Codex hooks) and which advise (CLI, MCP, the remote server, the Python
+API), what each returns and how to troubleshoot it: [docs/integrations.md](docs/integrations.md).
+
 ## Receipt v1
 
 receipt-v0's outcome describes the checks that ran: after a partial run (a profile, `--anchors-only`) it can say
@@ -274,7 +280,7 @@ by DOI, known syndicated copies. `verbatim` never bypasses paywalls, captchas or
 | `VERBATIM_STORE` | `./.verbatim` | snapshot store |
 | `BUDDIE_FETCH` | on | `0`: the hook uses stored snapshots only |
 | `BUDDIE_GITHUB` | on | `0`: no GitHub calls, `pr:`/`ci:` become `UNCHECKABLE` |
-| `BUDDIE_GITHUB_TOKEN`, `GITHUB_TOKEN` | none | token for the GitHub API (public repos work without one, within rate limits) |
+| `BUDDIE_GITHUB_TOKEN` | none | token for the GitHub API (public repos work without one, within rate limits); an ambient `GITHUB_TOKEN` is never picked up |
 | `BUDDIE_REPOS` | git repos around the working directory | `dir:dir` repos for anchors |
 | `BUDDIE_FINAL` | `final_mark` in `[mandate]` of `buddie.toml`, else none | regex marking a final answer that must carry anchors at any event; with none, the last message at `Stop` is the final answer; empty turns the rule off |
 | `BUDDIE_LOG` | `~/.cache/buddie/hook.jsonl` | hook run log; `0` turns it off |

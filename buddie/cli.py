@@ -44,7 +44,21 @@ def cmd_verify(args) -> int:
     except profiles.UnknownProfile as error:  # a usage error, not a smaller check
         print(f"buddie verify: {error}", file=sys.stderr)
         return 2
-    text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
+    # a report that cannot be read is an input error (exit 2), never a FAIL (exit 1): a traceback exited 1 before
+    if args.report != "-" and Path(args.report).is_dir():
+        print(f"buddie verify: {args.report} is a directory: give a report file, or - for stdin", file=sys.stderr)
+        return 2
+    try:
+        text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
+    except UnicodeDecodeError as error:
+        print(f"buddie verify: {args.report}: not UTF-8 (byte {error.start}); give the report as UTF-8 text",
+              file=sys.stderr)
+        return 2
+    except OSError as error:
+        if isinstance(error, FileNotFoundError):
+            raise  # main() says so, as before
+        print(f"buddie verify: {args.report} cannot be read ({error.strerror or error})", file=sys.stderr)
+        return 2
     repos = [Path(r) for r in args.repo] if args.repo else find_repos(Path.cwd())
     got = assessment(text, args.modules, name=args.report, repos=repos, store=args.store, fetch=not args.no_fetch,
                      access=args.access, quotes=not args.anchors_only, rev=args.rev,
@@ -169,6 +183,13 @@ def cmd_status(args) -> int:
         print(f"config: no {config.CONFIG} (fresh-install defaults): only a quote that is not on its page or an anchor "
               "that does not hold goes back; `buddie init` turns on the project's full checks")
     print("levels: " + ", ".join(f"{k}={v}" for k, v in lv.items()))
+    from buddie import policy
+    loaded = policy.load()
+    if loaded.status is policy.Status.ACTIVE:
+        print(f"policy: active ({loaded.path}): its floors and limits apply above these levels (buddie policy show)")
+    elif loaded.status is policy.Status.INVALID:
+        print(f"policy: INVALID ({loaded.path}: {loaded.error}): the strictest limits apply and the hook returns each "
+              "answer until an administrator fixes the file (buddie policy check)")
     if path and not config.problem(path) and config.load(path).get("verify") is not None:
         from buddie import resolved
         ctx = resolved.resolve({"cwd": str(path.parent)}, [path.parent])  # with the protected policy's floors
