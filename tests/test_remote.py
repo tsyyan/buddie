@@ -127,3 +127,25 @@ def test_guarded_connections_and_opener():
         opener.open("file:///etc/passwd", timeout=2)
     with pytest.raises(urllib.error.URLError):
         opener.open("http://127.0.0.1/", timeout=2)
+
+
+def test_an_early_answer_reaches_the_client_and_ends_the_connection(server):
+    """413 (too large), 401 (no token) and 404 (another path) are answered before the body is read. The server reads
+    and drops what was declared and closes the connection: a socket closed with unread bytes is reset on Windows,
+    and the client lost the answer (WinError 10053, about one call in forty before)."""
+    import socket
+    from urllib.parse import urlsplit
+    base = server(token="s3cret", max_bytes=200)
+    host, port = urlsplit(base).hostname, urlsplit(base).port
+    body = json.dumps(rpc("tools/call", {"name": "verify_report", "arguments": {"text": "x" * 500}})).encode()
+    for path, auth, want in [(b"/mcp", "Bearer s3cret", b" 413 "), (b"/mcp", "Bearer wrong", b" 401 "),
+                             (b"/other", "Bearer s3cret", b" 404 ")] * 30:
+        with socket.create_connection((host, port), timeout=10) as s:
+            s.sendall(b"POST " + path + b" HTTP/1.1\r\nHost: x\r\nContent-Type: application/json\r\n"
+                      + b"Authorization: "
+                      + auth.encode() + b"\r\nContent-Length: " + str(len(body)).encode() + b"\r\n\r\n" + body)
+            got = b""
+            while chunk := s.recv(65536):
+                got += chunk
+        head = got.split(b"\r\n\r\n", 1)[0]
+        assert want in head.split(b"\r\n")[0] and b"Connection: close" in head, got[:200]

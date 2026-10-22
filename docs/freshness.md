@@ -62,7 +62,11 @@ agent-writable state (`basis: agent_writable`), as in environment snapshots, not
 ### Trust boundaries
 
 - **What buddie observed.** A binding counts as buddie's observation only when `freshness.py` made it
-  (`observed()`, by identity). Its `provenance` then says how far its source is known: `collector_observed` for
+  (`observed()`, by identity). This is a boundary for data, not a sandbox, and it is not cryptographic: whatever
+  arrives as data (a Binding built from fields, a copy, a pickle, a JSON document, the CLI's arguments and files)
+  is never taken for an observation, but Python code running in the same interpreter can register a Binding of its
+  own (`freshness._observed`) as it can replace `github_get`. The guarantee holds at the CLI and for callers who hand
+  buddie data, not code. Its `provenance` then says how far its source is known: `collector_observed` for
   buddie's own GitHub GET to the default API or the protected policy's `github_api`, over a network nothing in the
   environment stood in; `unknown` for an API the environment named (`BUDDIE_GITHUB_API`, which a project can set)
   or a GET function a caller handed in; `agent_writable` for the local repository and its files.
@@ -75,8 +79,28 @@ agent-writable state (`basis: agent_writable`), as in environment snapshots, not
   `base.repo.full_name` must be the repository asked for. Anything malformed resolves nothing (`malformed_answer`).
 - **The protected policy.** `network = "forbidden"` asks GitHub nothing (`network_forbidden`); `collector =
   "isolated"` applies to its requests as to the hook's; `github_api` chooses the API. No policy key was added.
-- **No relabelling.** Results are frozen, and `render()` computes every state again from its bindings: a result
-  whose state was set by hand is refused.
+- **No relabelling, no editing.** Results and bindings are frozen, and so are a binding's `details`, all the way
+  down (read-only mappings and tuples, copied when the binding is made). `render()` computes every state again from
+  its bindings and every CI summary again from its runs and statuses, refuses a result or summary set by hand, and
+  returns new plain objects: a document shares nothing with the evidence it was made from.
+
+## Which CI results count
+
+GitHub is asked for the latest run of each check in each check suite (`filter=latest`, said explicitly), so a re-run
+replaces the attempt before it, and for the combined status, which is the latest per context. Check runs and
+statuses stay apart, even under one name. What GitHub does not say is which of two check suites on one commit counts
+(two workflows that both run `test`, one workflow on `push` and on `pull_request`, an older run cancelled when a
+newer one started). buddie does not guess:
+
+| Outcome | When |
+|---|---|
+| `pending` | a run or status is not done |
+| `ambiguous` | one check name (or status context) has a run that ended well and one that did not: which counts cannot be told |
+| `success` | every run ended success, neutral or skipped, and every status success |
+| `failure` | otherwise (cancelled, timed out, action required, error) |
+| `none` | no run and no status: no evidence (`no_ci_results`), never a success |
+
+Names found in more than one suite are listed (`duplicates`) and printed, also when their results agree.
 
 ## Using it
 

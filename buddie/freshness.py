@@ -20,8 +20,10 @@ from __future__ import annotations
 import json
 import re
 import weakref
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from types import MappingProxyType
 
 from buddie.core import Provenance
 
@@ -50,10 +52,44 @@ class Binding:
     provenance: Provenance
     reason: str | None = None
     observed_at: str | None = None
-    details: dict = field(default_factory=dict)  # what the evidence says beside its revision (the CI outcome)
+    details: Mapping = field(default_factory=dict)  # what the evidence says beside its revision (the CI outcome)
+
+    def __post_init__(self):
+        # frozen all the way down: what was observed cannot be edited after the fact (a read-only mapping of
+        # tuples); render() gives new plain objects, so a document shares nothing with the binding
+        object.__setattr__(self, "details", _freeze(self.details if self.details is not None else {}))
+
+    def __reduce__(self):
+        # copy, deepcopy and pickle rebuild a Binding from its fields: a new object, which buddie did not observe
+        return (Binding, (self.kind, self.repository, self.ref, self.revision, self.provenance, self.reason,
+                          self.observed_at, _thaw(self.details)))
 
 
-# Bindings buddie's own code made, by identity: a caller may build a Binding with any field, not add one here
+def _freeze(value):
+    """`value` as read-only data: dicts as read-only mappings with string keys, lists as tuples, JSON scalars as
+    they are. Anything else is refused (ValueError): details are data, never objects with behaviour."""
+    if type(value) in (dict, MappingProxyType):
+        if any(type(k) is not str for k in value):
+            raise ValueError("details: keys are strings")
+        return MappingProxyType({k: _freeze(v) for k, v in value.items()})
+    if type(value) in (list, tuple):
+        return tuple(_freeze(v) for v in value)
+    if value is None or type(value) in (str, int, float, bool):
+        return value
+    raise ValueError(f"details: {type(value).__name__} is not JSON data")
+
+
+def _thaw(value):
+    if type(value) is MappingProxyType:
+        return {k: _thaw(v) for k, v in value.items()}
+    if type(value) is tuple:
+        return [_thaw(v) for v in value]
+    return value
+
+
+# Bindings buddie's own code made, by identity. This tells buddie's observations from data: a Binding built from
+# fields, copied, unpickled or read from JSON is not one. It is not a sandbox: Python code running in this
+# interpreter can call _observed() as it can replace github_get itself (docs/freshness.md, "Trust boundaries").
 _OBSERVED: weakref.WeakSet = weakref.WeakSet()
 
 
@@ -161,7 +197,10 @@ def _ci_runs(repository: str, sha: str, get) -> tuple[list[dict] | None, list[di
     (None, None, reason). A run or status whose commit is not `sha` makes the answer inconsistent."""
     runs, page = [], 1
     while True:
-        data, why = _ask(get, f"/repos/{repository}/commits/{sha}/check-runs?per_page=100&page={page}")
+        # filter=latest, said rather than left to GitHub's default: the latest run of each check in each check
+        # suite, so a re-run replaces the attempt before it. Suites stay apart: GitHub does not say which of two
+        # suites on one commit is the one that counts
+        data, why = _ask(get, f"/repos/{repository}/commits/{sha}/check-runs?filter=latest&per_page=100&page={page}")
         if why:
             return None, None, why
         got = data.get("check_runs") if isinstance(data, dict) else None
@@ -200,9 +239,24 @@ def _ci_runs(repository: str, sha: str, get) -> tuple[list[dict] | None, list[di
     return runs, statuses, None
 
 
-def ci_outcome(runs: list[dict], statuses: list[dict], check: str | None = None) -> str:
-    """success, failure, pending or none, as a ci: anchor counts them: pending while any run or status is not done,
-    success when every one ended success, neutral or skipped, failure otherwise (cancelled, timed out, ...)."""
+def duplicates(runs, statuses) -> list[str]:
+    """Check names that appear more than once among the latest runs (in several check suites: two workflows, the
+    same workflow on two events) and status contexts that appear more than once. GitHub gives no rule for which of
+    them is the result that counts."""
+    seen: dict = {}
+    for key in [("run", r["name"]) for r in runs] + [("status", s["context"]) for s in statuses]:
+        seen[key] = seen.get(key, 0) + 1
+    return sorted({name for (_, name), n in seen.items() if n > 1})
+
+
+def ci_outcome(runs, statuses, check: str | None = None) -> str:
+    """success, failure, pending, ambiguous or none, from the latest runs and statuses:
+      pending    a run or status is not done
+      ambiguous  one check name (or status context) has a run that ended well and one that did not, in different
+                 check suites: which one counts cannot be told from GitHub's answer, so neither is taken
+      success    every run ended success, neutral or skipped, every status success
+      failure    otherwise (cancelled, timed out, action required, ...)
+      none       nothing at all"""
     if check is not None:
         runs = [r for r in runs if r["name"] == check]
         statuses = [s for s in statuses if s["context"] == check]
@@ -210,9 +264,13 @@ def ci_outcome(runs: list[dict], statuses: list[dict], check: str | None = None)
         return "none"
     if any(r["status"] != "completed" for r in runs) or any(s["state"] == "pending" for s in statuses):
         return "pending"
-    if all(r["conclusion"] in OK_CONCLUSIONS for r in runs) and all(s["state"] == "success" for s in statuses):
-        return "success"
-    return "failure"
+    ok: dict = {}
+    for key, good in ([(("run", r["name"]), r["conclusion"] in OK_CONCLUSIONS) for r in runs]
+                      + [(("status", s["context"]), s["state"] == "success") for s in statuses]):
+        ok.setdefault(key, set()).add(good)
+    if any(len(v) > 1 for v in ok.values()):
+        return "ambiguous"
+    return "success" if all(True in v for v in ok.values()) else "failure"
 
 
 def ci_evidence(repository: str, ref: str, get, check: str | None = None, clock=_now,
@@ -237,7 +295,8 @@ def ci_evidence(repository: str, ref: str, get, check: str | None = None, clock=
     if why:
         return _observed(Binding("github_ci", repository, ref, None, prov, why, at))
     outcome = ci_outcome(runs, statuses, check)
-    details = {"ci": outcome, "check": check, "check_runs": runs, "statuses": statuses}
+    details = {"ci": outcome, "check": check, "check_runs": runs, "statuses": statuses, "selection": "latest",
+               "duplicates": duplicates(runs, statuses)}
     if outcome == "none":
         return _observed(Binding("github_ci", repository, ref, None, prov, "no_ci_results", at, details))
     return _observed(Binding("github_ci", repository, ref, sha, prov, None, at, details))
@@ -296,18 +355,32 @@ def assess_artifact(recorded: str | None, now: Binding) -> Freshness:
 def _binding(b: Binding) -> dict:
     return {"kind": b.kind, "repository": b.repository, "ref": b.ref, "revision": b.revision,
             "provenance": b.provenance.value, "observed_by_buddie": observed(b), "reason": b.reason,
-            "observed_at": b.observed_at, "details": b.details}
+            "observed_at": b.observed_at, "details": _thaw(b.details)}  # new objects: nothing shared
+
+
+def _ci_consistent(b: Binding) -> bool:
+    """A CI binding's summary is what its own runs and statuses give (ci_outcome), so no summary stands apart from
+    the results it summarises."""
+    d = b.details
+    if b.kind != "github_ci" or "check_runs" not in d:
+        return True
+    return d.get("ci") == ci_outcome(d["check_runs"], d["statuses"], d.get("check")) and \
+        list(d.get("duplicates", ())) == duplicates(d["check_runs"], d["statuses"])
 
 
 def render(results) -> dict:
     """The freshness document for one or more Freshness results. Each state is computed again from its bindings
-    (assess, or assess_artifact for artifacts): a result whose state was set by hand is refused (ValueError)."""
+    (assess, or assess_artifact for artifacts), and each CI summary from its runs and statuses: a result whose state
+    or summary was set by hand is refused (ValueError). Bindings and their details are read-only, so what is
+    rendered is what was observed."""
     out = []
     for f in results:
         again = (assess_artifact(f.target.revision, f.evidence) if f.target.kind == "artifact"
                  else assess(f.target, f.evidence))
         if (again.state, again.reason) != (f.state, f.reason):
             raise ValueError("a freshness result that its bindings do not give")
+        if not (_ci_consistent(f.target) and _ci_consistent(f.evidence)):
+            raise ValueError("a CI summary that its runs and statuses do not give")
         out.append({"state": f.state, "reason": f.reason, "target": _binding(f.target),
                     "evidence": _binding(f.evidence)})
     return {"format": FORMAT, "results": out}
@@ -329,7 +402,9 @@ def line(f: Freshness) -> str:
     elif f.state == UNKNOWN:
         why = f.target.reason if f.reason.startswith("target") else f.evidence.reason
         text += f": {why}" if why else ""
-    ci = f.evidence.details.get("ci") if isinstance(f.evidence.details, dict) else None
+    ci = f.evidence.details.get("ci") if isinstance(f.evidence.details, Mapping) else None
     if ci:
         text += f"; CI on the evidence's commit: {ci} (not a freshness answer)"
+        if dup := f.evidence.details.get("duplicates"):
+            text += f"; in more than one check suite: {', '.join(dup)}"
     return text

@@ -11,6 +11,13 @@
   "passed"). `buddie freshness repo --commit SHA [--artifact PATH=SHA256] [--snapshot FILE]`: the checkout now (a dirty
   tree is `UNKNOWN`) and files' bytes. Exit 0 CURRENT, 1 STALE, 3 UNKNOWN, 2 unusable input. The protected policy's
   network and API apply. Receipts, the hook and `buddie verify` are unchanged; not on MCP.
+  A binding's details are read-only all the way down and rendered as new objects; `render()` recomputes each CI
+  summary from its runs and statuses. Check runs are asked for with `filter=latest`; a check name whose runs in
+  different check suites disagree is `ambiguous`, not a success or failure, and names in several suites are listed.
+  The identity registry is a boundary for data, not a sandbox: code in the same interpreter can register a binding.
+- Remote server: an answer given before the request body is read (401, 403, 404, 411, 413) reads and drops up to 64
+  KiB of the declared body and closes the connection. Before, Windows reset the socket over the unread bytes and the
+  client lost the answer (`WinError 10053`, about one call in forty: the flaky `test_remote` tests).
 - Security (docs/security.md): every program buddie starts goes through `buddie/runner.py`: a fixed argument list,
   a timeout, output bounded whether kept or streamed, the whole process tree stopped (a process group on Linux and
   macOS, a job object on Windows), and one 40-second budget for all of a hook event's git and free command. git gets

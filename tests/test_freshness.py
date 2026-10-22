@@ -145,7 +145,7 @@ def test_checks_runs_and_statuses_stay_apart_and_ordered(gh):
     gh.commits[A] = [run("z"), run("a", suite=2), run("a", suite=1)]
     d = ci(gh, A).details
     assert [(r["name"], r["check_suite"]) for r in d["check_runs"]] == [("a", 1), ("a", 2), ("z", 1)]
-    assert d["statuses"] == [{"context": "ci/legacy", "state": "success"}]
+    assert freshness._thaw(d["statuses"]) == [{"context": "ci/legacy", "state": "success"}]
     assert ci(gh, A, check="ci/legacy").details["ci"] == "success"
     assert ci(gh, A, check="nope").revision is None  # nothing of that name: no evidence
 
@@ -436,3 +436,107 @@ def test_cli_verify_exit_codes_are_unchanged(tmp_path):
     report = tmp_path / "r.md"
     report.write_text("nothing to check\n", encoding="utf-8")
     assert cli.main(["verify", str(report), "--no-fetch", "--no-github"]) == 0
+
+
+# --- final review: the provenance boundary, read-only details, CI aggregation --------------------------------------
+
+def test_the_identity_registry_is_a_data_boundary_not_a_sandbox(gh):
+    """The reproduction the review asked for: Python code in the same interpreter can register a Binding it built
+    (freshness._observed), as it could replace github_get. The claim is the narrower one in docs/freshness.md:
+    nothing that arrives as data (fields, a copy, a pickle, JSON) is taken for buddie's observation."""
+    import copy
+    import dataclasses
+    import pickle
+    real = ci(gh, A)
+    for data_path in (copy.copy(real), copy.deepcopy(real), pickle.loads(pickle.dumps(real)),
+                      dataclasses.replace(real), dataclasses.replace(real, revision=B)):
+        assert not freshness.observed(data_path)
+        assert freshness.assess(commit(A), data_path).reason == "evidence_not_observed"
+    fabricated = freshness.Binding("github_ci", REPO, A, A, Provenance.COLLECTOR_OBSERVED)
+    assert freshness.assess(commit(A), fabricated).state == "UNKNOWN"
+    freshness._observed(fabricated)  # code in the interpreter: outside the boundary, as the docs say
+    assert freshness.assess(commit(A), fabricated).state == "CURRENT"
+    doc = (ROOT / "docs" / "freshness.md").read_text(encoding="utf-8")
+    assert "not a sandbox" in doc and "same interpreter" in doc
+
+
+def test_observed_details_cannot_be_edited_after_collection(gh):
+    gh.commits[A] = [run("test", "failure")]
+    ev = ci(gh, A)
+    with pytest.raises(TypeError):
+        ev.details["ci"] = "success"
+    with pytest.raises(TypeError):
+        ev.details["check_runs"][0]["conclusion"] = "success"
+    with pytest.raises((TypeError, AttributeError)):
+        ev.details["check_runs"].append({})
+    doc = freshness.render([freshness.assess(commit(A), ev)])
+    assert doc["results"][0]["evidence"]["details"]["ci"] == "failure"
+
+
+def test_a_rendered_document_shares_nothing_with_the_evidence(gh):
+    ev = ci(gh, A)
+    doc = freshness.render([freshness.assess(commit(A), ev)])
+    d = doc["results"][0]["evidence"]["details"]
+    d["ci"] = "failure"
+    d["check_runs"][0]["conclusion"] = "failure"
+    assert ev.details["ci"] == "success" and ev.details["check_runs"][0]["conclusion"] == "success"
+    assert freshness.render([freshness.assess(commit(A), ev)])["results"][0]["evidence"]["details"]["ci"] == "success"
+
+
+def test_details_given_to_a_binding_are_copied_frozen(gh):
+    given = {"ci": "success", "check_runs": [{"name": "t"}]}
+    b = freshness.Binding("github_ci", REPO, A, A, Provenance.CALLER_SUPPLIED, details=given)
+    given["ci"] = "failure"
+    given["check_runs"][0]["name"] = "other"
+    assert b.details["ci"] == "success" and b.details["check_runs"][0]["name"] == "t"
+    with pytest.raises(ValueError):
+        freshness.Binding("github_ci", REPO, A, A, Provenance.CALLER_SUPPLIED, details={"x": object()})
+
+
+def test_a_summary_its_runs_do_not_give_is_refused(gh):
+    gh.commits[A] = [run("test", "failure")]
+    forged = freshness.Binding("github_ci", REPO, A, A, Provenance.COLLECTOR_OBSERVED,
+                               details={"ci": "success", "check": None, "check_runs": [
+                                   {"name": "test", "status": "completed", "conclusion": "failure", "check_suite": 1}],
+                                   "statuses": [], "selection": "latest", "duplicates": []})
+    with pytest.raises(ValueError, match="CI summary"):
+        freshness.render([freshness.assess(commit(A), forged)])
+
+
+def test_checks_are_asked_for_the_latest_run_of_each_check(gh):
+    ci(gh, A)
+    asked = [p for p in gh.calls if "check-runs" in p]
+    assert asked and all("filter=latest" in p for p in asked)
+
+
+@pytest.mark.parametrize("runs, outcome, dup", [
+    ([run("test", suite=1), run("test", "failure", suite=2)], "ambiguous", ["test"]),  # two suites disagree
+    ([run("test", suite=1), run("test", suite=2)], "success", ["test"]),  # two suites agree: said, not hidden
+    ([run("test", suite=1), run("test", "cancelled", suite=2)], "ambiguous", ["test"]),  # a superseded, cancelled one
+    ([run("test", "failure", suite=1), run("test", "failure", suite=2)], "failure", ["test"]),
+    ([run("test", suite=1), run("test", None, "in_progress", suite=2)], "pending", ["test"]),
+    ([run("a"), run("b", "failure")], "failure", []),
+])
+def test_duplicate_check_names_across_suites_are_not_resolved_by_guessing(gh, runs, outcome, dup):
+    gh.commits[A] = runs
+    gh.statuses[A] = []
+    ev = ci(gh, A)
+    assert ev.details["ci"] == outcome and list(ev.details["duplicates"]) == dup
+    assert freshness.assess(commit(A), ev).state == "CURRENT"  # freshness is not the CI's answer
+    if dup:
+        assert "in more than one check suite: test" in freshness.line(freshness.assess(commit(A), ev))
+
+
+def test_legacy_statuses_count_apart_and_disagreeing_ones_are_ambiguous(gh):
+    gh.commits[A] = [run("ci/legacy")]  # a check run and a status of the same name are different results
+    gh.statuses[A] = [{"context": "ci/legacy", "state": "failure"}]
+    ev = ci(gh, A)
+    assert ev.details["ci"] == "failure" and list(ev.details["duplicates"]) == []
+    gh.statuses[A] = [{"context": "deploy", "state": "success"}, {"context": "deploy", "state": "error"}]
+    assert ci(gh, A).details["ci"] == "ambiguous"
+
+
+def test_one_check_named_among_duplicates_is_ambiguous_too(gh):
+    gh.commits[A] = [run("test", suite=1), run("test", "failure", suite=2), run("lint")]
+    assert ci(gh, A, check="test").details["ci"] == "ambiguous"
+    assert ci(gh, A, check="lint").details["ci"] == "success"
