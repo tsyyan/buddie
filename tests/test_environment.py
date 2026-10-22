@@ -282,7 +282,7 @@ def test_a_file_that_grows_while_it_is_read_gets_no_digest(tmp_path, monkeypatch
     real, grew = os.read, []
 
     def read(fd, n):
-        if not grew:
+        if not grew and n == env.CHUNK:  # the collector's read, not subprocess's (it reads a pipe on POSIX)
             grew.append(1)
             with open(f, "ab") as fh:
                 fh.write(b"more")
@@ -300,7 +300,7 @@ def test_a_file_rewritten_in_place_while_it_is_read_gets_no_digest(tmp_path, mon
     real, done = os.read, []
 
     def read(fd, n):
-        if not done:
+        if not done and n == env.CHUNK:
             done.append(1)
             f.write_bytes(b"b" * 10)
             os.utime(f, ns=(st.st_atime_ns, st.st_mtime_ns + 10**9))
@@ -318,7 +318,7 @@ def test_a_file_replaced_while_it_is_read_gets_no_digest(tmp_path, monkeypatch):
     real, done = os.read, []
 
     def read(fd, n):
-        if not done:
+        if not done and n == env.CHUNK:
             done.append(1)
             os.replace(tmp_path / "other", f)
         return real(fd, n)
