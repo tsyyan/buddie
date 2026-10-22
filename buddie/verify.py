@@ -140,17 +140,25 @@ def assess(text: str, *, name: str = "report", repos: list[Path] | None = None, 
 def assess_selected(text: str, modules=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
                     fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
                     mandate: dict | None | bool = True, rev: str | None = None, github=None,
-                    transcript: str | None = None,
-                    numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
+                    transcript: str | None = None, numbers: str = "gap", profile: str | None = None,
+                    checks=None, selection=None) -> tuple[dict, list[core.Finding], core.Coverage]:
     """_assess under one reading of the protected policy (the event's inside the hook, its own outside), so the
-    GitHub API asked and the one a finding's provenance names are the same."""
-    from buddie import policy
+    GitHub API asked and the one a finding's provenance names are the same. profile, modules, checks: what to run
+    (buddie/profiles.py: developer, research, complete, or custom with modules and/or checks); none of them: every
+    check, as before profiles. An unknown name raises profiles.UnknownProfile. selection: a profiles.Selection
+    already resolved instead (the hook's effective one, which may hold no check: then none runs)."""
+    from buddie import policy, profiles
+    if selection is None:
+        selection = profiles.resolve(profile, modules, checks)
+    elif profile is not None or modules is not None or checks is not None:
+        raise profiles.UnknownProfile("give a selection or a profile with its modules and checks, not both")
     with policy.held():
-        return _assess(text, modules, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes,
-                       now=now, mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers)
+        return _assess(text, selection, name=name, repos=repos, store=store, fetch=fetch, access=access,
+                       quotes=quotes, now=now, mandate=mandate, rev=rev, github=github, transcript=transcript,
+                       numbers=numbers)
 
 
-def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
+def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
             fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
             mandate: dict | None | bool = True, rev: str | None = None, github=None,
             transcript: str | None = None,
@@ -161,17 +169,18 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
     the given config (dict), or not at all (False/None); rev: the commit whose queue the claims are judged against.
     github: GET function for pr:/ci: anchors (effects.github_get; None leaves them UNCHECKABLE); transcript: the
     Claude Code session jsonl for run: anchors. numbers: "gap" (a number NOT_FOUND in its readable source is a gap),
-    "fail" (it blocks) or "off". modules: the ids of the modules to run (buddie/modules.py; None: all, as before
-    modules existed); the checks of the others are not run, and Coverage names them."""
+    "fail" (it blocks) or "off". selection: the profiles.Selection to run (None: every check); the checks it leaves
+    out are not run, and Coverage names them with the claims of those kinds the text holds."""
     from datetime import datetime, timezone
 
     from buddie import evidence
     from buddie.verbatim.store import Store
-    selected = mods.select(modules)
-    on = mods.checks(selected)
+    selected = selection.modules if selection is not None else mods.REGISTRY
+    on = selection.checks if selection is not None else mods.checks(mods.REGISTRY)
     clean = evidence.network_clean()  # asked again after the check: a collector may start or end meanwhile
+    run_numbers = quotes and core.Check.NUMBER in on  # quotes=False (anchors only) has always meant no numbers
     quotes = quotes and core.Check.QUOTE in on
-    numbers = numbers if core.Check.NUMBER in on else "off"
+    numbers = numbers if run_numbers else "off"
     if core.Check.WORK_CLAIM not in on:
         mandate = False
     store = store if isinstance(store, Store) else Store(store)  # one instance: what it fetched is known (collected)
@@ -192,7 +201,7 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
     bare, bare_examples = anc.unanchored(text, backed=backed)
     cfg = man.find_config(repos or []) if mandate is True else (mandate or None)
     claims = man.check_text(text, cfg, rev) if cfg else []
-    n_rows = check_numbers(text, store=store, fetch=fetch) if quotes and numbers != "off" else []
+    n_rows = check_numbers(text, store=store, fetch=fetch) if numbers != "off" else []
     clean = clean and evidence.network_clean()
     observed = frozenset(store.collected) - before if clean and own_store else frozenset()
     found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed,
@@ -201,7 +210,8 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
     covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
                            mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,
                            unanchored_lines=bare, prose_claims=prose,
-                           modules_off=[m.id for m in mods.REGISTRY if m not in selected])
+                           modules_off=[m.id for m in mods.REGISTRY if m not in selected],
+                           excluded=_excluded(text, selection))
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
                 + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
                 for r in rows if fnd.quote_fact(r["verdict"]) is CONTRADICTED]
@@ -250,6 +260,28 @@ def _assess(text: str, modules=None, *, name: str = "report", repos: list[Path] 
         },
     }
     return receipt, found, covered
+
+
+def _excluded(text: str, selection) -> list[tuple[str, str, int | None]]:
+    """What a selection leaves out, for Coverage: each check off in a module that is otherwise selected, and the
+    claims of the left-out kinds this text holds (quotations, anchors), counted without checking them, so that a
+    smaller check says what it did not look at."""
+    if selection is None:
+        return []
+    out = [(f"check:{c.value}", f"not in profile {selection.profile}", None) for c in core.Check
+           if c not in selection.checks and any(c in m.checks for m in selection.modules)]
+    if core.Check.QUOTE not in selection.checks:
+        from buddie.verbatim.report import from_markdown
+        if n := len(from_markdown(text, 12)[0]):
+            out.append(("excluded:quote", f"quotations in the text, not checked (profile {selection.profile})", n))
+    anchors: dict[str, int] = {}
+    for found in (anc.ANCHOR.findall(line) for line in text.splitlines()):
+        for a in found:
+            if (kind := fnd.anchor_check(a)) not in selection.checks:
+                anchors[kind.value] = anchors.get(kind.value, 0) + 1
+    out += [(f"excluded:{k}", f"anchors in the text, not checked (profile {selection.profile})", n)
+            for k, n in sorted(anchors.items())]
+    return out
 
 
 def line(result: str, rows: list[dict], anchors: list[dict], skipped: int = 0, bare: int = 0,

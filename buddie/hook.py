@@ -101,10 +101,13 @@ def final_answer(text: str, event: dict | None = None, ctx=None) -> bool:
     return bool(mark) and re.search(mark, text) is not None
 
 
-def unbacked(pred: dict) -> list[str]:
-    """Why a final answer does not carry its numbers: no anchor at all, or count lines without one."""
+def unbacked(pred: dict, text: str | None = None) -> list[str]:
+    """Why a final answer does not carry its numbers: no anchor at all, or count lines without one. Whether it
+    carries an anchor is read from `text` when given: a profile that does not check anchors leaves the receipt's
+    list empty, and that is not the answer having none (without a profile every anchor is in it, so both agree)."""
+    from buddie.anchors import ANCHOR
     out = []
-    if not pred["anchors"]:
+    if not pred["anchors"] and not (text is not None and ANCHOR.search(text)):
         out.append("final answer has no anchor: anchor its result (⚓ path@commit, ⚓ path#sha256, ⚓ fact=value, "
                    "⚓ pr:OWNER/REPO#N=merged, ⚓ ci:OWNER/REPO@SHA=success or ⚓ run:CMD => OUTPUT)")
     out += [f"number without anchor, {u}" for u in pred["unanchored"]]
@@ -231,19 +234,22 @@ def assess_for(text: str, event: dict, numbers: str = "gap", ctx=None) -> tuple[
     from buddie import evidence
     from buddie.effects import github_get
     from buddie.event import repos_of
-    from buddie.verify import assess
+    from buddie.verify import assess, assess_selected
     cwd = Path(event.get("cwd") or os.getcwd())
     network = ctx.network_allowed if ctx is not None else True  # a protected policy may forbid it, nothing grants it
     github = github_get if network and os.environ.get("BUDDIE_GITHUB", "1") != "0" else None
     repos = list(ctx.repos) if ctx is not None else repos_of(event)
     # the snapshot stores the session used, or (policy: stores = "observed") one made for this check alone
     with evidence.store_for(cwd, repos, event.get("transcript_path")) as (store, chosen):
-        receipt, found, _ = assess(text, name=event.get("tool_name") or event.get("hook_event_name") or "answer",
-                                   repos=repos, store=store,
-                                   fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
-                                   transcript=event.get("transcript_path"),
-                                   mandate=ctx.mandate if ctx is not None else True,
-                                   numbers=effective_numbers(numbers))
+        args = dict(name=event.get("tool_name") or event.get("hook_event_name") or "answer", repos=repos, store=store,
+                    fetch=network and os.environ.get("BUDDIE_FETCH", "1") != "0", github=github,
+                    transcript=event.get("transcript_path"), mandate=ctx.mandate if ctx is not None else True,
+                    numbers=effective_numbers(numbers))
+        # no profile: verify.assess, every check, as before profiles; a profile: exactly the checks its levels
+        # leave on after the policy's floors, none if none is (an empty selection is not "all")
+        selection = ctx.effective() if ctx is not None else None
+        receipt, found, _ = assess(text, **args) if selection is None else assess_selected(text, selection=selection,
+                                                                                          **args)
     return receipt, [s.path for s in chosen if s.origin is not evidence.Origin.OBSERVED], found
 
 
@@ -419,7 +425,7 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
     # each item with its class: verify's items by the check of the finding behind each (gate_items), the gate's own
     # items by what makes them. A class the levels do not know blocks, as an unclassified item always did
     typed, mismatch = gate_items(pred, found, numbers)
-    every = typed + [(i, "final") for i in (unbacked(pred) if final else [])] \
+    every = typed + [(i, "final") for i in (unbacked(pred, text) if final else [])] \
         + [(i, "prose") for i in prose] + ([(heavy, "context")] if heavy else []) \
         + [(config_item(e), "config") for e in ctx.config_errors] \
         + ([(policy_item(ctx.policy), "policy")] if ctx.policy and ctx.policy.status.value == "invalid" else [])
@@ -466,6 +472,8 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
         entry["config_errors"] = [{"path": str(e.path), "reason": e.reason} for e in ctx.config_errors]
     if mismatch:
         entry["typed_mismatch"] = mismatch
+    if ctx.profile is not None:
+        entry["profile"] = {"name": ctx.profile.profile, "checks": list(ctx.run_checks())}
     if ctx.policy is not None and (ctx.policy.status.value != "absent" or ctx.refused):
         entry["policy"] = {"status": ctx.policy.status.value, **({"refused": list(ctx.refused)} if ctx.refused else {})}
     if warned:

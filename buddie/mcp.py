@@ -70,9 +70,17 @@ TOOLS = [
             "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
                         "description": "a number of a cited sentence not in its source: gap, fail or off"},
             "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
+            "profile": {"type": "string", "enum": ["developer", "research", "complete", "custom"],
+                        "description": "what to check (default: everything): developer (repo, PR, CI, run: and work "
+                                       "claims), research (quotes and numbers), complete, or custom with modules "
+                                       "and/or checks. What a profile leaves out is not checked, and the result says"
+                                       " so"},
             "modules": {"type": "array", "items": {"type": "string", "enum": ["sources", "github", "execution"]},
-                        "description": "only these verification modules (default: all): sources (quotes, numbers), "
-                                       "github (repo anchors, pr:, ci:), execution (run:, choice:, work claims)"},
+                        "description": "custom: these verification modules: sources (quotes, numbers), github (repo "
+                                       "anchors, pr:, ci:), execution (run:, choice:, work claims)"},
+            "checks": {"type": "array", "items": {"type": "string"},
+                       "description": "custom: these checks (quote, number, file_anchor, commit_anchor, fact_anchor, "
+                                      "pr_anchor, ci_anchor, run_anchor, choice_anchor, work_claim, other_anchor)"},
         })},
     },
     {
@@ -138,14 +146,18 @@ def default_repos() -> list[Path]:
 
 def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie.effects import github_get
+    from buddie import profiles
     from buddie.verify import assess_selected
     text, name = _report(args)
     repos = [Path(r) for r in args["repos"]] if args.get("repos") else default_repos()
-    receipt = assess_selected(text, args.get("modules"), name=name, repos=repos, store=args.get("store"),
-                              fetch=args.get("fetch", True), access=args.get("access"),
-                              github=github_get if args.get("github", True) else None,
-                              transcript=args.get("transcript"), numbers=args.get("numbers", "gap"))[0]
-    return receipt, False
+    receipt, _, covered = assess_selected(text, args.get("modules"), name=name, repos=repos, store=args.get("store"),
+                                          fetch=args.get("fetch", True), access=args.get("access"),
+                                          github=github_get if args.get("github", True) else None,
+                                          transcript=args.get("transcript"), numbers=args.get("numbers", "gap"),
+                                          profile=args.get("profile"), checks=args.get("checks"))
+    # the receipt is the result, unchanged; what a profile left out goes with it as text (handle)
+    selection = profiles.resolve(args.get("profile"), args.get("modules"), args.get("checks"))
+    return receipt, False, profiles.note(selection, covered)
 
 
 def snap(args: dict) -> tuple[dict, bool]:
@@ -225,12 +237,12 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
             if name not in handlers:
                 return {"jsonrpc": "2.0", "id": mid, "error": {"code": -32602, "message": f"unknown tool {name}"}}
             try:
-                data, is_error = handlers[name](params.get("arguments") or {})
+                data, is_error, *note = handlers[name](params.get("arguments") or {})
             except Exception as error:  # a tool failure is a result the model can read, not a protocol error
-                data, is_error = {"error": f"{type(error).__name__}: {error}"}, True
+                data, is_error, note = {"error": f"{type(error).__name__}: {error}"}, True, []
             text = json.dumps(data, ensure_ascii=False, indent=1)
             if name == "verify_report" and not is_error:
-                text = data["predicate"]["line"] + "\n" + text
+                text = data["predicate"]["line"] + "\n" + "".join(f"{n}\n" for n in note if n) + text
             elif name == "summary" and not is_error:
                 text = data["text"] + "\n" + text
             result = {"content": [{"type": "text", "text": text}], "structuredContent": data, "isError": is_error}

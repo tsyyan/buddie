@@ -44,6 +44,23 @@ class ResolvedEventContext:
     disclosure_allowed: bool = True       # whether a `buddie:` line (after a return) may let a returned answer out
     state_root: str | None = None         # BUDDIE_STATE for return tracking, None: as the environment says
     network_allowed: bool = True          # False: no fetch, no GitHub, whatever the environment says
+    profile: object = None                # profiles.Selection of buddie.toml's [verify], None without one
+
+    def run_checks(self) -> tuple[str, ...] | None:
+        """The checks the hook runs. None: no profile, so every check, as before profiles (verify.assess). With a
+        profile, each check whose gate class is on after every source and the policy's floors (a floor brings back
+        what a profile turned off), in core.Check order; () when none is: then none runs, which is not "all"."""
+        if self.profile is None:
+            return None
+        from buddie.core import Check
+        return tuple(c.value for c in Check if self.levels[config.CLASS_OF_CHECK[c]].value != "off")
+
+    def effective(self):
+        """run_checks as a profiles.Selection under the profile's name (None without a profile), for
+        verify.assess_selected(selection=): it may be empty, which a name given by a person may not."""
+        from buddie import profiles
+        run = self.run_checks()
+        return None if run is None else profiles.effective(self.profile.profile, run)
 
     @property
     def configured(self) -> bool:
@@ -91,9 +108,11 @@ def resolve(event: dict, repos: list[Path] | None = None) -> ResolvedEventContex
                      and (m := usable[r].get("mandate", {}).get("final_mark")) is not None), None)
     man: dict = next(({**mandate.DEFAULTS, **usable[r]["mandate"], "repo": str(r)} for r in repos
                       if r in usable and usable[r].get("mandate") is not None), {})
+    from buddie import profiles
     ctx = ResolvedEventContext(event, event.get("session_id"), repos, path, cfg,
                                config.resolve_levels(cfg, path is not None), config.resolve_transcript(cfg),
-                               config.journal_text(cfg), mark, man, files, errors)
+                               config.journal_text(cfg), mark, man, files, errors,
+                               profile=profiles.from_config(cfg))  # cfg is a usable file: read_toml checked it
     return limited(ctx, pol.current())
 
 

@@ -128,9 +128,15 @@ def read_toml(path: Path) -> dict:
     except UnicodeDecodeError as error:
         raise ConfigError(path, f"not UTF-8 (byte {error.start})") from error
     try:
-        return tomllib.loads(text)
+        data = tomllib.loads(text)
     except tomllib.TOMLDecodeError as error:
         raise ConfigError(path, f"not valid TOML: {error}") from error
+    from buddie import profiles
+    try:
+        profiles.from_config(data)  # an unknown profile, module or check: unusable, not a quietly smaller check
+    except profiles.UnknownProfile as error:
+        raise ConfigError(path, str(error)) from error
+    return data
 
 
 def problem(path: Path | None) -> str | None:
@@ -189,8 +195,16 @@ def final_mark(event: dict) -> str | None:
 
 def resolve_levels(cfg: dict, configured: bool = True) -> dict[str, Setting]:
     """The level of each class and where it comes from: the defaults (ZERO_CONFIG when the project has no
-    buddie.toml), then the file's [gates] (REPO), then BUDDIE_GATES (USER)."""
+    buddie.toml), then the profile of the file's [verify] (REPO: the classes none of its checks feed are off), then
+    the file's [gates] (REPO), then BUDDIE_GATES (USER). The protected policy's floors come last (resolved.py)."""
+    from buddie import profiles
     out = {k: Setting(v, Source.DEFAULT) for k, v in (DEFAULTS if configured else ZERO_CONFIG).items()}
+    try:
+        selection = profiles.from_config(cfg)
+    except profiles.UnknownProfile:  # read_toml refuses such a file; a dict handed in directly gets no profile
+        selection = None
+    for k, v in profiles.gate_levels(selection).items():
+        out[k] = Setting(v, Source.REPO)
     for k, v in (cfg.get("gates") or {}).items():
         if k in out and v in LEVELS:
             out[k] = Setting(v, Source.REPO)
@@ -224,6 +238,13 @@ def influence(cfg: dict) -> list[Influence]:
         out.append(Influence("mandate.final_mark", None, cfg["mandate"]["final_mark"], True))
     if not journal_text({}) and journal_text(cfg):
         out.append(Influence("journal.text", False, True, True))
+    from buddie import profiles
+    try:
+        selection = profiles.from_config(cfg)
+    except profiles.UnknownProfile:
+        selection = None
+    if selection is not None:  # its levels show above as gates.*; this names the profile behind them
+        out.append(Influence("verify.profile", None, selection.profile, bool(profiles.gate_levels(selection))))
     return out
 
 
