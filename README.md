@@ -215,6 +215,14 @@ the checks that ran, the ones that did not and why, the coverage (`FULL`, `PARTI
 provenance of the evidence. Its reference, JSON Schema and v0 mapping: [docs/receipts.md](docs/receipts.md). `PASS`
 in either never means that every statement of a report is true.
 
+## Evidence freshness
+
+A green CI run for commit A says nothing about commit B. `buddie freshness ci --repo OWNER/REPO --pr N --evidence SHA`
+resolves the PR's head now and the commit GitHub's CI results are for, and says `CURRENT`, `STALE` or `UNKNOWN`,
+with the CI outcome beside it, not instead of it. A claim about a commit (`--commit`), historical ones included, is
+judged against that commit; `buddie freshness repo` compares a commit or recorded digests with the checkout now.
+[docs/freshness.md](docs/freshness.md).
+
 ## Environment snapshots
 
 `buddie snapshot` records what buddie itself observes of the place a check ran in: the interpreter, the commit HEAD

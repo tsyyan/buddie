@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Evidence freshness (`buddie/freshness.py`, docs/freshness.md): whether evidence is bound to the revision a claim
+  is about, apart from whether it is valid and how old it is. `CURRENT`, `STALE`, `UNKNOWN` (`NOT_APPLICABLE`
+  reserved), each with a reason; only full commit ids compare, the same SHA in two repositories is not one revision,
+  and evidence counts only when buddie observed its revision (by identity, not a field). `buddie freshness ci
+  --repo R (--pr N | --commit SHA) --evidence SHA [--check NAME]`: a PR's head resolved now, the commit GitHub's
+  check runs and statuses are for (each must name it), the CI outcome reported beside the state (`CURRENT` is not
+  "passed"). `buddie freshness repo --commit SHA [--artifact PATH=SHA256] [--snapshot FILE]`: the checkout now (a dirty
+  tree is `UNKNOWN`) and files' bytes. Exit 0 CURRENT, 1 STALE, 3 UNKNOWN, 2 unusable input. The protected policy's
+  network and API apply. Receipts, the hook and `buddie verify` are unchanged; not on MCP.
 - Security (docs/security.md): every program buddie starts goes through `buddie/runner.py`: a fixed argument list,
   a timeout, output bounded whether kept or streamed, the whole process tree stopped (a process group on Linux and
   macOS, a job object on Windows), and one 40-second budget for all of a hook event's git and free command. git gets
