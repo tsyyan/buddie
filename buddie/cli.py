@@ -37,13 +37,20 @@ from pathlib import Path
 def cmd_verify(args) -> int:
     from buddie.anchors import find_repos
     from buddie.effects import github_get
+    from buddie import profiles
     from buddie.verify import assess_selected
+    try:
+        selection = profiles.resolve(args.profile, args.modules, args.checks)
+    except profiles.UnknownProfile as error:  # a usage error, not a smaller check
+        print(f"buddie verify: {error}", file=sys.stderr)
+        return 2
     text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
     repos = [Path(r) for r in args.repo] if args.repo else find_repos(Path.cwd())
-    receipt = assess_selected(text, args.modules, name=args.report, repos=repos, store=args.store,
-                              fetch=not args.no_fetch, access=args.access, quotes=not args.anchors_only,
-                              rev=args.rev, github=None if args.no_github else github_get,
-                              transcript=args.transcript, numbers=args.numbers)[0]
+    receipt, _, covered = assess_selected(text, args.modules, name=args.report, repos=repos, store=args.store,
+                                          fetch=not args.no_fetch, access=args.access, quotes=not args.anchors_only,
+                                          rev=args.rev, github=None if args.no_github else github_get,
+                                          transcript=args.transcript, numbers=args.numbers, profile=args.profile,
+                                          checks=args.checks)
     pred = receipt["predicate"]
     if args.json:
         Path(args.json).write_text(json.dumps(receipt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -53,6 +60,8 @@ def cmd_verify(args) -> int:
         print(f"gap   {item}")
     for item in pred.get("notes", []):
         print(f"note  {item}")
+    if line := profiles.note(selection, covered):
+        print(f"note  {line}")
     print(pred["line"])
     return 1 if pred["outcome"] == "FAIL" else 0
 
@@ -205,6 +214,18 @@ def _module_ids(spec: str) -> list[str]:
         raise argparse.ArgumentTypeError(str(error)) from error
 
 
+def cmd_profiles(args) -> int:
+    """The verification profiles and the modules and checks each one resolves to (buddie/profiles.py)."""
+    from buddie import profiles
+    for name in profiles.BUILT_IN:
+        selection = profiles.resolve(name)
+        print(f"{name:<10} modules: {', '.join(m.id for m in selection.modules)}")
+        print(f"{'':<10} checks: {', '.join(selection.check_ids)}")
+    print(f"{'custom':<10} what you list: --modules {','.join(profiles.mods.IDS)} and/or --checks "
+          f"{','.join(profiles.CHECK_IDS)}")
+    return 0
+
+
 def cmd_modules(args) -> int:
     """The verification modules buddie has (buddie/modules.py), with what each checks and reads."""
     from buddie.modules import REGISTRY
@@ -257,6 +278,9 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--no-fetch", action="store_true", help="only use snapshots already in the store")
     s.add_argument("--access", help="verbatim access cascade for unreadable pages, e.g. default")
     s.add_argument("--anchors-only", action="store_true", help="skip quotes")
+    s.add_argument("--profile", help="developer, research, complete or custom (see `buddie profiles`)")
+    s.add_argument("--checks", type=lambda v: [c for c in v.split(",") if c.strip()],
+                   help="custom profile: these checks, comma separated (with or without --modules)")
     s.add_argument("--modules", type=_module_ids,
                    help="only these modules, comma separated (default: all; see `buddie modules`)")
     s.add_argument("--json", help="write the receipt here")
@@ -311,6 +335,7 @@ def main(argv: list[str] | None = None) -> int:
     po.add_argument("--repo", action="append", help="repo whose buddie.toml to judge (default: around cwd)")
     po.set_defaults(func=cmd_policy)
     sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
+    sub.add_parser("profiles", help="the verification profiles and what each checks").set_defaults(func=cmd_profiles)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     try:

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Verification profiles (`buddie/profiles.py`, docs/profiles.md): `developer` (github, execution), `research`
+  (sources), `complete` (everything) and `custom` (listed modules and/or checks), resolved to an explicit,
+  deterministic set of checks run by the same core. `buddie profiles`; `buddie verify --profile/--checks`, MCP
+  `verify_report` `profile`/`checks`, `verify.assess_selected(profile=, checks=)`; `buddie.toml` `[verify]` for the
+  hook, where a profile turns off the default level of each class none of its checks feed, below `[gates]`,
+  `BUDDIE_GATES` and the protected policy's floors. What a profile leaves out is named in Coverage with the claims
+  of that kind the text holds, and printed as a note; an unknown name is an error (a `buddie.toml` with one is
+  unusable). Without a profile nothing changes.
+- The final rule reads whether an answer carries an anchor from its text, not from the anchors that were checked
+  (the same thing without a profile).
 - Verification modules (`buddie/modules.py`, docs/architecture.md): `sources` (quotes, numbers), `github` (repo
   anchors, `pr:`, `ci:`) and `execution` (`run:`, `choice:`, work claims), each with a stable id and its checks.
   `buddie modules`; `buddie verify --modules`, MCP `verify_report` `modules`, `verify.assess_selected`. An unknown

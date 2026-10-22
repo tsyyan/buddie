@@ -59,7 +59,7 @@ SIMILAR = 0.6
 def flagged(pred: dict, text: str, final: bool) -> list[dict]:
     """What made the gate return `text`: one item per flagged line ({kind, line, text}); line None for the whole
     answer (a final answer with no anchor at all)."""
-    from buddie.anchors import BROKEN, unanchored_lines
+    from buddie.anchors import ANCHOR, BROKEN, unanchored_lines
     lines = text.splitlines()
     out = []
 
@@ -81,7 +81,7 @@ def flagged(pred: dict, text: str, final: bool) -> list[dict]:
             if n["verdict"] == "NOT_FOUND":
                 add("number", n.get("line"))
     if final:
-        if not pred["anchors"]:
+        if not pred["anchors"] and not ANCHOR.search(text):  # as hook.unbacked: present, if not checked
             add("final_no_anchor", None)
         for n in unanchored_lines(text, pred.get("quote_backed", ())):
             add("final_bare", n)

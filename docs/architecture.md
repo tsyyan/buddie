@@ -10,6 +10,7 @@ decide either (the protected policy, [policy.md](policy.md)).
 |---|---|---|
 | Core contract | `buddie/core.py` | typed findings, facts, decisions, provenance; no checker, no transport |
 | Modules | `buddie/modules.py` | which checks exist, grouped by the evidence they need |
+| Profiles | `buddie/profiles.py` | named presets of modules and checks, resolved to an explicit set |
 | Checkers | `buddie/verbatim/`, `anchors.py`, `effects.py`, `mandate.py` | one kind of claim each, in its own words |
 | Translation | `buddie/findings.py` | checker verdicts into core findings (exhaustive tables) |
 | Verification | `buddie/verify.py` | one text in, a receipt-v0 and typed findings out |
@@ -44,7 +45,7 @@ The contract (`buddie/modules.py`):
 - **Lifecycle.** Modules are part of buddie: there is no loading from paths, entry points or config, and no
   third-party code. Adding one means a new entry in `REGISTRY` with its checks moved there in the same change.
 
-The hook always runs every module. What blocks there is set per gate class (`buddie.toml`, `BUDDIE_GATES`) under the
+Without a profile the hook runs every module. A profile ([profiles.md](profiles.md)) turns off default gate levels, and the hook then runs only the checks whose class is still on after every explicit level and the protected policy's floors. What blocks there is set per gate class (`buddie.toml`, `BUDDIE_GATES`) under the
 protected policy's floors, so switching a module off is not a way around a floor. The remote HTTP server does not
 take `modules` (its argument contract is unchanged).
 

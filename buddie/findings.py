@@ -157,11 +157,13 @@ def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset()
 
 def coverage(findings: list[Finding], *, quotes: bool, numbers: str, mandate_off: bool, mandate_config: bool,
              short_quotes: int = 0, unlinked_terms: int = 0, unanchored_lines: int = 0,
-             prose_claims: int = 0, modules_off=()) -> Coverage:
+             prose_claims: int = 0, modules_off=(), excluded=()) -> Coverage:
     checked: dict[Check, int] = {}
     for f in findings:
         checked[f.check] = checked.get(f.check, 0) + 1
     skipped = [Skip(f"module:{m}", "not selected") for m in modules_off]
+    # a check a profile leaves out is a capability off; the claims of that kind in the text are counted, not judged
+    skipped += [Skip(what, why, n, capability=what.startswith("check:")) for what, why, n in excluded]
     if not quotes:
         skipped.append(Skip("quotes", "off: anchors only"))
     if not quotes or numbers == "off":
