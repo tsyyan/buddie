@@ -29,6 +29,7 @@ on that same line already carries its source (NEXT №71, E016 de7a5d): it is li
 from __future__ import annotations
 
 import hashlib
+from dataclasses import dataclass
 from pathlib import Path
 
 from buddie import __version__, core
@@ -142,20 +143,52 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
                     mandate: dict | None | bool = True, rev: str | None = None, github=None,
                     transcript: str | None = None, numbers: str = "gap", profile: str | None = None,
                     checks=None, selection=None) -> tuple[dict, list[core.Finding], core.Coverage]:
-    """_assess under one reading of the protected policy (the event's inside the hook, its own outside), so the
-    GitHub API asked and the one a finding's provenance names are the same. profile, modules, checks: what to run
-    (buddie/profiles.py: developer, research, complete, or custom with modules and/or checks); none of them: every
-    check, as before profiles. An unknown name raises profiles.UnknownProfile. selection: a profiles.Selection
-    already resolved instead (the hook's effective one, which may hold no check: then none runs)."""
+    """assessment()'s receipt-v0, findings and coverage. profile, modules, checks: what to run (buddie/profiles.py:
+    developer, research, complete, or custom with modules and/or checks); none of them: every check, as before
+    profiles. An unknown name raises profiles.UnknownProfile. selection: a profiles.Selection already resolved
+    instead (the hook's effective one, which may hold no check: then none runs)."""
+    got = assessment(text, modules, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes,
+                     now=now, mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers,
+                     profile=profile, checks=checks, selection=selection)
+    return got.receipt, list(got.findings), got.coverage
+
+
+@dataclass(frozen=True)
+class Assessment:
+    """One check of one text, computed once; buddie/receipts.py renders it as receipt-v0 (`receipt`, as verify()
+    always gave it) or receipt-v1. Nothing here is recomputed for a rendering, and no rendering changes it."""
+    receipt: dict                          # receipt-v0
+    findings: tuple                        # core.Finding, in the receipt's order
+    coverage: core.Coverage
+    requested: object                      # profiles.Selection asked for (None: none, so everything)
+    effective: object                      # profiles.Selection run after levels and floors (None: everything)
+    executed: frozenset                    # core.Check whose checker ran
+    not_run: tuple                         # (core.Check, why) for every other check: selection, call_option,
+                                           # unavailable (receipts.py tells profile from gate_level)
+    detected: tuple                        # (core.Check, n): claims of that kind the text holds, where countable
+    numbers: str                           # the numbers mode the findings were decided under
+
+
+def assessment(text: str, modules=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
+               fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
+               mandate: dict | None | bool = True, rev: str | None = None, github=None,
+               transcript: str | None = None, numbers: str = "gap", profile: str | None = None, checks=None,
+               selection=None, requested=None) -> Assessment:
+    """The Assessment of `text` under one reading of the protected policy (the event's inside the hook, its own
+    outside), so the GitHub API asked and the one a finding's provenance names are the same. Arguments as
+    assess_selected; requested: the profile asked for when `selection` is what it came to (the hook's
+    ResolvedEventContext.profile and .effective()), else the selection itself."""
     from buddie import policy, profiles
     if selection is None:
         selection = profiles.resolve(profile, modules, checks)
     elif profile is not None or modules is not None or checks is not None:
         raise profiles.UnknownProfile("give a selection or a profile with its modules and checks, not both")
     with policy.held():
-        return _assess(text, selection, name=name, repos=repos, store=store, fetch=fetch, access=access,
-                       quotes=quotes, now=now, mandate=mandate, rev=rev, github=github, transcript=transcript,
-                       numbers=numbers)
+        receipt, found, covered, ran = _assess(text, selection, name=name, repos=repos, store=store, fetch=fetch,
+                                               access=access, quotes=quotes, now=now, mandate=mandate, rev=rev,
+                                               github=github, transcript=transcript, numbers=numbers)
+    return Assessment(receipt, tuple(found), covered, requested if requested is not None else selection, selection,
+                      **ran)
 
 
 def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
@@ -175,6 +208,7 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
 
     from buddie import evidence
     from buddie.verbatim.store import Store
+    asked_mandate = mandate  # the call's own option, before a selection without work claims turns it off
     selected = selection.modules if selection is not None else mods.REGISTRY
     on = selection.checks if selection is not None else mods.checks(mods.REGISTRY)
     clean = evidence.network_clean()  # asked again after the check: a collector may start or end meanwhile
@@ -259,7 +293,37 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
             "mandate": claims,
         },
     }
-    return receipt, found, covered
+    ran = {c for c in on if c.name.endswith("_ANCHOR")}  # anchors of a selected kind are always parsed and judged
+    ran |= {core.Check.QUOTE} if quotes else set()
+    ran |= {core.Check.NUMBER} if numbers != "off" else set()
+    ran |= {core.Check.WORK_CLAIM} if core.Check.WORK_CLAIM in on and cfg is not None else set()
+    not_run = []
+    for c in core.Check:
+        if c in ran:
+            continue
+        if c not in on:
+            why = "selection"
+        elif c is core.Check.WORK_CLAIM and asked_mandate not in (False, None) and cfg is None:
+            why = "unavailable"  # asked for, but no buddie.toml [mandate] says what the queue is
+        else:
+            why = "call_option"  # quotes=False (anchors only), numbers="off", mandate=False
+        not_run.append((c, why))
+    detected = tuple(sorted(_detected(text).items(), key=lambda kv: list(core.Check).index(kv[0])))
+    return receipt, found, covered, {"executed": frozenset(ran), "not_run": tuple(not_run), "detected": detected,
+                                     "numbers": numbers}
+
+
+def _detected(text: str) -> dict:
+    """Claims of each countable kind the text holds, without checking them: quotations (verbatim's own reading of
+    a report) and anchors by kind. Numbers and work claims are not counted here: what counts as one takes the check."""
+    from buddie.verbatim.report import from_markdown
+    # every countable kind gets a count, 0 included: an absent kind is "none in the text", not "cannot tell"
+    out: dict = {c: 0 for c in core.Check if c is core.Check.QUOTE or c.name.endswith("_ANCHOR")}
+    out[core.Check.QUOTE] = len(from_markdown(text, 12)[0])
+    for found in (anc.ANCHOR.findall(line) for line in text.splitlines()):
+        for a in found:
+            out[fnd.anchor_check(a)] = out.get(fnd.anchor_check(a), 0) + 1
+    return out
 
 
 def _excluded(text: str, selection) -> list[tuple[str, str, int | None]]:

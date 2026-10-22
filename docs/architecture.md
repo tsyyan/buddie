@@ -13,7 +13,8 @@ decide either (the protected policy, [policy.md](policy.md)).
 | Profiles | `buddie/profiles.py` | named presets of modules and checks, resolved to an explicit set |
 | Checkers | `buddie/verbatim/`, `anchors.py`, `effects.py`, `mandate.py` | one kind of claim each, in its own words |
 | Translation | `buddie/findings.py` | checker verdicts into core findings (exhaustive tables) |
-| Verification | `buddie/verify.py` | one text in, a receipt-v0 and typed findings out |
+| Verification | `buddie/verify.py` | one text in, one Assessment out: receipt-v0, typed findings, coverage, what ran |
+| Receipts | `buddie/receipts.py` | an Assessment rendered as receipt-v0 or receipt-v1 ([receipts.md](receipts.md)) |
 | Evidence | `buddie/evidence.py`, `stores.py`, `logbook.py` | which repos, stores and journal a check uses, who named them |
 | Policy | `buddie/policy.py`, `resolved.py`, `config.py` | who may decide what, per event |
 | Transports | `hook.py`, `cli.py`, `mcp.py`, `remote.py` | how a text arrives and what is done with the receipt |

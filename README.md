@@ -199,6 +199,16 @@ quote with the snapshot SHA-256 and offset, the status of every anchor, and the 
 `ci:` and `run:` receipts carry a note: an anchor shows what happened (a PR in that state, checks on that commit, a
 command and its output), not that the code is correct. A green CI on weak tests stays weak.
 
+## Receipt v1
+
+receipt-v0's outcome describes the checks that ran: after a partial run (a profile, `--anchors-only`) it can say
+`PASS` while quotes or anchors in the text were never looked at. receipt-v1
+(`predicateType: https://github.com/tsyyan/buddie#receipt-v1`), given only when asked for (`buddie verify --receipt
+v1`, MCP `"receipt": "v1"`, `receipts.render(verify.assessment(...), "v1")`), keeps apart the outcome of what ran,
+the checks that ran, the ones that did not and why, the coverage (`FULL`, `PARTIAL`, `UNKNOWN`, `NONE`) and the
+provenance of the evidence. Its reference, JSON Schema and v0 mapping: [docs/receipts.md](docs/receipts.md). `PASS`
+in either never means that every statement of a report is true.
+
 ## What we found
 
 **Deep-research reports quote wrongly.** On 929 checkable quotations from published deep-research reports, labelled
