@@ -3,6 +3,9 @@
   buddie verify REPORT [--repo DIR ...] [--no-fetch] [--access default] [--numbers gap|fail|off] [--json receipt.json]
                 [--transcript SESSION.jsonl] [--no-github]
                                     receipt for a report; exit 1 on FAIL
+  buddie snapshot [--root DIR] [--artifact PATH ...] [--report FILE] [--supply KEY=VALUE ...] [--json FILE]
+                                    what buddie observes of the environment: runtime, repository, artifacts
+                                    (docs/environment.md); not a check, never signed
   buddie mandate queue|accepted|verdict [N ...] [--repo DIR] [--rev COMMIT]
                                     the work queue itself: done rows anchored, accepted plans quoting the user,
                                     auto/ask per row; exit 1 when a claim is BROKEN
@@ -249,6 +252,44 @@ def cmd_receipt_schema(args) -> int:
     return 0
 
 
+def cmd_snapshot(args) -> int:
+    """An environment snapshot (buddie/environment.py). Advice, not enforcement: it gates nothing, and nothing reads it
+    back as evidence. Exit 0 with a snapshot (unavailable facts included), 2 when the input cannot be used."""
+    from buddie import environment
+    supplied = {}
+    for item in args.supply or []:
+        key, sep, value = item.partition("=")
+        if not sep:
+            print(f"buddie snapshot: --supply {item!r}: give KEY=VALUE", file=sys.stderr)
+            return 2
+        supplied[key] = value
+    text = None
+    if args.report is not None:  # read as `buddie verify` reads it, so the digest is its receipt's subject
+        if args.report != "-" and Path(args.report).is_dir():
+            print(f"buddie snapshot: {args.report} is a directory: give a report file, or - for stdin", file=sys.stderr)
+            return 2
+        try:
+            text = sys.stdin.read() if args.report == "-" else Path(args.report).read_text(encoding="utf-8")
+        except UnicodeDecodeError as error:
+            print(f"buddie snapshot: {args.report}: not UTF-8 (byte {error.start})", file=sys.stderr)
+            return 2
+        except OSError as error:
+            print(f"buddie snapshot: {args.report} cannot be read ({error.strerror or type(error).__name__})",
+                  file=sys.stderr)
+            return 2
+    try:
+        snap = environment.collect(args.root, args.artifact or [], report=text, supplied=supplied)
+    except ValueError as error:
+        print(f"buddie snapshot: {error}", file=sys.stderr)
+        return 2
+    if args.json:
+        Path(args.json).write_text(environment.dumps(snap) + "\n", encoding="utf-8")
+        print(environment.line(snap))
+    else:
+        print(environment.dumps(snap))
+    return 0
+
+
 def _receipt_version(name: str) -> str:
     from buddie import receipts
     try:
@@ -335,6 +376,13 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--numbers", choices=("gap", "fail", "off"), default="gap",
                    help="a number of a cited sentence not in its source: a gap (default), a failure, or not checked")
     s.set_defaults(func=cmd_verify)
+    sn = sub.add_parser("snapshot", help="what buddie observes of the environment (docs/environment.md)")
+    sn.add_argument("--root", help="the directory artifacts are named under (default: the working directory)")
+    sn.add_argument("--artifact", action="append", help="a file under the root to digest (repeatable)")
+    sn.add_argument("--report", help="the report a receipt was made for (its sha256 pairs the two), or - for stdin")
+    sn.add_argument("--supply", action="append", help="KEY=VALUE the caller states (kept apart, never checked)")
+    sn.add_argument("--json", help="write the snapshot here and print one line (default: the snapshot on stdout)")
+    sn.set_defaults(func=cmd_snapshot)
     m = sub.add_parser("mandate", help="check the work queue and the accepted plans (buddie.toml [mandate])")
     m.add_argument("what", choices=("queue", "accepted", "verdict"))
     m.add_argument("rows", nargs="*", type=int)

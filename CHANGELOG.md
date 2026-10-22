@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Environment snapshots (`buddie/environment.py`, docs/environment.md): `buddie snapshot` and
+  `environment.collect()` record what buddie observes itself of the place a check ran in: the interpreter (Python,
+  OS, architecture), the git repository (the commit HEAD names; whether the tree is clean or dirty, and how many
+  entries git status lists; the origin remote without credentials) and named files under a root (sha256 and length,
+  read once with stat compared before, after and by path). Each fact names what it rests on (`buddie` or
+  `agent_writable`); one buddie cannot observe is `unavailable` with a reason and no value; what the caller states
+  (`--supply`) is kept apart as `caller_supplied` and never checked. Paths that lead out of the root are refused and
+  not repeated; no environment variable, user, host or absolute path is recorded. git runs without a shell, with a
+  timeout, bounded output, an environment of its own and every command the repository's config can name switched
+  off (`core.fsmonitor`, filter drivers); an index with assume-unchanged or skip-worktree entries is not shown clean.
+  No network. `--report` gives the digest a receipt names as its subject. Not signed, not exposed over MCP, read by
+  no check; receipt-v0, receipt-v1 and its schema are unchanged. `environment.problems()` checks a snapshot for
+  consistency, not authenticity.
 - Security: the Claude Code plugin's MCP server receives the GitHub token setting as
   `CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN` (`.mcp.json`), as the hook does, so it goes only to api.github.com or the
   protected policy's `github_api`; under `BUDDIE_GITHUB_TOKEN` it could go to an API a project's environment named.
