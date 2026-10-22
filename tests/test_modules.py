@@ -131,7 +131,9 @@ def test_mcp_takes_modules_and_the_remote_server_does_not():
 # --- the core stays free of transports and providers ---------------------------------------------------------------
 
 def test_the_core_imports_no_transport_hook_or_provider():
-    code = ("import sys; import buddie.verify, buddie.modules, buddie.evidence, buddie.findings; "
+    # -I keeps the cwd off sys.path, and CI's os jobs run from the checkout without installing buddie
+    code = (f"import sys; sys.path.insert(0, {str(ROOT)!r}); "
+            "import buddie.verify, buddie.modules, buddie.evidence, buddie.findings; "
             "print(' '.join(sorted(m for m in sys.modules if m.startswith('buddie'))))")
     loaded = subprocess.run([sys.executable, "-I", "-c", code], cwd=ROOT, capture_output=True, text=True,
                             check=True).stdout.split()
