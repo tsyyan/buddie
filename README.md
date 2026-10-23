@@ -8,144 +8,25 @@
 [![License](https://img.shields.io/github/license/tsyyan/buddie)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/tsyyan/buddie)](https://github.com/tsyyan/buddie/releases)
 [![MCP Registry](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.modelcontextprotocol.io%2Fv0%2Fservers%2Fio.github.tsyyan%252Fbuddie%2Fversions%2Flatest&query=%24.server.version&label=MCP%20Registry)](https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions/latest)
-[![Plugin](https://img.shields.io/badge/plugin-Claude%20Code%20%C2%B7%20Codex-informational)](#install)
 
-**buddie verifies the evidence behind AI agent reports.** When an agent quotes a page, or says a PR is merged, CI is
-green or tests passed, buddie checks that claim against primary evidence: the bytes of the cited page, the
-repository, the GitHub API and the session transcript. Every check ends in a receipt that anyone can re-run. In
-Claude Code and Codex its hook can send an answer with a false claim back to the agent before you read it.
+**buddie verifies the evidence behind AI agent reports.**
 
-buddie checks claims written in forms it recognises, and only those. It does not tell whether an answer is true:
-`PASS` means that the checks that ran found nothing false and nothing left open.
+When an agent writes "the page says …", "the PR is merged", "CI is green" or "tests passed", buddie checks that claim
+against primary evidence: the cited page, the repository's files and git history, GitHub's record of the PR and its
+checks, and the session's record of what actually ran. No language model takes part in the check, so the agent cannot
+argue its way past it. Every check ends in a receipt that anyone can re-run.
 
-## Why buddie exists
+In Claude Code and Codex, buddie can check an answer before you see it and send it back to the agent when a claim
+does not hold. Everywhere else it is a tool that you or the agent call.
 
-An agent's account of its own work is easy to accept and expensive to re-check. An altered quote, a test run that
-never happened or a PR described as merged while it is still open all read as evidence when nobody re-opens the
-source. In 929 checkable quotations from published deep-research reports, **212 (22.8 %) were altered or absent from
-the page they cited** ([research](#research-and-benchmarks)). In multi-agent work every hand-off restates such claims,
-and a wrong one travels on.
+> **Versions.** PyPI, the GitHub release and the Desktop bundle carry **1.1.1**. This README describes **2.0.0**,
+> which is on `main` and not yet released. Features marked *(2.0)* need it; the plugin marketplace installs `main`,
+> and `pip install git+https://github.com/tsyyan/buddie` installs it as a package.
 
-buddie checks the account against records the agent did not write. No model takes part in the check, so the agent
-being checked cannot argue its way past it.
+## See it work
 
-## How a check looks
-
-| The agent writes | buddie checks it against | Result |
-|---|---|---|
-| “elevated error rates on the API between 14:58 and 15:41 UTC” with a link to the status page | the visible text of a SHA-256 snapshot of **that** page | `FAIL`: not on the page; the closest passage says 14:59 |
-| `⚓ pr:OWNER/REPO#12=merged@SHA` | the GitHub API: the PR's state and merge commit | holds, or `FAIL` if the PR is open or merged as another commit |
-| `⚓ run:pytest -q => 41 passed` | the session transcript: a tool call that ran it and printed that | `FAIL`: the call printed `1 failed, 40 passed` |
-| a quotation whose page cannot be read | nothing to compare with | `GAPS`: named as not checked |
-| prose with no quotation and no anchor | nothing buddie recognises | `EMPTY`: no check took place |
-
-| Outcome | Means | It does **not** mean |
-|---|---|---|
-| `PASS` | every quotation and anchor that was checked holds | that the report is true, or that unchecked claims hold |
-| `FAIL` | a quotation is not in its source, or an anchor or work claim does not hold | that the rest of the report is wrong |
-| `GAPS` | something could not be checked (source unreadable, GitHub offline, an anchor in another repo), and the receipt says what | a failure |
-| `EMPTY` | the text had nothing buddie checks | a pass |
-
-## What buddie verifies
-
-| Claim in a report | Checked against | When it does not hold |
-|---|---|---|
-| A quotation in quotation marks with its link in the same sentence | the visible text of a SHA-256 snapshot of that link | `NOT_FOUND`, with the closest passage |
-| A number or date in a sentence with a link | the visible text of that link's snapshot | a gap by default; a failure with `--numbers fail` |
-| `⚓ path#sha256`, `⚓ path@commit` | the file's bytes in the repository, or the file at that commit | `BROKEN` |
-| `⚓ pr:OWNER/REPO#N=merged@SHA`, `⚓ ci:OWNER/REPO@SHA=success` | the GitHub API: PR state and merge commit; every check run and status on that full commit | `BROKEN`; `UNCHECKABLE` if GitHub's answer is ambiguous or names another commit |
-| `⚓ run:CMD => OUTPUT` | the Claude Code session transcript: a tool call that ran `CMD` with `OUTPUT` in **its result** | `BROKEN`, also when the agent typed the output itself (`echo "41 passed"`) |
-| "step N is done", "the user agreed" (opt-in, `buddie.toml`) | the task queue at a commit, the accepted plans, the user's own messages | `BROKEN` |
-
-The agent writes the anchors (the [skills](skills/buddie/SKILL.md) teach it how). Work stated in prose without an
-anchor ("merged", "tests passed") is listed in the receipt, and a project can require anchors for it.
-
-## What buddie does not verify
-
-- **Whether a quotation supports the claim around it.** buddie checks that the words are on the cited page, not that
-  they mean what the report says. A real quote attached to the wrong event passes.
-- **Paraphrase, unquoted claims and claims without an anchor.** They are not detected by any check. Numbers are
-  checked only in a sentence with a link.
-- **Whether code is correct.** `ci:` says which checks passed on a commit; `run:` says a command printed something.
-  A green CI on weak tests stays weak, and a command that prints a prepared file passes.
-- **Pages that change.** A verdict holds for the snapshot hash and time it names. `pr:` and `ci:` describe GitHub now;
-  `merged@SHA` and a `ci:` on a full SHA pin them to a commit.
-- **Sessions of agents other than Claude Code** for `run:`: the transcript format is Claude Code's, undocumented and
-  read as is. In Codex, Claude Desktop and over MCP, `run:` anchors are reported as unchecked.
-- **Whether agents misstate less with buddie.** The gate returns false reports; whether that changes how often agents
-  write them is not yet measured ([research](docs/research.md#scope-of-these-results)).
-
-## Install
-
-| Client | What you get | Gate |
-|---|---|---|
-| [Claude Code](#claude-code) | hook, MCP tools, skills, commands | **enforced**: a false claim goes back to the agent |
-| [Codex](#codex) | Stop hook, MCP tools, skills | **enforced** at `Stop`; `run:` unchecked |
-| [Claude Desktop](#claude-desktop) | MCP tools | advisory: you or the model decide what to do with `FAIL` |
-| [Any MCP client](#mcp-server) | MCP tools over stdio | advisory |
-| [CLI and CI](#cli) | `buddie verify`, exit 1 on `FAIL` | your pipeline decides |
-| claude.ai, ChatGPT, the Claude API | a remote server you host ([deploy.md](docs/deploy.md)) | advisory; quotes, numbers, `pr:`/`ci:` only |
-
-### Claude Code
-
-```
-/plugin marketplace add tsyyan/buddie
-/plugin install buddie@buddie
-```
-
-The hook checks the text that leaves the session: the final answer at `Stop`, and messages sent with `SendMessage`.
-On `FAIL` it returns the answer to the model with the reasons. Optional: a GitHub token for `pr:`/`ci:` anchors,
-which the plugin asks for and stores as a secret. Levels, the intro mode and what the hook reads:
-[docs/claude-code.md](docs/claude-code.md). Without Claude Code, `python3 run.py verify REPORT.md --repo .` runs from
-a clone with nothing installed.
-
-### Codex
-
-```bash
-codex plugin marketplace add tsyyan/buddie
-```
-
-```bash
-codex plugin add buddie@buddie
-```
-
-[docs/install-codex.md](docs/install-codex.md) covers the hook, the MCP-only setup and what works there.
-
-### Claude Desktop
-
-Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) and open it
-([docs/install-claude-desktop.md](docs/install-claude-desktop.md)). Each release's `SHA256SUMS` lets you check the
-file.
-
-### MCP server
-
-For any client that starts a command (stdio), with [uv](https://docs.astral.sh/uv/):
-
-```bash
-uvx buddie serve
-```
-
-`uvx buddie@2.0.0 serve` pins a version. The tools: `verify_report`, `snap`, `source_text`, and `summary`, which only
-has data with the Claude Code hook's journal.
-
-### CLI
-
-```bash
-pip install buddie
-```
-
-`buddie verify REPORT.md` prints the blocking items and a summary line and exits 1 on `FAIL`, so it can gate a CI job
-or a hand-off. `pipx install buddie` keeps it out of your environment. Python 3.11 or newer; no dependencies.
-
-## Quick start
-
-The examples live in the repository:
-
-```bash
-git clone https://github.com/tsyyan/buddie
-```
-
-A report with two altered quotations, checked against a stored snapshot of the page it cites (no network):
+A report quotes a status page wrongly twice. buddie checks each quotation against a snapshot of the page it links to
+(from a clone of this repository, no network):
 
 <!-- readme-example: quickstart -->
 ```bash
@@ -160,7 +41,32 @@ BLOCK quote L7.1 not found in https://status.example.com/incidents/42: “the ro
 buddie FAIL: quotes 1/3 found, 2 not found
 ```
 
-A claim about work, checked against a session transcript:
+The exit code is 1. A wrong digit shows up as a close passage (0.98), an invented sentence as a distant one (0.50).
+With `--json receipt.json` the same check is also written as a receipt: an
+[in-toto Statement](https://github.com/in-toto/attestation) whose predicate gives each verdict and the snapshot it was
+read from. An excerpt:
+
+<!-- readme-receipt: quickstart -->
+```json
+{
+  "predicateType": "https://github.com/tsyyan/buddie#receipt-v0",
+  "predicate": {
+    "outcome": "FAIL",
+    "line": "buddie FAIL: quotes 1/3 found, 2 not found",
+    "quotes": [
+      {
+        "id": "L3.1",
+        "verdict": "NOT_FOUND",
+        "url": "https://status.example.com/incidents/42",
+        "sha256": "43fe75d794527e40a19e3b2c87973bcaf51410e9ac77c3c46fee97a726ef4695",
+        "closest": {"ratio": 0.983, "text": "elevated error rates on the API between 14:59 and 15:41 UTC"}
+      }
+    ]
+  }
+}
+```
+
+A claim about work, checked against the session's own record of the command:
 
 <!-- readme-example: work -->
 ```bash
@@ -174,115 +80,254 @@ note  pr:/ci:/run: anchors show what happened (PR state, checks on a commit, a c
 buddie FAIL: effects 0/1 hold, 1 broken
 ```
 
-A wrong digit shows up as a close passage (similarity ≈ 0.98), an invented sentence as a distant one (≈ 0.5). On
-your own report, `buddie verify REPORT.md` fetches the pages it cites; `--json receipt.json` writes the receipt.
+Both examples print exactly this with 1.1.1 and with 2.0.0, and `tests/test_readme.py` runs them.
 
-## Verification modes and the protected policy
+## What buddie checks
 
-- **Levels.** Each class of claim (`quotes`, `anchors`, `final`, `prose`, `numbers`, `work`, …) is `block`, `warn`
-  or `off` in the hook. A fresh install blocks only what is false; `buddie init` writes `buddie.toml` with stricter
-  defaults and starts an **intro mode** in which every would-be return is only a warning
-  ([claude-code.md](docs/claude-code.md)).
-- **Profiles** choose which checks run: `developer` (repo, PR, CI, `run:`, work claims), `research` (quotes and
-  numbers), `complete`, or `custom` (`--profile`, MCP `profile`). What a profile leaves out is not checked, and
-  receipt-v1 says so ([profiles.md](docs/profiles.md)).
-- **The protected policy** is a file only an administrator can write (`/etc/buddie/policy.toml`,
-  `<ProgramData>\buddie\policy.toml`). Everything else buddie reads, `buddie.toml`, the hook's environment and the
-  plugin's options, is writable by the agent, which runs as the same user. While the policy is in force nothing the
-  agent writes can lower its floors; an unprotected or invalid file makes buddie run on its strictest limits. It
-  applies to the hooks, which enforce; the CLI and MCP tools report and are not gated
-  ([policy.md](docs/policy.md)).
+| The report says | Checked against |
+|---|---|
+| a quotation, in quotation marks, with its link | the visible text of a SHA-256 snapshot of **that** link |
+| a number in a sentence with a link | the same snapshot |
+| `⚓ path#sha256` or `⚓ path@commit` | the file in your repository, or at that commit |
+| `⚓ pr:OWNER/REPO#N=merged@SHA` | GitHub: the PR's state and merge commit |
+| `⚓ ci:OWNER/REPO@SHA=success` | GitHub: every check run and status on that commit |
+| `⚓ run:CMD => OUTPUT` | the Claude Code transcript: a call that ran `CMD` and printed `OUTPUT` |
+| "step 3 is done", "the user agreed" (opt-in) | the project's task queue, accepted plans and the user's own messages |
 
-## Receipts and reproducibility
+The agent writes the anchors, and buddie's [skill](skills/buddie/SKILL.md) teaches it how. Every result is one of four
+outcomes:
 
-- **Receipts** are [in-toto Statements](https://github.com/in-toto/attestation): the subject is the SHA-256 of the
-  checked text, the predicate lists every verdict with the snapshot's SHA-256 and offset. **receipt-v0** is the
-  default everywhere. **receipt-v1**, on request (`--receipt v1`, MCP `"receipt": "v1"`), also records what ran,
-  what did not and why, the coverage (`FULL`, `PARTIAL`, `UNKNOWN`, `NONE`) and where the evidence came from, against
-  a published JSON Schema ([receipts.md](docs/receipts.md)).
-- **Snapshots** are stored by the SHA-256 of their bytes, so a verdict names exactly what was read.
-- **Freshness**: `buddie freshness` says whether CI or repository evidence is about the revision a claim concerns
-  (`CURRENT`, `STALE`, `UNKNOWN`), apart from whether it passed ([freshness.md](docs/freshness.md)).
-- **Environment snapshots**: `buddie snapshot` records what buddie itself observed of the place a check ran in,
-  unsigned and kept apart from what you state ([environment.md](docs/environment.md)).
-- **Releases** ship the wheel, the sdist and the Desktop bundle with `release-manifest.json` and `SHA256SUMS`,
-  built once from the tagged commit ([release.md](docs/release.md)).
-
-## Integrations and distribution
-
-| Channel | How buddie gets there | Notes |
+| Outcome | Means | Is not |
 |---|---|---|
-| [PyPI](https://pypi.org/project/buddie/) | the release workflow, trusted publishing | `pip install buddie`, `uvx buddie` |
-| [GitHub Releases](https://github.com/tsyyan/buddie/releases) | the release workflow | wheel, sdist, `.mcpb`, `SHA256SUMS` |
-| Claude Code and Codex marketplace | this repository (`.claude-plugin/marketplace.json`) | updates with each version bump on `main` |
-| [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions/latest) | the release workflow (`server.json`) | points clients at the PyPI package |
-| [Glama](https://glama.ai/mcp/servers/tsyyan/buddie), [MCPRush](https://mcprush.com/tsyyan/buddie-mcp) | directories that index the repository and the package | listings, not separate builds |
-| Anthropic's plugin directory | submitted, in review | not listed yet |
+| `PASS` | everything that was checked holds | proof that the report is true |
+| `FAIL` | a quotation is not in its source, or an anchor does not hold | a judgement on the rest |
+| `GAPS` | something could not be checked, and the receipt names it | a pass |
+| `EMPTY` | there was nothing buddie checks | a pass |
 
-Which channel serves which version, how each updates and what to do after a release:
-[docs/distribution.md](docs/distribution.md). Every surface, what it returns and how to troubleshoot it:
-[docs/integrations.md](docs/integrations.md).
+A claim buddie does not recognise (paraphrase, work stated without an anchor) is not checked at all. Lines that state
+work in prose are listed in the receipt as such, so you can see what went unchecked.
+
+## What you get
+
+| Capability | What it does for you |
+|---|---|
+| Quotation checks | catch a quote that was altered, invented or taken from another page, with the closest real passage |
+| Source snapshots | store each cited page by the SHA-256 of its bytes, so a verdict names exactly what was read |
+| Repository anchors | tie "this file" and "that commit" to the bytes in your checkout |
+| PR and CI checks | confirm merged or open, passing or failing, on the commit the claim names |
+| Execution evidence | confirms that a command ran and printed what the report says (Claude Code) |
+| Typed findings | each blocking item says what failed and why, so the agent can fix or disclose it |
+| The gate | sends an answer with a false claim back to the agent before you read it (Claude Code, Codex) |
+| Verification profiles *(2.0)* | run only the checks you need: `developer`, `research`, `complete` or `custom` |
+| Protected policy *(2.0)* | an administrator's file that settings the agent can write cannot weaken |
+| Receipt v1 *(2.0)* | adds what ran, what did not and why, coverage and provenance; v0 stays the default |
+| Evidence freshness *(2.0)* | says whether CI or repository evidence is about the revision a claim concerns |
+| Environment snapshots *(2.0)* | record what buddie itself observed of where a check ran |
+| Hardened execution *(2.0)* | no repository code runs; git ignores repository hooks and filters; patterns are time-limited |
+
+<details>
+<summary>Which interface has what</summary>
+
+| | Claude Code plugin | Codex plugin | Desktop, stdio MCP | CLI | Remote server |
+|---|---|---|---|---|---|
+| quotes, numbers | yes | yes | yes | yes | yes |
+| `path#`, `path@` | yes | yes, given `repos` | yes, given `repos` | yes | no |
+| `pr:`, `ci:` | yes | yes | yes | yes | public repos |
+| `run:` | yes | unchecked | unchecked | with `--transcript` | no |
+| gate before you read | yes | at `Stop` | no | exit code | no |
+| receipt v1 *(2.0)* | MCP tool | MCP tool | yes | `--receipt v1` | no (v0) |
+| protected policy *(2.0)* | enforced | enforced | not a gate | not a gate | not a gate |
+
+Every surface in detail: [docs/integrations.md](docs/integrations.md).
+
+</details>
+
+## Install
+
+| Where you work | Install | You get | Gate |
+|---|---|---|---|
+| [Claude Code](#claude-code) | plugin, from this repository's marketplace | hook, MCP tools, skills, commands | **yes** |
+| [Codex](#codex) | plugin, from this repository's marketplace | Stop hook, MCP tools, skills | **yes**, at `Stop` |
+| [Claude Desktop](#claude-desktop) | the `.mcpb` bundle | MCP tools | no |
+| [Any MCP client](#any-mcp-client) | `uvx buddie serve` | MCP tools over stdio | no |
+| [Terminal or CI](#terminal-or-ci) | `pip install buddie` | `buddie verify` | exit code |
+| [From source](#from-source) | a clone | all of the above, 2.0 | as installed |
+
+buddie needs Python 3.11 or newer and has no dependencies.
+
+### Claude Code
+
+```
+/plugin marketplace add tsyyan/buddie
+/plugin install buddie@buddie
+```
+
+From a shell: `claude plugin marketplace add tsyyan/buddie`, then `claude plugin install buddie@buddie`. The plugin
+installs this repository's `main` (2.0.0 today). Its hook checks the final answer at `Stop` and messages sent with
+`SendMessage`; on `FAIL` the answer goes back to the agent with the reasons. Optional: a GitHub token for `pr:` and
+`ci:`, which the plugin asks for and keeps as a secret. Levels, the intro mode and what the hook reads:
+[docs/claude-code.md](docs/claude-code.md). buddie is not listed in Anthropic's plugin directory yet: a submission is
+in review.
+
+### Codex
+
+```bash
+codex plugin marketplace add tsyyan/buddie
+```
+
+```bash
+codex plugin add buddie@buddie
+```
+
+Codex runs plugin hooks after you review them in `/hooks`. `run:` anchors stay unchecked there, because Codex's
+session log is not Claude Code's transcript. Setup and the MCP-only route: [docs/install-codex.md](docs/install-codex.md).
+
+### Claude Desktop
+
+Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (1.1.1 today) and open
+it. Desktop has no hooks, so Claude has to call `verify_report` itself, and `run:` is unchecked.
+[docs/install-claude-desktop.md](docs/install-claude-desktop.md).
+
+### Any MCP client
+
+For a client that starts a command (stdio), with [uv](https://docs.astral.sh/uv/):
+
+```bash
+uvx buddie serve
+```
+
+This runs the latest release on PyPI (1.1.1 today); `uvx buddie@2.0.0 serve` will pin 2.0.0 once it is released. A
+remote server you host for claude.ai or ChatGPT: [docs/deploy.md](docs/deploy.md).
+
+### Terminal or CI
+
+```bash
+pip install buddie
+```
+
+`buddie verify REPORT.md` fetches the pages the report cites, checks it, prints the blocking items and a summary, and
+exits 0 when nothing failed (`PASS`, `GAPS` or `EMPTY`), 1 on `FAIL` and 2 when the input cannot be used. A CI step
+that needs `PASS` should read the receipt's outcome, not only the exit code. `--json FILE` writes the receipt;
+`--receipt v1` *(2.0)* writes receipt v1.
+
+### From source
+
+```bash
+git clone https://github.com/tsyyan/buddie
+```
+
+`python3 run.py verify REPORT.md --repo .` runs from the clone with nothing installed, and `pip install .` installs
+2.0.0. Contributing: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## MCP tools
+
+| Tool | Does |
+|---|---|
+| `verify_report` | checks a report (text or file) and returns its receipt: v0, or v1 on request *(2.0)* |
+| `snap` | snapshots URLs into the store, so quotes can be taken from and checked against the same bytes |
+| `source_text` | the visible text of a snapshot, or the matches of a pattern with context: copy quotes from here |
+| `summary` | Claude Code only: the code-built summary of finished subagents, from the hook's journal |
+
+Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all four; `summary` has data
+only with the Claude Code hook. The remote server has the first three. **The MCP tools and the CLI advise**: they
+report, and you or the agent decide what to do with `FAIL`. **The hooks enforce**: they check the answer itself and
+hold it back. The protected policy applies to the hooks only.
+
+## Enforcement and the protected policy
+
+The hook checks the answer the agent hands you. What it blocks is set per class of claim (`block`, `warn` or `off`):
+
+- **A fresh install** blocks only what is false: a quotation not on its page, an anchor that does not hold.
+- **`buddie init`** writes `buddie.toml` with stricter defaults (anchors on final answers, prose work claims) and
+  starts an **intro mode**, in which each would-be return is only a warning until you have seen it work.
+- **Profiles** *(2.0)* choose which checks run (`--profile`, MCP `profile`). What a profile leaves out is not
+  checked, and receipt v1 says so ([docs/profiles.md](docs/profiles.md)).
+- **The protected policy** *(2.0)* is a file only an administrator can write (`/etc/buddie/policy.toml`, or
+  `<ProgramData>\buddie\policy.toml` on Windows). The agent runs as your user, so it can change `buddie.toml`, the
+  hook's environment and the plugin's settings; while the policy is in force, none of those can lower its limits. An
+  unprotected or invalid policy file makes buddie run on its strictest limits ([docs/policy.md](docs/policy.md)).
 
 ## Security and privacy
 
-- **What leaves your machine:** the pages a report cites (to snapshot them; `BUDDIE_FETCH=0` uses stored snapshots
-  only) and `api.github.com` for `pr:`/`ci:` anchors, or the GitHub Enterprise API a protected policy names
-  (`BUDDIE_GITHUB=0`: none). Nothing else: no telemetry, no model
-  calls, no account. buddie runs locally; the remote server is one you host.
-- **Your GitHub token** is optional, taken only from the plugin's setting or `BUDDIE_GITHUB_TOKEN`, and sent only to
-  the GitHub API. buddie never reads an ambient `GITHUB_TOKEN`.
-- **The transcript** is read in place by the Claude Code hook to check `run:` anchors, never copied or sent; a
-  plugin setting turns it off. The local journal keeps hashes and verdicts, not the text.
-- **Execution:** buddie runs no code from the repository it checks. Its git ignores the repository's hooks, filters
-  and config-named programs; `buddie.toml` patterns run in a separate, time-limited process
-  ([security.md](docs/security.md)).
-- **Trust boundary:** files and settings the agent can write cannot be trusted to configure the check; the protected
-  policy is the one input it cannot change. Code already running as your user, and a replaced Python or git on
-  `PATH`, are outside what buddie can defend against ([adversarial.md](docs/adversarial.md)).
+- **It runs locally.** Snapshots, the journal and settings stay on your machine. No telemetry, no model calls, no
+  account; a remote server exists only if you host one.
+- **It fetches the pages a report cites**, to snapshot them, whenever it checks a report with links (`BUDDIE_FETCH=0`
+  or `--no-fetch`: stored snapshots only). No text of your session is sent with those requests.
+- **It calls GitHub** for `pr:` and `ci:` anchors: `api.github.com`, or the GitHub Enterprise API a protected policy
+  names (`BUDDIE_GITHUB=0` or `--no-github`: none).
+- **Your GitHub token** is optional, taken from the plugin's setting or `BUDDIE_GITHUB_TOKEN`, and sent only to that
+  API. buddie never reads an ambient `GITHUB_TOKEN`.
+- **The Claude Code transcript** is read in place to check `run:` anchors; it is never copied or sent, and a plugin
+  setting turns reading it off. The journal keeps hashes and verdicts, not your text.
+- **What buddie cannot prevent:** code that already runs as your user, a replaced `python3` or `git` on `PATH`, or an
+  agent that rewrites the plugin's own files. The protected policy is the one input the agent cannot change.
 
-Everything read, sent and kept: [PRIVACY.md](PRIVACY.md).
+Everything read, sent and kept: [PRIVACY.md](PRIVACY.md). Execution boundaries and tested attacks:
+[docs/security.md](docs/security.md), [docs/adversarial.md](docs/adversarial.md).
 
-## Research and benchmarks
+## Limitations
+
+- **buddie is not a truth detector.** It checks claims written in the forms above against their evidence. A claim in
+  any other form is not checked.
+- **`PASS` is scoped.** It covers the quotations and anchors that were checked, against the evidence that was read;
+  with a profile, only the checks the profile ran.
+- **`GAPS` is not success.** It means something could not be checked; the receipt says what. The CLI exits 0 on it.
+- **A real quote can still mislead.** buddie checks that the words are on the cited page, not that they support the
+  sentence around them.
+- **Evidence ages.** A verdict holds for the snapshot hash and time it names; `pr:` and `ci:` describe GitHub now
+  unless pinned to a commit. `buddie freshness` *(2.0)* says when evidence is about another revision.
+- **Advice is advice.** The MCP tools and the CLI change nothing unless something acts on their result.
+- **The gate covers what the client sends it:** Claude Code's `Stop` and `SendMessage`, Codex's `Stop`. Desktop and
+  other clients have no hook, and `run:` is checked only against a Claude Code transcript.
+- **A receipt is an evidence record.** It says what was checked and found, not that code is correct: a green CI on
+  weak tests stays weak, and a command that prints a prepared file passes `run:`.
+- **Whether agents misstate less with buddie** is not yet measured ([docs/research.md](docs/research.md)).
+
+## Research
+
+In 929 checkable quotations from published deep-research reports, **212 (22.8 %) were altered or absent from the page
+they cited**; buddie flagged 207 of them. Out of sample, its quote check wrongly reports `NOT_FOUND` for 2.3 % of real
+quotations, and for 6.9 % on a new genre (Search Arena answers), mostly words the agent itself put in quotation marks.
+The labellers were Claude subagents working blind to the verdicts.
+
+<details>
+<summary>The data sets</summary>
 
 | Finding | Result | Data |
 |---|---|---|
-| Quotations in published deep-research reports (o3 Deep Research, Perplexity, Grok, Doubao, Claude 3.7 Sonnet) altered or absent from the cited page | **212 of 929 (22.8 %, 95 % CI 20–26 %)**; buddie flagged 207 | [E008](results/E008-drb2-fresh), [E010](results/E010-ydc-o3), [E011](results/E011-drb1-claude), [E012](results/E012-search-misses) |
-| Cited numbers not in their source (DeepResearch Bench I) | 28 of 103 (27.2 %) | [E009](results/E009-drb1-numbers) |
-| False `NOT_FOUND` of the quote check, out of sample | 10 of 440 (2.3 %) | [method](docs/verbatim-method.md) |
-| False `NOT_FOUND` on a new genre (Search Arena answers) | **29 of 423 (6.9 %)**, mostly words the agent itself put in quotation marks | [E014](results/E014-search-arena) |
-| Plugin evals: a false quote, `pr:` or `ci:` claim passed on by an orchestrator | the person got the truth in every trap run with buddie, in none without; about twice the turns | [evals](evals/README.md) |
+| quotations altered or absent (o3 Deep Research, Perplexity, Grok, Doubao, Claude 3.7 Sonnet) | 212 of 929 (22.8 %, 95 % CI 20–26 %) | [E008](results/E008-drb2-fresh), [E010](results/E010-ydc-o3), [E011](results/E011-drb1-claude), [E012](results/E012-search-misses) |
+| cited numbers not in their source | 28 of 103 (27.2 %) | [E009](results/E009-drb1-numbers) |
+| false `NOT_FOUND`, out of sample | 10 of 440 (2.3 %) | [method](docs/verbatim-method.md) |
+| false `NOT_FOUND`, Search Arena | 29 of 423 (6.9 %) | [E014](results/E014-search-arena) |
+| plugin evals: a false quote, `pr:` or `ci:` claim passed on | the truth reached the person in every trap run with buddie, in none without | [evals](evals/README.md) |
 
-The labellers were Claude subagents working blind to the verdicts, not humans; rules were frozen by commit before
-each out-of-sample run. The ≤ 2 % false-`NOT_FOUND` target is not demonstrated for arbitrary answers. Sets, method,
-limits and how to reproduce: [docs/research.md](docs/research.md), [results/](results/README.md).
+</details>
+
+Method, limits and how to reproduce: [docs/research.md](docs/research.md).
 
 ## Documentation
 
-| Topic | Page |
+| Topic | Read |
 |---|---|
-| The Claude Code plugin: levels, intro mode, what the hook reads | [claude-code.md](docs/claude-code.md) |
-| Every integration, enforcement vs advice, troubleshooting | [integrations.md](docs/integrations.md) |
-| Codex, Claude Desktop, a hosted server | [install-codex.md](docs/install-codex.md), [install-claude-desktop.md](docs/install-claude-desktop.md), [deploy.md](docs/deploy.md) |
-| Receipts v0 and v1 | [receipts.md](docs/receipts.md) |
+| Getting started on each surface | [integrations.md](docs/integrations.md#first-time-setup) |
+| Claude Code: levels, intro mode, what the hook reads | [claude-code.md](docs/claude-code.md) |
+| Configuration and environment variables | [configuration.md](docs/configuration.md) |
+| Writing checkable claims and anchors | [skills/buddie](skills/buddie/SKILL.md), [verbatim-verdicts.md](docs/verbatim-verdicts.md) |
 | Profiles and the protected policy | [profiles.md](docs/profiles.md), [policy.md](docs/policy.md) |
+| Receipts v0 and v1 | [receipts.md](docs/receipts.md) |
 | Freshness and environment snapshots | [freshness.md](docs/freshness.md), [environment.md](docs/environment.md) |
-| Environment variables, the quote module | [configuration.md](docs/configuration.md), [verbatim-verdicts.md](docs/verbatim-verdicts.md) |
-| Security model and adversarial tests | [security.md](docs/security.md), [adversarial.md](docs/adversarial.md) |
-| Releases, distribution, catalog listings | [release.md](docs/release.md), [distribution.md](docs/distribution.md), [catalogs.md](docs/catalogs.md) |
-| What 2.0 guarantees and how it was tested | [release-hardening.md](docs/release-hardening.md) |
-| Changes | [CHANGELOG.md](CHANGELOG.md) |
+| Security and privacy | [security.md](docs/security.md), [adversarial.md](docs/adversarial.md), [PRIVACY.md](PRIVACY.md) |
+| Codex, Claude Desktop, a hosted server | [install-codex.md](docs/install-codex.md), [install-claude-desktop.md](docs/install-claude-desktop.md), [deploy.md](docs/deploy.md) |
+| Research and evaluations | [research.md](docs/research.md), [evals](evals/README.md) |
+| Releases and distribution | [release.md](docs/release.md), [distribution.md](docs/distribution.md), [CHANGELOG.md](CHANGELOG.md) |
 
-## Status
+## Status, contributing, license
 
-buddie 2.0.0 is prepared and not yet released; PyPI and the other channels serve 1.1.1. 2.0 keeps the 1.x interfaces
-and receipt-v0 as the default; a few behaviours changed on purpose, among them `fact=` and out-of-repo file anchors,
-which are no longer checked ([CHANGELOG.md](CHANGELOG.md)). The interfaces (the receipts, the CLI, the MCP tools,
-`buddie.toml`) follow semantic versioning.
+buddie 2.0.0 is prepared and not yet released. It keeps the 1.x interfaces and receipt v0 as the default; the
+behaviour that changed on purpose is listed in the [CHANGELOG](CHANGELOG.md), with what 2.0 guarantees and how it was
+tested in [docs/release-hardening.md](docs/release-hardening.md). The receipts, the CLI, the MCP tools and
+`buddie.toml` follow semantic versioning. This repository was called `verbatim` until October 2026; `verbatim` is now
+buddie's quote module (`buddie-verbatim`).
 
-This repository was called `verbatim` until October 2026; `verbatim` is now buddie's quote module
-(`buddie.verbatim`, command `buddie-verbatim`), and old links redirect.
-
-## Contributing, license, citation
-
-Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). License: [Apache-2.0](LICENSE), with third-party notices in
-[NOTICE](NOTICE). To cite buddie, see [CITATION.cff](CITATION.cff).
+Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). License: [Apache-2.0](LICENSE), third-party notices in
+[NOTICE](NOTICE). Citation: [CITATION.cff](CITATION.cff).
