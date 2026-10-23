@@ -92,9 +92,10 @@ def _trust_extra_ca() -> None:
     db = Path.home() / ".pki" / "nssdb"
     db.mkdir(parents=True, exist_ok=True)
     if not (db / "cert9.db").exists():
-        subprocess.run(["certutil", "-d", f"sql:{db}", "-N", "--empty-password"], check=False, capture_output=True)
+        subprocess.run(["certutil", "-d", f"sql:{db}", "-N", "--empty-password"], check=False, capture_output=True,
+                       stdin=subprocess.DEVNULL)
     subprocess.run(["certutil", "-d", f"sql:{db}", "-A", "-t", "C,,", "-n", "verbatim-extra-ca", "-i", ca],
-                   check=False, capture_output=True)
+                   check=False, capture_output=True, stdin=subprocess.DEVNULL)
 
 
 def browser(store: Store, url: str, **_) -> dict:

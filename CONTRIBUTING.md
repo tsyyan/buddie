@@ -6,6 +6,8 @@ arrives in "Sync from lab" commits; from now on issues and pull requests here ar
 ```bash
 pip install -e . pytest
 pytest            # bare pytest, as CI runs it; tests that need the lab's snapshots skip (set VERBATIM_LAB to run them)
+                  # Windows: `python -m pytest`; the Python install manager's pytest.exe shim can leave the test
+                  # process without a usable stdin (docs/release-hardening.md, RH-1)
 ```
 
 - One change per pull request, with a test that fails without it.
