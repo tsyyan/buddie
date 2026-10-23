@@ -33,7 +33,8 @@ it. This page lists everything it reads, everything it sends off your machine, a
 - **Cited pages.** To check a quote the hook downloads the page the quote cites, as a plain HTTP GET of that URL
   (`BUDDIE_FETCH=0`: stored snapshots only, no requests). Only `--access default` in the CLI or MCP server also asks
   archive.org, Common Crawl and open-access copies by DOI. No text of your session is sent with these requests.
-- **GitHub API.** `pr:` and `ci:` anchors call `api.github.com` for the state of the named PR or commit, with
+- **GitHub API.** `pr:` and `ci:` anchors call `api.github.com` (or the GitHub Enterprise API an administrator's
+  protected policy names, [policy.md](docs/policy.md)) for the state of the named PR or commit, with
   the token you gave buddie (the plugin's `github_token` setting or `BUDDIE_GITHUB_TOKEN`; an ambient `GITHUB_TOKEN`
   is not used) (`BUDDIE_GITHUB=0`: no calls). The request carries the owner, repo
   and PR number or commit from the anchor, nothing else.

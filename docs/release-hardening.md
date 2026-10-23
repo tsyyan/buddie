@@ -126,7 +126,7 @@ Three deadlines, each for its own thing:
 | no worker left after any failure | pass (and none after the full suites and acceptance) | CI |
 | credential isolation | `test_adv_5_8`: no token in the worker's environment | CI |
 | buddie killed mid-match | `test_the_worker_ends_with_buddies_process_mid_match`: the worker ends (job object) | Linux: ends (`PR_SET_PDEATHSIG`); macOS: recorded, not asserted |
-| from an installed wheel | RH-3 and RH-7 (step 10: bounded in 1.5 s) | CI package job |
+| from an installed wheel | RH-3 and RH-7 (step 10: bounded in 1.5 s) | CI release-candidate job (before PR #38: the package job) |
 
 **macOS limitation.** If buddie's own process is killed while a match runs, the worker runs until its match ends or
 its pipe breaks; buddie's own timeouts stop it in every other case.

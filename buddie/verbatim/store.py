@@ -51,16 +51,19 @@ class Budget:
         self.seconds = seconds
 
     def left(self) -> float:
-        return self.until - time.monotonic()
+        # never more than the budget: (t0 + s) - t0 can round above s while the clock has not moved
+        return min(self.seconds, self.until - time.monotonic())
 
     def connect(self) -> float:
-        """Spend one connection; the seconds left, for its socket timeout."""
-        if self.left() <= 0:
+        """Spend one connection; the seconds left, for its socket timeout. The clock is read once: the time checked is
+        the time returned, so a budget that runs out a moment later cannot give a timeout of zero or less."""
+        left = self.left()
+        if left <= 0:
             raise BudgetSpent(f"time budget of {self.seconds:g} s spent")
         if self.requests <= 0:
             raise BudgetSpent("request budget spent")
         self.requests -= 1
-        return self.left()
+        return left
 
 
 BUDGET: contextvars.ContextVar[Budget | None] = contextvars.ContextVar("verbatim_budget", default=None)
