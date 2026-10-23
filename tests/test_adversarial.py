@@ -538,7 +538,7 @@ def test_adv_5_9_the_cli_says_the_pattern_is_unusable_not_fail(tmp_path, capsys,
     report = tmp_path / "r.md"
     report.write_text("Шаг №1: вердикт auto.\n", encoding="utf-8")
     assert cli.main(["verify", str(report), "--repo", str(repo), "--no-fetch", "--no-github"]) == 2
-    assert "took over" in capsys.readouterr().err
+    assert "no whole answer within" in capsys.readouterr().err
 
 
 def test_adv_5_10_lab_patterns_give_the_same_answers_through_the_worker():

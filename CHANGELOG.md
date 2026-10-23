@@ -11,6 +11,10 @@
   - `ci:` anchors go through `freshness.ci_evidence`: the SHA resolved to its full commit, the latest runs and
     status fetched once for that id, each naming it, GitHub's count read in full; a run without `head_sha`, on
     another commit, a missing page or disagreeing suites are UNCHECKABLE.
+  - The pattern worker is bounded in every step, not only while it matches: its start (within the event's budget),
+    writing the request (a worker that stops reading cannot block on a full pipe), and a whole, well-formed answer;
+    past any of them it is killed and reaped, one worker at a time. Linux and Windows end it with buddie's process.
+    Texts over 64 K characters are not matched.
   - `buddie.toml` `[mandate]` patterns run in a worker process within 1 s per match and 10 s per hook event; past
     that the worker is stopped and the answer returned (`PatternTimeout`; the CLI exits 2).
   - `buddie.toml` `[mandate]` patterns could backtrack exponentially on the queue's text (`(a+)+$`: hours in

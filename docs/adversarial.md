@@ -78,6 +78,7 @@ matters; the test.
 | ADV-5.8 | the worker itself | no buddie credential in it; stopped on timeout, a new one next time | as expected | the bound holds after a timeout | `test_adv_5_8` |
 | ADV-5.9 | the CLI on such a pattern | exit 2 (the input cannot be used), not 1 (FAIL) | 2 | a timeout is not a verdict | `test_adv_5_9` |
 | ADV-5.10 | lab's own patterns through the worker | the same answers as in-process | the same | legitimate configuration is kept | `test_adv_5_10`, `test_mandate.py`, `test_due.py` |
+| ADV-5.11 | a worker that misbehaves outside matching: never reads its stdin (a request bigger than the pipe's buffer), never says it is ready, sends a wrong ready line, stops reading after one answer, answers half a line and waits or exits, answers a whole line that is not an answer, exits while the request is written; failing again and again | every step bounded: its start (within STARTUP and the event's budget), writing the request (a thread joined until the call's deadline), its answer (a whole JSON line of the expected shape by the same deadline); then stopped (killed, its job closed on Windows, reaped, pipes closed); one worker at a time | **before: a worker that did not read held buddie on a full pipe without bound. Now: each case 0.08 to 3.1 s, no worker left** | the bound covers the whole interaction | `test_patterns_worker.py` |
 | ADV-5.4 | `refs[].doc` templates with a format width of a billion, an attribute, an index or a conversion | refused | refused | `str.format` on agent text | `test_adv_5_4` |
 | ADV-5.5 | an invalid policy file | the strictest limits, never the most permissive | every answer returned | a broken policy fails closed | `test_adv_5_5`; `test_policy.py` |
 
@@ -130,7 +131,9 @@ matters; the test.
   only keep the journal, the summary and the launch gate go on when a check fails, as before: a bad pattern there
   costs at most the event's budget.
 - **The worker's cost.** One Python process per buddie process that meets a `buddie.toml` pattern, started once
-  and reused.
+  and reused. Texts over 64 K characters are not matched (the check cannot be completed: the answer is returned).
+- **A worker outliving buddie.** If buddie's own process is killed while a match runs, the worker is ended with it
+  on Windows (a job object) and Linux (`PR_SET_PDEATHSIG`); on macOS it runs until its match ends or its pipe breaks.
 - **Agent-writable evidence.** A repository proves what is in it (ADV-1.5, ADV-3.3), and `clean` is git's view.
 - **Interim messages.** The prose rule holds final answers (ADV-7.1).
 - **The trusted base and the interpreter** are outside the model ([security.md](security.md),
