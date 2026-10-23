@@ -497,9 +497,12 @@ def test_adv_5_6_a_polynomial_pattern_is_stopped_and_the_answer_returned(gate, p
 def test_adv_5_7_an_events_patterns_share_one_budget(gate, monkeypatch):
     """Many calls each under the per-call bound still cannot add up past the event's budget."""
     from buddie import patterns
-    monkeypatch.setattr(hook, "EVENT_PATTERNS", 1.5)
-    monkeypatch.setattr(patterns, "CALL", 0.8)
-    _queue(gate.repo, r"a*a*a*b", ["a" * 160 + "!"] * 40)  # each ~0.05-0.3 s: 40 rows exceed 1.5 s together
+    # each call well under the per-call bound on any machine (a cubic pattern on 160 characters: milliseconds to a
+    # tenth of a second), and the 40 together over the event's budget, however fast the machine (CI's Linux runner
+    # ran them in 1.4 s against a budget of 1.5 s, PR #36)
+    monkeypatch.setattr(hook, "EVENT_PATTERNS", 0.2)
+    monkeypatch.setattr(patterns, "CALL", 5.0)
+    _queue(gate.repo, r"a*a*a*b", ["a" * 160 + "!"] * 40)
     started = time.monotonic()
     code, err, _ = gate("Шаги " + ", ".join(f"№{i}: вердикт auto" for i in range(1, 41)) + ".")
     assert time.monotonic() - started < 15 and code == 2 and "PatternTimeout" in err
