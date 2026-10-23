@@ -42,7 +42,7 @@ What the checks find on `main` (details in [distribution.md](distribution.md#ant
 
 - **Should pass:** name `buddie`, `version`, `description`, `author`, `license`, a README well over 40 words,
   `LICENSE`, valid `hooks/hooks.json` and `.mcp.json`, the MCP server started by running a file in the plugin
-  (`python3 ${CLAUDE_PLUGIN_ROOT}/run.py serve`), no launchers, no lockfiles, 307 files (limit 512). The GitHub token
+  (`python3 ${CLAUDE_PLUGIN_ROOT}/run.py serve`), no launchers, no lockfiles, 309 files (limit 512). The GitHub token
   comes through `userConfig` with `sensitive: true`.
 - **Held for a reviewer (not a rejection):** three files over 256 KiB, research data and a test fixture
   (`results/E008-drb2-fresh/results.json`, `sample_blind.json`, `tests/data/gate_golden.json`); a scan may still name

@@ -54,45 +54,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: the tag, the version, main, the confirmation, the candidate run
-        id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-          CANDIDATE: ${{ inputs.candidate }}
-          CONFIRM: ${{ inputs.confirm }}
-        run: |
-          fail() { echo "::error::$1"; exit 1; }
-          [ "$GITHUB_REF_TYPE" = tag ] || fail "publish runs on a release tag, not $GITHUB_REF"
-          v=$(python3 -c "import buddie; print(buddie.__version__)")
-          [ "$GITHUB_REF_NAME" = "v$v" ] || fail "tag $GITHUB_REF_NAME but buddie.__version__ is $v"
-          [ "$CONFIRM" = "publish buddie $v" ] || fail "confirm must be exactly: publish buddie $v"
-          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || fail "$GITHUB_SHA is not on main"
-          [[ "$CANDIDATE" =~ ^[0-9]+$ ]] || fail "candidate must be a run id"
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CANDIDATE" > run.json
-          python3 - "$GITHUB_SHA" "$GITHUB_REPOSITORY" <<'EOF'
-          import json, sys
-          run, sha, repo = json.load(open("run.json")), sys.argv[1], sys.argv[2]
-          problems = [why for ok, why in [
-              (run.get("path") == ".github/workflows/release.yml", f"run {run.get('id')} is {run.get('path')}"),
-              (run.get("event") in ("push", "workflow_dispatch"), f"run event {run.get('event')}"),
-              (run.get("head_sha") == sha, f"the candidate built {run.get('head_sha')}, the tag is {sha}"),
-              ((run.get("head_repository") or {}).get("full_name") == repo, "the candidate ran in another repository"),
-              (run.get("conclusion") == "success", f"the candidate run's conclusion is {run.get('conclusion')}"),
-          ] if not ok]
-          for p in problems:
-              print(f"::error::{p}")
-          sys.exit(1 if problems else 0)
-          EOF
-          echo "version=$v" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
         with:
           name: release-candidate
           path: rc/
           run-id: ${{ inputs.candidate }}
           github-token: ${{ github.token }}
-      - run: python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
+      - name: the tag, the version, main, the confirmation, the candidate run and its files
+        id: check
         env:
-          V: ${{ steps.check.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE: ${{ inputs.candidate }}
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          [[ "$CANDIDATE" =~ ^[0-9]+$ ]] || { echo "::error::candidate must be a run id"; exit 1; }
+          v=$(python3 -c "import buddie; print(buddie.__version__)")
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CANDIDATE" > run.json
+          tag_commit=$(git rev-parse --verify --quiet "refs/tags/$GITHUB_REF_NAME^{commit}" || echo none)
+          on_main=no; git merge-base --is-ancestor "$GITHUB_SHA" origin/main && on_main=yes
+          python3 scripts/release_publish.py authorize rc --run run.json --candidate "$CANDIDATE" \
+            --repo "$GITHUB_REPOSITORY" --sha "$GITHUB_SHA" --ref-type "$GITHUB_REF_TYPE" --ref-name "$GITHUB_REF_NAME" \
+            --tag-commit "$tag_commit" --on-main "$on_main" --version "$v" --confirm "$CONFIRM"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
 
   pypi:
     needs: authorize
@@ -114,13 +97,22 @@ jobs:
           path: rc/
           run-id: ${{ inputs.candidate }}
           github-token: ${{ github.token }}
-      - name: the candidate's files, unchanged; the wheel and the sdist only
+      - name: the candidate's files, unchanged; what PyPI already holds for the version
+        id: plan
         run: |
           python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
-          mkdir upload && cp rc/dist/* upload/
-      # skip-existing: a stage run again after a partial upload sends only what is missing; the check below then
-      # refuses any file PyPI holds that is not the candidate's
+          mkdir upload && cp rc/dist/* upload/   # the wheel and the sdist only, never the bundle
+          code=$(curl -s -o pypi.json -w '%{http_code}' "https://pypi.org/pypi/buddie/$V/json")
+          case "$code" in
+            200) plan=$(python3 scripts/release_publish.py pypi-plan rc pypi.json) ;;   # stops on a foreign file
+            404) plan=upload ;;
+            *) echo "::error::PyPI answered $code"; exit 1 ;;
+          esac
+          echo "PyPI: $plan"; echo "plan=$plan" >> "$GITHUB_OUTPUT"
+      # skip-existing: after a partial upload only the missing file is sent; the plan above already refused any file
+      # PyPI holds that is not the candidate's, and the check below refuses one again
       - uses: pypa/gh-action-pypi-publish@release/v1
+        if: steps.plan.outputs.plan == 'upload'
         with:
           packages-dir: upload/
           skip-existing: true
@@ -165,20 +157,24 @@ jobs:
           [ "$sv" = "$V $V" ] || { echo "::error::server.json is $sv"; exit 1; }
           curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json
           python3 scripts/release_manifest.py pypi rc pypi.json
-      - name: publish, unless the registry already lists this version
+      - name: publish, unless the registry already lists this version as this package
         run: |
           code=$(curl -s -o listed.json -w '%{http_code}' "$SERVER/$V")
-          if [ "$code" = 200 ]; then echo "::notice::the registry already lists $V"; exit 0; fi
+          if [ "$code" = 200 ]; then
+            python3 scripts/release_publish.py registry-check server.json listed.json
+            echo "::notice::the registry already lists $V as server.json describes it"; exit 0
+          fi
           [ "$code" = 404 ] || { echo "::error::the registry answered $code"; exit 1; }
           curl -fsSL "$PUBLISHER" -o publisher.tar.gz
           echo "$PUBLISHER_SHA256  publisher.tar.gz" | sha256sum -c -
           tar xzf publisher.tar.gz mcp-publisher
           ./mcp-publisher login github-oidc
           ./mcp-publisher publish
-      - name: the registry lists it
+      - name: the registry lists it as server.json describes it
         run: |
           for i in $(seq 10); do
-            curl -fsS "$SERVER/$V" -o listed.json && grep -q "\"version\":\"$V\"" listed.json && exit 0
+            curl -fsS "$SERVER/$V" -o listed.json && python3 scripts/release_publish.py registry-check server.json \
+              listed.json && exit 0
             sleep 10
           done
           exit 1
@@ -213,19 +209,7 @@ jobs:
           python3 scripts/release_manifest.py pypi rc pypi.json
       - name: the release, with the changelog section and the candidate's files
         run: |
-          release() { gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
-                        --jq "[.[] | select(.tag_name == \"$GITHUB_REF_NAME\")][0] // empty" > release.json; }
-          release
-          if [ ! -s release.json ]; then
-            awk -v v="$V" '$0 ~ "^## buddie " v "( |$)" {on=1; next} on && /^## / {exit} on' CHANGELOG.md > notes.md
-            [ -s notes.md ] || echo "buddie $V" > notes.md
-            gh release create "$GITHUB_REF_NAME" --draft --verify-tag --title "buddie $V" --notes-file notes.md
-            release
-          fi
-          for name in $(python3 scripts/release_manifest.py github rc release.json); do
-            gh release upload "$GITHUB_REF_NAME" "$(find rc -type f -name "$name")"
-          done
-          release
-          missing=$(python3 scripts/release_manifest.py github rc release.json)
-          [ -z "$missing" ] || { echo "::error::still missing: $missing"; exit 1; }
-          gh release edit "$GITHUB_REF_NAME" --draft=false
+          awk -v v="$V" '$0 ~ "^## buddie " v "( |$)" {on=1; next} on && /^## / {exit} on' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "buddie $V" > notes.md
+          python3 scripts/release_publish.py github-release rc --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" \
+            --sha "$GITHUB_SHA" --version "$V" --notes notes.md

@@ -4,7 +4,6 @@ confirmed run that `authorize` checks."""
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 import sys
 from pathlib import Path
@@ -79,24 +78,6 @@ def test_pypi_must_serve_exactly_the_candidates_wheel_and_sdist(rc):
     assert any("is not the candidate's" in p for p in rm.pypi(rc, {"urls": urls}))
 
 
-def test_a_github_release_is_completed_not_overwritten(rc):
-    want = {Path(f["path"]).name: f["sha256"] for f in rm.load(rc)["files"]}
-    want |= {n: hashlib.sha256((rc / n).read_bytes()).hexdigest() for n in (rm.MANIFEST, rm.SUMS)}
-    assets = [{"name": n, "digest": f"sha256:{h}"} for n, h in want.items()]
-    assert rm.github(rc, assets) == ([], [])
-    problems, missing = rm.github(rc, assets[1:])
-    assert problems == [] and missing == [assets[0]["name"]]   # a partial upload: only the rest is sent
-    assets[0]["digest"] = "sha256:" + "0" * 64
-    assert rm.github(rc, assets)[0]                              # a different file under the name: refused
-    assert rm.main(["github", str(rc), str(_json(rc, {"assets": assets}))]) == 1
-
-
-def _json(root: Path, data) -> Path:
-    p = root / "data.json"
-    p.write_text(json.dumps(data), encoding="utf-8")
-    return p
-
-
 def _jobs(path: str) -> dict[str, str]:
     text = (ROOT / ".github" / "workflows" / path).read_text(encoding="utf-8")
     body = text.split("\njobs:\n", 1)[1]
@@ -119,8 +100,12 @@ def test_a_tag_push_builds_a_candidate_and_publishes_nothing():
         assert "run-id: ${{ inputs.candidate }}" in job and "python -m build" not in job, name
         assert "release_manifest.py" in job, name
     assert "environment:\n      name: pypi" in jobs["pypi"] and "id-token: write" in jobs["pypi"]
-    assert '[ "$CONFIRM" = "publish buddie $v" ]' in jobs["authorize"]
+    # the decisions are release_publish.py's (tests/test_release_publish.py), given the run's own facts
+    assert "release_publish.py authorize rc" in jobs["authorize"] and '--confirm "$CONFIRM"' in jobs["authorize"]
     assert 'merge-base --is-ancestor "$GITHUB_SHA" origin/main' in jobs["authorize"]
+    assert "release_publish.py pypi-plan" in jobs["pypi"] and "steps.plan.outputs.plan == 'upload'" in jobs["pypi"]
+    assert jobs["mcp-registry"].count("release_publish.py registry-check") == 2   # before skipping, after publishing
+    assert "release_publish.py github-release" in jobs["github-release"] and "gh release" not in jobs["github-release"]
     # the publisher binary is checked against its release's SHA-256
     assert "sha256sum -c" in jobs["mcp-registry"]
     assert "push:\n    tags:" in release

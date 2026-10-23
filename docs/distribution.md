@@ -82,7 +82,7 @@ review. The portal itself is **publisher-only**; this section reads the plugin's
 
 | | `3a351b4` (submitted) | `main` (2.0.0) | Checklist rule |
 |---|---|---|---|
-| files | 247 | 298 (with this PR: 307) | ≤ 512, else held |
+| files | 247 | 298 (with this PR: 309) | ≤ 512, else held |
 | files over 256 KiB (not image or font) | 2: `results/E008-drb2-fresh/results.json`, `sample_blind.json` | 3: those two and `tests/data/gate_golden.json` (771 KB) | held: "Files or downloads the validator couldn't inspect" |
 | binary files | `assets/icon.png` (a complete PNG) | the same | PNG is allowed |
 | research data | `results/`, 128 files, 4.0 MB | the same | — |

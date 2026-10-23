@@ -70,49 +70,121 @@ or from a terminal:
 gh workflow run release.yml --repo tsyyan/buddie --ref vX.Y.Z -f candidate=RUN_ID -f confirm="publish buddie X.Y.Z"
 ```
 
-**`authorize`** refuses the run unless: it runs on a tag; the tag is `v` + `buddie.__version__`; `confirm` is the
-exact sentence; the tag's commit is on `main`; the candidate run is a run of `release.yml` in this repository that
-succeeded and built this same commit; and the downloaded files, the record and the sums agree byte for byte. A
-typo, a tag on an unmerged commit, a candidate from another commit, a rebuilt file: each stops here, before anything
-leaves.
+**`authorize`** downloads the candidate and refuses the run unless every one of these holds
+([`scripts/release_publish.py`](../scripts/release_publish.py) `authorize`, tested in
+[`tests/test_release_publish.py`](../tests/test_release_publish.py)):
+
+- the run is on a tag (not a branch), the tag is `v` + `buddie.__version__`, and the tag names the commit the run
+  checked out;
+- that commit is in `main`'s history;
+- `confirm` is exactly `publish buddie X.Y.Z`;
+- the candidate run is a run of `.github/workflows/release.yml` (not CI's), in this repository and built from it, on
+  this tag (`head_branch`) and this commit (`head_sha`), triggered by a push or a manual run, `completed` with
+  `success`;
+- the artifact's own record names that run id, this repository and `refs/tags/vX.Y.Z`, and its files, record and
+  sums agree byte for byte.
+
+A typo, a branch, a tag on an unmerged or other commit, a candidate from another commit, workflow or repository, a
+failed run, a rebuilt file: each stops here, before anything leaves.
 
 Then each stage downloads the **candidate's artifact** (never a new build) and checks it again:
 
-| Stage | What it publishes | How | Checked after |
-|---|---|---|---|
-| `pypi` | the wheel and the sdist (not the bundle) | trusted publishing from environment `pypi`: GitHub's OIDC token, no PyPI token stored | PyPI's JSON API serves exactly the candidate's two files, by SHA-256 |
-| `mcp-registry` | `server.json` as `io.github.tsyyan/buddie` | `mcp-publisher` v1.8.1, its download checked against its release's SHA-256; GitHub OIDC proves the namespace | the registry answers for the version |
-| `github-release` | a release with the CHANGELOG section `## buddie X.Y.Z`, the three files, `release-manifest.json` and `SHA256SUMS` | created as a draft, files uploaded, each asset's digest compared with the record, then published | every asset is the candidate's |
+| Stage | Before | Publishes | How | After | What the check proves |
+|---|---|---|---|---|---|
+| `pypi` | PyPI's JSON API for the version: absent → upload; exactly the candidate's files → done, no upload; any other file → **stop** | the wheel and the sdist (not the bundle) | trusted publishing from environment `pypi` (GitHub's OIDC token, no PyPI token stored), `skip-existing` | PyPI serves exactly the candidate's two files | **bytes**: PyPI publishes each file's SHA-256 |
+| `mcp-registry` | PyPI serves the candidate's files; the registry's entry for the version, if any, must name the same server, version, repository and PyPI package as `server.json`, else **stop** | `server.json` as `io.github.tsyyan/buddie` | `mcp-publisher` v1.8.1, its download checked against its release's SHA-256; GitHub OIDC proves the namespace | the entry matches `server.json` | **metadata only**: the registry stores no digest. It points clients at `buddie==X.Y.Z` on PyPI, whose bytes the `pypi` check covers |
+| `github-release` | PyPI serves the candidate's files; the tag names the candidate's commit | a release with the CHANGELOG section, the three files, `release-manifest.json` and `SHA256SUMS` | finds the published release by tag, else the one draft for the tag, else creates a draft; re-reads it by id; uploads only missing files; checks every asset; publishes; reads it back by tag | every asset is the candidate's, by SHA-256 | **bytes**: GitHub's asset `digest`, or the asset downloaded and hashed when GitHub gives none |
 
 The registry and the release start only after PyPI succeeded (or, for a stage run alone, after checking that PyPI
-already serves the candidate's files): neither announces a version people cannot install.
+already serves the candidate's files): neither announces a version people cannot install. GitHub's API does not
+return a draft by tag, so a draft is found by listing the releases; a listing that missed one would leave two
+drafts, and the next run stops on them instead of choosing.
 
-### When a stage fails
+## Partial publication
 
-Every stage can run again and only completes what is missing:
+The three stages are three services. **Publication is not a transaction**: PyPI can have the version while the
+registry or the release does not, and nothing is rolled back. A version on PyPI can never be replaced or uploaded
+again, even after it is deleted; a wrong one is fixed by releasing `X.Y.Z+1`.
 
-| Failure | What is left | Recovery |
+**Which stages completed.** The publish run's job list shows each stage's result. The services themselves:
+
+```bash
+curl -s https://pypi.org/pypi/buddie/X.Y.Z/json
+```
+
+```bash
+curl -s https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions/X.Y.Z
+```
+
+```bash
+gh release view vX.Y.Z --repo tsyyan/buddie --json isDraft,assets
+```
+
+**Whether what is published is the candidate.** Download the candidate run's artifact and compare: PyPI's
+`digests.sha256` per file and each release asset's `digest` with `SHA256SUMS`; the registry entry's name, version
+and package with `server.json`. The stages do this themselves before and after they publish.
+
+**Retrying one stage.** The same inputs, with `only`:
+
+```bash
+gh workflow run release.yml --repo tsyyan/buddie --ref vX.Y.Z -f candidate=RUN_ID -f confirm="publish buddie X.Y.Z" -f only=mcp-registry
+```
+
+(`only=pypi` or `only=github-release` likewise), or *Re-run failed jobs* on the publish run. Each stage completes only
+what is missing:
+
+| Situation | The stage | What to do |
 |---|---|---|
-| `authorize` | nothing published | fix the input (or tag the right commit and build a new candidate), run again |
-| `pypi` during upload | maybe one of the two files on PyPI | run again with the same inputs (or *Re-run failed jobs*): `skip-existing` sends what is missing, the check refuses a file on PyPI that is not the candidate's |
-| `pypi` check fails on a digest | PyPI holds a different file under that name | stop. A version on PyPI can never be uploaded again; release `X.Y.Z+1` |
-| `mcp-registry` | PyPI done | run again with `only: mcp-registry`; a version the registry already lists is skipped |
-| `github-release` | PyPI done; maybe a draft release | run again with `only: github-release`; it finds the draft, uploads the missing files, refuses a file whose digest differs, then publishes |
+| `authorize` failed | nothing published | fix the input (or tag the right commit and build a new candidate), run again |
+| PyPI holds one of the two files | uploads the other | run `pypi` again |
+| PyPI holds exactly the candidate's files | done, no upload | nothing |
+| PyPI holds a file that is not the candidate's | **stops** before uploading | stop: PyPI cannot be corrected. Find out how that file got there; release `X.Y.Z+1` |
+| PyPI done, the registry failed | the PyPI files stay | run `only=mcp-registry` |
+| the registry already lists the version as `server.json` says | skipped | nothing |
+| the registry lists the version differently | **stops** | a person compares the entry with `server.json`; the registry does not take a version twice |
+| PyPI done, the release failed | the PyPI files stay | run `only=github-release`; it uses the candidate's artifact, no rebuild |
+| a draft with some of the files | uploads only the missing ones, then publishes | run `only=github-release` |
+| a draft or release with a file that is not the candidate's | **stops**; never replaced | a person looks at that asset and deletes it by hand if it is wrong, then run again |
+| an asset whose upload did not finish (state not `uploaded`) | **stops** | delete that asset by hand, run again |
+| an asset with no digest that cannot be downloaded | **stops** | it cannot be checked; look at it by hand |
+| two drafts for the tag | **stops** | delete the extra draft by hand |
+| the release already published with every file | done, unchanged | nothing |
+| the release published without some file | **stops**; a published release is not changed | add the file by hand after checking it, or leave it |
+| the tag names another commit than the candidate | **stops** before any write | the tag moved: stop and find out why |
 | the candidate's artifact expired (90 days) | nothing published | build a new candidate (manual run on the tag, empty `candidate`) and publish that run |
+
+**When to stop and ask.** Every **stop** above is for a person: a file on a service that is not the candidate's, a
+tag that moved, a registry entry that disagrees, a half-made asset. None of them is retried into success.
+
+## Before the first release from this workflow (owner)
+
+These are settings and decisions only the repository owner can make. Each line says what was observed on 2026-10-24
+through the API, not what is configured by the time of the release.
+
+- [ ] **Required reviewer on the `pypi` environment** (Settings → Environments → `pypi` → *Required reviewers*).
+  Observed: `protection_rules: []`, no deployment branch policy. Without it anyone who can run workflows can start
+  the publish run; `authorize` checks what is published, not who asks.
+- [ ] **Protection for release tags `v*`** (Settings → Rules → Rulesets: restrict creation, update and deletion to
+  the owner). Observed: no rulesets.
+- [ ] **Trusted publishing on PyPI** matches workflow `release.yml` and environment `pypi` for `tsyyan/buddie`
+  (pypi.org → the project → Publishing). Observed only indirectly: the 1.x releases were published under these names
+  (run 39439955515). PyPI's settings are not visible from here.
+- [ ] **GitHub Actions permissions.** Observed: the default workflow token is read-only and cannot approve pull
+  requests. The workflow asks for more per job only: `id-token: write` for `pypi` and `mcp-registry`,
+  `contents: write` for `github-release`, `actions: read` to download the candidate.
+- [ ] **The release operator**: the person who starts the publish run, and the reviewer on `pypi`, are the people
+  the owner intends. Not checkable from the repository.
+- [ ] **The approved candidate run id**: the candidate run for the tag, its summary's commit and sums read, before
+  it is typed into `candidate`.
+- [ ] **No publication on tag creation**: the tag push's run shows only the `candidate` job; the publishing jobs are
+  skipped. `tests/test_release_manifest.py` checks the workflow for it; confirm it on the first tag's run.
 
 ## One-time setup (the repository owner)
 
 Already done for 1.x: the PyPI trusted publisher for `tsyyan/buddie`, workflow `release.yml`, environment `pypi`.
-The workflow keeps both names, so it still matches.
-
-Recommended, and **not** done by this repository (they are settings only the owner can change):
-
-- **A required reviewer on the `pypi` environment** (Settings → Environments → `pypi` → *Required reviewers*). Today
-  the environment has no protection rules, so anyone who can run workflows can start the publish run; `authorize`
-  checks what it is asked to publish, not who asks. With a reviewer, the PyPI upload waits for that person's click.
-- **A tag ruleset for `v*`** (Settings → Rules → Rulesets) so only the owner can create or move release tags.
-- If TestPyPI is wanted again, a trusted publisher there and an environment `testpypi`; the workflow no longer has
-  that target, since the candidate replaces it as the dry run.
+The workflow keeps both names, so it still matches. If TestPyPI is wanted again, it needs a trusted publisher there
+and an environment `testpypi`; the workflow no longer has that target, since the candidate replaces it as the dry
+run.
 
 ## Cutting a release
 
@@ -135,7 +207,7 @@ Recommended, and **not** done by this repository (they are settings only the own
    ```
 
 5. Read the candidate run's summary: the commit, the sums. Download the artifact if you want to try it by hand.
-6. Start the publish run (above) with that run's id.
+6. Go through the checklist above, then start the publish run with that run's id.
 7. After it: the steps outside this repository ([distribution.md](distribution.md)).
 
 ## Installing from PyPI

@@ -25,6 +25,12 @@ Release candidate and distribution (PR #38):
   files byte for byte, then sends those same files to PyPI (trusted publishing), the MCP Registry and a GitHub
   Release, each stage repeatable and completing only what is missing. CI builds the same candidate on every pull
   request. The TestPyPI target is gone: the candidate is the dry run. docs/release.md.
+- The publish run's decisions live in scripts/release_publish.py, tested against a fake GitHub API and recorded
+  PyPI and registry answers: `authorize` also checks the candidate run's repository, tag, status and the artifact's
+  own record; PyPI is checked before uploading (identical files: done; any other file: stop); an existing registry
+  entry must match server.json; the GitHub Release is found by tag or as the single draft, re-read by id, completed
+  with only missing files, never changed once published, and stops on an asset that differs, did not finish
+  uploading, or cannot be checked. docs/release.md: partial publication, recovery per stage, the owner's checklist.
 - README rewritten as the landing page: what buddie verifies and what it does not, the outcomes, installs per client,
   enforcement versus advice, the protected policy, receipts, security and privacy, research results, with badges for
   CI, PyPI, Python, license, release and the MCP Registry. Its examples are run by `tests/test_readme.py`. The detail

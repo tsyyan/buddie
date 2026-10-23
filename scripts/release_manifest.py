@@ -1,10 +1,9 @@
 """The release candidate's record (docs/release.md): which commit its files were built from, their sizes and SHA-256,
-and the checks that later stages publish exactly those files.
+and the check that PyPI serves exactly those files (the GitHub Release: release_publish.py).
 
     python scripts/release_manifest.py write DIR --version V --commit SHA [--ref REF] [--repository O/R] [--run-id N]
     python scripts/release_manifest.py verify DIR --version V --commit SHA
     python scripts/release_manifest.py pypi DIR PYPI_JSON        # PyPI's /pypi/buddie/V/json against the record
-    python scripts/release_manifest.py github DIR ASSETS_JSON    # a GitHub Release's assets: prints the missing ones
 
 DIR holds `dist/` (the wheel and the sdist) and `bundle/` (the Claude Desktop bundle); `write` adds
 `release-manifest.json` and `SHA256SUMS` (the `sha256sum -c` format) to it. Exit 0 when everything agrees, 1 with
@@ -120,19 +119,6 @@ def pypi(root: Path, release: dict) -> list[str]:
     return problems
 
 
-def github(root: Path, assets: list[dict]) -> tuple[list[str], list[str]]:
-    """A GitHub Release's assets against the candidate: (problems, the candidate's files still missing there). The
-    release carries the three files, the record and SHA256SUMS."""
-    want = {Path(f["path"]).name: f["sha256"] for f in load(root)["files"]}
-    for extra in (MANIFEST, SUMS):
-        want[extra] = _sha256(root / extra)
-    got = {a.get("name"): str(a.get("digest") or "") for a in assets}
-    problems = [f"the release has {n}, which the candidate does not" for n in sorted(set(got) - set(want))]
-    problems += [f"the release's {n} is not the candidate's ({got[n] or 'no digest'})"
-                 for n in sorted(set(want) & set(got)) if got[n] != f"sha256:{want[n]}"]
-    return problems, sorted(set(want) - set(got))
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
@@ -144,26 +130,19 @@ def main(argv: list[str] | None = None) -> int:
         if name == "write":
             for opt in ("--ref", "--repository", "--run-id"):
                 p.add_argument(opt, default="")
-    for name in ("pypi", "github"):
+    for name in ("pypi",):
         p = sub.add_parser(name)
         p.add_argument("dir", type=Path)
         p.add_argument("json", type=Path)
     args = parser.parse_args(argv)
-    missing: list[str] = []
     if args.command == "write":
         problems = write(args.dir, args.version, args.commit, args.ref, args.repository, args.run_id)
     elif args.command == "verify":
         problems = verify(args.dir, args.version, args.commit)
     else:
-        data = json.loads(args.json.read_text(encoding="utf-8"))
-        if args.command == "pypi":
-            problems = pypi(args.dir, data)
-        else:
-            problems, missing = github(args.dir, data.get("assets", data) if isinstance(data, dict) else data)
+        problems = pypi(args.dir, json.loads(args.json.read_text(encoding="utf-8")))
     for problem in problems:
         print(f"release_manifest: {problem}", file=sys.stderr)
-    for name in missing:
-        print(name)
     return 1 if problems else 0
 
 
