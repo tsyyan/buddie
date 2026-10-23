@@ -8,11 +8,11 @@ without explicit approval.
 
 | Item | Status |
 |---|---|
-| RH-1 intermittent Windows test failures | **Root cause found outside buddie** (the Python install manager's command shim); mitigated in buddie; recurrence detected and named |
+| RH-1 intermittent Windows test failures | **Cause localized experimentally**: it depends on the launcher (the Python install manager's command shim) and reproduces without buddie; the mechanism inside the launcher is **not proven**; mitigated in buddie; recurrence detected and named |
 | RH-2 pattern worker reliability | Audited; one gap closed (a test that the worker ends with buddie); the macOS limitation documented |
 | RH-3 installation and distribution | Wheel and sdist, Python 3.12 and 3.14 on Windows 11: 45 of 45 checks; upgrade from 1.1.1; uninstall; plugin manifests validate |
 | RH-4 security regression | Security, adversarial, freshness, provenance and policy suites pass |
-| RH-5 compatibility and contracts | receipt-v0 byte-identical to the pre-hardening `main`; equal in structure to 1.1.1 (two reason strings differ); receipt-v1 schema unchanged; 819 gate scenarios unchanged |
+| RH-5 compatibility and contracts | receipt-v0 byte-identical to the pre-hardening `main`; against 1.1.1 the same keys and outcome words, two reasons differ in the corpus and both are **accepted as intended** (decision below); receipt-v1 schema unchanged; 819 gate scenarios unchanged |
 | RH-6 documentation and versioning | Version 2.0.0 in every manifest; changelog with migration notes; this page |
 | RH-7 end-to-end acceptance | 12 steps from a fresh install of the 2.0.0 wheel: all pass |
 
@@ -55,23 +55,35 @@ starts a program without `stdin=`: Popen duplicates the test process's own stand
    | pip's console launcher `pythoncore-3.14-64\Scripts\pytest.exe` | 0 of 60 |
    | `python -m pytest` (the `python` app-execution alias) | 0 of 60 |
 
-4. **Mechanism.** Under the shim the standard input handle the child receives is a fresh high value (`3008` in every
-   run), the shape of a handle duplicated into a process from outside; under the other launchers it is a low,
-   inherited value (276 to 624). pytest's capture closes fd 0's handle and duplicates `devnull` into it, and under the
-   shim the new handle reuses the same value every time. Closing that value inside a running pytest from another
-   process (`DuplicateHandle` with `DUPLICATE_CLOSE_SOURCE`) reproduces the failure on demand: `WinError 6` and
-   `WinError 50` in exactly the tests that inherit standard input (one forced close in three; in the other two the
-   freed value was reused by a new handle in the child, and its children got that object as input instead, which is
-   the intermittency). The shim's own source was not read: that it closes the handle it duplicated into its child,
-   late, is inferred from these measurements.
+4. **A candidate mechanism (a hypothesis, not proven).** Under the shim the standard input handle the child receives
+   is a fresh high value (`3008` in every run), the shape of a handle duplicated into a process from outside; under
+   the other launchers it is a low, inherited value (276 to 624). pytest's capture closes fd 0's handle and
+   duplicates `devnull` into it, and under the shim the new handle reuses the same value every time. Closing that
+   value inside a running pytest from another process (`DuplicateHandle` with `DUPLICATE_CLOSE_SOURCE`) reproduces
+   the failure on demand: `WinError 6` and `WinError 50` in exactly the tests that inherit standard input (one forced
+   close in three; in the other two the freed value was reused by a new handle in the child, and its children got
+   that object as input instead, which would explain the intermittency). This shows that such a close is *sufficient*
+   to produce the signature, not that the shim does it: the shim's source was not read, and no close of that handle
+   by the shim was observed (no handle trace).
 
-### Root cause and classification
+### Cause and classification
 
-The execution environment: the Python install manager's command shim (`pytest.exe` in `%LOCALAPPDATA%\Python\bin`)
-invalidates, in about one run in ten, the standard input handle of the Python process it starts, after pytest's
-capture has put its own handle in that slot. Not buddie code, not buddie's tests' logic, not resource contention.
-The earlier `WinError 50` failures (PR #33) are the same cause, the freed value then naming another kind of object.
-CI never meets it: Windows CI runs `python -m pytest`.
+**Established by experiment:** the failure depends on the launcher. With the same Python, the same pytest and a
+one-line test in an empty directory (no buddie, no conftest), the standard input handle is unusable after collection
+in 13 of 140 runs under the Python install manager's command shim (`pytest.exe` in `%LOCALAPPDATA%\Python\bin`), and
+in 0 of 60 under each of pip's launcher and `python -m pytest`. Every captured failure ran through `pytest` on PATH,
+which on this machine is the shim; no `python -m pytest` run failed. That it reproduces without buddie rules out buddie code and buddie's tests' logic as
+the cause. 0 of 60 bounds the rate under the other launchers (at the shim's rate of about one in ten, 0 of 60 would
+happen by chance about 3 times in 1000); it does not prove it zero.
+
+**Not established:** what inside the launcher invalidates the handle. The duplicate-and-close-late model of step 4 is
+consistent with every measurement and reproduces the signature, but it is inferred. That the earlier `WinError 50`
+failures (PR #33) have the same cause rests on that model too: they ran through the shim and the forced close gives
+`WinError 50` as well. What would settle it: a handle trace of the shim and its child (ETW handle events or Process
+Monitor), or the shim's source.
+
+**Classification:** execution environment, launcher-dependent. Not buddie code, not buddie's tests' logic, not
+resource contention. CI never meets it: Windows CI runs `python -m pytest`.
 
 ### Mitigation in buddie
 
@@ -92,7 +104,10 @@ CI never meets it: Windows CI runs `python -m pytest`.
   Claude Desktop as `python run.py`: none through the shim. A person who starts `buddie serve` through an install
   manager shim (`%LOCALAPPDATA%\Python\bin\buddie.exe`) may see the server lose its input; this was not tested, since
   it needs buddie installed into the person's global interpreter. Use `python -m buddie serve` there.
-- The shim's behaviour belongs to the Python install manager; it is not reported upstream from here.
+- The mitigation does not depend on the mechanism: whatever invalidates the handle, buddie's children do not inherit
+  it, and the test of that guarantee puts an unusable handle in the slot directly.
+- The shim's behaviour belongs to the Python install manager; it is not reported upstream from here, and would need
+  the mechanism established first.
 
 ## RH-2: pattern worker reliability
 
@@ -157,9 +172,26 @@ the trusted base (PATH, Python, git) are outside it ([security.md](security.md),
 
 - **receipt-v0.** A fixed corpus (the quickstart and work examples, file and commit anchors, an unlinked quote,
   prose work claims, an empty text), same paths and time: **byte-identical** to `main` at `47686e5`. Against the
-  1.1.1 release: 5 of 7 cases identical; in the other 2 only the human-readable reasons in `gaps` / `why` of a path
-  that leads out of the repo and of `fact=` differ (commit `8cb7273`, merged after 1.1.1); keys, statuses and outcomes
-  are the same.
+  1.1.1 release: 5 of 7 cases identical; in the other 2 the keys, statuses and outcome are the same and two reasons
+  (`why`, and the `gaps` line that repeats it) differ:
+
+  | Anchor | 1.1.1 | 2.0.0 |
+  |---|---|---|
+  | `../x#…` (leads out of the repo) | `no repo has ../x` | `../x leads outside the repo, not read` |
+  | `x.count=3` (`fact=`) | `no repo defines facts (tools/anchors.py)` | `fact= is not checked: computing it would run the repo's own code (tools/anchors.py)` |
+
+  Both come from commit `8cb7273` (the audit's R1 and R2, merged after 1.1.1), and outside the corpus they are not
+  only wording. A probe beyond it: a repo whose `tools/anchors.py` defines the fact, and a `../x` that exists with
+  the right hash, give `HOLDS`, `HOLDS`, outcome `PASS` under 1.1.1, and `UNCHECKABLE`, `UNCHECKABLE`, outcome `GAPS`
+  under 2.0.0.
+
+  **Decision: both are accepted as intended changes in 2.0.0; neither is reverted.** 1.1.1 ran the checked repo's
+  code to compute a `fact=` and hashed files outside the repo for `../x`; 2.0.0 does neither, by design. Restoring
+  the 1.1.1 strings would describe a check that no longer happens (`no repo defines facts` implies a repo that
+  defines them would be checked). receipt-v0's contract across versions is its keys, outcome words and statuses;
+  reason strings are human-readable, and a status that changes is a change of behaviour, so both are migration items
+  in the CHANGELOG. The byte-for-byte guarantee is the one stated above, within 2.0's development: against `main` at
+  `47686e5`. Reviewer confirmation of this decision is part of the release checklist.
 - **receipt-v1.** `docs/receipt-v1.schema.json` has no change since it was introduced (`0f864ec`), and
   `receipts.SCHEMA` equals it.
 - **The 819 gate scenarios** are unchanged (`tests/test_gate.py`).
@@ -176,7 +208,8 @@ the trusted base (PATH, Python, git) are outside it ([security.md](security.md),
 
 ### Release checklist (not done here)
 
-1. Independent review of this PR, RH-1's classification above in particular.
+1. Independent review of this PR, in particular RH-1's classification (launcher-dependent, mechanism not proven)
+   and RH-5's decision on the two receipt-v0 differences from 1.1.1.
 2. CI green on the release commit.
 3. `CITATION.cff` `date-released`, the CHANGELOG heading's date.
 4. Tag `v2.0.0` and publish (PyPI, MCP registry, plugin catalogs, the Desktop bundle) only with explicit approval.

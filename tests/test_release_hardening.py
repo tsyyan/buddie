@@ -1,6 +1,6 @@
 """Release hardening (docs/release-hardening.md). RH-1: a process's standard input handle can become unusable under
-it (on Windows, the Python install manager's command shim was seen to close the handle it gave its child, after
-pytest had put its own in that slot). buddie's own child processes never inherit it, so they do not depend on it."""
+it (on Windows, under the Python install manager's command shim and not under `python -m pytest`; the mechanism is
+not proven). buddie's own child processes never inherit it, so they do not depend on it."""
 from __future__ import annotations
 
 import ast

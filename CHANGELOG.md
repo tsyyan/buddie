@@ -11,13 +11,18 @@ files keep working. What can differ, each said where it happens:
   `UNCHECKABLE`, not `HOLDS` or `BROKEN`.
 - buddie's git reads no system or global git configuration but `safe.directory`, and runs nothing a repository's
   config names.
-- Two human-readable reasons in receipt-v0 `gaps` / `why` read differently since 1.1.1 (a path that leads out of the
-  repo, `fact=` anchors: commit 8cb7273); statuses and outcomes are the same.
+- A `fact=` anchor is always `UNCHECKABLE` (1.1.1 ran the checked repo's `tools/anchors.py` to compute it), and a
+  file anchor whose path leads out of the repo (`../x#sha`) is `UNCHECKABLE` and not read (1.1.1 hashed the file).
+  Where 1.1.1 said `HOLDS` for these, 2.0.0 says `UNCHECKABLE`, and the outcome can go from `PASS` to `GAPS`; their
+  receipt-v0 reasons in `why` and `gaps` read differently (commit 8cb7273, audit R1 and R2). This is intended and
+  stays; docs/release-hardening.md, RH-5, records the decision.
 
 Release hardening (docs/release-hardening.md):
-- RH-1 (the intermittent Windows test failures): the root cause is outside buddie, in the Python install manager's
-  command shim (`%LOCALAPPDATA%\Python\bin\pytest.exe`), which closes, in the process it starts, the standard input
-  handle it gave it, after pytest's capture reused that slot. buddie's own child processes never inherit standard
+- RH-1 (the intermittent Windows test failures): by experiment, the failure depends on the launcher. It reproduces
+  without buddie under the Python install manager's command shim (`%LOCALAPPDATA%\Python\bin\pytest.exe`), and not
+  under pip's launcher or `python -m pytest`. What inside the shim invalidates the test process's standard input
+  handle is not proven (a late close of a handle it duplicated in is the working hypothesis; it reproduces the
+  signature, but was not observed). buddie's own child processes never inherit standard
   input (`pdftotext` and `certutil` now get it explicitly, and a test keeps every call site so); the suite names a
   recurrence (`BUDDIE_RH1_STRICT=1` fails the run). Run the suite with `python -m pytest`.
 - A test that the pattern worker ends with buddie's process mid-match (Windows, Linux; macOS recorded).

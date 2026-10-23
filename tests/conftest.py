@@ -62,10 +62,11 @@ def _no_ambient_network_settings(monkeypatch):
 
 
 # --- RH-1 (docs/release-hardening.md): the test process's own standard input handle ---------------------------------
-# On Windows, a launcher (the Python install manager's command shim, `%LOCALAPPDATA%\Python\bin\pytest.exe`) was seen
-# to close the stdin handle it gave pytest after pytest's capture had reused that slot: every test that then starts a
-# program without stdin= fails with WinError 6 or 50. The suite checks the handle after collection and after each
-# test and names the first moment it is unusable, so a recurrence reads as itself. BUDDIE_RH1_STRICT=1 fails the run.
+# On Windows, under one launcher (the Python install manager's command shim, `%LOCALAPPDATA%\Python\bin\pytest.exe`)
+# pytest's stdin handle becomes unusable in about one run in ten, and not under `python -m pytest`; how is not proven.
+# Every test that then starts a program without stdin= fails with WinError 6 or 50. The suite checks the handle after
+# collection and after each test and names the first moment it is unusable, so a recurrence reads as itself.
+# BUDDIE_RH1_STRICT=1 fails the run.
 
 _RH1 = {"first": None, "why": None}
 
