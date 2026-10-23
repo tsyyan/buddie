@@ -41,6 +41,9 @@ matters; the test.
 | ADV-2.2 | `=success` claimed while checks are pending, one suite cancelled, failed, or none at all | never HOLDS | BROKEN (pending, cancelled, failed), UNCHECKABLE (none) | success is not inferred from incomplete or contradictory checks | `test_adv_2_2` |
 | ADV-2.3 | `pr:…=merged` while open or closed unmerged; `=open@OLD` after a force-push | BROKEN | BROKEN, returned | what GitHub says now | `test_adv_2_3` |
 | ADV-2.4 | GitHub unreachable or refusing | a gap, never a pass | GAPS | missing evidence is missing | `test_adv_2_4` |
+| ADV-2.5 | the answers behind a `ci:` anchor: a run without `head_sha`, a run or status on another commit, pages that disagree, a page missing (`total_count`), the ref resolving to another commit | the SHA resolved to its full commit, the latest runs and status fetched once for that id, each naming it, the count read in full; anything else establishes nothing | UNCHECKABLE in each case, HOLDS only when bound | evidence is for the revision it names, or it is not evidence | `test_adv_2_5` |
+| ADV-2.6 | a ref that moves between requests (the branch's runs keyed by the ref answer for another commit) | resolved once; checks asked by the full id | the moved ref is never consulted | no contradictory sets of runs | `test_adv_2_6` |
+| ADV-2.7 | GitHub failing between the resolution and the runs | a gap with GitHub's reason | UNCHECKABLE | missing evidence is missing | `test_adv_2_7` |
 | — | stale CI: green on A, PR at B; a PR head moving between observations; a historical claim about A | STALE; CURRENT only for the claim about A | as expected | the central freshness case | `test_freshness.py` (stale CI, required table, CLI end to end) |
 | — | inconsistent GitHub answers (a run naming another commit, a status for another SHA), mismatched repositories, duplicate suites disagreeing | UNKNOWN or `ambiguous`, never success | as expected | no invented certainty | `test_freshness.py` |
 
@@ -70,6 +73,11 @@ matters; the test.
 | ADV-5.1 | under a policy floor `quotes = "block"`: `buddie.toml` `[gates] quotes = "off"`, a profile without quotes, `BUDDIE_GATES=quotes=off` | the floor holds | returned | floors are the person's, not the project's | `test_adv_5_1`; `test_policy.py`, `test_profiles.py` |
 | ADV-5.2 | `buddie.toml` `[mandate] parent = "(a+)+$"` with a queue row of 40 `a`s, then a verdict claim | the hook answers within its bound | **before: hours in Python's `re` (exponential backtracking, no time limit), so the host's timeout would let the answer out unchecked. Now: the file is unusable, every answer is returned with the reason, at once** | a configured pattern must not be a way around the gate | `test_adv_5_2` |
 | ADV-5.3 | other exponential patterns: a repeat over alternatives, a backreference, a repeat inside a repeat whose turns are not separated by a literal, patterns over 512 characters | refused when `buddie.toml` is read | refused; lab-style patterns (`\d+(?:\.\d+)*`) accepted | as ADV-5.2 | `test_adv_5_3` |
+| ADV-5.6 | polynomial patterns the static check lets through: `a*a*a*a*b`, `\d*\d*\d*x`, `[a-z]*[a-z]*[a-z]*[a-z]*(?P<parent>\d+)$`, on 2000-character cells (hours in `re`) | the hook answers within its bound | **before: the hook held. Now: the pattern runs in a worker process, stopped after 1 s; the hook returns the answer (`PatternTimeout`)** | no pattern holds the hook | `test_adv_5_6` |
+| ADV-5.7 | many calls, each under the per-call bound | one budget for the event's patterns (10 s) | returned when it is spent | calls cannot add up past the bound | `test_adv_5_7` |
+| ADV-5.8 | the worker itself | no buddie credential in it; stopped on timeout, a new one next time | as expected | the bound holds after a timeout | `test_adv_5_8` |
+| ADV-5.9 | the CLI on such a pattern | exit 2 (the input cannot be used), not 1 (FAIL) | 2 | a timeout is not a verdict | `test_adv_5_9` |
+| ADV-5.10 | lab's own patterns through the worker | the same answers as in-process | the same | legitimate configuration is kept | `test_adv_5_10`, `test_mandate.py`, `test_due.py` |
 | ADV-5.4 | `refs[].doc` templates with a format width of a billion, an attribute, an index or a conversion | refused | refused | `str.format` on agent text | `test_adv_5_4` |
 | ADV-5.5 | an invalid policy file | the strictest limits, never the most permissive | every answer returned | a broken policy fails closed | `test_adv_5_5`; `test_policy.py` |
 
@@ -99,18 +107,30 @@ matters; the test.
 - **ADV-2.1** (`buddie/effects.py`): a `ci:` anchor's checks must name the commit the anchor names. GitHub's
   `commits/{ref}` accepts a branch or tag of that name; when its check runs' `head_sha` or the combined status's
   `sha` is another commit, the anchor is UNCHECKABLE. An answer that names no commit is taken as before.
-- **ADV-5.2 to 5.4** (`buddie/mandate.py`, `buddie/config.py`): `[mandate]` patterns (`parent`, `ask_words`,
-  `wait_words`, `wait_not_before`, `wait_delay`, `refs[].pattern`) are checked when `buddie.toml` is read: at most 512
-  characters, valid, no backreference, no repeat over alternatives, no repeat inside a repeat unless each turn starts
-  with a literal no inner repeat can match. `refs[].doc` takes `{name}` fields only. A file that fails is unusable
-  (`config_errors`), so the gate returns every answer with the reason until it is fixed, as for a file that does
-  not parse.
+- **ADV-2.5 to 2.7** (`buddie/effects.py`, `buddie/freshness.py`): a `ci:` anchor goes through
+  `freshness.ci_evidence`, the same collection as freshness: the SHA resolved to its full commit (which must start
+  with it), the latest check runs and the combined status fetched once for that id, page by page, each naming it,
+  GitHub's `total_count` read in full. A run without `head_sha`, on another commit, a missing page, or check suites
+  disagreeing on one name: UNCHECKABLE. The test fixtures of `test_effects.py` and `test_loop.py` were brought to the
+  API's real shape (a resolution, `head_sha`, `filter=latest`); their assertions are unchanged.
+- **ADV-5.2 to 5.10** (`buddie/patterns.py`, `buddie/mandate.py`, `buddie/config.py`, `buddie/hook.py`). The bound is
+  execution, not a list: every `[mandate]` pattern (`parent`, `ask_words`, `wait_words`, `wait_not_before`,
+  `wait_delay`, `refs[].pattern`) a `buddie.toml` gives is matched in a worker process of its own (`python -I`,
+  explicit pipes, no buddie credentials, nothing but `re` and `json`), each call within 1 second and a hook event's
+  calls together within 10; the worker's start is not counted. Past either, the worker is stopped and the check
+  raises `PatternTimeout`: the gate returns the answer (`hook.failed`), the CLI exits 2. buddie's own default
+  patterns are run in-process. In front of it, the static check still refuses at read time what is certainly
+  exponential (a backreference, a repeat over alternatives, an unseparated repeat inside a repeat, over 512
+  characters), and `refs[].doc` takes `{name}` fields only, so most bad files fail at once with the reason.
 
 ## Remaining limitations
 
-- **Polynomial patterns.** The pattern check refuses the exponential constructs, not every slow pattern: adjacent
-  overlapping repeats (`\s*\s*\s*$`) are polynomial and can still be slow on a long cell. Python's `re` has no time
-  limit; evaluating `buddie.toml` patterns under a bound would need a separate process.
+- **What a pattern timeout lets out.** A Stop or a text tool's message goes back with the reason; as for any check
+  that fails, a later attempt with a `buddie:` line saying it was not checked goes out (`hook.failed`). Events that
+  only keep the journal, the summary and the launch gate go on when a check fails, as before: a bad pattern there
+  costs at most the event's budget.
+- **The worker's cost.** One Python process per buddie process that meets a `buddie.toml` pattern, started once
+  and reused.
 - **Agent-writable evidence.** A repository proves what is in it (ADV-1.5, ADV-3.3), and `clean` is git's view.
 - **Interim messages.** The prose rule holds final answers (ADV-7.1).
 - **The trusted base and the interpreter** are outside the model ([security.md](security.md),

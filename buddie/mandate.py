@@ -30,6 +30,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from buddie import anchors as anc
+from buddie import patterns
 
 HOLDS, BROKEN, UNCHECKABLE = anc.HOLDS, anc.BROKEN, anc.UNCHECKABLE
 UNSUPPORTED = "UNSUPPORTED"
@@ -42,6 +43,10 @@ DEFAULTS = {
     "wait_words": r"(?!)", "wait_until": ";", "wait_not_before": r"(?!)", "wait_delay": r"(?!)", "wait_units": {},
     "messages": None, "messages_complete": False, "time_slack_minutes": 10, "final_mark": "Следующий шаг:",
 }
+
+# buddie's own patterns are run in-process; any other a buddie.toml gives goes through buddie/patterns.py's bound
+patterns.TRUSTED.update(v for k, v in DEFAULTS.items() if k in ("parent", "ask_words", "wait_words", "wait_not_before",
+                                                             "wait_delay"))
 
 ROW = re.compile(r"№\s?(\d+)")
 NOT = r"(?<!не )(?<!not )(?<!ещё не )"
@@ -245,7 +250,7 @@ def rows(cfg: dict, text: str) -> dict[int, dict]:
 def parse(cfg: dict, basis: str) -> dict | None:
     """`<ref>` or `<ref> ← №<parent>`; ref is one of cfg refs, `fix` or `none`."""
     parent = None
-    if m := re.search(cfg["parent"], basis):
+    if m := patterns.search(cfg["parent"], basis):
         parent, basis = int(m["parent"]), basis[:m.start()]
     basis = basis.strip()
     if basis == cfg["fix"]:
@@ -253,7 +258,7 @@ def parse(cfg: dict, basis: str) -> dict | None:
     if basis == cfg["none"]:
         return {"kind": "none", "doc": None, "parent": parent, "groups": {}}
     for ref in cfg["refs"]:
-        if m := re.fullmatch(ref["pattern"], basis):
+        if m := patterns.fullmatch(ref["pattern"], basis):
             groups = m.groupdict()
             return {"kind": "ref", "doc": ref["doc"].format(**groups), "parent": parent, "groups": groups,
                     "level": ref.get("level"), "ref": basis}
@@ -337,7 +342,7 @@ def verdict(cfg: dict, table: dict, scopes: list[dict], n: int, start: str | Non
         k = kb["parent"]
     if chain > cfg["max_fix_chain"]:
         why.append(f"{chain} fixes in a row (more than {cfg['max_fix_chain']})")
-    if re.search(cfg["ask_words"], r["text"], re.I):
+    if patterns.search(cfg["ask_words"], r["text"], re.I):
         why.append("names an outward or irreversible action")
     if cond := waits(cfg, r, start, now):
         why.append(f"waits for a condition: {cond}")
@@ -355,11 +360,11 @@ def conditions(cfg: dict, row: dict, start: str | None = None) -> list[tuple[str
     any other phrase (a data condition) has no moment."""
     head, out = row["text"].split(cfg.get("wait_until", ";"), 1)[0], []
     units = cfg.get("wait_units", {})
-    for m in re.finditer(cfg.get("wait_words", r"(?!)"), head, re.I):
+    for m in patterns.finditer(cfg.get("wait_words", r"(?!)"), head, re.I):
         due = None
-        if nb := re.compile(cfg.get("wait_not_before", r"(?!)"), re.I).match(head, m.start()):
+        if nb := patterns.match(cfg.get("wait_not_before", r"(?!)"), head, re.I, m.start()):
             due = _utc(f"{nb['date']}T{nb['time'] or '00:00'}:00+00:00")
-        elif (d := re.compile(cfg.get("wait_delay", r"(?!)"), re.I).match(head, m.start())) and start:
+        elif (d := patterns.match(cfg.get("wait_delay", r"(?!)"), head, re.I, m.start())) and start:
             hours = next((h for u, h in units.items() if d["unit"].lower().startswith(u)), None)
             due = None if hours is None else _utc(start) + timedelta(hours=int(d["k"] or 1) * hours)
         out.append((m.group(0), due))

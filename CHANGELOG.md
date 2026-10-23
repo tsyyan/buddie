@@ -8,6 +8,11 @@
   - A `ci:` anchor whose ref is a branch or tag named like the SHA (`ci:o/r@deadbee=success` with a branch
     `deadbee`) held on another commit's checks. When GitHub's check runs or combined status name another commit,
     the anchor is now UNCHECKABLE.
+  - `ci:` anchors go through `freshness.ci_evidence`: the SHA resolved to its full commit, the latest runs and
+    status fetched once for that id, each naming it, GitHub's count read in full; a run without `head_sha`, on
+    another commit, a missing page or disagreeing suites are UNCHECKABLE.
+  - `buddie.toml` `[mandate]` patterns run in a worker process within 1 s per match and 10 s per hook event; past
+    that the worker is stopped and the answer returned (`PatternTimeout`; the CLI exits 2).
   - `buddie.toml` `[mandate]` patterns could backtrack exponentially on the queue's text (`(a+)+$`: hours in
     Python's `re`), holding the hook until the host let the answer out unchecked. Patterns with a backreference, a
     repeat over alternatives or an unseparated repeat inside a repeat, or over 512 characters, and `refs[].doc`

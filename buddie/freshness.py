@@ -215,7 +215,10 @@ def _ci_runs(repository: str, sha: str, get) -> tuple[list[dict] | None, list[di
             runs.append({"name": r["name"], "status": r["status"],
                          "conclusion": r.get("conclusion") if type(r.get("conclusion")) is str else None,
                          "check_suite": suite if type(suite) is int else None})
-        if len(got) < 100:
+        total = data.get("total_count")
+        if len(got) < 100:  # the last page: GitHub's own count, when it gives one, must be what was read
+            if type(total) is int and total != len(runs):
+                return None, None, "incomplete_answer"
             break
         page += 1
         if page > 20:

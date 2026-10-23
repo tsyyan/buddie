@@ -105,9 +105,11 @@ class FakeGitHub:
 
 
 def ci_answers(repo: str, ref: str, runs: list[dict], statuses: list[dict] | None = None, sha: str | None = None):
+    """GitHub's answers for checks asked by `ref`: the ref resolves to commit `sha`, whose runs and status follow."""
     sha = sha or ref
-    return {f"/repos/{repo}/commits/{ref}/check-runs": {"total_count": len(runs), "check_runs": runs},
-            f"/repos/{repo}/commits/{ref}/status": {"sha": sha, "statuses": statuses or []}}
+    return {f"/repos/{repo}/commits/{ref}": {"sha": sha},
+            f"/repos/{repo}/commits/{sha}/check-runs": {"total_count": len(runs), "check_runs": runs},
+            f"/repos/{repo}/commits/{sha}/status": {"sha": sha, "statuses": statuses or []}}
 
 
 def check_run(name, conclusion="success", status="completed", head_sha=A, suite=1):
@@ -193,12 +195,13 @@ def test_adv_2_1_a_branch_named_like_a_sha_does_not_lend_its_checks(gate, monkey
     code, err, entry = gate("CI passed `⚓ ci:o/r@deadbee=success`.")
     assert entry["effects"] == {"ci:UNCHECKABLE": 1} and entry["outcome"] == "GAPS"
     [a] = verify.verify("`⚓ ci:o/r@deadbee=success`\n", github=gh, fetch=False)["predicate"]["anchors"]
-    assert "is not that commit" in a["why"]
+    assert "is not the commit GitHub resolves it to" in a["why"]
 
 
 @pytest.mark.parametrize("runs, want", [
     ([check_run("test", None, "in_progress")], "ci:BROKEN"),  # pending, claimed success
-    ([check_run("test", suite=1), check_run("test", "cancelled", suite=2)], "ci:BROKEN"),  # a cancelled suite
+    # suites disagreeing on one name (one cancelled): which counts cannot be told, so neither holds nor breaks
+    ([check_run("test", suite=1), check_run("test", "cancelled", suite=2)], "ci:UNCHECKABLE"),
     ([check_run("test", "failure")], "ci:BROKEN"),
     ([], "ci:UNCHECKABLE"),  # no checks at all: not a success
 ])
@@ -465,3 +468,147 @@ def test_adv_x_no_attack_here_discloses_the_plugins_token(gate, monkeypatch, tmp
     code, err, entry = gate(FALSE + " `⚓ ci:o/r@abcdef0=success` `⚓ pr:o/r#1=merged`")
     log = (tmp_path / "hook.jsonl").read_text(encoding="utf-8")
     assert code == 2 and "SENTINEL" not in err + log
+
+
+# ==== PR #36 review: the bound on buddie.toml patterns, the revision a ci: anchor is bound to =====================
+
+def _queue(repo: Path, pattern: str, rows: list[str]) -> None:
+    (repo / "buddie.toml").write_text("[mandate]\nparent = " + json.dumps(pattern) + "\n", encoding="utf-8")
+    body = "".join(f"| {i} | step | — | {basis} | предложено |\n" for i, basis in enumerate(rows, 1))
+    (repo / "NEXT.md").write_text("| № | Шаг | — | Основание | Статус |\n|---|---|---|---|---|\n" + body,
+                                  encoding="utf-8")
+
+
+@pytest.mark.parametrize("pattern, fill", [(r"a*a*a*a*b", "a"), (r"\d*\d*\d*x", "1"),
+                                           # cells are stripped: a run of spaces never reaches a pattern
+                                           (r"[a-z]*[a-z]*[a-z]*[a-z]*(?P<parent>\d+)$", "a")])
+def test_adv_5_6_a_polynomial_pattern_is_stopped_and_the_answer_returned(gate, pattern, fill):
+    """Polynomial backtracking passes the static check (`a*a*a*a*b` on 200 characters takes seconds, on 2000 hours).
+    buddie.toml patterns run in a worker within patterns.CALL: the hook stops it and returns the answer."""
+    from buddie import mandate
+    assert mandate.pattern_problem({"parent": pattern}) is None  # the static check lets it through
+    _queue(gate.repo, pattern, [fill * 2000 + ("" if fill == " " else "!")])
+    started = time.monotonic()
+    code, err, _ = gate("Шаг №1: вердикт auto.")
+    assert time.monotonic() - started < 15
+    assert code == 2 and "PatternTimeout" in err
+
+
+def test_adv_5_7_an_events_patterns_share_one_budget(gate, monkeypatch):
+    """Many calls each under the per-call bound still cannot add up past the event's budget."""
+    from buddie import patterns
+    monkeypatch.setattr(hook, "EVENT_PATTERNS", 1.5)
+    monkeypatch.setattr(patterns, "CALL", 0.8)
+    _queue(gate.repo, r"a*a*a*b", ["a" * 160 + "!"] * 40)  # each ~0.05-0.3 s: 40 rows exceed 1.5 s together
+    started = time.monotonic()
+    code, err, _ = gate("Шаги " + ", ".join(f"№{i}: вердикт auto" for i in range(1, 41)) + ".")
+    assert time.monotonic() - started < 15 and code == 2 and "PatternTimeout" in err
+
+
+def test_adv_5_8_the_pattern_worker_holds_no_credential_and_ends_on_timeout(monkeypatch):
+    from buddie import patterns
+    monkeypatch.setenv("CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN", "ghp_SENTINEL_worker")
+    seen = []
+    real = subprocess.Popen
+
+    def spy(*a, **k):
+        seen.append(k.get("env"))
+        return real(*a, **k)
+    monkeypatch.setattr(subprocess, "Popen", spy)
+    monkeypatch.setattr(patterns, "_worker", None)
+    assert patterns.search(r"x(?P<n>\d+)", "ab x12").groupdict() == {"n": "12"}
+    assert seen and "ghp_SENTINEL_worker" not in json.dumps(seen[0])
+    old = patterns._worker
+    monkeypatch.setattr(patterns, "CALL", 0.3)
+    with pytest.raises(patterns.PatternTimeout):
+        patterns.search(r"a*a*a*a*b", "a" * 400)
+    assert patterns._worker is None and old.proc.poll() is not None  # stopped, a new one next time
+    assert patterns.fullmatch(r"(?P<a>\w+)-(?P<b>\w+)", "x-y").groupdict() == {"a": "x", "b": "y"}
+
+
+def test_adv_5_9_the_cli_says_the_pattern_is_unusable_not_fail(tmp_path, capsys, monkeypatch):
+    from buddie import patterns
+    monkeypatch.setattr(patterns, "CALL", 0.3)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _queue(repo, r"a*a*a*a*b", ["a" * 2000])
+    report = tmp_path / "r.md"
+    report.write_text("Шаг №1: вердикт auto.\n", encoding="utf-8")
+    assert cli.main(["verify", str(report), "--repo", str(repo), "--no-fetch", "--no-github"]) == 2
+    assert "took over" in capsys.readouterr().err
+
+
+def test_adv_5_10_lab_patterns_give_the_same_answers_through_the_worker():
+    from buddie import mandate
+    cfg = {**mandate.DEFAULTS, "refs": [{"pattern": r"audit/(?P<nn>\d{2})(?: §(?P<sec>\d+(?:\.\d+)*))?",
+                                         "doc": "audit/{nn}"}]}
+    got = mandate.parse(cfg, "audit/07 §3.2 ← №12")
+    assert got["kind"] == "ref" and got["groups"] == {"nn": "07", "sec": "3.2"} and got["parent"] == 12
+
+
+def _ci_api(sha=A, pages=None, status=None, ref=None, total=None):
+    ref = ref or sha[:12]
+    pages = pages if pages is not None else [[check_run("test", head_sha=sha)]]
+    out = {f"/repos/o/r/commits/{ref}": {"sha": sha},
+           f"/repos/o/r/commits/{sha}/status": status if status is not None else {"sha": sha, "statuses": []}}
+    for i, runs in enumerate(pages, 1):
+        out[f"/repos/o/r/commits/{sha}/check-runs?filter=latest&per_page=100&page={i}"] = {
+            "total_count": total if total is not None else sum(len(p) for p in pages), "check_runs": runs}
+    return out
+
+
+def _ci_status(api: dict, anchor: str) -> dict:
+    [a] = verify.verify(f"`⚓ {anchor}`\n", github=lambda p: api.get(p), fetch=False)["predicate"]["anchors"]
+    return a
+
+
+@pytest.mark.parametrize("label, api, want", [
+    ("bound", _ci_api(), "HOLDS"),
+    ("no head_sha", _ci_api(pages=[[{k: v for k, v in check_run("test").items() if k != "head_sha"}]]), "UNCHECKABLE"),
+    ("a run on another commit", _ci_api(pages=[[check_run("test", head_sha=B)]]), "UNCHECKABLE"),
+    ("pages that disagree", _ci_api(pages=[[check_run(f"t{i}") for i in range(100)], [check_run("x", head_sha=B)]]),
+     "UNCHECKABLE"),
+    ("a page missing", _ci_api(pages=[[check_run("test")]], total=5), "UNCHECKABLE"),
+    ("a status for another commit", _ci_api(status={"sha": B, "statuses": [{"context": "d", "state": "success"}]}),
+     "UNCHECKABLE"),
+    ("the ref is another commit", {**_ci_api(sha=B), f"/repos/o/r/commits/{A[:12]}": {"sha": B}}, "UNCHECKABLE"),
+])
+def test_adv_2_5_a_ci_anchor_is_bound_to_the_commit_it_names(label, api, want):
+    """Through verify (the hook's path): the SHA resolved to its full commit, the latest runs and the status fetched
+    for that id once, page by page, each naming it, GitHub's count read in full."""
+    got = _ci_status(api, f"ci:o/r@{A[:12]}=success")
+    assert got["status"] == want, (label, got.get("why"))
+
+
+def test_adv_2_6_a_ref_that_moves_between_requests_changes_nothing_already_bound():
+    """The ref is resolved once; the checks are asked for by the full id it resolved to. A branch moved meanwhile
+    (its runs keyed by the ref answering for another commit) is never consulted."""
+    api = _ci_api()
+    api[f"/repos/o/r/commits/{A[:12]}/check-runs?filter=latest&per_page=100&page=1"] = {
+        "total_count": 1, "check_runs": [check_run("test", "failure", head_sha=B)]}
+    asked = []
+
+    def get(path):
+        asked.append(path)
+        return api.get(path)
+    [a1, a2] = verify.verify(f"`⚓ ci:o/r@{A[:12]}=success` `⚓ ci:o/r@{A[:12]}=success`\n", github=get,
+                             fetch=False)["predicate"]["anchors"]
+    assert a1["status"] == a2["status"] == "HOLDS"
+    assert not any(f"/commits/{A[:12]}/check-runs" in p for p in asked)
+    assert asked.count(f"/repos/o/r/commits/{A[:12]}") == 1  # one resolution for the text
+
+
+def test_adv_2_7_github_failing_midway_is_a_gap_with_its_reason():
+    api = _ci_api()
+
+    def get(path):
+        if "/check-runs" in path:
+            raise effects.GitHubUnavailable("GitHub 502 on check-runs")
+        return api.get(path)
+    got = _ci_status_with(get, f"ci:o/r@{A[:12]}=success")
+    assert got["status"] == "UNCHECKABLE" and "502" in got["why"]
+
+
+def _ci_status_with(get, anchor: str) -> dict:
+    [a] = verify.verify(f"`⚓ {anchor}`\n", github=get, fetch=False)["predicate"]["anchors"]
+    return a
