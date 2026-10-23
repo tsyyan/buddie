@@ -1,0 +1,22 @@
+name: Feature request
+description: Describe a user need and how success would be recognized.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the client or workflow and what currently gets in the way. Use synthetic examples.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: What observable behavior would solve the problem?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and tradeoffs
+      description: Include workarounds tried, compatibility needs and evidence the checker could use.

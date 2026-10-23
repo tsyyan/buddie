@@ -1,0 +1,42 @@
+name: Bug report
+description: Report incorrect behavior with a small, reproducible example.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For vulnerabilities, follow [SECURITY.md](https://github.com/tsyyan/buddie/blob/main/SECURITY.md).
+        Do not attach secrets, private transcripts, reports or snapshots. Use synthetic examples.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Include the output of buddie --version, or the commit SHA for a source checkout.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Client, installation method and OS
+      placeholder: "Claude Code plugin / uvx / pip / MCPB / remote MCP; OS and Python version"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include steps, a synthetic input and relevant configuration with credentials removed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the error or relevant receipt excerpt after redacting sensitive data.
+    validations:
+      required: true

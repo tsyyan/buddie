@@ -1,5 +1,9 @@
 # Contributing
 
+For installation and usage, see the [documentation index](docs/README.md). Report ordinary bugs and request
+features in [Issues](https://github.com/tsyyan/buddie/issues); use synthetic reproductions and redact private data.
+For vulnerabilities, follow the [security policy](SECURITY.md) before sharing details.
+
 This repository is the source of buddie. Until 0.8.2 it was exported from a private lab repository, so older history
 arrives in "Sync from lab" commits; from now on issues and pull requests here are where changes are made.
 

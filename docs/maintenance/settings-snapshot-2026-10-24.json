@@ -1,0 +1,198 @@
+{
+  "observed_utc": "2026-10-23T21:25:12.449620+00:00",
+  "repository": {
+    "full_name": "tsyyan/buddie",
+    "description": "Checks that quotes in AI agent reports actually appear in the cited sources. Byte snapshots, no model in the loop.",
+    "homepage": "",
+    "topics": [
+      "ai-agents",
+      "ai-safety",
+      "citation-verification",
+      "deep-research",
+      "faithfulness",
+      "llm-evaluation"
+    ],
+    "has_issues": true,
+    "has_discussions": false,
+    "has_wiki": true,
+    "has_pages": false,
+    "delete_branch_on_merge": false,
+    "security_and_analysis": {
+      "secret_scanning": {
+        "status": "enabled"
+      },
+      "secret_scanning_push_protection": {
+        "status": "enabled"
+      },
+      "dependabot_security_updates": {
+        "status": "disabled"
+      },
+      "secret_scanning_non_provider_patterns": {
+        "status": "disabled"
+      },
+      "secret_scanning_validity_checks": {
+        "status": "disabled"
+      }
+    }
+  },
+  "classic_protection": {
+    "data": {
+      "repository": {
+        "branchProtectionRules": {
+          "nodes": [],
+          "pageInfo": {
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  },
+  "pr38": {
+    "head": "e34cb1f3a9552a009bc7a9981e4d66b27e717754",
+    "branch": "release-candidate-2.0",
+    "draft": true,
+    "checks": [
+      {
+        "app_id": 15368,
+        "conclusion": "success",
+        "name": "release-candidate / build",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "cancelled",
+        "name": "test (3.13)",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "failure",
+        "name": "test (3.11)",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "success",
+        "name": "os (windows-latest)",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "cancelled",
+        "name": "test (3.12)",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "failure",
+        "name": "os (ubuntu-latest)",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": null,
+        "name": "os (macos-latest)",
+        "status": "in_progress"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "success",
+        "name": "catalogs",
+        "status": "completed"
+      },
+      {
+        "app_id": 15368,
+        "conclusion": "success",
+        "name": "docker",
+        "status": "completed"
+      }
+    ]
+  },
+  "issue_count_excluding_prs": 0,
+  "wiki_probe": "git ls-remote https://github.com/tsyyan/buddie.wiki.git returned Repository not found; no publicly accessible wiki detected",
+  "rulesets": {
+    "exit": 0,
+    "data": []
+  },
+  "main-protection": {
+    "exit": 1,
+    "data": {
+      "message": "Branch not protected",
+      "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+      "status": "404"
+    }
+  },
+  "pypi": {
+    "exit": 0,
+    "data": {
+      "id": 24711260789,
+      "node_id": "EN_kwDOU4xzA88AAAAFwOfqdQ",
+      "name": "pypi",
+      "url": "https://api.github.com/repos/tsyyan/buddie/environments/pypi",
+      "html_url": "https://github.com/tsyyan/buddie/deployments/activity_log?environments_filter=pypi",
+      "created_at": "2026-10-19T13:15:53Z",
+      "updated_at": "2026-10-19T13:15:53Z",
+      "can_admins_bypass": true,
+      "protection_rules": [],
+      "deployment_branch_policy": null
+    }
+  },
+  "actions": {
+    "exit": 0,
+    "data": {
+      "enabled": true,
+      "allowed_actions": "all",
+      "sha_pinning_required": false
+    }
+  },
+  "workflow-permissions": {
+    "exit": 0,
+    "data": {
+      "default_workflow_permissions": "read",
+      "can_approve_pull_request_reviews": false
+    }
+  },
+  "fork-policy": {
+    "exit": 0,
+    "data": {
+      "approval_policy": "first_time_contributors"
+    }
+  },
+  "security": {
+    "exit": 0,
+    "data": {
+      "enabled": false
+    }
+  },
+  "community": {
+    "exit": 0,
+    "data": {
+      "health_percentage": 71,
+      "description": "Checks that quotes in AI agent reports actually appear in the cited sources. Byte snapshots, no model in the loop.",
+      "documentation": "https://github.com/tsyyan/buddie/tree/master/docs",
+      "files": {
+        "code_of_conduct": null,
+        "code_of_conduct_file": null,
+        "contributing": {
+          "url": "https://api.github.com/repos/tsyyan/buddie/contents/CONTRIBUTING.md",
+          "html_url": "https://github.com/tsyyan/buddie/blob/main/CONTRIBUTING.md"
+        },
+        "issue_template": null,
+        "pull_request_template": null,
+        "license": {
+          "key": "apache-2.0",
+          "name": "Apache License 2.0",
+          "spdx_id": "Apache-2.0",
+          "url": "https://api.github.com/licenses/apache-2.0",
+          "node_id": "MDc6TGljZW5zZTI=",
+          "html_url": "https://github.com/tsyyan/buddie/blob/main/LICENSE"
+        },
+        "readme": {
+          "url": "https://api.github.com/repos/tsyyan/buddie/contents/README.md",
+          "html_url": "https://github.com/tsyyan/buddie/blob/main/README.md"
+        }
+      },
+      "updated_at": null
+    }
+  }
+}
