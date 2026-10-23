@@ -229,6 +229,14 @@ def test_the_budget_counts_every_connection(monkeypatch):
     assert len(opened) == 2 and opened[0].timeout <= 30 and opened[1].timeout <= 60
 
 
+def test_the_time_left_never_exceeds_the_budget(monkeypatch):
+    """A clock that has not moved since the budget began (Windows' monotonic clock ticks coarsely) leaves
+    (t0 + 60) - t0, which rounding can make 60.00000000000091: a socket timeout past the budget it is cut from."""
+    monkeypatch.setattr(vstore.time, "monotonic", lambda: 8191.610680565681)
+    budget = vstore.Budget(2, 10**6, 60)
+    assert budget.left() <= 60 and budget.connect() <= 60
+
+
 def test_a_spent_budget_makes_a_fetch_fail_before_any_network(tmp_path, monkeypatch):
     monkeypatch.setattr(urllib.request, "_opener", remote.guarded_opener())
     monkeypatch.setattr(remote.socket, "getaddrinfo", lambda *a, **k: pytest.fail("resolved a host past the budget"))

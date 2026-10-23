@@ -51,7 +51,8 @@ class Budget:
         self.seconds = seconds
 
     def left(self) -> float:
-        return self.until - time.monotonic()
+        # never more than the budget: (t0 + s) - t0 can round above s while the clock has not moved
+        return min(self.seconds, self.until - time.monotonic())
 
     def connect(self) -> float:
         """Spend one connection; the seconds left, for its socket timeout."""
