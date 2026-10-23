@@ -8,16 +8,23 @@ from buddie import effects, hook
 from buddie.verify import verify
 
 MERGE, HEAD = "9653a7cd6f02818c34cd3902da879711b03a5919", "dbf390f479dee4806b67d6d62d90aeec7fc12843"
+OTHER = "abcdef0" + "1" * 33
 API = {
     "/repos/o/r/pulls/54": {"state": "closed", "merged": True, "merge_commit_sha": MERGE, "head": {"sha": HEAD}},
     "/repos/o/r/pulls/55": {"state": "open", "merged": False, "draft": True, "head": {"sha": HEAD}},
-    f"/repos/o/r/commits/{HEAD[:7]}/check-runs?per_page=100&page=1":
-        {"check_runs": [{"name": "check", "status": "completed", "conclusion": "success"},
-                        {"name": "lint", "status": "completed", "conclusion": "skipped"}]},
-    f"/repos/o/r/commits/{HEAD[:7]}/status": {"statuses": []},
-    "/repos/o/r/commits/abcdef0/check-runs?per_page=100&page=1":
-        {"check_runs": [{"name": "check", "status": "completed", "conclusion": "failure"}]},
-    "/repos/o/r/commits/abcdef0/status": {"statuses": [{"context": "deploy", "state": "pending"}]},
+    # as GitHub's API answers (PR #36): the ref resolved to its commit, the latest check runs and the combined
+    # status fetched for that full id, each naming it
+    f"/repos/o/r/commits/{HEAD[:7]}": {"sha": HEAD},
+    f"/repos/o/r/commits/{HEAD}/check-runs?filter=latest&per_page=100&page=1":
+        {"total_count": 2, "check_runs": [
+            {"name": "check", "status": "completed", "conclusion": "success", "head_sha": HEAD},
+            {"name": "lint", "status": "completed", "conclusion": "skipped", "head_sha": HEAD}]},
+    f"/repos/o/r/commits/{HEAD}/status": {"sha": HEAD, "statuses": []},
+    "/repos/o/r/commits/abcdef0": {"sha": OTHER},
+    f"/repos/o/r/commits/{OTHER}/check-runs?filter=latest&per_page=100&page=1":
+        {"total_count": 1, "check_runs": [
+            {"name": "check", "status": "completed", "conclusion": "failure", "head_sha": OTHER}]},
+    f"/repos/o/r/commits/{OTHER}/status": {"sha": OTHER, "statuses": [{"context": "deploy", "state": "pending"}]},
 }
 
 

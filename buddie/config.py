@@ -131,11 +131,13 @@ def read_toml(path: Path) -> dict:
         data = tomllib.loads(text)
     except tomllib.TOMLDecodeError as error:
         raise ConfigError(path, f"not valid TOML: {error}") from error
-    from buddie import profiles
+    from buddie import mandate, profiles
     try:
         profiles.from_config(data)  # an unknown profile, module or check: unusable, not a quietly smaller check
     except profiles.UnknownProfile as error:
         raise ConfigError(path, str(error)) from error
+    if why := mandate.pattern_problem(data.get("mandate")):  # a pattern that could hold the hook: unusable
+        raise ConfigError(path, why)
     return data
 
 

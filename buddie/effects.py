@@ -225,37 +225,57 @@ def _pr(m, ctx: dict) -> dict:
     return dict(seen, status=HOLDS)
 
 
-def _runs(m, ctx: dict) -> list[dict]:
-    """Every check run and commit status on the SHA as {name, done, ok}."""
-    out, page = [], 1
-    while True:
-        data = _get(ctx, f"/repos/{m['repo']}/commits/{m['sha']}/check-runs?per_page=100&page={page}")
-        if data is None:
-            return []
-        runs = data.get("check_runs", [])
-        out += [{"name": r["name"], "done": r["status"] == "completed", "ok": r.get("conclusion") in OK_CONCLUSIONS,
-                 "conclusion": r.get("conclusion") or r["status"]} for r in runs]
-        if len(runs) < 100:
-            break
-        page += 1
-    statuses = _get(ctx, f"/repos/{m['repo']}/commits/{m['sha']}/status") or {}
-    out += [{"name": s["context"], "done": s["state"] != "pending", "ok": s["state"] == "success",
-             "conclusion": s["state"]} for s in statuses.get("statuses", [])]
-    return out
+# what a ci: anchor says when the evidence for its SHA cannot be established (freshness.ci_evidence's reasons)
+CI_WHY = {
+    "not_found": "no commit {sha} on {repo} (missing, or no access)",
+    "no_ci_results": "no {what} on {repo}@{sha} (missing commit, or no access)",
+    "ambiguous_reference": "{sha} is not the commit GitHub resolves it to (a branch or tag of that name?): its checks "
+                           "are another commit's",
+    "inconsistent_answer": "GitHub's check runs or status for {sha} name another commit: not taken",
+    "incomplete_answer": "GitHub's list of checks on {sha} is incomplete: not taken",
+    "malformed_answer": "GitHub's answer for {sha} is not what its API gives: not taken",
+    "too_many_checks": "more than 2000 checks on {sha}: not read",
+    "invalid_evidence": "not a repository and commit: {repo}@{sha}",
+}
 
 
 def _ci(m, ctx: dict) -> dict:
-    runs = _runs(m, ctx)
-    if m["check"]:
-        runs = [r for r in runs if r["name"] == m["check"].strip()]
-    if not runs:
-        what = f"check {m['check'].strip()!r}" if m["check"] else "checks"
-        return {"status": UNCHECKABLE, "why": f"no {what} on {m['repo']}@{m['sha']} (missing commit, or no access)"}
-    got = "pending" if not all(r["done"] for r in runs) else ("success" if all(r["ok"] for r in runs) else "failure")
-    seen = {"ci": got, "checks": {r["name"]: r["conclusion"] for r in runs}}
+    """The checks on the commit the anchor names, through freshness.ci_evidence: the SHA resolved to the full commit
+    id GitHub has (which must start with it: a branch or tag of that name pointing elsewhere is not the commit), the
+    latest check runs and the combined status fetched once for that id, each of them naming it. A list GitHub gave
+    in part, or check suites disagreeing on one name, establish nothing (UNCHECKABLE), never success or failure."""
+    from buddie import freshness
+    if ctx.get("github") is None:
+        raise GitHubUnavailable("GitHub lookups are off (offline)")
+    raised = []
+
+    def get(path):
+        try:
+            return _get(ctx, path)
+        except GitHubUnavailable as error:
+            raised.append(error)
+            raise
+    check = m["check"].strip() if m["check"] else None
+    ev = freshness.ci_evidence(m["repo"], m["sha"], get, check=check)
+    if raised:
+        raise raised[0]  # check() makes it UNCHECKABLE with GitHub's own reason, as before
+    what = f"check {check!r}" if check else "checks"
+    if ev.revision is None:
+        return {"status": UNCHECKABLE, "why": CI_WHY.get(ev.reason, ev.reason or "unknown").format(
+            sha=m["sha"], repo=m["repo"], what=what)}
+    d = ev.details
+    got = d["ci"]
+    runs = [r for r in d["check_runs"] if check is None or r["name"] == check]
+    statuses = [s for s in d["statuses"] if check is None or s["context"] == check]
+    seen = {"ci": got, "checks": {**{s["context"]: s["state"] for s in statuses},
+                                  **{r["name"]: r["conclusion"] or r["status"] for r in runs}}}
+    if got == "ambiguous":
+        return dict(seen, status=UNCHECKABLE, why=f"check suites on {m['sha']} disagree on "
+                                                  f"{', '.join(d['duplicates'])}: which counts cannot be told")
     if got != m["what"]:
-        bad = [f"{r['name']}={r['conclusion']}" for r in runs if not r["ok"]][:5]
-        return dict(seen, status=BROKEN, why=f"checks are {got}" + (f" ({', '.join(bad)})" if bad else ""))
+        bad = [f"{r['name']}={r['conclusion'] or r['status']}" for r in runs if r["conclusion"] not in OK_CONCLUSIONS]
+        bad += [f"{s['context']}={s['state']}" for s in statuses if s["state"] != "success"]
+        return dict(seen, status=BROKEN, why=f"checks are {got}" + (f" ({', '.join(bad[:5])})" if bad else ""))
     return dict(seen, status=HOLDS)
 
 

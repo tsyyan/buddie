@@ -536,8 +536,12 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("receipt-schema", help="the JSON Schema of receipt-v1").set_defaults(func=cmd_receipt_schema)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
+    from buddie.patterns import PatternError, PatternTimeout
     try:
         return args.func(args)
+    except (PatternTimeout, PatternError) as e:  # buddie.toml's pattern could not be used: input, not a FAIL
+        print(f"buddie {args.cmd}: {e}", file=sys.stderr)
+        return 2
     except FileNotFoundError as e:
         if args.cmd not in ("verify", "mandate"):
             raise

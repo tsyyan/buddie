@@ -559,6 +559,7 @@ def config_item(error) -> str:
 
 EVENT_PROGRAMS = 40.0  # seconds all of an event's git (and the free command) may take together; the gating hooks
                        # have 60 to 120 seconds before the host stops them
+EVENT_PATTERNS = 10.0  # seconds all of an event's buddie.toml patterns may take together (buddie/patterns.py)
 
 
 def main() -> int:
@@ -566,13 +567,13 @@ def main() -> int:
         event = json.loads(sys.stdin.buffer.read().decode("utf-8"))  # Claude Code sends UTF-8 (Windows: not the locale's)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return 0
-    from buddie import evidence, policy, runner
+    from buddie import evidence, patterns, policy, runner
     try:
         with policy.snapshot():  # one reading of the protected policy for the whole event
             try:
                 # the policy's network for the event's fetches (isolated or as set); one time budget for every
                 # program the event starts, so a slow repository cannot hold the hook past the host's timeout
-                with evidence.collector(), runner.deadline(EVENT_PROGRAMS):
+                with evidence.collector(), runner.deadline(EVENT_PROGRAMS), patterns.budget(EVENT_PATTERNS):
                     return run(event)
             except Exception as error:
                 return failed(event, error)

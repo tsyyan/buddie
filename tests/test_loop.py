@@ -123,15 +123,19 @@ def test_measure_shares():
 def test_ready_anchors_from_github_are_checked():
     pull = {"state": "open", "draft": False, "merged": False, "merge_commit_sha": None,
             "head": {"sha": "abcdef1234567890"}}
-    runs = {"check_runs": [{"name": "ci", "status": "completed", "conclusion": "success"}]}
+    full = "abcdef1234567890" + "0" * 24
+    runs = {"total_count": 1, "check_runs": [{"name": "ci", "status": "completed", "conclusion": "success",
+                                              "head_sha": full}]}
 
-    def get(path):
+    def get(path):  # as GitHub's API answers: the ref resolved to its commit, the checks naming it
         if path == "/repos/o/r/pulls/7":
             return pull
-        if "/check-runs" in path:
+        if path == "/repos/o/r/commits/abcdef123456":
+            return {"sha": full}
+        if f"/commits/{full}/check-runs" in path:
             return runs
-        if path.endswith("/status"):
-            return {"statuses": []}
+        if path.endswith(f"/commits/{full}/status"):
+            return {"sha": full, "statuses": []}
         return None
 
     items = [{"kind": "final_no_anchor", "line": None, "text": ""}]

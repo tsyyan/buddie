@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+- Adversarial verification suite (`tests/test_adversarial.py`, docs/adversarial.md): attacks an agent can mount
+  with what it controls, run through the hook, the CLI, MCP and the collectors, in a threat matrix with the test
+  that holds each. Found and fixed:
+  - A `ci:` anchor whose ref is a branch or tag named like the SHA (`ci:o/r@deadbee=success` with a branch
+    `deadbee`) held on another commit's checks. When GitHub's check runs or combined status name another commit,
+    the anchor is now UNCHECKABLE.
+  - `ci:` anchors go through `freshness.ci_evidence`: the SHA resolved to its full commit, the latest runs and
+    status fetched once for that id, each naming it, GitHub's count read in full; a run without `head_sha`, on
+    another commit, a missing page or disagreeing suites are UNCHECKABLE.
+  - The pattern worker is bounded in every step, not only while it matches: its start (within the event's budget),
+    writing the request (a worker that stops reading cannot block on a full pipe), and a whole, well-formed answer;
+    past any of them it is killed and reaped, one worker at a time. Linux and Windows end it with buddie's process.
+    Texts over 64 K characters are not matched.
+  - `buddie.toml` `[mandate]` patterns run in a worker process within 1 s per match and 10 s per hook event; past
+    that the worker is stopped and the answer returned (`PatternTimeout`; the CLI exits 2).
+  - `buddie.toml` `[mandate]` patterns could backtrack exponentially on the queue's text (`(a+)+$`: hours in
+    Python's `re`), holding the hook until the host let the answer out unchecked. Patterns with a backreference, a
+    repeat over alternatives or an unseparated repeat inside a repeat, or over 512 characters, and `refs[].doc`
+    templates with anything but `{name}` fields, now make the file unusable: every answer is returned with the
+    reason.
+- docs/release-hardening.md: the intermittent Windows full-suite failures (open, release blocker), with the first
+  captured signature (`WinError 6` duplicating the test process's standard input handle).
 - Evidence freshness (`buddie/freshness.py`, docs/freshness.md): whether evidence is bound to the revision a claim
   is about, apart from whether it is valid and how old it is. `CURRENT`, `STALE`, `UNKNOWN` (`NOT_APPLICABLE`
   reserved), each with a reason; only full commit ids compare, the same SHA in two repositories is not one revision,

@@ -30,6 +30,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from buddie import anchors as anc
+from buddie import patterns
 
 HOLDS, BROKEN, UNCHECKABLE = anc.HOLDS, anc.BROKEN, anc.UNCHECKABLE
 UNSUPPORTED = "UNSUPPORTED"
@@ -43,6 +44,10 @@ DEFAULTS = {
     "messages": None, "messages_complete": False, "time_slack_minutes": 10, "final_mark": "Следующий шаг:",
 }
 
+# buddie's own patterns are run in-process; any other a buddie.toml gives goes through buddie/patterns.py's bound
+patterns.TRUSTED.update(v for k, v in DEFAULTS.items() if k in ("parent", "ask_words", "wait_words", "wait_not_before",
+                                                             "wait_delay"))
+
 ROW = re.compile(r"№\s?(\d+)")
 NOT = r"(?<!не )(?<!not )(?<!ещё не )"
 DONE = re.compile(NOT + r"\b(выполнен[аоы]?|сделан[аоы]?|завершён|завершен[аоы]?|done|completed|finished)\b", re.I)
@@ -53,6 +58,116 @@ CONSENT = re.compile(r"(пользовател\w*|user)\W+(\w+\W+){0,2}?(сог�
                      r"пользовател\w*|(одобрен\w*|принят\w*|разрешен\w*)\s+пользователем", re.I)
 QUOTE = re.compile(r"«([^«»]{8,})»|“([^“”]{8,})”")
 WHEN = re.compile(r"(?P<date>\d{4}-\d{2}-\d{2})(?:[ T](?P<time>\d{2}:\d{2})(?::\d{2})?\s*(?:UTC|Z)?)?")
+
+
+# --- the patterns buddie.toml gives -------------------------------------------------------------------------------
+
+# buddie.toml is the repo's, so the agent's to write, and these patterns run on the queue's text, which is the
+# agent's too. Python's re has no time limit: a pattern that backtracks exponentially (a repeat inside a repeat, a
+# repeat over alternatives, a backreference) would hold the hook until the host's timeout lets the answer out
+# unchecked. Such a pattern makes the file unusable (config.read_toml), and the gate then returns every answer.
+PATTERN_KEYS = ("parent", "ask_words", "wait_words", "wait_not_before", "wait_delay")
+MAX_PATTERN = 512
+
+
+def _repeats(items):
+    """The repeats that may match more than once, anywhere inside `items`."""
+    from re import _constants as c
+    for op, av in items:
+        if op in (c.MAX_REPEAT, c.MIN_REPEAT) or op is getattr(c, "POSSESSIVE_REPEAT", None):
+            if av[1] is c.MAXREPEAT or av[1] > 1:
+                yield av[2]
+            yield from _repeats(av[2])
+        elif op is c.SUBPATTERN:
+            yield from _repeats(av[-1])
+        elif op is c.BRANCH:
+            for alt in av[1]:
+                yield from _repeats(alt)
+
+
+def _separated(body, state) -> bool:
+    """Whether each turn of a repeat's `body` starts with a literal character that no repeat inside it can match
+    (`(?:\\.\\d+)*`): then the text splits into turns one way only, and nesting does not backtrack exponentially."""
+    from re import _compiler, _constants as c, _parser
+    items = list(body)
+    while items and items[0][0] is c.SUBPATTERN:
+        items = list(items[0][1][-1]) + items[1:]
+    if not items or items[0][0] is not c.LITERAL:
+        return False
+    first = chr(items[0][1])
+    for sub in _repeats(items[1:]):
+        try:
+            if _compiler.compile(_parser.SubPattern(state, list(sub))).fullmatch(first):
+                return False
+        except Exception:  # noqa: BLE001 - what cannot be checked is not taken for safe
+            return False
+    return True
+
+
+def _risky(items, repeated: bool = False, state=None) -> str | None:
+    from re import _constants as c
+    for op, av in items:
+        if op in (c.GROUPREF, c.GROUPREF_EXISTS):
+            return "a backreference"
+        if op in (c.MAX_REPEAT, c.MIN_REPEAT) or op is getattr(c, "POSSESSIVE_REPEAT", None):
+            lo, hi, sub = av
+            many = hi is c.MAXREPEAT or hi > 1
+            if many and any(o is c.BRANCH for o, _ in sub):
+                return "a repeat over alternatives"
+            if many and any(o is c.SUBPATTERN and any(oo is c.BRANCH for oo, _ in a[-1]) for o, a in sub):
+                return "a repeat over alternatives"
+            if many and any(True for _ in _repeats(sub)) and not _separated(sub, state):
+                return "a repeat inside a repeat"
+            if why := _risky(sub, repeated or many, state):
+                return why
+        elif op is c.SUBPATTERN:
+            if why := _risky(av[-1], repeated, state):
+                return why
+        elif op is getattr(c, "ATOMIC_GROUP", None):
+            if why := _risky(av, repeated, state):
+                return why
+        elif op is c.BRANCH:
+            for alt in av[1]:
+                if why := _risky(alt, repeated, state):
+                    return why
+        elif op in (c.ASSERT, c.ASSERT_NOT):
+            if why := _risky(av[1], repeated, state):
+                return why
+    return None
+
+
+def pattern_problem(section) -> str | None:
+    """Why the [mandate] section's patterns and doc templates cannot be used, or None. Patterns: at most MAX_PATTERN
+    characters, a valid regular expression, and none of the constructs that backtrack exponentially. Doc templates
+    (refs[].doc): only `{name}` fields, no format spec, conversion, index or attribute."""
+    import string
+    from re import _parser
+    if not isinstance(section, dict):
+        return None
+    refs = section.get("refs") or []
+    found = [(k, section[k]) for k in PATTERN_KEYS if k in section]
+    found += [(f"refs[{i}].pattern", r.get("pattern")) for i, r in enumerate(refs) if isinstance(r, dict)]
+    for name, pattern in found:
+        if type(pattern) is not str or len(pattern) > MAX_PATTERN:
+            return f"[mandate] {name}: a regular expression of at most {MAX_PATTERN} characters"
+        try:
+            tree = _parser.parse(pattern)
+        except re.error as error:
+            return f"[mandate] {name}: not a regular expression ({error})"
+        if why := _risky(tree, state=tree.state):
+            return f"[mandate] {name}: {why}, which can take exponential time on the queue's text"
+    for i, r in enumerate(refs):
+        doc = r.get("doc") if isinstance(r, dict) else None
+        if doc is None:
+            continue
+        try:
+            fields = list(string.Formatter().parse(doc)) if type(doc) is str else None
+        except ValueError:
+            fields = None
+        if fields is None or any(f is not None and (not f.isidentifier() or spec or conv)
+                                 for _, f, spec, conv in fields):
+            return f"[mandate] refs[{i}].doc: a text with {{name}} fields only"
+    return None
 
 
 # --- config and sources -------------------------------------------------------------------------------------------
@@ -135,7 +250,7 @@ def rows(cfg: dict, text: str) -> dict[int, dict]:
 def parse(cfg: dict, basis: str) -> dict | None:
     """`<ref>` or `<ref> ← №<parent>`; ref is one of cfg refs, `fix` or `none`."""
     parent = None
-    if m := re.search(cfg["parent"], basis):
+    if m := patterns.search(cfg["parent"], basis):
         parent, basis = int(m["parent"]), basis[:m.start()]
     basis = basis.strip()
     if basis == cfg["fix"]:
@@ -143,7 +258,7 @@ def parse(cfg: dict, basis: str) -> dict | None:
     if basis == cfg["none"]:
         return {"kind": "none", "doc": None, "parent": parent, "groups": {}}
     for ref in cfg["refs"]:
-        if m := re.fullmatch(ref["pattern"], basis):
+        if m := patterns.fullmatch(ref["pattern"], basis):
             groups = m.groupdict()
             return {"kind": "ref", "doc": ref["doc"].format(**groups), "parent": parent, "groups": groups,
                     "level": ref.get("level"), "ref": basis}
@@ -227,7 +342,7 @@ def verdict(cfg: dict, table: dict, scopes: list[dict], n: int, start: str | Non
         k = kb["parent"]
     if chain > cfg["max_fix_chain"]:
         why.append(f"{chain} fixes in a row (more than {cfg['max_fix_chain']})")
-    if re.search(cfg["ask_words"], r["text"], re.I):
+    if patterns.search(cfg["ask_words"], r["text"], re.I):
         why.append("names an outward or irreversible action")
     if cond := waits(cfg, r, start, now):
         why.append(f"waits for a condition: {cond}")
@@ -245,11 +360,11 @@ def conditions(cfg: dict, row: dict, start: str | None = None) -> list[tuple[str
     any other phrase (a data condition) has no moment."""
     head, out = row["text"].split(cfg.get("wait_until", ";"), 1)[0], []
     units = cfg.get("wait_units", {})
-    for m in re.finditer(cfg.get("wait_words", r"(?!)"), head, re.I):
+    for m in patterns.finditer(cfg.get("wait_words", r"(?!)"), head, re.I):
         due = None
-        if nb := re.compile(cfg.get("wait_not_before", r"(?!)"), re.I).match(head, m.start()):
+        if nb := patterns.match(cfg.get("wait_not_before", r"(?!)"), head, re.I, m.start()):
             due = _utc(f"{nb['date']}T{nb['time'] or '00:00'}:00+00:00")
-        elif (d := re.compile(cfg.get("wait_delay", r"(?!)"), re.I).match(head, m.start())) and start:
+        elif (d := patterns.match(cfg.get("wait_delay", r"(?!)"), head, re.I, m.start())) and start:
             hours = next((h for u, h in units.items() if d["unit"].lower().startswith(u)), None)
             due = None if hours is None else _utc(start) + timedelta(hours=int(d["k"] or 1) * hours)
         out.append((m.group(0), due))
