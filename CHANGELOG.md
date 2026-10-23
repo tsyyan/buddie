@@ -17,6 +17,29 @@ files keep working. What can differ, each said where it happens:
   receipt-v0 reasons in `why` and `gaps` read differently (commit 8cb7273, audit R1 and R2). This is intended and
   stays; docs/release-hardening.md, RH-5, records the decision.
 
+Release candidate and distribution (PR #38):
+- The release workflow publishes nothing on a tag push. A pushed tag `vX.Y.Z` builds a candidate (sdist, wheel and
+  the Claude Desktop bundle from that commit, validated, installed into clean venvs and run) and records it in
+  `release-manifest.json` and `SHA256SUMS`. Publishing is a manual run on the tag that names the candidate run and
+  types `publish buddie X.Y.Z`; it checks the tag, the version, that the commit is on `main` and the candidate's
+  files byte for byte, then sends those same files to PyPI (trusted publishing), the MCP Registry and a GitHub
+  Release, each stage repeatable and completing only what is missing. CI builds the same candidate on every pull
+  request. The TestPyPI target is gone: the candidate is the dry run. docs/release.md.
+- The publish run's decisions live in scripts/release_publish.py, tested against a fake GitHub API and recorded
+  PyPI and registry answers: `authorize` also checks the candidate run's repository, tag, status and the artifact's
+  own record; PyPI is checked before uploading (identical files: done; any other file: stop); an existing registry
+  entry must match server.json; the GitHub Release is found by tag or as the single draft, re-read by id, completed
+  with only missing files, never changed once published, and stops on an asset that differs, did not finish
+  uploading, or cannot be checked. docs/release.md: partial publication, recovery per stage, the owner's checklist.
+- README rewritten as the landing page: what buddie verifies and what it does not, the outcomes, installs per client,
+  enforcement versus advice, the protected policy, receipts, security and privacy, research results, with badges for
+  CI, PyPI, Python, license, release and the MCP Registry. Its examples are run by `tests/test_readme.py`. The detail
+  moved to docs/claude-code.md, docs/configuration.md and docs/research.md. The old README said a `GITHUB_TOKEN`
+  in the environment was used for GitHub; buddie has not read it since 1.1.
+- docs/distribution.md: every channel's public version, source, update path and review, with the MCPRush, Glama and
+  Anthropic directory audits. The repository's plugin marketplace follows `main`, so it serves 2.0.0 already.
+- The MCP tools `snap` and `source_text` describe each parameter. `scripts/make_icon.py` takes its output path.
+
 Release hardening (docs/release-hardening.md):
 - RH-1 (the intermittent Windows test failures): by experiment, the failure depends on the launcher. It reproduces
   without buddie under the Python install manager's command shim (`%LOCALAPPDATA%\Python\bin\pytest.exe`), and not

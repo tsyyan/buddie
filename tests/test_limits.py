@@ -229,6 +229,65 @@ def test_the_budget_counts_every_connection(monkeypatch):
     assert len(opened) == 2 and opened[0].timeout <= 30 and opened[1].timeout <= 60
 
 
+def test_the_time_left_never_exceeds_the_budget(monkeypatch):
+    """A clock that has not moved since the budget began (Windows' monotonic clock ticks coarsely) leaves
+    (t0 + 60) - t0, which rounding can make 60.00000000000091: a socket timeout past the budget it is cut from."""
+    monkeypatch.setattr(vstore.time, "monotonic", lambda: 8191.610680565681)
+    budget = vstore.Budget(2, 10**6, 60)
+    assert budget.left() <= 60 and budget.connect() <= 60
+
+
+class _Clock:
+    """time.monotonic that answers the given readings in turn, then repeats the last: no sleeps, no real time."""
+
+    def __init__(self, *readings):
+        self.readings, self.calls = list(readings), 0
+
+    def __call__(self):
+        self.calls += 1
+        return self.readings.pop(0) if len(self.readings) > 1 else self.readings[0]
+
+
+def _budget(monkeypatch, requests, *readings):
+    clock = _Clock(*readings)
+    monkeypatch.setattr(vstore.time, "monotonic", clock)
+    return vstore.Budget(requests, 10**6, 60), clock  # the first reading starts the budget
+
+
+def test_a_connection_gets_the_time_left_and_spends_one_request(monkeypatch):
+    budget, clock = _budget(monkeypatch, 2, 1000.0, 1010.0)
+    assert budget.connect() == 50.0
+    assert budget.requests == 1  # exactly one request spent
+
+
+def test_a_spent_time_budget_refuses_and_spends_no_request(monkeypatch):
+    budget, _ = _budget(monkeypatch, 2, 1000.0, 1061.0)
+    with pytest.raises(vstore.BudgetSpent, match="time budget"):
+        budget.connect()
+    assert budget.requests == 2
+
+
+def test_a_budget_expiring_between_clock_reads_never_gives_a_nonpositive_timeout(monkeypatch):
+    """0.5 s left when the time is checked, -0.5 s a moment later: the connection is allowed with the time that was
+    checked (one reading), never handed a timeout of zero or less."""
+    budget, clock = _budget(monkeypatch, 2, 1000.0, 1059.5, 1060.5)
+    reads = clock.calls
+    try:
+        timeout = budget.connect()
+    except vstore.BudgetSpent:
+        timeout = None
+    assert timeout is None or timeout > 0, timeout
+    assert timeout == 0.5 and clock.calls - reads == 1
+
+
+def test_a_spent_request_budget_still_refuses(monkeypatch):
+    budget, _ = _budget(monkeypatch, 1, 1000.0, 1001.0)
+    assert budget.connect() == 59.0 and budget.requests == 0
+    with pytest.raises(vstore.BudgetSpent, match="request budget"):
+        budget.connect()
+    assert budget.requests == 0
+
+
 def test_a_spent_budget_makes_a_fetch_fail_before_any_network(tmp_path, monkeypatch):
     monkeypatch.setattr(urllib.request, "_opener", remote.guarded_opener())
     monkeypatch.setattr(remote.socket, "getaddrinfo", lambda *a, **k: pytest.fail("resolved a host past the budget"))

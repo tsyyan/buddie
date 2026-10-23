@@ -1,6 +1,14 @@
-# Release: push a tag vX.Y.Z equal to buddie.__version__. Builds the sdist, the wheel and the Claude Desktop bundle,
-# publishes to PyPI by trusted publishing (no token stored here) and attaches the files to a GitHub Release.
-# Run it by hand with target=testpypi to try a build on TestPyPI first. One-time setup: docs/release.md.
+# Release in two runs of this workflow (docs/release.md). Nothing is published by a push.
+#
+# 1. Candidate. Pushing the tag vX.Y.Z (equal to buddie.__version__), or running this workflow by hand with no
+#    `candidate`, builds and validates the release candidate (release-candidate.yml): sdist, wheel and the Claude
+#    Desktop bundle from that exact commit, with release-manifest.json and SHA256SUMS. It publishes nothing.
+# 2. Publish. Run this workflow by hand on the tag, with `candidate` = the run id of step 1 and `confirm` =
+#    "publish buddie X.Y.Z". `authorize` checks the tag, the version, that the commit is on main, and that the
+#    candidate run is this workflow's, succeeded and built this same commit; then each stage publishes the candidate's
+#    files as they were recorded (SHA-256 checked before and after), never a rebuild: PyPI by trusted publishing (the
+#    `pypi` environment, no token stored), the MCP Registry (GitHub OIDC), the GitHub Release. Every stage can be run
+#    again, alone (`only`), and skips what is already published identically.
 name: release
 
 on:
@@ -8,134 +16,200 @@ on:
     tags: ["v*"]
   workflow_dispatch:
     inputs:
-      target:
-        description: "where to publish a manual run"
+      candidate:
+        description: "publish: run id of a successful candidate run for this tag (empty: build a candidate only)"
+        type: string
+        default: ""
+      confirm:
+        description: "publish: type exactly: publish buddie X.Y.Z"
+        type: string
+        default: ""
+      only:
+        description: "publish: every stage, or one of them again"
         type: choice
-        options: [testpypi]
-        default: testpypi
+        options: [all, pypi, mcp-registry, github-release]
+        default: all
 
 permissions:
   contents: read
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  build:
+  candidate:
+    if: github.event_name == 'push' || inputs.candidate == ''
+    uses: ./.github/workflows/release-candidate.yml
+
+  authorize:
+    if: github.event_name == 'workflow_dispatch' && inputs.candidate != ''
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: the tag is the code's version
-        id: version
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-candidate
+          path: rc/
+          run-id: ${{ inputs.candidate }}
+          github-token: ${{ github.token }}
+      - name: the tag, the version, main, the confirmation, the candidate run and its files
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE: ${{ inputs.candidate }}
+          CONFIRM: ${{ inputs.confirm }}
         run: |
-          v=$(python -c "import buddie; print(buddie.__version__)")
+          [[ "$CANDIDATE" =~ ^[0-9]+$ ]] || { echo "::error::candidate must be a run id"; exit 1; }
+          v=$(python3 -c "import buddie; print(buddie.__version__)")
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CANDIDATE" > run.json
+          tag_commit=$(git rev-parse --verify --quiet "refs/tags/$GITHUB_REF_NAME^{commit}" || echo none)
+          on_main=no; git merge-base --is-ancestor "$GITHUB_SHA" origin/main && on_main=yes
+          python3 scripts/release_publish.py authorize rc --run run.json --candidate "$CANDIDATE" \
+            --repo "$GITHUB_REPOSITORY" --sha "$GITHUB_SHA" --ref-type "$GITHUB_REF_TYPE" --ref-name "$GITHUB_REF_NAME" \
+            --tag-commit "$tag_commit" --on-main "$on_main" --version "$v" --confirm "$CONFIRM"
           echo "version=$v" >> "$GITHUB_OUTPUT"
-          if [ "${GITHUB_REF_TYPE}" = tag ] && [ "${GITHUB_REF_NAME}" != "v$v" ]; then
-            echo "::error::tag ${GITHUB_REF_NAME} but buddie.__version__ is $v"; exit 1
-          fi
-      - run: python -m pip install build twine
-      - run: python -m build
-      - run: python -m twine check --strict dist/*
-      - name: the wheel installs and runs in a clean venv
-        run: |
-          python -m venv "$RUNNER_TEMP/venv"
-          "$RUNNER_TEMP/venv/bin/pip" install dist/*.whl
-          "$RUNNER_TEMP/venv/bin/buddie" --version
-          "$RUNNER_TEMP/venv/bin/buddie-verbatim" --help > /dev/null
-      - uses: actions/setup-node@v4
-        if: hashFiles('manifest.json') != ''
-        with:
-          node-version: "22"
-      - name: Claude Desktop bundle
-        if: hashFiles('manifest.json') != ''
-        run: |
-          mkdir -p bundle
-          npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json
-          npx --yes @anthropic-ai/mcpb@2.1.2 pack . "bundle/buddie-${{ steps.version.outputs.version }}.mcpb"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: bundle
-          path: bundle/
-          if-no-files-found: ignore
 
   pypi:
-    if: github.ref_type == 'tag'
-    needs: build
+    needs: authorize
+    if: inputs.only == 'all' || inputs.only == 'pypi'
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/buddie/${{ needs.build.outputs.version }}/
+      url: https://pypi.org/project/buddie/${{ needs.authorize.outputs.version }}/
     permissions:
       id-token: write
+      actions: read
+    env:
+      V: ${{ needs.authorize.outputs.version }}
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: release-candidate
+          path: rc/
+          run-id: ${{ inputs.candidate }}
+          github-token: ${{ github.token }}
+      - name: the candidate's files, unchanged; what PyPI already holds for the version
+        id: plan
+        run: |
+          python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
+          mkdir upload && cp rc/dist/* upload/   # the wheel and the sdist only, never the bundle
+          code=$(curl -s -o pypi.json -w '%{http_code}' "https://pypi.org/pypi/buddie/$V/json")
+          case "$code" in
+            200) plan=$(python3 scripts/release_publish.py pypi-plan rc pypi.json) ;;   # stops on a foreign file
+            404) plan=upload ;;
+            *) echo "::error::PyPI answered $code"; exit 1 ;;
+          esac
+          echo "PyPI: $plan"; echo "plan=$plan" >> "$GITHUB_OUTPUT"
+      # skip-existing: after a partial upload only the missing file is sent; the plan above already refused any file
+      # PyPI holds that is not the candidate's, and the check below refuses one again
       - uses: pypa/gh-action-pypi-publish@release/v1
-
-  testpypi:
-    if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/project/buddie/
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/download-artifact@v4
+        if: steps.plan.outputs.plan == 'upload'
         with:
-          name: dist
-          path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
+          packages-dir: upload/
+          skip-existing: true
+      - name: PyPI serves exactly the candidate's files
+        run: |
+          for i in $(seq 20); do
+            curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json \
+              && python3 scripts/release_manifest.py pypi rc pypi.json && exit 0
+            sleep 15
+          done
+          exit 1
 
   mcp-registry:
-    # registry.modelcontextprotocol.io lists io.github.tsyyan/buddie (server.json) once the PyPI package exists:
-    # the registry checks its README for the mcp-name line. GitHub OIDC proves the namespace, no secret needed.
-    if: github.ref_type == 'tag'
-    needs: [build, pypi]
+    # the registry lists io.github.tsyyan/buddie (server.json) for a version PyPI already has: it checks the package's
+    # README for the mcp-name line. GitHub OIDC proves the namespace, no secret needed
+    needs: [authorize, pypi]
+    if: >-
+      always() && needs.authorize.result == 'success'
+      && (needs.pypi.result == 'success' || needs.pypi.result == 'skipped')
+      && (inputs.only == 'all' || inputs.only == 'mcp-registry')
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - name: server.json carries the released version
-        run: |
-          v=$(python3 -c "import json; print(json.load(open('server.json'))['version'])")
-          test "$v" = "${{ needs.build.outputs.version }}" || { echo "::error::server.json is $v"; exit 1; }
-      - name: mcp-publisher
-        run: |
-          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
-          ./mcp-publisher login github-oidc
-          ./mcp-publisher publish
-
-  github-release:
-    if: github.ref_type == 'tag'
-    needs: [build, pypi]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+      actions: read
+    env:
+      V: ${{ needs.authorize.outputs.version }}
+      PUBLISHER: https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
+      PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
+      SERVER: https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          path: out/
-      - name: release with the changelog section and the files
-        env:
-          GH_TOKEN: ${{ github.token }}
-          V: ${{ needs.build.outputs.version }}
+          name: release-candidate
+          path: rc/
+          run-id: ${{ inputs.candidate }}
+          github-token: ${{ github.token }}
+      - name: server.json is the version, and PyPI serves the candidate's files
+        run: |
+          sv=$(python3 -c "import json; d=json.load(open('server.json')); print(d['version'], d['packages'][0]['version'])")
+          [ "$sv" = "$V $V" ] || { echo "::error::server.json is $sv"; exit 1; }
+          curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json
+          python3 scripts/release_manifest.py pypi rc pypi.json
+      - name: publish, unless the registry already lists this version as this package
+        run: |
+          code=$(curl -s -o listed.json -w '%{http_code}' "$SERVER/$V")
+          if [ "$code" = 200 ]; then
+            python3 scripts/release_publish.py registry-check server.json listed.json
+            echo "::notice::the registry already lists $V as server.json describes it"; exit 0
+          fi
+          [ "$code" = 404 ] || { echo "::error::the registry answered $code"; exit 1; }
+          curl -fsSL "$PUBLISHER" -o publisher.tar.gz
+          echo "$PUBLISHER_SHA256  publisher.tar.gz" | sha256sum -c -
+          tar xzf publisher.tar.gz mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
+      - name: the registry lists it as server.json describes it
+        run: |
+          for i in $(seq 10); do
+            curl -fsS "$SERVER/$V" -o listed.json && python3 scripts/release_publish.py registry-check server.json \
+              listed.json && exit 0
+            sleep 10
+          done
+          exit 1
+
+  github-release:
+    # a draft first, the files uploaded and checked against the candidate, then published: a run that stops halfway
+    # leaves a draft that the next run completes
+    needs: [authorize, pypi]
+    if: >-
+      always() && needs.authorize.result == 'success'
+      && (needs.pypi.result == 'success' || needs.pypi.result == 'skipped')
+      && (inputs.only == 'all' || inputs.only == 'github-release')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    env:
+      V: ${{ needs.authorize.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-candidate
+          path: rc/
+          run-id: ${{ inputs.candidate }}
+          github-token: ${{ github.token }}
+      - name: the candidate's files, unchanged, and on PyPI
+        run: |
+          python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
+          curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json
+          python3 scripts/release_manifest.py pypi rc pypi.json
+      - name: the release, with the changelog section and the candidate's files
         run: |
           awk -v v="$V" '$0 ~ "^## buddie " v "( |$)" {on=1; next} on && /^## / {exit} on' CHANGELOG.md > notes.md
           [ -s notes.md ] || echo "buddie $V" > notes.md
-          gh release create "$GITHUB_REF_NAME" --title "buddie $V" --notes-file notes.md \
-            out/dist/* $(ls out/bundle/*.mcpb 2>/dev/null)
+          python3 scripts/release_publish.py github-release rc --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" \
+            --sha "$GITHUB_SHA" --version "$V" --notes notes.md

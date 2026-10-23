@@ -93,7 +93,9 @@ TOOLS = [
         "description": "Snapshot URLs (bytes by sha256) so quotes can be taken from and checked against them. Call "
                        "it before quoting a page, then copy the words from source_text and link the same URL.",
         "inputSchema": {"type": "object", "required": ["urls"], "properties": {
-            "urls": {"type": "array", "items": {"type": "string"}}, "store": {"type": "string"}}},
+            "urls": {"type": "array", "items": {"type": "string"},
+                     "description": "the pages to fetch (http or https), one snapshot each; a failure is recorded too"},
+            "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"}}},
     },
     {
         "name": "source_text",
@@ -101,8 +103,11 @@ TOOLS = [
                        "Copy quotes from here character for character, put them in quotation marks “…” or «…», and "
                        "link the snapshot's URL right after the quote in the same sentence.",
         "inputSchema": {"type": "object", "required": ["ref"], "properties": {
-            "ref": {"type": "string"}, "grep": {"type": "string"}, "context": {"type": "integer", "default": 160},
-            "store": {"type": "string"}}},
+            "ref": {"type": "string", "description": "the snapshot: its URL, or a prefix of its sha256"},
+            "grep": {"type": "string", "description": "a regular expression: only the matches, each with context"},
+            "context": {"type": "integer", "default": 160,
+                        "description": "with grep, characters of text kept on each side of a match"},
+            "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"}}},
     },
     {
         "name": "summary",

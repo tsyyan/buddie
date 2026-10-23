@@ -1,0 +1,86 @@
+# The release candidate (docs/release.md): sdist, wheel and the Claude Desktop bundle built once from this exact
+# commit, validated, installed into clean venvs and run, then recorded (commit, sizes, SHA-256) in
+# release-manifest.json and SHA256SUMS, all uploaded as the artifact `release-candidate`. It publishes nothing and
+# asks for no permission beyond reading the repository. release.yml calls it for a tag and publishes these same
+# files later; ci.yml calls it on every pull request, so the path is tested before a release needs it.
+name: release-candidate
+
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: "buddie.__version__ of the candidate"
+        value: ${{ jobs.build.outputs.version }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: one version everywhere, and the tag (if any) is it
+        id: version
+        run: |
+          v=$(python -c "import buddie; print(buddie.__version__)")
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_TYPE}" = tag ] && [ "${GITHUB_REF_NAME}" != "v$v" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} but buddie.__version__ is $v"; exit 1
+          fi
+          for f in server.json manifest.json .claude-plugin/plugin.json .codex-plugin/plugin.json; do
+            fv=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$f")
+            test "$fv" = "$v" || { echo "::error::$f is version $fv, the code $v"; exit 1; }
+          done
+      - name: sdist and wheel
+        run: |
+          python -m pip install -q build twine
+          python -m build --outdir rc/dist
+          python -m twine check --strict rc/dist/*
+          python -c "import sys,zipfile,glob; tops={n.split('/')[0] for n in zipfile.ZipFile(glob.glob('rc/dist/*.whl')[0]).namelist()}; extra=tops-{'buddie'}-{t for t in tops if t.endswith('.dist-info')}; sys.exit(f'unexpected top-level {extra}' if extra else 0)"
+      - name: Claude Desktop bundle (manifest.json, .mcpbignore)
+        env:
+          V: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir -p rc/bundle
+          npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json
+          npx --yes @anthropic-ai/mcpb@2.1.2 pack . "rc/bundle/buddie-$V.mcpb"
+          npx --yes @anthropic-ai/mcpb@2.1.2 unpack "rc/bundle/buddie-$V.mcpb" "$RUNNER_TEMP/bundle"
+          cd "$RUNNER_TEMP/bundle" && find . -type f | sort | tee "$RUNNER_TEMP/files.txt"
+          if grep -E '^\./(tests|results|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
+            echo "::error::the bundle carries files it should not"; exit 1
+          fi
+          cd "$GITHUB_WORKSPACE" && python scripts/smoke_mcpb.py "$RUNNER_TEMP/bundle"
+      - name: the wheel and the sdist install into clean venvs and run
+        env:
+          V: ${{ steps.version.outputs.version }}
+        run: |
+          for kind in whl tar.gz; do
+            python -m venv "$RUNNER_TEMP/venv-$kind"
+            "$RUNNER_TEMP/venv-$kind/bin/pip" install -q rc/dist/*."$kind"
+            python scripts/smoke_install.py "$RUNNER_TEMP/venv-$kind/bin/python" "$V"
+          done
+      - name: record the candidate
+        env:
+          V: ${{ steps.version.outputs.version }}
+        run: |
+          python scripts/release_manifest.py write rc --version "$V" --commit "$GITHUB_SHA" --ref "$GITHUB_REF" \
+            --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
+          python scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
+          (cd rc && sha256sum -c SHA256SUMS)
+          { echo "### buddie $V release candidate"; echo; echo "commit \`$GITHUB_SHA\`, run $GITHUB_RUN_ID"; echo;
+            echo '```'; cat rc/SHA256SUMS; echo '```'; echo; echo '```json'; cat rc/release-manifest.json; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate
+          path: rc/
+          if-no-files-found: error

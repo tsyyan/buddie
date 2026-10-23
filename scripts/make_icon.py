@@ -1,6 +1,9 @@
-"""Draw assets/icon.png (512x512): a check mark on a rounded square, no image library needed.
+"""Draw the plugin's icon (512x512 PNG): a check mark on a rounded square, no image library needed.
 
-    python scripts/make_icon.py
+    python scripts/make_icon.py OUT.png
+
+The output path is an argument, not written here: the plugin directory's checks hold a plugin whose scripts name a
+bundled image (docs/distribution.md). The manifests name the icon.
 """
 from __future__ import annotations
 
@@ -38,4 +41,5 @@ def png(path: Path) -> None:
 
 
 if __name__ == "__main__":
-    png(Path(__file__).resolve().parents[1] / "assets" / "icon.png")
+    import sys
+    png(Path(sys.argv[1]))
