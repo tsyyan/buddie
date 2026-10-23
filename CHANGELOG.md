@@ -1,6 +1,32 @@
 # Changelog
 
-## Unreleased
+## buddie 2.0.0 (prepared, not released)
+
+Upgrading from 1.1.1: nothing to change for a 1.x setup. receipt-v0 stays the default with the same keys, outcome
+words and statuses; the CLI's exit codes, the MCP tools' arguments, the hooks' registration and existing `buddie.toml`
+files keep working. What can differ, each said where it happens:
+- `buddie.toml` `[mandate]` patterns that backtrack exponentially, or `refs[].doc` templates with more than `{name}`
+  fields, now make the file unusable (every answer returned with the reason) instead of holding the hook.
+- A git that does not answer, a `ci:` ref that resolves to another commit, or check suites that disagree give
+  `UNCHECKABLE`, not `HOLDS` or `BROKEN`.
+- buddie's git reads no system or global git configuration but `safe.directory`, and runs nothing a repository's
+  config names.
+- A `fact=` anchor is always `UNCHECKABLE` (1.1.1 ran the checked repo's `tools/anchors.py` to compute it), and a
+  file anchor whose path leads out of the repo (`../x#sha`) is `UNCHECKABLE` and not read (1.1.1 hashed the file).
+  Where 1.1.1 said `HOLDS` for these, 2.0.0 says `UNCHECKABLE`, and the outcome can go from `PASS` to `GAPS`; their
+  receipt-v0 reasons in `why` and `gaps` read differently (commit 8cb7273, audit R1 and R2). This is intended and
+  stays; docs/release-hardening.md, RH-5, records the decision.
+
+Release hardening (docs/release-hardening.md):
+- RH-1 (the intermittent Windows test failures): by experiment, the failure depends on the launcher. It reproduces
+  without buddie under the Python install manager's command shim (`%LOCALAPPDATA%\Python\bin\pytest.exe`), and not
+  under pip's launcher or `python -m pytest`. What inside the shim invalidates the test process's standard input
+  handle is not proven (a late close of a handle it duplicated in is the working hypothesis; it reproduces the
+  signature, but was not observed). buddie's own child processes never inherit standard
+  input (`pdftotext` and `certutil` now get it explicitly, and a test keeps every call site so); the suite names a
+  recurrence (`BUDDIE_RH1_STRICT=1` fails the run). Run the suite with `python -m pytest`.
+- A test that the pattern worker ends with buddie's process mid-match (Windows, Linux; macOS recorded).
+- Version 2.0.0 in every manifest. No tag, nothing published.
 
 - Adversarial verification suite (`tests/test_adversarial.py`, docs/adversarial.md): attacks an agent can mount
   with what it controls, run through the hook, the CLI, MCP and the collectors, in a threat matrix with the test

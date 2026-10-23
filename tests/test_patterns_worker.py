@@ -5,6 +5,7 @@ The child reports how long the call took, what it raised, and whether any worker
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -176,3 +177,67 @@ sys.__stdout__.write(json.dumps({"rc": rc, "s": s, "err": err.getvalue()[:300], 
                                           **env}, stdin=subprocess.DEVNULL, encoding="utf-8")
     got = json.loads(p.stdout.strip().splitlines()[-1])
     assert got["rc"] == 2 and "PatternTimeout" in got["err"] and got["s"] < 15 and got["alive"] == [], got
+
+
+def _alive(pid: int) -> bool:
+    if sys.platform == "win32":
+        import ctypes
+        from ctypes import wintypes
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.OpenProcess.restype = wintypes.HANDLE
+        k32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        k32.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        k32.CloseHandle.argtypes = [wintypes.HANDLE]
+        h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        code = wintypes.DWORD()
+        k32.GetExitCodeProcess(h, ctypes.byref(code))
+        k32.CloseHandle(h)
+        return code.value == 259  # STILL_ACTIVE
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    try:  # a zombie is gone for this purpose
+        return Path(f"/proc/{pid}/status").read_text().find("State:\tZ") < 0
+    except OSError:
+        return True
+
+
+def test_the_worker_ends_with_buddies_process_mid_match():
+    """buddie killed while its worker runs a slow match: on Windows (job object) and Linux (PR_SET_PDEATHSIG) the
+    worker ends with it. On macOS it runs until its match ends (docs/release-hardening.md, RH-2): recorded here,
+    not asserted away."""
+    import time
+    code = r"""
+import sys, threading
+sys.path.insert(0, sys.argv[1])
+from buddie import patterns
+patterns.CALL = 600
+patterns.search(r"x", "x")
+print(patterns._worker.proc.pid, flush=True)
+patterns.search(r"a*a*a*a*b", "a" * 3000)  # minutes: buddie is killed meanwhile
+"""
+    p = subprocess.Popen([sys.executable, "-I", "-c", code, str(ROOT)], stdout=subprocess.PIPE,
+                         stdin=subprocess.DEVNULL, text=True)
+    try:
+        worker = int(p.stdout.readline())
+        time.sleep(1.0)
+        assert _alive(worker)  # matching
+        p.kill()
+        p.wait(30)
+        for _ in range(50):
+            if not _alive(worker):
+                break
+            time.sleep(0.1)
+        ended = not _alive(worker)
+    finally:
+        p.kill()
+    if sys.platform == "darwin":
+        if not ended:
+            os.kill(worker, 9)
+        pytest.skip(f"macOS: the worker {'ended' if ended else 'outlived buddie (known limitation, RH-2)'}")
+    assert ended

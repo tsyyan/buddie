@@ -6,12 +6,12 @@ one time, made by buddie's code in its own process. It is not a check, it is not
 snapshot back as evidence.
 
 ```bash
-buddie snapshot --artifact dist/buddie-1.1.1-py3-none-any.whl --report report.md --json snapshot.json
+buddie snapshot --artifact dist/buddie-2.0.0-py3-none-any.whl --report report.md --json snapshot.json
 ```
 
 ```python
 from buddie import environment
-snap = environment.collect(".", ["dist/buddie-1.1.1-py3-none-any.whl"], report=text, supplied={"command": "pytest -q"})
+snap = environment.collect(".", ["dist/buddie-2.0.0-py3-none-any.whl"], report=text, supplied={"command": "pytest -q"})
 environment.dumps(snap)      # canonical JSON
 environment.problems(snap)   # [] for a consistent snapshot (consistency, not authenticity)
 ```
@@ -154,7 +154,7 @@ buddie snapshot: head 1f3c2a9b8e7d (clean); 1 of 1 artifacts observed
 
 ```json
 {"format": "https://github.com/tsyyan/buddie#environment-v0",
- "collector": {"buddie": "1.1.1", "policy": "absent"},
+ "collector": {"buddie": "2.0.0", "policy": "absent"},
  "repository": {"head": {"status": "observed", "value": "1f3c2a9b…", "basis": "agent_writable", "reason": null},
                 "worktree": {"status": "observed", "value": "clean", "basis": "agent_writable", "reason": null}},
  "artifacts": [{"path": "dist/app.whl", "status": "observed", "sha256": "9b1e…", "bytes": 48213,

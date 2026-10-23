@@ -136,7 +136,8 @@ def pdf_text(data: bytes) -> str:
             cmd = [sh, "-c", f'ulimit -f {MAX_DECODED_BYTES // 512 + 1} && exec "$0" "$@"', *cmd]
         from buddie.runner import without_credentials
         try:  # pdftotext reads bytes from the web: it gets no token of buddie's
-            out = subprocess.run(cmd, capture_output=True, timeout=timeout, env=without_credentials())
+            out = subprocess.run(cmd, capture_output=True, timeout=timeout, env=without_credentials(),
+                                 stdin=subprocess.DEVNULL)  # never the process's own stdin (RH-1)
         except subprocess.TimeoutExpired as error:
             raise Unreadable("PDF: pdftotext timed out") from error
         if out.returncode != 0:

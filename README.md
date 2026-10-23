@@ -391,8 +391,11 @@ on as written: they show what the gate does when a false claim is there, not how
 
 ## Status
 
-buddie 1.1.1 with verbatim 0.3.8. 1.0 fixes the interfaces: the receipt (`predicateType …#receipt-v0`), the CLI,
-the MCP tools and `buddie.toml`; changes to them follow semantic versioning. It checks claims about quotes, numbers,
+buddie 2.0.0 (prepared, not yet released) with verbatim 0.3.8. 2.0 keeps the 1.x interfaces, receipt-v0 the default
+(`predicateType …#receipt-v0`), and adds the protected policy, verification profiles, receipt-v1, environment
+snapshots, evidence freshness and hardened execution; what it guarantees, what it does not, and how it was tested:
+[docs/release-hardening.md](docs/release-hardening.md). The interfaces (the receipts, the CLI, the MCP tools,
+`buddie.toml`) follow semantic versioning. It checks claims about quotes, numbers,
 PRs, CI and runs against primary data. Its effect on agent behaviour is still being measured: a gate that returns a
 false report does not by itself show that agents misstate less. Next: current Claude models with web search and as coding
 sub-agents, measured on how often their reports misstate sources, tests or merges; and an intervention study, where the
