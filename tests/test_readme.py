@@ -29,7 +29,9 @@ def test_the_readme_examples_print_what_the_readme_shows(name, tmp_path):
     the output block under them, and the check exits 1 on FAIL."""
     cmds, out = _examples()[name]
     env = dict(os.environ, VERBATIM_STORE=str(tmp_path / "store"), BUDDIE_GITHUB="0", BUDDIE_FETCH="0",
-               PYTHONIOENCODING="utf-8", PYTHONUTF8="1")
+               PYTHONIOENCODING="utf-8", PYTHONUTF8="1",
+               # the checkout's buddie, installed or not (CI's os job runs from a clone, as `python3 run.py` does)
+               PYTHONPATH=os.pathsep.join(filter(None, [str(ROOT), os.environ.get("PYTHONPATH")])))
     cwd, printed, code = ROOT, "", None
     for cmd in cmds:
         word, *args = cmd.split(" ", 1)
@@ -40,6 +42,7 @@ def test_the_readme_examples_print_what_the_readme_shows(name, tmp_path):
         p = subprocess.run(argv, cwd=cwd, env=env, capture_output=True, text=True, encoding="utf-8", timeout=120,
                            stdin=subprocess.DEVNULL)
         printed, code = p.stdout, p.returncode
+        assert p.returncode in (0, 1), p.stderr[-2000:]
     assert printed == out, printed
     assert code == 1  # FAIL
 
