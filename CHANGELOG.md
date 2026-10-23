@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Adversarial verification suite (`tests/test_adversarial.py`, docs/adversarial.md): attacks an agent can mount
+  with what it controls, run through the hook, the CLI, MCP and the collectors, in a threat matrix with the test
+  that holds each. Found and fixed:
+  - A `ci:` anchor whose ref is a branch or tag named like the SHA (`ci:o/r@deadbee=success` with a branch
+    `deadbee`) held on another commit's checks. When GitHub's check runs or combined status name another commit,
+    the anchor is now UNCHECKABLE.
+  - `buddie.toml` `[mandate]` patterns could backtrack exponentially on the queue's text (`(a+)+$`: hours in
+    Python's `re`), holding the hook until the host let the answer out unchecked. Patterns with a backreference, a
+    repeat over alternatives or an unseparated repeat inside a repeat, or over 512 characters, and `refs[].doc`
+    templates with anything but `{name}` fields, now make the file unusable: every answer is returned with the
+    reason.
+- docs/release-hardening.md: the intermittent Windows full-suite failures (open, release blocker), with the first
+  captured signature (`WinError 6` duplicating the test process's standard input handle).
 - Evidence freshness (`buddie/freshness.py`, docs/freshness.md): whether evidence is bound to the revision a claim
   is about, apart from whether it is valid and how old it is. `CURRENT`, `STALE`, `UNKNOWN` (`NOT_APPLICABLE`
   reserved), each with a reason; only full commit ids compare, the same SHA in two repositories is not one revision,

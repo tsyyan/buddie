@@ -244,7 +244,22 @@ def _runs(m, ctx: dict) -> list[dict]:
     return out
 
 
+def _elsewhere(m, ctx: dict) -> str | None:
+    """The commit GitHub's checks are on when it is not the one the anchor names: `commits/{ref}` takes a branch or a
+    tag too, and one named like the SHA's prefix answers for another commit. Only an answer that names its commit
+    (a check run's head_sha, the combined status's sha) is held to this; an older one that does not is taken as
+    before."""
+    page = _get(ctx, f"/repos/{m['repo']}/commits/{m['sha']}/check-runs?per_page=100&page=1") or {}
+    named = [r.get("head_sha") for r in page.get("check_runs", []) if isinstance(r, dict)]
+    status = _get(ctx, f"/repos/{m['repo']}/commits/{m['sha']}/status") or {}
+    named += [status.get("sha")] if status.get("statuses") else []
+    return next((s for s in named if isinstance(s, str) and s and not s.startswith(m["sha"])), None)
+
+
 def _ci(m, ctx: dict) -> dict:
+    if other := _elsewhere(m, ctx):
+        return {"status": UNCHECKABLE, "why": f"the checks GitHub gives for {m['sha']} are on {other[:12]}: "
+                                              f"{m['sha']} is not that commit (a branch or tag of that name?)"}
     runs = _runs(m, ctx)
     if m["check"]:
         runs = [r for r in runs if r["name"] == m["check"].strip()]

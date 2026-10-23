@@ -55,6 +55,116 @@ QUOTE = re.compile(r"«([^«»]{8,})»|“([^“”]{8,})”")
 WHEN = re.compile(r"(?P<date>\d{4}-\d{2}-\d{2})(?:[ T](?P<time>\d{2}:\d{2})(?::\d{2})?\s*(?:UTC|Z)?)?")
 
 
+# --- the patterns buddie.toml gives -------------------------------------------------------------------------------
+
+# buddie.toml is the repo's, so the agent's to write, and these patterns run on the queue's text, which is the
+# agent's too. Python's re has no time limit: a pattern that backtracks exponentially (a repeat inside a repeat, a
+# repeat over alternatives, a backreference) would hold the hook until the host's timeout lets the answer out
+# unchecked. Such a pattern makes the file unusable (config.read_toml), and the gate then returns every answer.
+PATTERN_KEYS = ("parent", "ask_words", "wait_words", "wait_not_before", "wait_delay")
+MAX_PATTERN = 512
+
+
+def _repeats(items):
+    """The repeats that may match more than once, anywhere inside `items`."""
+    from re import _constants as c
+    for op, av in items:
+        if op in (c.MAX_REPEAT, c.MIN_REPEAT) or op is getattr(c, "POSSESSIVE_REPEAT", None):
+            if av[1] is c.MAXREPEAT or av[1] > 1:
+                yield av[2]
+            yield from _repeats(av[2])
+        elif op is c.SUBPATTERN:
+            yield from _repeats(av[-1])
+        elif op is c.BRANCH:
+            for alt in av[1]:
+                yield from _repeats(alt)
+
+
+def _separated(body, state) -> bool:
+    """Whether each turn of a repeat's `body` starts with a literal character that no repeat inside it can match
+    (`(?:\\.\\d+)*`): then the text splits into turns one way only, and nesting does not backtrack exponentially."""
+    from re import _compiler, _constants as c, _parser
+    items = list(body)
+    while items and items[0][0] is c.SUBPATTERN:
+        items = list(items[0][1][-1]) + items[1:]
+    if not items or items[0][0] is not c.LITERAL:
+        return False
+    first = chr(items[0][1])
+    for sub in _repeats(items[1:]):
+        try:
+            if _compiler.compile(_parser.SubPattern(state, list(sub))).fullmatch(first):
+                return False
+        except Exception:  # noqa: BLE001 - what cannot be checked is not taken for safe
+            return False
+    return True
+
+
+def _risky(items, repeated: bool = False, state=None) -> str | None:
+    from re import _constants as c
+    for op, av in items:
+        if op in (c.GROUPREF, c.GROUPREF_EXISTS):
+            return "a backreference"
+        if op in (c.MAX_REPEAT, c.MIN_REPEAT) or op is getattr(c, "POSSESSIVE_REPEAT", None):
+            lo, hi, sub = av
+            many = hi is c.MAXREPEAT or hi > 1
+            if many and any(o is c.BRANCH for o, _ in sub):
+                return "a repeat over alternatives"
+            if many and any(o is c.SUBPATTERN and any(oo is c.BRANCH for oo, _ in a[-1]) for o, a in sub):
+                return "a repeat over alternatives"
+            if many and any(True for _ in _repeats(sub)) and not _separated(sub, state):
+                return "a repeat inside a repeat"
+            if why := _risky(sub, repeated or many, state):
+                return why
+        elif op is c.SUBPATTERN:
+            if why := _risky(av[-1], repeated, state):
+                return why
+        elif op is getattr(c, "ATOMIC_GROUP", None):
+            if why := _risky(av, repeated, state):
+                return why
+        elif op is c.BRANCH:
+            for alt in av[1]:
+                if why := _risky(alt, repeated, state):
+                    return why
+        elif op in (c.ASSERT, c.ASSERT_NOT):
+            if why := _risky(av[1], repeated, state):
+                return why
+    return None
+
+
+def pattern_problem(section) -> str | None:
+    """Why the [mandate] section's patterns and doc templates cannot be used, or None. Patterns: at most MAX_PATTERN
+    characters, a valid regular expression, and none of the constructs that backtrack exponentially. Doc templates
+    (refs[].doc): only `{name}` fields, no format spec, conversion, index or attribute."""
+    import string
+    from re import _parser
+    if not isinstance(section, dict):
+        return None
+    refs = section.get("refs") or []
+    found = [(k, section[k]) for k in PATTERN_KEYS if k in section]
+    found += [(f"refs[{i}].pattern", r.get("pattern")) for i, r in enumerate(refs) if isinstance(r, dict)]
+    for name, pattern in found:
+        if type(pattern) is not str or len(pattern) > MAX_PATTERN:
+            return f"[mandate] {name}: a regular expression of at most {MAX_PATTERN} characters"
+        try:
+            tree = _parser.parse(pattern)
+        except re.error as error:
+            return f"[mandate] {name}: not a regular expression ({error})"
+        if why := _risky(tree, state=tree.state):
+            return f"[mandate] {name}: {why}, which can take exponential time on the queue's text"
+    for i, r in enumerate(refs):
+        doc = r.get("doc") if isinstance(r, dict) else None
+        if doc is None:
+            continue
+        try:
+            fields = list(string.Formatter().parse(doc)) if type(doc) is str else None
+        except ValueError:
+            fields = None
+        if fields is None or any(f is not None and (not f.isidentifier() or spec or conv)
+                                 for _, f, spec, conv in fields):
+            return f"[mandate] refs[{i}].doc: a text with {{name}} fields only"
+    return None
+
+
 # --- config and sources -------------------------------------------------------------------------------------------
 
 def load_config(repo: Path) -> dict | None:
