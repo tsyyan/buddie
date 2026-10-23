@@ -16,7 +16,8 @@ pytest            # bare pytest, as CI runs it; tests that need the lab's snapsh
 
 - One change per pull request, with a test that fails without it.
 - Add a line to the `Unreleased` section of `CHANGELOG.md`.
-- The version lives in `buddie/__init__.py`; `pyproject.toml`, `CITATION.cff` and `.claude-plugin/plugin.json`
+- The version lives in `buddie/__init__.py`; `pyproject.toml`, `CITATION.cff`, the Claude Code and Codex plugin
+  manifests, the Desktop `manifest.json`, the ChatGPT integration manifest and both versions in `server.json`
   carry the same number (`tests/test_version.py`).
 - buddie checks claims without a model. A change that adds a model call to a verdict needs its own discussion first.
 - Claude Code opened in a clone of this repository loads its `.mcp.json` as a project MCP server. That file is the

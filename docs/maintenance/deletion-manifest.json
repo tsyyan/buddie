@@ -1,0 +1,623 @@
+{
+  "approved": false,
+  "notice": "Review manifest only. No branch deletions are authorized. Re-fetch and reject changed SHAs or new open PR dependencies immediately before an approved leased deletion.",
+  "base": "0f29c19430b764884eb057a16a3c84676b066698",
+  "observed_utc": "2026-10-23T21:42:02.397270+00:00",
+  "candidates": [
+    {
+      "branch": "adversarial-verification-suite",
+      "sha": "9059fc0796b7ebbe1e0a5b4b1a59ef84c18b7632",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        36
+      ],
+      "merge_proofs": [
+        {
+          "pr": 36,
+          "commit": "47686e58b4f2500e1aeca36d389a6ae7f8473954",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "canon-here",
+      "sha": "089dbfc0d73fa96ec6c0f56a89f00c0da358dcde",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        5
+      ],
+      "merge_proofs": [
+        {
+          "pr": 5,
+          "commit": "ecf3db24c71101b3af41380d1ec44ee559fcd5d9",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "catalog-p1",
+      "sha": "08a835d8e5d44d217aa93fec070654c8353b58cd",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        17
+      ],
+      "merge_proofs": [
+        {
+          "pr": 17,
+          "commit": "4ca051d6f0096228cf11f74ba45b80456cb2991d",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "charset",
+      "sha": "7abd07be8e3850e5703cb89507fee57899016a5c",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        12
+      ],
+      "merge_proofs": [
+        {
+          "pr": 12,
+          "commit": "8940e5b5f9cfb43fcaa8935eba5eb4acc76b004b",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "claude/project-thread-7d8b7g",
+      "sha": "d93d8bcdb4337568a00009f2b3944cba370e867f",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        1
+      ],
+      "merge_proofs": [
+        {
+          "pr": 1,
+          "commit": "7785312464ed660aba926409ed174668c7b5bb5d",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "codex",
+      "sha": "f6e875f152dde8f28ea07dfcb0698154a7061abd",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        9
+      ],
+      "merge_proofs": [
+        {
+          "pr": 9,
+          "commit": "cbddbc710958b84104fa5cf2f73832207bf0c1d7",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "config-decoupling",
+      "sha": "4296db7d0997e8f3637d02ff21f5389faf021bf1",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        26
+      ],
+      "merge_proofs": [
+        {
+          "pr": 26,
+          "commit": "856358a3a9f2bad30c09321c42883572aa6eef4f",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "disclose-after-return",
+      "sha": "fe56e8363e70766c7642bd715a16ea8a80becf4c",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        19
+      ],
+      "merge_proofs": [
+        {
+          "pr": 19,
+          "commit": "d3347fde9d0271a70e97d477edfaabe58dd68749",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "environment-collector-snapshots",
+      "sha": "d77cd83203b0db92f5c5c7d3110c5211ff0e4abc",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        33
+      ],
+      "merge_proofs": [
+        {
+          "pr": 33,
+          "commit": "1b5cd8ecf031b8f4abc92f3610919ad8ccf157c4",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "evidence-freshness-staleness",
+      "sha": "f2646571644335e50e8c30532b1ff4de34deb639",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        35
+      ],
+      "merge_proofs": [
+        {
+          "pr": 35,
+          "commit": "ef7e1de89f7be676cd55e30cc7a9fee56bc77d18",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "evidence-registry",
+      "sha": "2f1b8f2963e4d119767347d03663eb0702869fc7",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        29
+      ],
+      "merge_proofs": [
+        {
+          "pr": 29,
+          "commit": "e0d9c464f0073f278072bf46f16c764fdc4ab28e",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "existing-integrations-ux",
+      "sha": "ef98d073956b288b05432aaaffe399f9bec5a20c",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        32
+      ],
+      "merge_proofs": [
+        {
+          "pr": 32,
+          "commit": "a94df08c00360a3ce889176ebd6aa91d20558777",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "http-remote",
+      "sha": "10fa8371598952d04ec17cdc12833fc452502ac4",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        6
+      ],
+      "merge_proofs": [
+        {
+          "pr": 6,
+          "commit": "0e374229eba68dc4ea17217acc97a2af27c1f408",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "instructions",
+      "sha": "74f923e99c73b21b965d8fd3e20358f98a78ba28",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        13
+      ],
+      "merge_proofs": [
+        {
+          "pr": 13,
+          "commit": "e24be59b2dc22f2f1951fc4aee1f190b04e2ef89",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "lab-sync",
+      "sha": "cae0b76785cbd710fb4bd7b238a6524bfad881c6",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        4,
+        3,
+        2
+      ],
+      "merge_proofs": [
+        {
+          "pr": 4,
+          "commit": "f2defebfd616f13e29c864c02de4b6ae27d30d17",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        },
+        {
+          "pr": 3,
+          "commit": "ddb4db85496a1889d2ea8768a7841eb60d9353e9",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": false,
+          "tip_tree_equals_merge": false
+        },
+        {
+          "pr": 2,
+          "commit": "3fa93bcc756547cbaa962930dbd6820e29712975",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": false,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "mcpb",
+      "sha": "093f13156c4bab63a3b05beb913c907e3ff2d206",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        7
+      ],
+      "merge_proofs": [
+        {
+          "pr": 7,
+          "commit": "3908dfbd9899f632025b882133069f1a0099ab39",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "numbers-cyrillic",
+      "sha": "c998d822526efa2e001ccd5227465bcf7719bf79",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        14
+      ],
+      "merge_proofs": [
+        {
+          "pr": 14,
+          "commit": "ccef0c2be75bf89839bb50616455fd8147a2392a",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "p2-evals",
+      "sha": "6e6b29f3886f33c17345ad1347591a75d84d539b",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        18
+      ],
+      "merge_proofs": [
+        {
+          "pr": 18,
+          "commit": "fdde819455cbf7a201d012fbedb54026a728de98",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "protected-policy",
+      "sha": "12e779e1cdfbc8cd90d9a15392c773fdb07631d8",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        28
+      ],
+      "merge_proofs": [
+        {
+          "pr": 28,
+          "commit": "592640fc0f531005fe6e8638320fe68fb8839934",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "pypi",
+      "sha": "24099ba5c37b93e7e1f4da21f4061533a4f3f816",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        8
+      ],
+      "merge_proofs": [
+        {
+          "pr": 8,
+          "commit": "0f707e31cedc681131d7f7892dd19a3ec7448769",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "receipt-contract-v1",
+      "sha": "70b7b84e913b5316f535aeafcdbb7383498a9841",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        31
+      ],
+      "merge_proofs": [
+        {
+          "pr": 31,
+          "commit": "0f864ecebe4869dbde3bf083fb0786bf73019ee6",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "release-1.0",
+      "sha": "296039d35d8fde069e934e963b3bb2080b76fe5c",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        10
+      ],
+      "merge_proofs": [
+        {
+          "pr": 10,
+          "commit": "24ff3c1533331202927ce59f46df72036f2fbbac",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "release-1.0.1",
+      "sha": "d5fdcee539ea45cb6df78fb4e62a4b3d220fd32d",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        15
+      ],
+      "merge_proofs": [
+        {
+          "pr": 15,
+          "commit": "6e1168b99fdbaa9aea831cbe8821a56f7b6909f5",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "release-1.1.0",
+      "sha": "fd04593b9a9517c5d94851cb00155814fc5f6abf",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        20
+      ],
+      "merge_proofs": [
+        {
+          "pr": 20,
+          "commit": "99ec1cdd82f10b948a41e20b722a87f9a5ac8a27",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "release-1.1.1",
+      "sha": "0e8796429023b19a0a14ccf205f04b3b726a070b",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        21
+      ],
+      "merge_proofs": [
+        {
+          "pr": 21,
+          "commit": "3a351b4c56e05208af075378cb554c8dc8daed8b",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "release-hardening-2.0",
+      "sha": "24527342cba5c3105240e7e799aadbca615a321d",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        37
+      ],
+      "merge_proofs": [
+        {
+          "pr": 37,
+          "commit": "b6464a7839274297c5c110ddd1a50557f4281c42",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "render",
+      "sha": "16021757ec9c6bd4b577567d461a61af7d047857",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        11
+      ],
+      "merge_proofs": [
+        {
+          "pr": 11,
+          "commit": "af424f41702ce408b38e5182d7706f3fef91154b",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "repo-trust-boundary",
+      "sha": "74766755c27c5016767767a275ea96cc1b7fe850",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        23
+      ],
+      "merge_proofs": [
+        {
+          "pr": 23,
+          "commit": "bf3b77ff797463fed6d5f673253ad7987f2f2401",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "safe-defaults",
+      "sha": "fbc092f3d93d89397c915fa9d26e7e4992ef8308",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        16
+      ],
+      "merge_proofs": [
+        {
+          "pr": 16,
+          "commit": "a2a79c00e7197360057ea9334b59e1a6c2da6945",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "security-git-execution-hardening",
+      "sha": "f2ab90e3ab19736badbc84f10f5b5d205759edc8",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        34
+      ],
+      "merge_proofs": [
+        {
+          "pr": 34,
+          "commit": "73d1e9b62026b9e8abea39b15383bb6aea17c323",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "trust-and-limits",
+      "sha": "1ca1083d6d3664f9f6181da237a85e889dd9070f",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        24
+      ],
+      "merge_proofs": [
+        {
+          "pr": 24,
+          "commit": "5855355bcd3242d1e39567a26a763ff90f802378",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "typed-findings",
+      "sha": "856358a3a9f2bad30c09321c42883572aa6eef4f",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        25
+      ],
+      "merge_proofs": [
+        {
+          "pr": 25,
+          "commit": "c499975e843118e6d3d826dc117f3f457a95bcae",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": false,
+          "tip_tree_equals_merge": false
+        }
+      ]
+    },
+    {
+      "branch": "typed-gate",
+      "sha": "2af4785a16948135b95ca3883bd737861319b401",
+      "proof": "ancestor of main",
+      "merged_prs": [
+        27
+      ],
+      "merge_proofs": [
+        {
+          "pr": 27,
+          "commit": "14f32077085cbfe90bb51b99e37bf13ac49de96f",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    },
+    {
+      "branch": "verification-profiles",
+      "sha": "3f8dbe6679cc73d2091dc0587d9ce6d24d77e2b6",
+      "proof": "unchanged PR head; exact squash tree; merged commit ancestor of main",
+      "merged_prs": [
+        30
+      ],
+      "merge_proofs": [
+        {
+          "pr": 30,
+          "commit": "e9676de6eee057a696c37e220ba8a52e3df3d888",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    }
+  ],
+  "investigate": [
+    {
+      "branch": "release-candidate-2.0",
+      "sha": "431f924c5ac00d46cff2f2e71d68b977be5024f5",
+      "reason": "Moved since initial audit; PR #38 is now merged and its tree matches main, but this newly considered ref needs separate owner review.",
+      "represented_in_main": true,
+      "merge_proofs": [
+        {
+          "pr": 38,
+          "commit": "0f29c19430b764884eb057a16a3c84676b066698",
+          "reachable_from_main": true,
+          "tip_matches_pr_head": true,
+          "tip_tree_equals_merge": true
+        }
+      ]
+    }
+  ],
+  "keep": [
+    "main",
+    "pre-release-maintenance-2026-10-24"
+  ]
+}

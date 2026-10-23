@@ -1,5 +1,5 @@
 {
-  "notice": "PROPOSALS ONLY. Do not apply until separately approved. Main checks depend on final PR #38 names.",
+  "notice": "CURRENT POST-MERGE PROPOSALS ONLY. Not applied. Exact nine checks verified on merged main 0f29c19430b764884eb057a16a3c84676b066698. Read post-merge audit before approval.",
   "rulesets": [
     {
       "name": "main-reviewed-ci",
@@ -161,5 +161,19 @@
     "name": "v*",
     "type": "tag"
   },
-  "note": "For two-person approval, select an actual independent reviewer and set prevent_self_review=true; never enable that with only the deploying owner as reviewer. Tag creation bypass role id 5 is repository administrators; immutable ruleset has no bypass."
+  "note": "For two-person approval, select an actual independent reviewer and set prevent_self_review=true; never enable that with only the deploying owner as reviewer. Tag creation bypass role id 5 is repository administrators; immutable ruleset has no bypass.",
+  "publication_gate": {
+    "status": "UNAPPLIED patch in proposals/authorize-environment.patch",
+    "job": "authorize",
+    "environment": "pypi",
+    "required_order": "Configure and verify pypi reviewer and tag policy first; separately review and approve workflow patch; never assume the patch alone creates an approval boundary.",
+    "consequence": "Normal publication may require approval on authorize and again on pypi; registry/GitHub-only recovery requires approval on authorize. Existing PyPI trusted-publisher environment unchanged."
+  },
+  "support_verification": {
+    "repository_visibility": "public",
+    "admin_permission": true,
+    "account_plan": "not exposed (plan=null); no specific paid plan asserted",
+    "availability": "Public branch/tag rulesets and environment reviewers/ref policies are available on GitHub Free; existing read endpoints succeeded. Actual enforcement not live-tested because settings mutation and publication are not authorized.",
+    "avoid": "No organization teams, paid push rulesets, evaluate-only enforcement or unconfigured independent-reviewer placeholder."
+  }
 }
