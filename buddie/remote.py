@@ -285,15 +285,36 @@ class Handler(BaseHTTPRequestHandler):
         if data:
             self.wfile.write(data)
 
+    DRAIN = 64 * 1024  # bytes of an unread request body read and dropped before an early answer
+
+    def _unread(self) -> dict:
+        """Before answering a request whose body will not be read (refused, too large): read and drop up to DRAIN
+        bytes of what it declared, and close the connection after the answer. A socket closed with unread bytes is
+        reset on Windows, and the client then loses the answer (WinError 10053) instead of reading it."""
+        self.close_connection = True
+        try:
+            left = min(int(self.headers.get("Content-Length") or 0), self.DRAIN)
+        except ValueError:
+            left = 0
+        try:
+            self.connection.settimeout(2)
+            while left > 0 and (got := self.rfile.read1(min(left, 65536)) if hasattr(self.rfile, "read1")
+                                else self.rfile.read(min(left, 65536))):
+                left -= len(got)
+        except OSError:
+            pass
+        return {"Connection": "close"}
+
     def _refused(self) -> bool:
         origin = self.headers.get("Origin")
         if origin and origin not in self.origins:
-            self._send(403, {"error": "origin not allowed"})
+            self._send(403, {"error": "origin not allowed"}, self._unread())
             return True
         if self.token:
             given = self.headers.get("Authorization", "")
             if not hmac.compare_digest(given.encode(), f"Bearer {self.token}".encode()):
-                self._send(401, {"error": "bearer token required"}, {"WWW-Authenticate": 'Bearer realm="buddie"'})
+                self._send(401, {"error": "bearer token required"},
+                           {"WWW-Authenticate": 'Bearer realm="buddie"', **self._unread()})
                 return True
         return False
 
@@ -313,15 +334,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if urlsplit(self.path).path != "/mcp":
-            return self._send(404, {"error": "not found"})
+            return self._send(404, {"error": "not found"}, self._unread())
         if self._refused():
             return
         try:
             length = int(self.headers.get("Content-Length") or "")
         except ValueError:
-            return self._send(411, {"error": "Content-Length required"})
+            return self._send(411, {"error": "Content-Length required"}, self._unread())
         if length > self.max_bytes:
-            return self._send(413, {"error": f"body over {self.max_bytes} bytes"})
+            return self._send(413, {"error": f"body over {self.max_bytes} bytes"}, self._unread())
         raw = self.rfile.read(length)
         try:
             msg = json.loads(raw)

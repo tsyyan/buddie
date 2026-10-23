@@ -6,6 +6,10 @@
   buddie snapshot [--root DIR] [--artifact PATH ...] [--report FILE] [--supply KEY=VALUE ...] [--json FILE]
                                     what buddie observes of the environment: runtime, repository, artifacts
                                     (docs/environment.md); not a check, never signed
+  buddie freshness ci --repo OWNER/REPO (--pr N | --commit SHA) --evidence SHA [--check NAME] [--json FILE]
+  buddie freshness repo --commit SHA [--root DIR] [--artifact PATH=SHA256 ...] [--snapshot FILE] [--json FILE]
+                                    whether evidence is bound to the revision a claim is about (docs/freshness.md):
+                                    exit 0 CURRENT, 1 STALE, 3 UNKNOWN, 2 the input cannot be used
   buddie mandate queue|accepted|verdict [N ...] [--repo DIR] [--rev COMMIT]
                                     the work queue itself: done rows anchored, accepted plans quoting the user,
                                     auto/ask per row; exit 1 when a claim is BROKEN
@@ -290,6 +294,93 @@ def cmd_snapshot(args) -> int:
     return 0
 
 
+FRESHNESS_EXIT = {"CURRENT": 0, "STALE": 1, "UNKNOWN": 3, "NOT_APPLICABLE": 3}
+
+
+def _freshness_exit(results) -> int:
+    """STALE anywhere: 1; else anything not CURRENT: 3; else 0. Freshness alone: a CI failure on the right commit
+    is CURRENT (its outcome is printed beside it), so the exit code says whether the evidence applies, not whether
+    it passed."""
+    codes = {FRESHNESS_EXIT[r.state] for r in results}
+    return 1 if 1 in codes else 3 if 3 in codes else 0
+
+
+def cmd_freshness(args) -> int:
+    """Evidence freshness (buddie/freshness.py). Advice, not enforcement: no gate reads it, and no receipt changes."""
+    from buddie import environment, evidence, freshness, policy
+    from buddie.effects import github_get
+    with policy.held() as loaded:
+        lim = loaded.effective
+        if args.what == "ci":
+            if not freshness.REPO.match(args.repo or "") or not freshness.HEX.match(args.evidence or "") or (
+                    (args.pr is None) == (args.commit is None)):
+                print("buddie freshness ci: give --repo OWNER/REPO, --evidence SHA (7 to 64 hex) and one of --pr N "
+                      "or --commit SHA", file=sys.stderr)
+                return 2
+            if args.commit is not None and not freshness.FULL.match(args.commit):
+                print("buddie freshness ci: --commit is the full commit id (40 or 64 hex): a branch or a prefix is no "
+                      "revision", file=sys.stderr)
+                return 2
+            off = None
+            if lim is not None and lim.network == "forbidden":
+                off = "network_forbidden"
+            elif args.no_github or os.environ.get("BUDDIE_GITHUB", "1") == "0":
+                off = "github_off"
+            get = None if off else github_get
+            with evidence.collector():  # the protected policy's network, as for the hook's fetches
+                target = (freshness.resolve_pr_head(args.repo, args.pr, get, off=off) if args.pr is not None
+                          else freshness.claimed("commit", args.repo, args.commit))
+                found = freshness.ci_evidence(args.repo, args.evidence, get, check=args.check, off=off)
+            results = [freshness.assess(target, found)]
+        else:
+            commit, recorded = args.commit, {}
+            for item in args.artifact or []:
+                path, sep, digest = item.rpartition("=")
+                if not sep or not path or not freshness.re.fullmatch(r"[0-9a-f]{64}", digest):
+                    print(f"buddie freshness repo: --artifact {item!r}: give PATH=SHA256", file=sys.stderr)
+                    return 2
+                recorded[path] = digest
+            if args.snapshot:
+                try:
+                    doc = json.loads(Path(args.snapshot).read_text(encoding="utf-8"))
+                except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+                    print(f"buddie freshness repo: {args.snapshot} cannot be read as JSON ({type(error).__name__})",
+                          file=sys.stderr)
+                    return 2
+                if problems := environment.problems(doc):
+                    print(f"buddie freshness repo: {args.snapshot} is not a consistent snapshot: {problems[0]}",
+                          file=sys.stderr)
+                    return 2
+                head = doc["repository"]["head"]
+                commit = commit or (head["value"] if head["status"] == "observed" else None)
+                for a in doc["artifacts"]:
+                    if a["status"] == "observed":
+                        recorded.setdefault(a["path"], a["sha256"])
+            if commit is not None and not freshness.FULL.match(commit):
+                print("buddie freshness repo: --commit is the full commit id (40 or 64 hex)", file=sys.stderr)
+                return 2
+            if commit is None and not recorded:
+                print("buddie freshness repo: give --commit, --artifact or a --snapshot that records either",
+                      file=sys.stderr)
+                return 2
+            root = Path(args.root or ".")
+            if not root.is_dir():
+                print("buddie freshness repo: the root is not a directory", file=sys.stderr)
+                return 2
+            results = []
+            if commit is not None:
+                results.append(freshness.assess(freshness.claimed("commit", "local", commit),
+                                                freshness.repository_now(root)))
+            for path, digest in sorted(recorded.items()):
+                results.append(freshness.assess_artifact(digest, freshness.artifact_now(root, path)))
+    doc = freshness.render(results)
+    if args.json:
+        Path(args.json).write_text(freshness.dumps(doc) + "\n", encoding="utf-8")
+    for r in results:
+        print(("" if r.target.kind != "artifact" else f"{r.evidence.ref or r.target.ref}: ") + freshness.line(r))
+    return _freshness_exit(results)
+
+
 def _receipt_version(name: str) -> str:
     from buddie import receipts
     try:
@@ -383,6 +474,19 @@ def main(argv: list[str] | None = None) -> int:
     sn.add_argument("--supply", action="append", help="KEY=VALUE the caller states (kept apart, never checked)")
     sn.add_argument("--json", help="write the snapshot here and print one line (default: the snapshot on stdout)")
     sn.set_defaults(func=cmd_snapshot)
+    fr = sub.add_parser("freshness", help="whether evidence is bound to the revision a claim is about")
+    fr.add_argument("what", choices=("ci", "repo"))
+    fr.add_argument("--repo", help="ci: OWNER/REPO on GitHub")
+    fr.add_argument("--pr", type=int, help="ci: the PR whose current head is the target")
+    fr.add_argument("--commit", help="the target commit (full id): a claim about that commit, historical included")
+    fr.add_argument("--evidence", help="ci: the commit the CI result is offered from (SHA or prefix)")
+    fr.add_argument("--check", help="ci: only the check run or status of this name")
+    fr.add_argument("--no-github", action="store_true", help="ci: do not ask GitHub (everything UNKNOWN)")
+    fr.add_argument("--root", help="repo: the checkout to observe (default: the working directory)")
+    fr.add_argument("--artifact", action="append", help="repo: PATH=SHA256 recorded for a file under the root")
+    fr.add_argument("--snapshot", help="repo: an environment snapshot whose recorded HEAD and artifacts to compare")
+    fr.add_argument("--json", help="write the freshness document here")
+    fr.set_defaults(func=cmd_freshness)
     m = sub.add_parser("mandate", help="check the work queue and the accepted plans (buddie.toml [mandate])")
     m.add_argument("what", choices=("queue", "accepted", "verdict"))
     m.add_argument("rows", nargs="*", type=int)
