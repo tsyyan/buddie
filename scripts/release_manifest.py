@@ -1,0 +1,171 @@
+"""The release candidate's record (docs/release.md): which commit its files were built from, their sizes and SHA-256,
+and the checks that later stages publish exactly those files.
+
+    python scripts/release_manifest.py write DIR --version V --commit SHA [--ref REF] [--repository O/R] [--run-id N]
+    python scripts/release_manifest.py verify DIR --version V --commit SHA
+    python scripts/release_manifest.py pypi DIR PYPI_JSON        # PyPI's /pypi/buddie/V/json against the record
+    python scripts/release_manifest.py github DIR ASSETS_JSON    # a GitHub Release's assets: prints the missing ones
+
+DIR holds `dist/` (the wheel and the sdist) and `bundle/` (the Claude Desktop bundle); `write` adds
+`release-manifest.json` and `SHA256SUMS` (the `sha256sum -c` format) to it. Exit 0 when everything agrees, 1 with
+each disagreement on stderr. Standard library only: it runs before anything is installed.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import sys
+from pathlib import Path
+
+SCHEMA = "buddie-release-candidate-v1"
+MANIFEST = "release-manifest.json"
+SUMS = "SHA256SUMS"
+NAME = "buddie"
+SHA = re.compile(r"^[0-9a-f]{40}$")
+
+
+def expected(version: str) -> dict[str, str]:
+    """Each file a candidate of `version` consists of, by its path in DIR, and its kind."""
+    return {f"dist/{NAME}-{version}-py3-none-any.whl": "wheel", f"dist/{NAME}-{version}.tar.gz": "sdist",
+            f"bundle/{NAME}-{version}.mcpb": "mcpb"}
+
+
+def _sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def _present(root: Path) -> set[str]:
+    return {p.relative_to(root).as_posix() for d in ("dist", "bundle") if (root / d).is_dir()
+            for p in (root / d).iterdir() if p.is_file()}
+
+
+def write(root: Path, version: str, commit: str, ref: str = "", repository: str = "", run_id: str = "") -> list[str]:
+    problems = _inputs(version, commit)
+    want = expected(version)
+    present = _present(root)
+    problems += [f"missing {p}" for p in sorted(set(want) - present)]
+    problems += [f"unexpected {p}" for p in sorted(present - set(want))]
+    if problems:
+        return problems
+    files = [{"path": p, "kind": k, "size": (root / p).stat().st_size, "sha256": _sha256(root / p)}
+             for p, k in want.items()]
+    record = {"schema": SCHEMA, "name": NAME, "version": version, "commit": commit, "ref": ref,
+              "repository": repository, "run_id": run_id, "files": files}
+    (root / MANIFEST).write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    (root / SUMS).write_text("".join(f"{f['sha256']}  {f['path']}\n" for f in files), encoding="utf-8",
+                             newline="\n")
+    return []
+
+
+def _inputs(version: str, commit: str) -> list[str]:
+    problems = []
+    if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+        problems.append(f"version {version!r} is not X.Y.Z")
+    if not SHA.match(commit):
+        problems.append(f"commit {commit!r} is not a full commit id")
+    return problems
+
+
+def load(root: Path) -> dict:
+    return json.loads((root / MANIFEST).read_text(encoding="utf-8"))
+
+
+def verify(root: Path, version: str, commit: str) -> list[str]:
+    """The record is for `version` built from `commit`, and DIR holds exactly its files, byte for byte."""
+    problems = _inputs(version, commit)
+    try:
+        record = load(root)
+    except (OSError, ValueError) as error:
+        return problems + [f"{MANIFEST}: {error}"]
+    if record.get("schema") != SCHEMA:
+        problems.append(f"schema {record.get('schema')!r}, expected {SCHEMA}")
+    if record.get("version") != version:
+        problems.append(f"the candidate is version {record.get('version')!r}, not {version}")
+    if record.get("commit") != commit:
+        problems.append(f"the candidate was built from {record.get('commit')!r}, not {commit}")
+    files = {f.get("path"): f for f in record.get("files", [])}
+    if set(files) != set(expected(version)):
+        problems.append(f"the record lists {sorted(files)}, expected {sorted(expected(version))}")
+    for path, f in sorted(files.items()):
+        p = root / str(path)
+        if not p.is_file():
+            problems.append(f"missing {path}")
+        elif p.stat().st_size != f.get("size") or _sha256(p) != f.get("sha256"):
+            problems.append(f"{path} is not the file the candidate recorded")
+    problems += [f"unexpected {p}" for p in sorted(_present(root) - set(files))]
+    try:
+        sums = (root / SUMS).read_text(encoding="utf-8")
+    except OSError as error:
+        problems.append(f"{SUMS}: {error}")
+    else:
+        if sums != "".join(f"{f.get('sha256')}  {f.get('path')}\n" for f in record.get("files", [])):
+            problems.append(f"{SUMS} disagrees with {MANIFEST}")
+    return problems
+
+
+def pypi(root: Path, release: dict) -> list[str]:
+    """PyPI's files for the version (its JSON API's `urls`) are the candidate's wheel and sdist, by SHA-256."""
+    want = {Path(f["path"]).name: f["sha256"] for f in load(root)["files"] if f["kind"] in ("wheel", "sdist")}
+    got = {u.get("filename"): (u.get("digests") or {}).get("sha256") for u in release.get("urls", [])}
+    problems = [f"PyPI has no {n}" for n in sorted(set(want) - set(got))]
+    problems += [f"PyPI has {n}, which the candidate does not" for n in sorted(set(got) - set(want))]
+    problems += [f"PyPI's {n} is not the candidate's (sha256 {got[n]})" for n in sorted(set(want) & set(got))
+                 if got[n] != want[n]]
+    return problems
+
+
+def github(root: Path, assets: list[dict]) -> tuple[list[str], list[str]]:
+    """A GitHub Release's assets against the candidate: (problems, the candidate's files still missing there). The
+    release carries the three files, the record and SHA256SUMS."""
+    want = {Path(f["path"]).name: f["sha256"] for f in load(root)["files"]}
+    for extra in (MANIFEST, SUMS):
+        want[extra] = _sha256(root / extra)
+    got = {a.get("name"): str(a.get("digest") or "") for a in assets}
+    problems = [f"the release has {n}, which the candidate does not" for n in sorted(set(got) - set(want))]
+    problems += [f"the release's {n} is not the candidate's ({got[n] or 'no digest'})"
+                 for n in sorted(set(want) & set(got)) if got[n] != f"sha256:{want[n]}"]
+    return problems, sorted(set(want) - set(got))
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    sub = parser.add_subparsers(dest="command", required=True)
+    for name in ("write", "verify"):
+        p = sub.add_parser(name)
+        p.add_argument("dir", type=Path)
+        p.add_argument("--version", required=True)
+        p.add_argument("--commit", required=True)
+        if name == "write":
+            for opt in ("--ref", "--repository", "--run-id"):
+                p.add_argument(opt, default="")
+    for name in ("pypi", "github"):
+        p = sub.add_parser(name)
+        p.add_argument("dir", type=Path)
+        p.add_argument("json", type=Path)
+    args = parser.parse_args(argv)
+    missing: list[str] = []
+    if args.command == "write":
+        problems = write(args.dir, args.version, args.commit, args.ref, args.repository, args.run_id)
+    elif args.command == "verify":
+        problems = verify(args.dir, args.version, args.commit)
+    else:
+        data = json.loads(args.json.read_text(encoding="utf-8"))
+        if args.command == "pypi":
+            problems = pypi(args.dir, data)
+        else:
+            problems, missing = github(args.dir, data.get("assets", data) if isinstance(data, dict) else data)
+    for problem in problems:
+        print(f"release_manifest: {problem}", file=sys.stderr)
+    for name in missing:
+        print(name)
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
