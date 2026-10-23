@@ -1,0 +1,851 @@
+{
+  "observed_utc": "2026-10-23T21:25:12.449620+00:00",
+  "base": "b6464a7839274297c5c110ddd1a50557f4281c42",
+  "branches": [
+    {
+      "branch": "adversarial-verification-suite",
+      "sha": "9059fc0796b7ebbe1e0a5b4b1a59ef84c18b7632",
+      "ahead": 4,
+      "behind": 2,
+      "prs": [
+        {
+          "number": 36,
+          "state": "closed",
+          "merged_at": "2026-10-23T06:08:41Z",
+          "head": "9059fc0796b7ebbe1e0a5b4b1a59ef84c18b7632",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/36",
+          "merge_commit": "47686e58b4f2500e1aeca36d389a6ae7f8473954",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "9059fc0796b7ebbe1e0a5b4b1a59ef84c18b7632 Pattern worker: bound every step of the interaction, not only the wait for an answer",
+        "9c57e14d43c9c29aa4d27c75c7d0c549c2d8f7a4 tests: ADV-5.7's event budget well below what 40 rows take on any machine",
+        "86f9796d3c87f4a25459e1aa0b90002a2147c784 Bound buddie.toml patterns by execution; bind ci: anchors to the commit they name",
+        "01dd1067fd1dd8b467a20afe195c56d12b7740af Adversarial verification suite: threat matrix, attacks through the real entry points, two fixes"
+      ],
+      "patches_not_in_main": 4,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "canon-here",
+      "sha": "089dbfc0d73fa96ec6c0f56a89f00c0da358dcde",
+      "ahead": 0,
+      "behind": 68,
+      "prs": [
+        {
+          "number": 5,
+          "state": "closed",
+          "merged_at": "2026-10-19T12:43:24Z",
+          "head": "089dbfc0d73fa96ec6c0f56a89f00c0da358dcde",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/5"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "catalog-p1",
+      "sha": "08a835d8e5d44d217aa93fec070654c8353b58cd",
+      "ahead": 0,
+      "behind": 39,
+      "prs": [
+        {
+          "number": 17,
+          "state": "closed",
+          "merged_at": "2026-10-20T11:59:02Z",
+          "head": "08a835d8e5d44d217aa93fec070654c8353b58cd",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/17"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "charset",
+      "sha": "7abd07be8e3850e5703cb89507fee57899016a5c",
+      "ahead": 0,
+      "behind": 49,
+      "prs": [
+        {
+          "number": 12,
+          "state": "closed",
+          "merged_at": "2026-10-19T15:08:59Z",
+          "head": "7abd07be8e3850e5703cb89507fee57899016a5c",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/12"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "claude/project-thread-7d8b7g",
+      "sha": "d93d8bcdb4337568a00009f2b3944cba370e867f",
+      "ahead": 0,
+      "behind": 79,
+      "prs": [
+        {
+          "number": 1,
+          "state": "closed",
+          "merged_at": "2026-10-02T13:25:17Z",
+          "head": "d93d8bcdb4337568a00009f2b3944cba370e867f",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/1"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "codex",
+      "sha": "f6e875f152dde8f28ea07dfcb0698154a7061abd",
+      "ahead": 0,
+      "behind": 63,
+      "prs": [
+        {
+          "number": 9,
+          "state": "closed",
+          "merged_at": "2026-10-19T12:51:19Z",
+          "head": "f6e875f152dde8f28ea07dfcb0698154a7061abd",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/9"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "config-decoupling",
+      "sha": "4296db7d0997e8f3637d02ff21f5389faf021bf1",
+      "ahead": 0,
+      "behind": 17,
+      "prs": [
+        {
+          "number": 26,
+          "state": "closed",
+          "merged_at": "2026-10-21T12:20:16Z",
+          "head": "4296db7d0997e8f3637d02ff21f5389faf021bf1",
+          "base": "typed-findings",
+          "url": "https://github.com/tsyyan/buddie/pull/26"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "disclose-after-return",
+      "sha": "fe56e8363e70766c7642bd715a16ea8a80becf4c",
+      "ahead": 0,
+      "behind": 33,
+      "prs": [
+        {
+          "number": 19,
+          "state": "closed",
+          "merged_at": "2026-10-20T13:18:44Z",
+          "head": "fe56e8363e70766c7642bd715a16ea8a80becf4c",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/19"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "environment-collector-snapshots",
+      "sha": "d77cd83203b0db92f5c5c7d3110c5211ff0e4abc",
+      "ahead": 2,
+      "behind": 5,
+      "prs": [
+        {
+          "number": 33,
+          "state": "closed",
+          "merged_at": "2026-10-22T21:10:19Z",
+          "head": "d77cd83203b0db92f5c5c7d3110c5211ff0e4abc",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/33",
+          "merge_commit": "1b5cd8ecf031b8f4abc92f3610919ad8ccf157c4",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "d77cd83203b0db92f5c5c7d3110c5211ff0e4abc tests: change the file during the collector's own read, not subprocess's",
+        "29a11418165e49556f22608aba4df81b570a0b95 Environment snapshots: what buddie observes of the runtime, the repository and named files"
+      ],
+      "patches_not_in_main": 2,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "evidence-freshness-staleness",
+      "sha": "f2646571644335e50e8c30532b1ff4de34deb639",
+      "ahead": 2,
+      "behind": 3,
+      "prs": [
+        {
+          "number": 35,
+          "state": "closed",
+          "merged_at": "2026-10-23T04:17:50Z",
+          "head": "f2646571644335e50e8c30532b1ff4de34deb639",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/35",
+          "merge_commit": "ef7e1de89f7be676cd55e30cc7a9fee56bc77d18",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "f2646571644335e50e8c30532b1ff4de34deb639 Freshness: read-only evidence details, CI ambiguity across suites; remote: drain before early answers",
+        "a4f7b27e46613bc4a42f8d7d842d0455bd05c776 Evidence freshness: whether evidence is bound to the revision a claim is about"
+      ],
+      "patches_not_in_main": 2,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "evidence-registry",
+      "sha": "2f1b8f2963e4d119767347d03663eb0702869fc7",
+      "ahead": 5,
+      "behind": 9,
+      "prs": [
+        {
+          "number": 29,
+          "state": "closed",
+          "merged_at": "2026-10-22T14:02:02Z",
+          "head": "2f1b8f2963e4d119767347d03663eb0702869fc7",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/29",
+          "merge_commit": "e0d9c464f0073f278072bf46f16c764fdc4ab28e",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "2f1b8f2963e4d119767347d03663eb0702869fc7 Provenance: buddie's own collection by identity, not by a marker a caller can set",
+        "2645c9ac5aed59332a72111d03d49232235370ae Security review: the GitHub token's destinations, what counts as observed, the collector's state",
+        "fc8c66e958483fe952de118b8d7be5a5f05725e9 Windows: git output and the snapshot index are UTF-8 whatever the locale",
+        "dd199876e1d82c304125fd09cfe76cff214a2fb2 test: the core import check finds buddie in the checkout, not an installation",
+        "af976e4aee8977410a1b3ff1a39463ddc35cc4c3 feat: modular core and evidence trust boundaries (#29 roadmap)"
+      ],
+      "patches_not_in_main": 5,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "existing-integrations-ux",
+      "sha": "ef98d073956b288b05432aaaffe399f9bec5a20c",
+      "ahead": 1,
+      "behind": 6,
+      "prs": [
+        {
+          "number": 32,
+          "state": "closed",
+          "merged_at": "2026-10-22T20:13:21Z",
+          "head": "ef98d073956b288b05432aaaffe399f9bec5a20c",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/32",
+          "merge_commit": "a94df08c00360a3ce889176ebd6aa91d20558777",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "ef98d073956b288b05432aaaffe399f9bec5a20c Existing integrations: an audit, the token's name for the plugin's MCP server, input errors, diagnostics"
+      ],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 1,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "http-remote",
+      "sha": "10fa8371598952d04ec17cdc12833fc452502ac4",
+      "ahead": 0,
+      "behind": 68,
+      "prs": [
+        {
+          "number": 6,
+          "state": "closed",
+          "merged_at": "2026-10-19T12:43:39Z",
+          "head": "10fa8371598952d04ec17cdc12833fc452502ac4",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/6"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "instructions",
+      "sha": "74f923e99c73b21b965d8fd3e20358f98a78ba28",
+      "ahead": 0,
+      "behind": 49,
+      "prs": [
+        {
+          "number": 13,
+          "state": "closed",
+          "merged_at": "2026-10-19T15:09:21Z",
+          "head": "74f923e99c73b21b965d8fd3e20358f98a78ba28",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/13"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "lab-sync",
+      "sha": "cae0b76785cbd710fb4bd7b238a6524bfad881c6",
+      "ahead": 0,
+      "behind": 70,
+      "prs": [
+        {
+          "number": 4,
+          "state": "closed",
+          "merged_at": "2026-10-19T11:45:28Z",
+          "head": "cae0b76785cbd710fb4bd7b238a6524bfad881c6",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/4"
+        },
+        {
+          "number": 3,
+          "state": "closed",
+          "merged_at": "2026-10-03T20:08:12Z",
+          "head": "83bffe8730467424a7015aaec814f3671d73025d",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/3"
+        },
+        {
+          "number": 2,
+          "state": "closed",
+          "merged_at": "2026-10-03T09:10:21Z",
+          "head": "ddf0acb0698991c1b330733088de337bd7a41c7d",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/2"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "main",
+      "sha": "b6464a7839274297c5c110ddd1a50557f4281c42",
+      "ahead": 0,
+      "behind": 0,
+      "prs": [],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "KEEP",
+      "basis": "Default branch"
+    },
+    {
+      "branch": "mcpb",
+      "sha": "093f13156c4bab63a3b05beb913c907e3ff2d206",
+      "ahead": 0,
+      "behind": 62,
+      "prs": [
+        {
+          "number": 7,
+          "state": "closed",
+          "merged_at": "2026-10-19T12:50:54Z",
+          "head": "093f13156c4bab63a3b05beb913c907e3ff2d206",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/7"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "numbers-cyrillic",
+      "sha": "c998d822526efa2e001ccd5227465bcf7719bf79",
+      "ahead": 0,
+      "behind": 45,
+      "prs": [
+        {
+          "number": 14,
+          "state": "closed",
+          "merged_at": "2026-10-19T16:51:01Z",
+          "head": "c998d822526efa2e001ccd5227465bcf7719bf79",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/14"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "p2-evals",
+      "sha": "6e6b29f3886f33c17345ad1347591a75d84d539b",
+      "ahead": 0,
+      "behind": 36,
+      "prs": [
+        {
+          "number": 18,
+          "state": "closed",
+          "merged_at": "2026-10-20T13:15:25Z",
+          "head": "6e6b29f3886f33c17345ad1347591a75d84d539b",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/18"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "protected-policy",
+      "sha": "12e779e1cdfbc8cd90d9a15392c773fdb07631d8",
+      "ahead": 3,
+      "behind": 10,
+      "prs": [
+        {
+          "number": 28,
+          "state": "closed",
+          "merged_at": "2026-10-21T23:37:41Z",
+          "head": "12e779e1cdfbc8cd90d9a15392c773fdb07631d8",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/28",
+          "merge_commit": "592640fc0f531005fe6e8638320fe68fb8839934",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "12e779e1cdfbc8cd90d9a15392c773fdb07631d8 policy: an allow ACE the Windows check does not read is not protection",
+        "3ef20fef05f49ed9b0a1c597ffa8e3f6c86b9ed6 policy: Windows ACL protection, a launcher that does not pass without Python, one reading per event",
+        "860f2cda5d1bf8ddbb5e15bbc4358c07006408f4 feat: introduce protected policy and trust boundaries (#28 roadmap)"
+      ],
+      "patches_not_in_main": 3,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "pypi",
+      "sha": "24099ba5c37b93e7e1f4da21f4061533a4f3f816",
+      "ahead": 0,
+      "behind": 62,
+      "prs": [
+        {
+          "number": 8,
+          "state": "closed",
+          "merged_at": "2026-10-19T12:51:08Z",
+          "head": "24099ba5c37b93e7e1f4da21f4061533a4f3f816",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/8"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "receipt-contract-v1",
+      "sha": "70b7b84e913b5316f535aeafcdbb7383498a9841",
+      "ahead": 2,
+      "behind": 7,
+      "prs": [
+        {
+          "number": 31,
+          "state": "closed",
+          "merged_at": "2026-10-22T19:40:15Z",
+          "head": "70b7b84e913b5316f535aeafcdbb7383498a9841",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/31",
+          "merge_commit": "0f864ecebe4869dbde3bf083fb0786bf73019ee6",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "70b7b84e913b5316f535aeafcdbb7383498a9841 receipts: exclusion reasons must agree with the requested selection",
+        "50d5da071f974386112eac8ffb6c2c221bb6a270 feat: versioned receipt contract, receipt-v1 (#31 roadmap)"
+      ],
+      "patches_not_in_main": 2,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "release-1.0",
+      "sha": "296039d35d8fde069e934e963b3bb2080b76fe5c",
+      "ahead": 0,
+      "behind": 53,
+      "prs": [
+        {
+          "number": 10,
+          "state": "closed",
+          "merged_at": "2026-10-19T13:07:23Z",
+          "head": "296039d35d8fde069e934e963b3bb2080b76fe5c",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/10"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "release-1.0.1",
+      "sha": "d5fdcee539ea45cb6df78fb4e62a4b3d220fd32d",
+      "ahead": 0,
+      "behind": 43,
+      "prs": [
+        {
+          "number": 15,
+          "state": "closed",
+          "merged_at": "2026-10-20T11:22:38Z",
+          "head": "d5fdcee539ea45cb6df78fb4e62a4b3d220fd32d",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/15"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "release-1.1.0",
+      "sha": "fd04593b9a9517c5d94851cb00155814fc5f6abf",
+      "ahead": 0,
+      "behind": 31,
+      "prs": [
+        {
+          "number": 20,
+          "state": "closed",
+          "merged_at": "2026-10-20T13:23:24Z",
+          "head": "fd04593b9a9517c5d94851cb00155814fc5f6abf",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/20"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "release-1.1.1",
+      "sha": "0e8796429023b19a0a14ccf205f04b3b726a070b",
+      "ahead": 0,
+      "behind": 29,
+      "prs": [
+        {
+          "number": 21,
+          "state": "closed",
+          "merged_at": "2026-10-20T14:30:59Z",
+          "head": "0e8796429023b19a0a14ccf205f04b3b726a070b",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/21"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "release-candidate-2.0",
+      "sha": "e34cb1f3a9552a009bc7a9981e4d66b27e717754",
+      "ahead": 6,
+      "behind": 0,
+      "prs": [
+        {
+          "number": 38,
+          "state": "open",
+          "merged_at": null,
+          "head": "e34cb1f3a9552a009bc7a9981e4d66b27e717754",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/38"
+        }
+      ],
+      "unique_commits": [
+        "e34cb1f3a9552a009bc7a9981e4d66b27e717754 README: one product page, from what buddie is to where the docs are",
+        "bd8d3a033b588e3c6208e343a4af33dabc03ea32 release: publish decisions in a tested script; recovery that never replaces",
+        "4ae6b16566f3b5c9c2081396a28dc886a9b18fae verbatim: Budget.connect reads the clock once",
+        "6c7824f1876172ab5d45afb12a9f252e7c740a80 verbatim: a budget's time left never exceeds the budget",
+        "e3a8e7857ee1146e0e8719a38d5bbdabc796d93a tests: README examples run the checkout's buddie, installed or not",
+        "28d17fd44ee367a853539f9e9ac3446de737cffc Release candidate for buddie 2.0: gated publishing, README landing page, distribution audit"
+      ],
+      "patches_not_in_main": 6,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "KEEP",
+      "basis": "Active draft PR #38 owned by Claude; do not modify."
+    },
+    {
+      "branch": "release-hardening-2.0",
+      "sha": "24527342cba5c3105240e7e799aadbca615a321d",
+      "ahead": 3,
+      "behind": 1,
+      "prs": [
+        {
+          "number": 37,
+          "state": "closed",
+          "merged_at": "2026-10-23T13:40:34Z",
+          "head": "24527342cba5c3105240e7e799aadbca615a321d",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/37",
+          "merge_commit": "b6464a7839274297c5c110ddd1a50557f4281c42",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "24527342cba5c3105240e7e799aadbca615a321d docs: RH-1 as a launcher dependency with its mechanism unproven; RH-5's decision on receipt-v0 vs 1.1.1",
+        "1c5619f112e7d888a8894937ba8da66e23af612c tests: RH-1's hazard with a stale handle value nothing can reuse",
+        "df0cbb691b4e1c276f952f4771d83ed187fbd375 Release hardening for buddie 2.0: RH-1 root cause, worker audit, install and acceptance, version 2.0.0"
+      ],
+      "patches_not_in_main": 3,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "render",
+      "sha": "16021757ec9c6bd4b577567d461a61af7d047857",
+      "ahead": 0,
+      "behind": 51,
+      "prs": [
+        {
+          "number": 11,
+          "state": "closed",
+          "merged_at": "2026-10-19T13:50:45Z",
+          "head": "16021757ec9c6bd4b577567d461a61af7d047857",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/11"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "repo-trust-boundary",
+      "sha": "74766755c27c5016767767a275ea96cc1b7fe850",
+      "ahead": 0,
+      "behind": 24,
+      "prs": [
+        {
+          "number": 23,
+          "state": "closed",
+          "merged_at": "2026-10-21T10:56:22Z",
+          "head": "74766755c27c5016767767a275ea96cc1b7fe850",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/23"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "safe-defaults",
+      "sha": "fbc092f3d93d89397c915fa9d26e7e4992ef8308",
+      "ahead": 0,
+      "behind": 41,
+      "prs": [
+        {
+          "number": 16,
+          "state": "closed",
+          "merged_at": "2026-10-20T11:50:27Z",
+          "head": "fbc092f3d93d89397c915fa9d26e7e4992ef8308",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/16"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "security-git-execution-hardening",
+      "sha": "f2ab90e3ab19736badbc84f10f5b5d205759edc8",
+      "ahead": 1,
+      "behind": 4,
+      "prs": [
+        {
+          "number": 34,
+          "state": "closed",
+          "merged_at": "2026-10-22T22:07:45Z",
+          "head": "f2ab90e3ab19736badbc84f10f5b5d205759edc8",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/34",
+          "merge_commit": "73d1e9b62026b9e8abea39b15383bb6aea17c323",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "f2ab90e3ab19736badbc84f10f5b5d205759edc8 Security: harden git execution and evidence collection"
+      ],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 1,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    },
+    {
+      "branch": "trust-and-limits",
+      "sha": "1ca1083d6d3664f9f6181da237a85e889dd9070f",
+      "ahead": 0,
+      "behind": 21,
+      "prs": [
+        {
+          "number": 24,
+          "state": "closed",
+          "merged_at": "2026-10-21T11:44:09Z",
+          "head": "1ca1083d6d3664f9f6181da237a85e889dd9070f",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/24"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "typed-findings",
+      "sha": "856358a3a9f2bad30c09321c42883572aa6eef4f",
+      "ahead": 0,
+      "behind": 16,
+      "prs": [
+        {
+          "number": 25,
+          "state": "closed",
+          "merged_at": "2026-10-21T12:20:06Z",
+          "head": "5d12b6bba5bc1383b320ff79df07d360e3aa97fb",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/25"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "typed-gate",
+      "sha": "2af4785a16948135b95ca3883bd737861319b401",
+      "ahead": 0,
+      "behind": 12,
+      "prs": [
+        {
+          "number": 27,
+          "state": "closed",
+          "merged_at": "2026-10-21T16:46:44Z",
+          "head": "2af4785a16948135b95ca3883bd737861319b401",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/27"
+        }
+      ],
+      "unique_commits": [],
+      "patches_not_in_main": 0,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "Branch tip is an ancestor of main; all associated PRs are merged."
+    },
+    {
+      "branch": "verification-profiles",
+      "sha": "3f8dbe6679cc73d2091dc0587d9ce6d24d77e2b6",
+      "ahead": 2,
+      "behind": 8,
+      "prs": [
+        {
+          "number": 30,
+          "state": "closed",
+          "merged_at": "2026-10-22T14:59:00Z",
+          "head": "3f8dbe6679cc73d2091dc0587d9ce6d24d77e2b6",
+          "base": "main",
+          "url": "https://github.com/tsyyan/buddie/pull/30",
+          "merge_commit": "e9676de6eee057a696c37e220ba8a52e3df3d888",
+          "tip_tree_matches_merge": true,
+          "tip_matches_pr_head": true,
+          "delta_from_merge": ""
+        }
+      ],
+      "unique_commits": [
+        "3f8dbe6679cc73d2091dc0587d9ce6d24d77e2b6 Profiles: an empty effective selection runs no check, and says so",
+        "00b0a7a5516c63e7578e12f324e2f8928b90ee27 feat: verification profiles (#30 roadmap)"
+      ],
+      "patches_not_in_main": 2,
+      "patches_equivalent_to_main": 0,
+      "recommendation": "DELETE",
+      "basis": "PR head unchanged; complete tree equals merged squash commit; merge commit is ancestor of main. Preserve original commit identities in backup."
+    }
+  ]
+}

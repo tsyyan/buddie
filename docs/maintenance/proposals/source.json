@@ -1,0 +1,7 @@
+{
+  "base_main": "0f29c19430b764884eb057a16a3c84676b066698",
+  "workflow_path": ".github/workflows/release.yml",
+  "workflow_sha256_lf": "3b234a866558c58f1b609d59516ebbe6e539bd310ac08f7cc30a61dc027ffb8e",
+  "status": "UNAPPLIED proposal, requires separate approval",
+  "expected_change": "Only add environment: pypi to existing authorize job; publishing scripts and all other jobs unchanged"
+}

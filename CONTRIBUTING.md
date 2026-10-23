@@ -1,5 +1,9 @@
 # Contributing
 
+For installation and usage, see the [documentation index](docs/README.md). Report ordinary bugs and request
+features in [Issues](https://github.com/tsyyan/buddie/issues); use synthetic reproductions and redact private data.
+For vulnerabilities, follow the [security policy](SECURITY.md) before sharing details.
+
 This repository is the source of buddie. Until 0.8.2 it was exported from a private lab repository, so older history
 arrives in "Sync from lab" commits; from now on issues and pull requests here are where changes are made.
 
@@ -12,7 +16,8 @@ pytest            # bare pytest, as CI runs it; tests that need the lab's snapsh
 
 - One change per pull request, with a test that fails without it.
 - Add a line to the `Unreleased` section of `CHANGELOG.md`.
-- The version lives in `buddie/__init__.py`; `pyproject.toml`, `CITATION.cff` and `.claude-plugin/plugin.json`
+- The version lives in `buddie/__init__.py`; `pyproject.toml`, `CITATION.cff`, the Claude Code and Codex plugin
+  manifests, the Desktop `manifest.json`, the ChatGPT integration manifest and both versions in `server.json`
   carry the same number (`tests/test_version.py`).
 - buddie checks claims without a model. A change that adds a model call to a verdict needs its own discussion first.
 - Claude Code opened in a clone of this repository loads its `.mcp.json` as a project MCP server. That file is the

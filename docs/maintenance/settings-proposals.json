@@ -1,0 +1,179 @@
+{
+  "notice": "CURRENT POST-MERGE PROPOSALS ONLY. Not applied. Exact nine checks verified on merged main 0f29c19430b764884eb057a16a3c84676b066698. Read post-merge audit before approval.",
+  "rulesets": [
+    {
+      "name": "main-reviewed-ci",
+      "target": "branch",
+      "enforcement": "active",
+      "bypass_actors": [],
+      "conditions": {
+        "ref_name": {
+          "include": [
+            "refs/heads/main"
+          ],
+          "exclude": []
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": true,
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": true,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "test (3.11)",
+                "integration_id": 15368
+              },
+              {
+                "context": "test (3.12)",
+                "integration_id": 15368
+              },
+              {
+                "context": "test (3.13)",
+                "integration_id": 15368
+              },
+              {
+                "context": "os (ubuntu-latest)",
+                "integration_id": 15368
+              },
+              {
+                "context": "os (macos-latest)",
+                "integration_id": 15368
+              },
+              {
+                "context": "os (windows-latest)",
+                "integration_id": 15368
+              },
+              {
+                "context": "catalogs",
+                "integration_id": 15368
+              },
+              {
+                "context": "docker",
+                "integration_id": 15368
+              },
+              {
+                "context": "release-candidate / build",
+                "integration_id": 15368
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "release-tags-immutable",
+      "target": "tag",
+      "enforcement": "active",
+      "bypass_actors": [],
+      "conditions": {
+        "ref_name": {
+          "include": [
+            "refs/tags/v*"
+          ],
+          "exclude": []
+        }
+      },
+      "rules": [
+        {
+          "type": "update"
+        },
+        {
+          "type": "deletion"
+        }
+      ]
+    },
+    {
+      "name": "release-tags-creation",
+      "target": "tag",
+      "enforcement": "active",
+      "bypass_actors": [
+        {
+          "actor_id": 5,
+          "actor_type": "RepositoryRole",
+          "bypass_mode": "always"
+        }
+      ],
+      "conditions": {
+        "ref_name": {
+          "include": [
+            "refs/tags/v*"
+          ],
+          "exclude": []
+        }
+      },
+      "rules": [
+        {
+          "type": "creation"
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "allowed_actions": "selected",
+    "allowed_actions_selection": {
+      "github_owned_allowed": true,
+      "verified_allowed": false,
+      "patterns_allowed": [
+        "pypa/gh-action-pypi-publish@*"
+      ]
+    }
+  },
+  "workflow_permissions": {
+    "default_workflow_permissions": "read",
+    "can_approve_pull_request_reviews": false
+  },
+  "fork_approval": {
+    "approval_policy": "all_external_contributors"
+  },
+  "pypi_solo": {
+    "reviewers": [
+      {
+        "type": "User",
+        "id": 305538897
+      }
+    ],
+    "prevent_self_review": false,
+    "can_admins_bypass": false,
+    "deployment_branch_policy": {
+      "protected_branches": false,
+      "custom_branch_policies": true
+    }
+  },
+  "pypi_tag_policy": {
+    "name": "v*",
+    "type": "tag"
+  },
+  "note": "For two-person approval, select an actual independent reviewer and set prevent_self_review=true; never enable that with only the deploying owner as reviewer. Tag creation bypass role id 5 is repository administrators; immutable ruleset has no bypass.",
+  "publication_gate": {
+    "status": "UNAPPLIED patch in proposals/authorize-environment.patch",
+    "job": "authorize",
+    "environment": "pypi",
+    "required_order": "Configure and verify pypi reviewer and tag policy first; separately review and approve workflow patch; never assume the patch alone creates an approval boundary.",
+    "consequence": "Normal publication may require approval on authorize and again on pypi; registry/GitHub-only recovery requires approval on authorize. Existing PyPI trusted-publisher environment unchanged."
+  },
+  "support_verification": {
+    "repository_visibility": "public",
+    "admin_permission": true,
+    "account_plan": "not exposed (plan=null); no specific paid plan asserted",
+    "availability": "Public branch/tag rulesets and environment reviewers/ref policies are available on GitHub Free; existing read endpoints succeeded. Actual enforcement not live-tested because settings mutation and publication are not authorized.",
+    "avoid": "No organization teams, paid push rulesets, evaluate-only enforcement or unconfigured independent-reviewer placeholder."
+  }
+}

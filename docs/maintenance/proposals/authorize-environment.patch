@@ -1,0 +1,6 @@
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -45,2 +45,3 @@
+   authorize:
++    environment: pypi
+     if: github.event_name == 'workflow_dispatch' && inputs.candidate != ''
