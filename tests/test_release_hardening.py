@@ -31,17 +31,20 @@ def test_buddie_never_lets_a_child_inherit_its_standard_input():
     assert bare == [], bare
 
 
+STALE = 0x3FFFFFFC  # a handle value no process's handle table reaches
+
 CHILD = r"""
 import ctypes, json, os, subprocess, sys
+STALE = int(sys.argv[2])
 from ctypes import wintypes
 sys.path.insert(0, sys.argv[1])
 k32 = ctypes.WinDLL("kernel32", use_last_error=True)
-k32.GetStdHandle.restype = wintypes.HANDLE
-k32.GetStdHandle.argtypes = [wintypes.DWORD]
-k32.CloseHandle.argtypes = [wintypes.HANDLE]
+k32.SetStdHandle.argtypes = [wintypes.DWORD, wintypes.HANDLE]
 STD = wintypes.DWORD(-10 & 0xFFFFFFFF)
-h = k32.GetStdHandle(STD)
-k32.CloseHandle(h)  # the RH-1 condition: the slot still names a handle, and the handle is gone
+# the RH-1 condition: the slot names a handle that is gone. A closed handle's value may be given to a new handle
+# before the child starts (CI's runner did), which is RH-1's own intermittency; a value no handle table reaches
+# keeps the condition fixed
+k32.SetStdHandle(STD, STALE)
 out = {}
 try:
     subprocess.run([sys.executable, "-c", "pass"], capture_output=True, timeout=30)
@@ -64,8 +67,8 @@ def test_an_unusable_standard_input_breaks_inheriting_children_and_not_buddies()
     """The hazard and the guarantee, in a process of its own: with its standard input handle closed under it, a child
     started without stdin= fails (the RH-1 signature, WinError 6), while buddie's runner, its git and its pattern
     worker start and answer."""
-    p = subprocess.run([sys.executable, "-I", "-c", CHILD, str(ROOT)], capture_output=True, text=True, timeout=120,
-                       stdin=subprocess.DEVNULL)
+    p = subprocess.run([sys.executable, "-I", "-c", CHILD, str(ROOT), str(STALE)], capture_output=True, text=True,
+                       timeout=120, stdin=subprocess.DEVNULL)
     assert p.returncode == 0, p.stderr[-2000:]
     got = json.loads(p.stdout.strip().splitlines()[-1])
     assert got["inherited"] == "OSError 6", got  # the hazard is real
@@ -82,8 +85,8 @@ def test_the_suites_diagnostic_names_an_unusable_standard_input():
     assert conftest.stdin_problem() is None  # this run's handle is usable
     code = (f"import sys; sys.path.insert(0, {str(ROOT / 'tests')!r}); import ctypes, conftest; "
             "from ctypes import wintypes; k=ctypes.WinDLL('kernel32'); k.GetStdHandle.restype=wintypes.HANDLE; "
-            "k.CloseHandle.argtypes=[wintypes.HANDLE]; "
-            "k.CloseHandle(k.GetStdHandle(wintypes.DWORD(-10 & 0xFFFFFFFF))); print(conftest.stdin_problem())")
+            "k.SetStdHandle.argtypes=[wintypes.DWORD, wintypes.HANDLE]; "
+            f"k.SetStdHandle(wintypes.DWORD(-10 & 0xFFFFFFFF), {STALE}); print(conftest.stdin_problem())")
     p = subprocess.run([sys.executable, "-I", "-c", code], capture_output=True, text=True, timeout=60,
                        stdin=subprocess.DEVNULL)
     assert "not a usable handle" in p.stdout, (p.stdout, p.stderr[-500:])
