@@ -13,15 +13,22 @@
 
 When an agent writes "the page says …", "the PR is merged", "CI is green" or "tests passed", buddie checks that claim
 against primary evidence: the cited page, the repository's files and git history, GitHub's record of the PR and its
-checks, and the session's record of what actually ran. No language model takes part in the check, so the agent cannot
-argue its way past it. Every check ends in a receipt that anyone can re-run.
+checks, and the session's record of what ran. No language model takes part in the check, so the agent cannot talk it
+into a different verdict. Every check ends in a receipt that records what was checked against which evidence.
 
 In Claude Code and Codex, buddie can check an answer before you see it and send it back to the agent when a claim
 does not hold. Everywhere else it is a tool that you or the agent call.
 
-> **Versions.** PyPI, the GitHub release and the Desktop bundle carry **1.1.1**. This README describes **2.0.0**,
-> which is on `main` and not yet released. Features marked *(2.0)* need it; the plugin marketplace installs `main`,
-> and `pip install git+https://github.com/tsyyan/buddie` installs it as a package.
+## Release status
+
+| | Version |
+|---|---|
+| Latest release: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **1.1.1** |
+| Described in this README | **2.0.0**, prepared, not yet released |
+
+Features marked *(2.0)* are not in 1.1.1. Until 2.0.0 is released they come only from this repository's source: the
+plugin marketplace installs its default branch, and `pip install git+https://github.com/tsyyan/buddie` installs that
+branch as a package. Each release updates this section ([docs/release.md](docs/release.md)).
 
 ## See it work
 
@@ -58,7 +65,7 @@ read from. An excerpt:
         "id": "L3.1",
         "verdict": "NOT_FOUND",
         "url": "https://status.example.com/incidents/42",
-        "sha256": "43fe75d794527e40a19e3b2c87973bcaf51410e9ac77c3c46fee97a726ef4695",
+        "sha256": "cc696ce5cfcc04abf2aeef81f82f0b5a668dd0953f9c9f36c02748ed0fdeb2b1",
         "closest": {"ratio": 0.983, "text": "elevated error rates on the API between 14:59 and 15:41 UTC"}
       }
     ]
@@ -80,7 +87,13 @@ note  pr:/ci:/run: anchors show what happened (PR state, checks on a commit, a c
 buddie FAIL: effects 0/1 hold, 1 broken
 ```
 
-Both examples print exactly this with 1.1.1 and with 2.0.0, and `tests/test_readme.py` runs them.
+Both examples print exactly this with 1.1.1 and with 2.0.0, and `tests/test_readme.py` runs them on Linux, macOS and
+Windows.
+
+**Checking again.** A receipt names the evidence a verdict rests on: a snapshot's SHA-256, a commit, a check run, the
+time. Running the check again reproduces the verdict only while that evidence is unchanged and still at hand. A stored
+snapshot can be re-read for as long as you keep it, but a live page, a PR's state or a branch can change, and a session
+transcript exists only on the machine that wrote it. The receipt does not contain the page.
 
 ## What buddie checks
 
@@ -115,9 +128,9 @@ work in prose are listed in the receipt as such, so you can see what went unchec
 | Source snapshots | store each cited page by the SHA-256 of its bytes, so a verdict names exactly what was read |
 | Repository anchors | tie "this file" and "that commit" to the bytes in your checkout |
 | PR and CI checks | confirm merged or open, passing or failing, on the commit the claim names |
-| Execution evidence | confirms that a command ran and printed what the report says (Claude Code) |
+| Execution evidence | confirms that the session transcript shows a command printing what the report says (Claude Code) |
 | Typed findings | each blocking item says what failed and why, so the agent can fix or disclose it |
-| The gate | sends an answer with a false claim back to the agent before you read it (Claude Code, Codex) |
+| The gate | returns an answer with a false claim to the agent before you read it, with the reasons (Claude Code, Codex) |
 | Verification profiles *(2.0)* | run only the checks you need: `developer`, `research`, `complete` or `custom` |
 | Protected policy *(2.0)* | an administrator's file that settings the agent can write cannot weaken |
 | Receipt v1 *(2.0)* | adds what ran, what did not and why, coverage and provenance; v0 stays the default |
@@ -259,8 +272,10 @@ The hook checks the answer the agent hands you. What it blocks is set per class 
   API. buddie never reads an ambient `GITHUB_TOKEN`.
 - **The Claude Code transcript** is read in place to check `run:` anchors; it is never copied or sent, and a plugin
   setting turns reading it off. The journal keeps hashes and verdicts, not your text.
-- **What buddie cannot prevent:** code that already runs as your user, a replaced `python3` or `git` on `PATH`, or an
-  agent that rewrites the plugin's own files. The protected policy is the one input the agent cannot change.
+- **What buddie cannot prevent:** code that already runs as your user, a replaced `python3` or `git` on `PATH`, an
+  agent that rewrites the plugin's files or turns the plugin off in settings it can write, and an agent running as
+  root or administrator. Without root, the protected policy is the one input the agent cannot change
+  ([docs/policy.md](docs/policy.md#what-it-does-not-cover)).
 
 Everything read, sent and kept: [PRIVACY.md](PRIVACY.md). Execution boundaries and tested attacks:
 [docs/security.md](docs/security.md), [docs/adversarial.md](docs/adversarial.md).
@@ -279,6 +294,13 @@ Everything read, sent and kept: [PRIVACY.md](PRIVACY.md). Execution boundaries a
 - **Advice is advice.** The MCP tools and the CLI change nothing unless something acts on their result.
 - **The gate covers what the client sends it:** Claude Code's `Stop` and `SendMessage`, Codex's `Stop`. Desktop and
   other clients have no hook, and `run:` is checked only against a Claude Code transcript.
+- **The gate is not a lock.** It returns an answer; the agent then fixes the claim or says, in a line starting with
+  `buddie:`, what is unverified, and the answer goes out with that line. A broken `pr:`, `ci:` or `run:` anchor has
+  to be fixed or removed, and a protected policy can require a fix for everything. If the check cannot run at all (no Python, a timeout), the answer goes back once and then out
+  with a note that nothing was checked: it is never passed as checked.
+- **Local evidence is local.** Repository anchors, `run:` and work claims are checked against files on your machine:
+  the checkout, the transcript, the task queue. buddie shows what those files say; an agent that can write them can
+  change what they say.
 - **A receipt is an evidence record.** It says what was checked and found, not that code is correct: a green CI on
   weak tests stays weak, and a command that prints a prepared file passes `run:`.
 - **Whether agents misstate less with buddie** is not yet measured ([docs/research.md](docs/research.md)).
@@ -323,8 +345,8 @@ Method, limits and how to reproduce: [docs/research.md](docs/research.md).
 
 ## Status, contributing, license
 
-buddie 2.0.0 is prepared and not yet released. It keeps the 1.x interfaces and receipt v0 as the default; the
-behaviour that changed on purpose is listed in the [CHANGELOG](CHANGELOG.md), with what 2.0 guarantees and how it was
+2.0 keeps the 1.x interfaces and receipt v0 as the default ([release status](#release-status)); the behaviour that
+changed on purpose is listed in the [CHANGELOG](CHANGELOG.md), with what 2.0 guarantees and how it was
 tested in [docs/release-hardening.md](docs/release-hardening.md). The receipts, the CLI, the MCP tools and
 `buddie.toml` follow semantic versioning. This repository was called `verbatim` until October 2026; `verbatim` is now
 buddie's quote module (`buddie-verbatim`).

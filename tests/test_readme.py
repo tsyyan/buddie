@@ -88,14 +88,19 @@ def _changelog_versions():
 
 
 def test_the_readme_names_the_released_and_the_described_versions():
-    """The README tells apart the version people install from PyPI and the one it describes; a release has to
-    update both sentences (docs/release.md, cutting a release)."""
+    """The README's release status tells apart the version people install from the registries and the one it
+    describes, in words that hold before and after this branch merges; a release has to update it (docs/release.md,
+    cutting a release)."""
     import buddie
     released, prepared = _changelog_versions()
-    note = re.search(r"> \*\*Versions\.\*\*(.*?)\n\n", README, re.S)[1]
-    assert f"**{released}**" in note and f"**{buddie.__version__}**" in note
-    assert buddie.__version__ in prepared, "the README says the described version is not released"
-    assert f"{buddie.__version__} is prepared and not yet released" in README
+    status = README.split("## Release status", 1)[1].split("\n## ", 1)[0]
+    assert f"| **{released}** |" in status
+    if buddie.__version__ in prepared:
+        assert f"| **{buddie.__version__}**, prepared, not yet released |" in status
+    else:
+        assert buddie.__version__ == released
+    # no claim about which branch holds what, which a merge would make false
+    assert not re.search(r"\bmain\b|PR #\d", status), "names a branch's or PR's state"
     for where in ("Claude Desktop", "Any MCP client"):
         section = README.split(f"### {where}", 1)[1].split("\n### ", 1)[0]
         assert f"({released} today)" in section, where
@@ -170,9 +175,13 @@ def test_the_readme_claims_no_more_than_buddie_does():
     assert "**buddie verifies the evidence behind AI agent reports.**" in opening
     assert "No language model takes part in the check" in opening
     assert not re.search(r"(checks|verifies|proves) that what an AI agent tells you is true", README, re.I)
+    # a receipt is re-checkable while its evidence lasts, not re-runnable into the same verdict forever
+    assert not re.search(r"anyone can re-?run|always reproduc", README, re.I)
+    assert "reproduces the verdict only while that evidence is unchanged" in README
     limits = README.split("## Limitations", 1)[1].split("\n## ", 1)[0]
     for must in ("not a truth detector", "`PASS` is scoped", "`GAPS` is not success", "Evidence ages",
-                 "Advice is advice", "The gate covers what the client sends it", "A receipt is an evidence record"):
+                 "Advice is advice", "The gate covers what the client sends it", "The gate is not a lock",
+                 "Local evidence is local", "A receipt is an evidence record"):
         assert must in limits, must
     assert "not listed in Anthropic's plugin directory yet" in README
     assert not re.search(r"(approved|listed|available) (in|on|by) Anthropic", README.replace("not listed in", ""))

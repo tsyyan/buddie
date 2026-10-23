@@ -194,7 +194,8 @@ run.
    `tests/test_manifest.py` and `tests/test_catalog.py` fail until they agree). `plugin.json`'s version is what moves
    installed plugin users to the release.
 2. Give the `CHANGELOG.md` section its date: `## buddie X.Y.Z (YYYY-MM-DD)`; the same date in `CITATION.cff`; the
-   README's "Status" says the version is released (the README is also PyPI's page for it).
+   README's "Release status" table names it as the latest release (the README is also PyPI's page for it;
+   `tests/test_readme.py` fails until the two agree).
 3. Merge to `main` with CI green (CI has already built a candidate of that commit).
 4. Tag the merge commit and push the tag: the candidate run starts.
 
