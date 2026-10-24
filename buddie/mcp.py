@@ -5,6 +5,7 @@ Tools:
   snap            snapshot URLs into the store before reading them (quote from bytes, not from a summary)
   source_text     visible text of a snapshot, optionally only around a regex: copy quotes from here
   summary         when no subagent is left: what was done and lost, the next steps with auto/ask, a choice card
+  environment_snapshot  diagnostics of this machine (OS, CPU, memory, GPU, Python, ...) the person granted; local only
 """
 from __future__ import annotations
 
@@ -123,6 +124,28 @@ TOOLS = [
             "queue": {"type": "boolean", "default": True, "description": "add the queue's proposed rows"},
             "stale": {"type": "integer", "default": 30, "description": "minutes before a silent subagent is lost"}}},
     },
+    {
+        "name": "environment_snapshot",
+        "description": "Before giving system-specific instructions (install commands, drivers, setup), observe the "
+                       "parts of this machine the task needs instead of guessing: ask only for those categories "
+                       "(list: true names them). buddie collects what the person granted in their local grants file "
+                       "and the administrator's policy allows; anything else comes back denied, unsupported or "
+                       "unavailable with the reason. A request cannot grant: there is no consent argument. Each "
+                       "observation says what it rests on (basis); unavailable means not observed, not absent. "
+                       "Nothing is installed or changed.",
+        "inputSchema": {"type": "object", "additionalProperties": False, "properties": {
+            "categories": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 32,
+                           "description": "category ids, e.g. system.os, hardware.gpu, hardware.memory, "
+                                          "software.python, software.gpu_stack (list: true for all)"},
+            "task": {"type": "string", "maxLength": 200,
+                     "description": "what the observation is for; kept as the caller's word, grants nothing"},
+            "tools": {"type": "array", "items": {"type": "string"}, "maxItems": 32,
+                      "description": "software.tools: names from the catalog (list: true shows it)"},
+            "path": {"type": "string", "description": "hardware.storage, development.project, "
+                                                      "development.repository: a directory the person granted"},
+            "list": {"type": "boolean", "default": False,
+                     "description": "only describe the categories and what is granted; collect nothing"}}},
+    },
 ]
 
 
@@ -207,7 +230,29 @@ def summary(args: dict) -> tuple[dict, bool]:
     return summarize(args.get("session"), repos, queue=args.get("queue", True), stale=int(args.get("stale", 30))), False
 
 
-HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary}
+ENVIRONMENT_ARGS = {"categories", "task", "tools", "path", "list"}
+
+
+def environment_snapshot(args: dict) -> tuple[dict, bool]:
+    """Diagnostics (buddie/diagnostics.py), local only (remote.py does not offer it). An argument outside the schema
+    (a `consent`, a `command`) makes the request invalid: what may be collected is decided by the person's grants and
+    the protected policy, never by the request."""
+    from buddie import diagnostics
+    if extra := sorted(set(args) - ENVIRONMENT_ARGS):
+        return {"error": f"unknown arguments {', '.join(extra)}: what is collected is decided by the person's "
+                         "grants file and the protected policy, not by the request (buddie snapshot --grants)"}, True
+    if args.get("list"):
+        return diagnostics.catalog(), False
+    try:
+        doc = diagnostics.collect(args.get("categories"), task=args.get("task"), tools=args.get("tools"),
+                                  path=args.get("path"))
+    except (ValueError, RuntimeError) as error:
+        return {"error": str(error)}, True
+    return doc, False
+
+
+HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary,
+            "environment_snapshot": environment_snapshot}
 
 # MCP tool annotations (clients and app directories ask for them): nothing here changes the user's data; the
 # fetching tools reach the open web, summary only reads this machine's journal
@@ -216,6 +261,7 @@ _ANNOTATIONS = {
     "snap": {"title": "Snapshot pages", "openWorldHint": True},
     "source_text": {"title": "Read a snapshot", "openWorldHint": False},
     "summary": {"title": "Subagent summary", "openWorldHint": False},
+    "environment_snapshot": {"title": "Observe this machine (granted categories)", "openWorldHint": False},
 }
 for _tool in TOOLS:
     _tool["annotations"] = dict(_ANNOTATIONS[_tool["name"]], readOnlyHint=True, destructiveHint=False,
@@ -256,6 +302,9 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
                 text = first + "\n" + "".join(f"{n}\n" for n in note if n) + text
             elif name == "summary" and not is_error:
                 text = data["text"] + "\n" + text
+            elif name == "environment_snapshot" and not is_error and data.get("format", "").endswith("diagnostics-v1"):
+                from buddie import diagnostics
+                text = "\n".join(diagnostics.lines(data)) + "\n" + text
             result = {"content": [{"type": "text", "text": text}], "structuredContent": data, "isError": is_error}
         else:
             return {"jsonrpc": "2.0", "id": mid, "error": {"code": -32601, "message": f"method not found: {method}"}}

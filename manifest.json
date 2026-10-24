@@ -44,7 +44,8 @@
     {"name": "verify_report", "description": "Check a report: every quote in the bytes of the page it links to, every anchor in the repos or on GitHub; returns a receipt FAIL / GAPS / PASS / EMPTY."},
     {"name": "snap", "description": "Snapshot URLs (bytes by SHA-256) so quotes can be taken from and checked against them."},
     {"name": "source_text", "description": "Visible text of a snapshot, optionally only around a regex: copy quotes from here."},
-    {"name": "summary", "description": "Claude Code only: the summary of finished subagents built from the hook's journal."}
+    {"name": "summary", "description": "Claude Code only: the summary of finished subagents built from the hook's journal."},
+    {"name": "environment_snapshot", "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."}
   ],
   "tools_generated": false,
   "user_config": {
