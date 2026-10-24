@@ -217,7 +217,15 @@ def test_the_readme_names_the_released_and_the_described_versions():
         assert f"| **{buddie.__version__}**, prepared, not yet released |" in status
         assert f"give {released}" in status and "pip install git+https://github.com/tsyyan/buddie" in status
     else:
-        assert buddie.__version__ == released and "not yet released" not in README
+        # released: no pre-release wording survives, in the README (PyPI's page) or in getting started
+        assert buddie.__version__ == released
+        v = re.escape(released)
+        for page, text in (("README.md", README), ("docs/getting-started.md", GETTING)):
+            for stale in (r"not yet released", r"prepared, not", rf"[Uu]ntil {v} is released",
+                          rf"once (it|{v}) is released", r"pip install git\+https://github\.com/tsyyan/buddie",
+                          rf"(?<!\d)(?!{v})\d+\.\d+\.\d+ today"):
+                assert not re.search(stale, text), (page, stale)
+        assert f"| **{released}** |" in status and status.count("| **") == 1, status
     # no claim about which branch holds what, which a merge would make false
     assert not re.search(r"\bmain\b|PR #\d", status), "names a branch's or PR's state"
     assert not re.search(r"(?<!until )\b2\.0(\.0)? (is|has been) (released|published|available)", README, re.I)
@@ -275,18 +283,58 @@ def _slug(heading: str) -> str:
     return re.sub(r"[^\w\- ]", "", heading.strip().lower()).replace(" ", "-")
 
 
+REPO_URL = re.compile(r"https://(raw)\.githubusercontent\.com/tsyyan/buddie/([^/]+)/(.+)"
+                      r"|https://github\.com/tsyyan/buddie/(blob|tree)/([^/]+)/(.+)")
+
+
+def _tag() -> str:
+    import buddie
+    return f"v{buddie.__version__}"
+
+
+def _local(url: str) -> str | None:
+    """The file in this checkout that a README URL pinned to this version's tag names (None for other URLs). The
+    README is also PyPI's page, which resolves no relative path, so it links to the release's own tag: these files
+    are what that tag will hold."""
+    m = REPO_URL.fullmatch(url)
+    if not m:
+        return None
+    kind, ref, path = (m[1], m[2], m[3]) if m[1] else (m[4], m[5], m[6])
+    assert ref == _tag(), f"{url}: pinned to {ref}, not {_tag()} (never a branch such as main)"
+    return path
+
+
+def _targets(text: str) -> list[str]:
+    return (re.findall(r"\]\(([^)\s]+)\)", text) + re.findall(r'<img src="([^"]+)"', text)
+            + re.findall(r'srcset="([^"]+)"', text))
+
+
 @pytest.mark.parametrize("page", list(PAGES))
 def test_the_links_lead_to_files_and_headings_that_exist(page):
+    """Relative links in the docs, and in the README the URLs pinned to this version's tag, lead to files and headings
+    of this checkout: the tag is cut from it."""
     base = (ROOT / page).parent
     text = PAGES[page]
     missing = []
-    for target in (re.findall(r"\]\(([^)\s]+)\)", text) + re.findall(r'<img src="([^"]+)"', text)
-                   + re.findall(r'srcset="([^"]+)"', text)):
+    for target in _targets(text):
         if target.startswith(("http://", "https://", "mailto:")):
-            continue
-        path, _, anchor = target.partition("#")
-        file = (base / path).resolve() if path else ROOT / page
-        if not file.exists() or ROOT not in file.parents:
+            local = _local(target)
+            if local is None:
+                continue
+            path, _, anchor = local.partition("#")
+            file = (ROOT / path).resolve()
+            m = REPO_URL.fullmatch(target)
+            kind = m[1] or m[4]
+            right_kind = {"raw": file.is_file() and file.suffix in (".png", ".svg"), "blob": file.is_file(),
+                          "tree": file.is_dir()}[kind]
+            if not file.exists() or not right_kind:
+                missing.append(target)
+                continue
+        else:
+            assert page != "README.md", f"{target}: relative, so broken on PyPI; pin it to {_tag()}"
+            path, _, anchor = target.partition("#")
+            file = (base / path).resolve() if path else ROOT / page
+        if not file.exists() or (ROOT.resolve() not in file.parents and file != ROOT.resolve()):
             missing.append(target)
         elif anchor and file.suffix == ".md":
             heads = re.findall(r"(?m)^#{1,4} (.+)$", file.read_text(encoding="utf-8"))
@@ -295,8 +343,19 @@ def test_the_links_lead_to_files_and_headings_that_exist(page):
     assert missing == []
 
 
+def test_the_readme_links_into_this_repository_only_at_this_versions_tag():
+    """Every link and image of the README that points into this repository names this version's tag: not a branch
+    (main moves on after the release) and not another version's tag."""
+    into_repo = [t for t in _targets(README) if "tsyyan/buddie" in t and REPO_URL.fullmatch(t)]
+    assert len(into_repo) >= 30, len(into_repo)
+    assert all(_local(t) for t in into_repo)
+    assert not re.search(r"tsyyan/buddie/(?:blob|tree|raw)?/?main/", README)
+    assert all(t.startswith("https://raw.githubusercontent.com/") for t in into_repo
+               if t.endswith((".png", ".svg")))
+
+
 def _images():
-    return re.findall(r'<img src="([^"]+)" alt="([^"]*)"', README)
+    return [(_local(src) or src, alt) for src, alt in re.findall(r'<img src="([^"]+)" alt="([^"]*)"', README)]
 
 
 def _alt(src: str) -> str:
@@ -376,9 +435,10 @@ def test_the_brand_images_are_transparent_and_the_logo_has_a_dark_theme_twin():
     transparent frame, opaque artwork. On dark pages GitHub shows the logo whose wordmark is frost white; it is the
     same drawing: the same shape, the same dog."""
     pictures = re.findall(r"<picture>\s*<source ([^>]+)>\s*<img src=\"([^\"]+)\"[^>]*>\s*</picture>", README)
-    assert len(pictures) == 1 and pictures[0][1] == "assets/brand/buddie-logo.png", pictures
+    assert len(pictures) == 1 and _local(pictures[0][1]) == "assets/brand/buddie-logo.png", pictures
     source = pictures[0][0]
-    assert 'media="(prefers-color-scheme: dark)"' in source and 'srcset="assets/brand/buddie-logo-dark.png"' in source
+    srcset = re.search(r'srcset="([^"]+)"', source)[1]
+    assert 'media="(prefers-color-scheme: dark)"' in source and _local(srcset) == "assets/brand/buddie-logo-dark.png"
     assert len((ROOT / "assets/brand/buddie-logo-dark.png").read_bytes()) <= 500_000
     light, dark, hero = (_png(ROOT / f"assets/brand/{n}")
                          for n in ("buddie-logo.png", "buddie-logo-dark.png", "readme-hero.png"))

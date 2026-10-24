@@ -4,10 +4,8 @@ Every way to install buddie, what each gives you, the MCP tools, and how enforce
 work. The [README](../README.md#get-started) has the short path; what each surface does in detail is in
 [integrations.md](integrations.md).
 
-Features marked *(2.0)* are not in 1.1.1, the latest release on PyPI, GitHub Releases, the Desktop bundle and the MCP
-Registry ([release status](../README.md#release-status)). Until 2.0.0 is released they come only from this
-repository's source: the plugin marketplaces install its default branch, and
-`pip install git+https://github.com/tsyyan/buddie` installs that branch as a package.
+Features marked *(2.0)* are new in 2.0.0 and are not in 1.1.1 or earlier
+([release status](../README.md#release-status)).
 
 ## Install
 
@@ -51,7 +49,7 @@ session log is not Claude Code's transcript. Setup and the MCP-only route: [inst
 
 ### Claude Desktop
 
-Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (1.1.1 today) and open
+Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (2.0.0 today) and open
 it. Desktop has no hooks, so Claude has to call `verify_report` itself, and `run:` is unchecked.
 [install-claude-desktop.md](install-claude-desktop.md).
 
@@ -63,7 +61,7 @@ For a client that starts a command (stdio), with [uv](https://docs.astral.sh/uv/
 uvx buddie serve
 ```
 
-This runs the latest release on PyPI (1.1.1 today); `uvx buddie@2.0.0 serve` will pin 2.0.0 once it is released. A
+This runs the latest release on PyPI (2.0.0 today); `uvx buddie@2.0.0 serve` pins that version. A
 remote server you host for claude.ai or ChatGPT: [deploy.md](deploy.md).
 
 ### Terminal or CI

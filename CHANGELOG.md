@@ -1,15 +1,6 @@
 # Changelog
 
-## Unreleased
-
-- Fix remote public GitHub `ci:` verification: allow commit resolution and explicit latest check-run pagination,
-  with strict route/query validation and the existing public-repository checks.
-- README rewritten as the 2.0 landing page: verify, catch mismatches and observe, a real verification run and a real
-  diagnostics run (assets/demo), one recommended start, a short statement of limits; badges for CI, Python and
-  license. Its detail moved word for word to docs/verification.md, docs/getting-started.md and docs/limitations.md;
-  `tests/test_readme.py` runs the examples there and the diagnostics demo with the README's grants file.
-
-## buddie 2.0.0 (prepared, not released)
+## buddie 2.0.0 (2026-10-24)
 
 Upgrading from 1.1.1: nothing to change for a 1.x setup. receipt-v0 stays the default with the same keys, outcome
 words and statuses; the CLI's exit codes, the MCP tools' arguments, the hooks' registration and existing `buddie.toml`
@@ -73,6 +64,17 @@ Release candidate and distribution (PR #38):
 - docs/distribution.md: every channel's public version, source, update path and review, with the MCPRush, Glama and
   Anthropic directory audits. The repository's plugin marketplace follows `main`, so it serves 2.0.0 already.
 - The MCP tools `snap` and `source_text` describe each parameter. `scripts/make_icon.py` takes its output path.
+
+Remote verification, the landing page and release finalization (PRs #42, #44 and the release commit):
+- Fix remote public GitHub `ci:` verification: allow commit resolution and explicit latest check-run pagination,
+  with strict route/query validation and the existing public-repository checks.
+- README rewritten as the 2.0 landing page: verify, catch mismatches and observe, a real verification run and a real
+  diagnostics run (assets/demo), one recommended start, a short statement of limits; badges for CI, Python and
+  license. Its detail moved word for word to docs/verification.md, docs/getting-started.md and docs/limitations.md;
+  `tests/test_readme.py` runs the examples there and the diagnostics demo with the README's grants file.
+- The README's images and links point at the `v2.0.0` tag, so the PyPI page (which resolves no relative path)
+  shows them; `tests/test_readme.py` maps each pinned URL back to the file in the checkout. The GitHub Actions
+  that build and publish a release are pinned to full commit SHAs.
 
 Release hardening (docs/release-hardening.md):
 - RH-1 (the intermittent Windows test failures): by experiment, the failure depends on the launcher. It reproduces
