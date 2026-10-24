@@ -110,7 +110,9 @@ only methods the category declares, fixed argument lists, an allowlisted environ
 `LD_PRELOAD`, `DYLD_*`, `DOCKER_HOST`), the system's temporary directory as working directory, `PATH` searched by
 buddie with absolute entries only, batch and PowerShell scripts not run, a deadline and a program budget per request,
 only version- or model-shaped output kept. What is collected is decided by the person's grants and the protected
-policy, never by the request.
+policy, never by the request. The grants file is the user's and so writable by a same-user agent: it states intent,
+it is not a barrier. Only a protected policy is a ceiling such an agent cannot raise, and without one there is no
+independent boundary ([environment.md](environment.md#diagnostics), "What each of these is worth against an agent").
 
 ## Remaining limits
 

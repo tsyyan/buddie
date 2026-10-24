@@ -240,11 +240,39 @@ does not list stays denied whatever the grants say, and an active policy without
 one allows none. Its `roots` bound the directories path-scoped categories may read, whatever roots the grants file
 lists (`path_not_allowed_by_policy`). The policy can only narrow: it never grants what you did not.
 
-**The limit of a local grant.** The grants file is yours, and so it is also writable by an agent running as your
-user, as are `PATH`, the environment and the project. A grant states what you intend; it does not stop such an agent,
-which could also run `nvidia-smi` itself through a shell. Only the protected policy is out of its reach. Diagnostics
-give agents without a shell (Claude Desktop, MCP-only clients) a bounded way to learn the machine, and every agent a
-structured, attributed one. A client's own tool confirmation is a second step on top, not a replacement.
+**What each of these is worth against an agent.**
+
+| | What it is | Against an agent running as your user |
+|---|---|---|
+| Your grants file | the access you intend, written down | **no barrier**: the file is yours, so it is the agent's to edit too, as are `PATH`, the environment and the project |
+| A protected policy | an administrator's ceiling (`[environment] allow`, `roots`) | **a ceiling it cannot raise**, as far as the system protects the file and buddie's launch ([policy.md](policy.md), "A trusted launcher"); not against an administrator, or a host already compromised |
+| No protected policy | the grants file alone | **no independent boundary**: a same-user agent that can edit the grants file can grant itself any category |
+
+So the grants decide what a well-behaved agent is told, and what an agent without file access (Claude Desktop,
+MCP-only clients) can learn; they do not contain an agent that can write your files, which could also run
+`nvidia-smi` itself through a shell. Approving an MCP call in a client is a second step for that call, not a grant:
+nothing is remembered from it.
+
+**Mixed requests.** `buddie snapshot --category ... --artifact FILE` (or `--report`) makes two collections in one
+document, and says so. The categories are governed by the grants and the policy. The environment-v0 snapshot is
+collected as `buddie snapshot` without `--category` always collects it, governed by neither, and present under
+`snapshot` even when every category is denied. The document records the two in `scopes`
+(`diagnostics.governed_by: grants_and_policy`, `legacy_snapshot.governed_by: none`) and the limitation
+`snapshot_not_category_gated`; the summary prints the snapshot under its own heading:
+
+```
+buddie snapshot: diagnostics of 2 categories (grants absent, policy absent; these govern the categories only)
+  system.os: denied (not_granted)
+  hardware.gpu: denied (not_granted)
+  denied categories need a grant: buddie snapshot --grants
+  limitations: snapshot_not_category_gated
+LEGACY SNAPSHOT (environment-v0): COLLECTED, a separate collection not governed by the grants or the policy above
+  buddie snapshot: repository not_a_repository; 1 of 1 artifacts observed
+  every diagnostics category above was denied or unsupported; the legacy snapshot was still collected because --artifact/--report asked for it
+```
+
+The legacy collection never runs a diagnostics collector, and the MCP tool cannot ask for it: `artifacts`, `report`
+or `root` are unknown arguments there.
 
 ### The document
 
@@ -257,7 +285,8 @@ structured, attributed one. A client's own tool confirmation is a second step on
 | `categories` | per category: `status` (`collected`, `partial`, `unavailable`, `denied`, `unsupported`), `reason`, `tier`, `methods` (each attempt: method, why, outcome), `observations` |
 | an observation | `status` `observed` (a `value`, its `basis`, the `method`, `observed_at`) or `unavailable` (a `reason`, no value), and `concerns` (`runtime`, or `windows_host` from WSL) |
 | `supplied` | the task and anything else the caller states, never promoted to an observation |
-| `snapshot` | the environment-v0 snapshot, when `--artifact` or `--report` is given with `--category`; `buddie freshness repo --snapshot` reads it. It is collected as `buddie snapshot` always collects it (the CLI only, never over MCP), not gated by the categories, and the document says so: limitation `snapshot_not_category_gated` |
+| `scopes` | the two collections and what governs each: `diagnostics` (the categories: the grants and the policy) and `legacy_snapshot` (requested or not; when it is, governed by neither) |
+| `snapshot` | the environment-v0 snapshot, when `--artifact` or `--report` is given with `--category`; `buddie freshness repo --snapshot` reads it. Collected as `buddie snapshot` always collects it (the CLI only, never over MCP), not gated by the categories: see "Mixed requests" |
 
 **Basis** says what a value rests on: `buddie` (its own interpreter), `os_interface` (the OS through Python: platform,
 `/proc`, `/sys`, the registry, a system call), `fixed_program` (a program at a fixed system location),

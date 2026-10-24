@@ -129,8 +129,11 @@ TOOLS = [
         "description": "Before giving system-specific instructions (install commands, drivers, setup), observe the "
                        "parts of this machine the task needs instead of guessing: ask only for those categories "
                        "(list: true names them). buddie collects what the person granted in their local grants file "
-                       "and the administrator's policy allows; anything else comes back denied, unsupported or "
-                       "unavailable with the reason. A request cannot grant: there is no consent argument. Each "
+                       "and the administrator's protected policy allows; anything else comes back denied, unsupported "
+                       "or unavailable with the reason. A request cannot grant: there is no consent argument, and an "
+                       "approval of this call is not a grant. The grants file states the person's intent; an agent "
+                       "with their file access could edit it, so only the protected policy is a ceiling it cannot "
+                       "change. This tool collects diagnostics categories only, never files or reports. Each "
                        "observation says what it rests on (basis); unavailable means not observed, not absent. "
                        "Nothing is installed or changed.",
         "inputSchema": {"type": "object", "additionalProperties": False, "properties": {

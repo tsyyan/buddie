@@ -282,6 +282,10 @@ makes the policy INVALID. `roots` bounds the directories the path-scoped categor
 `development.project`, `development.repository`) may read, on top of the person's grants file, which the agent can
 edit; without it an active policy lets them read none.
 
+This is the only part of diagnostics authorization an agent running as the user cannot change: the grants file is
+the user's, and so the agent's to edit. Without a protected policy there is no independent boundary. The policy does
+not govern the environment-v0 snapshot (`buddie snapshot` without `--category`, or with `--artifact`/`--report`).
+
 ```toml
 [environment]
 allow = ["baseline", "development.project"]

@@ -743,3 +743,137 @@ def test_the_cli_gives_a_directory_only_for_path_scoped_categories(tmp_path):
     assert json.loads((tmp_path / "d.json").read_text(encoding="utf-8"))["request"]["path_given"] is False
     _cli(["--category", "development.project", "--json", str(tmp_path / "p.json")], env)
     assert json.loads((tmp_path / "p.json").read_text(encoding="utf-8"))["request"]["path_given"] is True
+
+
+# --- two collection scopes: diagnostics (grants, policy) and the legacy v0 snapshot (neither) ---------------------------
+
+def _legacy_dir(tmp_path):
+    root = tmp_path / "legacy"
+    root.mkdir()
+    (root / "a.txt").write_text("hello\n", encoding="utf-8")
+    (root / "report.md").write_text("A report.\n", encoding="utf-8")
+    return root
+
+
+def test_all_categories_denied_and_a_legacy_snapshot_asked_for_are_two_separate_answers(tmp_path):
+    """No grants; --artifact and --report with two categories: the categories stay denied, the v0 snapshot is
+    collected (as `buddie snapshot` without --category would), and the document and the summary say both."""
+    root = _legacy_dir(tmp_path)
+    env = dict(os.environ, XDG_CONFIG_HOME=str(tmp_path / "c"), APPDATA=str(tmp_path / "c"))
+    got = _cli(["--root", str(root), "--artifact", "a.txt", "--report", str(root / "report.md"), "--category",
+                "system.os", "--category", "development.project", "--json", str(tmp_path / "d.json")], env)
+    assert got.returncode == 0
+    doc = json.loads((tmp_path / "d.json").read_text(encoding="utf-8"))
+    assert {c: (e["status"], e["reason"]) for c, e in doc["categories"].items()} == {
+        "system.os": ("denied", "not_granted"), "development.project": ("denied", "not_granted")}
+    assert all(e["observations"] == {} and e["methods"] == [] for e in doc["categories"].values())
+    assert doc["authorization"]["effective"] == []
+    snap = doc["snapshot"]
+    assert snap["format"] == environment.FORMAT and environment.problems(snap) == []
+    assert [(a["path"], a["status"]) for a in snap["artifacts"]] == [("a.txt", "observed")]
+    assert snap["report"]["sha256"] == __import__("hashlib").sha256(b"A report.\n").hexdigest()
+    assert doc["scopes"] == {"diagnostics": {"governed_by": "grants_and_policy", "applies_to": "categories"},
+                             "legacy_snapshot": {"requested": True, "collected": True, "governed_by": "none",
+                                                 "note": dg.LEGACY_SCOPE}}
+    assert "snapshot_not_category_gated" in doc["limitations"] and dg.problems(doc) == []
+    out = got.stdout
+    assert "these govern the categories only" in out
+    assert "LEGACY SNAPSHOT (environment-v0): COLLECTED, a separate collection not governed by the grants" in out
+    assert "every diagnostics category above was denied or unsupported; the legacy snapshot was still collected" in out
+    assert out.index("development.project: denied") < out.index("LEGACY SNAPSHOT")
+
+
+def test_a_legacy_snapshot_never_runs_a_denied_diagnostics_collector(monkeypatch, tmp_path):
+    root = _legacy_dir(tmp_path)
+    no_collector(monkeypatch, *EVERYTHING)
+    doc = dg.collect(EVERYTHING, path=str(root), legacy={"root": str(root), "artifacts_named": ["a.txt"],
+                                                         "report": "A report.\n"})
+    assert {e["status"] for e in doc["categories"].values()} == {"denied"}
+    assert doc["snapshot"]["artifacts"][0]["status"] == "observed" and dg.problems(doc) == []
+
+
+def test_a_policy_ceiling_holds_when_a_legacy_snapshot_is_asked_for(monkeypatch, tmp_path):
+    root = _legacy_dir(tmp_path)
+    _policy(monkeypatch, tmp_path, "version = 1\n")
+    no_collector(monkeypatch, "system.os", "hardware.memory")
+    doc = dg.collect(["system.os", "hardware.memory"], grants=grant("baseline"),
+                     legacy={"root": str(root), "artifacts_named": ["a.txt"], "report": None})
+    assert {e["reason"] for e in doc["categories"].values()} == {"policy_ceiling"}
+    assert doc["authorization"]["policy"] == "active" and doc["snapshot"]["collector"]["policy"] == "active"
+
+
+def test_mixed_granted_and_denied_categories_with_a_legacy_snapshot(tmp_path):
+    root = _legacy_dir(tmp_path)
+    doc = dg.collect(["system.os", "hardware.gpu"], grants=grant("system.os"),
+                     legacy={"root": str(root), "artifacts_named": ["a.txt"], "report": None})
+    assert doc["categories"]["system.os"]["status"] in ("collected", "partial")
+    assert (doc["categories"]["hardware.gpu"]["status"], doc["authorization"]["effective"]) == ("denied", ["system.os"])
+    text = "\n".join(dg.lines(doc))
+    assert "LEGACY SNAPSHOT" in text and "every diagnostics category above was denied" not in text
+
+
+def test_authorized_diagnostics_without_legacy_arguments_have_no_legacy_scope():
+    doc = dg.collect(["system.os"], grants=grant("baseline"))
+    assert doc["snapshot"] is None and doc["scopes"]["legacy_snapshot"] == {
+        "requested": False, "collected": False, "governed_by": None, "note": None}
+    assert "snapshot_not_category_gated" not in doc["limitations"] and "LEGACY" not in "\n".join(dg.lines(doc))
+
+
+def test_a_legacy_only_invocation_is_environment_v0_as_before(tmp_path):
+    root = _legacy_dir(tmp_path)
+    got = _cli(["--root", str(root), "--artifact", "a.txt"])
+    doc = json.loads(got.stdout)
+    assert got.returncode == 0 and doc["format"] == environment.FORMAT and environment.problems(doc) == []
+    assert "scopes" not in doc and "categories" not in doc
+
+
+@pytest.mark.parametrize("args, code, want", [
+    (["--report", "missing.md"], 2, "cannot be read"),
+    (["--report", "."], 2, "is a directory"),
+    (["--artifact", "missing.txt"], 0, "missing"),
+    (["--artifact", "../outside.txt"], 0, "outside_root"),
+])
+def test_invalid_or_unreadable_legacy_input_with_categories(tmp_path, args, code, want):
+    root = _legacy_dir(tmp_path)
+    got = subprocess.run([sys.executable, "-m", "buddie", "snapshot", "--root", str(root), "--category", "system.os",
+                          *args, "--json", str(tmp_path / "d.json")], capture_output=True, text=True,
+                         encoding="utf-8", timeout=120, cwd=str(root), stdin=subprocess.DEVNULL)
+    assert got.returncode == code, got.stderr
+    if code == 2:
+        assert want in got.stderr and not (tmp_path / "d.json").exists()
+    else:
+        doc = json.loads((tmp_path / "d.json").read_text(encoding="utf-8"))
+        assert [a["reason"] for a in doc["snapshot"]["artifacts"]] == [want] and dg.problems(doc) == []
+
+
+@pytest.mark.parametrize("extra", [{"artifacts": ["a.txt"]}, {"artifact": "a.txt"}, {"report": "text"},
+                                   {"root": "."}, {"supplied": {"x": 1}}, {"legacy": True}])
+def test_the_mcp_tool_cannot_ask_for_a_legacy_snapshot(monkeypatch, extra):
+    no_collector(monkeypatch, *EVERYTHING)
+    monkeypatch.setattr(environment, "collect", lambda *a, **k: (_ for _ in ()).throw(AssertionError("collected")))
+    data, is_error = mcp.environment_snapshot({"categories": ["system.os"], **extra})
+    assert is_error and "unknown arguments" in data["error"]
+
+
+def test_a_document_must_state_its_scopes_and_the_ungated_snapshot(tmp_path):
+    root = _legacy_dir(tmp_path)
+    doc = dg.collect(["system.os"], grants=grant("baseline"),
+                     legacy={"root": str(root), "artifacts_named": ["a.txt"], "report": None})
+    assert dg.problems(doc) == []
+    for edit in (lambda d: d["scopes"]["legacy_snapshot"].update(governed_by="grants_and_policy"),
+                 lambda d: d.update(limitations=[]),
+                 lambda d: d["scopes"]["legacy_snapshot"].update(requested=False),
+                 lambda d: d.pop("scopes")):
+        bad = json.loads(dg.dumps(doc))
+        edit(bad)
+        assert dg.problems(bad), edit
+
+
+def test_grants_output_and_tool_description_state_the_trust_boundary():
+    text = "\n".join(dg.describe_grants())
+    assert "an agent running as you" in text and "not a barrier" in text
+    assert "no protected policy: nothing outside your grants file limits a same-user agent" in text
+    assert "govern diagnostics categories only" in text
+    tool = next(t for t in mcp.TOOLS if t["name"] == "environment_snapshot")
+    assert "no consent argument" in tool["description"] and "approval of this call is not a grant" in \
+        tool["description"] and "never files or reports" in tool["description"]

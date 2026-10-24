@@ -532,11 +532,15 @@ def main(argv: list[str] | None = None) -> int:
     sn.add_argument("--json", help="write the snapshot here and print one line (default: the snapshot on stdout)")
     sn.add_argument("--category", action="append",
                     help="diagnostics: a category to observe, e.g. system.os, hardware.gpu, software.python "
-                         "(repeatable; --list names them all). Only what your grants allow is collected")
+                         "(repeatable; --list names them all). Only what your grants and the policy allow is "
+                         "collected. With --artifact or --report the environment-v0 snapshot is collected too, as "
+                         "without --category, and is not governed by them: the output says so")
     sn.add_argument("--task", help="diagnostics: what the observation is for (kept as your word, grants nothing)")
     sn.add_argument("--tool", action="append", help="diagnostics, software.tools: a catalog tool name (repeatable)")
     sn.add_argument("--list", action="store_true", help="the diagnostic categories, what each reads, which are granted")
-    sn.add_argument("--grants", action="store_true", help="what your grants file and the protected policy allow")
+    sn.add_argument("--grants", action="store_true",
+                    help="what your grants file (your intent; an agent running as you can edit it) and the protected "
+                         "policy (a ceiling it cannot) allow; they govern --category only")
     sn.add_argument("--grant-template", action="store_true", help="print a grants file to save and edit")
     sn.set_defaults(func=cmd_snapshot)
     fr = sub.add_parser("freshness", help="whether evidence is bound to the revision a claim is about")

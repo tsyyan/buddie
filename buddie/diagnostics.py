@@ -511,11 +511,27 @@ def collect(categories, *, task=None, tools=None, path=None, supplied=None, lega
                 "categories": out,
                 "supplied": {**({"task": task} if task is not None else {}), **given},
                 "limitations": sorted(set(limits) | ({"snapshot_not_category_gated"} if snapshot else set())),
+                "scopes": scopes(snapshot is not None),
                 "snapshot": snapshot,
             }
     finally:
         _RUNNING.release()
     return _bounded(doc)
+
+
+LEGACY_SCOPE = ("environment-v0, asked for with --artifact or --report: collected as `buddie snapshot` without "
+                "--category collects it, not governed by the diagnostics grants or the protected policy's "
+                "[environment] ceiling; a denied category above does not mean it was not collected")
+
+
+def scopes(legacy: bool) -> dict:
+    """The two collections a document can hold, and what governs each: the categories, by the person's grants and
+    the protected policy; the embedded environment-v0 snapshot, by nothing of that (it is the legacy command's
+    collection, made only when the caller asks for it, from the CLI only)."""
+    return {"diagnostics": {"governed_by": "grants_and_policy", "applies_to": "categories"},
+            "legacy_snapshot": {"requested": legacy, "collected": legacy,
+                                "governed_by": "none" if legacy else None,
+                                "note": LEGACY_SCOPE if legacy else None}}
 
 
 def _category(cid, platform_key, decision, grants, path, tools, bad_tools, clock, budget, limits,
@@ -608,9 +624,11 @@ def _short(value) -> str:
 
 
 def lines(doc: dict) -> list[str]:
-    """The document for a person: a line per category, its status, then what was observed or why not."""
+    """The document for a person: a line per category, its status, then what was observed or why not; then, when
+    there is one, the legacy snapshot as a collection of its own, so a denial above never reads as covering it."""
     out = [f"buddie snapshot: diagnostics of {len(doc['categories'])} categories "
-           f"(grants {doc['authorization']['grants']}, policy {doc['authorization']['policy']})"]
+           f"(grants {doc['authorization']['grants']}, policy {doc['authorization']['policy']}; "
+           f"these govern the categories only)"]
     for cid, entry in doc["categories"].items():
         head = f"  {cid}: {entry['status']}" + (f" ({entry['reason']})" if entry.get("reason") else "")
         out.append(head)
@@ -624,6 +642,16 @@ def lines(doc: dict) -> list[str]:
         out.append("  denied categories need a grant: buddie snapshot --grants")
     if doc["limitations"]:
         out.append(f"  limitations: {', '.join(doc['limitations'])}")
+    snap = doc.get("snapshot")
+    if snap is not None:
+        from buddie import environment
+        denied = all(e["status"] in ("denied", "unsupported") for e in doc["categories"].values())
+        out.append("LEGACY SNAPSHOT (environment-v0): COLLECTED, a separate collection not governed by the grants or "
+                   "the policy above")
+        out.append(f"  {environment.line(snap)}")
+        if denied:
+            out.append("  every diagnostics category above was denied or unsupported; the legacy snapshot was still "
+                       "collected because --artifact/--report asked for it")
     return out
 
 
@@ -632,11 +660,16 @@ def describe_grants() -> list[str]:
     g = load_grants()
     loaded = policy.load()
     out = [f"grants file: {g.path} ({g.status}{': ' + g.error if g.error else ''})",
+           "  your intended access; writable by you, and so by an agent running as you: not a barrier against it",
            f"  granted: {', '.join(sorted(g.allow)) or 'nothing'}",
            f"  roots: {len(g.roots)} granted director{'y' if len(g.roots) == 1 else 'ies'}",
            f"protected policy: {loaded.status.value}"]
     if loaded.status.value != "absent":
-        out.append(f"  policy allows: {', '.join(sorted(loaded.effective.environment)) or 'nothing'}")
+        out.append(f"  policy allows: {', '.join(sorted(loaded.effective.environment)) or 'nothing'}"
+                   " (a ceiling an agent cannot change, as far as the system protects the file and buddie's launch)")
+    else:
+        out.append("  no protected policy: nothing outside your grants file limits a same-user agent")
+    out.append("  grants and policy govern diagnostics categories only, not the environment-v0 snapshot")
     if g.status != "active":
         out.append("  to grant: buddie snapshot --grant-template, then save it there and edit it")
     return out
@@ -645,7 +678,7 @@ def describe_grants() -> list[str]:
 # --- consistency ------------------------------------------------------------------------------------------------------
 
 TOP = {"format", "collector", "request", "authorization", "started_at", "finished_at", "observations_concern",
-       "categories", "supplied", "limitations", "snapshot"}
+       "categories", "supplied", "limitations", "scopes", "snapshot"}
 STATUSES = {"collected", "partial", "unavailable", "denied", "unsupported"}
 _TIME = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
@@ -722,8 +755,13 @@ def problems(doc) -> list[str]:
                     out.append(f"{w}: unavailable has a known reason and no value")
             else:
                 out.append(f"{w}: status {o['status']!r}")
+    if doc["scopes"] != scopes(doc["snapshot"] is not None):
+        out.append("scopes: must say the categories are governed by grants and policy and an embedded snapshot by "
+                   "neither, and agree with whether there is one")
     if doc["snapshot"] is not None:
         out += [f"snapshot: {p}" for p in environment.problems(doc["snapshot"])]
+        if "snapshot_not_category_gated" not in (doc["limitations"] if type(doc["limitations"]) is list else []):
+            out.append("limitations: an embedded snapshot needs snapshot_not_category_gated")
     task = doc["supplied"].get("task") if type(doc["supplied"]) is dict else None
     if task is not None and (type(task) is not str or len(task) > MAX_TASK):
         out.append("supplied.task: short text")
