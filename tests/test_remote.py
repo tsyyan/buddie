@@ -71,6 +71,142 @@ def test_verify_report_over_http(server):
     assert result["structuredContent"]["predicate"]["outcome"] == "GAPS"  # no repos on the server: UNCHECKABLE
 
 
+@pytest.fixture
+def ci_callback():
+    sha = "a" * 40
+    root = "/repos/o/pub"
+    commit = f"{root}/commits/{sha}"
+    answers = {
+        root: {"private": False, "full_name": "o/pub"},
+        f"{root}/commits/aaaaaaa": {"sha": sha},
+        commit: {"sha": sha},
+        f"{commit}/check-runs?filter=latest&per_page=100&page=1": {
+            "total_count": 1, "check_runs": [
+                {"name": "test", "head_sha": sha, "status": "completed", "conclusion": "success",
+                 "check_suite": {"id": 1}}]},
+        f"{commit}/status": {"sha": sha, "statuses": []},
+    }
+    calls = []
+
+    def get(path):
+        calls.append(path)
+        return answers[path]  # an unexpected request is a test failure
+    return get, answers, calls, commit
+
+
+def test_remote_ci_matches_direct_callback(ci_callback, tmp_path):
+    from buddie import effects
+    from buddie.verify import verify
+    get, _, calls, commit = ci_callback
+    text = "`⚓ ci:o/pub@aaaaaaa=success`"
+    direct = verify(text, repos=[], fetch=False, mandate=False, github=get, store=tmp_path / "direct")
+    calls.clear()
+    wrapped = remote.public_github(get)
+    receipt = verify(text, repos=[], fetch=False, mandate=False, github=wrapped, store=tmp_path / "remote")
+    assert direct["predicate"]["outcome"] == receipt["predicate"]["outcome"] == "PASS"
+    assert receipt["predicate"]["anchors"][0]["status"] == "HOLDS"
+    assert calls == ["/repos/o/pub", "/repos/o/pub/commits/aaaaaaa",
+                     f"{commit}/check-runs?filter=latest&per_page=100&page=1", f"{commit}/status"]
+    assert not effects.own_get(wrapped)  # a supplied callback gains no collector identity
+
+
+def test_ci_verification_over_http(server, monkeypatch, ci_callback):
+    from buddie import effects
+    get, _, calls, _ = ci_callback
+    monkeypatch.setattr(effects, "github_get", get)
+    status, _, body = call(server(), rpc("tools/call", {"name": "verify_report", "arguments": {
+        "text": "`⚓ ci:o/pub@aaaaaaa=success`", "fetch": False}}))
+    assert status == 200 and body["result"]["isError"] is False
+    receipt = body["result"]["structuredContent"]["predicate"]
+    assert receipt["outcome"] == "PASS" and receipt["anchors"][0]["status"] == "HOLDS"
+    assert calls[0] == "/repos/o/pub"
+
+
+@pytest.mark.parametrize("last_page,reason", [("success", None), ("failure", None),
+                                              ("missing", "not_found"), ("incomplete", "incomplete_answer")])
+def test_remote_ci_reads_latest_pages_before_deciding(ci_callback, last_page, reason):
+    from buddie import freshness
+    get, answers, calls, commit = ci_callback
+    first = answers[f"{commit}/check-runs?filter=latest&per_page=100&page=1"]
+    run = first["check_runs"][0]
+    first.update(total_count=101, check_runs=[dict(run, name=f"check-{i}") for i in range(100)])
+    second = f"{commit}/check-runs?filter=latest&per_page=100&page=2"
+    answers[second] = None if last_page == "missing" else {
+        "total_count": 102 if last_page == "incomplete" else 101,
+        "check_runs": [dict(run, name="last", conclusion=last_page if last_page == "failure" else "success")]}
+    result = freshness.ci_evidence("o/pub", "aaaaaaa", remote.public_github(get))
+    assert result.reason == reason
+    if reason is None:
+        assert result.revision == "a" * 40 and result.details["selection"] == "latest"
+        assert result.details["ci"] == last_page and len(result.details["check_runs"]) == 101
+    else:
+        assert result.revision is None
+    assert calls[:4] == ["/repos/o/pub", "/repos/o/pub/commits/aaaaaaa",
+                         f"{commit}/check-runs?filter=latest&per_page=100&page=1", second]
+    assert calls.count("/repos/o/pub") == 1
+
+
+def test_remote_ci_stops_at_twenty_full_pages(ci_callback):
+    from buddie import freshness
+    get, answers, calls, commit = ci_callback
+    run = answers[f"{commit}/check-runs?filter=latest&per_page=100&page=1"]["check_runs"][0]
+    for page in range(1, 21):
+        answers[f"{commit}/check-runs?filter=latest&per_page=100&page={page}"] = {
+            "total_count": 2001, "check_runs": [dict(run, name=f"check-{page}-{i}") for i in range(100)]}
+    result = freshness.ci_evidence("o/pub", "aaaaaaa", remote.public_github(get))
+    assert result.revision is None and result.reason == "too_many_checks"
+    assert len(calls) == 22 and calls[-1].endswith("page=20")
+
+
+@pytest.mark.parametrize("metadata", [None, {}, {"private": True, "full_name": "o/pub"},
+                                      {"private": False, "full_name": "o/renamed"}])
+def test_remote_ci_refuses_nonpublic_or_renamed_repo_before_commit(ci_callback, metadata):
+    from buddie import freshness
+    get, answers, calls, _ = ci_callback
+    answers["/repos/o/pub"] = metadata
+    result = freshness.ci_evidence("o/pub", "aaaaaaa", remote.public_github(get))
+    assert result.revision is None and result.reason == "not_found"
+    assert calls == ["/repos/o/pub"]
+
+
+@pytest.mark.parametrize("rest", ["commits/aaaaaaa", "commits/" + "a" * 64,
+    "commits/aaaaaaa/status", "pulls/1",
+    "commits/aaaaaaa/check-runs?per_page=100&page=1",
+    "commits/aaaaaaa/check-runs?filter=latest&per_page=100&page=20"])
+def test_public_github_accepts_only_required_route_forms(rest):
+    calls = []
+    data = {"base": {"repo": {"private": False, "full_name": "o/pub"}}}
+
+    def get(path):
+        calls.append(path)
+        return {"private": False, "full_name": "o/pub"} if path == "/repos/o/pub" else data
+    assert remote.public_github(get)(f"/repos/o/pub/{rest}") == data
+    assert calls == ["/repos/o/pub", f"/repos/o/pub/{rest}"]
+
+
+@pytest.mark.parametrize("path", [
+    "https://api.github.com/repos/o/pub/commits/aaaaaaa", "//evil.example/repos/o/pub/commits/aaaaaaa",
+    "/repos/../pub/commits/aaaaaaa", "/repos/o/./commits/aaaaaaa", "/repos/o/pub%2f../commits/aaaaaaa",
+    "/repos/o/pub/commits/aaaaaaa/../status", "/repos/o/pub/commits/aaaaaaa%2fstatus",
+    "/repos/o/pub/commits/main", "/repos/o/pub/commits/aaaaaa", "/repos/o/pub/commits/" + "a" * 65,
+    "/repos/o/pub/commits/aaaaaaa?x=1", "/repos/o/pub/commits/aaaaaaa#x",
+    "/repos/o/pub/commits/aaaaaaa\n", "/repos/o/pub/pulls/1\n", "/repos/o/pub/pulls/١",
+    "/repos/o/pub/contents/secret", "/repos/o/pub/commits/aaaaaaa/status?x=1",
+] + ["/repos/o/pub/commits/aaaaaaa/check-runs" + query for query in [
+    "", "?filter=all&per_page=100&page=1", "?filter=latest", "?per_page=100&page=0",
+    "?filter=latest&per_page=100&page=0", "?filter=latest&per_page=100&page=21",
+    "?filter=latest&per_page=100&page=01", "?filter=latest&per_page=100&page=١",
+    "?filter=latest&per_page=1&page=1", "?filter=latest&per_page=100&page=1&x=1",
+    "?filter=latest&per_page=100&page=1&page=2", "?filter=latest&filter=all&per_page=100&page=1",
+    "?filter=latest&per_page=100&page=1#x", "?filter=latest&per_page=100&page=1\n",
+    "?per_page=100&filter=latest&page=1", "?filter=latest&per_page=100&page=%31",
+]])
+def test_public_github_rejects_paths_and_queries_before_callback(path):
+    calls = []
+    assert remote.public_github(lambda p: calls.append(p))(path) is None
+    assert calls == []
+
+
 @pytest.mark.parametrize("name,arguments,needle", [
     ("verify_report", {"path": "/etc/passwd"}, "path"),
     ("verify_report", {"text": "x", "repos": ["/"]}, "repos"),
