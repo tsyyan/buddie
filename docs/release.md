@@ -29,7 +29,8 @@ long before a release needs it. With read-only permission and no secret, it:
    ([`scripts/smoke_mcpb.py`](../scripts/smoke_mcpb.py));
 4. installs the wheel and the sdist each into a clean venv and runs them from outside the checkout
    ([`scripts/smoke_install.py`](../scripts/smoke_install.py)): both entry points report the version, the stdio MCP
-   server lists its four tools, and the README's quickstart gives exit 1 and `FAIL`;
+   server lists its four tools, and the quickstart ([verification.md](verification.md#see-it-work)) gives exit 1 and
+   `FAIL`;
 5. records the candidate ([`scripts/release_manifest.py`](../scripts/release_manifest.py)): `release-manifest.json`
    (schema `buddie-release-candidate-v1`: version, commit, ref, repository, run id, and each file's path, kind,
    size and SHA-256) and `SHA256SUMS` in the format `sha256sum -c` reads; both are checked against the files at once;
@@ -282,7 +283,8 @@ trusted publisher is bound to. If TestPyPI is wanted again, it needs a trusted p
 2. In a release-commit PR, date the release. The date is the owner's decision, the day publication is approved
    for; nothing here picks it. The `CHANGELOG.md` section becomes `## buddie X.Y.Z (YYYY-MM-DD)`, `CITATION.cff`
    gets `date-released: YYYY-MM-DD` (left out while the version is unreleased), and the README's "Release
-   status" table names X.Y.Z as the latest release (the README is also PyPI's page for it). `tests/test_version.py`
+   status" table names X.Y.Z as the latest release (the README is also PyPI's page for it), as do the "(X.Y.Z today)"
+   notes in [getting-started.md](getting-started.md). `tests/test_version.py`
    and `tests/test_readme.py` fail until all three agree. The sdist carries the README and the CHANGELOG, so this
    commit comes **before** the tag: what the tag's candidate contains cannot be changed later.
 3. Merge to `main` with CI green (CI has already built a candidate of that commit).

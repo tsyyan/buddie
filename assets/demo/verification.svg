@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="430" viewBox="0 0 600 430" role="img" aria-labelledby="t d">
+<title id="t">Verify: an agent claim checked against the session transcript</title>
+<desc id="d">From a real buddie 2.0.0 run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q =&gt; 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit code 1.</desc>
+<rect x=".5" y=".5" width="599" height="429" rx="18" fill="#101B2D" stroke="#2D435B"/>
+<text x="32" y="46" fill="#F3F8FD" fill-opacity=".65" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17">Real run · bundled <tspan font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace">examples/work</tspan> fixture</text>
+<path d="M32 66H568" stroke="#2D435B"/>
+<path d="M40 106V332" stroke="#69D8EF" stroke-opacity=".35" stroke-width="2"/>
+<circle cx="40" cy="98" r="7" fill="#69D8EF"/>
+<circle cx="40" cy="232" r="7" fill="#69D8EF"/>
+<circle cx="40" cy="324" r="7" fill="#69D8EF"/>
+<g font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+<text x="64" y="104" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">AGENT CLAIM</text>
+<text x="64" y="140" fill="#F3F8FD" font-size="25">“Fixed the date parser;</text>
+<text x="64" y="172" fill="#F3F8FD" font-size="25">the test suite is green”</text>
+<text x="64" y="204" fill="#F3F8FD" fill-opacity=".78" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="20">⚓ run:pytest -q =&gt; 41 passed</text>
+<text x="64" y="238" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">EVIDENCE · SESSION TRANSCRIPT</text>
+<rect x="64" y="252" width="504" height="46" rx="10" fill="#F3F8FD" fill-opacity=".06"/>
+<text x="84" y="282" fill="#F3F8FD" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="22">1 failed, 40 passed in 3.1s</text>
+<text x="64" y="330" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">VERIFICATION OUTCOME</text>
+<rect x="64" y="348" width="90" height="42" rx="8" fill="#FF8F8F"/>
+<text x="109" y="377" fill="#101B2D" font-size="22" font-weight="700" text-anchor="middle">FAIL</text>
+<text x="170" y="368" fill="#F3F8FD" font-size="20">effects 0/1 hold, 1 broken</text>
+<text x="170" y="392" fill="#F3F8FD" fill-opacity=".65" font-size="17">exit 1</text>
+</g>
+</svg>
