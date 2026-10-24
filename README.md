@@ -53,7 +53,7 @@ An agent reports that it fixed a date parser and that the test suite is green. I
 anchor, `⚓ run:pytest -q => 41 passed`, that Buddie can check. The session transcript records what the test command
 actually printed:
 
-<img src="assets/demo/verification.svg" alt="Verify, from a real run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q => 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit 1." width="720">
+<img src="assets/demo/verification.svg" alt="Verify, from a real run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q => 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit 1." width="600">
 
 Run it yourself from a clone; the report and transcript are in [`examples/work`](examples/work):
 
@@ -78,11 +78,12 @@ checks what: [verification guide](docs/verification.md).
 An agent is asked to set up a local development environment. Instead of guessing the operating system, GPU or Python
 version, it asks Buddie for three categories, which the person has granted:
 
-<img src="assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Requested and granted categories: system.os, hardware.gpu, software.python. Authorized observations: Windows 11 (os_interface); NVIDIA GeForce GTX 1650 with 4 GiB VRAM (fixed_program); Python 3.14.6 with pip and venv (buddie)." width="720">
+<img src="assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Requested and granted categories: system.os, hardware.gpu, software.python. Authorized observations: Windows 11 (os_interface); NVIDIA GeForce GTX 1650 with 4 GiB VRAM (fixed_program); Python 3.14.6 with pip and venv (buddie)." width="600">
 
 <!-- readme-diagnostics -->
 ```bash
-buddie snapshot --category system.os --category hardware.gpu --category software.python --task "configure local development environment" --json diagnostics.json
+buddie snapshot --category system.os --category hardware.gpu --category software.python \
+  --task "configure local development environment" --json diagnostics.json
 ```
 
 ```

@@ -135,7 +135,7 @@ def test_the_readme_diagnostics_demo_runs_and_is_shaped_as_buddie_prints_it(tmp_
     from buddie import diagnostics, probes
     cmd, shown = _diagnostics_demo()
     home = _readme_grants(tmp_path)
-    args = [a.strip('"') for a in re.findall(r'"[^"]*"|\S+', cmd)]
+    args = [a.strip('"') for a in re.findall(r'"[^"]*"|\S+', cmd) if a != "\\"]  # "\" continues the line
     assert args[:2] == ["buddie", "snapshot"]
     args[args.index("--json") + 1] = str(tmp_path / "diagnostics.json")
     env = _env(tmp_path, APPDATA=str(home), XDG_CONFIG_HOME=str(home))
@@ -308,7 +308,7 @@ def test_the_readme_images_exist_are_described_and_light_enough():
             assert "<title" in svg and 'role="img"' in svg, src
             assert not re.search(r"<script|<foreignObject|\bon[a-z]+=|href=|url\(|@import", svg, re.I), src
             width = int(re.search(r'<svg[^>]* width="(\d+)"', svg)[1])
-            assert width <= 800, (src, width)  # its text stays readable when GitHub scales it to a phone
+            assert width <= 600, (src, width)  # its text stays readable when GitHub scales it to a phone
     # the social preview is a repository setting, not part of the page
     assert "social-preview" not in README
 
