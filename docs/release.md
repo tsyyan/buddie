@@ -29,7 +29,7 @@ long before a release needs it. With read-only permission and no secret, it:
    ([`scripts/smoke_mcpb.py`](../scripts/smoke_mcpb.py));
 4. installs the wheel and the sdist each into a clean venv and runs them from outside the checkout
    ([`scripts/smoke_install.py`](../scripts/smoke_install.py)): both entry points report the version, the stdio MCP
-   server lists its four tools, and the quickstart ([verification.md](verification.md#see-it-work)) gives exit 1 and
+   server lists its five tools (`environment_snapshot` among them), and the quickstart ([verification.md](verification.md#see-it-work)) gives exit 1 and
    `FAIL`;
 5. records the candidate ([`scripts/release_manifest.py`](../scripts/release_manifest.py)): `release-manifest.json`
    (schema `buddie-release-candidate-v1`: version, commit, ref, repository, run id, and each file's path, kind,
@@ -263,6 +263,11 @@ this page last observed through the API is dated; it is not proof of the setting
   90-day artifact retention ("Rebuilt files are not the same files").
 - [ ] **Publication is approved separately**: the publish run, and later any recovery run, is a new dispatch that the
   `pypi` reviewer approves at `authorize` (and again at `pypi`). Approving the tag does not approve publishing.
+- [ ] **The README as PyPI shows it**: no relative URL, every repository URL pinned to `vX.Y.Z`
+  (`tests/test_readme.py`), and `readme_renderer` renders it (`twine check --strict` in the candidate).
+- [ ] **The changelog section is complete**: nothing left under `## Unreleased` that ships in this version.
+- [ ] **Actions on the release path are pinned**: every `uses:` in `release.yml` and `release-candidate.yml` is a
+  full commit SHA with its release in a comment (`tests/test_workflow_pins.py`). Updating one is a reviewed change.
 - [ ] **No publication on tag creation**: the tag push's run shows only the `candidate` job.
   `tests/test_release_authorization.py` checks the workflow for it.
 
@@ -286,7 +291,17 @@ trusted publisher is bound to. If TestPyPI is wanted again, it needs a trusted p
    status" table names X.Y.Z as the latest release (the README is also PyPI's page for it), as do the "(X.Y.Z today)"
    notes in [getting-started.md](getting-started.md). `tests/test_version.py`
    and `tests/test_readme.py` fail until all three agree. The sdist carries the README and the CHANGELOG, so this
-   commit comes **before** the tag: what the tag's candidate contains cannot be changed later.
+   commit comes **before** the tag: what the tag's candidate contains cannot be changed later. In the same commit:
+   - move the entries under `## Unreleased` into the X.Y.Z section: the GitHub Release's notes are that section
+     only (`release.yml`, `github-release`), so an entry left under `Unreleased` is missing from them;
+   - remove the pre-release wording from the README and getting-started ("not yet released", "Until X.Y.Z is
+     released", the from-source workaround); `tests/test_readme.py` fails while any of it is left;
+   - pin the README's links and images to the tag `vX.Y.Z`: PyPI shows the README and resolves no relative path.
+     Images become `https://raw.githubusercontent.com/tsyyan/buddie/vX.Y.Z/…`, files
+     `https://github.com/tsyyan/buddie/blob/vX.Y.Z/…`, directories `…/tree/vX.Y.Z/…`; never `main`, which moves on.
+     `tests/test_readme.py` maps each pinned URL back to the file in the checkout and refuses a relative one. Until
+     the tag is pushed (step 4) these URLs answer 404 on GitHub; after it they are permanent (`v*` tags are
+     immutable). Check the page as PyPI renders it: `python -m readme_renderer README.md -o readme.html`.
 3. Merge to `main` with CI green (CI has already built a candidate of that commit).
 4. Tag the merge commit and push the tag: the candidate run starts.
 
