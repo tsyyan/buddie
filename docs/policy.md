@@ -278,11 +278,14 @@ Not covered:
 ([environment.md](environment.md), "Diagnostics"): category ids, or `"baseline"` for the low-sensitivity ones. An
 ACTIVE policy without the table allows none, as for every other grant of collection; an INVALID policy allows none.
 It only narrows: a category the person did not grant stays denied whatever the policy lists. An unknown category id
-makes the policy INVALID.
+makes the policy INVALID. `roots` bounds the directories the path-scoped categories (`hardware.storage`,
+`development.project`, `development.repository`) may read, on top of the person's grants file, which the agent can
+edit; without it an active policy lets them read none.
 
 ```toml
 [environment]
 allow = ["baseline", "development.project"]
+roots = ["/home/alice/projects"]
 ```
 
 ## What it does not cover

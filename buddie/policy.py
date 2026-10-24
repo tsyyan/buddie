@@ -80,6 +80,7 @@ class Policy:
     # [environment] allow (buddie/diagnostics.py): the diagnostic categories the person's grants may open, a ceiling.
     # ACTIVE without the table, and INVALID: none, as for every other grant of collection
     environment: tuple[str, ...] = ()
+    environment_roots: tuple[str, ...] = ()   # [environment] roots: where path-scoped categories may look; none: none
 
 
 # INVALID: every class that judges a claim blocks, nothing is granted to the sources below (no intro, no final mark,
@@ -189,10 +190,14 @@ def parse(data: dict) -> Policy:
                             or any(c.isspace() or c in "?#" for c in api)):
         raise ValueError(f"[evidence] github_api = {api!r}: an https:// URL")
     env = data.get("environment", {})
-    if not isinstance(env, dict) or (bad := sorted(set(env) - {"allow"})):
-        raise ValueError(f"[environment]: {', '.join(bad) if isinstance(env, dict) else 'not a table'}: key allow")
+    if not isinstance(env, dict) or (bad := sorted(set(env) - {"allow", "roots"})):
+        raise ValueError(f"[environment]: {', '.join(bad) if isinstance(env, dict) else 'not a table'}: keys allow, "
+                         "roots")
     from buddie import diagnostics
     environment = tuple(sorted(diagnostics._allow_list(env.get("allow", []), "[environment] allow")))
+    env_roots = env.get("roots", [])
+    if not isinstance(env_roots, list) or not all(isinstance(r, str) and os.path.isabs(r) for r in env_roots):
+        raise ValueError("[environment] roots: a list of absolute directories")
     if mark is not None:
         import re
         try:
@@ -206,7 +211,7 @@ def parse(data: dict) -> Policy:
                   disclosure=data.get("disclosure", True), project_state=project.get("state", False),
                   free_command=free, network=one_of("network", ("allowed", "forbidden"), "allowed"),
                   **{k: evidence.get(k, v[0]) for k, v in choices.items()}, github_api=api.rstrip("/") if api else None,
-                  environment=environment)
+                  environment=environment, environment_roots=tuple(env_roots))
 
 
 def load(path: Path | None = None) -> Loaded:

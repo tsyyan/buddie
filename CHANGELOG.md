@@ -27,7 +27,7 @@ Environment diagnostics (docs/environment.md, "Diagnostics"; docs/design/environ
   task needs: OS, shells, privilege level, CPU, memory, GPU, storage, Python interpreters, runtimes, package managers,
   GPU driver and CUDA/ROCm stack, catalog tools, Docker/Podman, a project's manifests, a repository. Only what the
   person granted in `environment.toml` (their user configuration directory) and an ACTIVE protected policy's new
-  `[environment] allow` permits is collected; a request grants nothing, and an MCP argument outside the schema (a
+  `[environment] allow` (and `roots`, for the path-scoped categories) permits is collected; a request grants nothing, and an MCP argument outside the schema (a
   `consent`) is an error. Each category uses only its declared, fixed methods (OS interfaces, fixed files, programs at
   fixed places or on PATH with fixed arguments, an allowlisted environment, timeouts and output limits), adapts within
   itself (nvidia-smi after an NVIDIA adapter) and records every attempt. The environment-diagnostics-v1 document keeps

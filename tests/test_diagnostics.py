@@ -668,3 +668,78 @@ def test_scenario_c_docker_troubleshooting(spy):
         if Path(argv[0]).stem.lower() == "docker" and "version" in argv:
             assert argv[1:4] == ["--context", "default", "version"]  # never a remote context or DOCKER_HOST
         assert not {"start", "run", "pull", "system", "info", "ps"} & set(argv[1:])
+
+
+# --- review findings on PR #43 ----------------------------------------------------------------------------------------
+
+def test_the_wsl_launcher_in_the_windows_system_directory_is_never_run(monkeypatch, tmp_path, spy):
+    system = tmp_path / "Windows" / "System32"
+    system.mkdir(parents=True)
+    (system / "bash.exe").write_bytes(b"MZ")
+    monkeypatch.setattr(probes, "platform_key", lambda: "windows")
+    monkeypatch.setattr(probes, "_system_directory", lambda: str(system))
+    monkeypatch.setattr(probes.os, "name", "nt")
+    monkeypatch.setenv("PATH", str(system))
+    monkeypatch.setenv("PATHEXT", ".EXE")
+    assert probes.which("bash", skip=probes._wsl_launcher) is None
+    assert probes._wsl_launcher(str(system / "bash.exe")) and not probes._wsl_launcher(str(tmp_path / "bash.exe"))
+
+
+def test_a_repository_url_with_the_users_name_is_not_redacted(monkeypatch):
+    for key in ("USERNAME", "USER", "LOGNAME"):
+        monkeypatch.setenv(key, "tsyyan")
+    assert dg._value("https://github.com/tsyyan/buddie") == "https://github.com/tsyyan/buddie"
+    assert dg._value(os.path.join(os.path.expanduser("~"), "x")) is None
+
+
+def test_an_embedded_v0_snapshot_says_it_is_not_gated_by_categories(tmp_path):
+    (tmp_path / "a.txt").write_text("x", encoding="utf-8")
+    doc = dg.collect(["system.os"], grants=grant("baseline"),
+                     legacy={"root": str(tmp_path), "artifacts_named": ["a.txt"], "report": None})
+    assert "snapshot_not_category_gated" in doc["limitations"] and dg.problems(doc) == []
+    assert "snapshot_not_category_gated" not in dg.collect(["system.os"], grants=grant("baseline"))["limitations"]
+
+
+def test_the_consistency_check_reads_authorization_against_the_categories():
+    doc = dg.collect(["system.os"], grants=grant("baseline"))
+    for edit in (lambda d: d["authorization"].update(effective=[]),
+                 lambda d: d["supplied"].update(task={"x": 1}),
+                 lambda d: d["authorization"].update(grants="granted"),
+                 lambda d: d.update(request=[])):
+        bad = json.loads(dg.dumps(doc))
+        edit(bad)
+        assert dg.problems(bad), edit
+
+
+def test_an_active_policy_also_bounds_the_directories(monkeypatch, tmp_path):
+    proj = tmp_path / "proj"
+    proj.mkdir()
+    g = grant("development.project", roots=[tmp_path])
+    _policy(monkeypatch, tmp_path, 'version = 1\n[environment]\nallow = ["development.project"]\n')
+    doc = dg.collect(["development.project"], path=str(proj), grants=g)
+    assert doc["categories"]["development.project"]["reason"] == "path_not_allowed_by_policy"
+    root = str(proj).replace("\\", "\\\\")
+    _policy(monkeypatch, tmp_path, f'version = 1\n[environment]\nallow = ["development.project"]\nroots = ["{root}"]\n')
+    doc = dg.collect(["development.project"], path=str(proj), grants=g)
+    assert doc["categories"]["development.project"]["status"] in ("collected", "partial") and dg.problems(doc) == []
+    with pytest.raises(ValueError):
+        policy.parse({"version": 1, "environment": {"allow": [], "roots": ["relative"]}})
+
+
+def test_each_program_run_is_its_own_attempt(monkeypatch):
+    monkeypatch.setattr(probes, "run", lambda exe, args, timeout=10: ("ok", "Python 3.12.1"))
+    ctx = dg.Ctx(dg.REGISTRY["software.python"], dg._now, [10])
+    for _ in range(3):
+        ctx.program("python_on_path", "interpreter_on_path", "python3", (), ("-V",), exe="/usr/bin/python3")
+    ctx.attempt("own_interpreter", "always")
+    ctx.attempt("own_interpreter", "always")
+    assert [m["method"] for m in ctx.methods] == ["python_on_path"] * 3 + ["own_interpreter"]
+
+
+def test_the_cli_gives_a_directory_only_for_path_scoped_categories(tmp_path):
+    env = dict(os.environ, XDG_CONFIG_HOME=str(tmp_path / "c"), APPDATA=str(tmp_path / "c"))
+    got = _cli(["--category", "system.os", "--json", str(tmp_path / "d.json")], env)
+    assert got.returncode == 0
+    assert json.loads((tmp_path / "d.json").read_text(encoding="utf-8"))["request"]["path_given"] is False
+    _cli(["--category", "development.project", "--json", str(tmp_path / "p.json")], env)
+    assert json.loads((tmp_path / "p.json").read_text(encoding="utf-8"))["request"]["path_given"] is True

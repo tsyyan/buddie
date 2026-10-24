@@ -311,8 +311,10 @@ def cmd_snapshot(args) -> int:
         legacy = ({"root": args.root, "artifacts_named": args.artifact or [], "report": text}
                   if args.artifact or args.report is not None else None)
         try:
+            scoped = any(diagnostics.REGISTRY.get(c) and diagnostics.REGISTRY[c].scope == "path" for c in args.category)
             doc = diagnostics.collect(args.category, task=args.task, tools=args.tool or [],
-                                      path=args.root or str(Path.cwd()), supplied=supplied, legacy=legacy)
+                                      path=args.root or (str(Path.cwd()) if scoped else None), supplied=supplied,
+                                      legacy=legacy)
         except (ValueError, RuntimeError) as error:
             print(f"buddie snapshot: {error}", file=sys.stderr)
             return 2

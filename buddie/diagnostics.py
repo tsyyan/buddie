@@ -260,6 +260,15 @@ def decide(requested: list[str], grants: Grants, loaded) -> dict[str, tuple[str,
     return out
 
 
+def _policy_roots(loaded):
+    """The directories an ACTIVE or INVALID policy lets path-scoped categories read (none unless it lists them), or
+    None when there is no policy."""
+    from buddie.policy import Status
+    if loaded.status is Status.ABSENT:
+        return None
+    return tuple(Path(os.path.realpath(r)) for r in loaded.effective.environment_roots)
+
+
 def _inside(path: Path, roots) -> bool:
     try:
         real = Path(os.path.realpath(path))
@@ -277,7 +286,8 @@ REASONS = {  # why an observation is unavailable
 } | {"git_unavailable", "not_a_repository", "no_commit", "git_error", "unneutralized_filter", "no_remote",
      "local_path", "unrecognized_url", "index_hides_entries"}
 CATEGORY_REASONS = {
-    "denied": {"not_granted", "grants_invalid", "policy_ceiling", "policy_invalid", "path_not_granted"},
+    "denied": {"not_granted", "grants_invalid", "policy_ceiling", "policy_invalid", "path_not_granted",
+               "path_not_allowed_by_policy"},
     "unavailable": {"no_path_given", "path_not_found", "no_tools_given", "collector_error", "nothing_observed",
                     "document_size_limit"},
     "unsupported": {"unsupported_platform", "not_supported"},
@@ -291,6 +301,7 @@ class Ctx:
 
     def __init__(self, module: Module, clock, budget: list[int], path=None, tools=()):
         self.module, self.clock, self.budget, self.path, self.tools = module, clock, budget, path, tuple(tools)
+        self.private = _private()
         self.methods: list[dict] = []
         self.observations: dict[str, dict] = {}
         self.limits: list[str] = []
@@ -303,7 +314,7 @@ class Ctx:
 
     def _record(self, method: str, why: str, outcome: str):
         entry = {"method": method, "why": why, "outcome": outcome}
-        if entry not in self.methods:
+        if outcome != "used" or entry not in self.methods:  # each program run and file read is its own attempt
             self.methods.append(entry)
 
     def attempt(self, method: str, why: str) -> None:
@@ -348,7 +359,7 @@ class Ctx:
         if value is None:
             self.unavailable(name, reason or "not_reported", method)
             return
-        value = _value(value)
+        value = _value(value, private=self.private)
         if value is None:
             self.unavailable(name, "redacted", method)
             return
@@ -377,22 +388,26 @@ class Ctx:
             self.limits.append(code)
 
 
-def _private() -> list[str]:
-    """Strings that must not leave in a document: the home directory, the user's name as a path part."""
-    out = []
-    home = os.path.expanduser("~")
-    if home and home not in ("~", "/") and len(home) > 3:
-        out += [home, home.replace("\\", "/")]
-    for key in ("USERNAME", "USER", "LOGNAME"):
-        name = os.environ.get(key, "")
-        if len(name) >= 3:
-            out += [f"/{name}/", f"\\{name}\\", f"/{name}", f"\\{name}"]
-    return out
+def _private() -> tuple[str, ...]:
+    """Strings that must not leave in a document: the home directory, as Python finds it and as the account says.
+    A user name alone is not redacted: it is often also the owner in a repository URL, which is meant to be there."""
+    out = set()
+    homes = {os.path.expanduser("~")}
+    try:
+        import pwd
+        homes.add(pwd.getpwuid(os.getuid()).pw_dir)
+    except (ImportError, KeyError, OSError, AttributeError):
+        pass
+    for home in homes:
+        if home and home not in ("~", "/") and len(home) > 3:
+            out |= {home.lower(), home.replace("\\", "/").lower()}
+    return tuple(sorted(out))
 
 
-def _value(value, depth: int = 0):
+def _value(value, depth: int = 0, private: tuple | None = None):
     """A value fit for the document: None, bool, int, a short string, a short list of those or of flat objects of
-    those. Anything else, or a string holding the home directory or user name as a path part: None (redacted)."""
+    those. Anything else, or a string holding the home directory: None (redacted)."""
+    private = _private() if private is None else private
     if depth > 2:
         return None
     if value is None or isinstance(value, bool):
@@ -400,16 +415,16 @@ def _value(value, depth: int = 0):
     if isinstance(value, int):
         return value if -2**63 <= value < 2**63 else None
     if isinstance(value, str):
-        if len(value) > 256 or any(p.lower() in value.lower() for p in _private()):
+        if len(value) > 256 or any(p in value.lower() for p in private):
             return None
         return value
     if isinstance(value, list):
-        out = [_value(v, depth + 1) for v in value[:32]]
+        out = [_value(v, depth + 1, private) for v in value[:32]]
         return None if any(v is None for v in out) else out
     if isinstance(value, dict):
         if len(value) > 16 or not all(isinstance(k, str) and TOOL.match(k.lower().replace("_", "-")) for k in value):
             return None
-        out = {k: _value(v, depth + 1) for k, v in value.items() if v is not None}
+        out = {k: _value(v, depth + 1, private) for k, v in value.items() if v is not None}
         return None if any(v is None for v in out.values()) else dict(sorted(out.items()))
     return None
 
@@ -467,7 +482,7 @@ def collect(categories, *, task=None, tools=None, path=None, supplied=None, lega
     if path is not None and (type(path) is not str or not path or len(path) > 4096 or "\0" in path):
         raise ValueError("path: a directory")
     grants = grants if grants is not None else load_grants()
-    if not _RUNNING.acquire(timeout=5):
+    if not _RUNNING.acquire(timeout=DEADLINE + 30):
         raise RuntimeError("two environment collections are already running; try again")
     try:
         with policy.held() as loaded:
@@ -479,7 +494,7 @@ def collect(categories, *, task=None, tools=None, path=None, supplied=None, lega
             with runner.deadline(DEADLINE):
                 for cid in [c for c in REGISTRY if c in known] + [c for c in UNSUPPORTED if c in known]:
                     out[cid] = _category(cid, platform_key, decisions.get(cid), grants, path, named_tools, bad_tools,
-                                         clock, budget, limits)
+                                         clock, budget, limits, _policy_roots(loaded))
             snapshot = environment.collect(**legacy, supplied=supplied, clock=clock) if legacy is not None else None
             doc = {
                 "format": FORMAT,
@@ -495,7 +510,7 @@ def collect(categories, *, task=None, tools=None, path=None, supplied=None, lega
                 "observations_concern": "runtime",
                 "categories": out,
                 "supplied": {**({"task": task} if task is not None else {}), **given},
-                "limitations": sorted(set(limits)),
+                "limitations": sorted(set(limits) | ({"snapshot_not_category_gated"} if snapshot else set())),
                 "snapshot": snapshot,
             }
     finally:
@@ -503,7 +518,8 @@ def collect(categories, *, task=None, tools=None, path=None, supplied=None, lega
     return _bounded(doc)
 
 
-def _category(cid, platform_key, decision, grants, path, tools, bad_tools, clock, budget, limits) -> dict:
+def _category(cid, platform_key, decision, grants, path, tools, bad_tools, clock, budget, limits,
+              ceiling_roots=None) -> dict:
     base = {"status": None, "reason": None, "tier": None, "methods": [], "observations": {}}
     if cid in UNSUPPORTED:
         return dict(base, status="unsupported", reason="not_supported", explanation=UNSUPPORTED[cid])
@@ -519,6 +535,8 @@ def _category(cid, platform_key, decision, grants, path, tools, bad_tools, clock
             return dict(base, status="unavailable", reason="no_path_given")
         if not _inside(Path(path), grants.roots):
             return dict(base, status="denied", reason="path_not_granted")
+        if ceiling_roots is not None and not _inside(Path(path), ceiling_roots):
+            return dict(base, status="denied", reason="path_not_allowed_by_policy")
         target = Path(os.path.realpath(path))
         if not (target.is_dir() or (cid == "hardware.storage" and target.exists())):
             return dict(base, status="unavailable", reason="path_not_found")
@@ -648,9 +666,28 @@ def problems(doc) -> list[str]:
     for k in ("started_at", "finished_at"):
         if type(doc[k]) is not str or not _TIME.match(doc[k]):
             out.append(f"{k}: not a UTC time")
+    req, auth = doc["request"], doc["authorization"]
+    if type(req) is not dict or not {"id", "categories", "rejected", "tools", "rejected_tools", "path_given"} <= set(req):
+        out.append("request: id, categories, rejected, tools, rejected_tools, path_given")
+    if type(auth) is not dict or set(auth) != {"grants", "policy", "effective"} or \
+            auth.get("grants") not in ("absent", "active", "invalid") or \
+            auth.get("policy") not in ("absent", "active", "invalid") or type(auth.get("effective")) is not list:
+        return out + ["authorization: grants and policy (absent, active, invalid), effective (a list)"]
+    if type(doc["collector"]) is not dict or type(doc["collector"].get("buddie")) is not str:
+        out.append("collector: buddie (version), policy, platform")
+    if type(doc["limitations"]) is not list or any(type(x) is not str for x in doc["limitations"]):
+        out.append("limitations: a list of codes")
     cats = doc["categories"]
     if type(cats) is not dict:
         return out + ["categories: an object"]
+    for cid, e in cats.items():
+        if type(e) is dict and e.get("status") in ("collected", "partial", "unavailable") and \
+                e.get("reason") not in ("no_path_given", "path_not_found", "no_tools_given") and \
+                cid in REGISTRY and cid not in auth["effective"]:
+            out.append(f"categories.{cid}: {e.get('status')} but not in authorization.effective")
+        if type(e) is dict and e.get("status") == "denied" and cid in auth["effective"] and \
+                e.get("reason") not in ("path_not_granted", "path_not_allowed_by_policy"):
+            out.append(f"categories.{cid}: denied but in authorization.effective")
     for cid, e in cats.items():
         where = f"categories.{cid}"
         if cid not in REGISTRY and cid not in UNSUPPORTED:
@@ -687,6 +724,9 @@ def problems(doc) -> list[str]:
                 out.append(f"{w}: status {o['status']!r}")
     if doc["snapshot"] is not None:
         out += [f"snapshot: {p}" for p in environment.problems(doc["snapshot"])]
+    task = doc["supplied"].get("task") if type(doc["supplied"]) is dict else None
+    if task is not None and (type(task) is not str or len(task) > MAX_TASK):
+        out.append("supplied.task: short text")
     try:
         environment.supplied_facts({k: v for k, v in doc["supplied"].items() if k != "task"}
                                    if type(doc["supplied"]) is dict else doc["supplied"])

@@ -237,7 +237,8 @@ file with an unknown key, a wrong version or an unknown category grants nothing 
 
 An ACTIVE protected policy ([policy.md](policy.md)) sets the ceiling with `[environment] allow = [...]`: a category it
 does not list stays denied whatever the grants say, and an active policy without that table allows none; an INVALID
-one allows none. The policy can only narrow: it never grants what you did not.
+one allows none. Its `roots` bound the directories path-scoped categories may read, whatever roots the grants file
+lists (`path_not_allowed_by_policy`). The policy can only narrow: it never grants what you did not.
 
 **The limit of a local grant.** The grants file is yours, and so it is also writable by an agent running as your
 user, as are `PATH`, the environment and the project. A grant states what you intend; it does not stop such an agent,
@@ -256,7 +257,7 @@ structured, attributed one. A client's own tool confirmation is a second step on
 | `categories` | per category: `status` (`collected`, `partial`, `unavailable`, `denied`, `unsupported`), `reason`, `tier`, `methods` (each attempt: method, why, outcome), `observations` |
 | an observation | `status` `observed` (a `value`, its `basis`, the `method`, `observed_at`) or `unavailable` (a `reason`, no value), and `concerns` (`runtime`, or `windows_host` from WSL) |
 | `supplied` | the task and anything else the caller states, never promoted to an observation |
-| `snapshot` | the environment-v0 snapshot, when `--artifact` or `--report` is given with `--category`; `buddie freshness repo --snapshot` reads it |
+| `snapshot` | the environment-v0 snapshot, when `--artifact` or `--report` is given with `--category`; `buddie freshness repo --snapshot` reads it. It is collected as `buddie snapshot` always collects it (the CLI only, never over MCP), not gated by the categories, and the document says so: limitation `snapshot_not_category_gated` |
 
 **Basis** says what a value rests on: `buddie` (its own interpreter), `os_interface` (the OS through Python: platform,
 `/proc`, `/sys`, the registry, a system call), `fixed_program` (a program at a fixed system location),
@@ -272,14 +273,16 @@ atomic picture of the machine.
 ### How it is collected
 
 - Only the methods the registry declares for the category; a collector reaching for another category's method fails
-  loudly. Within its category a collector may choose: `nvidia-smi` runs only after an NVIDIA adapter is seen.
+  loudly. Within its category a collector may choose: `nvidia-smi` runs only after an NVIDIA adapter is seen. Every
+  program run and file read is recorded as its own attempt.
+- On Windows, `bash.exe` and `wsl.exe` in the system directory are never run: they start WSL.
 - Programs: fixed argument lists in buddie's code, no shell, nothing on stdin, stderr discarded, 10 s and 64 KiB
   each, a 90-second deadline and 96 programs for the whole request, the process tree stopped at a limit
   ([security.md](security.md)). Their environment is an allowlist (where programs are, the user's directories some
   need, a C locale): no token, no `NODE_OPTIONS`, `JAVA_TOOL_OPTIONS`, `LD_PRELOAD`, `DYLD_*`, `DOCKER_HOST`. The
   working directory is the system's temporary directory. `PATH` is searched by buddie, absolute entries only.
-- Only version- or model-shaped tokens are kept from an answer: no raw output, no paths, no user names. A value that
-  would hold the home directory or the user name as a path part is dropped (`redacted`). No environment variable,
+- Only version- or model-shaped tokens are kept from an answer: no raw output, no paths. A value that would hold the
+  home directory is dropped (`redacted`); a user name alone is not, since it is often the owner in a repository URL. No environment variable,
   process list or command line is collected; `nvidia-smi` is never asked for processes, the Docker daemon only for its
   version, on the local default context.
 - Nothing runs in the background, nothing is kept: the document goes to stdout, the `--json` file you name, or the

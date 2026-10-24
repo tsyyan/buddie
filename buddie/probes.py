@@ -91,9 +91,10 @@ def version(output: str | None) -> str | None:
 
 # --- finding and running programs -----------------------------------------------------------------------------------
 
-def which(name: str) -> str | None:
+def which(name: str, skip=None) -> str | None:
     """`name` on PATH, absolute entries only: an empty or relative entry (the current directory) is skipped, so a
-    file the agent drops into a project is never picked by a relative PATH entry. Windows tries PATHEXT."""
+    file the agent drops into a project is never picked by a relative PATH entry. Windows tries PATHEXT. `skip`: a
+    predicate for candidates passed over (the WSL launcher)."""
     exts = [""]
     if os.name == "nt" and not os.path.splitext(name)[1]:
         exts = [e.lower() for e in os.environ.get("PATHEXT", ".COM;.EXE;.BAT;.CMD").split(";") if e.startswith(".")]
@@ -103,7 +104,8 @@ def which(name: str) -> str | None:
             continue
         for ext in exts:
             candidate = os.path.join(entry, name + ext)
-            if os.path.isfile(candidate) and (os.name == "nt" or os.access(candidate, os.X_OK)):
+            if os.path.isfile(candidate) and (os.name == "nt" or os.access(candidate, os.X_OK)) \
+                    and not (skip and skip(candidate)):
                 return candidate
     return None
 
@@ -220,10 +222,28 @@ SHELLS = {  # name -> (fixed locations, arguments): --version for each; PowerShe
 }
 
 
+def _wsl_launcher(path: str | None) -> bool:
+    """Windows' bash.exe and wsl.exe in the system directory start WSL (its VM, a distribution) when run, even for
+    --version: not something a diagnostic may do."""
+    if platform_key() != "windows" or not path:
+        return False
+    system = _system_directory()
+    return bool(system) and os.path.normcase(os.path.dirname(os.path.abspath(path))) in {
+        os.path.normcase(system), os.path.normcase(os.path.join(os.path.dirname(system), "SysWOW64")),
+        os.path.normcase(os.path.join(os.path.dirname(system), "Sysnative"))}
+
+
 def system_shell(ctx) -> None:
     key = platform_key()
     for name, (fixed, args) in SHELLS.items():
-        exe, basis, outcome, out = ctx.program(f"shell_{name}", "listed_shell", name, fixed, args)
+        exe = None
+        if key == "windows":
+            exe = which(name, skip=_wsl_launcher)
+            if exe is None:
+                ctx.attempt(f"shell_{name}", "listed_shell")
+                ctx.unavailable(name, "not_found_on_path", f"shell_{name}")
+                continue
+        exe, basis, outcome, out = ctx.program(f"shell_{name}", "listed_shell", name, fixed, args, exe=exe)
         ctx.result(name, exe, basis, outcome, version(out), f"shell_{name}")
     if key == "windows":
         system = _system_directory()
@@ -404,7 +424,7 @@ def hardware_gpu(ctx) -> None:
                     f = re.findall(r'"([^"]*)"', line)
                     ids = re.findall(r"\[([0-9a-f]{4})\]", line)
                     if len(f) >= 3 and re.search(r"VGA|3D|Display", f[0]) and len(ids) >= 3:
-                        names[f"0x{ids[1]}:0x{ids[2]}"] = text(f[2])
+                        names[f"0x{ids[1]}:0x{ids[2]}"] = text(re.sub(r"\s*\[[0-9a-f]{4}\]$", "", f[2]))
                 for a in adapters:
                     if a["pci_id"] in names and names[a["pci_id"]]:
                         a["model"] = names[a["pci_id"]]
