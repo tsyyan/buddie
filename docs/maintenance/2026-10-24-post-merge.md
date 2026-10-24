@@ -119,3 +119,12 @@ Confirmed against the final merged files. Recovery jobs can skip the PyPI enviro
 Validation commands and final CI conclusions are recorded in the PR description. New offline tests validate manifest exclusions, local community links/index coverage and the unapplied gate patch in a temporary copy. Existing security, release authorization, artifact, README, version and catalog tests are run locally; the entire hosted matrix is run on the final PR head. No release workflow is dispatched to validate this package.
 
 READY FOR REVIEW applies to the maintenance package after its final CI and independent review findings are resolved. It is not release approval: the publication gate is still unapplied and the protection/reviewer settings remain unchanged.
+
+## Addendum: the publication gate follow-up
+
+Recorded after this audit; the audit above is unchanged. The one-line workflow proposal from "Publication
+authorization gap" is applied by the pull request on branch `release-unified-approval-gate`
+([publication-authorization.md](publication-authorization.md), status note; [docs/release.md](../release.md), "Who
+approves a publication"). That closes the workflow half of the release blocker. The other half is not closed: the
+`pypi` environment's reviewers, administrator bypass and `v*` tag rule are the owner's settings, still as recorded in
+[post-merge-settings.json](post-merge-settings.json).

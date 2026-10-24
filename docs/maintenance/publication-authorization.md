@@ -1,5 +1,14 @@
 # Publication authorization: confirmed gap and unapplied proposal
 
+> **Status, 2026-10-24, later:** the workflow part of this proposal is applied, exactly as reviewed, by the follow-up
+> pull request on branch `release-unified-approval-gate`: `authorize` names environment `pypi`, nothing else in
+> `release.yml` changed. `tests/test_maintenance.py` proves the live workflow is the reviewed base
+> (`workflow_sha256_lf` in [source.json](proposals/source.json)) plus that one line, and
+> `tests/test_release_authorization.py` evaluates every run mode. **The environment settings below are still not
+> applied**: until the owner configures reviewers, bypass and the tag rule, naming the environment approves nothing.
+> The rest of this page is the record of the proposal as it was reviewed; its "NOT APPLIED" wording describes main at
+> `0f29c19`.
+
 ## Verified final implementation
 
 Inspected merged main `0f29c19430b764884eb057a16a3c84676b066698`:

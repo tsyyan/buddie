@@ -8,7 +8,7 @@ tag publishes nothing.
 flowchart LR
   T["tag vX.Y.Z pushed<br/>(or a manual run, no candidate)"] --> C["candidate<br/>build · validate · install · record"]
   C -->|"artifact release-candidate<br/>release-manifest.json, SHA256SUMS"| A
-  M["manual run on the tag<br/>candidate = run id<br/>confirm = publish buddie X.Y.Z"] --> A["authorize"]
+  M["manual run on the tag<br/>candidate = run id<br/>confirm = publish buddie X.Y.Z"] --> A["authorize<br/>(environment pypi: approval)"]
   A --> P["PyPI<br/>(environment pypi)"]
   P --> R["MCP Registry"]
   P --> G["GitHub Release"]
@@ -100,6 +100,59 @@ already serves the candidate's files): neither announces a version people cannot
 return a draft by tag, so a draft is found by listing the releases; a listing that missed one would leave two
 drafts, and the next run stops on them instead of choosing.
 
+## Who approves a publication
+
+`authorize` runs in the protected environment `pypi`, and **every publishing stage needs `authorize` to have
+succeeded**. A person approving the environment is therefore a step of every run that can publish, whether it is a
+full publication or a recovery of one stage:
+
+| Run | Approval before anything is published |
+|---|---|
+| tag push, or a manual run with no `candidate` | none needed: only the candidate is built, nothing is published |
+| `only: all` | `authorize`, then the `pypi` job asks again |
+| `only: pypi` | `authorize`, then the `pypi` job asks again |
+| `only: mcp-registry` (recovery) | `authorize` |
+| `only: github-release` (recovery) | `authorize` |
+| `authorize` rejected, failed or cancelled | no stage runs |
+
+Before this, only the `pypi` job named the environment, so a recovery run of the registry or the release (which
+skips the `pypi` job) passed no environment at all. `tests/test_release_authorization.py` reads `release.yml` and
+evaluates each job's `needs` and `if` as GitHub schedules them, for every run mode and every way `authorize` can
+end.
+
+**Naming the environment is not a protection by itself.** Until the owner gives `pypi` required reviewers, GitHub
+runs both jobs at once without asking anyone. On 2026-10-24 the environment had no protection rules, no
+deployment-ref policy, and allowed administrators to bypass it (read through the API, not changed).
+
+**What the owner sets** (Settings → Environments → `pypi`):
+
+- **Required reviewers.** Solo maintainer: the owner, with self-review allowed. That is a deliberate manual
+  checkpoint under the owner's account, not two-person approval, and an agent acting as that account cannot be told
+  apart from the person by this setting. Two-person approval: another real user with access, and *Prevent
+  self-review* on. Do not name only the person who runs the release while preventing self-review: nobody could
+  approve.
+- **Allow administrators to bypass: off.** Otherwise an administrator's run goes through without a review.
+- **Deployment branches and tags: selected, tag rule `v*`, no branches.** The publish run is dispatched on the
+  release tag, so it passes; a run dispatched on a branch is refused before `authorize` starts.
+
+**Two prompts in a normal run.** `authorize` and `pypi` both name `pypi`, so a run that publishes to PyPI asks for
+approval twice. The `pypi` job keeps the environment because the PyPI trusted publisher is bound to it; moving that
+binding, or a separate approval environment for a single prompt, is a change of its own.
+
+**Rejected.** A rejected review ends `authorize` without success. No stage starts, nothing is published, and the
+same inputs can be dispatched again for a new review.
+
+**Retries.** *Re-run failed jobs* within a run keeps that run's successful `authorize`: a retried registry or
+release stage does not pass a new review (a retried `pypi` job, which names the environment itself, asks again). A
+new dispatch, `only` recovery runs included, always goes through `authorize` and its review. A run dispatched on an older tag
+uses that tag's own `release.yml`: before approving one, check that it has this gate.
+
+**Who enforces what.** GitHub enforces the reviewers, the tag-only deployment rule, who may dispatch workflows, and
+that a job waits for the jobs it needs. buddie's scripts enforce what is published: the candidate run and its files
+byte for byte, the tag, the version and `main`'s history, the typed confirmation, and that every stage completes
+only what is missing and never replaces a file. An administrator can change the environment's settings themselves;
+no setting here protects against the account owner.
+
 ## Partial publication
 
 The three stages are three services. **Publication is not a transaction**: PyPI can have the version while the
@@ -161,9 +214,10 @@ tag that moved, a registry entry that disagrees, a half-made asset. None of them
 These are settings and decisions only the repository owner can make. Each line says what was observed on 2026-10-24
 through the API, not what is configured by the time of the release.
 
-- [ ] **Required reviewer on the `pypi` environment** (Settings → Environments → `pypi` → *Required reviewers*).
-  Observed: `protection_rules: []`, no deployment branch policy. Without it anyone who can run workflows can start
-  the publish run; `authorize` checks what is published, not who asks.
+- [ ] **Required reviewer on the `pypi` environment** (Settings → Environments → `pypi` → *Required reviewers*),
+  with *Allow administrators to bypass* off and a deployment rule for tags `v*` only ("Who approves a publication").
+  Observed: `protection_rules: []`, no deployment branch policy, administrators may bypass. Without reviewers the
+  `authorize` and `pypi` jobs run unasked; `authorize` then checks what is published, not who asks.
 - [ ] **Protection for release tags `v*`** (Settings → Rules → Rulesets: restrict creation, update and deletion to
   the owner). Observed: no rulesets.
 - [ ] **Trusted publishing on PyPI** matches workflow `release.yml` and environment `pypi` for `tsyyan/buddie`
@@ -177,7 +231,9 @@ through the API, not what is configured by the time of the release.
 - [ ] **The approved candidate run id**: the candidate run for the tag, its summary's commit and sums read, before
   it is typed into `candidate`.
 - [ ] **No publication on tag creation**: the tag push's run shows only the `candidate` job; the publishing jobs are
-  skipped. `tests/test_release_manifest.py` checks the workflow for it; confirm it on the first tag's run.
+  skipped. `tests/test_release_authorization.py` checks the workflow for it; confirm it on the first tag's run.
+- [ ] **The approval prompt appears**: the first publish run waits for a review at `authorize` (and again at `pypi`).
+  If it does not wait, the environment has no reviewers: cancel the run.
 
 ## One-time setup (the repository owner)
 
