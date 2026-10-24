@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500" role="img" aria-labelledby="t d">
+<title id="t">Observe: granted environment categories collected for a task</title>
+<desc id="d">From a real buddie 2.0.0 run on one Windows machine. Task: configure local development environment. Authorized categories: system.os, hardware.gpu, software.python. Observed: OS Windows 11; GPU NVIDIA GeForce GTX 1650, 4 GiB; Python 3.14.6 with pip and venv. Read-only; exit code 0.</desc>
+<rect x=".5" y=".5" width="599" height="499" rx="18" fill="#101B2D" stroke="#2D435B"/>
+<text x="32" y="46" fill="#F3F8FD" fill-opacity=".65" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17">Real run · one Windows machine · read-only</text>
+<path d="M32 66H568" stroke="#2D435B"/>
+<path d="M40 106V292" stroke="#69D8EF" stroke-opacity=".35" stroke-width="2"/>
+<circle cx="40" cy="98" r="7" fill="#69D8EF"/>
+<circle cx="40" cy="186" r="7" fill="#69D8EF"/>
+<circle cx="40" cy="284" r="7" fill="#69D8EF"/>
+<g font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+<text x="64" y="104" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">TASK</text>
+<text x="64" y="140" fill="#F3F8FD" font-size="23">“configure local development environment”</text>
+<text x="64" y="192" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">AUTHORIZED CATEGORIES</text>
+<g font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="17" fill="#69D8EF">
+<rect x="64" y="210" width="118" height="36" rx="18" fill="#69D8EF" fill-opacity=".12" stroke="#69D8EF" stroke-opacity=".6"/>
+<text x="123" y="234" text-anchor="middle">system.os</text>
+<rect x="192" y="210" width="148" height="36" rx="18" fill="#69D8EF" fill-opacity=".12" stroke="#69D8EF" stroke-opacity=".6"/>
+<text x="266" y="234" text-anchor="middle">hardware.gpu</text>
+<rect x="350" y="210" width="178" height="36" rx="18" fill="#69D8EF" fill-opacity=".12" stroke="#69D8EF" stroke-opacity=".6"/>
+<text x="439" y="234" text-anchor="middle">software.python</text>
+</g>
+<text x="64" y="290" fill="#69D8EF" font-size="16" font-weight="700" letter-spacing="1.2">OBSERVED</text>
+<rect x="64" y="308" width="504" height="50" rx="10" fill="#F3F8FD" fill-opacity=".06"/>
+<text x="84" y="339" fill="#F3F8FD" fill-opacity=".6" font-size="15" font-weight="700" letter-spacing="1.2">OS</text>
+<text x="178" y="341" fill="#F3F8FD" font-size="22">Windows 11</text>
+<rect x="64" y="366" width="504" height="50" rx="10" fill="#F3F8FD" fill-opacity=".06"/>
+<text x="84" y="397" fill="#F3F8FD" fill-opacity=".6" font-size="15" font-weight="700" letter-spacing="1.2">GPU</text>
+<text x="178" y="399" fill="#F3F8FD" font-size="21">NVIDIA GeForce GTX 1650 · 4 GiB</text>
+<rect x="64" y="424" width="504" height="50" rx="10" fill="#F3F8FD" fill-opacity=".06"/>
+<text x="84" y="455" fill="#F3F8FD" fill-opacity=".6" font-size="15" font-weight="700" letter-spacing="1.2">PYTHON</text>
+<text x="178" y="457" fill="#F3F8FD" font-size="22">3.14.6 · pip and venv</text>
+</g>
+</svg>
