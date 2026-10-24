@@ -1,72 +1,30 @@
 """Validate the review package offline; never contact GitHub or publish anything.
 
-The proposed patch is applied only to a temporary copy. Retire or refresh that proposal
-test when the separately approved workflow change lands.
+The authorization proposal (docs/maintenance/proposals) has landed: the test below proves the live workflow is the
+reviewed base plus exactly the proposed line. What the gate then does for every run mode is
+tests/test_release_authorization.py's.
 """
+import hashlib
 import json
 import re
-import subprocess
 from pathlib import Path
-
-import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 MAINTENANCE = ROOT / "docs" / "maintenance"
 
 
-def _jobs(text):
-    """Read top-level job blocks from this workflow, not a general YAML parser."""
-    pairs = list(re.finditer(r"(?m)^  ([\w-]+):\s*$", text.split("jobs:\n", 1)[1]))
-    body = text.split("jobs:\n", 1)[1]
-    return {m[1]: body[m.end():pairs[i + 1].start() if i + 1 < len(pairs) else len(body)]
-            for i, m in enumerate(pairs)}
-
-
-@pytest.fixture
-def proposal(tmp_path):
-    workflow = ROOT / ".github/workflows/release.yml"
-    patch = MAINTENANCE / "proposals/authorize-environment.patch"
-    assert patch.is_file(), "the reviewable, unapplied authorization proposal is missing"
-    target = tmp_path / ".github/workflows/release.yml"
-    target.parent.mkdir(parents=True)
-    target.write_text(workflow.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
-    before = workflow.read_bytes()
-    result = subprocess.run(["git", "apply", "-"], cwd=tmp_path,
-                            input=patch.read_text(encoding="utf-8").encode("utf-8"), capture_output=True)
-    assert result.returncode == 0, result.stderr.decode("utf-8", errors="replace")
-    assert workflow.read_bytes() == before, "proposal validation modified the live workflow"
-    return workflow.read_text(encoding="utf-8"), target.read_text(encoding="utf-8")
-
-
-def test_proposal_changes_only_the_existing_authorization_job(proposal):
-    current, proposed = proposal
+def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
+    """Removing the patch's one added line from the live workflow gives back, byte for byte (LF), the base the
+    proposal was reviewed against; the line is there once, in the authorize job."""
+    source = json.loads((MAINTENANCE / "proposals/source.json").read_text(encoding="utf-8"))
+    patch = (MAINTENANCE / "proposals/authorize-environment.patch").read_text(encoding="utf-8")
+    added = [line[1:] for line in patch.splitlines() if line.startswith("+") and not line.startswith("+++")]
+    assert added == ["    environment: pypi"]
+    live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
     marker = "  authorize:\n"
-    assert proposed == current.replace(marker, marker + "    environment: pypi\n", 1)
-    old, new = _jobs(current), _jobs(proposed)
-    assert set(old) == set(new)
-    assert all(old[j] == new[j] for j in old if j != "authorize")
-    assert "environment:" not in new["candidate"]
-    assert "github.event_name == 'workflow_dispatch' && inputs.candidate != ''" in new["authorize"]
-    assert "python3 scripts/release_publish.py authorize" in new["authorize"]
-    assert "id-token: write" not in new["authorize"]
-
-
-@pytest.mark.parametrize("stage", ["pypi", "mcp-registry", "github-release"])
-def test_every_publication_route_depends_on_the_approved_authorizer(proposal, stage):
-    _, proposed = proposal
-    jobs = _jobs(proposed)
-    assert "    environment: pypi\n" in jobs["authorize"]
-    dependency = re.search(r"(?m)^    needs: (.+)$", jobs[stage])[1]
-    assert "authorize" in dependency
-    if stage == "pypi":
-        # Default dependency success applies: no always() escape on this job.
-        assert "always()" not in jobs[stage]
-        assert "name: pypi" in jobs[stage]  # preserve the trusted-publisher environment
-    else:
-        # Recovery explicitly permits a skipped PyPI job, but cannot skip authorization success.
-        assert "needs.authorize.result == 'success'" in jobs[stage]
-        assert "needs.pypi.result == 'skipped'" in jobs[stage]
-        assert f"inputs.only == '{stage}'" in jobs[stage]
+    assert live.count(marker + added[0] + "\n") == 1
+    base = live.replace(marker + added[0] + "\n", marker, 1)
+    assert hashlib.sha256(base.encode("utf-8")).hexdigest() == source["workflow_sha256_lf"]
 
 
 def test_deletion_manifest_excludes_moved_and_active_branches():

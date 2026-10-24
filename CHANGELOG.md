@@ -17,6 +17,11 @@ files keep working. What can differ, each said where it happens:
   receipt-v0 reasons in `why` and `gaps` read differently (commit 8cb7273, audit R1 and R2). This is intended and
   stays; docs/release-hardening.md, RH-5, records the decision.
 
+Publication approval:
+- `release.yml`'s `authorize` job runs in the protected environment `pypi`, so every publishing run, the recovery
+  runs `only: mcp-registry` and `only: github-release` included, waits for the environment's reviewers before any
+  stage. Effective once the owner configures reviewers (docs/release.md, "Who approves a publication").
+
 Release candidate and distribution (PR #38):
 - The release workflow publishes nothing on a tag push. A pushed tag `vX.Y.Z` builds a candidate (sdist, wheel and
   the Claude Desktop bundle from that commit, validated, installed into clean venvs and run) and records it in
