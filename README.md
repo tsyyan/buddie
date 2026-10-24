@@ -2,7 +2,10 @@
 
 <div align="center">
 
-<img src="assets/brand/buddie-logo.png" alt="buddie." width="360">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/buddie-logo-dark.png">
+  <img src="assets/brand/buddie-logo.png" alt="buddie." width="360">
+</picture>
 
 ### Verify the claim. Know the context.
 

@@ -280,7 +280,8 @@ def test_the_links_lead_to_files_and_headings_that_exist(page):
     base = (ROOT / page).parent
     text = PAGES[page]
     missing = []
-    for target in re.findall(r"\]\(([^)\s]+)\)", text) + re.findall(r'<img src="([^"]+)"', text):
+    for target in (re.findall(r"\]\(([^)\s]+)\)", text) + re.findall(r'<img src="([^"]+)"', text)
+                   + re.findall(r'srcset="([^"]+)"', text)):
         if target.startswith(("http://", "https://", "mailto:")):
             continue
         path, _, anchor = target.partition("#")
@@ -328,9 +329,82 @@ def test_the_readme_images_exist_are_described_and_light_enough():
     assert "social-preview" not in README
 
 
+def _png(path: Path) -> tuple[int, int, list[list[tuple[int, int, int, int]]]]:
+    """Width, height and RGBA rows of an 8-bit palette (with tRNS) or RGBA PNG, with the standard library only: CI
+    installs no image library."""
+    import struct
+    import zlib
+    data = path.read_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n", path
+    pos, chunks, idat = 8, {}, b""
+    while pos < len(data):
+        n, kind = struct.unpack(">I4s", data[pos:pos + 8])
+        body = data[pos + 8:pos + 8 + n]
+        idat += body if kind == b"IDAT" else b""
+        chunks.setdefault(kind, body)
+        pos += 12 + n
+    w, h, depth, ctype, _, _, interlace = struct.unpack(">IIBBBBB", chunks[b"IHDR"])
+    assert depth == 8 and ctype in (3, 6) and interlace == 0, (path, depth, ctype, interlace)
+    bpp = 1 if ctype == 3 else 4
+    raw, stride, rows, prev = zlib.decompress(idat), w * bpp, [], bytearray(w * bpp)
+    for y in range(h):
+        kind, line = raw[y * (stride + 1)], bytearray(raw[y * (stride + 1) + 1:(y + 1) * (stride + 1)])
+        for i in range(stride):
+            a = line[i - bpp] if i >= bpp else 0
+            b, c = prev[i], prev[i - bpp] if i >= bpp else 0
+            if kind == 1:
+                line[i] = (line[i] + a) & 255
+            elif kind == 2:
+                line[i] = (line[i] + b) & 255
+            elif kind == 3:
+                line[i] = (line[i] + (a + b) // 2) & 255
+            elif kind == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                line[i] = (line[i] + (a if pa <= pb and pa <= pc else b if pb <= pc else c)) & 255
+        rows.append(line)
+        prev = line
+    if ctype == 6:
+        return w, h, [[tuple(r[x * 4:x * 4 + 4]) for x in range(w)] for r in rows]
+    plte, trns = chunks[b"PLTE"], chunks.get(b"tRNS", b"")
+    palette = [tuple(plte[i * 3:i * 3 + 3]) + ((trns[i] if i < len(trns) else 255),) for i in range(len(plte) // 3)]
+    return w, h, [[palette[i] for i in r] for r in rows]
+
+
+def test_the_brand_images_are_transparent_and_the_logo_has_a_dark_theme_twin():
+    """The logo and the hero have no background of their own, so they sit on GitHub's light and dark pages alike: a
+    transparent frame, opaque artwork. On dark pages GitHub shows the logo whose wordmark is frost white; it is the
+    same drawing: the same shape, the same dog."""
+    pictures = re.findall(r"<picture>\s*<source ([^>]+)>\s*<img src=\"([^\"]+)\"[^>]*>\s*</picture>", README)
+    assert len(pictures) == 1 and pictures[0][1] == "assets/brand/buddie-logo.png", pictures
+    source = pictures[0][0]
+    assert 'media="(prefers-color-scheme: dark)"' in source and 'srcset="assets/brand/buddie-logo-dark.png"' in source
+    assert len((ROOT / "assets/brand/buddie-logo-dark.png").read_bytes()) <= 500_000
+    light, dark, hero = (_png(ROOT / f"assets/brand/{n}")
+                         for n in ("buddie-logo.png", "buddie-logo-dark.png", "readme-hero.png"))
+    for name, (w, h, rows) in (("logo", light), ("dark logo", dark), ("hero", hero)):
+        frame = [p[3] for r in rows[:4] + rows[-4:] for p in r] + [p[3] for r in rows for p in r[:4] + r[-4:]]
+        assert max(frame) == 0, name  # no background left at the edges
+        alphas = [p[3] for r in rows for p in r]
+        clear, solid = alphas.count(0) / len(alphas), sum(a >= 250 for a in alphas) / len(alphas)
+        assert clear > 0.4 and solid > 0.1, (name, clear, solid)
+    (w, h, lrows), (dw, dh, drows) = light, dark
+    assert (w, h) == (dw, dh)
+    same_shape = [abs(a[3] - b[3]) for ra, rb in zip(lrows, drows) for a, b in zip(ra, rb)]
+    assert sum(same_shape) / len(same_shape) < 1 and max(same_shape) <= 32
+
+    def mean(rows, x0, y0, x1, y1):
+        px = [p for r in rows[y0:y1] for p in r[x0:x1] if p[3] >= 250]
+        return [sum(p[i] for p in px) / len(px) for i in range(3)]
+    # the wordmark is navy on light pages and frost white on dark ones; the dog is the same in both
+    assert max(mean(lrows, 300, 60, 840, 240)) < 80 and min(mean(drows, 300, 60, 840, 240)) > 200
+    dog = [abs(a[i] - b[i]) for ra, rb in zip(lrows, drows) for a, b in zip(ra[60:270], rb[60:270]) for i in range(4)]
+    assert sum(dog) / len(dog) < 2, sum(dog) / len(dog)
+
+
 def test_the_readme_uses_only_markdown_and_html_github_keeps():
     tags = set(re.findall(r"</?([a-zA-Z]+)", re.sub(r"```.*?```", "", README, flags=re.S)))
-    assert tags <= {"div", "img"}, tags
+    assert tags <= {"div", "img", "picture", "source"}, tags
     assert not re.search(r"\bstyle=|<style|<script|class=", README)
     assert README.count('<div align="center">') == README.count("</div>") == 2
     # one logo, and the product's name is not repeated as a heading above or below it
