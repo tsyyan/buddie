@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fix remote public GitHub `ci:` verification: allow commit resolution and explicit latest check-run pagination,
+  with strict route/query validation and the existing public-repository checks.
+
 ## buddie 2.0.0 (prepared, not released)
 
 Upgrading from 1.1.1: nothing to change for a 1.x setup. receipt-v0 stays the default with the same keys, outcome
