@@ -4,11 +4,13 @@ Start with the [project overview and quick start](../README.md). For installatio
 
 | Task | Guide |
 |---|---|
+| Install on every surface, MCP tools, enforcement | [Getting started](getting-started.md) |
 | Install and configure Claude Code | [Claude Code](claude-code.md) |
 | Install in Claude Desktop | [Desktop bundle](install-claude-desktop.md) |
 | Install in Codex | [Codex](install-codex.md) |
 | Inspect integrations and troubleshoot | [Integration audit](integrations.md) |
 | Host an HTTP MCP server | [Deployment](deploy.md) |
+| Run the examples; what is checked, the outcomes | [Verification](verification.md) |
 | Understand checks and evidence | [Architecture](architecture.md) |
 | Choose verification coverage | [Profiles](profiles.md) |
 | Configure the CLI, hooks and MCP server | [Configuration](configuration.md) |
@@ -20,6 +22,7 @@ Start with the [project overview and quick start](../README.md). For installatio
 | Examine adversarial tests | [Adversarial suite](adversarial.md) |
 | Read research results and reproduce evaluations | [Research](research.md) |
 | Report a vulnerability | [Security policy](../SECURITY.md) |
+| What buddie does not guarantee | [Limitations, security and privacy](limitations.md) |
 | Review execution risks | [Security boundaries](security.md) |
 | Understand data handling | [Privacy](../PRIVACY.md) |
 | Contribute | [Contributor guide](../CONTRIBUTING.md) |

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="470" viewBox="0 0 720 470" role="img" aria-labelledby="t d">
+<title id="t">Observe: granted environment categories collected for a task</title>
+<desc id="d">From a real buddie 2.0.0 run on one Windows machine. Task: configure local development environment. Requested and granted categories: system.os, hardware.gpu, software.python. Authorized observations: Windows 11 (os_interface); NVIDIA GeForce GTX 1650 with 4 GiB VRAM (fixed_program); Python 3.14.6 with pip and venv (buddie). Read-only; exit code 0.</desc>
+<rect width="720" height="470" rx="18" fill="#101B2D"/>
+<text x="40" y="50" fill="#F3F8FD" fill-opacity=".62" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17">Real run · one Windows machine · read-only</text>
+<path d="M40 70H680" stroke="#2D435B"/>
+<path d="M52 112V318" stroke="#69D8EF" stroke-opacity=".35" stroke-width="2"/>
+<circle cx="52" cy="104" r="7" fill="#69D8EF"/>
+<circle cx="52" cy="200" r="7" fill="#69D8EF"/>
+<circle cx="52" cy="296" r="7" fill="#69D8EF"/>
+<g font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+<text x="80" y="110" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">TASK</text>
+<text x="80" y="148" fill="#F3F8FD" font-size="25">“configure local development environment”</text>
+<text x="80" y="206" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">REQUESTED CATEGORIES · ALL GRANTED</text>
+<text x="80" y="242" fill="#F3F8FD" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="20">system.os  hardware.gpu  software.python</text>
+<text x="80" y="302" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">AUTHORIZED OBSERVATIONS · WITH THEIR BASIS</text>
+<text x="80" y="340" fill="#F3F8FD" font-size="22">Windows 11</text>
+<text x="680" y="340" fill="#F3F8FD" fill-opacity=".6" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="16" text-anchor="end">os_interface</text>
+<text x="80" y="378" fill="#F3F8FD" font-size="22">NVIDIA GeForce GTX 1650 · 4 GiB VRAM</text>
+<text x="680" y="378" fill="#F3F8FD" fill-opacity=".6" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="16" text-anchor="end">fixed_program</text>
+<text x="80" y="416" fill="#F3F8FD" font-size="22">Python 3.14.6 · pip, venv</text>
+<text x="680" y="416" fill="#F3F8FD" fill-opacity=".6" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="16" text-anchor="end">buddie</text>
+</g>
+</svg>

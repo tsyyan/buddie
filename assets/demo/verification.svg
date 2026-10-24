@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="430" viewBox="0 0 720 430" role="img" aria-labelledby="t d">
+<title id="t">Verify: an agent claim checked against the session transcript</title>
+<desc id="d">From a real buddie 2.0.0 run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q =&gt; 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit code 1.</desc>
+<rect width="720" height="430" rx="18" fill="#101B2D"/>
+<text x="40" y="50" fill="#F3F8FD" fill-opacity=".62" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17">Real run · bundled <tspan font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace">examples/work</tspan> fixture</text>
+<path d="M40 70H680" stroke="#2D435B"/>
+<path d="M52 112V340" stroke="#69D8EF" stroke-opacity=".35" stroke-width="2"/>
+<circle cx="52" cy="104" r="7" fill="#69D8EF"/>
+<circle cx="52" cy="216" r="7" fill="#69D8EF"/>
+<circle cx="52" cy="318" r="7" fill="#69D8EF"/>
+<g font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+<text x="80" y="110" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">AGENT CLAIM</text>
+<text x="80" y="146" fill="#F3F8FD" font-size="25">“Fixed the date parser; the test suite is green”</text>
+<text x="80" y="178" fill="#F3F8FD" fill-opacity=".75" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="19">⚓ run:pytest -q =&gt; 41 passed</text>
+<text x="80" y="222" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">EVIDENCE CHECK · SESSION TRANSCRIPT</text>
+<text x="80" y="260" fill="#F3F8FD" font-family="ui-monospace,SFMono-Regular,Consolas,Menlo,monospace" font-size="22">1 failed, 40 passed in 3.1s</text>
+<text x="80" y="324" fill="#69D8EF" font-size="15" font-weight="600" letter-spacing="1.5">VERIFICATION OUTCOME</text>
+<rect x="80" y="340" width="86" height="40" rx="8" fill="#FF8F8F"/>
+<text x="123" y="368" fill="#101B2D" font-size="21" font-weight="700" text-anchor="middle">FAIL</text>
+<text x="182" y="368" fill="#F3F8FD" font-size="21">effects 0/1 hold, 1 broken · exit 1</text>
+</g>
+</svg>
