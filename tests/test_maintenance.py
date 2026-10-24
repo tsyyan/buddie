@@ -13,14 +13,28 @@ ROOT = Path(__file__).resolve().parents[1]
 MAINTENANCE = ROOT / "docs" / "maintenance"
 
 
+# The one reviewed change to release.yml since the proposal: the 2.0.0 release commit pinned each action to the
+# commit its tag named then (tests/test_workflow_pins.py). Each pin, back to the reference it replaced.
+PINNED_SINCE_PROPOSAL = {
+    "actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0": "actions/checkout@v4",
+    "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0": "actions/download-artifact@v4",
+    "pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3":
+        "pypa/gh-action-pypi-publish@release/v1",
+}
+
+
 def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
-    """Removing the patch's one added line from the live workflow gives back, byte for byte (LF), the base the
-    proposal was reviewed against; the line is there once, in the authorize job."""
+    """Removing the patch's one added line from the live workflow, and undoing the action pins of the 2.0.0 release
+    commit, gives back, byte for byte (LF), the base the proposal was reviewed against; the line is there once, in
+    the authorize job. Any other change to release.yml fails here."""
     source = json.loads((MAINTENANCE / "proposals/source.json").read_text(encoding="utf-8"))
     patch = (MAINTENANCE / "proposals/authorize-environment.patch").read_text(encoding="utf-8")
     added = [line[1:] for line in patch.splitlines() if line.startswith("+") and not line.startswith("+++")]
     assert added == ["    environment: pypi"]
     live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    for pinned, floating in PINNED_SINCE_PROPOSAL.items():
+        assert f"uses: {pinned}\n" in live, pinned
+        live = live.replace(f"uses: {pinned}\n", f"uses: {floating}\n")
     marker = "  authorize:\n"
     assert live.count(marker + added[0] + "\n") == 1
     base = live.replace(marker + added[0] + "\n", marker, 1)
