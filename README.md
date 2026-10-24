@@ -28,7 +28,8 @@ does not hold. Everywhere else it is a tool that you or the agent call.
 
 Features marked *(2.0)* are not in 1.1.1. Until 2.0.0 is released they come only from this repository's source: the
 plugin marketplace installs its default branch, and `pip install git+https://github.com/tsyyan/buddie` installs that
-branch as a package. Each release updates this section ([docs/release.md](docs/release.md)).
+branch as a package. Each release updates this section in its release commit, before the tag
+([docs/release.md](docs/release.md#cutting-a-release)).
 
 ## See it work
 

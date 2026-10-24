@@ -20,7 +20,13 @@ files keep working. What can differ, each said where it happens:
 Publication approval:
 - `release.yml`'s `authorize` job runs in the protected environment `pypi`, so every publishing run, the recovery
   runs `only: mcp-registry` and `only: github-release` included, waits for the environment's reviewers before any
-  stage. Effective once the owner configures reviewers (docs/release.md, "Who approves a publication").
+  stage. It protects only while the environment has required reviewers (docs/release.md, "Who approves a
+  publication").
+- docs/release.md: checking a published release's files (the flat assets put back where `release-manifest.json`
+  says, then `sha256sum -c` and the manifest check); recovery after a partial publication uses only the approved
+  candidate, a rebuild never (its bytes differ), and stops for the owner when that candidate is gone; recovery is a
+  new, approved dispatch; a final pre-release checklist. CITATION.cff leaves `date-released` out until the release
+  commit dates the release.
 
 Release candidate and distribution (PR #38):
 - The release workflow publishes nothing on a tag push. A pushed tag `vX.Y.Z` builds a candidate (sdist, wheel and
@@ -54,7 +60,7 @@ Release hardening (docs/release-hardening.md):
   input (`pdftotext` and `certutil` now get it explicitly, and a test keeps every call site so); the suite names a
   recurrence (`BUDDIE_RH1_STRICT=1` fails the run). Run the suite with `python -m pytest`.
 - A test that the pattern worker ends with buddie's process mid-match (Windows, Linux; macOS recorded).
-- Version 2.0.0 in every manifest. No tag, nothing published.
+- Version 2.0.0 in every manifest.
 
 - Adversarial verification suite (`tests/test_adversarial.py`, docs/adversarial.md): attacks an agent can mount
   with what it controls, run through the hook, the CLI, MCP and the collectors, in a threat matrix with the test
@@ -76,8 +82,8 @@ Release hardening (docs/release-hardening.md):
     repeat over alternatives or an unseparated repeat inside a repeat, or over 512 characters, and `refs[].doc`
     templates with anything but `{name}` fields, now make the file unusable: every answer is returned with the
     reason.
-- docs/release-hardening.md: the intermittent Windows full-suite failures (open, release blocker), with the first
-  captured signature (`WinError 6` duplicating the test process's standard input handle).
+- docs/release-hardening.md: the intermittent Windows full-suite failures, with the first captured signature
+  (`WinError 6` duplicating the test process's standard input handle); classified in RH-1 above.
 - Evidence freshness (`buddie/freshness.py`, docs/freshness.md): whether evidence is bound to the revision a claim
   is about, apart from whether it is valid and how old it is. `CURRENT`, `STALE`, `UNKNOWN` (`NOT_APPLICABLE`
   reserved), each with a reason; only full commit ids compare, the same SHA in two repositories is not one revision,
