@@ -12,7 +12,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/buddie)](https://pypi.org/project/buddie/)
 [![License](https://img.shields.io/github/license/tsyyan/buddie)](LICENSE)
 
-[Claude Code](#claude-code) · [Codex](#other-integrations) · [MCP](#other-integrations) · [CLI and CI](#other-integrations)
+<img src="assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
 
 </div>
 
@@ -28,8 +28,6 @@ unchecked. In 929 checkable quotations from published deep-research reports, 212
 page they cited; Buddie flagged 207 of them ([research](docs/research.md)).
 
 ## What Buddie does
-
-<img src="assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
 
 **Verify.** Buddie checks supported claims against their evidence: a quotation against the page it links to, a file
 or commit against your repository, a merged PR or a green CI run against GitHub, a test result against the session's
@@ -78,7 +76,7 @@ checks what: [verification guide](docs/verification.md).
 An agent is asked to set up a local development environment. Instead of guessing the operating system, GPU or Python
 version, it asks Buddie for three categories, which the person has granted:
 
-<img src="assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Requested and granted categories: system.os, hardware.gpu, software.python. Authorized observations: Windows 11 (os_interface); NVIDIA GeForce GTX 1650 with 4 GiB VRAM (fixed_program); Python 3.14.6 with pip and venv (buddie)." width="600">
+<img src="assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Authorized categories: system.os, hardware.gpu, software.python. Observed: OS Windows 11; GPU NVIDIA GeForce GTX 1650, 4 GiB; Python 3.14.6 with pip and venv." width="600">
 
 <!-- readme-diagnostics -->
 ```bash

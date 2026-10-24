@@ -163,16 +163,31 @@ def test_the_readme_diagnostics_demo_runs_and_is_shaped_as_buddie_prints_it(tmp_
 
 
 def test_the_readme_diagnostics_card_shows_the_excerpts_values():
+    """The card shows the values the excerpt under it prints and the categories that were authorized; what each
+    value rests on (its basis) stays in the excerpt, as text, rather than as small labels on the card."""
     _, shown = _diagnostics_demo()
     excerpt = "\n".join(shown)
     svg = (ROOT / "assets/demo/environment.svg").read_text(encoding="utf-8")
     alt = _alt("assets/demo/environment.svg")
-    for value in ("Windows 11", "NVIDIA GeForce GTX 1650", "3.14.6", "os_interface", "fixed_program", "[buddie]"):
-        assert value in excerpt, value
-        assert value.strip("[]") in svg and value.strip("[]") in alt, value
-    assert "vram_bytes 4294967296" in excerpt and "4 GiB" in svg  # 4294967296 bytes is 4 GiB
+    for value in ("Windows 11", "NVIDIA GeForce GTX 1650", "3.14.6"):
+        assert value in excerpt and value in svg and value in alt, value
+    assert "vram_bytes 4294967296" in excerpt and "4 GiB" in svg and "4 GiB" in alt  # 4294967296 bytes is 4 GiB
+    assert "pip True, venv True" in excerpt and "pip and venv" in svg and "pip and venv" in alt
+    for basis in ("[os_interface]", "[fixed_program]", "[buddie]"):
+        assert basis in excerpt, basis
+    assert "grants active" in shown[0] and "AUTHORIZED CATEGORIES" in svg and "Authorized categories" in alt
     for category in ("system.os", "hardware.gpu", "software.python"):
-        assert category in svg and category in alt
+        assert f"  {category}: collected" in excerpt and category in svg and category in alt, category
+
+
+def test_the_readme_opens_with_the_brand_then_the_hero():
+    """The first screen: logo, tagline, one line of what it is, the badges, the hero, then "Why Buddie?"."""
+    opening = README.split("\n## Why Buddie?", 1)[0]
+    order = [opening.index(s) for s in ("buddie-logo.png", "### Verify the claim. Know the context.",
+                                        "**Evidence and environment awareness for AI agents.**", "[![CI]",
+                                        "[![License]", "readme-hero.png", "</div>")]
+    assert order == sorted(order), order
+    assert README.count("readme-hero.png") == 1
 
 
 def test_the_mcp_tools_table_names_the_tools_the_servers_list():
