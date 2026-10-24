@@ -122,7 +122,9 @@ end.
 
 **Naming the environment is not a protection by itself.** Until the owner gives `pypi` required reviewers, GitHub
 runs both jobs at once without asking anyone. On 2026-10-24 the environment had no protection rules, no
-deployment-ref policy, and allowed administrators to bypass it (read through the API, not changed).
+deployment-ref policy, and allowed administrators to bypass it (read through the API, not changed). *Later on
+2026-10-24 the owner configured it: reviewer `tsyyan` with self-review allowed, administrator bypass off,
+deployments only from tags `v*` (read back through the API; see the final pre-release checklist).*
 
 **What the owner sets** (Settings → Environments → `pypi`):
 
@@ -144,7 +146,10 @@ same inputs can be dispatched again for a new review.
 
 **Retries.** *Re-run failed jobs* within a run keeps that run's successful `authorize`: a retried registry or
 release stage does not pass a new review (a retried `pypi` job, which names the environment itself, asks again). A
-new dispatch, `only` recovery runs included, always goes through `authorize` and its review. A run dispatched on an older tag
+new dispatch, `only` recovery runs included, always goes through `authorize` and its review. **The policy for this
+repository**: recovery is a new, explicitly approved dispatch, never a re-run of individual jobs in an earlier run.
+That is an operating rule for people, not something the workflow enforces: someone who can re-run jobs can still
+re-run a stage of an approved run without a new review. A run dispatched on an older tag
 uses that tag's own `release.yml`: before approving one, check that it has this gate.
 
 **Who enforces what.** GitHub enforces the reviewers, the tag-only deployment rule, who may dispatch workflows, and
@@ -156,8 +161,9 @@ no setting here protects against the account owner.
 ## Partial publication
 
 The three stages are three services. **Publication is not a transaction**: PyPI can have the version while the
-registry or the release does not, and nothing is rolled back. A version on PyPI can never be replaced or uploaded
-again, even after it is deleted; a wrong one is fixed by releasing `X.Y.Z+1`.
+registry or the release does not, and nothing is rolled back. Cancelling a run stops the jobs still to come; it
+does not undo an upload that already finished. A version on PyPI can never be replaced or uploaded again, even
+after it is deleted; a wrong one is fixed by releasing `X.Y.Z+1`.
 
 **Which stages completed.** The publish run's job list shows each stage's result. The services themselves:
 
@@ -173,7 +179,8 @@ curl -s https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fb
 gh release view vX.Y.Z --repo tsyyan/buddie --json isDraft,assets
 ```
 
-**Whether what is published is the candidate.** Download the candidate run's artifact and compare: PyPI's
+**Whether what is published is the candidate.** Download the candidate run's artifact (or the release's files,
+"Checking a published release's files") and compare: PyPI's
 `digests.sha256` per file and each release asset's `digest` with `SHA256SUMS`; the registry entry's name, version
 and package with `server.json`. The stages do this themselves before and after they publish.
 
@@ -183,12 +190,13 @@ and package with `server.json`. The stages do this themselves before and after t
 gh workflow run release.yml --repo tsyyan/buddie --ref vX.Y.Z -f candidate=RUN_ID -f confirm="publish buddie X.Y.Z" -f only=mcp-registry
 ```
 
-(`only=pypi` or `only=github-release` likewise), or *Re-run failed jobs* on the publish run. Each stage completes only
-what is missing:
+(`only=pypi` or `only=github-release` likewise). Recover with such a **new dispatch**, which the `pypi` reviewer
+approves at `authorize`, and not with *Re-run failed jobs* on an earlier run ("Who approves a publication",
+retries). Each stage completes only what is missing:
 
 | Situation | The stage | What to do |
 |---|---|---|
-| `authorize` failed | nothing published | fix the input (or tag the right commit and build a new candidate), run again |
+| `authorize` failed | nothing published | fix the input and dispatch again (case **A**); a tag on the wrong commit cannot be moved (`v*` tags are immutable): release `X.Y.Z+1` |
 | PyPI holds one of the two files | uploads the other | run `pypi` again |
 | PyPI holds exactly the candidate's files | done, no upload | nothing |
 | PyPI holds a file that is not the candidate's | **stops** before uploading | stop: PyPI cannot be corrected. Find out how that file got there; release `X.Y.Z+1` |
@@ -204,43 +212,65 @@ what is missing:
 | the release already published with every file | done, unchanged | nothing |
 | the release published without some file | **stops**; a published release is not changed | add the file by hand after checking it, or leave it |
 | the tag names another commit than the candidate | **stops** before any write | the tag moved: stop and find out why |
-| the candidate's artifact expired (90 days) | nothing published | build a new candidate (manual run on the tag, empty `candidate`) and publish that run |
+| the candidate's artifact expired (90 days), nothing published | nothing to recover | case **A** below |
+| the candidate's artifact still there, something published | the stages complete what is missing | case **B** below: the same `candidate` |
+| the candidate's artifact expired or lost, something published | **stop** | case **C** below |
+
+### Rebuilt files are not the same files
+
+A candidate built again from the same commit is a different set of bytes: archive timestamps, the build environment
+and tool versions change the wheel, the sdist and the bundle, and so their SHA-256. Nothing in this process promises
+a byte-identical rebuild. What may be published therefore depends on whether anything already was:
+
+| Case | Situation | What to do |
+|---|---|---|
+| **A** | **Nothing published** (`authorize` failed, or the candidate expired before any stage ran) | build a new candidate (a manual run on the tag, `candidate` empty), check it like the first, and publish it in a new, approved publish run |
+| **B** | **Partly published**, the approved candidate still available | recover only with **that** candidate: the same `candidate` run id, in a new, approved dispatch with `only`. Never a rebuild, even from the same tag and commit: PyPI and a partial release already hold its bytes, and a rebuild would not match them |
+| **C** | **Partly published, the approved candidate expired or lost** | **stop**: no automatic recovery. Look for the exact bytes in owner-controlled storage (the kept artifact, the files already on PyPI or on the release, with `SHA256SUMS` and `release-manifest.json`). If they are found, a person restores them and decides how to finish. If not, the owner decides, separately, how to continue: usually releasing `X.Y.Z+1`. Never delete a PyPI version to upload other files under it: PyPI does not allow a deleted file name to be uploaded again, and people may already have installed it |
+
+Keeping the approved candidate (the artifact and its run id) in owner-controlled storage until the release is
+complete is what keeps case C from happening.
 
 **When to stop and ask.** Every **stop** above is for a person: a file on a service that is not the candidate's, a
 tag that moved, a registry entry that disagrees, a half-made asset. None of them is retried into success.
 
-## Before the first release from this workflow (owner)
+## Final pre-release checklist
 
-These are settings and decisions only the repository owner can make. Each line says what was observed on 2026-10-24
-through the API, not what is configured by the time of the release.
+Each line is the release operator's to confirm on the day, against GitHub and PyPI, not against this page. What
+this page last observed through the API is dated; it is not proof of the settings on the day of a release.
 
-- [ ] **Required reviewer on the `pypi` environment** (Settings → Environments → `pypi` → *Required reviewers*),
-  with *Allow administrators to bypass* off and a deployment rule for tags `v*` only ("Who approves a publication").
-  Observed: `protection_rules: []`, no deployment branch policy, administrators may bypass. Without reviewers the
-  `authorize` and `pypi` jobs run unasked; `authorize` then checks what is published, not who asks.
-- [ ] **Protection for release tags `v*`** (Settings → Rules → Rulesets: restrict creation, update and deletion to
-  the owner). Observed: no rulesets.
-- [ ] **Trusted publishing on PyPI** matches workflow `release.yml` and environment `pypi` for `tsyyan/buddie`
-  (pypi.org → the project → Publishing). Observed only indirectly: the 1.x releases were published under these names
-  (run 39439955515). PyPI's settings are not visible from here.
-- [ ] **GitHub Actions permissions.** Observed: the default workflow token is read-only and cannot approve pull
-  requests. The workflow asks for more per job only: `id-token: write` for `pypi` and `mcp-registry`,
-  `contents: write` for `github-release`, `actions: read` to download the candidate.
-- [ ] **The release operator**: the person who starts the publish run, and the reviewer on `pypi`, are the people
-  the owner intends. Not checkable from the repository.
-- [ ] **The approved candidate run id**: the candidate run for the tag, its summary's commit and sums read, before
-  it is typed into `candidate`.
-- [ ] **No publication on tag creation**: the tag push's run shows only the `candidate` job; the publishing jobs are
-  skipped. `tests/test_release_authorization.py` checks the workflow for it; confirm it on the first tag's run.
-- [ ] **The approval prompt appears**: the first publish run waits for a review at `authorize` (and again at `pypi`).
-  If it does not wait, the environment has no reviewers: cancel the run.
+- [ ] **The release commit**: its full SHA, on `main`, is the merge of the release-commit PR ("Cutting a release",
+  step 3), and nothing is merged after it before the tag.
+- [ ] **CI on that SHA**: all nine required contexts pass: `test (3.11)`, `test (3.12)`, `test (3.13)`,
+  `os (ubuntu-latest)`, `os (macos-latest)`, `os (windows-latest)`, `catalogs`, `docker`,
+  `release-candidate / build`.
+- [ ] **`main` and the tags are protected**: ruleset `main-reviewed-ci` (pull request, required checks, no force push
+  or deletion); `release-tags-creation` (only administrators create `v*`); `release-tags-immutable` (no update or
+  deletion of `v*`, no bypass). Observed active on 2026-10-24.
+- [ ] **The `pypi` environment**: required reviewer, administrator bypass off, deployment limited to tags `v*`.
+  Observed on 2026-10-24: reviewer `tsyyan` with self-review allowed (a solo checkpoint, not two-person approval),
+  bypass off, tag policy `v*`.
+- [ ] **PyPI's trusted publisher**, checked by the owner on pypi.org (the project → Publishing): repository
+  `tsyyan/buddie`, workflow `release.yml`, environment `pypi`. Not visible from GitHub; the 1.x releases were
+  published under these names (run 39439955515).
+- [ ] **No conflict**: no tag `v2.0.0` (`git ls-remote --tags origin v2.0.0` prints nothing), no `buddie 2.0.0` on PyPI
+  (`https://pypi.org/pypi/buddie/2.0.0/json` answers 404), no registry entry for 2.0.0, no release or draft for the tag.
+- [ ] **The owner approves creating the tag**, explicitly, for that SHA.
+- [ ] **The tagged candidate**: the candidate run started by the tag push succeeded, its summary names the release
+  commit, and its `SHA256SUMS` is read and kept with the run id.
+- [ ] **The candidate is kept**: its artifact downloaded and stored where the owner controls it, beyond GitHub's
+  90-day artifact retention ("Rebuilt files are not the same files").
+- [ ] **Publication is approved separately**: the publish run, and later any recovery run, is a new dispatch that the
+  `pypi` reviewer approves at `authorize` (and again at `pypi`). Approving the tag does not approve publishing.
+- [ ] **No publication on tag creation**: the tag push's run shows only the `candidate` job.
+  `tests/test_release_authorization.py` checks the workflow for it.
 
 ## One-time setup (the repository owner)
 
-Already done for 1.x: the PyPI trusted publisher for `tsyyan/buddie`, workflow `release.yml`, environment `pypi`.
-The workflow keeps both names, so it still matches. If TestPyPI is wanted again, it needs a trusted publisher there
-and an environment `testpypi`; the workflow no longer has that target, since the candidate replaces it as the dry
-run.
+Done: the PyPI trusted publisher for `tsyyan/buddie`, workflow `release.yml`, environment `pypi` (since 1.x); the
+`pypi` environment's protection and the three rulesets above (observed 2026-10-24). The workflow keeps the names the
+trusted publisher is bound to. If TestPyPI is wanted again, it needs a trusted publisher there and an environment
+`testpypi`; the workflow no longer has that target, since the candidate replaces it as the dry run.
 
 ## Cutting a release
 
@@ -249,9 +279,12 @@ run.
    the pinned `pip install buddie==…` in `skills/verbatim/SKILL.md` (`tests/test_version.py`,
    `tests/test_manifest.py` and `tests/test_catalog.py` fail until they agree). `plugin.json`'s version is what moves
    installed plugin users to the release.
-2. Give the `CHANGELOG.md` section its date: `## buddie X.Y.Z (YYYY-MM-DD)`; the same date in `CITATION.cff`; the
-   README's "Release status" table names it as the latest release (the README is also PyPI's page for it;
-   `tests/test_readme.py` fails until the two agree).
+2. In a release-commit PR, date the release. The date is the owner's decision, the day publication is approved
+   for; nothing here picks it. The `CHANGELOG.md` section becomes `## buddie X.Y.Z (YYYY-MM-DD)`, `CITATION.cff`
+   gets `date-released: YYYY-MM-DD` (left out while the version is unreleased), and the README's "Release
+   status" table names X.Y.Z as the latest release (the README is also PyPI's page for it). `tests/test_version.py`
+   and `tests/test_readme.py` fail until all three agree. The sdist carries the README and the CHANGELOG, so this
+   commit comes **before** the tag: what the tag's candidate contains cannot be changed later.
 3. Merge to `main` with CI green (CI has already built a candidate of that commit).
 4. Tag the merge commit and push the tag: the candidate run starts.
 
@@ -263,8 +296,9 @@ run.
    git push origin vX.Y.Z
    ```
 
-5. Read the candidate run's summary: the commit, the sums. Download the artifact if you want to try it by hand.
-6. Go through the checklist above, then start the publish run with that run's id.
+5. Read the candidate run's summary: the commit, the sums. Download the artifact and keep it, with the run id, in
+   storage the owner controls until the release is complete ("Rebuilt files are not the same files").
+6. Go through the final pre-release checklist, then start the publish run with that run's id.
 7. After it: the steps outside this repository ([distribution.md](distribution.md)).
 
 ## Installing from PyPI
@@ -284,5 +318,40 @@ uvx buddie verify report.md
 ```
 
 The MCP server for clients that start a command: `uvx buddie serve` (stdio). The package installs one module,
-`buddie`, and two commands, `buddie` and `buddie-verbatim`. To check a downloaded file against a release:
-`sha256sum -c SHA256SUMS` next to the files from the GitHub Release.
+`buddie`, and two commands, `buddie` and `buddie-verbatim`. To check downloaded files against a release, see
+"Checking a published release's files" below.
+
+## Checking a published release's files
+
+A GitHub Release carries its files flat: the wheel, the sdist, the bundle, `release-manifest.json` and `SHA256SUMS`
+side by side. `SHA256SUMS` and the manifest name them by their place in the candidate, under `dist/` and `bundle/`,
+so `sha256sum -c SHA256SUMS` in the download folder fails with "No such file or directory" until the files are put
+back where the manifest says (its `files[].path`). With the GitHub CLI, for version `X.Y.Z`:
+
+<!-- release-check: begin -->
+```bash
+gh release download vX.Y.Z --repo tsyyan/buddie --dir buddie-X.Y.Z
+```
+
+```bash
+cd buddie-X.Y.Z
+```
+
+```bash
+mkdir -p dist bundle && mv buddie-X.Y.Z-py3-none-any.whl buddie-X.Y.Z.tar.gz dist/ && mv buddie-X.Y.Z.mcpb bundle/
+```
+
+```bash
+sha256sum -c SHA256SUMS
+```
+
+```bash
+python3 ../buddie/scripts/release_manifest.py verify . --version X.Y.Z --commit COMMIT
+```
+<!-- release-check: end -->
+
+On macOS, `shasum -a 256 -c SHA256SUMS` does what `sha256sum -c` does. The last step runs from a clone of this
+repository next to the download folder, with `COMMIT` the tag's full commit SHA (`git rev-parse vX.Y.Z^{commit}` in
+the clone). It checks more than the sums: that the folder holds exactly the three files the manifest lists, each
+with its recorded size and SHA-256, that `SHA256SUMS` agrees with the manifest, and that the manifest is for
+`X.Y.Z` built from `COMMIT`. `tests/test_release_manifest.py` runs these steps on a flat copy of a candidate.

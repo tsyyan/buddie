@@ -8,6 +8,8 @@
 > applied**: until the owner configures reviewers, bypass and the tag rule, naming the environment approves nothing.
 > The rest of this page is the record of the proposal as it was reviewed; its "NOT APPLIED" wording describes main at
 > `0f29c19`.
+>
+> **Clarification, 2026-10-24:** Observed through the API later on 2026-10-24, after this record: environment `pypi` has required reviewer `tsyyan` (self-review allowed), administrator bypass off and deployments from tags `v*` only; rulesets `main-reviewed-ci`, `release-tags-creation` and `release-tags-immutable` are active. Applied by the owner, not by these maintenance changes.
 
 ## Verified final implementation
 

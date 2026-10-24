@@ -5,6 +5,9 @@ from __future__ import annotations
 
 import hashlib
 import re
+import shlex
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -117,3 +120,76 @@ def test_the_candidate_workflow_reads_and_publishes_nothing():
     assert not re.search(r"id-token|contents: write|pypi-publish|mcp-publisher|gh release", text)
     ci = _jobs("ci.yml")
     assert "uses: ./.github/workflows/release-candidate.yml" in ci["release-candidate"]
+
+
+# --- the documented check of a published release's files (docs/release.md) ---------------------------------------
+
+def _documented_steps(version: str, commit: str) -> list[str]:
+    doc = (ROOT / "docs/release.md").read_text(encoding="utf-8")
+    block = doc.split("<!-- release-check: begin -->", 1)[1].split("<!-- release-check: end -->", 1)[0]
+    steps = re.findall(r"```bash\n(.+?)\n```", block)
+    return [s.replace("X.Y.Z", version).replace("COMMIT", commit) for s in steps]
+
+
+def _sha256sum_check(folder: Path) -> list[str]:
+    """`sha256sum -c SHA256SUMS`, as coreutils reads the file: every listed path must exist with that digest."""
+    failed = []
+    for line in (folder / rm.SUMS).read_text(encoding="utf-8").splitlines():
+        digest, path = line.split("  ", 1)
+        target = folder / path
+        if not target.is_file() or hashlib.sha256(target.read_bytes()).hexdigest() != digest:
+            failed.append(path)
+    return failed
+
+
+def _release_download(rc: Path, into: Path) -> None:
+    """What `gh release download` leaves: the release's assets, flat."""
+    into.mkdir()
+    for f in rm.load(rc)["files"]:
+        shutil.copy(rc / f["path"], into / Path(f["path"]).name)
+    for name in (rm.MANIFEST, rm.SUMS):
+        shutil.copy(rc / name, into / name)
+
+
+def test_the_documented_release_check_works_on_a_flat_download(rc, tmp_path):
+    """The steps in docs/release.md, "Checking a published release's files", run as written on a release's flat
+    assets: the files go back where the manifest says, the sums check, and the manifest check passes. Before the
+    move, the sums check fails, which is why the move is there."""
+    steps = _documented_steps(V, SHA)
+    assert steps[0] == f"gh release download v{V} --repo tsyyan/buddie --dir buddie-{V}"
+    _release_download(rc, tmp_path / f"buddie-{V}")
+    assert len(_sha256sum_check(tmp_path / f"buddie-{V}")) == 3  # the old instruction, on the flat layout
+    cwd = tmp_path
+    for step in steps[1:]:
+        if step.startswith("cd "):
+            cwd = cwd / step[3:]
+        elif step.startswith("mkdir"):
+            for part in step.split(" && "):
+                words = shlex.split(part)
+                if words[0] == "mkdir":
+                    for d in words[2:]:
+                        (cwd / d).mkdir(parents=True, exist_ok=True)
+                else:
+                    assert words[0] == "mv" and words[-1].endswith("/")
+                    for name in words[1:-1]:
+                        (cwd / name).rename(cwd / words[-1] / name)
+        elif step == "sha256sum -c SHA256SUMS":
+            assert _sha256sum_check(cwd) == []
+            if shutil.which("sha256sum"):  # the real tool reads the same layout
+                real = subprocess.run(["sha256sum", "-c", rm.SUMS], cwd=cwd, capture_output=True, text=True,
+                                      stdin=subprocess.DEVNULL)
+                assert real.returncode == 0, real.stdout + real.stderr
+        else:
+            words = shlex.split(step)
+            assert words[:2] == ["python3", "../buddie/scripts/release_manifest.py"]
+            assert rm.main(words[2:3] + [str(cwd)] + words[4:]) == 0
+    # the moves put each file exactly where the manifest says, and nothing else is left in dist/ or bundle/
+    assert rm.verify(cwd, V, SHA) == []
+
+
+def test_the_documented_moves_name_every_file_a_release_carries():
+    steps = _documented_steps(V, SHA)
+    move = next(s for s in steps if s.startswith("mkdir"))
+    for path in rm.expected(V):
+        folder, name = path.split("/")
+        assert re.search(rf"mv [^&]*\b{re.escape(name)}\b[^&]* {folder}/", move), path
