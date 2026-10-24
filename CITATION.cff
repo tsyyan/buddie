@@ -7,8 +7,7 @@ authors:
 repository-code: "https://github.com/tsyyan/buddie"
 license: Apache-2.0
 version: 2.0.0
-# date-released is left out while this version is unreleased: 2026-10-20 was 1.1.1's date. The release commit
-# adds the date the owner approves for publication (docs/release.md, "Cutting a release").
+date-released: 2026-10-24
 keywords:
   - AI agents
   - deep research

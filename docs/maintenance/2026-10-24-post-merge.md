@@ -70,7 +70,7 @@ Before any separately approved deletion, fetch again, verify the full expected S
 ## Backup verification
 
 - Original bundle verified again as a complete-history bundle; SHA-256 remains `1fc4fe1a92e8642165716cc7741017121612c6012dc274075e5fba32d47fbee7`.
-- Updated complete-history bundle verified: `C:\Users\kakah\Documents\ChatGPT\buddie\stage4-evidence\post-merge-before-cleanup.bundle`.
+- Updated complete-history bundle verified: `<owner storage>/stage4-evidence/post-merge-before-cleanup.bundle` (the owner's local path, redacted for publication; the file is identified by the SHA-256 below).
 - Updated SHA-256: `54f933af9b6317a0e5c774b4c59707cd3d2a7c3e37047131b2eb6fc45a28e5be`.
 - This updated backup covers all fetched remote refs and the reconciliation merge, including merged main and former #38 tip. Before future cleanup, copy it to durable owner-controlled storage. A final exact-head bundle is also created after the review package commit; its digest and path are reported in the PR description/final handoff without creating a self-referential commit.
 
