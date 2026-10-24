@@ -128,3 +128,8 @@ authorization gap" is applied by the pull request on branch `release-unified-app
 approves a publication"). That closes the workflow half of the release blocker. The other half is not closed: the
 `pypi` environment's reviewers, administrator bypass and `v*` tag rule are the owner's settings, still as recorded in
 [post-merge-settings.json](post-merge-settings.json).
+
+## Addendum: settings, read back
+
+Observed through the API later on 2026-10-24, after this record: environment `pypi` has required reviewer `tsyyan` (self-review allowed), administrator bypass off and deployments from tags `v*` only; rulesets `main-reviewed-ci`, `release-tags-creation` and `release-tags-immutable` are active. Applied by the owner, not by these maintenance changes. The current release checklist is in
+[docs/release.md](../release.md#final-pre-release-checklist).

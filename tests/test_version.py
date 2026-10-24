@@ -30,3 +30,18 @@ def test_readme_names_the_registry_entry():
     """registry.modelcontextprotocol.io accepts server.json only when the PyPI README (ours) carries its name."""
     name = json.loads((ROOT / "server.json").read_text(encoding="utf-8"))["name"]
     assert f"mcp-name: {name}" in (ROOT / "README.md").read_text(encoding="utf-8")
+
+
+def test_the_citation_date_is_the_changelogs_release_date_or_absent():
+    """CITATION.cff's date-released belongs to its version: absent while the CHANGELOG section of this version says
+    it is not released, and the same date as the section's once the release commit dates it (docs/release.md,
+    "Cutting a release"). An earlier version's date would read as this one's."""
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    dated = re.search(r"^date-released: (\S+)", citation, re.M)
+    head = re.search(rf"^## buddie {re.escape(__version__)} \(([^)]*)\)", (ROOT / "CHANGELOG.md").read_text(
+        encoding="utf-8"), re.M)
+    assert head, f"CHANGELOG.md has no section for {__version__}"
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", head[1]):
+        assert dated and dated[1] == head[1], (head[1], dated and dated[1])
+    else:
+        assert "not released" in head[1] and dated is None, (head[1], dated and dated[1])
