@@ -4,6 +4,10 @@
 
 - Fix remote public GitHub `ci:` verification: allow commit resolution and explicit latest check-run pagination,
   with strict route/query validation and the existing public-repository checks.
+- README rewritten as the 2.0 landing page: verify, catch mismatches and observe, a real verification run and a real
+  diagnostics run (assets/demo), one recommended start, a short statement of limits; badges for CI, Python and
+  license. Its detail moved word for word to docs/verification.md, docs/getting-started.md and docs/limitations.md;
+  `tests/test_readme.py` runs the examples there and the diagnostics demo with the README's grants file.
 
 ## buddie 2.0.0 (prepared, not released)
 
