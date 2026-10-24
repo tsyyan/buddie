@@ -241,9 +241,11 @@ git clone https://github.com/tsyyan/buddie
 | `snap` | snapshots URLs into the store, so quotes can be taken from and checked against the same bytes |
 | `source_text` | the visible text of a snapshot, or the matches of a pattern with context: copy quotes from here |
 | `summary` | Claude Code only: the code-built summary of finished subagents, from the hook's journal |
+| `environment_snapshot` | *(2.0)* observes the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes, ...), only the categories you granted ([docs/environment.md](docs/environment.md#diagnostics)) |
 
-Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all four; `summary` has data
-only with the Claude Code hook. The remote server has the first three. **The MCP tools and the CLI advise**: they
+Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all five; `summary` has data
+only with the Claude Code hook, and `environment_snapshot` collects nothing until you grant categories. The remote
+server has the first three. **The MCP tools and the CLI advise**: they
 report, and you or the agent decide what to do with `FAIL`. **The hooks enforce**: they check the answer itself and
 hold it back. The protected policy applies to the hooks only.
 

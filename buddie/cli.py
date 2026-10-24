@@ -6,6 +6,11 @@
   buddie snapshot [--root DIR] [--artifact PATH ...] [--report FILE] [--supply KEY=VALUE ...] [--json FILE]
                                     what buddie observes of the environment: runtime, repository, artifacts
                                     (docs/environment.md); not a check, never signed
+  buddie snapshot --category ID ... [--task TEXT] [--tool NAME ...] [--root DIR] [--json FILE]
+                                    diagnostics: the granted categories of this machine (OS, CPU, memory, GPU,
+                                    Python, runtimes, ...), environment-diagnostics-v1 (docs/environment.md)
+  buddie snapshot --list | --grants | --grant-template
+                                    the categories; what is granted; a grants file to save and edit
   buddie freshness ci --repo OWNER/REPO (--pr N | --commit SHA) --evidence SHA [--check NAME] [--json FILE]
   buddie freshness repo --commit SHA [--root DIR] [--artifact PATH=SHA256 ...] [--snapshot FILE] [--json FILE]
                                     whether evidence is bound to the revision a claim is about (docs/freshness.md):
@@ -260,6 +265,26 @@ def cmd_snapshot(args) -> int:
     """An environment snapshot (buddie/environment.py). Advice, not enforcement: it gates nothing, and nothing reads it
     back as evidence. Exit 0 with a snapshot (unavailable facts included), 2 when the input cannot be used."""
     from buddie import environment
+    if args.list or args.grants or args.grant_template:
+        from buddie import diagnostics
+        if args.grant_template:
+            print(diagnostics.GRANT_TEMPLATE.format(path=diagnostics.grants_location()), end="")
+        elif args.grants:
+            print("\n".join(diagnostics.describe_grants()))
+        elif args.json:
+            Path(args.json).write_text(json.dumps(diagnostics.catalog(), ensure_ascii=False, indent=1) + "\n",
+                                       encoding="utf-8")
+        else:
+            cat = diagnostics.catalog()
+            print(f"diagnostic categories on {cat['platform']} (grants {cat['grants']['status']}; "
+                  f"granted: {', '.join(cat['grants']['allowed']) or 'nothing'}):")
+            for c in cat["categories"]:
+                mark = "" if c["supported_here"] else "  (not on this platform)"
+                scope = {"path": " [needs --root in a granted directory]", "tools": " [needs --tool]"}.get(c["scope"], "")
+                print(f"  {c['id']:<27} {c['tier']:<9} {c['summary']}{scope}{mark}")
+            for u in cat["unsupported"]:
+                print(f"  {u['id']:<27} {'-':<9} not supported: {u['why']}")
+        return 0
     supplied = {}
     for item in args.supply or []:
         key, sep, value = item.partition("=")
@@ -281,6 +306,27 @@ def cmd_snapshot(args) -> int:
             print(f"buddie snapshot: {args.report} cannot be read ({error.strerror or type(error).__name__})",
                   file=sys.stderr)
             return 2
+    if args.category:  # diagnostics (buddie/diagnostics.py): environment-diagnostics-v1, the v0 snapshot inside it
+        from buddie import diagnostics
+        legacy = ({"root": args.root, "artifacts_named": args.artifact or [], "report": text}
+                  if args.artifact or args.report is not None else None)
+        try:
+            scoped = any(diagnostics.REGISTRY.get(c) and diagnostics.REGISTRY[c].scope == "path" for c in args.category)
+            doc = diagnostics.collect(args.category, task=args.task, tools=args.tool or [],
+                                      path=args.root or (str(Path.cwd()) if scoped else None), supplied=supplied,
+                                      legacy=legacy)
+        except (ValueError, RuntimeError) as error:
+            print(f"buddie snapshot: {error}", file=sys.stderr)
+            return 2
+        if args.json:
+            Path(args.json).write_text(diagnostics.dumps(doc) + "\n", encoding="utf-8")
+            print("\n".join(diagnostics.lines(doc)))
+        else:
+            print(diagnostics.dumps(doc))
+        return 0
+    if args.task or args.tool:
+        print("buddie snapshot: --task and --tool go with --category", file=sys.stderr)
+        return 2
     try:
         snap = environment.collect(args.root, args.artifact or [], report=text, supplied=supplied)
     except ValueError as error:
@@ -347,6 +393,17 @@ def cmd_freshness(args) -> int:
                     print(f"buddie freshness repo: {args.snapshot} cannot be read as JSON ({type(error).__name__})",
                           file=sys.stderr)
                     return 2
+                from buddie import diagnostics
+                if type(doc) is dict and doc.get("format") == diagnostics.FORMAT:  # diagnostics: the v0 inside
+                    if problems := diagnostics.problems(doc):
+                        print(f"buddie freshness repo: {args.snapshot} is not a consistent diagnostics document: "
+                              f"{problems[0]}", file=sys.stderr)
+                        return 2
+                    if doc["snapshot"] is None:
+                        print(f"buddie freshness repo: {args.snapshot} holds diagnostics but no environment snapshot "
+                              "(give --artifact or --report with --category to include one)", file=sys.stderr)
+                        return 2
+                    doc = doc["snapshot"]
                 if problems := environment.problems(doc):
                     print(f"buddie freshness repo: {args.snapshot} is not a consistent snapshot: {problems[0]}",
                           file=sys.stderr)
@@ -473,6 +530,18 @@ def main(argv: list[str] | None = None) -> int:
     sn.add_argument("--report", help="the report a receipt was made for (its sha256 pairs the two), or - for stdin")
     sn.add_argument("--supply", action="append", help="KEY=VALUE the caller states (kept apart, never checked)")
     sn.add_argument("--json", help="write the snapshot here and print one line (default: the snapshot on stdout)")
+    sn.add_argument("--category", action="append",
+                    help="diagnostics: a category to observe, e.g. system.os, hardware.gpu, software.python "
+                         "(repeatable; --list names them all). Only what your grants and the policy allow is "
+                         "collected. With --artifact or --report the environment-v0 snapshot is collected too, as "
+                         "without --category, and is not governed by them: the output says so")
+    sn.add_argument("--task", help="diagnostics: what the observation is for (kept as your word, grants nothing)")
+    sn.add_argument("--tool", action="append", help="diagnostics, software.tools: a catalog tool name (repeatable)")
+    sn.add_argument("--list", action="store_true", help="the diagnostic categories, what each reads, which are granted")
+    sn.add_argument("--grants", action="store_true",
+                    help="what your grants file (your intent; an agent running as you can edit it) and the protected "
+                         "policy (a ceiling it cannot) allow; they govern --category only")
+    sn.add_argument("--grant-template", action="store_true", help="print a grants file to save and edit")
     sn.set_defaults(func=cmd_snapshot)
     fr = sub.add_parser("freshness", help="whether evidence is bound to the revision a claim is about")
     fr.add_argument("what", choices=("ci", "repo"))

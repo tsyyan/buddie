@@ -41,6 +41,14 @@ def _no_system_policy(monkeypatch, tmp_path):
 
 
 @pytest.fixture(autouse=True)
+def _no_user_grants(monkeypatch, tmp_path):
+    """The person's diagnostic grants live in their user configuration directory (buddie/diagnostics.py); a machine
+    with a grants file must not change what these tests see. tests/test_diagnostics.py writes grants of its own."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "no-user-config"))
+    monkeypatch.setenv("APPDATA", str(tmp_path / "no-user-config"))
+
+
+@pytest.fixture(autouse=True)
 def _no_home_journal(monkeypatch, tmp_path):
     """A protected policy with [evidence] journal = "fixed" writes the journal to its default place whatever
     BUDDIE_LOG says; in tests that place is a file of the test's own, not ~/.cache."""

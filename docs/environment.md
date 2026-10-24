@@ -131,12 +131,12 @@ Snapshots are a separate document; receipts are unchanged:
 |---|---|---|
 | `buddie snapshot [--root DIR] [--artifact PATH ...] [--report FILE] [--supply KEY=VALUE ...] [--json FILE]` | the snapshot on stdout, or written to `--json` with one line for a person; exit 0 with a snapshot (unavailable facts included), 2 when the input cannot be used | advice |
 | `buddie.environment.collect(root, artifacts, report=, supplied=)` | the snapshot as a dict; `dumps`, `line`, `problems` | advice |
-| MCP, the remote server, the hook | not exposed: a snapshot names local files and repository state, which is not handed to an agent's tools without its own security review | |
+| MCP, the remote server, the hook | the v0 snapshot is not exposed: it names local files and repository state. The local MCP server's `environment_snapshot` gives diagnostics (below), only what the person granted; the remote server and the hook do not | |
 
 The protected policy does not gate a snapshot, as it does not gate `buddie verify`. A snapshot reads none of the
 places a policy can set aside (`BUDDIE_REPOS`, snapshot stores, the journal), uses no network and no proxy, and
 writes nothing but the `--json` file you name, so no policy setting, valid or not, makes it do more. It records the
-policy's status. No policy key was added.
+policy's status. No policy key gates it; diagnostics (below) have `[environment]`.
 
 ## Example
 
@@ -166,3 +166,197 @@ buddie snapshot: head 1f3c2a9b8e7d (clean); 1 of 1 artifacts observed
 Read it as: at that time, buddie found HEAD at that commit, git under the repository's own rules listed no change,
 `dist/app.whl` held those 48213 bytes while it was read, and the receipt with subject `c0ff…` is for the same
 report. The person running it says `pytest -q` was the command; buddie did not see it run.
+
+## Diagnostics
+
+Before an agent tells you "install CUDA 12.4" or "run `py -3.12 -m venv .venv`", it can ask buddie for the parts of
+this machine the task needs instead of guessing them: the operating system, the CPU and memory, the GPU and its
+driver stack, the Python interpreters, runtimes and package managers present, a project's declared versions, Docker.
+buddie observes only the categories the request names **and you granted**, with fixed methods of its own, and says
+for each value what it rests on and for each gap why. Nothing is installed or changed. The design and threat model:
+[design/environment-diagnostics.md](design/environment-diagnostics.md).
+
+```bash
+buddie snapshot --list
+```
+
+```bash
+buddie snapshot --category system.os --category hardware.gpu --category software.gpu_stack --task "local LLM setup"
+```
+
+Over MCP the local server's `environment_snapshot` tool takes the same: `{"categories": ["system.os",
+"hardware.gpu"], "task": "local LLM setup"}`, or `{"list": true}` to see the categories and what is granted.
+
+### Categories
+
+| Category | Tier | Linux | macOS | Windows |
+|---|---|---|---|---|
+| `system.os` | baseline | os-release; WSL and container markers | `mac_ver` | `win32_ver`, edition |
+| `system.shell` | baseline | bash, zsh, fish, pwsh `--version`; login shell | the same | bash and pwsh on PATH, Windows PowerShell (no profile), cmd present |
+| `system.permissions` | baseline | effective uid 0 | effective uid 0 | `IsUserAnAdmin` |
+| `hardware.cpu` | baseline | `/proc/cpuinfo` | `sysctl machdep.cpu.brand_string` | registry `ProcessorNameString` |
+| `hardware.memory` | baseline | `/proc/meminfo`; cgroup limit | `sysctl hw.memsize`, `vm_stat` | `GlobalMemoryStatusEx` |
+| `hardware.gpu` | baseline | `/sys/class/drm` vendor ids; `lspci` names; `nvidia-smi` for NVIDIA | `system_profiler SPDisplaysDataType` | display adapters in the registry; `nvidia-smi` for NVIDIA |
+| `hardware.storage` | sensitive, path | `disk_usage` of a granted directory | the same | the same |
+| `software.python` | baseline | python3, python, python3.9 to 3.14 on PATH: version, pip, venv, ensurepip | the same | python, python3 on PATH; `py --list` |
+| `software.runtimes` | baseline | node, java, dotnet (runtimes, SDKs), go, rustc | the same | the same |
+| `software.package_managers` | baseline | uv, pipx, conda, npm, yarn, pnpm, cargo, brew, apt, dnf, pacman, zypper, apk | uv to cargo, brew | uv to cargo, winget, choco |
+| `software.gpu_stack` | baseline | `/proc/driver/nvidia`; `nvidia-smi -q -d COMPUTE` (driver, CUDA); `nvcc`; `/opt/rocm` | Metal family; CUDA and ROCm not applicable | `nvidia-smi`; `nvcc`; ROCm not probed |
+| `software.tools` | baseline, named | `--version` of catalog tools (git, curl, cmake, gcc, ffmpeg, ollama, kubectl, and more) | the same | the same |
+| `development.containers` | sensitive | docker and podman clients; `docker --context default version` | the same | the same |
+| `development.project` | sensitive, path | manifests at the top of a granted directory; `requires-python`, `.python-version`, `engines.node`, `.nvmrc`, `go.mod` | the same | the same |
+| `development.repository` | sensitive, path | HEAD, clean or dirty, origin (as the v0 repository facts) | the same | the same |
+
+Answered as **unsupported**, never probed: `network.connectivity` (outbound connections of the request's choosing),
+`network.proxy` (other programs' settings, often with credentials), `network.ports` (other services),
+`system.applications` (other programs' data). Containers and WSL describe the guest, not the host: `system.os` says
+`runtime_context` (`native`, `wsl`, `container`), memory adds a cgroup limit, and a Windows program reached from WSL
+(`/mnt/c/...`) is marked `concerns: windows_host`.
+
+### Who decides
+
+What is collected is the intersection of what the request names, what the registry supports on this platform, what
+**you** granted, and what an administrator's protected policy allows. A request grants nothing: its `task` is kept as
+the caller's word, the MCP tool has no consent argument, and any argument outside its schema (`consent`, `command`)
+makes the call an error before anything is collected. A denied category says so and its collector never runs.
+
+Your grants live in `environment.toml` in your user configuration directory (`%APPDATA%\buddie` on Windows,
+`$XDG_CONFIG_HOME/buddie` or `~/.config/buddie` elsewhere). `buddie snapshot --grants` shows where and what it
+allows; `buddie snapshot --grant-template` prints one to save:
+
+```toml
+version = 1
+allow = ["baseline"]                       # sensitive categories one by one: "development.project", ...
+roots = ["~/projects"]                     # directories the path-scoped categories may look at
+```
+
+`baseline` grants the low-sensitivity categories; `hardware.storage`, `development.containers`,
+`development.project` and `development.repository` are named one by one, and the three path-scoped ones also need
+their directory inside a granted root (a symlink out of it is not followed). Without the file nothing is granted; a
+file with an unknown key, a wrong version or an unknown category grants nothing and says why.
+
+An ACTIVE protected policy ([policy.md](policy.md)) sets the ceiling with `[environment] allow = [...]`: a category it
+does not list stays denied whatever the grants say, and an active policy without that table allows none; an INVALID
+one allows none. Its `roots` bound the directories path-scoped categories may read, whatever roots the grants file
+lists (`path_not_allowed_by_policy`). The policy can only narrow: it never grants what you did not.
+
+**What each of these is worth against an agent.**
+
+| | What it is | Against an agent running as your user |
+|---|---|---|
+| Your grants file | the access you intend, written down | **no barrier**: the file is yours, so it is the agent's to edit too, as are `PATH`, the environment and the project |
+| A protected policy | an administrator's ceiling (`[environment] allow`, `roots`) | **a ceiling it cannot raise**, as far as the system protects the file and buddie's launch ([policy.md](policy.md), "A trusted launcher"); not against an administrator, or a host already compromised |
+| No protected policy | the grants file alone | **no independent boundary**: a same-user agent that can edit the grants file can grant itself any category |
+
+So the grants decide what a well-behaved agent is told, and what an agent without file access (Claude Desktop,
+MCP-only clients) can learn; they do not contain an agent that can write your files, which could also run
+`nvidia-smi` itself through a shell. Approving an MCP call in a client is a second step for that call, not a grant:
+nothing is remembered from it.
+
+**Mixed requests.** `buddie snapshot --category ... --artifact FILE` (or `--report`) makes two collections in one
+document, and says so. The categories are governed by the grants and the policy. The environment-v0 snapshot is
+collected as `buddie snapshot` without `--category` always collects it, governed by neither, and present under
+`snapshot` even when every category is denied. The document records the two in `scopes`
+(`diagnostics.governed_by: grants_and_policy`, `legacy_snapshot.governed_by: none`) and the limitation
+`snapshot_not_category_gated`; the summary prints the snapshot under its own heading:
+
+```
+buddie snapshot: diagnostics of 2 categories (grants absent, policy absent; these govern the categories only)
+  system.os: denied (not_granted)
+  hardware.gpu: denied (not_granted)
+  denied categories need a grant: buddie snapshot --grants
+  limitations: snapshot_not_category_gated
+LEGACY SNAPSHOT (environment-v0): COLLECTED, a separate collection not governed by the grants or the policy above
+  buddie snapshot: repository not_a_repository; 1 of 1 artifacts observed
+  every diagnostics category above was denied or unsupported; the legacy snapshot was still collected because --artifact/--report asked for it
+```
+
+The legacy collection never runs a diagnostics collector, and the MCP tool cannot ask for it: `artifacts`, `report`
+or `root` are unknown arguments there.
+
+### The document
+
+`environment-diagnostics-v1`, beside environment-v0, which is unchanged:
+
+| Key | What |
+|---|---|
+| `request` | a fresh id, the categories asked (valid ids only), rejected ones by position (`unknown_category`, `invalid_category`: a malformed id is not repeated), tools asked, whether a path was given |
+| `authorization` | the grants file's and the policy's status, the effective categories |
+| `categories` | per category: `status` (`collected`, `partial`, `unavailable`, `denied`, `unsupported`), `reason`, `tier`, `methods` (each attempt: method, why, outcome), `observations` |
+| an observation | `status` `observed` (a `value`, its `basis`, the `method`, `observed_at`) or `unavailable` (a `reason`, no value), and `concerns` (`runtime`, or `windows_host` from WSL) |
+| `supplied` | the task and anything else the caller states, never promoted to an observation |
+| `scopes` | the two collections and what governs each: `diagnostics` (the categories: the grants and the policy) and `legacy_snapshot` (requested or not; when it is, governed by neither) |
+| `snapshot` | the environment-v0 snapshot, when `--artifact` or `--report` is given with `--category`; `buddie freshness repo --snapshot` reads it. Collected as `buddie snapshot` always collects it (the CLI only, never over MCP), not gated by the categories: see "Mixed requests" |
+
+**Basis** says what a value rests on: `buddie` (its own interpreter), `os_interface` (the OS through Python: platform,
+`/proc`, `/sys`, the registry, a system call), `fixed_program` (a program at a fixed system location),
+`path_program` (a program found on `PATH`, which the agent can change), `agent_writable` (project files, a
+repository). None is attestation; nothing is signed.
+
+**Unavailable is not absent.** `not_found_on_path` means not found where buddie looked; `not_found` means neither at
+the standard locations nor on `PATH`; `script_not_run` means a batch or PowerShell script was found and not run (npm,
+yarn, pnpm on Windows); `exit_nonzero`, `timeout`, `output_limit` say how a program answered; `inconclusive_output`
+means it answered something buddie does not read as a value. The observations are made one after another, not as one
+atomic picture of the machine.
+
+### How it is collected
+
+- Only the methods the registry declares for the category; a collector reaching for another category's method fails
+  loudly. Within its category a collector may choose: `nvidia-smi` runs only after an NVIDIA adapter is seen. Every
+  program run and file read is recorded as its own attempt.
+- On Windows, `bash.exe` and `wsl.exe` in the system directory are never run: they start WSL.
+- Programs: fixed argument lists in buddie's code, no shell, nothing on stdin, stderr discarded, 10 s and 64 KiB
+  each, a 90-second deadline and 96 programs for the whole request, the process tree stopped at a limit
+  ([security.md](security.md)). Their environment is an allowlist (where programs are, the user's directories some
+  need, a C locale): no token, no `NODE_OPTIONS`, `JAVA_TOOL_OPTIONS`, `LD_PRELOAD`, `DYLD_*`, `DOCKER_HOST`. The
+  working directory is the system's temporary directory. `PATH` is searched by buddie, absolute entries only.
+- Only version- or model-shaped tokens are kept from an answer: no raw output, no paths. A value that would hold the
+  home directory is dropped (`redacted`); a user name alone is not, since it is often the owner in a repository URL. No environment variable,
+  process list or command line is collected; `nvidia-smi` is never asked for processes, the Docker daemon only for its
+  version, on the local default context.
+- Nothing runs in the background, nothing is kept: the document goes to stdout, the `--json` file you name, or the
+  MCP caller. The remote HTTP server does not offer the tool.
+
+### Scenarios
+
+| Task | Ask for | What decides the instruction |
+|---|---|---|
+| Local LLM | `system.os`, `hardware.cpu`, `hardware.gpu`, `hardware.memory`, `software.python`, `software.gpu_stack` | GPU vendor and memory, driver and CUDA versions, Python version and venv support |
+| Python project | `software.python`, `development.project` (with the project's directory granted) | which interpreters are there, pip and venv, the project's `requires-python` |
+| Docker | `system.os`, `hardware.cpu`, `development.containers` | client present, the local daemon answering or not |
+
+Abridged, from a Windows 11 machine with the baseline granted:
+
+```json
+{"format": "https://github.com/tsyyan/buddie#environment-diagnostics-v1",
+ "authorization": {"grants": "active", "policy": "absent",
+                   "effective": ["hardware.gpu", "hardware.memory", "software.gpu_stack", "system.os"]},
+ "categories": {
+  "hardware.gpu": {"status": "collected",
+   "methods": [{"method": "registry_display", "why": "display_adapters", "outcome": "used"},
+               {"method": "nvidia_smi_gpus", "why": "follow_up:nvidia_adapter", "outcome": "ok"}],
+   "observations": {"adapters": {"status": "observed", "basis": "fixed_program", "method": "nvidia_smi_gpus",
+     "value": [{"vendor": "NVIDIA", "model": "NVIDIA GeForce GTX 1650", "vram_bytes": 4294967296,
+                "source": "nvidia_smi_gpus"}]}}},
+  "software.gpu_stack": {"status": "partial", "observations": {
+     "nvidia_driver": {"status": "observed", "value": "596.49", "basis": "fixed_program"},
+     "cuda_driver": {"status": "observed", "value": "13.2", "basis": "fixed_program"},
+     "cuda_toolkit": {"status": "unavailable", "reason": "not_found_on_path"}}},
+  "development.project": {"status": "denied", "reason": "not_granted", "observations": {}}},
+ "supplied": {"task": "configure-local-llm"}}
+```
+
+Read it as: the GPU is a 4 GiB GTX 1650 (from `nvidia-smi` at its fixed place), the driver supports CUDA 13.2, the
+CUDA toolkit was not found on `PATH` (which is not the same as not installed), and the project was not looked at
+because it was not granted.
+
+### What diagnostics do not do
+
+- They do not establish that a machine is what it says: an observation is buddie's report of what it read, from
+  sources an agent with your account can influence (`PATH`, the project, the grants file).
+- They do not find software outside the places listed: an interpreter that is not on `PATH`, a toolkit in a custom
+  directory, a conda environment that is not active.
+- They do not describe the host from inside a container or WSL, beyond the WSL interop label.
+- Platform coverage: the OS, permission, CPU, memory, Python, project, storage and repository paths run for real in
+  CI on Linux, macOS and Windows; the NVIDIA paths ran for real on Windows; the Linux GPU, WSL and container branches
+  and the macOS GPU path are tested with recorded answers, not on such machines.

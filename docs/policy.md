@@ -272,6 +272,26 @@ Not covered:
 - a CA in the user's own Windows root store;
 - a Python interpreter installed where the agent can write (see "A trusted launcher").
 
+## Environment diagnostics
+
+`[environment] allow = [...]` is the ceiling on what the person's grants may open for environment diagnostics
+([environment.md](environment.md), "Diagnostics"): category ids, or `"baseline"` for the low-sensitivity ones. An
+ACTIVE policy without the table allows none, as for every other grant of collection; an INVALID policy allows none.
+It only narrows: a category the person did not grant stays denied whatever the policy lists. An unknown category id
+makes the policy INVALID. `roots` bounds the directories the path-scoped categories (`hardware.storage`,
+`development.project`, `development.repository`) may read, on top of the person's grants file, which the agent can
+edit; without it an active policy lets them read none.
+
+This is the only part of diagnostics authorization an agent running as the user cannot change: the grants file is
+the user's, and so the agent's to edit. Without a protected policy there is no independent boundary. The policy does
+not govern the environment-v0 snapshot (`buddie snapshot` without `--category`, or with `--artifact`/`--report`).
+
+```toml
+[environment]
+allow = ["baseline", "development.project"]
+roots = ["/home/alice/projects"]
+```
+
 ## What it does not cover
 
 - **The hook's own launch and code**: see "A trusted launcher". A replaced `python3` on `PATH`, or edited plugin files,

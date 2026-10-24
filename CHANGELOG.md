@@ -22,6 +22,20 @@ files keep working. What can differ, each said where it happens:
   receipt-v0 reasons in `why` and `gaps` read differently (commit 8cb7273, audit R1 and R2). This is intended and
   stays; docs/release-hardening.md, RH-5, records the decision.
 
+Environment diagnostics (docs/environment.md, "Diagnostics"; docs/design/environment-diagnostics.md):
+- `buddie snapshot --category ...` and the local MCP tool `environment_snapshot` observe the parts of this machine a
+  task needs: OS, shells, privilege level, CPU, memory, GPU, storage, Python interpreters, runtimes, package managers,
+  GPU driver and CUDA/ROCm stack, catalog tools, Docker/Podman, a project's manifests, a repository. Only what the
+  person granted in `environment.toml` (their user configuration directory) and an ACTIVE protected policy's new
+  `[environment] allow` (and `roots`, for the path-scoped categories) permits is collected; a request grants nothing, and an MCP argument outside the schema (a
+  `consent`) is an error. Each category uses only its declared, fixed methods (OS interfaces, fixed files, programs at
+  fixed places or on PATH with fixed arguments, an allowlisted environment, timeouts and output limits), adapts within
+  itself (nvidia-smi after an NVIDIA adapter) and records every attempt. The environment-diagnostics-v1 document keeps
+  observed values with their basis, unavailable reasons and the caller's task apart; network, proxy, port and
+  application categories are answered as unsupported. environment-v0, `buddie snapshot` without `--category` and
+  freshness are unchanged; freshness also reads the v0 snapshot inside a diagnostics document. The remote server
+  does not offer the tool. `buddie snapshot --list`, `--grants`, `--grant-template`.
+
 Publication approval:
 - `release.yml`'s `authorize` job runs in the protected environment `pypi`, so every publishing run, the recovery
   runs `only: mcp-registry` and `only: github-release` included, waits for the environment's reviewers before any

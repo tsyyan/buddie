@@ -77,6 +77,10 @@ class Policy:
     journal: str = "environment"         # "fixed": the default places, BUDDIE_LOG / BUDDIE_SHARED_LOG set aside
     collector: str = "environment"       # "isolated": the hook's fetches take no proxy or CA from the environment
     github_api: str | None = None        # the API for pr:/ci: (BUDDIE_GITHUB_API then set aside); None: as below
+    # [environment] allow (buddie/diagnostics.py): the diagnostic categories the person's grants may open, a ceiling.
+    # ACTIVE without the table, and INVALID: none, as for every other grant of collection
+    environment: tuple[str, ...] = ()
+    environment_roots: tuple[str, ...] = ()   # [environment] roots: where path-scoped categories may look; none: none
 
 
 # INVALID: every class that judges a claim blocks, nothing is granted to the sources below (no intro, no final mark,
@@ -147,7 +151,7 @@ def parse(data: dict) -> Policy:
     if data.get("version") != VERSION:
         raise ValueError(f"unsupported version {data.get('version')!r} (this buddie reads version {VERSION})")
     known = {"version", "gates", "project", "final_mark", "transcript", "journal_text", "disclosure", "free_command",
-             "network", "evidence"}
+             "network", "evidence", "environment"}
     if extra := sorted(set(data) - known):
         raise ValueError(f"unknown keys: {', '.join(extra)}")
     floors = data.get("gates", {})
@@ -185,6 +189,15 @@ def parse(data: dict) -> Policy:
     if api is not None and (not isinstance(api, str) or not api.startswith("https://")
                             or any(c.isspace() or c in "?#" for c in api)):
         raise ValueError(f"[evidence] github_api = {api!r}: an https:// URL")
+    env = data.get("environment", {})
+    if not isinstance(env, dict) or (bad := sorted(set(env) - {"allow", "roots"})):
+        raise ValueError(f"[environment]: {', '.join(bad) if isinstance(env, dict) else 'not a table'}: keys allow, "
+                         "roots")
+    from buddie import diagnostics
+    environment = tuple(sorted(diagnostics._allow_list(env.get("allow", []), "[environment] allow")))
+    env_roots = env.get("roots", [])
+    if not isinstance(env_roots, list) or not all(isinstance(r, str) and os.path.isabs(r) for r in env_roots):
+        raise ValueError("[environment] roots: a list of absolute directories")
     if mark is not None:
         import re
         try:
@@ -197,7 +210,8 @@ def parse(data: dict) -> Policy:
                   journal_text=one_of("journal_text", ("forbidden", "project"), "forbidden"),
                   disclosure=data.get("disclosure", True), project_state=project.get("state", False),
                   free_command=free, network=one_of("network", ("allowed", "forbidden"), "allowed"),
-                  **{k: evidence.get(k, v[0]) for k, v in choices.items()}, github_api=api.rstrip("/") if api else None)
+                  **{k: evidence.get(k, v[0]) for k, v in choices.items()}, github_api=api.rstrip("/") if api else None,
+                  environment=environment, environment_roots=tuple(env_roots))
 
 
 def load(path: Path | None = None) -> Loaded:
@@ -298,4 +312,9 @@ stores = "session"       # "observed": quotes and numbers judged only on bytes t
 journal = "fixed"        # the default journal places; "environment": BUDDIE_LOG / BUDDIE_SHARED_LOG may move it
 collector = "isolated"   # no proxy or CA location from the environment; "environment": as the environment says
 # github_api = "https://github.example.com/api/v3"   # GitHub Enterprise; BUDDIE_GITHUB_API is ignored
+
+# Environment diagnostics (docs/environment.md, "Diagnostics"): the most the person's grants may open. Without this
+# table an active policy allows none. "baseline" names the low-sensitivity categories.
+# [environment]
+# allow = ["baseline"]
 """
