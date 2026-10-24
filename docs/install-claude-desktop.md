@@ -32,6 +32,7 @@ Then ask Claude to check a report, for example: "verify this report with buddie 
 | `run:` (a command and its output) | **unchecked**: Desktop has no session transcript, so these anchors come out `UNCHECKABLE` and the receipt is `GAPS` | yes |
 | gate on the final answer (hook) | no: Desktop has no hooks, so Claude has to call `verify_report` | yes |
 | `summary` | listed, but it reads the Claude Code hook journal, so it has nothing to show here | yes |
+| `environment_snapshot` | yes: the categories you granted ([environment.md](environment.md#diagnostics)) | yes |
 
 ## Privacy
 

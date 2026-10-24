@@ -18,7 +18,8 @@ codex plugin add buddie@buddie
 
 The plugin brings:
 
-- **the MCP server** `buddie` with `verify_report`, `snap`, `source_text`, and `summary`, which is listed but has data
+- **the MCP server** `buddie` with `verify_report`, `snap`, `source_text`, `environment_snapshot` (the machine
+  categories you granted, [environment.md](environment.md#diagnostics)), and `summary`, which is listed but has data
   only with the Claude Code hook's journal (started as `python3 run.py serve` in the
   plugin's folder);
 - **the skills** `buddie:buddie` and `buddie:verbatim`, which teach the agent to quote from snapshots and to state

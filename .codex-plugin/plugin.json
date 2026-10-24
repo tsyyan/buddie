@@ -28,7 +28,7 @@
   "interface": {
     "displayName": "buddie",
     "shortDescription": "Check an agent's report against the sources it cites, the repo and GitHub before you rely on it.",
-    "longDescription": "buddie checks what an agent reports: a quotation with a link against a SHA-256 snapshot of that page, a repo anchor (path#sha256, path@commit) against your checkout, pr: and ci: anchors against the GitHub API. No model takes part in the check. In Codex the plugin brings the MCP tools verify_report, snap and source_text (summary is listed too, with data only under Claude Code), the skills that teach anchors, and a Stop hook that sends a final answer with a false quote or anchor back before it reaches you.",
+    "longDescription": "buddie checks what an agent reports: a quotation with a link against a SHA-256 snapshot of that page, a repo anchor (path#sha256, path@commit) against your checkout, pr: and ci: anchors against the GitHub API. No model takes part in the check. In Codex the plugin brings the MCP tools verify_report, snap and source_text (summary is listed too, with data only under Claude Code; environment_snapshot describes the machine categories you granted), the skills that teach anchors, and a Stop hook that sends a final answer with a false quote or anchor back before it reaches you.",
     "developerName": "tsyyan",
     "category": "Developer Tools",
     "capabilities": [

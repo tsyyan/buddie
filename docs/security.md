@@ -102,6 +102,16 @@ runs uses hooks, ssh or credential helpers. They are not claimed dangerous here,
 - Nothing else: receipts v0 and v1, the 819 gate scenarios, profiles, the protected policy, the CLI's exit codes, MCP
   and the remote server are unchanged.
 
+## Environment diagnostics
+
+`buddie snapshot --category` and the MCP tool `environment_snapshot` start programs to describe the machine (versions,
+GPU, containers). They follow the rules above and some of their own ([environment.md](environment.md#diagnostics)):
+only methods the category declares, fixed argument lists, an allowlisted environment (no tokens, `*_OPTIONS`,
+`LD_PRELOAD`, `DYLD_*`, `DOCKER_HOST`), the system's temporary directory as working directory, `PATH` searched by
+buddie with absolute entries only, batch and PowerShell scripts not run, a deadline and a program budget per request,
+only version- or model-shaped output kept. What is collected is decided by the person's grants and the protected
+policy, never by the request.
+
 ## Remaining limits
 
 - **Process trees.** A program that leaves its process group (Linux, macOS: a new session) or starts a child before

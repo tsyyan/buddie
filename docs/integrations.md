@@ -34,6 +34,7 @@ Two kinds of integration, and the difference matters:
 | Python API | `buddie.verify`, `buddie.receipts` | `verify(text)`, `assessment(text, …)` | v0; v1 with `receipts.render(a, "v1")` | not a gate |
 | Evidence freshness | `buddie freshness`, `buddie.freshness` | `buddie freshness ci --repo R --pr N --evidence SHA` | none: a separate document ([freshness.md](freshness.md)) | not a gate |
 | Environment snapshot | `buddie snapshot`, `buddie.environment` | `buddie snapshot --report report.md` | none: a separate document ([environment.md](environment.md)) | not a gate |
+| Environment diagnostics | `buddie snapshot --category`, MCP `environment_snapshot` (local servers only), `buddie.diagnostics` | `buddie snapshot --category system.os --category hardware.gpu` | none: environment-diagnostics-v1 ([environment.md](environment.md#diagnostics)) | `[environment] allow` is a ceiling on the person's grants |
 
 ## Audit (PR #32)
 

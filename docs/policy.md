@@ -272,6 +272,19 @@ Not covered:
 - a CA in the user's own Windows root store;
 - a Python interpreter installed where the agent can write (see "A trusted launcher").
 
+## Environment diagnostics
+
+`[environment] allow = [...]` is the ceiling on what the person's grants may open for environment diagnostics
+([environment.md](environment.md), "Diagnostics"): category ids, or `"baseline"` for the low-sensitivity ones. An
+ACTIVE policy without the table allows none, as for every other grant of collection; an INVALID policy allows none.
+It only narrows: a category the person did not grant stays denied whatever the policy lists. An unknown category id
+makes the policy INVALID.
+
+```toml
+[environment]
+allow = ["baseline", "development.project"]
+```
+
 ## What it does not cover
 
 - **The hook's own launch and code**: see "A trusted launcher". A replaced `python3` on `PATH`, or edited plugin files,
