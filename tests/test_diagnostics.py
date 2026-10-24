@@ -837,7 +837,10 @@ def test_invalid_or_unreadable_legacy_input_with_categories(tmp_path, args, code
     root = _legacy_dir(tmp_path)
     got = subprocess.run([sys.executable, "-m", "buddie", "snapshot", "--root", str(root), "--category", "system.os",
                           *args, "--json", str(tmp_path / "d.json")], capture_output=True, text=True,
-                         encoding="utf-8", timeout=120, cwd=str(root), stdin=subprocess.DEVNULL)
+                         encoding="utf-8", timeout=120, cwd=str(root), stdin=subprocess.DEVNULL,
+                         # the checkout's buddie, installed or not (CI's os job runs from a clone)
+                         env=dict(os.environ, PYTHONPATH=os.pathsep.join(
+                             filter(None, [str(ROOT), os.environ.get("PYTHONPATH")]))))
     assert got.returncode == code, got.stderr
     if code == 2:
         assert want in got.stderr and not (tmp_path / "d.json").exists()
