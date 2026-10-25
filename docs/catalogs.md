@@ -1,7 +1,7 @@
 # Catalog listings
 
-**Current check: 2026-10-25.** Buddie 2.0.0 is published on PyPI, GitHub Releases and the
-Official MCP Registry. The repository marketplace manifests also say 2.0.0. See the
+**Current check: 2026-10-26.** Buddie 2.0.1 is published on PyPI, GitHub Releases and the
+Official MCP Registry (2.0.0 before it, 2026-10-24). The repository marketplace manifests also say 2.0.1. See the
 [current channel check](distribution.md#current-channel-check-2026-10-25) and
 [reusable listing copy](listing-copy.md) before using the older submission notes below.
 The Anthropic submission is already awaiting review; continue it rather than creating another.

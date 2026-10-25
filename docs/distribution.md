@@ -32,7 +32,8 @@ The historical audit's blanket remote-only statement is superseded; owner allowl
 
 ## Cline, Kilo and Smithery (checked 2026-10-25)
 
-No listing or open submission for Buddie existed in any of the three. Draft PRs, not merged:
+No listing or open submission for Buddie existed in any of the three. Draft PRs, not merged (both updated on
+2026-10-26 to the published 2.0.1 and the plain `uvx buddie@2.0.1 serve`):
 [cline/marketplace#336](https://github.com/cline/marketplace/pull/336) and
 [Kilo-Org/kilo-marketplace#484](https://github.com/Kilo-Org/kilo-marketplace/pull/484). An open PR is not a listing.
 
@@ -42,15 +43,20 @@ No listing or open submission for Buddie existed in any of the three. Draft PRs,
 | Kilo | PR to [Kilo-Org/kilo-marketplace](https://github.com/Kilo-Org/kilo-marketplace) (`mcps/buddie/MCP.yaml` plus the regenerated `mcps/marketplace.yaml`, category `development`). | Kilo CLI 7.8.17: the config made from the catalog entry by Kilo's own conversion reports `buddie connected` (`kilo mcp list`, `kilo serve` `/mcp`). Calling tools through Kilo was not achieved (its `/experimental/mcp/call-tool` answered 404 even with `KILO_EXPERIMENTAL_MCP_APPS`); the same command and environment were exercised through Cline's MCP client instead. | draft PR open. Generators and both typechecks pass; tests 118/119 on Windows, the same as unmodified upstream `main`: the failure is the test fixture's own `fs.symlinkSync` (`EPERM`, no symlink privilege on this account), not the generator and not this entry. Fork PRs wait for a maintainer to approve CI (`action_required`). |
 | Smithery | [smithery.ai/future](https://smithery.ai/future): accounts, API keys, the API and the CLI stop on 2026-10-31; smithery.ai stays as a public, non-proxied directory powered by Arcade. The [publish docs](https://smithery.ai/docs/build/publish) still describe MCPB publishing, but only through an account and the CLI or API that stop on that date. Nothing says how servers are added afterwards. | no listing for `buddie` or `tsyyan` in `registry.smithery.ai/servers?q=…` | not presently worthwhile: publishing would need a new account days before accounts end, with no stated future for unverified listings. Revisit if Arcade documents submissions. |
 
-**Windows input encoding (affects every plain `uvx buddie@2.0.0 serve` line).** `buddie serve` reads MCP messages
+**Windows input encoding (fixed in 2.0.1, published 2026-10-26).** In 2.0.0, `buddie serve` reads MCP messages
 from stdin with Python's locale encoding; `cli.main` switches stdout and stderr to UTF-8 but not stdin. On Windows
 with a non-UTF-8 code page (here cp1251) a report's `⚓`, `«»` and non-ASCII text arrive garbled: a false
 `pr:` anchor was reported as "lines with counts and no anchor" instead of broken. With `PYTHONIOENCODING=utf-8` in
 the server's environment (as the `.mcpb` sets) or `python -X utf8`, the same report gave
 "effects 0/1 hold, 1 broken". The prepared entries carry this: Kilo's sets `PYTHONIOENCODING` in `env`; Cline's
-installer takes no environment, so its entry runs `uvx --from buddie@2.0.0 python -X utf8 -m buddie serve`. The
-code fix (reconfigure stdin too) belongs to a future release; other listings that print `uvx buddie serve` keep
-the problem on such Windows systems until then.
+installer takes no environment, so its entry ran `uvx --from buddie@2.0.0 python -X utf8 -m buddie serve`. 2.0.1
+(#49) reads stdin's bytes as UTF-8, and both entries now run plain `uvx buddie@2.0.1 serve`: through Cline's MCP
+client on the same cp1251 machine, with no encoding setting, the false anchor is `BROKEN`. Listings that print an
+unpinned `uvx buddie serve` resolve 2.0.1 once uv fetches it; one pinned to `buddie@2.0.0` keeps the problem.
+
+**First start in Cline.** With an empty uv cache, `uvx` downloads and sets up the package before the server
+answers; Cline's fixed 10 s `initialize` limit was exceeded in 2 of 3 such starts here (about 22 s), and every warm
+start connected in about 1 s. The Cline entry's notes say to retry once or run `uvx buddie@2.0.1 --version` first.
 
 ## Historical pre-release audit (2026-10-23)
 
