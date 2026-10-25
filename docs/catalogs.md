@@ -1,5 +1,11 @@
 # Catalog listings
 
+**Current check: 2026-10-25.** Buddie 2.0.0 is published on PyPI, GitHub Releases and the
+Official MCP Registry. The repository marketplace manifests also say 2.0.0. See the
+[current channel check](distribution.md#current-channel-check-2026-10-25) and
+[reusable listing copy](listing-copy.md) before using the older submission notes below.
+The Anthropic submission is already awaiting review; continue it rather than creating another.
+
 Where buddie can be listed, what is ready in this repository, and what only the owner can do: accounts, forms and the
 data-handling answers. Nothing here is submitted automatically, except PyPI, the MCP Registry and the GitHub Release,
 which the release workflow's manual publish run sends ([release.md](release.md)). What each listing serves now and
@@ -13,7 +19,7 @@ what to do after a release: [distribution.md](distribution.md).
 | Anthropic's directory: MCP connector for claude.ai | `buddie serve --http`, Docker image | deploy, then submit the URL | **yes** |
 | Claude Desktop | `.mcpb` attached to each GitHub Release | share the release link; check the portal for a desktop-extension listing | no |
 | Codex marketplace (this repository) | `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json` | none: `codex plugin marketplace add tsyyan/buddie` works once the repo is public | no |
-| OpenAI's plugin directory (ChatGPT and Codex) | template in `integrations/chatgpt/` | deploy, put the URL in `mcp.json`, submit in the portal | **yes** |
+| OpenAI's plugin directory (ChatGPT and Codex) | remote template in `integrations/chatgpt/`; local repository plugin is a separate channel | remote route: deploy and submit URL; local public route: approved-partner allowlisting first (below) | remote route **yes**; restricted local route **no** |
 
 ## PyPI and the MCP Registry
 
@@ -74,7 +80,13 @@ put rate limits in front of it first. OAuth is not implemented.
 
 ## OpenAI's plugin directory (ChatGPT and Codex)
 
-The public directory takes only plugins that reach a **remote HTTPS MCP server** and carry **no hooks**. The Codex
+The standard remote route uses an HTTPS MCP server. As of 2026-10-25, OpenAI also documents
+[desktop-only local MCP submissions](https://developers.openai.com/plugins/deploy/desktop-only),
+limited to approved partners whose submitting organization has been allowlisted. This is an owner eligibility
+step, not an open self-service route for Buddie. Local repository marketplaces remain a separate distribution
+channel. Public acceptance of this package's hooks has not been established.
+
+For a remote-only package, the Codex
 plugin in `.codex-plugin/` has a Stop hook, so it stays in this repository's marketplace. For the directory, use
 the package in [`integrations/chatgpt/`](../integrations/chatgpt):
 

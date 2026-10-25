@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add reusable local MCP listing copy and a dated post-release distribution check; clarify restricted OpenAI local submissions.
+
 ## buddie 2.0.0 (2026-10-24)
 
 Upgrading from 1.1.1: nothing to change for a 1.x setup. receipt-v0 stays the default with the same keys, outcome
