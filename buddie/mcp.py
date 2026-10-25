@@ -317,14 +317,18 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
 
 
 def serve(stdin=None, stdout=None) -> int:
-    stdin, stdout = stdin or sys.stdin, stdout or sys.stdout
+    # MCP stdio is UTF-8 on every OS: read stdin's bytes, not sys.stdin, which decodes with the locale's code page
+    # (cp1251, cp1252 on Windows) and garbled ⚓, «» and Cyrillic in 2.0.0. stdout is UTF-8 from cli.main.
+    stdin, stdout = stdin or getattr(sys.stdin, "buffer", sys.stdin), stdout or sys.stdout
     os.environ.setdefault("PYTHONIOENCODING", "utf-8")
     for raw in stdin:
         raw = raw.strip()
         if not raw:
             continue
         try:
-            msg = json.loads(raw)
+            msg = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else raw)
+        except UnicodeDecodeError as error:  # one bad message, not the end of the server
+            reply = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": f"not UTF-8: {error}"}}
         except json.JSONDecodeError as error:
             reply = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": str(error)}}
         else:

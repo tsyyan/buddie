@@ -3,6 +3,11 @@
 ## Unreleased
 
 - Add reusable local MCP listing copy and a dated post-release distribution check; clarify restricted OpenAI local submissions.
+- `buddie serve` (stdio) reads MCP messages as UTF-8 on every OS. 2.0.0 decoded stdin with the locale's code page,
+  so on Windows with a cp1251 or cp1252 code page a report's `⚓`, `«»` and Cyrillic arrived garbled and its anchors
+  went unchecked; clients that set `PYTHONIOENCODING=utf-8` (the `.mcpb`) were not affected. A line that is not
+  UTF-8 now gets a JSON-RPC parse error instead of stopping the server. Nothing else in the protocol, the tools or
+  the receipts changes.
 
 ## buddie 2.0.0 (2026-10-24)
 
