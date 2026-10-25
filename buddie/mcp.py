@@ -327,8 +327,9 @@ def serve(stdin=None, stdout=None) -> int:
             continue
         try:
             msg = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else raw)
-        except UnicodeDecodeError as error:  # one bad message, not the end of the server
-            reply = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": f"not UTF-8: {error}"}}
+        except UnicodeDecodeError:  # one bad message, not the end of the server; a fixed message, not codec details
+            reply = {"jsonrpc": "2.0", "id": None,
+                     "error": {"code": -32700, "message": "Invalid UTF-8 in JSON-RPC request"}}
         except json.JSONDecodeError as error:
             reply = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": str(error)}}
         else:

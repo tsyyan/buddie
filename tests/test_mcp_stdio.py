@@ -52,7 +52,8 @@ def test_a_line_that_is_not_utf8_is_a_parse_error_and_the_server_goes_on():
     bad = "Он сказал".encode("cp1251")  # a client that wrote the locale's bytes: not UTF-8
     data = b'{"jsonrpc": "2.0", "id": 9, "method": "tools/call", "params": {"text": "' + bad + b'"}}\n'
     error, called = _serve_bytes(data + _line(CALL))
-    assert error["id"] is None and error["error"]["code"] == -32700 and "UTF-8" in error["error"]["message"]
+    assert error == {"jsonrpc": "2.0", "id": None,
+                     "error": {"code": -32700, "message": "Invalid UTF-8 in JSON-RPC request"}}
     _assert_read_as_written(_predicate(called))
 
 
