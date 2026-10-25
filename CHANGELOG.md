@@ -2,12 +2,20 @@
 
 ## Unreleased
 
-- Add reusable local MCP listing copy and a dated post-release distribution check; clarify restricted OpenAI local submissions.
+## buddie 2.0.1 (2026-10-26)
+
+Upgrading from 2.0.0: nothing to change. The MCP tools and their arguments, receipt-v0 and receipt-v1, outcomes,
+the CLI's exit codes, the hooks, permissions and grants are the same; no dependency is added.
+
 - `buddie serve` (stdio) reads MCP messages as UTF-8 on every OS. 2.0.0 decoded stdin with the locale's code page,
   so on Windows with a cp1251 or cp1252 code page a report's `⚓`, `«»` and Cyrillic arrived garbled and its anchors
-  went unchecked; clients that set `PYTHONIOENCODING=utf-8` (the `.mcpb`) were not affected. A line that is not
-  UTF-8 now gets a JSON-RPC parse error instead of stopping the server. Nothing else in the protocol, the tools or
-  the receipts changes.
+  went unchecked (a false `pr:` claim was reported as a line with no anchor instead of broken); clients that set
+  `PYTHONIOENCODING=utf-8` (the `.mcpb`) were not affected. A line that is not UTF-8 now gets the JSON-RPC parse
+  error `-32700` "Invalid UTF-8 in JSON-RPC request" instead of stopping the server. Nothing else in the protocol,
+  the tools or the receipts changes. With 2.0.1 a plain `uvx buddie@2.0.1 serve` needs no `PYTHONIOENCODING` or
+  `-X utf8` on such systems.
+- Documentation: reusable local MCP listing copy and a dated post-release distribution check (clarifying restricted
+  OpenAI local submissions); the Cline, Kilo and Smithery check; Glama and MCPRush listing badges in the README.
 
 ## buddie 2.0.0 (2026-10-24)
 

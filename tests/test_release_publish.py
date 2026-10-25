@@ -398,7 +398,7 @@ def test_the_registry_entry_for_the_version_matches_server_json():
 
 
 @pytest.mark.parametrize("path, value, why", [
-    (("version",), "2.0.1", "version"),
+    (("version",), "0.0.0", "version"),  # never server.json's own version, whichever release this is
     (("repository", "url"), "https://github.com/someone/buddie", "repository"),
     (("packages", 0, "identifier"), "buddie-fork", "packages"),
     (("packages", 0, "version"), "1.1.1", "packages"),

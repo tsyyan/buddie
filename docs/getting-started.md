@@ -28,7 +28,7 @@ buddie needs Python 3.11 or newer and has no dependencies.
 ```
 
 From a shell: `claude plugin marketplace add tsyyan/buddie`, then `claude plugin install buddie@buddie`. The plugin
-installs this repository's `main` (2.0.0 today). Its hook checks the final answer at `Stop` and messages sent with
+installs this repository's `main` (2.0.1 today). Its hook checks the final answer at `Stop` and messages sent with
 `SendMessage`; on `FAIL` the answer goes back to the agent with the reasons. Optional: a GitHub token for `pr:` and
 `ci:`, which the plugin asks for and keeps as a secret. Levels, the intro mode and what the hook reads:
 [claude-code.md](claude-code.md). buddie is not listed in Anthropic's plugin directory yet: a submission is
@@ -49,7 +49,7 @@ session log is not Claude Code's transcript. Setup and the MCP-only route: [inst
 
 ### Claude Desktop
 
-Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (2.0.0 today) and open
+Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (2.0.1 today) and open
 it. Desktop has no hooks, so Claude has to call `verify_report` itself, and `run:` is unchecked.
 [install-claude-desktop.md](install-claude-desktop.md).
 
@@ -61,7 +61,7 @@ For a client that starts a command (stdio), with [uv](https://docs.astral.sh/uv/
 uvx buddie serve
 ```
 
-This runs the latest release on PyPI (2.0.0 today); `uvx buddie@2.0.0 serve` pins that version. A
+This runs the latest release on PyPI (2.0.1 today); `uvx buddie@2.0.1 serve` pins that version. A
 remote server you host for claude.ai or ChatGPT: [deploy.md](deploy.md).
 
 ### Terminal or CI
@@ -82,7 +82,7 @@ git clone https://github.com/tsyyan/buddie
 ```
 
 `python3 run.py verify REPORT.md --repo .` runs from the clone with nothing installed, and `pip install .` installs
-2.0.0. Contributing: [CONTRIBUTING.md](../CONTRIBUTING.md).
+2.0.1. Contributing: [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ## MCP tools
 
