@@ -30,6 +30,27 @@ describe ownership verification and editing tool reach; no public reindex contro
 OpenAI now documents a restricted [desktop-only local MCP route](https://developers.openai.com/plugins/deploy/desktop-only).
 The historical audit's blanket remote-only statement is superseded; owner allowlisting is required.
 
+## Cline, Kilo and Smithery (checked 2026-10-25)
+
+No listing or open submission for Buddie existed in any of the three. Entries were prepared on local branches of
+the upstream repositories; nothing was submitted.
+
+| Channel | Route now | Tested here | Status |
+|---|---|---|---|
+| Cline | PR to [cline/marketplace](https://github.com/cline/marketplace) (`registry/mcps/buddie/entry.json`, icon next to it). The Cline client reads `https://cline.github.io/marketplace/catalog.json` (`MARKETPLACE_CATALOG_URL` in cline/cline `apps/vscode/src/core/controller/marketplace/marketplace-helpers.ts`). The issue template in [cline/mcp-marketplace](https://github.com/cline/mcp-marketplace) is still open but its repository was last pushed 2025-06-24 and has about 2,900 open issues: treat it as legacy. | Cline CLI 3.0.73 in an isolated config: `cline mcp install` wrote the entry; Cline's MCP manager (`@cline/core`) connected, listed all five tools and ran `snap` and `verify_report`. The agent loop (a model setting the server up from the README) was not run: it needs a model provider key. | prepared, not submitted; `npm run validate` passes (on Windows only with the script's root path converted by `fileURLToPath`, an upstream Windows issue). No community PR has been merged there yet. |
+| Kilo | PR to [Kilo-Org/kilo-marketplace](https://github.com/Kilo-Org/kilo-marketplace) (`mcps/buddie/MCP.yaml` plus the regenerated `mcps/marketplace.yaml`, category `development`). | Kilo CLI 7.8.17: the config made from the catalog entry by Kilo's own conversion reports `buddie connected` (`kilo mcp list`, `kilo serve` `/mcp`). Calling tools through Kilo was not achieved (its `/experimental/mcp/call-tool` answered 404 even with `KILO_EXPERIMENTAL_MCP_APPS`); the same command and environment were exercised through Cline's MCP client instead. | prepared, not submitted. Generators and both typechecks pass; tests 118/119 on Windows, the same as unmodified upstream `main`: the failure is the test fixture's own `fs.symlinkSync` (`EPERM`, no symlink privilege on this account), not the generator and not this entry. Fork PRs wait for a maintainer to approve CI (`action_required`). |
+| Smithery | [smithery.ai/future](https://smithery.ai/future): accounts, API keys, the API and the CLI stop on 2026-10-31; smithery.ai stays as a public, non-proxied directory powered by Arcade. The [publish docs](https://smithery.ai/docs/build/publish) still describe MCPB publishing, but only through an account and the CLI or API that stop on that date. Nothing says how servers are added afterwards. | no listing for `buddie` or `tsyyan` in `registry.smithery.ai/servers?q=…` | not presently worthwhile: publishing would need a new account days before accounts end, with no stated future for unverified listings. Revisit if Arcade documents submissions. |
+
+**Windows input encoding (affects every plain `uvx buddie@2.0.0 serve` line).** `buddie serve` reads MCP messages
+from stdin with Python's locale encoding; `cli.main` switches stdout and stderr to UTF-8 but not stdin. On Windows
+with a non-UTF-8 code page (here cp1251) a report's `⚓`, `«»` and non-ASCII text arrive garbled: a false
+`pr:` anchor was reported as "lines with counts and no anchor" instead of broken. With `PYTHONIOENCODING=utf-8` in
+the server's environment (as the `.mcpb` sets) or `python -X utf8`, the same report gave
+"effects 0/1 hold, 1 broken". The prepared entries carry this: Kilo's sets `PYTHONIOENCODING` in `env`; Cline's
+installer takes no environment, so its entry runs `uvx --from buddie@2.0.0 python -X utf8 -m buddie serve`. The
+code fix (reconfigure stdin too) belongs to a future release; other listings that print `uvx buddie serve` keep
+the problem on such Windows systems until then.
+
 ## Historical pre-release audit (2026-10-23)
 
 Audited on 2026-10-23, against `main` at `b6464a7` (buddie 2.0.0 prepared, not released). Each fact is marked:
