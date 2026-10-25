@@ -474,11 +474,20 @@ def test_the_readme_uses_only_markdown_and_html_github_keeps():
 def test_the_readme_carries_the_registry_name_and_honest_badges():
     assert README.startswith("<!-- mcp-name: io.github.tsyyan/buddie -->")  # the MCP Registry checks it on PyPI
     badges = re.findall(r"\[!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)", README)
-    assert [b[0] for b in badges] == ["CI", "Python", "License"]
+    assert [b[0] for b in badges] == ["CI", "Python", "License", "Buddie on Glama", "Buddie on MCPRush"]
     expected = {"CI": ("github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg", "actions/workflows/ci.yml"),
                 "Python": ("img.shields.io/pypi/pyversions/buddie", "pypi.org/project/buddie"),
                 "License": ("img.shields.io/github/license/tsyyan/buddie", "LICENSE")}
+    # the two directory listings, by the owner's choice: their images are the directories' own scores of the
+    # listing, so they are named for the directory and link to its page, never presented as buddie's own status
+    listings = {"Buddie on Glama": ("https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg",
+                                    "https://glama.ai/mcp/servers/tsyyan/buddie"),
+                "Buddie on MCPRush": ("https://mcprush.com/badge/buddie-mcp/score.svg",
+                                      "https://mcprush.com/to/buddie-mcp?ref=badge")}
     for label, image, target in badges:
+        if label in listings:
+            assert (image, target) == listings[label], label
+            continue
         assert expected[label][0] in image and expected[label][1] in target, label
         # no scores, ratings, download counts or approval marks
         assert not re.search(r"score|rating|rated|download|trust|verified|approved|official", image + label, re.I)
