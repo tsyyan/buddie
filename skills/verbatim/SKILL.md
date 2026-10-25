@@ -14,7 +14,7 @@ model.
 With the buddie plugin nothing needs installing: its MCP server has the three tools this skill uses, `snap`,
 `source_text` and `verify_report`.
 
-Without the plugin, the same steps run from a shell after `pip install buddie==2.0.0` (a pinned release from PyPI):
+Without the plugin, the same steps run from a shell after `pip install buddie==2.0.1` (a pinned release from PyPI):
 `buddie-verbatim snap URL`, `buddie-verbatim text URL --grep 'regex'` and `buddie-verbatim check REPORT.md --fetch`.
 
 ## Workflow
