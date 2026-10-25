@@ -1,6 +1,6 @@
 # Buddie: listing copy and local installation
 
-Checked against release 2.0.0 on 2026-10-25. This is reusable copy, not a claim that a directory has approved it.
+Checked against release 2.0.1 on 2026-10-26. This is reusable copy, not a claim that a directory has approved it.
 
 ## Identity
 
@@ -9,9 +9,9 @@ Checked against release 2.0.0 on 2026-10-25. This is reusable copy, not a claim 
 - Repository: https://github.com/tsyyan/buddie
 - Official MCP Registry name: `io.github.tsyyan/buddie`.
 - License: Apache-2.0; Python 3.11 or newer; no runtime dependencies.
-- Release: https://github.com/tsyyan/buddie/releases/tag/v2.0.0
-- Package: https://pypi.org/project/buddie/2.0.0/
-- Privacy: https://github.com/tsyyan/buddie/blob/v2.0.0/PRIVACY.md
+- Release: https://github.com/tsyyan/buddie/releases/tag/v2.0.1
+- Package: https://pypi.org/project/buddie/2.0.1/
+- Privacy: https://github.com/tsyyan/buddie/blob/v2.0.1/PRIVACY.md
 
 ## Description
 
@@ -38,18 +38,18 @@ they do not validate every numeric assertion or establish its semantic truth.
 With uv installed, start the version-pinned stdio server:
 
 ```sh
-uvx buddie@2.0.0 serve
+uvx buddie@2.0.1 serve
 ```
 
 Generic MCP client configuration (adapt the outer structure to the client):
 
 ```json
-{"mcpServers":{"buddie":{"command":"uvx","args":["buddie@2.0.0","serve"]}}}
+{"mcpServers":{"buddie":{"command":"uvx","args":["buddie@2.0.1","serve"]}}}
 ```
 
-Alternatively, `pip install buddie==2.0.0`, then `buddie serve`.
+Alternatively, `pip install buddie==2.0.1`, then `buddie serve`.
 For Claude Desktop, open the released
-[buddie-2.0.0.mcpb](https://github.com/tsyyan/buddie/releases/download/v2.0.0/buddie-2.0.0.mcpb).
+[buddie-2.0.1.mcpb](https://github.com/tsyyan/buddie/releases/download/v2.0.1/buddie-2.0.1.mcpb).
 The [getting-started guide](getting-started.md) covers plugin installation and environment grants.
 
 No GitHub token is required for public evidence within API limits. Optional credentials use
