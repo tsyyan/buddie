@@ -1,5 +1,30 @@
 # Distribution: where buddie is, what each channel serves, what to do after a release
 
+## Current channel check (2026-10-25)
+
+This check supersedes the pre-release version/status statements in the historical audit below.
+It does not republish or modify the 2.0.0 artifacts. Use [listing copy](listing-copy.md) for new descriptions.
+
+| Channel | Observed state | Next action |
+|---|---|---|
+| [PyPI](https://pypi.org/project/buddie/2.0.0/) | Latest 2.0.0; clean installed package returns all five MCP tools | No publication needed |
+| [GitHub Release](https://github.com/tsyyan/buddie/releases/tag/v2.0.0) | Published; wheel, sdist, MCPB, checksums and release manifest available | Share the existing release |
+| [Official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions/latest) | Active/latest 2.0.0, PyPI package 2.0.0, stdio | Description still emphasizes evidence checks; richer metadata belongs to a future release |
+| Claude Code / Codex repository marketplaces | Both plugin manifests say 2.0.0; source is the default branch | Separate from approval in a public directory; live client installation not tested in this check |
+| [MCPRush](https://mcprush.com/tsyyan/buddie-mcp) | Version 2.0.0, but four tools; environment_snapshot missing and network tools labelled read | Owner: correct existing listing in Studio; no duplicate listing or HTTP deployment |
+| [Glama](https://glama.ai/mcp/servers/tsyyan/buddie) | Four tools, old README saying 2.0.0 is unreleased; Schema still mentions unused GITHUB_TOKEN | Owner: sign in as tsyyan on Admin, request repository sync, inspect tools and variables again |
+| Anthropic Directory | Pending review, as reported by the owner; portal status not independently visible | Continue existing submission |
+
+Glama's [Admin page](https://glama.ai/mcp/servers/tsyyan/buddie/admin) confirms free claiming,
+profile editing and repository sync requests. For this user-owned repository, signing in as its GitHub owner
+is sufficient; a new glama.json is not required. MCPRush's [publisher docs](https://mcprush.com/docs)
+describe ownership verification and editing tool reach; no public reindex control was established here.
+
+OpenAI now documents a restricted [desktop-only local MCP route](https://developers.openai.com/plugins/deploy/desktop-only).
+The historical audit's blanket remote-only statement is superseded; owner allowlisting is required.
+
+## Historical pre-release audit (2026-10-23)
+
 Audited on 2026-10-23, against `main` at `b6464a7` (buddie 2.0.0 prepared, not released). Each fact is marked:
 **verified** (observed here, with how), **hypothesis** (inferred, with the evidence), or **publisher-only** (visible
 only to the owner's account, not checked here). Listing a server and distributing its package are different things:
