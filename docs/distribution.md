@@ -4,16 +4,23 @@
 
 This check supersedes the pre-release version/status statements in the historical audit below.
 It does not republish or modify the 2.0.0 artifacts. Use [listing copy](listing-copy.md) for new descriptions.
+The observations below retain the original October 25 audit snapshot; the follow-up column records owner
+confirmation and a separate public recheck later that day.
 
-| Channel | Observed state | Next action |
+| Channel | Original audit observation | Follow-up status / next action |
 |---|---|---|
 | [PyPI](https://pypi.org/project/buddie/2.0.0/) | Latest 2.0.0; clean installed package returns all five MCP tools | No publication needed |
 | [GitHub Release](https://github.com/tsyyan/buddie/releases/tag/v2.0.0) | Published; wheel, sdist, MCPB, checksums and release manifest available | Share the existing release |
 | [Official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers/io.github.tsyyan%2Fbuddie/versions/latest) | Active/latest 2.0.0, PyPI package 2.0.0, stdio | Description still emphasizes evidence checks; richer metadata belongs to a future release |
 | Claude Code / Codex repository marketplaces | Both plugin manifests say 2.0.0; source is the default branch | Separate from approval in a public directory; live client installation not tested in this check |
-| [MCPRush](https://mcprush.com/tsyyan/buddie-mcp) | Version 2.0.0, but four tools; environment_snapshot missing and network tools labelled read | Owner: correct existing listing in Studio; no duplicate listing or HTTP deployment |
-| [Glama](https://glama.ai/mcp/servers/tsyyan/buddie) | Four tools, old README saying 2.0.0 is unreleased; Schema still mentions unused GITHUB_TOKEN | Owner: sign in as tsyyan on Admin, request repository sync, inspect tools and variables again |
+| [MCPRush](https://mcprush.com/tsyyan/buddie-mcp) | Version 2.0.0, but four tools; environment_snapshot missing and network tools labelled read | Owner update completed (owner-confirmed). Public recheck confirms the updated description and all five tool names, including environment_snapshot; access labels still show read. |
+| [Glama](https://glama.ai/mcp/servers/tsyyan/buddie) | Four tools, old README saying 2.0.0 is unreleased; Schema still mentions unused GITHUB_TOKEN | Owner update completed (owner-confirmed). Public Schema recheck still shows four tools and GITHUB_TOKEN; awaiting public refresh and verification of the updated listing. |
 | Anthropic Directory | Pending review, as reported by the owner; portal status not independently visible | Continue existing submission |
+
+**Claude Desktop testing scope.** MCPB manifest/package validation (schema, released bundle digest and contents)
+is separate from automated startup: `scripts/smoke_mcpb.py` starts the unpacked released bundle outside the
+repository, checks MCP initialize and enumerates all five tools against its manifest. Both checks passed;
+actual installation through the Claude Desktop GUI has not been independently tested.
 
 Glama's [Admin page](https://glama.ai/mcp/servers/tsyyan/buddie/admin) confirms free claiming,
 profile editing and repository sync requests. For this user-owned repository, signing in as its GitHub owner

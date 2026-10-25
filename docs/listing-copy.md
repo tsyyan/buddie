@@ -24,11 +24,14 @@ endpoint is required. Automatic answer gating uses a separate Claude Code or Cod
 
 | Tool | Purpose and scope |
 |---|---|
-| verify_report | Checks supported quotes, numbers and anchors; returns PASS, FAIL, GAPS or EMPTY. Unchecked prose is not certified. |
+| verify_report | Checks supported quotations, verifiable numeric claims, and explicit evidence anchors; reports failures and verification gaps without certifying the entire response. |
 | snap | Fetches public URLs and writes content-addressed snapshots locally. |
 | source_text | Reads stored snapshot text, optionally around matches. |
 | summary | Summarizes the Claude Code hook journal; other clients need that journal for useful data. |
 | environment_snapshot | Observes granted local environment categories; the call itself grants no permission. |
+
+Numeric checks compare detected numbers in cited sentences with source snapshots and nearby context;
+they do not validate every numeric assertion or establish its semantic truth.
 
 ## Local install
 
