@@ -84,6 +84,12 @@ Module("history", (Check.EVENT_ANCHOR, Check.EVENT_QUOTE), ("history",),
 | `CHAIN_BROKEN` | CONTRADICTED | a `prev` inside the range does not match: a gap, a reordering or an edit |
 | `LOG_UNAVAILABLE` | UNDETERMINED | no log store given, or the file unreadable |
 
+The subject of an `EVENT_ANCHOR` finding is the anchor, never the line it stands on: `HOLDS` says the event exists
+with those bytes, nothing about what the line says of it. `the user approved X ⚓ ev:res-7f3a#41@…` with event 41 a
+routine tool result gets an anchor that `HOLDS` and a claim nobody checked. Such a line is an **anchor-only line**:
+the receipt lists it in `anchor_only_lines` beside `unanchored_lines`, the hook counts it as unchecked, and no
+summary or count adds it to what was supported. Only a quotation (below) checks what a line says.
+
 ### Quotations from events
 
 A quotation followed by an event anchor on the same line (the way a web quotation is followed by its link):
@@ -104,11 +110,13 @@ anchor verdicts make the quotation CONTRADICTED with the anchor's reason.
 
 ### What it does not check
 
-Prose without a quotation or an anchor. "The agent usually prefers small commits" is a claim no check detects; the
-receipt's `scope.excluded` cannot count it (`detected: null`), and `unanchored_lines` reports such lines as it
-does for reports today. The consequence is a requirement on whoever writes the derived layer, not on buddie:
-**every claim of derived memory carries a quotation from an event or an event anchor.** Under that convention
-almost everything is checkable; the rest is said to be unchecked, never passed.
+Prose without a quotation, and what a line with only an anchor says. "The agent usually prefers small commits" is
+a claim no check detects; the receipt's `scope.excluded` cannot count it (`detected: null`), and `unanchored_lines`
+reports such lines as it does for reports today. A line with an event anchor and no quotation has its anchor
+checked and its claim not (`anchor_only_lines`, above). The consequence is a requirement on whoever writes the
+derived layer, not on buddie: **every claim of derived memory carries a quotation from an event.** An anchor alone
+is a pointer for a reader, not evidence for the claim. Under that convention almost everything is checkable; the
+rest is said to be unchecked, never passed.
 
 ### Interfaces
 
@@ -133,34 +141,60 @@ another party keeps) is what turns it into a statement about history.
 
 ### `buddie lineage retention OLD NEW --history DIR`
 
-Two versions of a derived layer. For each: the set of events it cites (anchors and quotations), and the set of
+Two versions of a derived layer. For each: the events it cites, each at one of three levels, and the set of
 *marked entities* in it (a fixed, declared extraction: anchors, `path`s, URLs, numbers with units, identifiers in
-backticks; no named-entity model). The document lists:
+backticks; no named-entity model). The levels, from strongest:
+
+- **quoted**: a quotation from the event that `EVENT_QUOTE` finds;
+- **named**: an anchor to that single event (`ev:LOG#SEQ`), no quotation;
+- **in range**: the event lies inside a range anchor (`ev:LOG#FROM-TO`) and is cited by neither of the above.
+
+A range is never expanded into its events as if each were cited: `summarize_window` over 50 events cites one range,
+and what of event 23 survived in it is not known. The document lists:
 
 - events cited by OLD and by no line of NEW, with each event's `kind` and how often that `kind` occurs in the log
   (the rarer, the earlier it is listed);
+- events whose level fell between OLD and NEW (quoted to named or in range, named to in range), in the same order:
+  an event that went from its own quotation to the inside of a range is a drop in all but name;
 - marked entities of OLD absent from NEW;
-- lines of NEW that cite nothing (the unchecked share, as a count and a fraction).
+- lines of NEW that quote nothing (the unchecked share, as a count and a fraction, anchor-only lines among them
+  counted apart).
 
 It never says the loss is bad: dropping is what consolidation does. It makes the drop visible and reviewable.
 
-### `buddie lineage divergence LOG… --history DIR [--features FILE]`
+### `buddie lineage divergence LOG… --history DIR [--features FILE] [--select FILE] [--window N] [--permutations K]`
 
 Several agents' logs. Features are counts the log records without interpretation: distribution of `kind`, of tool
 names in tool events, lengths of runs between events of declared kinds. `--features` names which, from a fixed
 vocabulary; nothing is evaluated from the file. Output: per log the feature vector, and between logs the
-Jensen–Shannon distance per feature and overall, with the number of events each rests on. With `--window N` it
-gives the same per window of N events, so a trend over time (agents growing alike after a consolidation regime
-starts) is a series, not a single number.
+Jensen–Shannon distance per feature and overall (the unweighted mean over the selected features, each listed), with
+the number of events each rests on. With `--window N` it gives the same per window of N events, so a trend over
+time (agents growing alike after a consolidation regime starts) is a series, not a single number.
+
+A distance between two agents means nothing without the distance of each agent to itself, and the estimate of a
+JS distance from counts is biased upwards on few events: two samples of one source come out apart. So every
+distance carries two references, computed by the same command:
+
+- **self-distance**: per log, the distance between its two halves (alternate events of the declared kinds, so
+  both halves span the same time), and per window with `--window`; a between-agent distance is reported beside
+  the larger of the two agents' self-distances, never alone;
+- **permutation floor**: the events of the two logs pooled and split at random into two groups of the original
+  sizes, `--permutations K` times (default 200, a seed in the output); the document gives the share of splits at
+  least as far apart as the real pair. Deterministic for a given seed.
+
+`--select FILE` restricts every log to events carrying a declared tag in `body` (for instance the id of a probe
+task), so agents are compared on the same tasks instead of on whatever each happened to be given. The tag's name is
+declared in the file; buddie matches its value as a string and evaluates nothing.
 
 It reports distances, not causes: whether a convergence comes from a summarizer or from the tasks is a question
-of the experiment around it, which needs its own controls.
+of the experiment around it, which needs its own controls. A distance above its self-distance and its permutation
+floor says the logs differ more than chance; it does not say why.
 
 ## Threat model
 
 | Actor | Can | So |
 |---|---|---|
-| The summarizer (a model) | write any derived text, cite events that do not say it, invent anchors | every cited event is read and compared by bytes; a claim it does not anchor is unchecked, never supported |
+| The summarizer (a model) | write any derived text, cite events that do not say it, invent anchors | every quotation is compared with the bytes of its event; an anchor without a quotation is checked for existence only and its line counted as anchor-only; a claim it does not quote is unchecked, never supported |
 | The agent, same OS user | rewrite the log file, its own anchors, `buddie.toml` | a self-consistent rewrite passes `chain`; only a head digest pinned outside its reach (protected policy, an external receipt) detects it. buddie reports what the bytes say, not who wrote them |
 | An administrator | write the protected policy | can pin log heads and set the `history` gate floor |
 | The log itself | be huge, malformed, have hostile text | bounded reads (`MAX_PAGE_BYTES` per event, a line limit per log), strict JSON shapes, a malformed line is `UNREADABLE` at that `seq`, never skipped; regexes only as `patterns.py` bounds them |
@@ -181,4 +215,6 @@ of the experiment around it, which needs its own controls.
 - `tests/test_adversarial.py`: rows for a forged anchor digest, a reordered log, an oversized event, a quotation
   split across two events.
 - `tests/test_lineage.py`: `chain` on intact and broken logs; `retention` on a fixture pair with a dropped rare
-  event; `divergence` on identical logs (distance 0) and disjoint ones (distance 1).
+  event, and one where a quoted event is only inside a range in NEW (listed as a fall, not as kept); `divergence`
+  on identical logs (distance 0) and disjoint ones (distance 1), on two halves of one long log (between-agent
+  distance not above the self-distance and the permutation floor), and a fixed seed giving the same floor twice.

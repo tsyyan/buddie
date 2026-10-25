@@ -82,7 +82,7 @@ verdict and, when not `HOLDS`, the operations or lines it rests on:
 | `POLICY_MATCH` | the proposal's policy digest is the policy given | `POLICY_MISMATCH`: checked against another version |
 | `ALLOWED` | every recorded `op` is in the policy, with parameters inside the declared ones | `NOT_ALLOWED`, listing each op |
 | `CONFIRM_RESPECTED` | no op listed in `confirm` is recorded as done | `DONE_WITHOUT_CONFIRM` |
-| `KEEP_RAW_RESPECTED` | no event of a `keep_raw` kind is dropped or merged (by `retention` on the two versions) | `RAW_TOUCHED` |
+| `KEEP_RAW_RESPECTED` | every event of a `keep_raw` kind that OLD quotes is still quoted by NEW (by `retention` levels on the two versions) | `RAW_TOUCHED`: the event was dropped, merged, or fell to a bare anchor or the inside of a range |
 | `COVERED` | every line added, changed or removed between the versions is in some operation's `lines` | `UNRECORDED_CHANGE`: the summarizer did more than it logged |
 | `INPUT_INTACT` | the input anchor holds (history module `EVENT_ANCHOR`) | the anchor's own verdict |
 
