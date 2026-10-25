@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## buddie 2.0.1 (2026-10-25)
+## buddie 2.0.1 (2026-10-26)
 
 Upgrading from 2.0.0: nothing to change. The MCP tools and their arguments, receipt-v0 and receipt-v1, outcomes,
 the CLI's exit codes, the hooks, permissions and grants are the same; no dependency is added.
