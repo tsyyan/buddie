@@ -149,13 +149,10 @@ Every surface in detail: [getting started](https://github.com/tsyyan/buddie/blob
 
 | | Version |
 |---|---|
-| Latest release: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **2.0.0** |
-| Described in this README | **2.0.1**, prepared, not yet released |
+| Latest release: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **2.0.1** |
 
-Until 2.0.1 is released, `pip install buddie`, `uvx buddie serve` and the Desktop bundle give 2.0.0, which has the
-same tools; on Windows systems whose code page is not UTF-8 its MCP server needs `PYTHONIOENCODING=utf-8`. To use
-2.0.1 before then, install from this repository: `pip install git+https://github.com/tsyyan/buddie`. Upgrading from
-2.0.0 changes nothing; what 2.0.1 fixes is in the
+Upgrading from 2.0.0 changes nothing; 2.0.1 fixes how the MCP server reads its input on Windows systems whose code
+page is not UTF-8. Upgrading from 1.1.1 changes nothing for a 1.x setup. What can differ, and why, is in the
 [changelog](https://github.com/tsyyan/buddie/blob/v2.0.1/CHANGELOG.md).
 
 ## Documentation
