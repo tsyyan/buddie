@@ -301,3 +301,11 @@ Divergence numeric contract: JS distance is sqrt(JS divergence) with log base 2,
 form the required halves yields unavailable with counts, never distance 0. Fixed seed, PRNG algorithm/version and
 permutation/window selection are recorded. Event permutations here are descriptive only; a future inferential
 study must predeclare task strata, order-preserving blocks/null and multiple-window comparison treatment.
+
+
+Epoch v1 binding: epoch belongs to an external trusted store manifest mapping `(authorized store identity, LOG)`
+to one immutable epoch and checkpoint sequence. Event-v1/ev: need no extra field: LOG ids are never reused within
+that manifest, and the selected manifest supplies epoch. Rotation creates a new LOG id plus explicit trusted
+link; a renamed directory or caller-supplied epoch cannot select a different checkpoint. Absence/inaccessibility
+of the trusted manifest means unanchored, not implicit epoch 0. This manifest format/authority is an implementation
+gate and not part of the agent-writable JSONL or current buddie.toml.
