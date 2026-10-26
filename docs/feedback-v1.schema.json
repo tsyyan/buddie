@@ -1,0 +1,498 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/tsyyan/buddie#feedback-v1",
+ "title": "buddie feedback-v1",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "feedback_id",
+  "schema_version",
+  "chain",
+  "parent",
+  "advisory",
+  "source_receipt",
+  "source_subject_digest",
+  "findings",
+  "recommended_actions",
+  "verification_requirements",
+  "iteration",
+  "iteration_limit",
+  "disposition"
+ ],
+ "properties": {
+  "feedback_id": {
+   "type": "string",
+   "pattern": "^sha256:[0-9a-f]{64}$"
+  },
+  "schema_version": {
+   "const": "https://github.com/tsyyan/buddie#feedback-v1"
+  },
+  "chain": {
+   "type": "string",
+   "pattern": "^sha256:[0-9a-f]{64}$"
+  },
+  "parent": {
+   "type": [
+    "string",
+    "null"
+   ],
+   "pattern": "^sha256:[0-9a-f]{64}$"
+  },
+  "advisory": {
+   "const": true
+  },
+  "source_receipt": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "id",
+    "predicate_type",
+    "checked_at",
+    "outcome",
+    "coverage",
+    "executed",
+    "numbers"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "predicate_type": {
+     "const": "https://github.com/tsyyan/buddie#receipt-v1"
+    },
+    "checked_at": {
+     "type": "string"
+    },
+    "outcome": {
+     "enum": [
+      "PASS",
+      "FAIL",
+      "GAPS",
+      "UNKNOWN",
+      "EMPTY",
+      "NOT_RUN"
+     ]
+    },
+    "coverage": {
+     "enum": [
+      "FULL",
+      "PARTIAL",
+      "UNKNOWN",
+      "NONE"
+     ]
+    },
+    "executed": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "quote",
+       "number",
+       "file_anchor",
+       "commit_anchor",
+       "fact_anchor",
+       "pr_anchor",
+       "ci_anchor",
+       "run_anchor",
+       "choice_anchor",
+       "work_claim",
+       "other_anchor"
+      ]
+     }
+    },
+    "numbers": {
+     "enum": [
+      "off",
+      "gap",
+      "fail"
+     ]
+    }
+   }
+  },
+  "source_subject_digest": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{64}$"
+  },
+  "findings": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/finding"
+   }
+  },
+  "recommended_actions": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/action"
+   }
+  },
+  "verification_requirements": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "receipt",
+    "subject_must_change",
+    "executed_at_least",
+    "numbers_at_least",
+    "verified_outcome"
+   ],
+   "properties": {
+    "receipt": {
+     "const": "https://github.com/tsyyan/buddie#receipt-v1"
+    },
+    "subject_must_change": {
+     "const": true
+    },
+    "executed_at_least": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "quote",
+       "number",
+       "file_anchor",
+       "commit_anchor",
+       "fact_anchor",
+       "pr_anchor",
+       "ci_anchor",
+       "run_anchor",
+       "choice_anchor",
+       "work_claim",
+       "other_anchor"
+      ]
+     }
+    },
+    "numbers_at_least": {
+     "enum": [
+      "off",
+      "gap",
+      "fail"
+     ]
+    },
+    "verified_outcome": {
+     "const": "PASS"
+    }
+   }
+  },
+  "iteration": {
+   "type": "integer",
+   "minimum": 0
+  },
+  "iteration_limit": {
+   "type": "integer",
+   "minimum": 1
+  },
+  "disposition": {
+   "enum": [
+    "repair_requested",
+    "verified",
+    "nothing_verified",
+    "not_actionable",
+    "budget_exhausted",
+    "reconciliation_required"
+   ]
+  }
+ },
+ "$defs": {
+  "finding": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "finding_id",
+    "index",
+    "check",
+    "module",
+    "line",
+    "subject",
+    "verdict",
+    "fact",
+    "reason",
+    "decision",
+    "message",
+    "evidence",
+    "evidence_state",
+    "condition",
+    "actionable",
+    "not_actionable_reason",
+    "action_id"
+   ],
+   "properties": {
+    "finding_id": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "index": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "check": {
+     "enum": [
+      "quote",
+      "number",
+      "file_anchor",
+      "commit_anchor",
+      "fact_anchor",
+      "pr_anchor",
+      "ci_anchor",
+      "run_anchor",
+      "choice_anchor",
+      "work_claim",
+      "other_anchor"
+     ]
+    },
+    "module": {
+     "type": "string"
+    },
+    "line": {
+     "type": [
+      "integer",
+      "null"
+     ]
+    },
+    "subject": {
+     "type": "string"
+    },
+    "verdict": {
+     "type": "string"
+    },
+    "fact": {
+     "enum": [
+      "supported",
+      "contradicted",
+      "no_claim",
+      "undetermined",
+      "unrecognized"
+     ]
+    },
+    "reason": {
+     "enum": [
+      "found",
+      "found_normalized",
+      "not_in_source",
+      "ambiguous_miss",
+      "value_without_context",
+      "only_hidden",
+      "only_in_copy",
+      "source_unavailable",
+      "no_source",
+      "not_a_citation",
+      "holds",
+      "broken",
+      "uncheckable",
+      "not_computed",
+      "unsupported",
+      "not_an_anchor",
+      "unknown_verdict"
+     ]
+    },
+    "decision": {
+     "enum": [
+      "block",
+      "flag",
+      "allow"
+     ]
+    },
+    "message": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "evidence": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "kind",
+       "locator",
+       "provenance",
+       "digest",
+       "source",
+       "observed_at",
+       "resolution"
+      ],
+      "properties": {
+       "kind": {
+        "type": "string"
+       },
+       "locator": {
+        "type": "string"
+       },
+       "provenance": {
+        "enum": [
+         "caller_supplied",
+         "agent_writable",
+         "collector_observed",
+         "unknown"
+        ]
+       },
+       "digest": {
+        "type": [
+         "string",
+         "null"
+        ],
+        "pattern": "^[0-9a-f]{64}$"
+       },
+       "source": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "observed_at": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "resolution": {
+        "enum": [
+         "digest_bound",
+         "locator_only"
+        ]
+       }
+      }
+     }
+    },
+    "evidence_state": {
+     "enum": [
+      "present",
+      "absent"
+     ]
+    },
+    "condition": {
+     "enum": [
+      "verified",
+      "no_claim",
+      "missing_evidence",
+      "invalid_evidence",
+      "failed",
+      "inconclusive",
+      "unavailable"
+     ]
+    },
+    "actionable": {
+     "type": "boolean"
+    },
+    "not_actionable_reason": {
+     "enum": [
+      "verified",
+      "no_claim",
+      "verifier_unavailable",
+      "unrecognized_verdict",
+      "unlocated",
+      null
+     ]
+    },
+    "action_id": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+   }
+  },
+  "action": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "action_id",
+    "operation",
+    "finding_ids",
+    "condition",
+    "target",
+    "requirements",
+    "idempotent",
+    "preserve_valid_content"
+   ],
+   "properties": {
+    "action_id": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "operation": {
+     "enum": [
+      "correct_claim",
+      "refresh_anchor",
+      "cite_readable_source",
+      "anchor_work_claim",
+      "requote_from_source",
+      "fix_anchor_form",
+      "reconcile_external_state"
+     ]
+    },
+    "finding_ids": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+     }
+    },
+    "condition": {
+     "enum": [
+      "verified",
+      "no_claim",
+      "missing_evidence",
+      "invalid_evidence",
+      "failed",
+      "inconclusive",
+      "unavailable"
+     ]
+    },
+    "target": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "check",
+      "line",
+      "subject",
+      "extent"
+     ],
+     "properties": {
+      "check": {
+       "enum": [
+        "quote",
+        "number",
+        "file_anchor",
+        "commit_anchor",
+        "fact_anchor",
+        "pr_anchor",
+        "ci_anchor",
+        "run_anchor",
+        "choice_anchor",
+        "work_claim",
+        "other_anchor"
+       ]
+      },
+      "line": {
+       "type": "integer"
+      },
+      "subject": {
+       "type": "string"
+      },
+      "extent": {
+       "enum": [
+        "line",
+        "paragraph"
+       ]
+      }
+     }
+    },
+    "requirements": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string"
+     }
+    },
+    "idempotent": {
+     "type": "boolean"
+    },
+    "preserve_valid_content": {
+     "const": true
+    }
+   }
+  }
+ }
+}

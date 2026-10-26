@@ -36,6 +36,9 @@
                                     remote MCP server over Streamable HTTP at /mcp (remote.py: no files, no
                                     local repos, public addresses only)
   buddie hook                       Claude Code hook: reads the event on stdin, exit 2 blocks a FAIL answer
+  buddie feedback RECEIPT.json [--limit 1] [--json FILE]
+                                    feedback-v1 for a receipt-v1 (docs/feedback.md): advice for whoever corrects the
+                                    text, never a new verdict; exit 2 when the receipt is not a consistent receipt-v1
 """
 from __future__ import annotations
 
@@ -252,6 +255,26 @@ def _module_ids(spec: str) -> list[str]:
         return [m.id for m in parse(spec)]
     except UnknownModule as error:
         raise argparse.ArgumentTypeError(str(error)) from error
+
+
+def cmd_feedback(args) -> int:
+    """feedback-v1 of a receipt-v1 file (buddie/feedback.py): reads the receipt only, runs no check."""
+    from buddie import feedback
+    try:
+        receipt = json.loads(Path(args.receipt).read_text(encoding="utf-8"))
+        out = feedback.from_receipt(receipt, iteration_limit=args.limit)
+    except (OSError, json.JSONDecodeError, feedback.InvalidReceipt, ValueError) as error:
+        print(f"buddie feedback: {error}", file=sys.stderr)
+        return 2
+    text = feedback.dumps(out)
+    if args.json:
+        Path(args.json).write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    print(f"buddie feedback {out['disposition']}: {len(out['recommended_actions'])} actions "
+          f"(receipt {out['source_receipt']['outcome']}, iteration {out['iteration']} of {out['iteration_limit']})",
+          file=sys.stderr)
+    return 0
 
 
 def cmd_receipt_schema(args) -> int:
@@ -603,6 +626,11 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
     sub.add_parser("profiles", help="the verification profiles and what each checks").set_defaults(func=cmd_profiles)
     sub.add_parser("receipt-schema", help="the JSON Schema of receipt-v1").set_defaults(func=cmd_receipt_schema)
+    fe = sub.add_parser("feedback", help="feedback-v1 for a receipt-v1 (advice, not a verdict)")
+    fe.add_argument("receipt", help="a receipt-v1 JSON file (buddie verify --receipt v1 --json FILE)")
+    fe.add_argument("--limit", type=int, default=1, help="repair iterations allowed (1 to 3, default 1)")
+    fe.add_argument("--json", help="write the feedback here instead of stdout")
+    fe.set_defaults(func=cmd_feedback)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)
     args = p.parse_args(argv)
     from buddie.patterns import PatternError, PatternTimeout

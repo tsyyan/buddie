@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Verification feedback v1 (docs/feedback.md, ADR-001): `buddie/feedback.py` turns a receipt-v1 into advisory,
+  machine-readable feedback (a condition per finding, at most one bounded action, the receipt's evidence references
+  unchanged); `buddie/repair.py` takes one corrected text per feedback within the actions' line scope, judges it only
+  by a new receipt-v1 of no weaker scope, and ends within the repair budget (1 by default, at most 3);
+  `buddie/trace.py` records each iteration as append-only, hash-chained records that replay. New command
+  `buddie feedback RECEIPT.json`. Nothing existing changes: receipts, outcomes, the hook, MCP and the CLI's other
+  commands are as before; no dependency is added.
+
 ## buddie 2.0.1 (2026-10-26)
 
 Upgrading from 2.0.0: nothing to change. The MCP tools and their arguments, receipt-v0 and receipt-v1, outcomes,
