@@ -65,6 +65,24 @@ jobs:
       - run: python -m pytest -q
         env:
           PYTHONUTF8: "1"   # the tests' fixtures are UTF-8; the hook itself does not need it (the smoke run below)
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
+        with:
+          node-version: "22"
+      - name: verify built archives and clean wheel/sdist installs
+        run: |
+          python -m pip install build
+          python -m build --outdir "$RUNNER_TEMP/runtime-dist"
+          python scripts/check_runtime_archive.py "$RUNNER_TEMP"/runtime-dist/*
+          python scripts/check_clean_archives.py "$RUNNER_TEMP/runtime-dist"
+      - name: verify and smoke MCPB and compact plugin on this OS
+        run: |
+          npx --yes @anthropic-ai/mcpb@2.1.2 pack . "$RUNNER_TEMP/buddie.mcpb"
+          python scripts/check_runtime_archive.py "$RUNNER_TEMP/buddie.mcpb"
+          npx --yes @anthropic-ai/mcpb@2.1.2 unpack "$RUNNER_TEMP/buddie.mcpb" "$RUNNER_TEMP/runtime-bundle"
+          python scripts/smoke_mcpb.py "$RUNNER_TEMP/runtime-bundle"
+          python scripts/plugin_package.py build --ref "$GITHUB_SHA" --out "$RUNNER_TEMP/runtime-plugin" --tree "$RUNNER_TEMP/runtime-plugin-tree"
+          python scripts/check_runtime_archive.py "$RUNNER_TEMP"/runtime-plugin/*.zip
+          python scripts/smoke_plugin.py "$RUNNER_TEMP/runtime-plugin-tree" --manifest "$RUNNER_TEMP/runtime-plugin/plugin-manifest.json"
       - name: clean install, smoke run through the installed buddie
         run: |
           python -m pip install .

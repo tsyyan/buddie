@@ -11,5 +11,8 @@ prune assets
 prune hooks
 prune skills
 global-exclude __pycache__ *.py[cod]
-
 exclude README.md
+exclude CHANGELOG.md
+prune evidence
+prune private
+prune outputs

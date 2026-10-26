@@ -33,7 +33,13 @@ MANIFEST.in
 render.yaml
 commands/
 evals/
-
 releases/
 packaging/
+evidence/
+private/
+outputs/
+.venv/
+venv/
+assets/brand/
+assets/demo/
 rc/
