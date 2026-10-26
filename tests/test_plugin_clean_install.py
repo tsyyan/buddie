@@ -42,8 +42,8 @@ def test_git_source_plugin_runs_mcp_and_hook_without_credentials(tmp_path):
     assert out.returncode == 0, out.stderr
     replies = [json.loads(line) for line in out.stdout.splitlines()]
     assert replies[0]["result"]["serverInfo"]["version"] == manifest["version"]
-    assert {t["name"] for t in replies[1]["result"]["tools"]} == {
-        "verify_report", "snap", "source_text", "summary", "environment_snapshot"}
+    from buddie import mcp  # the copied server lists exactly the tools this source defines
+    assert [t["name"] for t in replies[1]["result"]["tools"]] == [t["name"] for t in mcp.TOOLS]
     assert not replies[2]["result"].get("isError", False)
     hooks = json.loads((installed / "hooks/hooks.json").read_text(encoding="utf-8"))["hooks"]
     command = hooks["Stop"][0]["hooks"][0]["command"]
