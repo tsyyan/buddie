@@ -41,7 +41,15 @@ Constraints that hold before and after this decision:
 4. **Ambiguous external effects end in reconciliation, not repetition.** An action about a `pr:`, `ci:` or `run:`
    claim is marked non-idempotent; an unknown execution outcome that still does not verify ends the chain as
    `reconciliation_required` with no action recommended.
-5. **The history is an append-only, hash-chained trace** (`trace-v1`, `buddie/trace.py`) that replays from its records
+5. **Decisions are taken on an in-process check, never on a receipt that was handed in.** Receipts are unsigned;
+   a consistent `PASS` can be written for any text. `trace.start` and `repair.resolve` take a `verify.Assessment`
+   the caller made itself; a receipt dict is refused. Feedback from a receipt file stays advice about that file. No
+   cryptographic authentication is claimed.
+6. **A corrected report is not a finished task.** The orchestrator may state task requirements (a check and a
+   subject prefix) when a chain starts; a `PASS` that leaves one unmet is `requirements_unmet`, never `verified`.
+7. **A repair rewrites; it does not add.** Scoped lines may be rewritten or deleted, never multiplied, except for
+   `buddie:` disclosure lines, and a verified claim must stay where it was and still be supported there.
+8. **The history is an append-only, hash-chained trace** (`trace-v1`, `buddie/trace.py`) that replays from its records
    alone and separates verifier findings, agent assertions, observed facts and derived decisions. It carries ids,
    digests and codes only. buddie does not persist it; callers keep its lines (a future Projects store among them).
 

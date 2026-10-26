@@ -8,7 +8,10 @@
   by a new receipt-v1 of no weaker scope, and ends within the repair budget (1 by default, at most 3);
   `buddie/trace.py` records each iteration as append-only, hash-chained records that replay. New command
   `buddie feedback RECEIPT.json`. Nothing existing changes: receipts, outcomes, the hook, MCP and the CLI's other
-  commands are as before; no dependency is added.
+  commands are as before; no dependency is added. A chain is started and decided only on a `verify.Assessment` made
+  in the caller's process (a receipt dict is refused: receipts are unsigned); a repair may not add lines but
+  `buddie:` disclosures, and a verified claim must stay where it was; task requirements stated by the orchestrator
+  keep a corrected report apart from a finished task (`requirements_unmet`).
 
 ## buddie 2.0.1 (2026-10-26)
 

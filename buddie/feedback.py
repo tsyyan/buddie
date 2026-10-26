@@ -31,14 +31,23 @@ Each finding gets one condition, never folded into a generic failure:
 Dispositions (the whole feedback's state; every one but repair_requested is terminal):
 
   repair_requested         actionable findings, and the repair budget is not spent
-  verified                 the receipt's outcome is PASS: nothing to repair (PASS is about the checks that ran, not
-                           about the text being true; see source_receipt.coverage)
+  verified                 the receipt's outcome is PASS and every task requirement stated is met: nothing to
+                           repair. PASS is about the checks that ran, not about the text being true (see
+                           source_receipt.coverage); with no requirement stated (task.status not_stated) it says
+                           nothing about whether the task the text reports on was done
+  requirements_unmet       the receipt's outcome is PASS, but a stated task requirement has no supported claim: a
+                           correct report of an unfinished task (or one whose required claim was removed)
   nothing_verified         the receipt's outcome is EMPTY or NOT_RUN: nothing was checked, so nothing passed
   not_actionable           not PASS, and no finding is one the author can correct by editing (only unavailable or
                            unknown checks)
   budget_exhausted         actionable findings remain and no repair is left (iteration == iteration_limit)
   reconciliation_required  an external action's outcome is unknown and the text still does not verify: observe the
                            state before anything is repeated (repair.py sets it)
+
+Task requirements are the orchestrator's, given when the chain starts and never by the agent: each names a check
+and the start of a claim's subject (`{"check": "pr_anchor", "subject_prefix": "pr:o/r#59=merged"}`). A requirement
+is met when a finding of that check whose subject starts so is supported. They keep a corrected report apart from a
+finished task: removing the claim a task needs can make the report PASS, never the task met.
 
 The repair budget is finite: `iteration_limit` defaults to 1 (one corrected text, then a terminal disposition) and
 can be at most MAX_LIMIT. Nothing here retries; repair.py takes one submission per feedback.
@@ -54,8 +63,11 @@ V1 = "https://github.com/tsyyan/buddie#feedback-v1"
 DEFAULT_LIMIT = 1
 MAX_LIMIT = 3
 CONDITIONS = ("verified", "no_claim", "missing_evidence", "invalid_evidence", "failed", "inconclusive", "unavailable")
-DISPOSITIONS = ("repair_requested", "verified", "nothing_verified", "not_actionable", "budget_exhausted",
-                "reconciliation_required")
+DISPOSITIONS = ("repair_requested", "verified", "requirements_unmet", "nothing_verified", "not_actionable",
+                "budget_exhausted", "reconciliation_required")
+TASK = ("not_stated", "met", "unmet")
+REQUIREMENT = ("met", "unsupported", "absent")
+MAX_REQUIREMENTS = 32
 TERMINAL = frozenset(DISPOSITIONS) - {"repair_requested"}
 NOT_ACTIONABLE = ("verified", "no_claim", "verifier_unavailable", "unrecognized_verdict", "unlocated")
 NUMBERS_RANK = {"off": 0, "gap": 1, "fail": 2}
@@ -185,14 +197,49 @@ def check_limit(limit) -> int:
     return limit
 
 
+def check_requirements(requirements) -> list[dict]:
+    """The task requirements as {requirement_id, check, subject_prefix}, in the order given, each once."""
+    if requirements is None:
+        return []
+    if not isinstance(requirements, (list, tuple)) or len(requirements) > MAX_REQUIREMENTS:
+        raise ValueError(f"requirements are a list of at most {MAX_REQUIREMENTS}")
+    out, seen = [], set()
+    for r in requirements:
+        if (not isinstance(r, dict) or set(r) != {"check", "subject_prefix"} or r["check"] not in receipts.CHECKS
+                or not isinstance(r["subject_prefix"], str) or not r["subject_prefix"].strip()
+                or len(r["subject_prefix"]) > 500):
+            raise ValueError("a requirement is {check: a receipt-v1 check, subject_prefix: 1 to 500 characters}, "
+                             f"not {r!r}")
+        rid = digest(receipts.dumps({"check": r["check"], "subject_prefix": r["subject_prefix"]}).encode("utf-8"))
+        if rid not in seen:
+            seen.add(rid)
+            out.append({"requirement_id": rid, "check": r["check"], "subject_prefix": r["subject_prefix"]})
+    return out
+
+
+def task_status(requirements: list[dict], findings: list) -> dict:
+    """Each requirement's status in a receipt's findings (met, unsupported, absent) and the task's."""
+    out = []
+    for r in requirements:
+        match = [f for f in findings if f["check"] == r["check"] and f["subject"].startswith(r["subject_prefix"])]
+        status = ("met" if any(f["fact"] == core.Fact.SUPPORTED.value for f in match) else
+                  "unsupported" if match else "absent")
+        out.append({**r, "status": status})
+    whole = "not_stated" if not out else "met" if all(r["status"] == "met" for r in out) else "unmet"
+    return {"status": whole, "requirements": out}
+
+
 def from_receipt(receipt: dict, *, iteration: int = 0, iteration_limit: int = DEFAULT_LIMIT,
-                 parent: str | None = None, chain: str | None = None, reconcile: bool = False) -> dict:
+                 parent: str | None = None, chain: str | None = None, reconcile: bool = False,
+                 requirements=None) -> dict:
     """The feedback-v1 of a receipt-v1. iteration: corrected texts already taken in this chain (0 for the first
     feedback); parent: the feedback this one follows; chain: the first source receipt's id (default: this one's);
     reconcile: an external action's outcome was reported unknown (repair.py), so a text that still does not verify
-    asks for reconciliation, not another repair."""
+    asks for reconciliation, not another repair; requirements: the task's, from the orchestrator (see the module's
+    docstring)."""
     check_receipt(receipt)
     limit = check_limit(iteration_limit)
+    task = task_status(check_requirements(requirements), receipt["predicate"]["verification"]["findings"])
     if isinstance(iteration, bool) or not isinstance(iteration, int) or not 0 <= iteration <= limit:
         raise ValueError(f"iteration is a whole number from 0 to iteration_limit ({limit}), not {iteration!r}")
     pred = receipt["predicate"]
@@ -213,7 +260,7 @@ def from_receipt(receipt: dict, *, iteration: int = 0, iteration_limit: int = DE
             candidates.append((entry, op))
     outcome = verification["outcome"]
     if outcome == "PASS":
-        disposition = "verified"
+        disposition = "verified" if task["status"] != "unmet" else "requirements_unmet"
     elif outcome in ("EMPTY", "NOT_RUN"):
         disposition = "nothing_verified"
     elif not candidates:
@@ -249,6 +296,7 @@ def from_receipt(receipt: dict, *, iteration: int = 0, iteration_limit: int = DE
         "verification_requirements": {"receipt": receipts.V1, "subject_must_change": True,
                                       "executed_at_least": list(scope["executed"]),
                                       "numbers_at_least": verification["numbers"], "verified_outcome": "PASS"},
+        "task": task,
         "iteration": iteration,
         "iteration_limit": limit,
         "disposition": disposition,
@@ -300,8 +348,10 @@ def problems(feedback, receipt: dict | None = None) -> list[str]:
             want = from_receipt(receipt, iteration=feedback.get("iteration"),
                                 iteration_limit=feedback.get("iteration_limit"), parent=feedback.get("parent"),
                                 chain=feedback.get("chain"),
-                                reconcile=feedback.get("disposition") == "reconciliation_required")
-        except (InvalidReceipt, ValueError) as error:
+                                reconcile=feedback.get("disposition") == "reconciliation_required",
+                                requirements=[{"check": r.get("check"), "subject_prefix": r.get("subject_prefix")}
+                                              for r in (feedback.get("task") or {}).get("requirements", [])])
+        except (InvalidReceipt, ValueError, AttributeError) as error:
             return out + [f"the receipt: {error}"]
         if feedback.get("source_receipt", {}).get("id") != want["source_receipt"]["id"]:
             out.append("source_receipt is not this receipt")
@@ -321,7 +371,7 @@ SCHEMA = {
     "type": "object",
     "additionalProperties": False,
     "required": ["feedback_id", "schema_version", "chain", "parent", "advisory", "source_receipt",
-                 "source_subject_digest", "findings", "recommended_actions", "verification_requirements",
+                 "source_subject_digest", "findings", "recommended_actions", "verification_requirements", "task",
                  "iteration", "iteration_limit", "disposition"],
     "properties": {
         "feedback_id": _ID,
@@ -345,6 +395,13 @@ SCHEMA = {
             "properties": {"receipt": {"const": receipts.V1}, "subject_must_change": {"const": True},
                            "executed_at_least": _CHECKS, "numbers_at_least": {"enum": list(NUMBERS_RANK)},
                            "verified_outcome": {"const": "PASS"}}},
+        "task": {
+            "type": "object", "additionalProperties": False, "required": ["status", "requirements"],
+            "properties": {"status": {"enum": list(TASK)}, "requirements": {"type": "array", "items": {
+                "type": "object", "additionalProperties": False,
+                "required": ["requirement_id", "check", "subject_prefix", "status"],
+                "properties": {"requirement_id": _ID, "check": {"enum": list(receipts.CHECKS)},
+                               "subject_prefix": _STR, "status": {"enum": list(REQUIREMENT)}}}}}},
         "iteration": {"type": "integer", "minimum": 0},
         "iteration_limit": {"type": "integer", "minimum": 1},
         "disposition": {"enum": list(DISPOSITIONS)},

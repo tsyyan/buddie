@@ -41,11 +41,16 @@ def world(tmp_path, monkeypatch):
     return repo, tmp_path
 
 
-def check(world, text, **kw):
-    """The receipt-v1 of an independent verify run on `text`."""
+def assess(world, text, **kw):
+    """An independent verify run on `text`, in this process (what a chain takes)."""
     repo, tmp = world
     return repair.reverify(text, **{"repos": [repo], "store": tmp / "store", "fetch": False, "now": NOW,
                                     "github": API.get, **kw})
+
+
+def check(world, text, **kw):
+    """The receipt-v1 of assess()."""
+    return receipts.v1(assess(world, text, **kw))
 
 
 def anchor(world, ok=True):
@@ -59,9 +64,9 @@ def by_condition(feedback):
 
 
 def run_once(world, original, corrected, *, limit=1, execution="none", **kw):
-    records, first = tr.start(check(world, original, **kw), iteration_limit=limit)
+    records, first = tr.start(assess(world, original, **kw), iteration_limit=limit)
     got = repair.resolve(records, first, repair.submission(first, original, corrected, execution=execution),
-                         original=original, corrected=corrected, receipt=check(world, corrected, **kw))
+                         original=original, corrected=corrected, assessment=assess(world, corrected, **kw))
     return records, first, got
 
 
@@ -172,9 +177,9 @@ def test_a_failed_correction_spends_the_budget(world):
 
 
 def test_an_unchanged_text_is_no_repair(world):
-    records, first = tr.start(check(world, BAD_Q))
+    records, first = tr.start(assess(world, BAD_Q))
     sub = repair.submission(first, BAD_Q, BAD_Q, execution="succeeded")  # what the agent says changes nothing
-    got = repair.resolve(records, first, sub, original=BAD_Q, corrected=BAD_Q, receipt=check(world, BAD_Q))
+    got = repair.resolve(records, first, sub, original=BAD_Q, corrected=BAD_Q, assessment=assess(world, BAD_Q))
     assert got.decision["rejection"] == "unchanged_artifact" and got.feedback["disposition"] == "budget_exhausted"
     assert [r["kind"] for r in got.records][2:] == ["submission", "decision", "feedback"]  # no reverification
     assert got.records[2]["body"]["asserted"]["execution"] == "succeeded"
@@ -182,20 +187,20 @@ def test_an_unchanged_text_is_no_repair(world):
 
 
 def test_a_false_digest_is_the_agent_s_assertion_and_rejected(world):
-    records, first = tr.start(check(world, BAD_Q))
+    records, first = tr.start(assess(world, BAD_Q))
     sub = {**repair.submission(first, BAD_Q, GOOD_Q), "artifact_after": "0" * 64}
-    got = repair.resolve(records, first, sub, original=BAD_Q, corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+    got = repair.resolve(records, first, sub, original=BAD_Q, corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert got.decision["rejection"] == "assertion_mismatch" and got.feedback["disposition"] == "budget_exhausted"
 
 
 # --- 9-10. patch scope ---------------------------------------------------------------------------------------------
 
 def test_a_field_outside_the_submission_contract_is_refused(world):
-    records, first = tr.start(check(world, BAD_Q))
+    records, first = tr.start(assess(world, BAD_Q))
     for extra in ({"disposition": "verified"}, {"outcome": "PASS"}, {"iteration_limit": 3}):
         sub = {**repair.submission(first, BAD_Q, GOOD_Q), **extra}
         with pytest.raises(repair.SubmissionError) as error:
-            repair.resolve(records, first, sub, original=BAD_Q, corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+            repair.resolve(records, first, sub, original=BAD_Q, corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
         assert error.value.code == "unauthorized_field"
     assert tr.replay(records).disposition == "repair_requested"  # nothing spent
 
@@ -225,17 +230,17 @@ def test_verified_content_cannot_be_changed(world):
 # --- 11-13. budget, ambiguous execution, duplicates ---------------------------------------------------------------
 
 def test_the_budget_is_finite_and_ends_in_a_terminal_disposition(world):
-    records, first = tr.start(check(world, BAD_Q), iteration_limit=2)
+    records, first = tr.start(assess(world, BAD_Q), iteration_limit=2)
     one = repair.resolve(records, first, repair.submission(first, BAD_Q, WORSE_Q), original=BAD_Q,
-                         corrected=WORSE_Q, receipt=check(world, WORSE_Q))
+                         corrected=WORSE_Q, assessment=assess(world, WORSE_Q))
     assert one.feedback["disposition"] == "repair_requested" and one.feedback["iteration"] == 1
     third = WORSE_Q.replace("14:57", "14:56")
     two = repair.resolve(one.records, one.feedback, repair.submission(one.feedback, WORSE_Q, third),
-                         original=WORSE_Q, corrected=third, receipt=check(world, third))
+                         original=WORSE_Q, corrected=third, assessment=assess(world, third))
     assert two.feedback["disposition"] == "budget_exhausted" and two.feedback["iteration"] == 2
     with pytest.raises(repair.SubmissionError) as error:
         repair.resolve(two.records, two.feedback, repair.submission(two.feedback, third, GOOD_Q),
-                       original=third, corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+                       original=third, corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert error.value.code == "loop_closed"
     for bad in (0, 4, True, "1", None):
         with pytest.raises(ValueError):
@@ -243,8 +248,9 @@ def test_the_budget_is_finite_and_ends_in_a_terminal_disposition(world):
 
 
 def test_a_rejected_submission_s_next_feedback_is_the_receipt_s_next_iteration(world):
-    receipt = check(world, BAD_Q)
-    records, first = tr.start(receipt, iteration_limit=2)
+    source = assess(world, BAD_Q)
+    receipt = receipts.v1(source)
+    records, first = tr.start(source, iteration_limit=2)
     got = repair.resolve(records, first, repair.submission(first, BAD_Q, BAD_Q), original=BAD_Q, corrected=BAD_Q)
     assert got.decision["rejection"] == "unchanged_artifact" and got.feedback["disposition"] == "repair_requested"
     assert got.feedback == fb.from_receipt(receipt, iteration=1, iteration_limit=2, parent=first["feedback_id"],
@@ -271,11 +277,11 @@ def test_a_repeated_submission_spends_nothing(world):
     records, first, got = run_once(world, BAD_Q, WORSE_Q, limit=2)
     sub = repair.submission(first, BAD_Q, WORSE_Q)
     with pytest.raises(repair.SubmissionError) as error:
-        repair.resolve(got.records, first, sub, original=BAD_Q, corrected=WORSE_Q, receipt=check(world, WORSE_Q))
+        repair.resolve(got.records, first, sub, original=BAD_Q, corrected=WORSE_Q, assessment=assess(world, WORSE_Q))
     assert error.value.code == "duplicate_submission" and error.value.decision == got.decision
     assert tr.replay(got.records).iteration == 1
     # the same receipt gives the same feedback: a duplicate feedback is the same id, never a second chain step
-    again_records, again = tr.start(check(world, BAD_Q), iteration_limit=2)
+    again_records, again = tr.start(assess(world, BAD_Q), iteration_limit=2)
     assert again == first and again_records == records
 
 
@@ -318,7 +324,7 @@ def test_the_trace_replays_and_refuses_any_change(world):
 
 def test_records_of_another_chain_do_not_mix(world):
     _, _, one = run_once(world, BAD_Q, GOOD_Q)
-    other, other_first = tr.start(check(world, GONE_Q))
+    other, other_first = tr.start(assess(world, GONE_Q))
     with pytest.raises(tr.TraceError):
         tr.replay(other + one.records[2:])
     foreign = {**one.records[2], "seq": 2, "parent": other[-1]["record_id"]}  # in sequence, of the other chain
@@ -328,7 +334,7 @@ def test_records_of_another_chain_do_not_mix(world):
     with pytest.raises(repair.SubmissionError) as error:
         repair.resolve(other, fb.from_receipt(check(world, BAD_Q)),
                        repair.submission(fb.from_receipt(check(world, BAD_Q)), BAD_Q, GOOD_Q),
-                       original=BAD_Q, corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+                       original=BAD_Q, corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert error.value.code == "feedback_mismatch"
 
 
@@ -357,7 +363,7 @@ def test_existing_interfaces_are_unchanged(world, tmp_path, capsys):
 def test_feedback_and_repair_read_no_evidence_and_the_trace_carries_none(world, monkeypatch):
     repo, tmp = world
     original, corrected = f"{BAD_Q} {anchor(world)}", f"{GOOD_Q} {anchor(world)}"
-    receipt, after = check(world, original), check(world, corrected)
+    receipt, after = assess(world, original), assess(world, corrected)
 
     def refuse(*a, **k):
         raise AssertionError("feedback reached for evidence")
@@ -365,7 +371,7 @@ def test_feedback_and_repair_read_no_evidence_and_the_trace_carries_none(world, 
         monkeypatch.setattr(target, name, refuse)
     records, first = tr.start(receipt)
     got = repair.resolve(records, first, repair.submission(first, original, corrected), original=original,
-                         corrected=corrected, receipt=after)
+                         corrected=corrected, assessment=after)
     assert got.feedback["disposition"] == "verified"
     dumped = tr.dumps(got.records)
     for private in (QUOTE, "14:58", "Background paragraph", str(repo), str(tmp), URL, "data.txt"):
@@ -377,37 +383,161 @@ def test_feedback_and_repair_read_no_evidence_and_the_trace_carries_none(world, 
 
 def test_forged_or_mismatched_references_are_refused(world):
     receipt = check(world, BAD_Q)
-    records, first = tr.start(receipt)
+    records, first = tr.start(assess(world, BAD_Q))
     # a feedback changed after it was made
     forged = copy.deepcopy(first)
     forged["source_receipt"]["outcome"] = "PASS"
     assert fb.problems(forged) and fb.problems(first, receipt) == []
     with pytest.raises(repair.SubmissionError) as error:
         repair.resolve(records, forged, repair.submission(forged, BAD_Q, GOOD_Q), original=BAD_Q,
-                       corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+                       corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert error.value.code == "forged_feedback"
     # re-hashed so it holds together alone, it is still not this receipt's feedback, nor the chain's
     forged["feedback_id"] = fb.feedback_id(forged)
     assert fb.problems(forged) == [] and fb.problems(forged, receipt)
     with pytest.raises(repair.SubmissionError):
         repair.resolve(records, forged, repair.submission(forged, BAD_Q, GOOD_Q), original=BAD_Q,
-                       corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+                       corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert fb.problems(first, check(world, GONE_Q))  # another receipt
     # an original text that is not the feedback's
     with pytest.raises(repair.SubmissionError) as error:
         repair.resolve(records, first, repair.submission(first, GONE_Q, GOOD_Q), original=GONE_Q,
-                       corrected=GOOD_Q, receipt=check(world, GOOD_Q))
+                       corrected=GOOD_Q, assessment=assess(world, GOOD_Q))
     assert error.value.code == "artifact_mismatch"
 
-    def attempt(rec):
+    def attempt(a):
         return repair.resolve(records, first, repair.submission(first, BAD_Q, GOOD_Q), original=BAD_Q,
-                              corrected=GOOD_Q, receipt=rec).decision["rejection"]
+                              corrected=GOOD_Q, assessment=a).decision["rejection"]
     assert attempt(None) == "reverification_missing"
-    assert attempt(check(world, f"{GOOD_Q} ")) == "receipt_mismatch"  # a receipt of another text
-    edited = check(world, WORSE_Q)
-    edited["subject"][0]["digest"]["sha256"] = fb.text_digest(GOOD_Q)
-    edited["predicate"]["verification"]["outcome"] = "PASS"  # FAIL findings, PASS outcome: does not hold together
-    assert attempt(edited) == "receipt_invalid"
-    assert attempt(check(world, GOOD_Q, profile="developer")) == "weaker_verification"  # quotes not checked
-    assert attempt(receipts.render(verify.assessment(GOOD_Q, store=world[1] / "store", fetch=False, now=NOW))) \
-        == "receipt_invalid"  # receipt-v0
+    assert attempt(assess(world, f"{GOOD_Q} ")) == "receipt_mismatch"  # a check of another text
+    assert attempt(assess(world, GOOD_Q, profile="developer")) == "weaker_verification"  # quotes not checked
+    # receipts are not taken at all, whatever they say: v0, v1, edited or not (see the forged PASS test)
+    for rec in (check(world, GOOD_Q), receipts.render(assess(world, GOOD_Q))):
+        with pytest.raises(repair.SubmissionError) as error:
+            attempt(rec)
+        assert error.value.code == "untrusted_receipt"
+    with pytest.raises(TypeError):
+        tr.start(receipt)
+
+
+# --- review of PR #59: adversarial regressions ---------------------------------------------------------------------
+
+def test_r1_a_forged_consistent_pass_receipt_cannot_close_a_chain(world):
+    """A receipt is unsigned: a PASS one can be made to hold together for a text that still misquotes. resolve took
+    it at head 644f753 and closed the chain as verified; now only an Assessment made in this process is taken."""
+    wrong = WORSE_Q
+    forged = check(world, GOOD_Q)
+    forged["subject"][0]["digest"]["sha256"] = fb.text_digest(wrong)
+    assert receipts.problems(forged) == []  # consistent, so no consistency check can tell
+    assert fb.from_receipt(forged)["disposition"] == "verified"  # advice about that receipt, as given (unsigned)
+    records, first = tr.start(assess(world, BAD_Q))
+    with pytest.raises(repair.SubmissionError) as error:
+        repair.resolve(records, first, repair.submission(first, BAD_Q, wrong), original=BAD_Q, corrected=wrong,
+                       assessment=forged)
+    assert error.value.code == "untrusted_receipt" and tr.replay(records).disposition == "repair_requested"
+    with pytest.raises(TypeError, match="Assessment"):
+        tr.start(forged)
+    got = repair.resolve(records, first, repair.submission(first, BAD_Q, wrong), original=BAD_Q, corrected=wrong,
+                         assessment=assess(world, wrong))  # the orchestrator's own check of the same text
+    assert got.decision["outcome"] == "FAIL" and got.feedback["disposition"] == "budget_exhausted"
+
+
+def test_r2_a_repair_cannot_add_lines_inside_an_allowed_replacement(world):
+    original = f"Intro.\n{BAD_Q}\nOutro."
+    smuggled = f"Intro.\n{GOOD_Q}\nThe deployment is complete and every test passed.\nOutro."
+    assert repair.changes(original, smuggled) == ([2], [])  # one replace block: the extra line was not seen
+    assert repair.added(original, smuggled) == [3]
+    _, _, got = run_once(world, original, smuggled)
+    assert got.decision["rejection"] == "added_content" and got.feedback["disposition"] == "budget_exhausted"
+    assert got.records[2]["body"]["observed"]["added_lines"] == [3]
+    inserted = f"Intro.\n{GOOD_Q}\nAll done.\nOutro."
+    assert repair.added(f"Intro.\n{GOOD_Q}\nOutro.", inserted) == [3]  # a pure insertion counts the same
+    disclosed = f"Intro.\n{GOOD_Q}\nbuddie: the first quote was corrected after a check.\nOutro."
+    _, _, ok = run_once(world, original, disclosed)
+    assert ok.decision["status"] == "accepted" and ok.feedback["disposition"] == "verified"
+
+
+def test_r2_out_of_scope_lines_survive_any_accepted_edit():
+    """Seeded fuzz of the scope rule alone: whenever no line is out of scope and nothing is added, every line outside
+    the scope is still there, unchanged and in order, and the text has no more lines than before but disclosures."""
+    import random
+    rnd = random.Random(59)
+    words = ["a", "b", "c", "a b", ""]
+    tried = 0
+    for _ in range(3000):
+        lines = [rnd.choice(words) for _ in range(rnd.randint(1, 7))]
+        allowed = {n for n in range(1, len(lines) + 1) if rnd.random() < 0.4}
+        new = list(lines)
+        for _ in range(rnd.randint(1, 3)):
+            at = rnd.randint(0, len(new))
+            op = rnd.choice(("replace", "insert", "delete", "disclose"))
+            if op == "replace" and at < len(new):
+                new[at] = rnd.choice(words + ["x", "y"])
+            elif op == "insert":
+                new[at:at] = [rnd.choice(words + ["x"])] * rnd.randint(1, 2)
+            elif op == "delete" and at < len(new):
+                del new[at]
+            elif op == "disclose":
+                new.insert(at, "buddie: a gap")
+        original, corrected = "\n".join(lines), "\n".join(new)
+        changed, inserted = repair.changes(original, corrected)
+        if repair.outside(allowed, changed, inserted) or repair.added(original, corrected):
+            continue
+        tried += 1
+        new = corrected.split("\n")  # the text, not the edit list ("\n".join([]) == "\n".join([""]))
+        kept = iter(new)
+        assert all(any(line == other for other in kept) for n, line in enumerate(lines, 1) if n not in allowed)
+        assert len([x for x in new if not x.startswith("buddie:")]) <= len(lines)
+    assert tried > 300  # the property was exercised, not skipped
+
+
+def test_r3_removing_a_required_claim_is_not_a_finished_task(world):
+    original = f"Merged: `⚓ pr:o/r#55=merged`\nThe file holds. {anchor(world)}"
+    removed = f"The file holds. {anchor(world)}"
+    # without requirements the report verifies and says nothing of the task; the removal is recorded as such
+    _, _, plain = run_once(world, original, removed)
+    assert plain.feedback["disposition"] == "verified" and plain.feedback["task"]["status"] == "not_stated"
+    assert list(plain.decision["resolved"].values()) == ["removed"]  # was "corrected" by line number at 644f753
+    # with the task's requirement stated by the orchestrator, the same PASS is requirements_unmet
+    need = [{"check": "pr_anchor", "subject_prefix": "pr:o/r#55=merged"}]
+    records, first = tr.start(assess(world, original), requirements=need)
+    assert first["task"]["status"] == "unmet" and first["task"]["requirements"][0]["status"] == "unsupported"
+    got = repair.resolve(records, first, repair.submission(first, original, removed), original=original,
+                         corrected=removed, assessment=assess(world, removed))
+    assert got.decision["outcome"] == "PASS" and got.decision["task"] == "unmet"
+    assert got.feedback["disposition"] == "requirements_unmet"
+    assert got.feedback["task"]["requirements"][0]["status"] == "absent"
+    state = tr.replay(got.records)
+    assert state.task == "unmet" and state.terminal
+    # an honest correction is a correct report of an unfinished task: still not met
+    honest = f"Still open: `⚓ pr:o/r#55=open`\nThe file holds. {anchor(world)}"
+    records, first = tr.start(assess(world, original), requirements=need)
+    reported = repair.resolve(records, first, repair.submission(first, original, honest), original=original,
+                              corrected=honest, assessment=assess(world, honest))
+    assert reported.decision["outcome"] == "PASS" and reported.feedback["disposition"] == "requirements_unmet"
+    # the agent cannot state or drop requirements
+    with pytest.raises(repair.SubmissionError) as error:
+        repair.resolve(records, first, {**repair.submission(first, original, removed), "requirements": []},
+                       original=original, corrected=removed, assessment=assess(world, removed))
+    assert error.value.code == "unauthorized_field"
+    for bad in ([{"check": "pr_anchor"}], [{"check": "nope", "subject_prefix": "x"}], "pr_anchor"):
+        with pytest.raises(ValueError):
+            fb.check_requirements(bad)
+
+
+def test_r4_a_verified_claim_must_stay_where_it_was(world):
+    ok, broken = anchor(world), anchor(world, ok=False)
+    original = f"Fix {broken} here; holds {ok}\nmiddle\nSecond {broken}"
+    # moved from its own line to another scoped line: still in the text, not where it was (taken at 644f753)
+    moved = f"Fix removed here\nmiddle\nSecond removed; holds {ok}"
+    assert repair.lost_verified(fb.from_receipt(check(world, original)), original, moved)
+    _, _, got = run_once(world, original, moved)
+    assert got.decision["rejection"] == "verified_content_changed"
+    # its words kept in place, but no longer an anchor: only the new check can tell
+    defused = f"Fix it here; holds {ok.replace(chr(0x2693) + ' ', '')}\nmiddle\nSecond removed"
+    _, _, got = run_once(world, original, defused)
+    assert got.decision["rejection"] == "verified_content_changed"
+    # kept on its own line among other words: accepted. The sentence around a claim is not judged (documented)
+    reworded = f"Unrelated aside; holds {ok}\nmiddle\nSecond removed"
+    _, _, got = run_once(world, original, reworded)
+    assert got.decision["status"] == "accepted" and got.feedback["disposition"] == "verified"

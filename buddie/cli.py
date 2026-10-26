@@ -36,9 +36,10 @@
                                     remote MCP server over Streamable HTTP at /mcp (remote.py: no files, no
                                     local repos, public addresses only)
   buddie hook                       Claude Code hook: reads the event on stdin, exit 2 blocks a FAIL answer
-  buddie feedback RECEIPT.json [--limit 1] [--json FILE]
+  buddie feedback RECEIPT.json [--limit 1] [--require CHECK=PREFIX ...] [--json FILE]
                                     feedback-v1 for a receipt-v1 (docs/feedback.md): advice for whoever corrects the
-                                    text, never a new verdict; exit 2 when the receipt is not a consistent receipt-v1
+                                    text, never a new verdict, and about that file only (a receipt is unsigned);
+                                    exit 2 when the receipt is not a consistent receipt-v1
 """
 from __future__ import annotations
 
@@ -258,11 +259,18 @@ def _module_ids(spec: str) -> list[str]:
 
 
 def cmd_feedback(args) -> int:
-    """feedback-v1 of a receipt-v1 file (buddie/feedback.py): reads the receipt only, runs no check."""
+    """feedback-v1 of a receipt-v1 file (buddie/feedback.py): reads the receipt only, runs no check. The file is
+    unsigned: the feedback says what that receipt asks for, not that buddie made it."""
     from buddie import feedback
     try:
         receipt = json.loads(Path(args.receipt).read_text(encoding="utf-8"))
-        out = feedback.from_receipt(receipt, iteration_limit=args.limit)
+        required = []
+        for spec in args.require or []:
+            check, sep, prefix = spec.partition("=")
+            if not sep:
+                raise ValueError(f"--require is CHECK=PREFIX (pr_anchor=pr:o/r#59=merged), not {spec!r}")
+            required.append({"check": check, "subject_prefix": prefix})
+        out = feedback.from_receipt(receipt, iteration_limit=args.limit, requirements=required)
     except (OSError, json.JSONDecodeError, feedback.InvalidReceipt, ValueError) as error:
         print(f"buddie feedback: {error}", file=sys.stderr)
         return 2
@@ -629,6 +637,8 @@ def main(argv: list[str] | None = None) -> int:
     fe = sub.add_parser("feedback", help="feedback-v1 for a receipt-v1 (advice, not a verdict)")
     fe.add_argument("receipt", help="a receipt-v1 JSON file (buddie verify --receipt v1 --json FILE)")
     fe.add_argument("--limit", type=int, default=1, help="repair iterations allowed (1 to 3, default 1)")
+    fe.add_argument("--require", action="append", metavar="CHECK=PREFIX",
+                    help="a task requirement: a supported claim of CHECK whose subject starts with PREFIX")
     fe.add_argument("--json", help="write the feedback here instead of stdout")
     fe.set_defaults(func=cmd_feedback)
     sub.add_parser("hook", help="Claude Code hook on stdin").set_defaults(func=cmd_hook)

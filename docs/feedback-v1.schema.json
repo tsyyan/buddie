@@ -15,6 +15,7 @@
   "findings",
   "recommended_actions",
   "verification_requirements",
+  "task",
   "iteration",
   "iteration_limit",
   "disposition"
@@ -172,6 +173,67 @@
     }
    }
   },
+  "task": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "status",
+    "requirements"
+   ],
+   "properties": {
+    "status": {
+     "enum": [
+      "not_stated",
+      "met",
+      "unmet"
+     ]
+    },
+    "requirements": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "requirement_id",
+       "check",
+       "subject_prefix",
+       "status"
+      ],
+      "properties": {
+       "requirement_id": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+       },
+       "check": {
+        "enum": [
+         "quote",
+         "number",
+         "file_anchor",
+         "commit_anchor",
+         "fact_anchor",
+         "pr_anchor",
+         "ci_anchor",
+         "run_anchor",
+         "choice_anchor",
+         "work_claim",
+         "other_anchor"
+        ]
+       },
+       "subject_prefix": {
+        "type": "string"
+       },
+       "status": {
+        "enum": [
+         "met",
+         "unsupported",
+         "absent"
+        ]
+       }
+      }
+     }
+    }
+   }
+  },
   "iteration": {
    "type": "integer",
    "minimum": 0
@@ -184,6 +246,7 @@
    "enum": [
     "repair_requested",
     "verified",
+    "requirements_unmet",
     "nothing_verified",
     "not_actionable",
     "budget_exhausted",

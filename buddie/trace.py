@@ -16,6 +16,10 @@ What a record says is kept apart by `basis`:
   derived           what follows from the records before it (feedback, a decision): a recorded decision is a
                     decision under these rules, not proof that the text is true
 
+A chain starts only from a verify.Assessment made in this process (`start`), never from a receipt read from a
+file, an argument or an agent: a receipt is unsigned, so one that crossed a process boundary can be made to hold
+together and say PASS. The trace itself is unsigned too: whoever can write its lines can write a consistent history.
+
 Records hold identifiers, digests, counts and codes, never the text, a quotation, a page or a local path: a trace
 can be kept beside a project's history without carrying its evidence. Persist it with `dumps` (one canonical JSON
 object per line) wherever the caller keeps such lines; nothing here writes a file.
@@ -71,12 +75,26 @@ def feedback_body(feedback: dict) -> dict:
             "iteration_limit": feedback["iteration_limit"], "disposition": feedback["disposition"],
             "actions": [a["action_id"] for a in feedback["recommended_actions"]],
             "open_findings": [f["finding_id"] for f in feedback["findings"] if f["actionable"]],
-            "conditions": {c: sum(f["condition"] == c for f in feedback["findings"]) for c in fb.CONDITIONS}}
+            "conditions": {c: sum(f["condition"] == c for f in feedback["findings"]) for c in fb.CONDITIONS},
+            "task": {"status": feedback["task"]["status"],
+                     "requirements": {r["requirement_id"]: r["status"] for r in feedback["task"]["requirements"]}}}
 
 
-def start(receipt: dict, *, iteration_limit: int = fb.DEFAULT_LIMIT) -> tuple[tuple, dict]:
-    """A new chain from a receipt-v1: (records, its first feedback)."""
-    first = fb.from_receipt(receipt, iteration_limit=iteration_limit)
+def assessed(assessment) -> dict:
+    """The receipt-v1 of a verify.Assessment made in this process; TypeError for anything else (a receipt dict is
+    not evidence that buddie made it)."""
+    from buddie import verify
+    if not isinstance(assessment, verify.Assessment):
+        raise TypeError(f"a chain takes a verify.Assessment run in this process, not {type(assessment).__name__}: "
+                        "a receipt from a file, an argument or an agent is unsigned and may be forged")
+    return receipts.v1(assessment)
+
+
+def start(assessment, *, iteration_limit: int = fb.DEFAULT_LIMIT, requirements=None) -> tuple[tuple, dict]:
+    """A new chain from a verify.Assessment of the original text (repair.reverify makes one): (records, its first
+    feedback). requirements: the task's, stated by the orchestrator (feedback.check_requirements)."""
+    receipt = assessed(assessment)
+    first = fb.from_receipt(receipt, iteration_limit=iteration_limit, requirements=requirements)
     records = append((), "verification", 0, receipt_body(receipt))
     return append(records, "feedback", 0, feedback_body(first)), first
 
@@ -92,6 +110,11 @@ class State:
     answered: dict = field(default_factory=dict)   # feedback_id -> the submission's digest
     decisions: tuple = ()                          # each decision record's body, in order
     feedbacks: tuple = ()                          # each feedback record's body, in order
+
+    @property
+    def task(self) -> str:
+        """not_stated, met or unmet: the newest feedback's task status (a verified report is not a done task)."""
+        return self.feedbacks[-1]["task"]["status"]
 
 
 def replay(records) -> State:
@@ -133,6 +156,8 @@ def replay(records) -> State:
                 raise TraceError(f"record {i}: iterations are not consecutive")
             if body["iteration"] > body.get("iteration_limit", 0):
                 raise TraceError(f"record {i}: past the repair budget")
+            if feedbacks and set(body["task"]["requirements"]) != set(feedbacks[0]["task"]["requirements"]):
+                raise TraceError(f"record {i}: the task requirements changed within the chain")
             feedbacks.append(body)
         if kind == "submission":
             if feedbacks[-1]["disposition"] != "repair_requested":
