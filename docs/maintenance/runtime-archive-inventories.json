@@ -1,0 +1,3277 @@
+{
+  "purpose": "Review builds only; never replace published PyPI 2.0.1. Timestamps in wheel/sdist/MCPB are not normalized.",
+  "base_commit": "0a638d354c03cc44ea806a72547d084c122cd034",
+  "after_build_source_commit": "a40ded07c709f589cbe5667553e5790370fd582b",
+  "before": [
+    {
+      "artifact": "buddie-2.0.1-py3-none-any.whl",
+      "size": 304828,
+      "sha256": "bad6eb8b645698ec1c7ef33453dd57683c27ae58f2921ccc7fe6fac19b0ce4ca",
+      "file_count": 57,
+      "members": [
+        {
+          "path": "buddie/__init__.py",
+          "size": 130,
+          "mode": "0o100666",
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 63,
+          "mode": "0o100666",
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 17259,
+          "mode": "0o100666",
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13935,
+          "mode": "0o100666",
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 39444,
+          "mode": "0o100666",
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 17266,
+          "mode": "0o100666",
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6961,
+          "mode": "0o100666",
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9902,
+          "mode": "0o100666",
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12996,
+          "mode": "0o100666",
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43925,
+          "mode": "0o100666",
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 25191,
+          "mode": "0o100666",
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27925,
+          "mode": "0o100666",
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 799,
+          "mode": "0o100666",
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9608,
+          "mode": "0o100666",
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27757,
+          "mode": "0o100666",
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10771,
+          "mode": "0o100666",
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22833,
+          "mode": "0o100666",
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4974,
+          "mode": "0o100666",
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14908,
+          "mode": "0o100666",
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39953,
+          "mode": "0o100666",
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 14136,
+          "mode": "0o100666",
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2558,
+          "mode": "0o100666",
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 33444,
+          "mode": "0o100666",
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31480,
+          "mode": "0o100666",
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4672,
+          "mode": "0o100666",
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11552,
+          "mode": "0o100666",
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19742,
+          "mode": "0o100666",
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42921,
+          "mode": "0o100666",
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8282,
+          "mode": "0o100666",
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27731,
+          "mode": "0o100666",
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20547,
+          "mode": "0o100666",
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19459,
+          "mode": "0o100666",
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 21231,
+          "mode": "0o100666",
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9203,
+          "mode": "0o100666",
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15517,
+          "mode": "0o100666",
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8694,
+          "mode": "0o100666",
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8205,
+          "mode": "0o100666",
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 26086,
+          "mode": "0o100666",
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10918,
+          "mode": "0o100666",
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 27058,
+          "mode": "0o100666",
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11272,
+          "mode": "0o100666",
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 113,
+          "mode": "0o100666",
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 66,
+          "mode": "0o100666",
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17710,
+          "mode": "0o100666",
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 31518,
+          "mode": "0o100666",
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11406,
+          "mode": "0o100666",
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33713,
+          "mode": "0o100666",
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 20042,
+          "mode": "0o100666",
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 11186,
+          "mode": "0o100666",
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "mode": "0o100666",
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/licenses/LICENSE",
+          "size": 10351,
+          "mode": "0o100666",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/licenses/NOTICE",
+          "size": 1481,
+          "mode": "0o100666",
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/METADATA",
+          "size": 13013,
+          "mode": "0o100666",
+          "sha256": "a5fe1c1ba0af92910058be58951cad5fca11c05d7d0aa3c45ff2521f454bcc91"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/WHEEL",
+          "size": 91,
+          "mode": "0o100666",
+          "sha256": "98e75747d0b7c0c568bfb71263c3d8f970b3a374a6996087bc642be5cb09a1aa"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/entry_points.txt",
+          "size": 86,
+          "mode": "0o100666",
+          "sha256": "2444f288bfd10e515356abe57227af9045679038cbd193d623c47bb64f38ffdb"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/top_level.txt",
+          "size": 7,
+          "mode": "0o100666",
+          "sha256": "f796d23cb5c2bafd37acdbdfa702f13ffd9f90e69235d0a38b157c74068a8cad"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/RECORD",
+          "size": 4390,
+          "mode": "0o100664",
+          "sha256": "dfd18d5effa8e31f28efe7873962490b5acb132881d6d4a66f9a8b394975f821"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-2.0.1.mcpb",
+      "size": 373335,
+      "sha256": "61aecac79aa53113c4fa08f8ef098d8af345092033fa8d3bcafed11a21724c8d",
+      "file_count": 63,
+      "members": [
+        {
+          "path": "assets/brand/buddie-logo-dark.png",
+          "size": 11035,
+          "mode": "0o0",
+          "sha256": "ac908d6e364b0eb4ff2838ac71144326fe5fce7aa8521ee2ac74ed7a2df8caec"
+        },
+        {
+          "path": "assets/brand/buddie-logo.png",
+          "size": 16287,
+          "mode": "0o0",
+          "sha256": "f5450bf14722c17469124170f4f881482e535a2cacb3eb1f6a50e32a8812ee0a"
+        },
+        {
+          "path": "assets/brand/readme-hero.png",
+          "size": 30630,
+          "mode": "0o0",
+          "sha256": "984804b9d47b4f137b77586ce39c51329837240db36d8579a8e54654b3f1fd4e"
+        },
+        {
+          "path": "assets/demo/environment.svg",
+          "size": 3135,
+          "mode": "0o0",
+          "sha256": "37fedfb6554248f523d2aa617c18edf10a9dc4ea875ca9669ea8bdd1ec10d908"
+        },
+        {
+          "path": "assets/demo/verification.svg",
+          "size": 2503,
+          "mode": "0o0",
+          "sha256": "bd00ae9553bb573cfd43267578de66247bc4d2b3b563388d2edd178a617afb68"
+        },
+        {
+          "path": "assets/icon.png",
+          "size": 3086,
+          "mode": "0o0",
+          "sha256": "31acf2dee7f3fbee1638b1878bfe45036892025c3098c69e50901e6fb6d6035b"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 17259,
+          "mode": "0o0",
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13935,
+          "mode": "0o0",
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 39444,
+          "mode": "0o0",
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 17266,
+          "mode": "0o0",
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6961,
+          "mode": "0o0",
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9902,
+          "mode": "0o0",
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12996,
+          "mode": "0o0",
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43925,
+          "mode": "0o0",
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 25191,
+          "mode": "0o0",
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27925,
+          "mode": "0o0",
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 799,
+          "mode": "0o0",
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9608,
+          "mode": "0o0",
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27757,
+          "mode": "0o0",
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10771,
+          "mode": "0o0",
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22833,
+          "mode": "0o0",
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4974,
+          "mode": "0o0",
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14908,
+          "mode": "0o0",
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39953,
+          "mode": "0o0",
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 14136,
+          "mode": "0o0",
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2558,
+          "mode": "0o0",
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 33444,
+          "mode": "0o0",
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31480,
+          "mode": "0o0",
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4672,
+          "mode": "0o0",
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11552,
+          "mode": "0o0",
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19742,
+          "mode": "0o0",
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42921,
+          "mode": "0o0",
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8282,
+          "mode": "0o0",
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27731,
+          "mode": "0o0",
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20547,
+          "mode": "0o0",
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19459,
+          "mode": "0o0",
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 21231,
+          "mode": "0o0",
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9203,
+          "mode": "0o0",
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15517,
+          "mode": "0o0",
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8694,
+          "mode": "0o0",
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8205,
+          "mode": "0o0",
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 26086,
+          "mode": "0o0",
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10918,
+          "mode": "0o0",
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17710,
+          "mode": "0o0",
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 31518,
+          "mode": "0o0",
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11406,
+          "mode": "0o0",
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33713,
+          "mode": "0o0",
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 20042,
+          "mode": "0o0",
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 11186,
+          "mode": "0o0",
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "mode": "0o0",
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 113,
+          "mode": "0o0",
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 66,
+          "mode": "0o0",
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 27058,
+          "mode": "0o0",
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11272,
+          "mode": "0o0",
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie/__init__.py",
+          "size": 130,
+          "mode": "0o0",
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 63,
+          "mode": "0o0",
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "LICENSE",
+          "size": 10351,
+          "mode": "0o0",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "manifest.json",
+          "size": 4134,
+          "mode": "0o0",
+          "sha256": "9aa2f9211c9dd4b0e6539e65bf847a08b86b479aff39c87c417d000e3665e46a"
+        },
+        {
+          "path": "NOTICE",
+          "size": 1481,
+          "mode": "0o0",
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "PRIVACY.md",
+          "size": 10369,
+          "mode": "0o0",
+          "sha256": "a745ed5dd25fe9cacc8f9b4dfdd21b61e1a48c6062d8cd90741959bfbf76d98a"
+        },
+        {
+          "path": "README.md",
+          "size": 11476,
+          "mode": "0o0",
+          "sha256": "afdf44487724194d59ca499c6360f5454fdc15ed4bb31b49940cb354a044a00b"
+        },
+        {
+          "path": "run.py",
+          "size": 388,
+          "mode": "0o0",
+          "sha256": "c587388fcc20e679f7e9306bcfe8ffd5097264214ad3f2e86026f29d4339720b"
+        },
+        {
+          "path": "SECURITY.md",
+          "size": 1830,
+          "mode": "0o0",
+          "sha256": "268b28a0f124ebc6d6750e8fa321af63b119a75014849af1086ab782d7447b4d"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-2.0.1.tar.gz",
+      "size": 305722,
+      "sha256": "3e86b88bfb5609190362d9720f0607e8ee7dc4efd751f783e73ae68fcff487ad",
+      "file_count": 66,
+      "members": [
+        {
+          "path": "buddie-2.0.1",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/CHANGELOG.md",
+          "size": 53857,
+          "type": "0",
+          "sha256": "ea7905fe3fa3c2e922314c4378c704b642cc9b870c1d9c2cd1edf56f851e5799"
+        },
+        {
+          "path": "buddie-2.0.1/LICENSE",
+          "size": 10351,
+          "type": "0",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "buddie-2.0.1/MANIFEST.in",
+          "size": 316,
+          "type": "0",
+          "sha256": "dd31fb5417ffdb4c448899f1ceca364358697814ab1ff6c66a96fef2e0261a31"
+        },
+        {
+          "path": "buddie-2.0.1/NOTICE",
+          "size": 1481,
+          "type": "0",
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "buddie-2.0.1/PKG-INFO",
+          "size": 13013,
+          "type": "0",
+          "sha256": "a5fe1c1ba0af92910058be58951cad5fca11c05d7d0aa3c45ff2521f454bcc91"
+        },
+        {
+          "path": "buddie-2.0.1/PRIVACY.md",
+          "size": 10369,
+          "type": "0",
+          "sha256": "a745ed5dd25fe9cacc8f9b4dfdd21b61e1a48c6062d8cd90741959bfbf76d98a"
+        },
+        {
+          "path": "buddie-2.0.1/README.md",
+          "size": 11476,
+          "type": "0",
+          "sha256": "afdf44487724194d59ca499c6360f5454fdc15ed4bb31b49940cb354a044a00b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie/__init__.py",
+          "size": 130,
+          "type": "0",
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/__main__.py",
+          "size": 63,
+          "type": "0",
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/anchors.py",
+          "size": 17259,
+          "type": "0",
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/chains.py",
+          "size": 13935,
+          "type": "0",
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/cli.py",
+          "size": 39444,
+          "type": "0",
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/config.py",
+          "size": 17266,
+          "type": "0",
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/context.py",
+          "size": 6961,
+          "type": "0",
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/core.py",
+          "size": 9902,
+          "type": "0",
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/decisions.py",
+          "size": 12996,
+          "type": "0",
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/diagnostics.py",
+          "size": 43925,
+          "type": "0",
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/effects.py",
+          "size": 25191,
+          "type": "0",
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/environment.py",
+          "size": 27925,
+          "type": "0",
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/event.py",
+          "size": 799,
+          "type": "0",
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/evidence.py",
+          "size": 9608,
+          "type": "0",
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/feedback.py",
+          "size": 27757,
+          "type": "0",
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/findings.py",
+          "size": 10771,
+          "type": "0",
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/freshness.py",
+          "size": 22833,
+          "type": "0",
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/github_report.py",
+          "size": 4974,
+          "type": "0",
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/github_sources.py",
+          "size": 14908,
+          "type": "0",
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/hook.py",
+          "size": 39953,
+          "type": "0",
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/journal.py",
+          "size": 14136,
+          "type": "0",
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/logbook.py",
+          "size": 2558,
+          "type": "0",
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/mandate.py",
+          "size": 33444,
+          "type": "0",
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/mcp.py",
+          "size": 31480,
+          "type": "0",
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/modules.py",
+          "size": 4672,
+          "type": "0",
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/patterns.py",
+          "size": 11552,
+          "type": "0",
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/policy.py",
+          "size": 19742,
+          "type": "0",
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/probes.py",
+          "size": 42921,
+          "type": "0",
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/profiles.py",
+          "size": 8282,
+          "type": "0",
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/promises.py",
+          "size": 27731,
+          "type": "0",
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/receipts.py",
+          "size": 20547,
+          "type": "0",
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/remote.py",
+          "size": 19459,
+          "type": "0",
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/repair.py",
+          "size": 21231,
+          "type": "0",
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/resolved.py",
+          "size": 9203,
+          "type": "0",
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/runner.py",
+          "size": 15517,
+          "type": "0",
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/stores.py",
+          "size": 8694,
+          "type": "0",
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/suggest.py",
+          "size": 8205,
+          "type": "0",
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/summary.py",
+          "size": 26086,
+          "type": "0",
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/trace.py",
+          "size": 10918,
+          "type": "0",
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/__init__.py",
+          "size": 113,
+          "type": "0",
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/__main__.py",
+          "size": 66,
+          "type": "0",
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/access.py",
+          "size": 17710,
+          "type": "0",
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/check.py",
+          "size": 31518,
+          "type": "0",
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/cli.py",
+          "size": 11406,
+          "type": "0",
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/numbers.py",
+          "size": 33713,
+          "type": "0",
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/report.py",
+          "size": 20042,
+          "type": "0",
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/store.py",
+          "size": 11186,
+          "type": "0",
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "type": "0",
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verify.py",
+          "size": 27058,
+          "type": "0",
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/winacl.py",
+          "size": 11272,
+          "type": "0",
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/PKG-INFO",
+          "size": 13013,
+          "type": "0",
+          "sha256": "a5fe1c1ba0af92910058be58951cad5fca11c05d7d0aa3c45ff2521f454bcc91"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/SOURCES.txt",
+          "size": 1246,
+          "type": "0",
+          "sha256": "da9d7f85c3eb09638c159b1fde504c6ed18cc98dd897a45cc3b5f28b8963da22"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/dependency_links.txt",
+          "size": 1,
+          "type": "0",
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/entry_points.txt",
+          "size": 86,
+          "type": "0",
+          "sha256": "2444f288bfd10e515356abe57227af9045679038cbd193d623c47bb64f38ffdb"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/requires.txt",
+          "size": 22,
+          "type": "0",
+          "sha256": "0e68a7e5ffe6d727370d82abc89c52d16ae075c8c264152311fd95f62cbcd18c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/top_level.txt",
+          "size": 7,
+          "type": "0",
+          "sha256": "f796d23cb5c2bafd37acdbdfa702f13ffd9f90e69235d0a38b157c74068a8cad"
+        },
+        {
+          "path": "buddie-2.0.1/pyproject.toml",
+          "size": 1920,
+          "type": "0",
+          "sha256": "f84ba21fc4a23a1219c2b5fffd43e850d51a23a478b4873a3f9a1a2ee70f90d2"
+        },
+        {
+          "path": "buddie-2.0.1/run.py",
+          "size": 388,
+          "type": "0",
+          "sha256": "c587388fcc20e679f7e9306bcfe8ffd5097264214ad3f2e86026f29d4339720b"
+        },
+        {
+          "path": "buddie-2.0.1/setup.cfg",
+          "size": 42,
+          "type": "0",
+          "sha256": "a29823dd9fbb34b0b00c45fe5823d7c25a3133805e072cad4920cf76dee85bfa"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-plugin-2.0.1.zip",
+      "size": 904599,
+      "sha256": "c7fb87e1e91b0c611c02ccd0649adbc59b2f0ea4a2b0136c50f3c112ee11e11f",
+      "file_count": 66,
+      "members": [
+        {
+          "path": ".claude-plugin/marketplace.json",
+          "size": 552,
+          "mode": "0o100644",
+          "sha256": "3ba8688dde46a4875b779167323343b17d00141c5c6463b66ce78e31efb853fa"
+        },
+        {
+          "path": ".claude-plugin/plugin.json",
+          "size": 1676,
+          "mode": "0o100644",
+          "sha256": "c2e72c4e0bacfef56878be038653a2252e2c1fa0965c33c8e4752a78d3f98371"
+        },
+        {
+          "path": ".mcp.json",
+          "size": 255,
+          "mode": "0o100644",
+          "sha256": "bcfda223067e60c6e9dbf792b018cfb89484290c971ac61efa98c764780684c4"
+        },
+        {
+          "path": "LICENSE",
+          "size": 10174,
+          "mode": "0o100644",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "NOTICE",
+          "size": 1460,
+          "mode": "0o100644",
+          "sha256": "e4d1a0f90a03f4a6881447ef3273c22524864e2bd151ad43ae840b8e0120bd92"
+        },
+        {
+          "path": "PRIVACY.md",
+          "size": 10267,
+          "mode": "0o100644",
+          "sha256": "78486d21548b20eabc22e35704fb266e4e4cdce860ca74d6ff5f8bff4db4a42f"
+        },
+        {
+          "path": "README.md",
+          "size": 11285,
+          "mode": "0o100644",
+          "sha256": "67831bd492b8c99f9c75aeeb15cb97a87add3cf93945ddbf3998a8b160232517"
+        },
+        {
+          "path": "assets/icon.png",
+          "size": 3086,
+          "mode": "0o100644",
+          "sha256": "31acf2dee7f3fbee1638b1878bfe45036892025c3098c69e50901e6fb6d6035b"
+        },
+        {
+          "path": "buddie/__init__.py",
+          "size": 127,
+          "mode": "0o100644",
+          "sha256": "7c43b8670cbac147fa6359c855c7e836e8b8c5eb8f5d1884ef15aef8e8ddcbc6"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 58,
+          "mode": "0o100644",
+          "sha256": "9ef66f92d947bf6f5b1f44e660564dc9d58259d55d8fb587296d39ae040d0bd4"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 16936,
+          "mode": "0o100644",
+          "sha256": "b72898b2f84b55887da2303c2e74b07ebe4e4024bb7b3b5d86cd22935490e9ca"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13654,
+          "mode": "0o100644",
+          "sha256": "e5bdec1623136d2ca95e3d9e4960213fcf6f00b7ad750bc31590c4e1f6ce90de"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 38788,
+          "mode": "0o100644",
+          "sha256": "2b274315b7732d66dcda451a89a3edcc52ffe381c77baf69d261410deb65ca8a"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 16882,
+          "mode": "0o100644",
+          "sha256": "90641147befb34b574000b1708b6e271499b71232235841f7e4a0d3fbf36b7ec"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6837,
+          "mode": "0o100644",
+          "sha256": "5988294f65d603ff42ab9faaf5724106cca4549bf0bcc143cb3c1f16b8dd47f6"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9704,
+          "mode": "0o100644",
+          "sha256": "a1cf3c72f21f618eff16e8b914b90dbfc0ce6243c75cc0ff3605a99cc1ce8e14"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12736,
+          "mode": "0o100644",
+          "sha256": "048d76918d21eadcbc97860f779f868e8c0a5f4da6784a88aef72bebd175e738"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43152,
+          "mode": "0o100644",
+          "sha256": "2273433001bd6ee3fa7635f5a1c7f90826cdf7fd890bb747b1ef2742c2ad58ac"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 24753,
+          "mode": "0o100644",
+          "sha256": "328ccd7c527742c592750e036eca01330e90d149d21cc33b7c27bf599d2fc365"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27414,
+          "mode": "0o100644",
+          "sha256": "d02d378cf916ddb0a3f3c69a62f0f5e94ad1bb7248197fc5d0f2e5bd5a143757"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 781,
+          "mode": "0o100644",
+          "sha256": "2a16ff82e6d5d9e050e1f3f7675d2e93a44b6a630d319319e06b0a45f1b80f5b"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9420,
+          "mode": "0o100644",
+          "sha256": "a6e9ab88c05b71f228972e40626099317eb3b36be7c2bd9315fb0b7beb6f5700"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27307,
+          "mode": "0o100644",
+          "sha256": "72a7b1623fc3dcef76cde02b7ea0a85354ae42da9ad72ebac56dc37c34fa4abd"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10584,
+          "mode": "0o100644",
+          "sha256": "bd89bfd81dda7cf5083e91746ee8a773d153a5fdc834f90ec8298dd2c6ae7324"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22420,
+          "mode": "0o100644",
+          "sha256": "4848a1043434b2d9f01870ec5f7d99615c60143a5a08309d26a280fce0de30b7"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4866,
+          "mode": "0o100644",
+          "sha256": "531633ded99ff9734bf4f0eb09f584bd45505f5fec440acaa2fa4b9e0c13e16d"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14618,
+          "mode": "0o100644",
+          "sha256": "8d713e3d40e0eac6058c1fa96ff60afb04941fad253980d40ef24d455ac67dee"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39309,
+          "mode": "0o100644",
+          "sha256": "b7f3c8076a6aa78fc521513299e1da8a7cc26af23459e0d1c86c16985e0c268a"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 13846,
+          "mode": "0o100644",
+          "sha256": "f715d3c0406daec0a8e88e2e97d3c04092e80d5d1a512118b5f8309fd8106028"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2500,
+          "mode": "0o100644",
+          "sha256": "207f27c1fb5c71426886fbb853993abcf3a054837fe3365d0bb29f0c330895af"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 32812,
+          "mode": "0o100644",
+          "sha256": "ec273104fb4614a58597e93ed651ce2657c25c0541964cf572987c7a7e3e2e55"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31007,
+          "mode": "0o100644",
+          "sha256": "31ed178594e229f21b417f8b460df0c04913c4cf875ec140f026fa5652c6fce5"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4574,
+          "mode": "0o100644",
+          "sha256": "590ccc6255b58c149d09c54e0bbf3ba35b68718cc5e8025ee59e6bbe1e849401"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11271,
+          "mode": "0o100644",
+          "sha256": "daa0c339f195ae7819a9a36a9a9e01483556e0914968b6cf170451d4fde642a6"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19406,
+          "mode": "0o100644",
+          "sha256": "4fa69df35fb3b855c65d495a9f087650d693fb787a9b39cc4f6b009f588a62a3"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42092,
+          "mode": "0o100644",
+          "sha256": "4b3a5e0cdd31ad7bf2a4dbadda68819a64b1fa27a876aecb7c97e4836a53a6bc"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8128,
+          "mode": "0o100644",
+          "sha256": "1d7b22c64b3312fad54f69a1fb9ecc5f1938cc8cb986408f77662afafdb12078"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27202,
+          "mode": "0o100644",
+          "sha256": "514073f67a160e5ef1afff6f561cf559daa5062de4bfd994aa54349d7629073d"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20204,
+          "mode": "0o100644",
+          "sha256": "fcd808bdbef38d1ac175521d9de5fd55992e0f74c84e289b2e33fd8ab50c9ad1"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19055,
+          "mode": "0o100644",
+          "sha256": "e265634ee5d7765cc521492d82eda84eaa3bf3121c0b5e3c30400365553d6969"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 20859,
+          "mode": "0o100644",
+          "sha256": "91f5c113a899a4d5c9e5393521339dc5134c08cce600c21c14340d105f48e1bf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9036,
+          "mode": "0o100644",
+          "sha256": "72b596630beb569ce0e479b49d58a83deee54dd91e22e0e57d79d255f58032cd"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15212,
+          "mode": "0o100644",
+          "sha256": "fad359a00d127255ac12ca3b0818b056f0704459c2e0431e607954e49bd90b2d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8516,
+          "mode": "0o100644",
+          "sha256": "cf299d759dc67332d16612aed4b5c8d135a76acbc35597f69ed25cc843fb818d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8031,
+          "mode": "0o100644",
+          "sha256": "28efaa5ec4a75c940eadcc321d28d8621c402527cd27e345143e2d1df5648eac"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 25596,
+          "mode": "0o100644",
+          "sha256": "a96905430b6f2db73a7cfe314560c35dedc18334a4e88e4fd2d56be4fd5807de"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10734,
+          "mode": "0o100644",
+          "sha256": "5b41e282c00eed752b8b91c770b565a8a0670498c57c293eeb2ae115769ba88a"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 110,
+          "mode": "0o100644",
+          "sha256": "26df69a6851ca7755cf9cc616b1480683d4e119e691bd712cab90d75347734ae"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 63,
+          "mode": "0o100644",
+          "sha256": "3b961fcf7d26612c6b9c8787f23dc1e9b2298a66b4729d8be8ab7bdb72653a6f"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17368,
+          "mode": "0o100644",
+          "sha256": "a451221147df302096042b8910e6946c48fd4459d62a9ae1828d111d3df612cf"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 30936,
+          "mode": "0o100644",
+          "sha256": "72ec3b800abbe14a5aa0d40837d2bc44c63e47c47d249fb4888dafe03caf7301"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11178,
+          "mode": "0o100644",
+          "sha256": "2717abd3f767156ffe9dc45b060cd0abe1024db2521930906e6ebf618eba5260"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33155,
+          "mode": "0o100644",
+          "sha256": "16ab5ce78f3f16cc9eb7858759ed1a46c3d0bde70369ba62e506619dea40aa40"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 19708,
+          "mode": "0o100644",
+          "sha256": "1641ee593a31fe28d170a6902c3ee6e94c4de838cd7215fa00666a54eeea3f36"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 10963,
+          "mode": "0o100644",
+          "sha256": "6292a330ca53cec422e85d36235265613ccf14c2ec1f4d79dd75902c638a3bed"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 11844,
+          "mode": "0o100644",
+          "sha256": "e91c64f6198fcf2ee2f74e6f84011735235a228afe56de984ddefa9528da9587"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 26655,
+          "mode": "0o100644",
+          "sha256": "0b7a8a0f5a2bbb3b265e97f31d746827b1ee576f952f4e57b9808afc3296c5bd"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11051,
+          "mode": "0o100644",
+          "sha256": "c86231dd72a89d6fb5354f8c3b6aee8cd7879080150356f19e8e235d52fca307"
+        },
+        {
+          "path": "commands/check.md",
+          "size": 892,
+          "mode": "0o100644",
+          "sha256": "9c0d70541297b8350c273364177310c92ced7429c4500ead7b876bec54598c0a"
+        },
+        {
+          "path": "commands/init.md",
+          "size": 767,
+          "mode": "0o100644",
+          "sha256": "ed67c4ccfba09e83e735bf96257d1e8c1812c5de8599a005a1a3fd110df5ee3d"
+        },
+        {
+          "path": "commands/status.md",
+          "size": 394,
+          "mode": "0o100644",
+          "sha256": "474371aac68032c0e018185f9294e54bd07bbd29c717a00a163d0739445c218f"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "size": 2080,
+          "mode": "0o100644",
+          "sha256": "62b64a044387f9574a1504dbbfcbd1a4035a3e97fd55f4ce4748deb864d09eda"
+        },
+        {
+          "path": "hooks/run.sh",
+          "size": 2198,
+          "mode": "0o100644",
+          "sha256": "70565aea07b9b2749e5fd2152179fdcb43a4065736086690a6a96303db9a1280"
+        },
+        {
+          "path": "run.py",
+          "size": 377,
+          "mode": "0o100644",
+          "sha256": "a85352c9f48597db6e663330087df4224f313506a0d639bb23db3237a5c5a3ea"
+        },
+        {
+          "path": "skills/buddie/SKILL.md",
+          "size": 5459,
+          "mode": "0o100644",
+          "sha256": "35a2a4deb77f82da8b043d469f35d18d6f25af84cbedb91120cf634ccec4244e"
+        },
+        {
+          "path": "skills/verbatim/SKILL.md",
+          "size": 2829,
+          "mode": "0o100644",
+          "sha256": "190db498898287a0bb5883aa272892c4b71be36281478e39af541567a3f196d5"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-plugin-2.0.1.zip",
+      "size": 904599,
+      "sha256": "c7fb87e1e91b0c611c02ccd0649adbc59b2f0ea4a2b0136c50f3c112ee11e11f",
+      "file_count": 66,
+      "members": [
+        {
+          "path": ".claude-plugin/marketplace.json",
+          "size": 552,
+          "sha256": "3ba8688dde46a4875b779167323343b17d00141c5c6463b66ce78e31efb853fa"
+        },
+        {
+          "path": ".claude-plugin/plugin.json",
+          "size": 1676,
+          "sha256": "c2e72c4e0bacfef56878be038653a2252e2c1fa0965c33c8e4752a78d3f98371"
+        },
+        {
+          "path": ".mcp.json",
+          "size": 255,
+          "sha256": "bcfda223067e60c6e9dbf792b018cfb89484290c971ac61efa98c764780684c4"
+        },
+        {
+          "path": "LICENSE",
+          "size": 10174,
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "NOTICE",
+          "size": 1460,
+          "sha256": "e4d1a0f90a03f4a6881447ef3273c22524864e2bd151ad43ae840b8e0120bd92"
+        },
+        {
+          "path": "PRIVACY.md",
+          "size": 10267,
+          "sha256": "78486d21548b20eabc22e35704fb266e4e4cdce860ca74d6ff5f8bff4db4a42f"
+        },
+        {
+          "path": "README.md",
+          "size": 11285,
+          "sha256": "67831bd492b8c99f9c75aeeb15cb97a87add3cf93945ddbf3998a8b160232517"
+        },
+        {
+          "path": "assets/icon.png",
+          "size": 3086,
+          "sha256": "31acf2dee7f3fbee1638b1878bfe45036892025c3098c69e50901e6fb6d6035b"
+        },
+        {
+          "path": "buddie/__init__.py",
+          "size": 127,
+          "sha256": "7c43b8670cbac147fa6359c855c7e836e8b8c5eb8f5d1884ef15aef8e8ddcbc6"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 58,
+          "sha256": "9ef66f92d947bf6f5b1f44e660564dc9d58259d55d8fb587296d39ae040d0bd4"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 16936,
+          "sha256": "b72898b2f84b55887da2303c2e74b07ebe4e4024bb7b3b5d86cd22935490e9ca"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13654,
+          "sha256": "e5bdec1623136d2ca95e3d9e4960213fcf6f00b7ad750bc31590c4e1f6ce90de"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 38788,
+          "sha256": "2b274315b7732d66dcda451a89a3edcc52ffe381c77baf69d261410deb65ca8a"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 16882,
+          "sha256": "90641147befb34b574000b1708b6e271499b71232235841f7e4a0d3fbf36b7ec"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6837,
+          "sha256": "5988294f65d603ff42ab9faaf5724106cca4549bf0bcc143cb3c1f16b8dd47f6"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9704,
+          "sha256": "a1cf3c72f21f618eff16e8b914b90dbfc0ce6243c75cc0ff3605a99cc1ce8e14"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12736,
+          "sha256": "048d76918d21eadcbc97860f779f868e8c0a5f4da6784a88aef72bebd175e738"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43152,
+          "sha256": "2273433001bd6ee3fa7635f5a1c7f90826cdf7fd890bb747b1ef2742c2ad58ac"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 24753,
+          "sha256": "328ccd7c527742c592750e036eca01330e90d149d21cc33b7c27bf599d2fc365"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27414,
+          "sha256": "d02d378cf916ddb0a3f3c69a62f0f5e94ad1bb7248197fc5d0f2e5bd5a143757"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 781,
+          "sha256": "2a16ff82e6d5d9e050e1f3f7675d2e93a44b6a630d319319e06b0a45f1b80f5b"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9420,
+          "sha256": "a6e9ab88c05b71f228972e40626099317eb3b36be7c2bd9315fb0b7beb6f5700"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27307,
+          "sha256": "72a7b1623fc3dcef76cde02b7ea0a85354ae42da9ad72ebac56dc37c34fa4abd"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10584,
+          "sha256": "bd89bfd81dda7cf5083e91746ee8a773d153a5fdc834f90ec8298dd2c6ae7324"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22420,
+          "sha256": "4848a1043434b2d9f01870ec5f7d99615c60143a5a08309d26a280fce0de30b7"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4866,
+          "sha256": "531633ded99ff9734bf4f0eb09f584bd45505f5fec440acaa2fa4b9e0c13e16d"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14618,
+          "sha256": "8d713e3d40e0eac6058c1fa96ff60afb04941fad253980d40ef24d455ac67dee"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39309,
+          "sha256": "b7f3c8076a6aa78fc521513299e1da8a7cc26af23459e0d1c86c16985e0c268a"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 13846,
+          "sha256": "f715d3c0406daec0a8e88e2e97d3c04092e80d5d1a512118b5f8309fd8106028"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2500,
+          "sha256": "207f27c1fb5c71426886fbb853993abcf3a054837fe3365d0bb29f0c330895af"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 32812,
+          "sha256": "ec273104fb4614a58597e93ed651ce2657c25c0541964cf572987c7a7e3e2e55"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31007,
+          "sha256": "31ed178594e229f21b417f8b460df0c04913c4cf875ec140f026fa5652c6fce5"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4574,
+          "sha256": "590ccc6255b58c149d09c54e0bbf3ba35b68718cc5e8025ee59e6bbe1e849401"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11271,
+          "sha256": "daa0c339f195ae7819a9a36a9a9e01483556e0914968b6cf170451d4fde642a6"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19406,
+          "sha256": "4fa69df35fb3b855c65d495a9f087650d693fb787a9b39cc4f6b009f588a62a3"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42092,
+          "sha256": "4b3a5e0cdd31ad7bf2a4dbadda68819a64b1fa27a876aecb7c97e4836a53a6bc"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8128,
+          "sha256": "1d7b22c64b3312fad54f69a1fb9ecc5f1938cc8cb986408f77662afafdb12078"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27202,
+          "sha256": "514073f67a160e5ef1afff6f561cf559daa5062de4bfd994aa54349d7629073d"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20204,
+          "sha256": "fcd808bdbef38d1ac175521d9de5fd55992e0f74c84e289b2e33fd8ab50c9ad1"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19055,
+          "sha256": "e265634ee5d7765cc521492d82eda84eaa3bf3121c0b5e3c30400365553d6969"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 20859,
+          "sha256": "91f5c113a899a4d5c9e5393521339dc5134c08cce600c21c14340d105f48e1bf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9036,
+          "sha256": "72b596630beb569ce0e479b49d58a83deee54dd91e22e0e57d79d255f58032cd"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15212,
+          "sha256": "fad359a00d127255ac12ca3b0818b056f0704459c2e0431e607954e49bd90b2d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8516,
+          "sha256": "cf299d759dc67332d16612aed4b5c8d135a76acbc35597f69ed25cc843fb818d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8031,
+          "sha256": "28efaa5ec4a75c940eadcc321d28d8621c402527cd27e345143e2d1df5648eac"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 25596,
+          "sha256": "a96905430b6f2db73a7cfe314560c35dedc18334a4e88e4fd2d56be4fd5807de"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10734,
+          "sha256": "5b41e282c00eed752b8b91c770b565a8a0670498c57c293eeb2ae115769ba88a"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 110,
+          "sha256": "26df69a6851ca7755cf9cc616b1480683d4e119e691bd712cab90d75347734ae"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 63,
+          "sha256": "3b961fcf7d26612c6b9c8787f23dc1e9b2298a66b4729d8be8ab7bdb72653a6f"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17368,
+          "sha256": "a451221147df302096042b8910e6946c48fd4459d62a9ae1828d111d3df612cf"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 30936,
+          "sha256": "72ec3b800abbe14a5aa0d40837d2bc44c63e47c47d249fb4888dafe03caf7301"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11178,
+          "sha256": "2717abd3f767156ffe9dc45b060cd0abe1024db2521930906e6ebf618eba5260"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33155,
+          "sha256": "16ab5ce78f3f16cc9eb7858759ed1a46c3d0bde70369ba62e506619dea40aa40"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 19708,
+          "sha256": "1641ee593a31fe28d170a6902c3ee6e94c4de838cd7215fa00666a54eeea3f36"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 10963,
+          "sha256": "6292a330ca53cec422e85d36235265613ccf14c2ec1f4d79dd75902c638a3bed"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 11844,
+          "sha256": "e91c64f6198fcf2ee2f74e6f84011735235a228afe56de984ddefa9528da9587"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 26655,
+          "sha256": "0b7a8a0f5a2bbb3b265e97f31d746827b1ee576f952f4e57b9808afc3296c5bd"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11051,
+          "sha256": "c86231dd72a89d6fb5354f8c3b6aee8cd7879080150356f19e8e235d52fca307"
+        },
+        {
+          "path": "commands/check.md",
+          "size": 892,
+          "sha256": "9c0d70541297b8350c273364177310c92ced7429c4500ead7b876bec54598c0a"
+        },
+        {
+          "path": "commands/init.md",
+          "size": 767,
+          "sha256": "ed67c4ccfba09e83e735bf96257d1e8c1812c5de8599a005a1a3fd110df5ee3d"
+        },
+        {
+          "path": "commands/status.md",
+          "size": 394,
+          "sha256": "474371aac68032c0e018185f9294e54bd07bbd29c717a00a163d0739445c218f"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "size": 2080,
+          "sha256": "62b64a044387f9574a1504dbbfcbd1a4035a3e97fd55f4ce4748deb864d09eda"
+        },
+        {
+          "path": "hooks/run.sh",
+          "size": 2198,
+          "sha256": "70565aea07b9b2749e5fd2152179fdcb43a4065736086690a6a96303db9a1280"
+        },
+        {
+          "path": "run.py",
+          "size": 377,
+          "sha256": "a85352c9f48597db6e663330087df4224f313506a0d639bb23db3237a5c5a3ea"
+        },
+        {
+          "path": "skills/buddie/SKILL.md",
+          "size": 5459,
+          "sha256": "35a2a4deb77f82da8b043d469f35d18d6f25af84cbedb91120cf634ccec4244e"
+        },
+        {
+          "path": "skills/verbatim/SKILL.md",
+          "size": 2829,
+          "sha256": "190db498898287a0bb5883aa272892c4b71be36281478e39af541567a3f196d5"
+        }
+      ]
+    }
+  ],
+  "after": [
+    {
+      "artifact": "buddie-2.0.1.mcpb",
+      "size": 315398,
+      "sha256": "3ac7b03d34fae6a8e37360da9f46e285bc73f8da68d0c3ef529be55189cb37bf",
+      "file_count": 58,
+      "members": [
+        {
+          "path": "assets/icon.png",
+          "size": 3086,
+          "sha256": "31acf2dee7f3fbee1638b1878bfe45036892025c3098c69e50901e6fb6d6035b"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 17259,
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13935,
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 39444,
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 17266,
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6961,
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9902,
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12996,
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43925,
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 25191,
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27925,
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 799,
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9608,
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27757,
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10771,
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22833,
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4974,
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14908,
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39953,
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 14136,
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2558,
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 33444,
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31480,
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4672,
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11552,
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19742,
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42921,
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8282,
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27731,
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20547,
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19459,
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 21231,
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9203,
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15517,
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8694,
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8205,
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 26086,
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10918,
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17710,
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 31518,
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11406,
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33713,
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 20042,
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 11186,
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 113,
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 66,
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 27058,
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11272,
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie/__init__.py",
+          "size": 130,
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 63,
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "LICENSE",
+          "size": 10351,
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "manifest.json",
+          "size": 4134,
+          "sha256": "9aa2f9211c9dd4b0e6539e65bf847a08b86b479aff39c87c417d000e3665e46a"
+        },
+        {
+          "path": "NOTICE",
+          "size": 1481,
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "PRIVACY.md",
+          "size": 10369,
+          "sha256": "a745ed5dd25fe9cacc8f9b4dfdd21b61e1a48c6062d8cd90741959bfbf76d98a"
+        },
+        {
+          "path": "README.md",
+          "size": 11476,
+          "sha256": "afdf44487724194d59ca499c6360f5454fdc15ed4bb31b49940cb354a044a00b"
+        },
+        {
+          "path": "run.py",
+          "size": 388,
+          "sha256": "c587388fcc20e679f7e9306bcfe8ffd5097264214ad3f2e86026f29d4339720b"
+        },
+        {
+          "path": "SECURITY.md",
+          "size": 1830,
+          "sha256": "268b28a0f124ebc6d6750e8fa321af63b119a75014849af1086ab782d7447b4d"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-2.0.1-py3-none-any.whl",
+      "size": 309526,
+      "sha256": "67af113ac4cf667288522cea13e28ff61939caebeaa36b382194d93e0a47f8f4",
+      "file_count": 58,
+      "members": [
+        {
+          "path": "buddie/__init__.py",
+          "size": 130,
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 63,
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 17259,
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13935,
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 39444,
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 17266,
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6961,
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9902,
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12996,
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43925,
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 25191,
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27925,
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 799,
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9608,
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27757,
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10771,
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22833,
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4974,
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14908,
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39953,
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 14136,
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2558,
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 33444,
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31480,
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4672,
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11552,
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19742,
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42921,
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8282,
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27731,
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20547,
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19459,
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 21231,
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9203,
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15517,
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8694,
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8205,
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 26086,
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10918,
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 27058,
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11272,
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 113,
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 66,
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17710,
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 31518,
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11406,
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33713,
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 20042,
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 11186,
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/licenses/LICENSE",
+          "size": 10351,
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/licenses/NOTICE",
+          "size": 1481,
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/licenses/PRIVACY.md",
+          "size": 10369,
+          "sha256": "a745ed5dd25fe9cacc8f9b4dfdd21b61e1a48c6062d8cd90741959bfbf76d98a"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/METADATA",
+          "size": 13039,
+          "sha256": "674ca6111f249fdfe160e2f8a8e8aca09ea58d194a94c2ea689b8a161ca2f823"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/WHEEL",
+          "size": 91,
+          "sha256": "98e75747d0b7c0c568bfb71263c3d8f970b3a374a6996087bc642be5cb09a1aa"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/entry_points.txt",
+          "size": 86,
+          "sha256": "2444f288bfd10e515356abe57227af9045679038cbd193d623c47bb64f38ffdb"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/top_level.txt",
+          "size": 7,
+          "sha256": "f796d23cb5c2bafd37acdbdfa702f13ffd9f90e69235d0a38b157c74068a8cad"
+        },
+        {
+          "path": "buddie-2.0.1.dist-info/RECORD",
+          "size": 4490,
+          "sha256": "64e0405da9034b8f2fdcb29cfeb5cdbb6b473a0c7933fcc47c6bcb81e44e95d0"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-2.0.1.tar.gz",
+      "size": 305750,
+      "sha256": "517e275fe87b21e327d981c484874eb674198cb0927ffc2f43de61b18e6163a8",
+      "file_count": 66,
+      "members": [
+        {
+          "path": "buddie-2.0.1",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/CHANGELOG.md",
+          "size": 53857,
+          "type": "0",
+          "sha256": "ea7905fe3fa3c2e922314c4378c704b642cc9b870c1d9c2cd1edf56f851e5799"
+        },
+        {
+          "path": "buddie-2.0.1/LICENSE",
+          "size": 10351,
+          "type": "0",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+        },
+        {
+          "path": "buddie-2.0.1/MANIFEST.in",
+          "size": 378,
+          "type": "0",
+          "sha256": "83b81b2107d9eb22b25645287764bb1ac37703fa3a7b16f2c06a044900d41ac4"
+        },
+        {
+          "path": "buddie-2.0.1/NOTICE",
+          "size": 1481,
+          "type": "0",
+          "sha256": "9b7eb3351d3082ff146cf28331c7dfe3e4b61a91c6ddeb54592e1e67fce5533a"
+        },
+        {
+          "path": "buddie-2.0.1/PKG-INFO",
+          "size": 13039,
+          "type": "0",
+          "sha256": "674ca6111f249fdfe160e2f8a8e8aca09ea58d194a94c2ea689b8a161ca2f823"
+        },
+        {
+          "path": "buddie-2.0.1/PRIVACY.md",
+          "size": 10369,
+          "type": "0",
+          "sha256": "a745ed5dd25fe9cacc8f9b4dfdd21b61e1a48c6062d8cd90741959bfbf76d98a"
+        },
+        {
+          "path": "buddie-2.0.1/README.md",
+          "size": 11476,
+          "type": "0",
+          "sha256": "afdf44487724194d59ca499c6360f5454fdc15ed4bb31b49940cb354a044a00b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie/__init__.py",
+          "size": 130,
+          "type": "0",
+          "sha256": "835df27950e36089cb8214ff8e02d6931ac105cbf40587104f5e24fb4a656640"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/__main__.py",
+          "size": 63,
+          "type": "0",
+          "sha256": "a5db135551ca180d6391098538d573484d584e010eac87efbb80860e75915bcc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/anchors.py",
+          "size": 17259,
+          "type": "0",
+          "sha256": "a8c6ea0dcefdfc8df8ed6770953abd5e3c4a16215d5dd95159fed2d1a720136c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/chains.py",
+          "size": 13935,
+          "type": "0",
+          "sha256": "cd408f02878c0f28ea343fc1d021d394ac699af75b13ae6fa892ed4ef5d64dcc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/cli.py",
+          "size": 39444,
+          "type": "0",
+          "sha256": "7dffe4243a87f54b08dfe5c1fd262679339c3d5ac012c72cc6f0f863e9e31002"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/config.py",
+          "size": 17266,
+          "type": "0",
+          "sha256": "c5ecff622e0b2f04930753e545d5270d245760023ab3cb84a7e213b250354960"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/context.py",
+          "size": 6961,
+          "type": "0",
+          "sha256": "93ead99e3120c52fe281361ce3ed228e3474a7992ff687a2b1401b03401cae3c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/core.py",
+          "size": 9902,
+          "type": "0",
+          "sha256": "83cf6a1998e3c89014f40270f72a59282d3accf406e0945cff6ed38f5ec0b578"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/decisions.py",
+          "size": 12996,
+          "type": "0",
+          "sha256": "4cc0ce4321e4f23888375a7e95d313aaf32e5c44621e8741f799ef72a748f57c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/diagnostics.py",
+          "size": 43925,
+          "type": "0",
+          "sha256": "efed08c3fe4f97eb0516111b2b2c7b8d1972d8b6834318c002eca486a9b1ec5a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/effects.py",
+          "size": 25191,
+          "type": "0",
+          "sha256": "6ee6a734201038711b51ed9b69db635e1ab5f5d04650c6b148099cf66e0b3e54"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/environment.py",
+          "size": 27925,
+          "type": "0",
+          "sha256": "08124dedddf781c4e4c97e6d91237a4223e9e1277cf3bbd0346712d427236702"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/event.py",
+          "size": 799,
+          "type": "0",
+          "sha256": "c997c620e701215a38d873f99f583797fc8242826d7bf31297304106ed79b2e0"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/evidence.py",
+          "size": 9608,
+          "type": "0",
+          "sha256": "ce23f48755bcc37e4c9b16814de9d6a19f48bb4cc69a0349abefaf4e19e774d8"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/feedback.py",
+          "size": 27757,
+          "type": "0",
+          "sha256": "61a91f41f0168261ce7d66006fb34233f84f3ee02d50b21bfce13b47c3e311bc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/findings.py",
+          "size": 10771,
+          "type": "0",
+          "sha256": "e52ed1c2bb8a2cf226a208813ca7323bfb8063141bdaec55e79939d979ed68dc"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/freshness.py",
+          "size": 22833,
+          "type": "0",
+          "sha256": "99d56b14922bce8b530fffb9b63ee2325f3b0e7c9d59cf076075f49b86a08297"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/github_report.py",
+          "size": 4974,
+          "type": "0",
+          "sha256": "72cd15cefd19e0678464d88132b7163db5fe9f49656d57831cb1eacf855c3a8b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/github_sources.py",
+          "size": 14908,
+          "type": "0",
+          "sha256": "70293389e022edf2d55f0edb284f02640578e6f89da819f763ef97ab87083ffe"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/hook.py",
+          "size": 39953,
+          "type": "0",
+          "sha256": "132e95068c6037d4ba0a5be89fae87a2c6ac0267f261f4f16f400320eb21c19b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/journal.py",
+          "size": 14136,
+          "type": "0",
+          "sha256": "bcfa20f1eef91d10fdedc6c8fccd9f935ef0c86f5208dc8dbbe1098562e2e1c8"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/logbook.py",
+          "size": 2558,
+          "type": "0",
+          "sha256": "4c217b5d4df628cf371aca5c58e8af09b6e1b11788c9b335e6abc4f705bb2f82"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/mandate.py",
+          "size": 33444,
+          "type": "0",
+          "sha256": "10f9229146923774d28c57529c908b37473ff798f6ddda760a00e0bddd3c7c2e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/mcp.py",
+          "size": 31480,
+          "type": "0",
+          "sha256": "d531ab5261e320f9aeb40af5ead1971ee18693e91d0a2acecffacd63c26dae02"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/modules.py",
+          "size": 4672,
+          "type": "0",
+          "sha256": "8f22cd60f292991f0b1af8976a0e2a4ef40a238afec5c781bc5f8c803a26472b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/patterns.py",
+          "size": 11552,
+          "type": "0",
+          "sha256": "b30495f2736902a4aa66d97608475326966c767c71e9c947ded045674ffe068a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/policy.py",
+          "size": 19742,
+          "type": "0",
+          "sha256": "23991401253fd5e077e0fa920542204b62e50f5d7aa9afb42eacb78634381b66"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/probes.py",
+          "size": 42921,
+          "type": "0",
+          "sha256": "616b208ad124fa80f7d955a7cc2eb511c93ce992b111b5963113936ae435c6e9"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/profiles.py",
+          "size": 8282,
+          "type": "0",
+          "sha256": "996769fb92e388013bf33a0833185cb78bd2233d72f8eabb29c55ba11b4ef42d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/promises.py",
+          "size": 27731,
+          "type": "0",
+          "sha256": "65d65333febe46d59536d055048cb30c5c3786237f9e7b6f04f85f4e4c1ab25f"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/receipts.py",
+          "size": 20547,
+          "type": "0",
+          "sha256": "641535cffd0d7cf82530a7da4be0d998c8905b82c2ad861f5ea2e2ca3f70fa18"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/remote.py",
+          "size": 19459,
+          "type": "0",
+          "sha256": "27b3a70bbd94d0cced628737db7c20fd1c467760e700f80ec6c9f52699d817bd"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/repair.py",
+          "size": 21231,
+          "type": "0",
+          "sha256": "888bd5f598d74b84db138e666089393d810f6fc6cc671eaa3dad56dc703f8ddf"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/resolved.py",
+          "size": 9203,
+          "type": "0",
+          "sha256": "ad49e6d532abb74c38ba2c52d3144b1f98f96ef3c031ae30ac4dead40105713d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/runner.py",
+          "size": 15517,
+          "type": "0",
+          "sha256": "249f0ceb487d897c778f271964306be6482f09f4cd8d7845dc82464c0aca1b0d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/stores.py",
+          "size": 8694,
+          "type": "0",
+          "sha256": "ad868e664d65ce7e1cab74649cc23c849786eddaa5e8c944ed5aebf905d47f7d"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/suggest.py",
+          "size": 8205,
+          "type": "0",
+          "sha256": "079676986e867e516f10ab3c8b63276d52f239a04b4f5aeda3dcf8b98873b27a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/summary.py",
+          "size": 26086,
+          "type": "0",
+          "sha256": "79c37626a848556bbd416f8dc15b319e774426d65069d23774c75a1d38d3556f"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/trace.py",
+          "size": 10918,
+          "type": "0",
+          "sha256": "8bb80420658085891dd9869d43ca668182a9f3ac68a37d30190fac7887d4418b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/__init__.py",
+          "size": 113,
+          "type": "0",
+          "sha256": "004342ab69560dd73ccf8d59bb2e6452eb599199ec2f39a6dffb62905566d131"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/__main__.py",
+          "size": 66,
+          "type": "0",
+          "sha256": "c21dfbe35f07ef2dbf56519aa021675265559e55b1c36b2e4c2cb46041b8a4f5"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/access.py",
+          "size": 17710,
+          "type": "0",
+          "sha256": "e5cdc75ffbd57aa289dbd3db729d0d4af471517ab1e95f09a30873cb0d40ad4a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/check.py",
+          "size": 31518,
+          "type": "0",
+          "sha256": "bcc90ea80887494629d228ca2d267ba6f73d4ae2e9b0f37196f030252b15003a"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/cli.py",
+          "size": 11406,
+          "type": "0",
+          "sha256": "4716dbaab56b23a321fa65820ba2ed30b8322e4eaa3a9f8a84587ff6752283fd"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/numbers.py",
+          "size": 33713,
+          "type": "0",
+          "sha256": "0afffa56fd6836979f67185551387336b0bd657a15994d4eb9383c409741c888"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/report.py",
+          "size": 20042,
+          "type": "0",
+          "sha256": "df246bdb4ba55583011f7f69890b131a846601a7b8bb05f76ab71aba284a699e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/store.py",
+          "size": 11186,
+          "type": "0",
+          "sha256": "23737328cec6e1227ad81ada4c9aac78cadb96929ac6885e76ba1c95dc0b6cb3"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verbatim/textlayer.py",
+          "size": 12096,
+          "type": "0",
+          "sha256": "6ca059194bf65bce90c268293328aa68fb311f3da9a69210b45e3d14ff427762"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/verify.py",
+          "size": 27058,
+          "type": "0",
+          "sha256": "3e8c8fdaeb1f348d893f2c154c406a4b562331911ce1bf41a0aa845ea871af7e"
+        },
+        {
+          "path": "buddie-2.0.1/buddie/winacl.py",
+          "size": 11272,
+          "type": "0",
+          "sha256": "f40d255ea0e4dc6fcae0eb57c7ceb062513492b62f8cd7247427d43194ac07ad"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info",
+          "size": 0,
+          "type": "5",
+          "sha256": null
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/PKG-INFO",
+          "size": 13039,
+          "type": "0",
+          "sha256": "674ca6111f249fdfe160e2f8a8e8aca09ea58d194a94c2ea689b8a161ca2f823"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/SOURCES.txt",
+          "size": 1246,
+          "type": "0",
+          "sha256": "da9d7f85c3eb09638c159b1fde504c6ed18cc98dd897a45cc3b5f28b8963da22"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/dependency_links.txt",
+          "size": 1,
+          "type": "0",
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/entry_points.txt",
+          "size": 86,
+          "type": "0",
+          "sha256": "2444f288bfd10e515356abe57227af9045679038cbd193d623c47bb64f38ffdb"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/requires.txt",
+          "size": 22,
+          "type": "0",
+          "sha256": "0e68a7e5ffe6d727370d82abc89c52d16ae075c8c264152311fd95f62cbcd18c"
+        },
+        {
+          "path": "buddie-2.0.1/buddie.egg-info/top_level.txt",
+          "size": 7,
+          "type": "0",
+          "sha256": "f796d23cb5c2bafd37acdbdfa702f13ffd9f90e69235d0a38b157c74068a8cad"
+        },
+        {
+          "path": "buddie-2.0.1/pyproject.toml",
+          "size": 1884,
+          "type": "0",
+          "sha256": "d9634188ec38caa846ebbbd359cc66b99562df11c53048013200337ce67f2e32"
+        },
+        {
+          "path": "buddie-2.0.1/run.py",
+          "size": 388,
+          "type": "0",
+          "sha256": "c587388fcc20e679f7e9306bcfe8ffd5097264214ad3f2e86026f29d4339720b"
+        },
+        {
+          "path": "buddie-2.0.1/setup.cfg",
+          "size": 42,
+          "type": "0",
+          "sha256": "a29823dd9fbb34b0b00c45fe5823d7c25a3133805e072cad4920cf76dee85bfa"
+        }
+      ]
+    },
+    {
+      "artifact": "buddie-plugin-2.0.1.zip",
+      "size": 904599,
+      "sha256": "c7fb87e1e91b0c611c02ccd0649adbc59b2f0ea4a2b0136c50f3c112ee11e11f",
+      "file_count": 66,
+      "members": [
+        {
+          "path": ".claude-plugin/marketplace.json",
+          "size": 552,
+          "sha256": "3ba8688dde46a4875b779167323343b17d00141c5c6463b66ce78e31efb853fa"
+        },
+        {
+          "path": ".claude-plugin/plugin.json",
+          "size": 1676,
+          "sha256": "c2e72c4e0bacfef56878be038653a2252e2c1fa0965c33c8e4752a78d3f98371"
+        },
+        {
+          "path": ".mcp.json",
+          "size": 255,
+          "sha256": "bcfda223067e60c6e9dbf792b018cfb89484290c971ac61efa98c764780684c4"
+        },
+        {
+          "path": "LICENSE",
+          "size": 10174,
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "NOTICE",
+          "size": 1460,
+          "sha256": "e4d1a0f90a03f4a6881447ef3273c22524864e2bd151ad43ae840b8e0120bd92"
+        },
+        {
+          "path": "PRIVACY.md",
+          "size": 10267,
+          "sha256": "78486d21548b20eabc22e35704fb266e4e4cdce860ca74d6ff5f8bff4db4a42f"
+        },
+        {
+          "path": "README.md",
+          "size": 11285,
+          "sha256": "67831bd492b8c99f9c75aeeb15cb97a87add3cf93945ddbf3998a8b160232517"
+        },
+        {
+          "path": "assets/icon.png",
+          "size": 3086,
+          "sha256": "31acf2dee7f3fbee1638b1878bfe45036892025c3098c69e50901e6fb6d6035b"
+        },
+        {
+          "path": "buddie/__init__.py",
+          "size": 127,
+          "sha256": "7c43b8670cbac147fa6359c855c7e836e8b8c5eb8f5d1884ef15aef8e8ddcbc6"
+        },
+        {
+          "path": "buddie/__main__.py",
+          "size": 58,
+          "sha256": "9ef66f92d947bf6f5b1f44e660564dc9d58259d55d8fb587296d39ae040d0bd4"
+        },
+        {
+          "path": "buddie/anchors.py",
+          "size": 16936,
+          "sha256": "b72898b2f84b55887da2303c2e74b07ebe4e4024bb7b3b5d86cd22935490e9ca"
+        },
+        {
+          "path": "buddie/chains.py",
+          "size": 13654,
+          "sha256": "e5bdec1623136d2ca95e3d9e4960213fcf6f00b7ad750bc31590c4e1f6ce90de"
+        },
+        {
+          "path": "buddie/cli.py",
+          "size": 38788,
+          "sha256": "2b274315b7732d66dcda451a89a3edcc52ffe381c77baf69d261410deb65ca8a"
+        },
+        {
+          "path": "buddie/config.py",
+          "size": 16882,
+          "sha256": "90641147befb34b574000b1708b6e271499b71232235841f7e4a0d3fbf36b7ec"
+        },
+        {
+          "path": "buddie/context.py",
+          "size": 6837,
+          "sha256": "5988294f65d603ff42ab9faaf5724106cca4549bf0bcc143cb3c1f16b8dd47f6"
+        },
+        {
+          "path": "buddie/core.py",
+          "size": 9704,
+          "sha256": "a1cf3c72f21f618eff16e8b914b90dbfc0ce6243c75cc0ff3605a99cc1ce8e14"
+        },
+        {
+          "path": "buddie/decisions.py",
+          "size": 12736,
+          "sha256": "048d76918d21eadcbc97860f779f868e8c0a5f4da6784a88aef72bebd175e738"
+        },
+        {
+          "path": "buddie/diagnostics.py",
+          "size": 43152,
+          "sha256": "2273433001bd6ee3fa7635f5a1c7f90826cdf7fd890bb747b1ef2742c2ad58ac"
+        },
+        {
+          "path": "buddie/effects.py",
+          "size": 24753,
+          "sha256": "328ccd7c527742c592750e036eca01330e90d149d21cc33b7c27bf599d2fc365"
+        },
+        {
+          "path": "buddie/environment.py",
+          "size": 27414,
+          "sha256": "d02d378cf916ddb0a3f3c69a62f0f5e94ad1bb7248197fc5d0f2e5bd5a143757"
+        },
+        {
+          "path": "buddie/event.py",
+          "size": 781,
+          "sha256": "2a16ff82e6d5d9e050e1f3f7675d2e93a44b6a630d319319e06b0a45f1b80f5b"
+        },
+        {
+          "path": "buddie/evidence.py",
+          "size": 9420,
+          "sha256": "a6e9ab88c05b71f228972e40626099317eb3b36be7c2bd9315fb0b7beb6f5700"
+        },
+        {
+          "path": "buddie/feedback.py",
+          "size": 27307,
+          "sha256": "72a7b1623fc3dcef76cde02b7ea0a85354ae42da9ad72ebac56dc37c34fa4abd"
+        },
+        {
+          "path": "buddie/findings.py",
+          "size": 10584,
+          "sha256": "bd89bfd81dda7cf5083e91746ee8a773d153a5fdc834f90ec8298dd2c6ae7324"
+        },
+        {
+          "path": "buddie/freshness.py",
+          "size": 22420,
+          "sha256": "4848a1043434b2d9f01870ec5f7d99615c60143a5a08309d26a280fce0de30b7"
+        },
+        {
+          "path": "buddie/github_report.py",
+          "size": 4866,
+          "sha256": "531633ded99ff9734bf4f0eb09f584bd45505f5fec440acaa2fa4b9e0c13e16d"
+        },
+        {
+          "path": "buddie/github_sources.py",
+          "size": 14618,
+          "sha256": "8d713e3d40e0eac6058c1fa96ff60afb04941fad253980d40ef24d455ac67dee"
+        },
+        {
+          "path": "buddie/hook.py",
+          "size": 39309,
+          "sha256": "b7f3c8076a6aa78fc521513299e1da8a7cc26af23459e0d1c86c16985e0c268a"
+        },
+        {
+          "path": "buddie/journal.py",
+          "size": 13846,
+          "sha256": "f715d3c0406daec0a8e88e2e97d3c04092e80d5d1a512118b5f8309fd8106028"
+        },
+        {
+          "path": "buddie/logbook.py",
+          "size": 2500,
+          "sha256": "207f27c1fb5c71426886fbb853993abcf3a054837fe3365d0bb29f0c330895af"
+        },
+        {
+          "path": "buddie/mandate.py",
+          "size": 32812,
+          "sha256": "ec273104fb4614a58597e93ed651ce2657c25c0541964cf572987c7a7e3e2e55"
+        },
+        {
+          "path": "buddie/mcp.py",
+          "size": 31007,
+          "sha256": "31ed178594e229f21b417f8b460df0c04913c4cf875ec140f026fa5652c6fce5"
+        },
+        {
+          "path": "buddie/modules.py",
+          "size": 4574,
+          "sha256": "590ccc6255b58c149d09c54e0bbf3ba35b68718cc5e8025ee59e6bbe1e849401"
+        },
+        {
+          "path": "buddie/patterns.py",
+          "size": 11271,
+          "sha256": "daa0c339f195ae7819a9a36a9a9e01483556e0914968b6cf170451d4fde642a6"
+        },
+        {
+          "path": "buddie/policy.py",
+          "size": 19406,
+          "sha256": "4fa69df35fb3b855c65d495a9f087650d693fb787a9b39cc4f6b009f588a62a3"
+        },
+        {
+          "path": "buddie/probes.py",
+          "size": 42092,
+          "sha256": "4b3a5e0cdd31ad7bf2a4dbadda68819a64b1fa27a876aecb7c97e4836a53a6bc"
+        },
+        {
+          "path": "buddie/profiles.py",
+          "size": 8128,
+          "sha256": "1d7b22c64b3312fad54f69a1fb9ecc5f1938cc8cb986408f77662afafdb12078"
+        },
+        {
+          "path": "buddie/promises.py",
+          "size": 27202,
+          "sha256": "514073f67a160e5ef1afff6f561cf559daa5062de4bfd994aa54349d7629073d"
+        },
+        {
+          "path": "buddie/receipts.py",
+          "size": 20204,
+          "sha256": "fcd808bdbef38d1ac175521d9de5fd55992e0f74c84e289b2e33fd8ab50c9ad1"
+        },
+        {
+          "path": "buddie/remote.py",
+          "size": 19055,
+          "sha256": "e265634ee5d7765cc521492d82eda84eaa3bf3121c0b5e3c30400365553d6969"
+        },
+        {
+          "path": "buddie/repair.py",
+          "size": 20859,
+          "sha256": "91f5c113a899a4d5c9e5393521339dc5134c08cce600c21c14340d105f48e1bf"
+        },
+        {
+          "path": "buddie/resolved.py",
+          "size": 9036,
+          "sha256": "72b596630beb569ce0e479b49d58a83deee54dd91e22e0e57d79d255f58032cd"
+        },
+        {
+          "path": "buddie/runner.py",
+          "size": 15212,
+          "sha256": "fad359a00d127255ac12ca3b0818b056f0704459c2e0431e607954e49bd90b2d"
+        },
+        {
+          "path": "buddie/stores.py",
+          "size": 8516,
+          "sha256": "cf299d759dc67332d16612aed4b5c8d135a76acbc35597f69ed25cc843fb818d"
+        },
+        {
+          "path": "buddie/suggest.py",
+          "size": 8031,
+          "sha256": "28efaa5ec4a75c940eadcc321d28d8621c402527cd27e345143e2d1df5648eac"
+        },
+        {
+          "path": "buddie/summary.py",
+          "size": 25596,
+          "sha256": "a96905430b6f2db73a7cfe314560c35dedc18334a4e88e4fd2d56be4fd5807de"
+        },
+        {
+          "path": "buddie/trace.py",
+          "size": 10734,
+          "sha256": "5b41e282c00eed752b8b91c770b565a8a0670498c57c293eeb2ae115769ba88a"
+        },
+        {
+          "path": "buddie/verbatim/__init__.py",
+          "size": 110,
+          "sha256": "26df69a6851ca7755cf9cc616b1480683d4e119e691bd712cab90d75347734ae"
+        },
+        {
+          "path": "buddie/verbatim/__main__.py",
+          "size": 63,
+          "sha256": "3b961fcf7d26612c6b9c8787f23dc1e9b2298a66b4729d8be8ab7bdb72653a6f"
+        },
+        {
+          "path": "buddie/verbatim/access.py",
+          "size": 17368,
+          "sha256": "a451221147df302096042b8910e6946c48fd4459d62a9ae1828d111d3df612cf"
+        },
+        {
+          "path": "buddie/verbatim/check.py",
+          "size": 30936,
+          "sha256": "72ec3b800abbe14a5aa0d40837d2bc44c63e47c47d249fb4888dafe03caf7301"
+        },
+        {
+          "path": "buddie/verbatim/cli.py",
+          "size": 11178,
+          "sha256": "2717abd3f767156ffe9dc45b060cd0abe1024db2521930906e6ebf618eba5260"
+        },
+        {
+          "path": "buddie/verbatim/numbers.py",
+          "size": 33155,
+          "sha256": "16ab5ce78f3f16cc9eb7858759ed1a46c3d0bde70369ba62e506619dea40aa40"
+        },
+        {
+          "path": "buddie/verbatim/report.py",
+          "size": 19708,
+          "sha256": "1641ee593a31fe28d170a6902c3ee6e94c4de838cd7215fa00666a54eeea3f36"
+        },
+        {
+          "path": "buddie/verbatim/store.py",
+          "size": 10963,
+          "sha256": "6292a330ca53cec422e85d36235265613ccf14c2ec1f4d79dd75902c638a3bed"
+        },
+        {
+          "path": "buddie/verbatim/textlayer.py",
+          "size": 11844,
+          "sha256": "e91c64f6198fcf2ee2f74e6f84011735235a228afe56de984ddefa9528da9587"
+        },
+        {
+          "path": "buddie/verify.py",
+          "size": 26655,
+          "sha256": "0b7a8a0f5a2bbb3b265e97f31d746827b1ee576f952f4e57b9808afc3296c5bd"
+        },
+        {
+          "path": "buddie/winacl.py",
+          "size": 11051,
+          "sha256": "c86231dd72a89d6fb5354f8c3b6aee8cd7879080150356f19e8e235d52fca307"
+        },
+        {
+          "path": "commands/check.md",
+          "size": 892,
+          "sha256": "9c0d70541297b8350c273364177310c92ced7429c4500ead7b876bec54598c0a"
+        },
+        {
+          "path": "commands/init.md",
+          "size": 767,
+          "sha256": "ed67c4ccfba09e83e735bf96257d1e8c1812c5de8599a005a1a3fd110df5ee3d"
+        },
+        {
+          "path": "commands/status.md",
+          "size": 394,
+          "sha256": "474371aac68032c0e018185f9294e54bd07bbd29c717a00a163d0739445c218f"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "size": 2080,
+          "sha256": "62b64a044387f9574a1504dbbfcbd1a4035a3e97fd55f4ce4748deb864d09eda"
+        },
+        {
+          "path": "hooks/run.sh",
+          "size": 2198,
+          "sha256": "70565aea07b9b2749e5fd2152179fdcb43a4065736086690a6a96303db9a1280"
+        },
+        {
+          "path": "run.py",
+          "size": 377,
+          "sha256": "a85352c9f48597db6e663330087df4224f313506a0d639bb23db3237a5c5a3ea"
+        },
+        {
+          "path": "skills/buddie/SKILL.md",
+          "size": 5459,
+          "sha256": "35a2a4deb77f82da8b043d469f35d18d6f25af84cbedb91120cf634ccec4244e"
+        },
+        {
+          "path": "skills/verbatim/SKILL.md",
+          "size": 2829,
+          "sha256": "190db498898287a0bb5883aa272892c4b71be36281478e39af541567a3f196d5"
+        }
+      ]
+    }
+  ]
+}
