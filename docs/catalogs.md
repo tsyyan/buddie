@@ -1,10 +1,11 @@
 # Catalog listings
 
-**Current check: 2026-10-25.** Buddie 2.0.0 is published on PyPI, GitHub Releases and the
-Official MCP Registry. The repository marketplace manifests also say 2.0.0. See the
+**Current check: 2026-10-26.** Buddie 2.0.1 is published on PyPI, GitHub Releases and the
+Official MCP Registry (2.0.0 before it, 2026-10-24). The repository marketplace manifests also say 2.0.1. See the
 [current channel check](distribution.md#current-channel-check-2026-10-25) and
 [reusable listing copy](listing-copy.md) before using the older submission notes below.
 The Anthropic submission is already awaiting review; continue it rather than creating another.
+The third-party mcpservers.org listing was approved by email on 2026-10-26; this is catalog acceptance, not security certification or confirmation of client installation.
 
 Where buddie can be listed, what is ready in this repository, and what only the owner can do: accounts, forms and the
 data-handling answers. Nothing here is submitted automatically, except PyPI, the MCP Registry and the GitHub Release,
@@ -15,6 +16,7 @@ what to do after a release: [distribution.md](distribution.md).
 |---|---|---|---|
 | PyPI (`buddie`) | `pyproject.toml`, `release.yml` | trusted publisher (done for 1.x); per release a tag and the publish run | no |
 | MCP Registry (`io.github.tsyyan/buddie`) | `server.json`, `mcp-name` line in README, job in `release.yml` | none: GitHub OIDC proves the namespace | no |
+| [mcpservers.org](https://mcpservers.org/servers/tsyyan/buddie) (third-party discovery catalog) | Public listing URL and README badge; submission approval email received 2026-10-26 | Approved per email; verify live listing details and install instructions manually (page could not be independently retrieved during this update) | no for the listed local stdio MCP server |
 | Anthropic's directory: plugin for Claude Code and Cowork | `.claude-plugin/`, README, LICENSE, `claude plugin validate` in CI | submitted (1.1.1, held for review); new versions through the tracked ref | no |
 | Anthropic's directory: MCP connector for claude.ai | `buddie serve --http`, Docker image | deploy, then submit the URL | **yes** |
 | Claude Desktop | `.mcpb` attached to each GitHub Release | share the release link; check the portal for a desktop-extension listing | no |
