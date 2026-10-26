@@ -24,7 +24,11 @@ descriptors remain supported and are checked against the directory. Approved bui
 
 ## Baseline inventory comparison
 
-Local Windows builds from the base and this change were inventoried without extraction, with exact paths, sizes and SHA-256 for every member and archive. Build output and inventories stay outside the repository; they are review evidence, not release artifacts or permission to replace PyPI 2.0.1. Setuptools 84.2.1, build 1.6.1 and MCPB 2.1.2 were used.
+Local Windows builds from the base and this change were inventoried without extraction, with exact paths, sizes and SHA-256 for every member and archive. Binary build output and environment logs stay outside the repository; they are review evidence, not release artifacts or permission to replace PyPI 2.0.1. Setuptools 84.2.1, build 1.6.1 and MCPB 2.1.2 were used.
+
+The public [machine-readable inventories](maintenance/runtime-archive-inventories.json) record exact before/after
+member paths, sizes, hashes and build source commits for all four formats. Local workspace paths are omitted;
+the binary review builds remain outside the repository and are not published package replacements.
 
 | Format | Before files | After files | Selection change |
 | --- | ---: | ---: | --- |
