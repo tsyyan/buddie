@@ -46,7 +46,7 @@ jobs:
           python -m pip install -q build twine
           python -m build --outdir rc/dist
           python -m twine check --strict rc/dist/*
-          python -c "import sys,zipfile,glob; tops={n.split('/')[0] for n in zipfile.ZipFile(glob.glob('rc/dist/*.whl')[0]).namelist()}; extra=tops-{'buddie'}-{t for t in tops if t.endswith('.dist-info')}; sys.exit(f'unexpected top-level {extra}' if extra else 0)"
+          python scripts/check_runtime_archive.py rc/dist/*
       - name: Claude Desktop bundle (manifest.json, .mcpbignore)
         env:
           V: ${{ steps.version.outputs.version }}
@@ -54,6 +54,7 @@ jobs:
           mkdir -p rc/bundle
           npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json
           npx --yes @anthropic-ai/mcpb@2.1.2 pack . "rc/bundle/buddie-$V.mcpb"
+          python scripts/check_runtime_archive.py "rc/bundle/buddie-$V.mcpb"
           npx --yes @anthropic-ai/mcpb@2.1.2 unpack "rc/bundle/buddie-$V.mcpb" "$RUNNER_TEMP/bundle"
           cd "$RUNNER_TEMP/bundle" && find . -type f | sort | tee "$RUNNER_TEMP/files.txt"
           if grep -E '^\./(tests|results|experiments|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
@@ -65,6 +66,7 @@ jobs:
           CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
         run: |
           python scripts/plugin_package.py build --ref "$GITHUB_SHA" --out rc/plugin --tree "$RUNNER_TEMP/plugin"
+          python scripts/check_runtime_archive.py rc/plugin/*.zip
           python scripts/plugin_package.py verify rc/plugin --ref "$GITHUB_SHA"   # a rebuild gives the same bytes
           # an isolated Claude Code configuration: no sign-in, nothing of the runner's, removed with the runner
           export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude-config"
