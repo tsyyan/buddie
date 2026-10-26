@@ -55,7 +55,7 @@ jobs:
           npx --yes @anthropic-ai/mcpb@2.1.2 pack . "rc/bundle/buddie-$V.mcpb"
           npx --yes @anthropic-ai/mcpb@2.1.2 unpack "rc/bundle/buddie-$V.mcpb" "$RUNNER_TEMP/bundle"
           cd "$RUNNER_TEMP/bundle" && find . -type f | sort | tee "$RUNNER_TEMP/files.txt"
-          if grep -E '^\./(tests|results|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
+          if grep -E '^\./(tests|results|experiments|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
             echo "::error::the bundle carries files it should not"; exit 1
           fi
           cd "$GITHUB_WORKSPACE" && python scripts/smoke_mcpb.py "$RUNNER_TEMP/bundle"

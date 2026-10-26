@@ -10,7 +10,7 @@ macOS and Linux, `python` on Windows.
    or build it from a clone:
 
    ```bash
-   npx @anthropic-ai/mcpb pack . buddie.mcpb
+   npx --yes @anthropic-ai/mcpb@2.1.2 pack . buddie.mcpb
    ```
 
 2. Open the file, or drag it onto Claude Desktop (Settings → Extensions), and press Install.
@@ -20,6 +20,12 @@ macOS and Linux, `python` on Windows.
      private repos cannot be checked.
 
 Then ask Claude to check a report, for example: "verify this report with buddie before we use it".
+
+The build command is an explicit package download you run yourself; it is not executed by Buddie's MCP server or
+hooks. From an inspected clone, `python3 run.py serve` (Windows: `python run.py serve`) runs locally without a
+package launcher. Both token names are restricted to GitHub.com or an administrator's protected HTTPS Enterprise
+API; `BUDDIE_GITHUB_API` alone never authorizes token delivery. Leave the optional token blank, or remove it and
+revoke it at GitHub. See [PRIVACY.md](../PRIVACY.md) for endpoints, storage and proxy trust assumptions.
 
 ## What works here
 
