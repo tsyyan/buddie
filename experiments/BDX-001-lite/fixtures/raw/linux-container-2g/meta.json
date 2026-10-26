@@ -1,0 +1,34 @@
+{
+ "env_id": "linux-container-2g",
+ "collected_at": "2026-10-26T02:29:40Z",
+ "note": "python:3.12-slim container on an ubuntu-24.04 runner, --memory=2g --memory-swap=2g --cpus=2",
+ "collector": "experiments/BDX-001-lite/fixtures/collect/collect.py",
+ "platform": {
+  "system": "Linux",
+  "machine": "x86_64"
+ },
+ "python": "3.12.15",
+ "buddie": {
+  "command": "python -m buddie snapshot --category <all 19> --tool <all 23> --json buddie_full.json",
+  "exit": 0,
+  "started_at": "2026-10-26T02:29:40Z",
+  "stdout_line": [
+   "buddie snapshot: diagnostics of 19 categories (grants active, policy absent; these govern the categories only)"
+  ],
+  "catalog_exit": 0
+ },
+ "shell": {
+  "shell": "bash -c (non-login, non-interactive)",
+  "commands": 35,
+  "menu_sha256": "d3891342e29e6e3b0b0cc900148ced153a493252d64aaf4a1a620342a8d24595"
+ },
+ "redaction": {
+  "replaced": [
+   "user name -> 'user'",
+   "host name -> host alias"
+  ],
+  "host_alias": "box-delta",
+  "replacements": 2
+ },
+ "buddie_version": "2.0.1"
+}

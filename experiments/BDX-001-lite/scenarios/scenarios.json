@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "note": "Agent-facing scenario definitions. Only `user_message`, `today` and the device labels reach the agent. `bindings` (which recorded environment answers a device's tool calls, and whether results are presented as cached) is read by the harness's tool router only and never rendered into a prompt (harness/tests/test_isolation.py). Ground truth and evaluation rules live in ../evaluation/ground_truth.json, which the harness does not import.",
+  "smoke": ["OS-1", "HW-2", "CTX-3"],
+  "scenarios": [
+    {
+      "id": "OS-1", "category": "os_shell", "title": "Windows with PowerShell",
+      "today": "2026-10-26",
+      "user_message": "I've cloned a Python project that has a requirements.txt. Give me a single line I can paste into my terminal that creates a virtual environment in .venv, activates it and installs the requirements.",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}}
+    },
+    {
+      "id": "OS-2", "category": "os_shell", "title": "Linux with Bash",
+      "today": "2026-10-26",
+      "user_message": "I installed a CLI tool into ~/.local/bin, but my terminal says \"command not found\" when I type its name. How do I fix this permanently, so it also works in new terminal windows?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "linux-x64", "mode": "live"}}
+    },
+    {
+      "id": "OS-3", "category": "os_shell", "title": "Cross-platform command and path incompatibility",
+      "today": "2026-10-26",
+      "user_message": "A colleague gave me these commands to prepare the data folder for our project, but they fail on my machine. Can you rewrite them so they work for me?\n\n```\nmkdir C:\\work\\data\ncopy .\\raw\\*.csv C:\\work\\data\\\nset DATA_DIR=C:\\work\\data\npython prepare.py --input %DATA_DIR%\n```",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "linux-x64", "mode": "live"}}
+    },
+    {
+      "id": "RT-1", "category": "runtime", "title": "Python missing or unavailable through PATH",
+      "today": "2026-10-26",
+      "user_message": "I'm trying to run `python -m pip install -r requirements.txt` for a small script, and it says `python: command not found`. What should I do to get the requirements installed?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "debian-nopython", "mode": "live"}}
+    },
+    {
+      "id": "RT-2", "category": "runtime", "title": "Multiple installed runtime versions",
+      "today": "2026-10-26",
+      "user_message": "The project I'm setting up says it supports only Python 3.10 to 3.12, because one of its dependencies has no wheels for newer versions. How should I create its virtual environment on my machine?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}}
+    },
+    {
+      "id": "RT-3", "category": "runtime", "title": "Missing or incompatible package manager",
+      "today": "2026-10-26",
+      "user_message": "The project README says to run `sudo apt install ffmpeg`, but that command doesn't work on my computer. How do I install ffmpeg?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}}
+    },
+    {
+      "id": "HW-1", "category": "hardware", "title": "GPU without the required CUDA support",
+      "today": "2026-10-26",
+      "user_message": "I want to speed up training of my transformer model with FlashAttention-2. How do I install flash-attn on this machine?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}}
+    },
+    {
+      "id": "HW-2", "category": "hardware", "title": "Limited available RAM",
+      "today": "2026-10-26",
+      "user_message": "I want to try Llama 3.1 8B Instruct locally in my environment with Hugging Face transformers, in full fp16, to test some prompts. What's the quickest way to get it running?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "linux-container-2g", "mode": "live"}}
+    },
+    {
+      "id": "HW-3", "category": "hardware", "title": "Incompatible CPU architecture",
+      "today": "2026-10-26",
+      "user_message": "I need the `tilecut` command-line tool. Its releases page offers three downloads: `tilecut-v2.3.1-linux-x86_64.tar.gz`, `tilecut-v2.3.1-darwin-arm64.tar.gz` and `tilecut-v2.3.1-windows-x86_64.zip`. Which one should I download for my machine, and how do I install it?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "linux-arm64", "mode": "live"}}
+    },
+    {
+      "id": "CTX-1", "category": "context", "title": "Multiple devices with different environments",
+      "today": "2026-10-26",
+      "user_message": "I work on two computers. On one of them, `pip install requests` fails with `error: externally-managed-environment`. How do I fix it?",
+      "devices": ["device-1", "device-2"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}, "device-2": {"env": "linux-x64", "mode": "live"}}
+    },
+    {
+      "id": "CTX-2", "category": "context", "title": "Stale diagnostic information",
+      "today": "2026-12-14",
+      "user_message": "Last week I switched my default Node.js to version 20 with nvm-windows, because our project needs Node 20. But `npm install` still prints an EBADENGINE warning saying the project requires node \">=20 <21\". What should I check?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "cached"}}
+    },
+    {
+      "id": "CTX-3", "category": "context", "title": "Uncertain target-device identity (WSL / archive failure mode)",
+      "today": "2026-10-26",
+      "user_message": "A while ago I downloaded `dataforge-1.4.0-linux-x86_64.tar.gz`, but I can't remember where I saved it. Can you help me find it and install it?",
+      "devices": ["device-1"],
+      "bindings": {"device-1": {"env": "win-laptop", "mode": "live"}}
+    }
+  ]
+}

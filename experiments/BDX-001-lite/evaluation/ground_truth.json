@@ -1,0 +1,1024 @@
+{
+  "version": 1,
+  "frozen_at": "2026-10-26, before any model run",
+  "rule_semantics": "Patterns are Python regular expressions, case-insensitive. scope 'commands' = the agent's result.commands joined by newlines; 'text' = the answer outside the result block; 'all' = both. A 'forbid' rule fails when its pattern matches and its 'unless' pattern (same scope) does not. A 'require' rule fails when its pattern does not match. Assumption probes are matched per sentence of 'text'; a probe counts when a sentence matches 'pattern' and not 'unless'. false_env_terms produce two generic probes: 'you are on/using/running <term>' and 'your machine/system/computer/shell/terminal is/runs/uses <term>'.",
+  "scenarios": {
+    "OS-1": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11 Education 10.0.26200 x64; user's terminal = Windows PowerShell 5.1.26100 (pwsh 7 not installed); Git Bash 5.3 and cmd also present; python and python3 on PATH = CPython 3.14.6 (Python install manager), py launcher lists 3.14 and 3.12; PowerShell execution policy CurrentUser=RemoteSigned (experimenter-observed with Get-ExecutionPolicy -List; not in either menu)."
+      },
+      "relevant_facts": [
+        "Windows",
+        "Windows PowerShell 5.1 does not accept && or || as statement separators (parser error)",
+        "venv activation in PowerShell is .venv\\Scripts\\Activate.ps1 (or .venv\\Scripts\\activate)",
+        "activate.bat run from PowerShell activates a child cmd, not the session",
+        "execution policy RemoteSigned allows local Activate.ps1"
+      ],
+      "expected": "A one-liner valid in Windows PowerShell 5.1, e.g. python -m venv .venv; .\\.venv\\Scripts\\Activate.ps1; pip install -r requirements.txt",
+      "acceptable_clarifications": [
+        "Which terminal/shell do you use (PowerShell, cmd, Git Bash)?",
+        "Which operating system?"
+      ],
+      "failure_modes": [
+        "&& chaining (bash habit) that fails in PowerShell 5.1",
+        "source .venv/bin/activate",
+        "activate.bat from PowerShell",
+        "assuming Linux/macOS"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": true,
+        "C": true
+      },
+      "clarification_note": "Several shells exist on the device and neither tool says which one the user types into; asking is justified everywhere, but is not a success.",
+      "rules": [
+        {
+          "id": "no_ampersand_chain",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "&&|\\|\\|"
+        },
+        {
+          "id": "no_posix_activate",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bsource\\b|/bin/activate|^\\s*\\.\\s+\\S*activate"
+        },
+        {
+          "id": "no_activate_bat",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "activate\\.bat"
+        },
+        {
+          "id": "no_export",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bexport\\s+\\w+="
+        },
+        {
+          "id": "creates_venv",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "(python3?(\\.\\d+)?(\\.exe)?|py(\\s+-3(\\.\\d+)?)?)\\s+-m\\s+venv"
+        },
+        {
+          "id": "installs_requirements",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "install\\s+(-r|--requirement)\\s+\\S*requirements\\.txt"
+        },
+        {
+          "id": "activates_or_uses_venv",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "Activate\\.ps1|Scripts[\\\\/]activate(?!\\.bat)\\b|\\.venv[\\\\/]Scripts[\\\\/](pip|python)"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "macOS",
+        "bash",
+        "zsh",
+        "PowerShell 7",
+        "pwsh"
+      ],
+      "assumption_probes": [
+        {
+          "id": "asserts_pwsh7",
+          "pattern": "PowerShell (7|Core)\\b.{0,40}(is|are) (installed|available|your)",
+          "unless": "\\b(if|whether|may|might|not|isn'?t)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "partial",
+        "buddie_detail": "system.os = Windows 11; system.shell lists powershell 5.1, bash 5.3, cmd, no default on Windows: which shell the user types into is not observed.",
+        "shell": "partial",
+        "shell_detail": "$PSVersionTable.PSVersion shows 5.1 in the device's default shell; uname -a and bash --version also succeed (Git for Windows on PATH), which can mislead toward a POSIX shell."
+      },
+      "relevant_sources": {
+        "B": [
+          "$PSVersionTable.PSVersion",
+          "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory"
+        ],
+        "C": [
+          "system.os",
+          "system.shell"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "OS-2": {
+      "environment": {
+        "device-1": "linux-x64: Ubuntu 24.04 x86_64 (GitHub-hosted runner); default/login shell bash 5.2.21; zsh and fish absent; pwsh 7.6 also installed; ~/.profile is Ubuntu's (adds ~/.local/bin at login when it exists)."
+      },
+      "relevant_facts": [
+        "Linux",
+        "bash is the user's shell",
+        "~/.bashrc (interactive) or ~/.profile (login) are the files to edit"
+      ],
+      "expected": "Append export PATH=\"$HOME/.local/bin:$PATH\" to ~/.bashrc (or ~/.profile) and reload / open a new terminal; or log out and in.",
+      "acceptable_clarifications": [
+        "Which shell / operating system do you use?"
+      ],
+      "failure_modes": [
+        "editing only ~/.zshrc or fish config",
+        "Windows setx / $env:Path",
+        "a session-only export presented as permanent"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_windows_path_tools",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bsetx\\b|\\$env:|\\[Environment\\]|fish_add_path|config\\.fish"
+        },
+        {
+          "id": "no_zsh_only",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\.zshrc",
+          "unless": "\\.bashrc|\\.profile|\\.bash_profile"
+        },
+        {
+          "id": "persists_for_bash",
+          "kind": "require",
+          "scope": "all",
+          "pattern": "\\.bashrc|\\.profile|\\.bash_profile|log\\s?out|log back in|re-?log|sign out"
+        },
+        {
+          "id": "mentions_local_bin",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "\\.local/bin"
+        }
+      ],
+      "false_env_terms": [
+        "zsh",
+        "fish",
+        "macOS",
+        "Windows"
+      ],
+      "assumption_probes": [],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "system.os Ubuntu 24.04; system.shell default bash 5.2.21, zsh/fish not found.",
+        "shell": "full",
+        "shell_detail": "echo $SHELL = /bin/bash; bash --version; cat /etc/os-release."
+      },
+      "relevant_sources": {
+        "B": [
+          "echo $SHELL",
+          "bash --version",
+          "cat /etc/os-release",
+          "uname -a"
+        ],
+        "C": [
+          "system.shell",
+          "system.os"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "OS-3": {
+      "environment": {
+        "device-1": "linux-x64: Ubuntu 24.04 x86_64, bash; python and python3 both on PATH (3.12.3)."
+      },
+      "relevant_facts": [
+        "Linux/bash: no drive letters, / separators, cp instead of copy, export VAR=... and $VAR instead of set / %VAR%"
+      ],
+      "expected": "mkdir -p ~/work/data (or another POSIX path); cp raw/*.csv ~/work/data/; export DATA_DIR=~/work/data; python3 prepare.py --input \"$DATA_DIR\"",
+      "acceptable_clarifications": [
+        "Which operating system / shell?"
+      ],
+      "failure_modes": [
+        "keeping C:\\ paths",
+        "PowerShell rewrite",
+        "cmd syntax"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_drive_letters",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\b[A-Za-z]:[\\\\/]"
+        },
+        {
+          "id": "no_cmd_syntax",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "^\\s*copy\\b|^\\s*set\\s+\\w+=|%\\w+%|\\$env:|New-Item|Copy-Item"
+        },
+        {
+          "id": "no_backslash_paths",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\w\\\\\\w"
+        },
+        {
+          "id": "has_mkdir",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "\\bmkdir\\b"
+        },
+        {
+          "id": "has_copy",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "\\bcp\\b|\\brsync\\b"
+        },
+        {
+          "id": "has_env_var_or_path",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "export\\s+DATA_DIR=|DATA_DIR=\\S+\\s+python|prepare\\.py\\s+--input\\s+\\S*/"
+        },
+        {
+          "id": "runs_prepare",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "python3?\\s+\\S*prepare\\.py"
+        }
+      ],
+      "false_env_terms": [
+        "Windows",
+        "macOS",
+        "PowerShell"
+      ],
+      "assumption_probes": [],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "system.os Linux/Ubuntu, system.shell default bash.",
+        "shell": "full",
+        "shell_detail": "uname -a, cat /etc/os-release, echo $SHELL."
+      },
+      "relevant_sources": {
+        "B": [
+          "uname -a",
+          "cat /etc/os-release",
+          "echo $SHELL"
+        ],
+        "C": [
+          "system.os",
+          "system.shell"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "RT-1": {
+      "environment": {
+        "device-1": "debian-nopython: Debian 12 (bookworm) container, x86_64, running as root (sudo is not installed); /usr/bin/python3 = CPython 3.11.2; no `python` command; pip absent; ensurepip absent so `python3 -m venv` fails until python3-venv is installed; apt 2.6.1; PEP 668 EXTERNALLY-MANAGED marker present (Debian 12); curl and wget absent."
+      },
+      "relevant_facts": [
+        "Debian with apt",
+        "only python3 exists",
+        "no pip, no ensurepip",
+        "PEP 668: system pip installs are refused",
+        "root: sudo unnecessary (and not installed)",
+        "curl/wget absent"
+      ],
+      "expected": "apt-get update && apt-get install -y python3-venv (or python3-pip); python3 -m venv .venv; .venv/bin/pip install -r requirements.txt (or --break-system-packages, or python-is-python3 + venv).",
+      "acceptable_clarifications": [
+        "Which operating system / distribution?"
+      ],
+      "failure_modes": [
+        "keep using bare `python`",
+        "python3 -m pip install into the system interpreter (PEP 668 refusal)",
+        "get-pip via curl (absent)",
+        "wrong package manager"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "sudo_note": "sudo is absent, so `sudo apt ...` would fail here, but neither tool shows whether sudo is installed (both show the process is root). sudo use is recorded as a secondary flag (uses_sudo) and does not decide applicability.",
+      "rules": [
+        {
+          "id": "no_bare_python",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "(?<![\\w./-])python(?![\\w.-])",
+          "unless": "python-is-python3"
+        },
+        {
+          "id": "no_unavailable_downloaders",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\b(curl|wget)\\b",
+          "unless": "install[^\\n]*\\b(curl|wget)\\b"
+        },
+        {
+          "id": "no_wrong_package_manager",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\b(dnf|yum|pacman|apk|brew|winget|choco|zypper)\\b"
+        },
+        {
+          "id": "uses_apt",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "\\bapt(-get)?\\s+(-\\S+\\s+)*install"
+        },
+        {
+          "id": "pep668_compatible",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "python3(\\.\\d+)?-venv|--break-system-packages|python3-virtualenv"
+        }
+      ],
+      "secondary_flags": [
+        {
+          "id": "uses_sudo",
+          "scope": "commands",
+          "pattern": "\\bsudo\\b"
+        }
+      ],
+      "false_env_terms": [
+        "Ubuntu",
+        "macOS",
+        "Windows",
+        "Fedora",
+        "Arch"
+      ],
+      "assumption_probes": [],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "system.os debian 12 container; software.python: only python3 3.11.2, pip false, ensurepip false; package_managers apt; permissions elevated true; software.tools curl/wget not found. PEP 668 marker not observed (model knowledge).",
+        "shell": "full",
+        "shell_detail": "python --version: command not found; python3 -m pip: No module named pip; which -a; apt --version; id -u = 0; os-release. ensurepip and curl not in the menu."
+      },
+      "relevant_sources": {
+        "B": [
+          "python --version",
+          "python3 -m pip --version",
+          "which -a python python3 pip pip3"
+        ],
+        "C": [
+          "software.python"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "RT-2": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11; `python`/`python3` = 3.14.6; py launcher: 3.14 (default) and 3.12.10; python3.12.exe alias on PATH (Python install manager; experimenter-observed with where.exe, not in either menu); shell PowerShell 5.1."
+      },
+      "relevant_facts": [
+        "Python 3.12 is already installed",
+        "py -3.12 selects it",
+        "plain python is 3.14 (unsupported by the project)"
+      ],
+      "expected": "py -3.12 -m venv .venv (or python3.12 -m venv .venv), then activate with .venv\\Scripts\\Activate.ps1.",
+      "acceptable_clarifications": [
+        "Which OS / which Python versions are installed?"
+      ],
+      "failure_modes": [
+        "python -m venv with 3.14",
+        "pyenv (not installed)",
+        "POSIX activation",
+        "installing a new 3.12 while one exists (applicable but unnecessary: flagged)"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "selects_312",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "py(\\.exe)?\\s+(-V:)?-?3\\.12\\b[^\\n]*-m\\s+venv|python3\\.12(\\.exe)?\\s+-m\\s+venv|3\\.12[^\\n]*python(\\.exe)?\\s+-m\\s+venv|uv\\s+venv\\s+[^\\n]*3\\.12"
+        },
+        {
+          "id": "no_unversioned_venv",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "(?<![\\w.-])python3?(\\.exe)?\\s+-m\\s+venv"
+        },
+        {
+          "id": "no_pyenv",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bpyenv\\b"
+        },
+        {
+          "id": "no_posix_activate",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bsource\\b|/bin/activate"
+        },
+        {
+          "id": "no_wrong_package_manager",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\b(apt(-get)?|brew|dnf)\\b"
+        }
+      ],
+      "secondary_flags": [
+        {
+          "id": "reinstalls_312",
+          "scope": "commands",
+          "pattern": "winget\\s+install[^\\n]*Python|python-3\\.12[^\\n]*\\.exe|choco\\s+install\\s+python"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "macOS"
+      ],
+      "assumption_probes": [
+        {
+          "id": "denies_312_installed",
+          "pattern": "(don'?t|do not) have Python 3\\.12|3\\.12 (is not|isn'?t) installed|install Python 3\\.12 first",
+          "unless": "\\b(if|unless|whether|may|might|check)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "software.python: interpreters 3.14.6 on PATH; py_launcher_versions [3.12, 3.14].",
+        "shell": "full",
+        "shell_detail": "py --list shows 3.14 and 3.12.10; python --version 3.14.6."
+      },
+      "relevant_sources": {
+        "B": [
+          "py --list"
+        ],
+        "C": [
+          "software.python"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "RT-3": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11; winget 1.29 present; Chocolatey and Scoop absent; no WSL distribution installed (wsl --list: none); shell PowerShell 5.1."
+      },
+      "relevant_facts": [
+        "Windows: apt does not exist",
+        "winget is available",
+        "no WSL distribution"
+      ],
+      "expected": "winget install ffmpeg (Gyan.FFmpeg) or a manual download of a Windows build, then a new terminal / PATH.",
+      "acceptable_clarifications": [
+        "Which operating system?"
+      ],
+      "failure_modes": [
+        "apt inside WSL as if WSL were installed",
+        "choco/scoop without installing them",
+        "brew"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_apt",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bapt(-get)?\\b"
+        },
+        {
+          "id": "no_wsl_use",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bwsl\\b",
+          "unless": "wsl(\\.exe)?\\s+--install"
+        },
+        {
+          "id": "no_absent_managers",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\b(choco|scoop)\\s+install",
+          "unless": "chocolatey\\.org/install|get\\.scoop\\.sh"
+        },
+        {
+          "id": "no_brew_sudo",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bbrew\\b|\\bsudo\\b"
+        },
+        {
+          "id": "windows_install_path",
+          "kind": "require",
+          "scope": "all",
+          "pattern": "winget\\s+install|gyan\\.dev|ffmpeg\\.org|BtbN|choco(latey)?\\s+install|scoop\\s+install"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "macOS",
+        "Ubuntu",
+        "WSL"
+      ],
+      "assumption_probes": [
+        {
+          "id": "assumes_wsl",
+          "pattern": "\\b(in|inside|open|your|launch)\\b[^.]{0,30}\\bWSL\\b",
+          "unless": "\\b(install|not installed|isn'?t installed|no WSL|if you|if WSL|whether|don'?t have|without|alternatively|or)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "partial",
+        "buddie_detail": "system.os Windows; package_managers winget 1.29, choco not found (scoop not in catalog); WSL distributions not observed.",
+        "shell": "full",
+        "shell_detail": "winget --version; apt not recognized; wsl --list --verbose: no distributions (scoop/choco not in menu)."
+      },
+      "relevant_sources": {
+        "B": [
+          "winget --version",
+          "wsl --list --verbose"
+        ],
+        "C": [
+          "software.package_managers"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "HW-1": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11 native (no WSL distribution); NVIDIA GeForce GTX 1650, 4 GiB, Turing, compute capability 7.5; driver 596.49 (CUDA 13.2 driver API); no CUDA toolkit (nvcc absent); Python 3.14.6."
+      },
+      "relevant_facts": [
+        "FlashAttention-2 requires Ampere or newer (sm80+); a GTX 1650 (sm75) is not supported",
+        "no CUDA toolkit for a source build",
+        "alternatives: PyTorch SDPA / memory-efficient attention, xformers, FlashAttention 1.x"
+      ],
+      "expected": "Explain FA2 cannot run on the GTX 1650 and propose an alternative such as attn_implementation=\"sdpa\" / torch.nn.functional.scaled_dot_product_attention.",
+      "acceptable_clarifications": [
+        "Which GPU / OS do you have?"
+      ],
+      "failure_modes": [
+        "pip install flash-attn --no-build-isolation as the answer",
+        "WSL path as if installed",
+        "claiming the GPU is supported"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_fa2_install",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "install\\s+[^\\n]*flash[-_]attn(?!\\s*[=<]=?\\s*1)"
+        },
+        {
+          "id": "no_wsl_use",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bwsl\\b",
+          "unless": "wsl(\\.exe)?\\s+--install"
+        },
+        {
+          "id": "gpu_unsupported_reason",
+          "kind": "require",
+          "scope": "text",
+          "pattern": "Turing|compute capability\\s*(of\\s*)?7\\.5|sm_?75|Ampere|GTX 1650[^.]{0,160}(not|isn'?t|unsupported|doesn'?t|does not|won'?t|too old|older)|(not|isn'?t|unsupported|doesn'?t|does not|won'?t)[^.]{0,160}GTX 1650"
+        },
+        {
+          "id": "offers_alternative",
+          "kind": "require",
+          "scope": "all",
+          "pattern": "scaled_dot_product_attention|\\bsdpa\\b|xformers|FlashAttention[- ]?1|flash[-_]attn\\s*[=<]=?\\s*1|memory[- ]efficient attention"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "Ampere",
+        "RTX 30",
+        "RTX 40",
+        "A100"
+      ],
+      "assumption_probes": [
+        {
+          "id": "asserts_cuda_toolkit",
+          "pattern": "(CUDA toolkit|nvcc)[^.]{0,30}\\b(is|are)\\s+installed",
+          "unless": "\\b(not|isn'?t|if|whether|check|make sure|ensure)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "hardware.gpu GTX 1650 4 GiB; software.gpu_stack driver 596.49, CUDA 13.2, toolkit not found. Compute capability not reported: architecture must come from model knowledge of the GPU name.",
+        "shell": "full",
+        "shell_detail": "nvidia-smi: GTX 1650, driver 596.49, CUDA 13.2, 4096MiB; nvcc not recognized. Compute capability not shown by plain nvidia-smi."
+      },
+      "relevant_sources": {
+        "B": [
+          "nvidia-smi"
+        ],
+        "C": [
+          "hardware.gpu",
+          "software.gpu_stack"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "HW-2": {
+      "environment": {
+        "device-1": "linux-container-2g: python:3.12-slim (Debian 13) Docker container on a 16 GiB host; cgroup memory limit 2 GiB (memory.max = 2147483648, swap limited to the same); no GPU (only a Hyper-V synthetic display adapter), no CUDA; 4 logical cores visible (CPU quota 2); CPython 3.12.15 with pip; root; `free` (procps) not installed."
+      },
+      "relevant_facts": [
+        "8B in fp16 needs about 16 GB for the weights alone; 2 GiB cannot hold it (even 4-bit 8B needs about 5 GB)",
+        "no GPU",
+        "host memory (16 GiB) is not available to the container"
+      ],
+      "expected": "Say it will not fit in this 2 GiB container (and there is no GPU); propose a much smaller model (e.g. 0.5B-1B, or a small quantized GGUF with llama.cpp), raising the container memory limit, or running elsewhere / via an API.",
+      "acceptable_clarifications": [
+        "How much RAM / is there a GPU?"
+      ],
+      "failure_modes": [
+        "full transformers fp16 8B recipe",
+        "device_map=\"cuda\" / .cuda()",
+        "treating the host's 16 GiB as available",
+        "suggesting 8B 4-bit as if it fits"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_cuda_use",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\.cuda\\(|device_map\\s*=\\s*[\"']cuda|device\\s*=\\s*[\"']?cuda|--gpus|bitsandbytes"
+        },
+        {
+          "id": "states_memory_insufficient",
+          "kind": "require",
+          "scope": "text",
+          "pattern": "2\\s?Gi?B|2147483648|memory\\.max|memory limit|cgroup|not enough (RAM|memory)|insufficient (RAM|memory)|won'?t fit|will not fit|doesn'?t fit|does not fit|cannot fit|can'?t fit|too (large|big)|out of memory|\\bOOM\\b"
+        },
+        {
+          "id": "offers_feasible_path",
+          "kind": "require",
+          "scope": "all",
+          "pattern": "0\\.5B|1\\.5B|\\b1B\\b|1\\.1B|TinyLlama|Qwen2?\\.?5?-0\\.5|SmolLM|Llama[- ]3\\.2[- ]1B|--memory|memory limit|increase[^.]{0,40}memory|more (RAM|memory)|larger (machine|instance|container|host)|cloud|hosted|API|Inference (API|Endpoints?)"
+        }
+      ],
+      "false_env_terms": [
+        "GPU",
+        "NVIDIA",
+        "CUDA"
+      ],
+      "assumption_probes": [
+        {
+          "id": "asserts_gpu",
+          "pattern": "\\byou(r)?\\b[^.]{0,30}\\b(have|has|with)\\b[^.]{0,20}\\b(GPU|NVIDIA|CUDA)",
+          "unless": "\\b(no|not|without|if|whether|don'?t|doesn'?t|lack|unless|assum)\\w*"
+        },
+        {
+          "id": "host_ram_as_available",
+          "pattern": "\\b1[56](\\.\\d+)?\\s?Gi?B\\b",
+          "unless": "host|limit|cgroup|container|but|only|need|needs|require|weights|fp16|model"
+        }
+      ],
+      "manual_review_if": [
+        {
+          "id": "quantized_8b_suggested",
+          "scope": "all",
+          "pattern": "8B[^.\\n]{0,80}(gguf|Q4|4-?bit|int4|quantiz)|(gguf|Q4|4-?bit|int4|quantiz)[^.\\n]{0,80}8B"
+        }
+      ],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "hardware.memory cgroup_limit_bytes 2147483648 next to total_bytes 16766414848; system.os runtime_context container; hardware.gpu Microsoft synthetic adapter; gpu_stack nothing found.",
+        "shell": "partial",
+        "shell_detail": "free -b fails (procps absent); cat /sys/fs/cgroup/memory.max = 2147483648 (if chosen); nvidia-smi not found; lscpu."
+      },
+      "relevant_sources": {
+        "B": [
+          "cat /sys/fs/cgroup/memory.max"
+        ],
+        "C": [
+          "hardware.memory"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "HW-3": {
+      "environment": {
+        "device-1": "linux-arm64: Ubuntu 24.04 aarch64 (GitHub-hosted arm runner), bash, apt; no x86 emulation configured (not checked by either menu)."
+      },
+      "relevant_facts": [
+        "aarch64: none of the three archives is a native Linux arm64 build",
+        "linux-x86_64 binaries fail with 'Exec format error' without qemu-user/box64"
+      ],
+      "expected": "Say none of the offered archives matches linux-arm64; suggest building from source, an arm64 package/release, asking upstream, or emulation (qemu-user / box64) with caveats.",
+      "acceptable_clarifications": [
+        "What OS and CPU architecture is your machine?"
+      ],
+      "failure_modes": [
+        "recommending the linux-x86_64 archive",
+        "recommending the darwin-arm64 archive because it is arm64"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_x86_archive",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "linux-x86_64",
+          "unless": "qemu|box64|binfmt"
+        },
+        {
+          "id": "no_other_os_archive",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "darwin-arm64|windows-x86_64"
+        },
+        {
+          "id": "names_arm",
+          "kind": "require",
+          "scope": "text",
+          "pattern": "aarch64|arm64|\\bARM\\b"
+        },
+        {
+          "id": "states_mismatch_or_path",
+          "kind": "require",
+          "scope": "text",
+          "pattern": "none of (the|these|them)|no (native )?(Linux )?(arm64|aarch64|ARM)[^.]{0,30}(build|binary|release|archive|download|asset)|not (compatible|built for)|incompatible|won'?t run|will not run|cannot run|can'?t run|exec format|from source|compile|qemu|box64"
+        }
+      ],
+      "false_env_terms": [
+        "x86_64",
+        "x86-64",
+        "amd64",
+        "Intel",
+        "macOS",
+        "Windows"
+      ],
+      "assumption_probes": [],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "system.os / hardware.cpu architecture aarch64 (cpu model not reported).",
+        "shell": "full",
+        "shell_detail": "uname -a aarch64; lscpu Architecture aarch64."
+      },
+      "relevant_sources": {
+        "B": [
+          "uname -a",
+          "lscpu"
+        ],
+        "C": [
+          "system.os",
+          "hardware.cpu"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "CTX-1": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11, Python 3.14 (no PEP 668 marker)",
+        "device-2": "linux-x64: Ubuntu 24.04, system python3 3.12.3 with the PEP 668 EXTERNALLY-MANAGED marker, venv and ensurepip available, pipx 1.16.7 installed"
+      },
+      "relevant_facts": [
+        "externally-managed-environment is PEP 668 on Debian/Ubuntu system Python: it comes from device-2",
+        "fix: a virtual environment (python3 -m venv), pipx for applications, apt python3-requests, or --break-system-packages (discouraged)"
+      ],
+      "expected": "A Linux fix: python3 -m venv .venv && . .venv/bin/activate && pip install requests (or apt install python3-requests / pipx).",
+      "acceptable_clarifications": [],
+      "failure_modes": [
+        "Windows-specific fix aimed at device-1",
+        "asserting the error happens on the Windows device"
+      ],
+      "clarification_justified": {
+        "A": false,
+        "B": false,
+        "C": false
+      },
+      "clarification_note": "The error text itself identifies a Debian/Ubuntu-style system Python; the fix does not depend on which device. Asking is counted as an unjustified clarification.",
+      "rules": [
+        {
+          "id": "no_windows_fix",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\$env:|Activate\\.ps1|Scripts[\\\\/]activate|\\bpy\\s+-|\\bwinget\\b|\\bchoco\\b|\\.exe\\b"
+        },
+        {
+          "id": "pep668_fix",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "-m\\s+venv|\\bpipx\\b|apt(-get)?\\s+[^\\n]*install[^\\n]*python3-requests|--break-system-packages|\\bvirtualenv\\b|uv\\s+(venv|pip)"
+        }
+      ],
+      "false_env_terms": [
+        "macOS"
+      ],
+      "assumption_probes": [
+        {
+          "id": "blames_windows_device",
+          "pattern": "(device-1|Windows)[^.]{0,80}externally[- ]managed|externally[- ]managed[^.]{0,80}(device-1|on (your )?Windows)",
+          "unless": "\\b(not|isn'?t|doesn'?t|never|unlike|rather|only on Linux)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "full",
+        "buddie_detail": "system.os per device (Windows vs Ubuntu 24.04); PEP 668 marker not observed (the error text supplies it).",
+        "shell": "full",
+        "shell_detail": "os-release / Get-CimInstance per device; marker not observed."
+      },
+      "relevant_sources": {
+        "B": [
+          "cat /etc/os-release",
+          "uname -a",
+          "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory"
+        ],
+        "C": [
+          "system.os"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "CTX-2": {
+      "environment": {
+        "device-1": "win-laptop as recorded on 2026-10-26 (node 24.19.0 on PATH, no nvm observed). Scenario premise: on 2026-12-07 the user switched to Node 20 with nvm-windows; the recording does not reflect that. Current node version is unknown to every condition; tools return the 2026-10-26 recording with its collection time."
+      },
+      "relevant_facts": [
+        "diagnostics are seven weeks old and predate the user's change",
+        "nvm-windows commands: nvm list / nvm use 20 / nvm current; check `node -v`, `where.exe node` / `Get-Command node` for a Node install earlier on PATH than the nvm symlink"
+      ],
+      "expected": "Do not present the recorded Node 24.19.0 as the current version; recommend checking node -v / where.exe node / nvm list and PATH order (an existing Node install shadowing the nvm symlink), then nvm use 20.",
+      "acceptable_clarifications": [
+        "What does node -v print now?"
+      ],
+      "failure_modes": [
+        "asserting the user currently runs Node 24 from the stale record",
+        "nvm-sh commands (nvm alias default, source ~/.nvm/nvm.sh)"
+      ],
+      "clarification_justified": {
+        "A": false,
+        "B": false,
+        "C": false
+      },
+      "rules": [
+        {
+          "id": "no_nvm_sh_syntax",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "nvm\\s+alias|\\.nvm/nvm\\.sh|\\bsource\\b|\\bexport\\s+\\w+=|\\bbrew\\b|\\bapt\\b"
+        },
+        {
+          "id": "verifies_current_node",
+          "kind": "require",
+          "scope": "commands",
+          "pattern": "node\\s+(-v|--version)|nvm\\s+(list|ls|current)|where(\\.exe)?\\s+node|Get-Command\\s+node|\\bgcm\\s+node"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "macOS"
+      ],
+      "assumption_probes": [
+        {
+          "id": "stale_version_as_current",
+          "pattern": "24\\.19|\\bv24\\b|Node(\\.js)?\\s+24\\b",
+          "unless": "snapshot|observ|record|collect|cached|2026-10-26|Oct|earlier|before|stale|outdated|\\bold\\b|older|at (that|the) time|weeks|ago|was|were|had|predat|still|if"
+        }
+      ],
+      "manual_review_if": [
+        {
+          "id": "mentions_recorded_version",
+          "scope": "text",
+          "pattern": "24\\.19|\\bv24\\b"
+        }
+      ],
+      "coverage": {
+        "buddie": "partial",
+        "buddie_detail": "software.runtimes node 24.19.0 with observed_at 2026-10-26: stale by design; nvm not in the catalog; npm on Windows is a batch script buddie finds but does not run.",
+        "shell": "partial",
+        "shell_detail": "node --version v24.19.0, npm --version 11.17.0 as of the recording; no nvm command in the menu."
+      },
+      "relevant_sources": {
+        "B": [
+          "node --version"
+        ],
+        "C": [
+          "software.runtimes"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    },
+    "CTX-3": {
+      "environment": {
+        "device-1": "win-laptop: Windows 11 native; no WSL distribution installed (wsl --list: none); tar.exe present (Windows bsdtar); host name ws-alpha. Whether the archive was downloaded on this device is not established by anything the user said or any tool can observe (neither tool searches files)."
+      },
+      "relevant_facts": [
+        "the observed device is Windows without WSL: a linux-x86_64 build does not run natively",
+        "the archive's location and even its device are unknown"
+      ],
+      "expected": "Either ask which device it was downloaded on / which OS they will run it on, or: search on this Windows machine with Windows tools (Get-ChildItem -Recurse -Filter dataforge*, Downloads), while saying a Linux build will not run natively on Windows and WSL is not installed (offer a Windows build or wsl --install).",
+      "acceptable_clarifications": [
+        "Which computer did you download it on?",
+        "Which OS do you want to install it on?",
+        "Is there a Windows build?"
+      ],
+      "failure_modes": [
+        "assuming WSL is installed and searching/extracting inside it",
+        "find ~ -name ... / locate on Windows",
+        "asserting the file is on this machine",
+        "instructions to run the Linux binary on Windows"
+      ],
+      "clarification_justified": {
+        "A": true,
+        "B": true,
+        "C": true
+      },
+      "rules": [
+        {
+          "id": "no_posix_search",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bfind\\s+(~|/|\\.|\\$HOME)|\\blocate\\b|\\bmlocate\\b"
+        },
+        {
+          "id": "no_wsl_as_installed",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\bwsl\\b|/mnt/c",
+          "unless": "wsl(\\.exe)?\\s+--install"
+        },
+        {
+          "id": "no_run_linux_binary",
+          "kind": "forbid",
+          "scope": "commands",
+          "pattern": "\\./dataforge|/usr/local/bin|chmod\\s+\\+x|\\bsudo\\b"
+        },
+        {
+          "id": "windows_search",
+          "kind": "require",
+          "scope": "all",
+          "pattern": "Get-ChildItem|\\bgci\\b|\\bls\\s+-Recurse|dir\\s+[^\\n]*/s\\b|where(\\.exe)?\\s+/r|File Explorer|Windows Search|search box|\\bes\\.exe\\b|Everything"
+        },
+        {
+          "id": "linux_build_caveat",
+          "kind": "require",
+          "scope": "text",
+          "pattern": "Windows (build|version|installer|release|binary|package|zip)|(won'?t|will not|cannot|can'?t|doesn'?t|does not)\\s+run[^.]{0,30}(natively|on Windows|directly)|not run natively|wsl(\\.exe)?\\s+--install|install WSL|WSL[^.]{0,30}(not installed|isn'?t installed|no distribution|none installed)|no WSL|without WSL"
+        }
+      ],
+      "false_env_terms": [
+        "Linux",
+        "macOS",
+        "Ubuntu"
+      ],
+      "assumption_probes": [
+        {
+          "id": "assumes_wsl",
+          "pattern": "\\b(in|inside|open|your|launch|from)\\b[^.]{0,30}\\bWSL\\b",
+          "unless": "\\b(install|not installed|isn'?t installed|no WSL|if you|if WSL|whether|don'?t have|without|not set up|no distribution|none)\\b"
+        },
+        {
+          "id": "asserts_file_location",
+          "pattern": "\\b(the|your) (file|archive|tarball) is (in|at|located|saved)|I (found|located) (it|the file|the archive)",
+          "unless": "\\b(probably|likely|if|may|might|usually|typically|often|check)\\b"
+        }
+      ],
+      "manual_review_if": [],
+      "coverage": {
+        "buddie": "partial",
+        "buddie_detail": "system.os Windows 11, runtime_context native (says buddie is not inside WSL; WSL distributions on the host are not observed); no host identity; no file search.",
+        "shell": "partial",
+        "shell_detail": "wsl --list --verbose: no distributions; hostname ws-alpha; uname -a prints MINGW64 (Git for Windows), which can mislead; no file search in the menu."
+      },
+      "relevant_sources": {
+        "B": [
+          "wsl --list --verbose"
+        ],
+        "C": [
+          "system.os"
+        ],
+        "semantics": "the run requested at least one of these (any device)"
+      }
+    }
+  }
+}

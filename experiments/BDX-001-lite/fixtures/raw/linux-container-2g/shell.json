@@ -1,0 +1,286 @@
+{
+ "shell": "bash -c (non-login, non-interactive)",
+ "menu_sha256": "d3891342e29e6e3b0b0cc900148ced153a493252d64aaf4a1a620342a8d24595",
+ "records": [
+  {
+   "command": "uname -a",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "Linux box-delta 6.17.0-1022-azure #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026 x86_64 GNU/Linux\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "cat /etc/os-release",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "echo $SHELL",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "/bin/bash\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "bash --version",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "GNU bash, version 5.2.37(1)-release (x86_64-pc-linux-gnu)\nCopyright (C) 2022 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "id -u",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "0\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "lscpu",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           48 bits physical, 57 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  4\nOn-line CPU(s) list:                     0-3\nVendor ID:                               GenuineIntel\nModel name:                              INTEL(R) XEON(R) PLATINUM 8573C\nCPU family:                              6\nModel:                                   207\nThread(s) per core:                      2\nCore(s) per socket:                      2\nSocket(s):                               1\nStepping:                                2\nCPU(s) scaling MHz:                      124%\nCPU max MHz:                             2300.0000\nCPU min MHz:                             800.0000\nBogoMIPS:                                4600.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves vnmi avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid fsrm arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       Microsoft\nVirtualization type:                     full\nL1d cache:                               96 KiB (2 instances)\nL1i cache:                               64 KiB (2 instances)\nL2 cache:                                4 MiB (2 instances)\nL3 cache:                                260 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-3\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Mitigation; Aligned branch/return thunks\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Vulnerable\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Retpoline\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown\nVulnerability Vmscape:                   Not affected\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "nproc",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "4\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "free -b",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: free: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "cat /sys/fs/cgroup/memory.max",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "2147483648\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "nvidia-smi",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: nvidia-smi: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "nvcc --version",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: nvcc: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "python --version",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "Python 3.12.15\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "python3 --version",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "Python 3.12.15\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "python3 -m pip --version",
+   "recorded_at": "2026-10-26T02:29:40Z",
+   "exit": 0,
+   "stdout": "pip 25.0.1 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "which -a python python3 pip pip3",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "/usr/local/bin/python\n/usr/local/bin/python\n/usr/local/bin/python3\n/usr/local/bin/python3\n/usr/local/bin/pip\n/usr/local/bin/pip\n/usr/local/bin/pip3\n/usr/local/bin/pip3\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "node --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: node: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "npm --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: npm: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "apt --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "apt 3.0.3 (amd64)\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "brew --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: brew: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "git --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: git: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "docker --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: docker: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "$PSVersionTable.PSVersion",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: .PSVersion: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: Get-CimInstance: command not found\nbash: line 1: Select-Object: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_Processor | Select-Object Name, NumberOfLogicalProcessors",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: Get-CimInstance: command not found\nbash: line 1: Select-Object: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_ComputerSystem | Select-Object TotalPhysicalMemory",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: Get-CimInstance: command not found\nbash: line 1: Select-Object: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "Get-Command python, python3, py, pip -All -ErrorAction SilentlyContinue | Select-Object Name, Version, Source",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: Get-Command: command not found\nbash: line 1: Select-Object: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "py --list",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: py: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "winget --version",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: winget: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "hostname",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "box-delta\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "date -u",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "Mon Oct 26 02:29:41 UTC 2026\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-Date -Format o",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: Get-Date: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "echo $PATH",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "$env:Path",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: :Path: command not found\n",
+   "truncated": false
+  },
+  {
+   "command": "df -h .",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 0,
+   "stdout": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/root       145G   59G   86G  41% /w\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "wsl --list --verbose",
+   "recorded_at": "2026-10-26T02:29:41Z",
+   "exit": 127,
+   "stdout": "",
+   "stderr": "bash: line 1: wsl: command not found\n",
+   "truncated": false
+  }
+ ]
+}

@@ -1,0 +1,265 @@
+{
+ "per_scenario": {
+  "OS-1": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "$PSVersionTable.PSVersion",
+      "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory"
+     ],
+     "bytes": 657
+    },
+    "C_relevant": {
+     "items": [
+      "system.os",
+      "system.shell"
+     ],
+     "bytes": 5600
+    }
+   }
+  },
+  "OS-2": {
+   "device-1": {
+    "env": "linux-x64",
+    "B_relevant": {
+     "items": [
+      "echo $SHELL",
+      "bash --version",
+      "cat /etc/os-release",
+      "uname -a"
+     ],
+     "bytes": 1006
+    },
+    "C_relevant": {
+     "items": [
+      "system.shell",
+      "system.os"
+     ],
+     "bytes": 5295
+    }
+   }
+  },
+  "OS-3": {
+   "device-1": {
+    "env": "linux-x64",
+    "B_relevant": {
+     "items": [
+      "uname -a",
+      "cat /etc/os-release",
+      "echo $SHELL"
+     ],
+     "bytes": 665
+    },
+    "C_relevant": {
+     "items": [
+      "system.os",
+      "system.shell"
+     ],
+     "bytes": 5295
+    }
+   }
+  },
+  "RT-1": {
+   "device-1": {
+    "env": "debian-nopython",
+    "B_relevant": {
+     "items": [
+      "python --version",
+      "python3 -m pip --version",
+      "which -a python python3 pip pip3"
+     ],
+     "bytes": 290
+    },
+    "C_relevant": {
+     "items": [
+      "software.python"
+     ],
+     "bytes": 2413
+    }
+   }
+  },
+  "RT-2": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "py --list"
+     ],
+     "bytes": 144
+    },
+    "C_relevant": {
+     "items": [
+      "software.python"
+     ],
+     "bytes": 3245
+    }
+   }
+  },
+  "RT-3": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "winget --version",
+      "wsl --list --verbose"
+     ],
+     "bytes": 572
+    },
+    "C_relevant": {
+     "items": [
+      "software.package_managers"
+     ],
+     "bytes": 4571
+    }
+   }
+  },
+  "HW-1": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "nvidia-smi"
+     ],
+     "bytes": 3609
+    },
+    "C_relevant": {
+     "items": [
+      "hardware.gpu",
+      "software.gpu_stack"
+     ],
+     "bytes": 3536
+    }
+   }
+  },
+  "HW-2": {
+   "device-1": {
+    "env": "linux-container-2g",
+    "B_relevant": {
+     "items": [
+      "cat /sys/fs/cgroup/memory.max"
+     ],
+     "bytes": 110
+    },
+    "C_relevant": {
+     "items": [
+      "hardware.memory"
+     ],
+     "bytes": 2247
+    }
+   }
+  },
+  "HW-3": {
+   "device-1": {
+    "env": "linux-arm64",
+    "B_relevant": {
+     "items": [
+      "uname -a",
+      "lscpu"
+     ],
+     "bytes": 2571
+    },
+    "C_relevant": {
+     "items": [
+      "system.os",
+      "hardware.cpu"
+     ],
+     "bytes": 4514
+    }
+   }
+  },
+  "CTX-1": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "cat /etc/os-release",
+      "uname -a",
+      "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory"
+     ],
+     "bytes": 1057
+    },
+    "C_relevant": {
+     "items": [
+      "system.os"
+     ],
+     "bytes": 3216
+    }
+   },
+   "device-2": {
+    "env": "linux-x64",
+    "B_relevant": {
+     "items": [
+      "cat /etc/os-release",
+      "uname -a",
+      "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory"
+     ],
+     "bytes": 848
+    },
+    "C_relevant": {
+     "items": [
+      "system.os"
+     ],
+     "bytes": 3350
+    }
+   }
+  },
+  "CTX-2": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "node --version"
+     ],
+     "bytes": 93
+    },
+    "C_relevant": {
+     "items": [
+      "software.runtimes"
+     ],
+     "bytes": 3584
+    }
+   }
+  },
+  "CTX-3": {
+   "device-1": {
+    "env": "win-laptop",
+    "B_relevant": {
+     "items": [
+      "wsl --list --verbose"
+     ],
+     "bytes": 527
+    },
+    "C_relevant": {
+     "items": [
+      "system.os"
+     ],
+     "bytes": 3216
+    }
+   }
+  }
+ },
+ "everything": {
+  "debian-nopython": {
+   "B_all_commands_bytes": 6770,
+   "C_all_categories_bytes": 32226
+  },
+  "linux-arm64": {
+   "B_all_commands_bytes": 6332,
+   "C_all_categories_bytes": 32745
+  },
+  "linux-container-2g": {
+   "B_all_commands_bytes": 7016,
+   "C_all_categories_bytes": 32495
+  },
+  "linux-x64": {
+   "B_all_commands_bytes": 7348,
+   "C_all_categories_bytes": 32772
+  },
+  "win-laptop": {
+   "B_all_commands_bytes": 13496,
+   "C_all_categories_bytes": 31467
+  }
+ },
+ "note": "bytes of tool-result text as the agent receives it (device/collected_at envelope included)"
+}

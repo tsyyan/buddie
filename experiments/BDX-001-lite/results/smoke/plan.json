@@ -1,0 +1,78 @@
+{
+ "schema": "bdx-001-lite/plan-v1",
+ "created_at": "2026-10-26T02:42:44Z",
+ "set": "smoke",
+ "reps": 1,
+ "seed": 20261026,
+ "budget": 4,
+ "runs": [
+  {
+   "scenario": "CTX-3",
+   "condition": "A",
+   "repetition": 1,
+   "order": 0,
+   "run_id": "CTX-3-A-r1"
+  },
+  {
+   "scenario": "OS-1",
+   "condition": "A",
+   "repetition": 1,
+   "order": 1,
+   "run_id": "OS-1-A-r1"
+  },
+  {
+   "scenario": "OS-1",
+   "condition": "C",
+   "repetition": 1,
+   "order": 2,
+   "run_id": "OS-1-C-r1"
+  },
+  {
+   "scenario": "HW-2",
+   "condition": "B",
+   "repetition": 1,
+   "order": 3,
+   "run_id": "HW-2-B-r1"
+  },
+  {
+   "scenario": "CTX-3",
+   "condition": "B",
+   "repetition": 1,
+   "order": 4,
+   "run_id": "CTX-3-B-r1"
+  },
+  {
+   "scenario": "CTX-3",
+   "condition": "C",
+   "repetition": 1,
+   "order": 5,
+   "run_id": "CTX-3-C-r1"
+  },
+  {
+   "scenario": "HW-2",
+   "condition": "C",
+   "repetition": 1,
+   "order": 6,
+   "run_id": "HW-2-C-r1"
+  },
+  {
+   "scenario": "HW-2",
+   "condition": "A",
+   "repetition": 1,
+   "order": 7,
+   "run_id": "HW-2-A-r1"
+  },
+  {
+   "scenario": "OS-1",
+   "condition": "B",
+   "repetition": 1,
+   "order": 8,
+   "run_id": "OS-1-B-r1"
+  }
+ ],
+ "inputs_sha256": {
+  "scenarios.json": "6978d95e77a186a42ff017263121e4bad0d01508b1eb2ebf6589efe219d6c5ee",
+  "ground_truth.json": "258ad0156e437966ddb02118642545bbb3e46ec1c2ff68c634f6cbfa02a71bc0",
+  "shell_menu.json": "d3891342e29e6e3b0b0cc900148ced153a493252d64aaf4a1a620342a8d24595"
+ }
+}

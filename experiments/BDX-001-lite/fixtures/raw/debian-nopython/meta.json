@@ -1,0 +1,34 @@
+{
+ "env_id": "debian-nopython",
+ "collected_at": "2026-10-26T02:29:51Z",
+ "note": "debian:bookworm-slim container with apt-get install python3 only (no python-is-python3, pip, venv)",
+ "collector": "experiments/BDX-001-lite/fixtures/collect/collect.py",
+ "platform": {
+  "system": "Linux",
+  "machine": "x86_64"
+ },
+ "python": "3.11.2",
+ "buddie": {
+  "command": "python -m buddie snapshot --category <all 19> --tool <all 23> --json buddie_full.json",
+  "exit": 0,
+  "started_at": "2026-10-26T02:29:51Z",
+  "stdout_line": [
+   "buddie snapshot: diagnostics of 19 categories (grants active, policy absent; these govern the categories only)"
+  ],
+  "catalog_exit": 0
+ },
+ "shell": {
+  "shell": "bash -c (non-login, non-interactive)",
+  "commands": 35,
+  "menu_sha256": "d3891342e29e6e3b0b0cc900148ced153a493252d64aaf4a1a620342a8d24595"
+ },
+ "redaction": {
+  "replaced": [
+   "user name -> 'user'",
+   "host name -> host alias"
+  ],
+  "host_alias": "box-echo",
+  "replacements": 2
+ },
+ "buddie_version": "2.0.1"
+}
