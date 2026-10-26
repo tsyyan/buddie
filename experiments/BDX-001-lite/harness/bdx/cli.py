@@ -136,8 +136,8 @@ def run(args) -> int:
         rec = record(r, out, args.backend, args.model, started)
         (batch / "events").mkdir(exist_ok=True)
         (batch / "events" / f"{e['run_id']}.jsonl").write_text(
-            "\n".join(json.dumps(x, ensure_ascii=False) for x in out.get("events") or []), encoding="utf-8")
-        path.write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
+            redact("\n".join(json.dumps(x, ensure_ascii=False) for x in out.get("events") or [])), encoding="utf-8")
+        path.write_text(redact(json.dumps(rec, ensure_ascii=False, indent=1)), encoding="utf-8")
         print(f"    {rec['status']} {rec['failure'] or ''} {rec['duration_s']}s calls={rec['diagnostic_iterations']}",
               flush=True)
         done += 1
@@ -146,6 +146,16 @@ def run(args) -> int:
             return 1
         time.sleep(1)
     return 0
+
+
+def redact(text: str) -> str:
+    """The run machine's profile folder name, wherever a CLI event or an answer repeats a path, becomes `user`."""
+    import re
+    name = Path.home().name
+    if len(name) < 3 or name.lower() in ("user", "root", "runner"):
+        return text
+    n = re.escape(name)
+    return re.sub(rf"(?i)(Users(?:\\\\|\\|/)+|C--Users-|/home/){n}(?![A-Za-z0-9])", r"\1user", text)
 
 
 def _used_relevant(rec: dict, gt: dict) -> bool | None:
