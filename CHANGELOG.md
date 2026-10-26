@@ -2,28 +2,8 @@
 
 ## buddie 2.0.2 (not released)
 
-Versioned public release information and reproducible distribution candidates.
-
-## Changes
-
-- Public release notes are generated from one reviewed record and bound to candidate checksums.
-- Channel descriptions include versioned upgrade, permission, security and limitation information.
-
-## Upgrade
-
-Install buddie==2.0.2 with pip or select the matching approved plugin or Desktop bundle. Existing PyPI 2.0.1 artifacts remain unchanged.
-
-## Permissions
-
-Local checks run without a model. GitHub anchors may use optional GitHub credentials; browser access is optional and requires a separate browser installation.
-
-## Security
-
-Release candidates bind public notes and Registry payloads to the recorded source revision and file digests. Report vulnerabilities through SECURITY.md.
-
-## Limitations
-
-Checks support evidence review and do not establish that every claim is true. Catalog display of release notes is unverified; publication and plugin promotion require separate authorization.
+Public release notes for this development version are generated from the authoritative
+[release record](releases/2.0.2.json).
 
 ## Unreleased
 
