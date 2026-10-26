@@ -33,3 +33,18 @@ def test_stale_or_foreign_listing_is_not_delivery():
     data["listing"]["source"]["kind"] = "git"
     assert channels.observe(data, "2.0.2", "Expected notes")["notes"] == "unknown"
     assert channels.observe(listing(["Other text"]), "2.0.2", "Expected notes")["notes"] == "different"
+
+
+def test_blank_expected_notes_never_confirm_delivery():
+    assert channels.observe(listing([" "]), "2.0.2", " \n")["notes"] == "unknown"
+
+
+def test_saved_snapshot_is_not_current_delivery(tmp_path, monkeypatch, capsys):
+    import json
+    notes, snapshot = tmp_path / "notes.md", tmp_path / "listing.json"
+    notes.write_text("Expected notes", encoding="utf-8")
+    snapshot.write_text(json.dumps(listing(["Expected notes"])), encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["check", "--version", "2.0.2", "--notes", str(notes), "--snapshot", str(snapshot)])
+    assert channels.main() == 1
+    result = json.loads(capsys.readouterr().out)
+    assert result["freshness"] == "unverified" and "observed_at" not in result

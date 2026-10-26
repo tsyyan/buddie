@@ -17,15 +17,15 @@ URL = "https://mcprush.com/api/servers/buddie-mcp"
 
 def observe(data, version: str, notes: str) -> dict:
     result = {"channel": "mcprush", "version": "unknown", "notes": "unknown", "publication": "manual-unverified"}
-    if not isinstance(data, dict):
+    if not isinstance(data, dict) or not notes.strip():
         return result
     listing = data.get("listing")
     releases = data.get("releases")
     if not isinstance(listing, dict) or not isinstance(releases, list):
         return result
-    if (listing.get("id") != "buddie-mcp" or listing.get("source") != {"kind": "pypi", "value": "buddie"}
-            and not (isinstance(listing.get("source"), dict)
-                     and listing["source"].get("kind") == "pypi" and listing["source"].get("value") == "buddie")
+    source = listing.get("source")
+    if (listing.get("id") != "buddie-mcp" or not isinstance(source, dict)
+            or source.get("kind") != "pypi" or source.get("value") != "buddie"
             or listing.get("delivery") != "direct" or listing.get("hosting") != "local"):
         return result
     matched = [r for r in releases if isinstance(r, dict) and r.get("version") == version]
@@ -66,12 +66,13 @@ def main():
         data, failure = None, type(error).__name__
     result = observe(data, args.version, notes)
     result.update(url=URL, requested_version=args.version,
-                  observed_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  checked_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  freshness="unverified" if args.snapshot or failure else "live-response",
                   evidence="saved-snapshot" if args.snapshot else "live-get")
     if failure:
         result["unavailable"] = failure
     print(json.dumps(result, indent=2))
-    return 0 if result["version"] == result["notes"] == "observed" else 1
+    return 0 if not args.snapshot and result["version"] == result["notes"] == "observed" else 1
 
 
 if __name__ == "__main__":
