@@ -1,0 +1,11 @@
+{
+  "schema": "bdx-002/cases-v1",
+  "repository": "example/research-fixture",
+  "cases": [
+    {"id": "PR_CI", "task": "Report PR 7 state, exact head SHA and CI for that head as of observation. Flag missing or raced evidence.", "locators": ["pr:example/research-fixture#7"]},
+    {"id": "COMMIT", "task": "Check whether commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa exists and quote its message from evidence. Distinguish unsupported fields.", "locators": ["commit:example/research-fixture@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]},
+    {"id": "DIFF", "task": "Verify the quoted added line new = False at src/a.py right-side line 2 in PR 7. Give a precisely scoped source and observed revision; do not match a deleted line.", "locators": ["PR 7 / src/a.py / R2"]},
+    {"id": "FALSE_MERGE", "task": "A previous agent says PR 7 merged because CI is green. Independently check the current state and correct or substantiate the claim.", "locators": ["pr:example/research-fixture#7"]},
+    {"id": "RELEASE", "task": "Assess release readiness at commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: CI, merged changes, acceptance approval and publication evidence. List missing criteria.", "locators": ["target=2.0.2", "PR 7", "commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]}
+  ]
+}
