@@ -95,8 +95,9 @@ git clone https://github.com/tsyyan/buddie
 | `environment_snapshot` | *(2.0)* observes the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes, ...), only the categories you granted ([environment.md](environment.md#diagnostics)) |
 | `feedback_start` | checks a report and opens a verification feedback chain: feedback-v1 with bounded actions ([feedback.md](feedback.md#mcp)) |
 | `feedback_resolve` | checks a corrected text against the chain's open feedback with the chain's own options and records the decision |
+| `feedback_accept` | before a final report from a chain is accepted: whether it is the text the chain verified (an edited report, or one from an unverified chain, is refused) |
 
-Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all seven; `summary` has data
+Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all eight; `summary` has data
 only with the Claude Code hook, and `environment_snapshot` collects nothing until you grant categories. The remote
 server has the first three. **The MCP tools and the CLI advise**: they
 report, and you or the agent decide what to do with `FAIL`. **The hooks enforce**: they check the answer itself and

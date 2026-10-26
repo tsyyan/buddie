@@ -47,6 +47,10 @@ know whether it acted: if the new check is not PASS, the disposition is reconcil
 recommended, since repeating one (a merge, a re-run) may not be idempotent. "succeeded" and "failed" are recorded
 as said and change nothing: only the check decides.
 
+`accept(records, final)` is the hand-in boundary: a chain's `verified` disposition covers the chain's last accepted
+text and nothing else, so an orchestrator accepts a final report only if `accept` says so (the disposition is
+`verified` and the report is byte for byte that text).
+
 Nothing here calls a model, runs a check by itself (`reverify` is the caller's), or acts outside the values it
 returns.
 """
@@ -363,6 +367,31 @@ def resolve(records, feedback: dict, sub: dict, *, original: str, corrected: str
     records = tr.append(records, "decision", iteration, decision)
     records = tr.append(records, "feedback", iteration + 1, tr.feedback_body(following))
     return Result(records, following, decision)
+
+
+ACCEPT_REFUSALS = ("not_verified", "artifact_mismatch")
+
+
+def accepted_artifact(records) -> str:
+    """The sha256 (hex) of the chain's last independently accepted text: the subject of its newest verification or
+    re-verification record. A rejected submission records no re-verification, so it never moves this."""
+    tr.replay(records)
+    return next(r["body"]["subject"] for r in reversed(tuple(records))
+                if r["kind"] in ("verification", "reverification"))
+
+
+def accept(records, final: str) -> dict:
+    """Whether `final`, the report an agent hands in, is the text the chain verified: the disposition is `verified`
+    and `final` is byte for byte the chain's last accepted text. A chain's `verified` is about that text only; a
+    different one (edited after the chain closed, a refused repair handed in anyway) is refused here, and so is any
+    text of a chain that is not `verified`. Reads the records and decides; records nothing, runs no check.
+    reason: None when accepted, else one of ACCEPT_REFUSALS."""
+    state = tr.replay(records)
+    want, got = accepted_artifact(records), fb.text_digest(final)
+    reason = ("not_verified" if state.disposition != "verified" else
+              "artifact_mismatch" if got != want else None)
+    return {"accepted": reason is None, "reason": reason, "disposition": state.disposition, "task": state.task,
+            "artifact_sha256": want, "final_sha256": got}
 
 
 def reverify(text: str, **kw):

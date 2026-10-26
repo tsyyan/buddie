@@ -1,0 +1,66 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/tsyyan/buddie/experiments/feedback-e2e-v1#run-record-v1",
+ "title": "One benchmark run (harness.py run / bench.py record)",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["schema", "phase", "condition", "scenario", "policy", "repetition", "order", "seed", "iteration_limit",
+              "requirements", "attempts", "rejected_attempts", "tool_calls", "tools", "elapsed_s", "protocol",
+              "agent_claim", "final_changed", "labels", "tokens", "cost_usd", "cost_verifiable", "deviations"],
+ "properties": {
+  "schema": {"const": "https://github.com/tsyyan/buddie/experiments/feedback-e2e-v1#run-record-v1"},
+  "phase": {"enum": ["smoke", "live"], "description": "smoke: scripted candidates, no model; live: an approved agent run"},
+  "condition": {"enum": ["control", "treatment"]},
+  "scenario": {"enum": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]},
+  "policy": {"type": "string", "pattern": "^(scripted|agent):", "description": "scripted:<candidate> or agent:<model>"},
+  "repetition": {"type": "integer", "minimum": 0},
+  "order": {"type": "integer", "minimum": 0, "description": "position in the randomized run order"},
+  "seed": {"type": ["integer", "null"]},
+  "iteration_limit": {"type": "integer", "minimum": 1},
+  "requirements": {"type": "array", "items": {"type": "object", "additionalProperties": false,
+                   "required": ["check", "subject_prefix"],
+                   "properties": {"check": {"type": "string"}, "subject_prefix": {"type": "string"}}}},
+  "attempts": {"type": "integer", "minimum": 0, "description": "revisions the author handed in"},
+  "rejected_attempts": {"type": "integer", "minimum": 0},
+  "tool_calls": {"type": "integer", "minimum": 0},
+  "tools": {"type": "array", "items": {"enum": ["verify_report", "feedback_start", "feedback_resolve"]}},
+  "elapsed_s": {"type": "number", "description": "wall clock of the run's protocol (not of the label)"},
+  "protocol": {"type": "object", "description": "what the condition's tools answered, step by step (smoke) or as the transcript gives it (live)"},
+  "agent_claim": {"enum": ["verified", "not_verified"], "description": "the author's own word: recorded, never the label"},
+  "final_changed": {"type": "boolean"},
+  "labels": {"$ref": "#/$defs/labels"},
+  "tokens": {"type": ["object", "null"], "description": "as the provider reports them; null when no model ran",
+             "additionalProperties": {"type": ["integer", "null"]}},
+  "cost_usd": {"type": ["number", "null"], "description": "billed cost when verifiable, else null"},
+  "cost_verifiable": {"type": "boolean"},
+  "deviations": {"type": "array", "items": {"type": "string"}}
+ },
+ "$defs": {
+  "labels": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["truth", "facts_right", "scope_violations", "unnecessary_edit", "false_success_claim", "claims",
+                "independent", "requirements", "verified_task_success"],
+   "properties": {
+    "truth": {"type": "object", "additionalProperties": {"type": "boolean"},
+              "description": "the scenario's hand-written ground-truth predicates on the final report"},
+    "facts_right": {"type": "boolean"},
+    "scope_violations": {"type": "array", "items": {"type": "integer"}, "description": "original lines changed outside the defect's lines"},
+    "unnecessary_edit": {"type": "boolean"},
+    "false_success_claim": {"type": "boolean"},
+    "claims": {"type": "object", "additionalProperties": {"enum": ["corrected", "removed", "still_wrong", "disclosed"]}},
+    "independent": {"type": "object", "additionalProperties": false,
+                    "required": ["outcome", "coverage", "unsupported_assertions", "evidence_unavailable", "requirements"],
+                    "properties": {
+                     "outcome": {"enum": ["PASS", "FAIL", "GAPS", "EMPTY", "NOT_RUN", "UNKNOWN"]},
+                     "coverage": {"type": "string"},
+                     "unsupported_assertions": {"type": "array", "items": {"type": "string"}},
+                     "evidence_unavailable": {"type": "array", "items": {"type": "string"}},
+                     "requirements": {"enum": ["not_stated", "met", "unmet"]}}},
+    "requirements": {"enum": ["not_stated", "met", "unmet"]},
+    "verified_task_success": {"type": "boolean",
+                              "description": "facts right, no scope violation, no unnecessary edit, no false success claim, requirements not unmet"}
+   }
+  }
+ }
+}

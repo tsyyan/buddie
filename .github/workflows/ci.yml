@@ -3,10 +3,38 @@ on:
   push:
     branches: [main]
   pull_request:
+    # labeled/unlabeled re-run the workflow, so adding or removing `full-ci-required` re-evaluates the gate for the
+    # current head; a new commit (synchronize) is a new SHA whose gate starts pending again
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 permissions:
   contents: read
+concurrency:
+  # one live run per PR: an older run (e.g. full validation started before the label was removed) is cancelled
+  # and can never finish after, and overwrite, the newer gate result
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  fast:
+    # Inexpensive signal on every PR update. Full matrix and packaging run on main and on PRs labeled full-ci-required.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e . pytest
+      - name: security boundaries, verification and release authorization
+        run: >-
+          python -m pytest -q
+          tests/test_core.py
+          tests/test_security_hardening.py
+          tests/test_release_authorization.py
+          tests/test_workflow_pins.py
+          tests/test_feedback.py
+          tests/test_mcp_feedback.py
+          tests/test_release_size_gate.py
   test:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required'))
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,11 +69,15 @@ jobs:
       - name: plugin runs from a clone without install
         run: python3 run.py verify examples/quickstart/report.md --no-fetch --anchors-only
   release-candidate:
+    # Built for the PR merge ref when full validation is requested. Not on main (it would duplicate the PR's
+    # pre-merge build); release.yml builds the publishable candidate from the exact tag commit.
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required')
     # what a release would publish (release-candidate.yml): sdist, wheel and the Claude Desktop bundle built from
     # this commit, twine check, wheel contents, the bundle validated, packed, unpacked and started, both packages
     # installed into clean venvs and run, the manifest and SHA256SUMS. Publishes nothing
     uses: ./.github/workflows/release-candidate.yml
   os:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required'))
     # the hook on Linux, macOS and Windows: tests from a clone (the smoke run on recorded events through hooks/run.sh
     # among them), then the same smoke run through a clean `pip install`
     strategy:
@@ -95,6 +127,7 @@ jobs:
           buddie --version
           cd "$RUNNER_TEMP" && python -m pytest -q -p no:cacheprovider "$GITHUB_WORKSPACE/tests/test_config.py" -k smoke -v
   catalogs:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required'))
     # what the catalogs read: the Claude Code plugin and marketplace (claude plugin validate), server.json against
     # the MCP Registry schema
     runs-on: ubuntu-latest
@@ -117,6 +150,7 @@ jobs:
           curl -fsSL "$(python3 -c "import json; print(json.load(open('server.json'))['\$schema'])")" -o schema.json
           python3 -c "import json,jsonschema; jsonschema.validate(json.load(open('server.json')), json.load(open('schema.json')))"
   docker:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required'))
     # the remote MCP server as it is deployed (Dockerfile, docs/deploy.md): build, start, health, initialize, tools
     runs-on: ubuntu-latest
     steps:
@@ -135,3 +169,40 @@ jobs:
           python3 -c "import json; r=json.load(open('ssrf.json'))['result']; e=r['structuredContent']['snapshots'][0]['error']; assert 'not a public address' in e, r"
       - if: always()
         run: docker logs buddie || true
+
+  gate:
+    # The one required status check. Fail-closed: on a pull request it passes only when full validation was
+    # requested (label full-ci-required on this event) and every full job, the release candidate included,
+    # succeeded for this run's commit. Fast checks alone never make it pass.
+    name: gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [fast, test, release-candidate, os, catalogs, docker]
+    steps:
+      - name: enforce results for this event
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          FULL_REQUESTED: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'full-ci-required') }}
+          FAST: ${{ needs.fast.result }}
+          TEST: ${{ needs.test.result }}
+          RELEASE_CANDIDATE: ${{ needs.release-candidate.result }}
+          OS: ${{ needs.os.result }}
+          CATALOGS: ${{ needs.catalogs.result }}
+          DOCKER: ${{ needs.docker.result }}
+        run: |
+          test "$FAST" = success || { echo "::error::fast checks: $FAST"; exit 1; }
+          case "$EVENT_NAME" in
+            pull_request)
+              if [ "$FULL_REQUESTED" != true ]; then
+                echo "::error::full validation not requested: add the label full-ci-required to merge"; exit 1
+              fi
+              for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER"; do
+                test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
+              done ;;
+            push)
+              for result in "$TEST" "$OS" "$CATALOGS" "$DOCKER"; do
+                test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
+              done
+              test "$RELEASE_CANDIDATE" = skipped || { echo "::error::unexpected candidate rebuild: $RELEASE_CANDIDATE"; exit 1; } ;;
+            *) echo "::error::unsupported event $EVENT_NAME"; exit 1 ;;
+          esac
