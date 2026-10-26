@@ -157,6 +157,37 @@ No other field is accepted: a submission cannot set a disposition, an outcome, a
    the original's options or stricter), and passes that `verify.Assessment` to `repair.resolve`. A receipt the
    agent sends, or one read from a file or a tool argument, is never passed: see "Receipt authenticity" below.
 
+## MCP
+
+The local stdio server (`buddie serve`: the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) offers the
+loop as two tools. Both refuse any argument outside their input schema (`additionalProperties: false`); neither takes
+a receipt, because receipts are unsigned and a tool argument is whatever the agent writes. The server runs every
+check itself.
+
+| Tool | Takes | Does | Returns (`structuredContent`) |
+|---|---|---|---|
+| `feedback_start` | `text` or `path`; `verify_report`'s check options (`repos`, `store`, `fetch`, `access`, `numbers`, `github`, `transcript`, `profile`, `modules`, `checks`); `iteration_limit` (1–3, default 1); `requirements` (at most 32 `{check, subject_prefix}`) | `repair.reverify` of the report, `trace.start`; writes the chain's trace and its check options | `chain`, `feedback` (feedback-v1), `receipt_line`, `state` |
+| `feedback_resolve` | `chain`, `feedback` (as returned), `submission` (repair-submission-v1), `original_text`, `corrected_text` | replays the chain, refuses a feedback that is not its open one, re-verifies `corrected_text` with the chain's stored options, `repair.resolve`, appends only the new records | `decision`, `feedback` (the next one), `receipt_line`, `state` |
+
+`state` is `{disposition, task, iteration, terminal}` as `trace.replay` reads the chain; `receipt_line` is
+`receipts.line` of the receipt-v1 buddie made (the tool's text starts with it). A refused submission
+(`repair.SubmissionError`: `duplicate_submission`, `forged_feedback`, `feedback_mismatch`, `artifact_mismatch`, ...)
+is a tool error with its `code`, and nothing is appended. A feedback id is the hash of its content, so a feedback
+changed after it was returned is refused.
+
+The chain lives in buddie's state dir, as the hook's (`BUDDIE_STATE`, default `~/.cache/buddie/pending`; with
+`BUDDIE_STATE=0` the default place): `feedback/<chain hex>.jsonl` (`trace.dumps` lines, created once and then only
+appended to) and `feedback/<chain hex>.options.json` (the check options, absolute paths). The caller cannot pass
+weaker options for a correction; an edit of the options file is caught only as far as `resolve` catches a weaker
+re-verification (`weaker_verification`). Starting the same check of the same text twice is refused (`chain_exists`).
+
+**Trust.** The chain files are on the agent's machine and the agent can write them, like the journal
+(`core.Provenance.AGENT_WRITABLE`). `trace.replay` detects a history that does not hold together, not who wrote it:
+a party that can write the files can write a consistent chain. The decisions are buddie's only as far as the chain
+file is.
+
+The remote HTTP server (`remote.py`) does not offer these tools: it reads no local files and returns receipt-v0 only.
+
 ## Repair budget and what resolve checks
 
 `resolve(records, feedback, submission, original=…, corrected=…, assessment=…)` decides one iteration:
@@ -312,8 +343,9 @@ journal, the MCP tools and the CLI's commands and exit codes are as before. The 
 changed the Python API of the new modules (`trace.start` and `repair.resolve` take a `verify.Assessment`, not a
 receipt) and added `task`, `requirements_unmet` and `added_content`; nothing of this was released before. Feedback needs receipt-v1 (receipt-v0 has no
 typed findings and is refused rather than guessed at), so a caller that wants feedback asks verify for v1
-(`receipts.render(a, "v1")`, `--receipt v1`, `"receipt": "v1"` over MCP). The remote MCP server offers receipt-v0
-only and so no feedback.
+(`receipts.render(a, "v1")`, `--receipt v1`, `"receipt": "v1"` over MCP). The local MCP server adds two tools,
+`feedback_start` and `feedback_resolve` ([MCP](#mcp)); the existing tools are unchanged. The remote MCP server offers
+receipt-v0 only and so no feedback.
 
 ## Limitations and unsupported cases
 
@@ -332,7 +364,7 @@ only and so no feedback.
   more precisely than the anchor's own words, and a task with no stated requirement is `not_stated`, never `met`.
 - Evidence for corrected claims is gathered by the re-verification run, under its options: a new source the agent
   cites is read only if that run may read it.
-- No MCP tool and no hook integration yet: callers use the Python API or `buddie feedback`.
-- The trace is unsigned and kept by the caller; buddie does not persist it.
+- No hook integration yet: callers use the Python API, `buddie feedback` or the local MCP tools ([MCP](#mcp)).
+- The trace is unsigned and, outside the MCP tools, kept by the caller; the MCP server keeps it in its state dir.
 - The repair budget is at most 3 by design; a longer loop needs a new chain from a new receipt, which the trace of
   the old chain does not link.

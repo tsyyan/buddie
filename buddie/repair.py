@@ -284,11 +284,9 @@ def _resolved(feedback: dict, receipt: dict | None, original: str, corrected: st
     return out
 
 
-def resolve(records, feedback: dict, sub: dict, *, original: str, corrected: str, assessment=None) -> Result:
-    """One iteration of the chain `records` (see the module's docstring). assessment: the verify.Assessment of
-    `corrected`, from a verify run made in this process. Returns the new records, the next feedback and the
-    decision; raises SubmissionError for a submission or re-verification that does not belong to the chain."""
-    state = tr.replay(records)
+def admit(state, feedback: dict, sub, *, original: str) -> None:
+    """The refusals `resolve` makes before it looks at a re-verification (SubmissionError), for a caller that would
+    rather not run one for a submission the chain `state` (trace.replay) refuses anyway (mcp.feedback_resolve)."""
     if fb.problems(feedback):
         raise SubmissionError("forged_feedback", "; ".join(fb.problems(feedback)))
     if feedback["chain"] != state.chain:
@@ -301,9 +299,16 @@ def resolve(records, feedback: dict, sub: dict, *, original: str, corrected: str
     if feedback["feedback_id"] != state.feedback_id:
         raise SubmissionError("feedback_mismatch", "not the chain's open feedback")
     check_submission(sub, feedback)
-    before = feedback["source_subject_digest"]
-    if fb.text_digest(original) != before:
+    if fb.text_digest(original) != feedback["source_subject_digest"]:
         raise SubmissionError("artifact_mismatch", "the original text is not the one the feedback was made for")
+
+
+def resolve(records, feedback: dict, sub: dict, *, original: str, corrected: str, assessment=None) -> Result:
+    """One iteration of the chain `records` (see the module's docstring). assessment: the verify.Assessment of
+    `corrected`, from a verify run made in this process. Returns the new records, the next feedback and the
+    decision; raises SubmissionError for a submission or re-verification that does not belong to the chain."""
+    admit(tr.replay(records), feedback, sub, original=original)
+    before = feedback["source_subject_digest"]
     try:
         receipt = tr.assessed(assessment) if assessment is not None else None
     except TypeError as error:

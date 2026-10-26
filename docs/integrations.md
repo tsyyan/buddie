@@ -35,6 +35,7 @@ Two kinds of integration, and the difference matters:
 | Evidence freshness | `buddie freshness`, `buddie.freshness` | `buddie freshness ci --repo R --pr N --evidence SHA` | none: a separate document ([freshness.md](freshness.md)) | not a gate |
 | Environment snapshot | `buddie snapshot`, `buddie.environment` | `buddie snapshot --report report.md` | none: a separate document ([environment.md](environment.md)) | not a gate |
 | Environment diagnostics | `buddie snapshot --category`, MCP `environment_snapshot` (local servers only), `buddie.diagnostics` | `buddie snapshot --category system.os --category hardware.gpu` | none: environment-diagnostics-v1 ([environment.md](environment.md#diagnostics)) | `[environment] allow` is a ceiling on the person's grants |
+| Verification feedback | `buddie feedback`, MCP `feedback_start` / `feedback_resolve` (local servers only), `buddie.feedback`, `buddie.repair`, `buddie.trace` | `feedback_start` with the report, then `feedback_resolve` with the corrected text | v1, made by the server; no tool takes a receipt ([feedback.md](feedback.md#mcp)); the chain file is agent-writable | not a gate |
 
 ## Audit (PR #32)
 

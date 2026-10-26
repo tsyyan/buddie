@@ -45,7 +45,9 @@
     {"name": "snap", "description": "Snapshot URLs (bytes by SHA-256) so quotes can be taken from and checked against them."},
     {"name": "source_text", "description": "Visible text of a snapshot, optionally only around a regex: copy quotes from here."},
     {"name": "summary", "description": "Claude Code only: the summary of finished subagents built from the hook's journal."},
-    {"name": "environment_snapshot", "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."}
+    {"name": "environment_snapshot", "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."},
+    {"name": "feedback_start", "description": "Check a report and open a verification feedback chain: feedback with bounded actions for what did not hold."},
+    {"name": "feedback_resolve", "description": "Check a corrected text against the chain's open feedback, with the chain's own options, and record the decision."}
   ],
   "tools_generated": false,
   "user_config": {

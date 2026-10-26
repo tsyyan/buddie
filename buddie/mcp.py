@@ -6,6 +6,8 @@ Tools:
   source_text     visible text of a snapshot, optionally only around a regex: copy quotes from here
   summary         when no subagent is left: what was done and lost, the next steps with auto/ask, a choice card
   environment_snapshot  diagnostics of this machine (OS, CPU, memory, GPU, Python, ...) the person granted; local only
+  feedback_start  check a report and open a verification feedback chain (docs/feedback.md#mcp); local only
+  feedback_resolve  check a corrected text against the chain's open feedback and record the decision; local only
 """
 from __future__ import annotations
 
@@ -16,6 +18,7 @@ import sys
 from pathlib import Path
 
 from buddie import __version__
+from buddie.receipts import CHECKS
 
 PROTOCOLS = ("2025-06-18", "2025-03-26", "2024-11-05")
 TEXT_LIMIT = 20000
@@ -53,6 +56,31 @@ OUTCOMES = (
 INSTRUCTIONS = ("Before you accept a report or hand in a final answer that quotes sources or states facts about a repo, "
                 "a PR or CI, call verify_report with the whole text. " + FORMAT + OUTCOMES)
 
+# verify_report's check options; a feedback chain keeps them so every check of it runs the same way
+_CHECK_OPTIONS = {
+    "repos": {"type": "array", "items": {"type": "string"},
+              "description": "repo checkouts for anchors (default: the git repo at or under the server's cwd; "
+                             "in Codex none, so pass the workspace path)"},
+    "fetch": {"type": "boolean", "default": True, "description": "snapshot cited URLs not in the store yet"},
+    "access": {"type": "string", "description": "verbatim --access for unreadable pages, e.g. 'default'"},
+    "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"},
+    "transcript": {"type": "string", "description": "Claude Code session jsonl for run: anchors"},
+    "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
+                "description": "a number of a cited sentence not in its source: gap, fail or off"},
+    "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
+    "profile": {"type": "string", "enum": ["developer", "research", "complete", "custom"],
+                "description": "what to check (default: everything): developer (repo, PR, CI, run: and work "
+                               "claims), research (quotes and numbers), complete, or custom with modules "
+                               "and/or checks. What a profile leaves out is not checked, and the result says"
+                               " so"},
+    "modules": {"type": "array", "items": {"type": "string", "enum": ["sources", "github", "execution"]},
+                "description": "custom: these verification modules: sources (quotes, numbers), github (repo "
+                               "anchors, pr:, ci:), execution (run:, choice:, work claims)"},
+    "checks": {"type": "array", "items": {"type": "string"},
+               "description": "custom: these checks (quote, number, file_anchor, commit_anchor, fact_anchor, "
+                              "pr_anchor, ci_anchor, run_anchor, choice_anchor, work_claim, other_anchor)"},
+}
+
 TOOLS = [
     {
         "name": "verify_report",
@@ -62,31 +90,10 @@ TOOLS = [
                        "the blocking items and a one-line summary. Only quotations in quotation marks with a link to "
                        "their page in the same sentence, and ⚓ anchors in backticks, are checked: write e.g. "
                        + QUOTE_EXAMPLE + " EMPTY means nothing was checkable, not that the text is right.",
-        "inputSchema": {"type": "object", "properties": dict(_REPORT, **{
-            "repos": {"type": "array", "items": {"type": "string"},
-                      "description": "repo checkouts for anchors (default: the git repo at or under the server's cwd; "
-                                     "in Codex none, so pass the workspace path)"},
-            "fetch": {"type": "boolean", "default": True, "description": "snapshot cited URLs not in the store yet"},
-            "access": {"type": "string", "description": "verbatim --access for unreadable pages, e.g. 'default'"},
-            "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"},
-            "transcript": {"type": "string", "description": "Claude Code session jsonl for run: anchors"},
-            "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
-                        "description": "a number of a cited sentence not in its source: gap, fail or off"},
-            "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
-            "profile": {"type": "string", "enum": ["developer", "research", "complete", "custom"],
-                        "description": "what to check (default: everything): developer (repo, PR, CI, run: and work "
-                                       "claims), research (quotes and numbers), complete, or custom with modules "
-                                       "and/or checks. What a profile leaves out is not checked, and the result says"
-                                       " so"},
-            "modules": {"type": "array", "items": {"type": "string", "enum": ["sources", "github", "execution"]},
-                        "description": "custom: these verification modules: sources (quotes, numbers), github (repo "
-                                       "anchors, pr:, ci:), execution (run:, choice:, work claims)"},
+        "inputSchema": {"type": "object", "properties": dict(_REPORT, **_CHECK_OPTIONS, **{
             "receipt": {"type": "string", "enum": ["v0", "v1"], "default": "v0",
                         "description": "receipt contract of the result: v0 (default) or v1, which also says what was "
                                        "checked, what was not and why (scope, coverage)"},
-            "checks": {"type": "array", "items": {"type": "string"},
-                       "description": "custom: these checks (quote, number, file_anchor, commit_anchor, fact_anchor, "
-                                      "pr_anchor, ci_anchor, run_anchor, choice_anchor, work_claim, other_anchor)"},
         })},
     },
     {
@@ -149,6 +156,43 @@ TOOLS = [
             "list": {"type": "boolean", "default": False,
                      "description": "only describe the categories and what is granted; collect nothing"}}},
     },
+    {
+        "name": "feedback_start",
+        "description": "Check a report and open a verification feedback chain (docs/feedback.md): buddie runs the "
+                       "check itself, keeps the chain and its check options in files of its own, and returns a "
+                       "feedback-v1 with at most one bounded action per finding. To answer it, correct only what an "
+                       "action names and call feedback_resolve. Feedback is advice: a verified report is not a "
+                       "finished task unless the requirements you state are met (state.task).",
+        "inputSchema": {"type": "object", "additionalProperties": False,
+                        "properties": dict(_REPORT, **_CHECK_OPTIONS, **{
+            "iteration_limit": {"type": "integer", "minimum": 1, "maximum": 3, "default": 1,
+                                "description": "how many corrected texts the chain takes before it ends"},
+            "requirements": {"type": "array", "maxItems": 32,
+                             "description": "what the task needs verified: a claim of this check whose subject "
+                                            "starts with subject_prefix must be supported",
+                             "items": {"type": "object", "additionalProperties": False,
+                                       "required": ["check", "subject_prefix"], "properties": {
+                                           "check": {"type": "string", "enum": list(CHECKS)},
+                                           "subject_prefix": {"type": "string", "minLength": 1, "maxLength": 500}}}},
+        })},
+    },
+    {
+        "name": "feedback_resolve",
+        "description": "Answer a chain's open feedback with one corrected text: buddie checks the corrected text "
+                       "itself with the chain's own check options, judges the correction (scope, no added lines but "
+                       "'buddie:' disclosures, verified claims kept) and appends the decision to the chain. Returns "
+                       "the decision and the next feedback. A refused submission (code) changes nothing.",
+        "inputSchema": {"type": "object", "additionalProperties": False,
+                        "required": ["chain", "feedback", "submission", "original_text", "corrected_text"],
+                        "properties": {
+            "chain": {"type": "string", "description": "the chain feedback_start returned (sha256:...)"},
+            "feedback": {"type": "object", "description": "the chain's open feedback-v1, as it was returned"},
+            "submission": {"type": "object", "description": "repair-submission-v1: schema_version, feedback_id, "
+                                                            "iteration, artifact_before, artifact_after (sha256 hex "
+                                                            "of the texts), execution, optional action_ref"},
+            "original_text": {"type": "string", "description": "the text the feedback was made for"},
+            "corrected_text": {"type": "string", "description": "the corrected text"}}},
+    },
 ]
 
 
@@ -180,17 +224,30 @@ def default_repos() -> list[Path]:
     return [] if os.environ.get("BUDDIE_DEFAULT_REPOS") == "none" else find_repos(Path.cwd())
 
 
-def verify_report(args: dict) -> tuple[dict, bool]:
+def check_options(args: dict) -> dict:
+    """verify_report's check options with the defaults filled in and paths made absolute, as plain JSON: what one
+    verify run takes, and what a feedback chain keeps so that its corrected texts are checked the same way."""
+    from buddie.verbatim.store import Store
+    repos = [Path(r) for r in args["repos"]] if args.get("repos") else default_repos()
+    return {"repos": [str(Path(r).resolve()) for r in repos], "store": str(Store(args.get("store")).root.resolve()),
+            "fetch": args.get("fetch", True), "access": args.get("access"), "numbers": args.get("numbers", "gap"),
+            "github": args.get("github", True),
+            "transcript": str(Path(args["transcript"]).resolve()) if args.get("transcript") else None,
+            "profile": args.get("profile"), "modules": args.get("modules"), "checks": args.get("checks")}
+
+
+def _checking(options: dict) -> dict:
+    """check_options as verify.assessment's keyword arguments."""
     from buddie.effects import github_get
+    return dict(options, repos=[Path(r) for r in options["repos"]], github=github_get if options["github"] else None)
+
+
+def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie import profiles, receipts
     from buddie.verify import assessment
     text, name = _report(args)
     version = receipts.version_of(args.get("receipt"))
-    repos = [Path(r) for r in args["repos"]] if args.get("repos") else default_repos()
-    got = assessment(text, args.get("modules"), name=name, repos=repos, store=args.get("store"),
-                     fetch=args.get("fetch", True), access=args.get("access"),
-                     github=github_get if args.get("github", True) else None, transcript=args.get("transcript"),
-                     numbers=args.get("numbers", "gap"), profile=args.get("profile"), checks=args.get("checks"))
+    got = assessment(text, name=name, **_checking(check_options(args)))
     # the receipt in the contract asked for is the result; what a profile left out goes with it as text (handle)
     return receipts.render(got, version), False, profiles.note(got.effective, got.coverage)
 
@@ -254,8 +311,101 @@ def environment_snapshot(args: dict) -> tuple[dict, bool]:
     return doc, False
 
 
+def _unknown(args: dict, tool: str) -> tuple[dict, bool] | None:
+    """The refusal of an argument outside the tool's inputSchema (additionalProperties false); None when there is
+    none. A `receipt` is one: receipts are unsigned, and a tool argument is whatever the agent writes."""
+    allowed = next(t for t in TOOLS if t["name"] == tool)["inputSchema"]["properties"]
+    if extra := sorted(set(args) - set(allowed)):
+        return {"error": f"unknown arguments {', '.join(extra)}: not in {tool}'s input schema",
+                "code": "invalid_arguments"}, True
+    return None
+
+
+def _chain_files(chain) -> tuple[Path, Path]:
+    """A feedback chain's trace and check options: <state dir>/feedback/<hex>.jsonl and <hex>.options.json. The state
+    dir is the hook's (BUDDIE_STATE, default ~/.cache/buddie/pending); BUDDIE_STATE=0 stops the gate's return
+    tracking, and a chain still needs its file, so it is kept in the default place then."""
+    from buddie import feedback as fb
+    if not isinstance(chain, str) or not fb.ID.match(chain):
+        raise ValueError("chain is sha256:<64 hex>, as feedback_start returned it")
+    root = os.environ.get("BUDDIE_STATE", "")
+    root = Path(root) if root not in ("", "0") else Path.home() / ".cache" / "buddie" / "pending"
+    name = chain.split(":", 1)[1]
+    return root / "feedback" / f"{name}.jsonl", root / "feedback" / f"{name}.options.json"
+
+
+def _chain_state(state) -> dict:
+    return {"disposition": state.disposition, "task": state.task, "iteration": state.iteration,
+            "terminal": state.terminal}
+
+
+def feedback_start(args: dict) -> tuple[dict, bool]:
+    """A new feedback chain (docs/feedback.md#mcp), local only (remote.py does not offer it). buddie checks the report
+    itself; no argument carries a receipt."""
+    from buddie import feedback as fb, receipts, repair, trace as tr
+    if refused := _unknown(args, "feedback_start"):
+        return refused
+    text, name = _report(args)
+    limit = fb.check_limit(args.get("iteration_limit", fb.DEFAULT_LIMIT))
+    options = check_options(args)
+    got = repair.reverify(text, name=name, **_checking(options))
+    records, first = tr.start(got, iteration_limit=limit, requirements=args.get("requirements"))
+    trace_file, options_file = _chain_files(first["chain"])
+    trace_file.parent.mkdir(parents=True, exist_ok=True)
+    try:  # never overwritten: a chain's files are created once, then the trace is only appended to
+        with options_file.open("x", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(options, ensure_ascii=False, sort_keys=True) + "\n")
+        with trace_file.open("x", encoding="utf-8", newline="\n") as f:
+            f.write(tr.dumps(records))
+    except FileExistsError:
+        return {"error": f"a chain {first['chain']} exists already (the same check of the same text); it is not "
+                         "started again", "code": "chain_exists", "chain": first["chain"]}, True
+    return {"chain": first["chain"], "feedback": first, "receipt_line": receipts.line(receipts.v1(got)),
+            "state": _chain_state(tr.replay(records))}, False
+
+
+def feedback_resolve(args: dict) -> tuple[dict, bool]:
+    """One iteration of a chain from feedback_start: the corrected text is checked here with the chain's own options
+    (the caller cannot pass weaker ones), repair.resolve decides, and only the new records are appended."""
+    from buddie import receipts, repair, trace as tr
+    if refused := _unknown(args, "feedback_resolve"):
+        return refused
+    original, corrected = args.get("original_text"), args.get("corrected_text")
+    for key, value in (("original_text", original), ("corrected_text", corrected)):
+        if not isinstance(value, str) or len(value) > MAX_REPORT_BYTES:
+            raise ValueError(f"{key} is a text of at most {MAX_REPORT_BYTES // 2**20} MiB")
+    trace_file, options_file = _chain_files(args.get("chain"))
+    try:
+        written = trace_file.read_text(encoding="utf-8")
+        records = tr.loads(written)
+        state = tr.replay(records)
+        options = json.loads(options_file.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {"error": f"no chain {args['chain']} here: start one with feedback_start", "code": "unknown_chain"}, True
+    except (tr.TraceError, ValueError, KeyError, TypeError) as error:
+        return {"error": f"the chain's file does not replay: {error}", "code": "trace_invalid"}, True
+    if state.chain != args["chain"] or not isinstance(options, dict) or set(options) != set(_CHECK_OPTIONS):
+        return {"error": "the chain's files do not belong together", "code": "trace_invalid"}, True
+    feedback, sub = args.get("feedback"), args.get("submission")
+    try:
+        repair.admit(state, feedback, sub, original=original)  # refused before anything is checked or fetched
+        got = repair.reverify(corrected, name="corrected", **_checking(options))
+        result = repair.resolve(records, feedback, sub, original=original, corrected=corrected, assessment=got)
+    except repair.SubmissionError as error:
+        out = {"error": str(error), "code": error.code}
+        return (dict(out, decision=error.decision) if error.decision else out), True
+    if trace_file.read_text(encoding="utf-8") != written:
+        return {"error": "the chain changed while this submission was checked: nothing appended",
+                "code": "chain_changed"}, True
+    with trace_file.open("a", encoding="utf-8", newline="\n") as f:
+        f.write(tr.dumps(result.records[len(records):]))
+    return {"decision": result.decision, "feedback": result.feedback, "receipt_line": receipts.line(receipts.v1(got)),
+            "state": _chain_state(tr.replay(result.records))}, False
+
+
 HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary,
-            "environment_snapshot": environment_snapshot}
+            "environment_snapshot": environment_snapshot, "feedback_start": feedback_start,
+            "feedback_resolve": feedback_resolve}
 
 # MCP tool annotations (clients and app directories ask for them): nothing here changes the user's data; the
 # fetching tools reach the open web, summary only reads this machine's journal
@@ -265,10 +415,15 @@ _ANNOTATIONS = {
     "source_text": {"title": "Read a snapshot", "openWorldHint": False},
     "summary": {"title": "Subagent summary", "openWorldHint": False},
     "environment_snapshot": {"title": "Observe this machine (granted categories)", "openWorldHint": False},
+    # these write only their chain's files in buddie's state dir; a second call is not the first (one answer each)
+    "feedback_start": {"title": "Start verification feedback", "openWorldHint": True, "readOnlyHint": False,
+                       "idempotentHint": False},
+    "feedback_resolve": {"title": "Resolve verification feedback", "openWorldHint": True, "readOnlyHint": False,
+                         "idempotentHint": False},
 }
 for _tool in TOOLS:
-    _tool["annotations"] = dict(_ANNOTATIONS[_tool["name"]], readOnlyHint=True, destructiveHint=False,
-                                idempotentHint=True)
+    _tool["annotations"] = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True,
+                            **_ANNOTATIONS[_tool["name"]]}
 
 
 def handle(msg: dict, handlers: dict | None = None) -> dict | None:
@@ -303,6 +458,8 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
                 from buddie import receipts
                 first = receipts.line(data) if data.get("predicateType") == receipts.V1 else data["predicate"]["line"]
                 text = first + "\n" + "".join(f"{n}\n" for n in note if n) + text
+            elif name in ("feedback_start", "feedback_resolve") and not is_error:
+                text = data["receipt_line"] + "\n" + text
             elif name == "summary" and not is_error:
                 text = data["text"] + "\n" + text
             elif name == "environment_snapshot" and not is_error and data.get("format", "").endswith("diagnostics-v1"):
