@@ -41,14 +41,36 @@ def test_malformed_size_fails():
     assert any("invalid size" in e for e in gate.check(records(wheel=True)))
 
 
+def write_candidate(root, **sizes):
+    files = []
+    for item in records(**sizes):
+        name = f"{item['kind']}.bin"
+        (root / name).write_bytes(b"\0" * item["size"])
+        files.append({**item, "path": name})
+    (root / "release-manifest.json").write_text(json.dumps({"files": files}), encoding="utf-8")
+    return files
+
+
 def test_cli_read_only_success_and_oversize(tmp_path, capsys):
-    path = tmp_path / "release-manifest.json"
-    path.write_text(json.dumps({"files": records()}), encoding="utf-8")
+    write_candidate(tmp_path)
     assert gate.main([str(tmp_path)]) == 0
     assert "PASS" in capsys.readouterr().out
-    path.write_text(json.dumps({"files": records(mcpb=3 * gate.MIB)}), encoding="utf-8")
+    write_candidate(tmp_path, mcpb=3 * gate.MIB)
     assert gate.main([str(tmp_path)]) == 1
     assert "exceeds" in capsys.readouterr().err
+
+
+def test_cli_size_is_read_from_the_files_not_the_manifest(tmp_path, capsys):
+    files = write_candidate(tmp_path)
+    (tmp_path / "plugin.bin").write_bytes(b"\0" * (2 * gate.MIB + 1))  # manifest still claims 905000
+    assert gate.main([str(tmp_path)]) == 1
+    assert "differs from file size" in capsys.readouterr().err
+    (tmp_path / "plugin.bin").unlink()
+    assert gate.main([str(tmp_path)]) == 1
+    files[0]["path"] = "../wheel.bin"
+    (tmp_path / "release-manifest.json").write_text(json.dumps({"files": files}), encoding="utf-8")
+    assert gate.main([str(tmp_path)]) == 1
+    assert "unsafe" in capsys.readouterr().err
 
 
 def test_cli_missing_manifest_fails(tmp_path):

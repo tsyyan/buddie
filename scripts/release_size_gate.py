@@ -20,7 +20,7 @@ MAX_SIZE = {"wheel": 1 * MIB, "sdist": 1 * MIB, "mcpb": 2 * MIB, "plugin": 2 * M
 MAX_TOTAL = 6 * MIB
 
 
-def check(files: list[dict]) -> list[str]:
+def check(files: list[dict], root: Path | None = None) -> list[str]:
     problems: list[str] = []
     found: dict[str, dict] = {}
     for item in files:
@@ -44,6 +44,17 @@ def check(files: list[dict]) -> list[str]:
             problems.append(f"{kind}: invalid size {n!r}")
             continue
         total += n
+        if root is not None:
+            # bind the budget to the bytes on disk, not to what the manifest claims
+            rel = item.get("path")
+            path = root / rel if isinstance(rel, str) else None
+            if (path is None or Path(rel).is_absolute() or ".." in Path(rel).parts
+                    or path.is_symlink() or not path.is_file()):
+                problems.append(f"{kind}: artifact file {rel!r} missing or unsafe")
+                continue
+            if path.stat().st_size != n:
+                problems.append(f"{kind}: manifest size {n} differs from file size {path.stat().st_size}")
+                continue
         if n > MAX_SIZE[kind]:
             problems.append(f"{kind}: {n} bytes exceeds {MAX_SIZE[kind]} byte budget")
     if total > MAX_TOTAL:
@@ -63,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, KeyError, ValueError, TypeError) as exc:
         print(f"release payload gate: invalid manifest: {exc}", file=sys.stderr)
         return 1
-    problems = check(files)
+    problems = check(files, args.root)
     if problems:
         for msg in problems:
             print(f"release payload gate: {msg}", file=sys.stderr)
@@ -71,7 +82,7 @@ def main(argv: list[str] | None = None) -> int:
     for kind in MAX_SIZE:
         size = next(f["size"] for f in files if f.get("kind") == kind)
         print(f"{kind}: {size:,} / {MAX_SIZE[kind]:,} bytes")
-    print("release payload budgets: PASS (manifest integrity checked separately)")
+    print("release payload budgets: PASS (sizes read from the candidate files)")
     return 0
 
 

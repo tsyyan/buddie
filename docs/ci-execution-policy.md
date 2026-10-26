@@ -1,49 +1,64 @@
-# CI execution policy (proposal)
+# CI execution policy
 
-This change replaces full validation on **every PR synchronization** with a lightweight security-and-verification suite. The full test matrix, clean-install checks, packaging/release-candidate checks, catalog validation and Docker checks run for a GitHub **merge queue** entry (`merge_group`) and for pushes to `main`.
+Ordinary PR updates run a fast, focused suite. Full validation (test matrix, three-OS clean installs, catalogs,
+Docker, and the release candidate with its size gate) runs when a maintainer asks for it with the label
+**`full-ci-required`**, and again after merge on `main`. GitHub Merge Queue is **not** used: this repository
+belongs to a personal account, where merge queue is not assumed to be available.
 
-## Event matrix
+## The required check: `gate`
 
-| Event | Fast job | Full jobs | Stable gate |
-| --- | --- | --- | --- |
-| `pull_request` | Required | Skipped | Requires fast pass and full jobs skipped |
-| `merge_group` (`checks_requested`) | Required | Required | Requires all jobs success |
-| `push` to `main` | Required | Full tests/platforms/catalogs/Docker, **no duplicate candidate build** | Requires all executed jobs success |
+`ci.yml` has one job meant to be required by branch protection, `gate` (shown as **`gate`**, or `ci / gate`
+when GitHub groups it by workflow). It runs on every event, needs every other job, and is fail-closed:
 
-The `gate` job always runs and fails if any required result is missing, failing, or canceled. Its stable check name is intended for branch rules, but **the PR gate alone does not enforce the pre-merge full suite**: it deliberately passes after the fast suite on ordinary PR events.
+| Event | Fast | Full jobs | Release candidate | `gate` passes only if |
+| --- | --- | --- | --- | --- |
+| PR without the label | runs | skipped | skipped | never: fails with "full validation not requested" |
+| PR with `full-ci-required` | runs | run on the PR merge ref | built and size-gated | fast and every full job and the candidate succeeded |
+| push to `main` | runs | run | skipped (no duplicate build) | fast and every full job succeeded |
+| any other event | - | - | - | never |
 
-## Mandatory administrative prerequisites before merge
+- **New commits invalidate it.** A status belongs to a commit; a push creates a new head SHA whose `gate` starts
+  pending and has to pass again (the label stays, so full validation reruns on the new head).
+- **Removing the label invalidates it.** `unlabeled` starts a new run for the same head; its `gate` fails, and as
+  the newest check run of that name it replaces the earlier success. The per-PR concurrency group with
+  `cancel-in-progress` cancels any older full run, so it cannot finish later and overwrite the newer result.
+- **Base changes.** `pull_request` runs test the proposed merge result (`refs/pull/N/merge`) as of the run. Require
+  branches to be up to date before merging, so a moved `main` forces an update, a new head and a new `gate`.
+- Fast checks alone never make `gate` pass on a pull request.
 
-1. Enable **GitHub Merge Queue** for `main` and require PRs to enter the queue. Configure the branch ruleset to require the stable `gate` check on queued merge groups, with no bypass. GitHub configuration is **not** changed by this PR.
-2. Confirm the actual check name (typically `ci / gate`) in GitHub Actions and update required-status settings accordingly. Do not remove existing required jobs until their replacement is confirmed working.
-3. Verify that one queued synthetic PR runs the full matrix and release-candidate validation against the merge-group SHA. Confirm a failing full job blocks the queue.
-4. Retain an administrator-approved rollback route: revert this commit if merge queue is unavailable or any event is unexpectedly skipped.
+## Limits of this design (owner must accept or mitigate)
 
-**Important:** If merge queue is unavailable, do **not** merge this proposal as written; use a protected, SHA-bound full pre-merge approval workflow instead. A manually dispatched run by itself is *not* a merge guard.
-
-## Limitations
-
-- Fast coverage is a targeted subset, not an exhaustive regression suite. Review the chosen paths before adoption and expand on releases/security-sensitive PRs.
-- The full suite continues to run after merge as a defense-in-depth check; it does not replace the merge queue's pre-merge verification.
-- Every candidate publish workflow remains separate and requires its own authorization; this change only modifies ordinary CI execution.
-- This branch is deliberately based on `main` `0a638d354c03cc44ea806a72547d084c122cd034` to avoid modifying existing release-hardening worktrees. Re-review interactions with updated workflow files before merging.
+1. **A PR controls its own workflow file.** `pull_request` runs the PR's version of `ci.yml`, so a PR could edit
+   `gate` to pass. This holds for any Actions-based gate (merge queue included). Mitigations: require an approving
+   review (and CODEOWNERS for `.github/`), and for outside contributors require approval before workflows run.
+   Review every change to `.github/workflows/`.
+2. **Who may label.** Only users with triage/write access can add labels; fork authors cannot. Adding the label is a
+   request to run, not an approval: `gate` still needs the full jobs to succeed.
+3. **Check name collisions.** Another job named `gate` in another workflow would also report a `gate` check. Pin the
+   required check to the GitHub Actions app as its source, and do not add other jobs named `gate`.
+4. **Admin bypass.** Unless "Do not allow bypassing the above settings" is on, an admin can merge on a red `gate`.
 
 ## Release candidate size and reuse policy
 
-**The fast release path does not mean publishing unchecked packages.** Ordinary PRs execute the focused release-size unit tests; the merge queue builds the full candidate once for the merge-group SHA. A push to main does not repeat this expensive candidate build. Publishing a tag runs its own full candidate build for that **exact tagged SHA**, and publishing jobs later download the same build artifact (rather than rebuilding per channel).
+Tag runs (`release.yml`) build the publishable candidate from the exact tagged commit; every publication channel
+downloads that one verified artifact, nothing is rebuilt per channel. The candidate built for a labeled PR is a
+check only and is never published.
 
-The dedicated `scripts/release_size_gate.py` runs on every finished, integrity-verified release candidate. Initial compressed size limits (not extracted-size limits) are:
+`scripts/release_size_gate.py` runs inside `release-candidate.yml` after `release_manifest.py verify` and
+`sha256sum -c`, and reads each archive's size from the file on disk (refusing missing, symlinked or escaping
+paths and any mismatch with the manifest), so the budgets bind to the validated candidate, not to manifest claims.
 
-| Artifact | Budget | v2.0.1 reference |
+| Artifact | Budget | 2.0.2 development build |
 | --- | ---: | ---: |
-| wheel | 1 MiB | 266,231 B |
-| sdist | 1 MiB | 268,422 B |
-| Claude Desktop MCPB | 2 MiB | 333,422 B |
-| Compact Claude plugin ZIP | 2 MiB | 904,599 B from prior reproducible packaging review |
-| Total four archives | 6 MiB | - |
+| wheel | 1 MiB | 306,145 B |
+| sdist | 1 MiB | 278,891 B |
+| Claude Desktop MCPB | 2 MiB | 310,608 B |
+| Compact Claude Code ZIP | 2 MiB | 896,059 B |
+| Total of the four | 6 MiB | 1,791,703 B |
 
-The gate fails the candidate on missing/duplicated artifact kinds, invalid sizes or exceeded limits. These ceilings are a regression protection, **not a claim that all packages are runtime-only**. The existing package manifest/SHA-256 verification, archive content checks, clean installs, reproducibility checks, and release authorization remain required; the active Work archive-hardening changes will add deeper content-policy validation after integration.
+Archive content policies, runtime-only allowlists, legal/privacy files, path/symlink checks and exact Git source
+binding stay in their own checks; the size gate does not replace them. Change ceilings only through reviewed
+changes backed by measured growth.
 
-Only advance size ceilings through reviewed changes supported by measured package growth, not by bypassing the gate. Final publishable candidates must be built from the exact tag commit; a merge-group candidate cannot be reused for a different main/tag commit SHA.
-
-This PR does not change `release.yml` publication privileges or weaken the user confirmation. Future release metadata/packaging work should merge with this workflow cautiously.
+**Not yet covered:** the planned Codex ZIP is not in the budget. When the Codex profile lands, add its kind with
+its own ceiling and include it in the total, in the same change.
