@@ -185,6 +185,31 @@ Its enforcement:
   - the buddie measured is not this checkout's clean code.
 - **Network:** a process audit hook refuses every DNS lookup but the API host's.
 
+## Amendment A1 (2026-10-26, before any live run): the hand-in boundary as a recorded signal
+
+The review of F3 added `repair.accept`, a production check of whether a final report is the text a chain verified
+(REVIEW-F1-F4.md). For the live pilot, `live.py` records it on every treatment run as `protocol.acceptance`:
+`accepted`, `reason` and `basis`. `analyze.py` reports it as `acceptance_a1`, next to the registered signal.
+
+What A1 does not change:
+
+- **The label:** `verified_task_success` and every predicate, scope rule and claim rule (`scenarios.py`,
+  `harness.label`).
+- **The candidates and recorded results:** the scripted candidates, `results/smoke.jsonl` and
+  `results/smoke-summary.json` (records made before A1 carry no `acceptance`, and the analysis omits the section for
+  them).
+- **The registered signal:** the chain's final disposition `verified` against the label, reported as before.
+- **The conditions and the manifest:** the agent's tools and prompts (the boundary is the orchestrator's check, not an
+  agent tool), the plan, the budget and `approval.pilot.json`.
+
+How the live pilot will be read:
+
+- **The primary outcome** is the registered one: verified task success per condition, k/n, paired.
+- **Signal agreement** is reported twice, each labelled: registered (disposition) and A1 (acceptance).
+- **No criterion is chosen after seeing live results.** A1 is fixed here, before any live run, and its smoke-candidate
+  numbers are pinned by a test (`test_a1_…`: 7 accepted and successful, 0 accepted but failed, 3 refused honest
+  outcomes, 13 refused failures).
+
 ## Runtime
 
 The benchmark imports buddie from this checkout, never from an installed copy: `python -I` resolves to whatever

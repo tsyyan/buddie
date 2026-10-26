@@ -186,3 +186,18 @@ be a subscription-backed run.
    own evidence.
 6. **Run the live phase only with an approval.** Run it paired and randomized, with enough repetitions per scenario
    that the discordant pairs can be counted, and report every run.
+
+## 6. Review follow-up (F1–F4)
+
+See [REVIEW-F1-F4.md](REVIEW-F1-F4.md). Sections 0–5 above are kept as written when the smoke run was made.
+
+- **F3 is fixed in production.** `repair.accept` and the MCP tool `feedback_accept` accept a final report only when
+  the chain is `verified` and the report is byte for byte its last accepted text. Recommendation 3 above is now
+  implemented. On the 23 frozen candidates the boundary accepts 0 failed tasks; the registered disposition signal
+  accepted 1 (S7). It refuses 3 honest outcomes, the F2 and F4 cases.
+- **F2 is reproduced and characterized.** Narrow rules R1 and R2 are proposed but not implemented.
+- **F4 is analyzed.** A terminal `disclosed` state would break feedback-v1 validators and old replays, so no change
+  is made.
+- **F1 is documented** as an evidence-attribution limit.
+- **The live pilot** records the boundary as amendment A1 (PROTOCOL.md), fixed before any live run. The labels, the
+  candidates, the recorded results and the registered signal are unchanged.

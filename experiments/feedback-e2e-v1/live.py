@@ -309,6 +309,12 @@ def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
         labels = H.label(scenario, scenario.report, final, said or "not_verified", world)
         if arm == "treatment" and adapter.chain and final != adapter.accepted:
             deviations.append("hand_in_differs_from_chain: the final report is not the chain's last accepted text")
+        acceptance = None
+        if arm == "treatment" and adapter.chain:  # amendment A1 (PROTOCOL.md): recorded, never the label
+            from buddie import chains, repair
+            read = chains.load(adapter.chain)
+            got = repair.accept(read.records, final)
+            acceptance = {"accepted": got["accepted"], "reason": got["reason"], "basis": read.basis}
     tools = [s["tool"] for s in adapter.steps]
     record = {"schema": H.RECORD_V1, "phase": "live", "condition": arm, "scenario": scenario.sid,
               "policy": f"agent:{model}", "repetition": item["repetition"], "order": item["order"], "seed": None,
@@ -316,7 +322,7 @@ def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
               "attempts": len(adapter.drafts), "rejected_attempts": adapter.rejected, "tool_calls": len(tools),
               "tools": tools, "elapsed_s": round(time.perf_counter() - began, 3),
               "protocol": {"source": "live", "steps": adapter.steps, "final_signal": adapter.final_signal(),
-                           "api_calls": calls, "usage_cost_usd": round(spent, 6)},
+                           "acceptance": acceptance, "api_calls": calls, "usage_cost_usd": round(spent, 6)},
               "agent_claim": said or "not_verified", "final_changed": final != scenario.report, "labels": labels,
               "tokens": tokens, "cost_usd": None, "cost_verifiable": False, "deviations": deviations}
     if problems_ := H.check_record(record):
@@ -324,12 +330,14 @@ def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
     return record
 
 
-def pilot(approval: dict, out: Path, transport) -> dict:
-    """Every planned run in order; stops at the first PilotAbort, keeping what ran and why it stopped."""
+def pilot(approval: dict, out: Path, transport, *, require_clean: bool = True) -> dict:
+    """Every planned run in order; stops at the first PilotAbort, keeping what ran and why it stopped.
+    require_clean: refuse uncommitted changes under buddie/ (always on from the command line; tests of the runner
+    itself turn it off so that they do not depend on the working tree)."""
     import bench
     out.mkdir(parents=True, exist_ok=True)
     runtime = H.runtime()
-    if runtime["buddie_file"] != "buddie/__init__.py" or runtime["buddie_dirty"]:
+    if runtime["buddie_file"] != "buddie/__init__.py" or (require_clean and runtime["buddie_dirty"] is not False):
         raise PilotAbort(f"isolation: the buddie measured is not this checkout's clean code ({runtime})")
     plan = bench.live_plan(approval, out)
     ledger = Ledger(approval, out / "ledger.jsonl")

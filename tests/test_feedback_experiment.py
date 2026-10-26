@@ -307,3 +307,37 @@ def test_runs_do_not_share_state(smoke, tmp_path):
     known = dict(chains._KNOWN)
     H.run(S.S1, S.S1.candidates[0], "treatment", workdir=tmp_path)
     assert chains._KNOWN == known and list(tmp_path.iterdir()) == []
+
+
+# --- review follow-up (REVIEW-F1-F4.md): the F3 boundary on the frozen candidates, labels untouched ---------------
+
+def test_a1_the_hand_in_boundary_never_accepts_a_failed_task():
+    """Amendment A1: repair.accept on each frozen candidate's chain and final text. It accepts no candidate the
+    independent label fails (the disposition signal did once: S7 needless_edit); it refuses three honest outcomes,
+    the F2 and F4 cases. Computed here, not written into results/: the smoke data stay as recorded."""
+    import tempfile
+    cells, refused_ok = {"accepted_success": 0, "accepted_not_success": 0, "refused_success": 0,
+                         "refused_not_success": 0}, set()
+    for sc in S.SCENARIOS:
+        for c in sc.candidates:
+            with tempfile.TemporaryDirectory() as d, H.isolated(Path(d)) as w:
+                t = H.Tools("treatment")
+                got, _ = t.call("feedback_start", dict(w.options(), text=sc.report, iteration_limit=S.ITERATION_LIMIT,
+                                                       requirements=list(sc.requirements)))
+                feedback, before = got["feedback"], sc.report
+                for text, execution in c.revisions:
+                    r, err = t.call("feedback_resolve", {
+                        "chain": got["chain"], "feedback": feedback, "original_text": before, "corrected_text": text,
+                        "submission": repair.submission(feedback, before, text, execution=execution)})
+                    if not err:
+                        feedback = r["feedback"]
+                        before = text if r["decision"]["status"] == "accepted" else before
+                final = c.revisions[-1][0] if c.revisions else sc.report
+                accepted = repair.accept(chains.load(got["chain"]).records, final)["accepted"]
+                ok = H.label(sc, sc.report, final, c.claim, w)["verified_task_success"]
+            assert ok is EXPECTED[(sc.sid, c.name)]                          # the frozen label, unchanged
+            cells[f"{'accepted' if accepted else 'refused'}_{'success' if ok else 'not_success'}"] += 1
+            if ok and not accepted:
+                refused_ok.add((sc.sid, c.name))
+    assert cells == {"accepted_success": 7, "accepted_not_success": 0, "refused_success": 3, "refused_not_success": 13}
+    assert refused_ok == {("S1", "delete"), ("S8", "disclose"), ("S4", "disclose")}   # F2, F2, F4

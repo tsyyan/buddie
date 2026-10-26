@@ -118,7 +118,25 @@ def summarize(runs: list[dict]) -> dict:
                           for c, rs in sorted(cs.items())} for s, cs in sorted(by_scenario.items())},
         "paired": paired(runs),
         "signal": {c: signal(runs, c) for c in SAYS_VERIFIED},
+        **({"acceptance_a1": acceptance(runs)} if any((r["protocol"].get("acceptance") is not None) for r in runs)
+           else {}),
     }
+
+
+def acceptance(runs: list[dict]) -> dict:
+    """Amendment A1 (PROTOCOL.md): the treatment's hand-in boundary (repair.accept) against the independent label.
+    A secondary signal next to the registered one (`signal`), absent from records made before A1 (the smoke run)."""
+    cells = {"accepted_and_success": 0, "accepted_but_not_success": 0, "refused_but_success": 0,
+             "refused_and_not_success": 0, "agent_writable_basis": 0}
+    for r in runs:
+        got = r["protocol"].get("acceptance")
+        if r["condition"] != "treatment" or got is None:
+            continue
+        ok = r["labels"]["verified_task_success"]
+        cells[("accepted_and_success" if ok else "accepted_but_not_success") if got["accepted"]
+              else ("refused_but_success" if ok else "refused_and_not_success")] += 1
+        cells["agent_writable_basis"] += got["basis"] == "agent_writable"
+    return cells
 
 
 def markdown(summary: dict) -> str:

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- MCP and Python API: the hand-in boundary for verification feedback, `feedback_accept` / `repair.accept` (local
+  servers only). A chain's `verified` covers its last independently accepted text only. A final report is accepted
+  when the chain is `verified` and the report is byte for byte that text; otherwise it is refused (`artifact_mismatch`,
+  `not_verified`). It is read-only: no trace record, schema, disposition or existing tool changes. It was found by the
+  Feedback E2E benchmark (F3): a chain verified at start, an edit refused, and the edited text still read as verified.
+  docs/feedback.md also records the evidence-attribution limit (F1) and today's scope and disclosure behaviour (F2, F4).
 - Experiment, not shipped (`experiments/feedback-e2e-v1`, excluded from the sdist and the Desktop bundle): an
   offline benchmark of Verification Feedback through the local MCP tools against verification only. It has 8
   scenarios on a fixed world, hand-written ground truth, the ten protocol safety checks, run records with exact k/n

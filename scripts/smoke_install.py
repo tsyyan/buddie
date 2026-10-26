@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ["verify_report", "snap", "source_text", "summary", "environment_snapshot", "feedback_start",
-         "feedback_resolve"]
+         "feedback_resolve", "feedback_accept"]
 
 
 def run(cmd: list[str], cwd: Path, env: dict, stdin: str = "") -> subprocess.CompletedProcess:

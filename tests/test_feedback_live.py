@@ -68,7 +68,7 @@ def test_the_per_run_ceiling_must_fit_the_pilot_ceiling():
 
 def test_a_dry_pilot_runs_all_sixteen_paired_runs(tmp_path):
     fake = Fake()
-    summary = live.pilot(authorized(), tmp_path, fake)
+    summary = live.pilot(authorized(), tmp_path, fake, require_clean=False)
     assert summary["status"] == "complete" and summary["runs_recorded"] == 16 == summary["runs_planned"]
     records = [json.loads(line) for line in (tmp_path / "live.jsonl").read_text(encoding="utf-8").splitlines()]
     schema = json.loads((EXP / "metrics.schema.json").read_text(encoding="utf-8"))
@@ -89,14 +89,14 @@ def test_a_dry_pilot_runs_all_sixteen_paired_runs(tmp_path):
 
 
 def test_a_response_costlier_than_its_checked_worst_case_aborts(tmp_path):
-    summary = live.pilot(authorized(), tmp_path, Fake(usage=dict(USAGE, output_tokens=10_000_000)))
+    summary = live.pilot(authorized(), tmp_path, Fake(usage=dict(USAGE, output_tokens=10_000_000)), require_clean=False)
     assert summary["status"].startswith("aborted") and "worst case" in summary["status"]
     assert summary["runs_recorded"] == 0
 
 
 def test_missing_usage_or_another_model_aborts(tmp_path):
-    assert "no usage" in live.pilot(authorized(), tmp_path / "a", Fake(usage=None))["status"]
-    assert "approved" in live.pilot(authorized(), tmp_path / "b", Fake(model="claude-opus-5-5"))["status"]
+    assert "no usage" in live.pilot(authorized(), tmp_path / "a", Fake(usage=None), require_clean=False)["status"]
+    assert "approved" in live.pilot(authorized(), tmp_path / "b", Fake(model="claude-opus-5-5"), require_clean=False)["status"]
 
 
 def test_the_pilot_ceiling_stops_before_a_request_that_could_cross_it(tmp_path):
@@ -184,3 +184,31 @@ def test_the_network_guard_refuses_every_other_host():
     out = subprocess.run([sys.executable, "-c", GUARD, str(EXP)], capture_output=True, text=True, timeout=60,
                          cwd=EXP.parents[1])
     assert out.stdout.strip() == "blocked", out.stderr
+
+
+def test_uncommitted_buddie_code_aborts_before_any_request(tmp_path, monkeypatch):
+    monkeypatch.setattr(H, "runtime", lambda: {"buddie_file": "buddie/__init__.py", "buddie_dirty": True})
+    fake = Fake()
+    try:
+        live.pilot(authorized(), tmp_path, fake)
+    except live.PilotAbort as error:
+        assert "clean code" in str(error)
+    else:
+        raise AssertionError("a dirty runtime was measured")
+    assert fake.bodies == []
+
+
+def test_treatment_runs_record_the_a1_acceptance(tmp_path):
+    """Amendment A1: the hand-in boundary is recorded beside the registered signal; the label does not use it."""
+    summary = live.pilot(authorized(), tmp_path, Fake(), require_clean=False)
+    records = [json.loads(line) for line in (tmp_path / "live.jsonl").read_text(encoding="utf-8").splitlines()]
+    for r in records:
+        got = r["protocol"]["acceptance"]
+        if r["condition"] == "control":
+            assert got is None
+        else:  # the fake hands the report back unchanged: accepted only where the chain verified it (S7)
+            assert got["basis"] == "server"
+            assert got["accepted"] is (r["scenario"] == "S7"), r["scenario"]
+    import analyze
+    assert analyze.summarize(records)["acceptance_a1"]["accepted_and_success"] == 1
+    assert summary["status"] == "complete"
