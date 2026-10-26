@@ -16,6 +16,7 @@ Start with the [project overview and quick start](../README.md). For installatio
 | Configure the CLI, hooks and MCP server | [Configuration](configuration.md) |
 | Protect settings from the agent | [Protected policy](policy.md) |
 | Read receipts | [Receipt contract](receipts.md) |
+| Act on findings: feedback, bounded repair, decision trace | [Verification feedback](feedback.md), [ADR-001](adr/ADR-001-verification-feedback.md) |
 | Understand freshness | [Freshness](freshness.md) |
 | Inspect environment observations | [Environment snapshots](environment.md) |
 | Check code and quotations from GitHub files and PRs | [GitHub citations](github-citations.md) |

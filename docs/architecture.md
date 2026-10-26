@@ -15,6 +15,7 @@ decide either (the protected policy, [policy.md](policy.md)).
 | Translation | `buddie/findings.py` | checker verdicts into core findings (exhaustive tables) |
 | Verification | `buddie/verify.py` | one text in, one Assessment out: receipt-v0, typed findings, coverage, what ran |
 | Receipts | `buddie/receipts.py` | an Assessment rendered as receipt-v0 or receipt-v1 ([receipts.md](receipts.md)) |
+| Feedback | `buddie/feedback.py`, `buddie/repair.py`, `buddie/trace.py` | a receipt-v1 as advice, one bounded repair judged by a new receipt, and its hash-chained trace ([feedback.md](feedback.md)) |
 | Evidence | `buddie/evidence.py`, `stores.py`, `logbook.py` | which repos, stores and journal a check uses, who named them |
 | Programs | `buddie/runner.py` | every program buddie starts, bounded; git hardened against the repo's config and the hook's environment ([security.md](security.md)) |
 | Adversarial | `tests/test_adversarial.py` | the threat matrix of attacks on these boundaries, each held by a test ([adversarial.md](adversarial.md)) |

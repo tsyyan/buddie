@@ -319,7 +319,9 @@ def test_sec03_the_hook_runs_each_event_under_a_budget(monkeypatch):
     monkeypatch.setattr(hook, "run", lambda event: seen.append(runner._DEADLINE.get()) or 0)
     monkeypatch.setattr(sys, "stdin", io.TextIOWrapper(io.BytesIO(b'{"hook_event_name": "Stop"}')))
     assert hook.main() == 0
-    assert seen and seen[0] is not None and seen[0] - time.monotonic() <= hook.EVENT_PROGRAMS
+    # compared by addition, not subtraction: on Windows monotonic() can return the same tick, and
+    # (t + 40.0) - t is 40.00000000000006 for some t (CI on PR #59)
+    assert seen and seen[0] is not None and seen[0] <= time.monotonic() + hook.EVENT_PROGRAMS
 
 
 @needs_git
