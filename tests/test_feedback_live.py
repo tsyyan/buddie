@@ -68,15 +68,15 @@ def test_the_per_run_ceiling_must_fit_the_pilot_ceiling():
 
 def test_a_dry_pilot_runs_all_sixteen_paired_runs(tmp_path):
     fake = Fake()
-    summary = live.pilot(authorized(), tmp_path, fake, require_clean=False)
+    summary = live.pilot(authorized(), tmp_path / "run", fake, require_clean=False)
     assert summary["status"] == "complete" and summary["runs_recorded"] == 16 == summary["runs_planned"]
-    records = [json.loads(line) for line in (tmp_path / "live.jsonl").read_text(encoding="utf-8").splitlines()]
+    records = [json.loads(line) for line in (tmp_path / "run" / "live.jsonl").read_text(encoding="utf-8").splitlines()]
     schema = json.loads((EXP / "metrics.schema.json").read_text(encoding="utf-8"))
     assert all(validate(r, schema) == [] and H.check_record(r) == [] for r in records)
     assert sorted((r["scenario"], r["condition"]) for r in records) == sorted(
         (s.sid, c) for s in S.SCENARIOS for c in ("control", "treatment"))
     per_call = live.cost(USAGE, MANIFEST["pricing"])
-    ledger = (tmp_path / "ledger.jsonl").read_text(encoding="utf-8").splitlines()
+    ledger = (tmp_path / "run" / "ledger.jsonl").read_text(encoding="utf-8").splitlines()
     assert len(ledger) == 32 and summary["usage_cost_usd"] == pytest.approx(32 * per_call)
     assert all(r["cost_usd"] is None and r["cost_verifiable"] is False for r in records)
     assert all(r["tokens"]["input"] == 3000 for r in records)
@@ -89,9 +89,11 @@ def test_a_dry_pilot_runs_all_sixteen_paired_runs(tmp_path):
 
 
 def test_a_response_costlier_than_its_checked_worst_case_aborts(tmp_path):
-    summary = live.pilot(authorized(), tmp_path, Fake(usage=dict(USAGE, output_tokens=10_000_000)), require_clean=False)
+    summary = live.pilot(authorized(), tmp_path / "run", Fake(usage=dict(USAGE, output_tokens=10_000_000)), require_clean=False)
     assert summary["status"].startswith("aborted") and "worst case" in summary["status"]
     assert summary["runs_recorded"] == 0
+    assert summary["usage_cost_usd"] == pytest.approx(live.cost(dict(USAGE, output_tokens=10_000_000), MANIFEST["pricing"]))
+    assert len((tmp_path / "run" / "ledger.jsonl").read_text().splitlines()) == 1
 
 
 def test_missing_usage_or_another_model_aborts(tmp_path):
@@ -190,7 +192,7 @@ def test_uncommitted_buddie_code_aborts_before_any_request(tmp_path, monkeypatch
     monkeypatch.setattr(H, "runtime", lambda: {"buddie_file": "buddie/__init__.py", "buddie_dirty": True})
     fake = Fake()
     try:
-        live.pilot(authorized(), tmp_path, fake)
+        live.pilot(authorized(), tmp_path / "run", fake)
     except live.PilotAbort as error:
         assert "clean code" in str(error)
     else:
@@ -200,8 +202,8 @@ def test_uncommitted_buddie_code_aborts_before_any_request(tmp_path, monkeypatch
 
 def test_treatment_runs_record_the_a1_acceptance(tmp_path):
     """Amendment A1: the hand-in boundary is recorded beside the registered signal; the label does not use it."""
-    summary = live.pilot(authorized(), tmp_path, Fake(), require_clean=False)
-    records = [json.loads(line) for line in (tmp_path / "live.jsonl").read_text(encoding="utf-8").splitlines()]
+    summary = live.pilot(authorized(), tmp_path / "run", Fake(), require_clean=False)
+    records = [json.loads(line) for line in (tmp_path / "run" / "live.jsonl").read_text(encoding="utf-8").splitlines()]
     for r in records:
         got = r["protocol"]["acceptance"]
         if r["condition"] == "control":
@@ -212,3 +214,146 @@ def test_treatment_runs_record_the_a1_acceptance(tmp_path):
     import analyze
     assert analyze.summarize(records)["acceptance_a1"]["accepted_and_success"] == 1
     assert summary["status"] == "complete"
+
+
+@pytest.mark.parametrize("existing", ["empty", "partial", "complete"])
+def test_existing_output_is_refused_without_changing_evidence(tmp_path, existing):
+    out = tmp_path / "run"
+    if existing == "complete":
+        live.pilot(authorized(), out, Fake(), require_clean=False)
+    else:
+        out.mkdir()
+        if existing == "partial":
+            for name in ("live.jsonl", "ledger.jsonl", "plan.json", "approval.json", "status.json"):
+                (out / name).write_bytes(b"previous evidence\n")
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    fake = Fake()
+    with pytest.raises(live.PilotAbort, match="reserved|exist|reuse"):
+        live.pilot(authorized(), out, fake, require_clean=False)
+    assert fake.bodies == []
+    assert {p.name: p.read_bytes() for p in out.iterdir()} == before
+
+
+def test_interrupted_initialization_keeps_reservation(tmp_path, monkeypatch):
+    out = tmp_path / "run"
+    def interrupt():
+        raise KeyboardInterrupt("initialization interrupted")
+    with monkeypatch.context() as patch:
+        patch.setattr(H, "runtime", interrupt)
+        with pytest.raises(KeyboardInterrupt):
+            live.pilot(authorized(), out, Fake(), require_clean=False)
+    assert out.is_dir()
+    fake = Fake()
+    with pytest.raises(live.PilotAbort):
+        live.pilot(authorized(), out, fake, require_clean=False)
+    assert not fake.bodies
+
+
+def test_partial_execution_preserves_costs_and_refuses_resume(tmp_path):
+    class Interrupted(Fake):
+        def send(self, body):
+            if len(self.bodies) == 2:
+                raise RuntimeError("transport interrupted")
+            return super().send(body)
+    out = tmp_path / "run"
+    with pytest.raises(RuntimeError, match="transport interrupted"):
+        live.pilot(authorized(), out, Interrupted(), require_clean=False)
+    records = (out / "live.jsonl").read_bytes()
+    assert len(records.splitlines()) == 1
+    status = json.loads((out / "status.json").read_text())
+    assert "transport interrupted" in status["status"]
+    assert status["usage_cost_usd"] == pytest.approx(2 * live.cost(USAGE, MANIFEST["pricing"]))
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    with pytest.raises(live.PilotAbort):
+        live.pilot(authorized(), out, Fake(), require_clean=False)
+    assert {p.name: p.read_bytes() for p in out.iterdir()} == before
+
+
+CONCURRENT = r"""
+import json, pathlib, sys, time
+sys.path[:0] = [sys.argv[1], sys.argv[2]]
+import live, test_feedback_live as T
+out, ready, gate = map(pathlib.Path, sys.argv[3:])
+ready.write_text('ready')
+while not gate.exists():
+    time.sleep(.01)
+try:
+    live.pilot(T.authorized(), out, T.Fake(), require_clean=False)
+except live.PilotAbort:
+    print('refused')
+else:
+    print('complete')
+"""
+
+
+def test_concurrent_processes_cannot_claim_one_output(tmp_path):
+    out, gate = tmp_path / "run", tmp_path / "go"
+    processes = []
+    try:
+        for i in range(2):
+            ready = tmp_path / f"ready{i}"
+            processes.append(subprocess.Popen(
+                [sys.executable, "-c", CONCURRENT, str(EXP), str(Path(__file__).parent),
+                 str(out), str(ready), str(gate)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True))
+        import time
+        deadline = time.monotonic() + 30
+        while not all((tmp_path / f"ready{i}").exists() for i in range(2)):
+            assert time.monotonic() < deadline, "workers did not reach the barrier"
+            time.sleep(.01)
+        gate.write_text("go")
+        results = [p.communicate(timeout=90) for p in processes]
+        assert all(p.returncode == 0 for p in processes), results
+        assert sorted(stdout.strip() for stdout, stderr in results) == ["complete", "refused"], results
+        assert len((out / "ledger.jsonl").read_text().splitlines()) == 32
+    finally:
+        for process in processes:
+            if process.poll() is None:
+                process.kill()
+                process.wait()
+
+
+def test_killed_initialization_cannot_be_reclaimed(tmp_path):
+    out, ready = tmp_path / "run", tmp_path / "reserved"
+    script = r"""
+import pathlib, sys, time
+sys.path[:0] = [sys.argv[1], sys.argv[2]]
+import live, test_feedback_live as T
+out, ready = map(pathlib.Path, sys.argv[3:])
+def pause():
+    ready.write_text('reserved')
+    while True:
+        time.sleep(1)
+live.H.runtime = pause
+live.pilot(T.authorized(), out, T.Fake(), require_clean=False)
+"""
+    process = subprocess.Popen([sys.executable, "-c", script, str(EXP), str(Path(__file__).parent), str(out), str(ready)])
+    try:
+        import time
+        deadline = time.monotonic() + 30
+        while not ready.exists():
+            assert time.monotonic() < deadline, "worker did not reserve output"
+            assert process.poll() is None
+            time.sleep(.01)
+    finally:
+        process.kill()
+        process.wait(timeout=10)
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    assert "approval.json" in before
+    fake = Fake()
+    with pytest.raises(live.PilotAbort):
+        live.pilot(authorized(), out, fake, require_clean=False)
+    assert not fake.bodies
+    assert {p.name: p.read_bytes() for p in out.iterdir()} == before
+
+
+@pytest.mark.parametrize("code", [429, 500, 502, 503, 529])
+def test_transport_never_retries_an_ambiguous_request(monkeypatch, code):
+    attempts = []
+    def fail(req, timeout):
+        attempts.append(req)
+        raise live.urllib.error.HTTPError(req.full_url, code, "ambiguous failure", {}, None)
+    monkeypatch.setattr(live.urllib.request, "urlopen", fail)
+    monkeypatch.setattr(live.time, "sleep", lambda _: None)
+    with pytest.raises(live.PilotAbort, match=f"API error {code}"):
+        live.Transport("offline-test").send({"model": "fake"})
+    assert len(attempts) == 1

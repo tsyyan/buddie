@@ -62,7 +62,16 @@ set. It writes:
 - `live.jsonl`: run records;
 - `ledger.jsonl`: per-request usage and cost;
 - `status.json`: complete or aborted, and why;
-- `plan.json`.
+- `plan.json` and an unchanged `approval.json` copy;
+- `requests.jsonl`: durable request intents, including requests whose response or cost could not be recorded.
+
+The output directory must not exist, including as an empty directory or a previous planning output. The runner
+reserves it atomically before initialization and creates its evidence files exclusively. A repeated or concurrent
+start is refused before any request. Partial results, costs and failure status remain after an abort; an abrupt
+process termination may leave only the reservation and partial evidence. Never delete these to retry. There is no
+implicit retry/resume of a reserved run; any future resume mechanism requires a separate design and authorization.
+A new directory does not authorize additional spending. HTTP errors (including throttling and server errors)
+are never retried automatically: a failed response cannot prove that no paid work occurred.
 
 `tests/test_feedback_live.py` checks the gate offline with a fake transport.
 

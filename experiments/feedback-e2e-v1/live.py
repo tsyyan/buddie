@@ -25,6 +25,8 @@ API key, never a subscription session.
 from __future__ import annotations
 
 import argparse
+from contextlib import ExitStack
+import tempfile
 import json
 import os
 import sys
@@ -115,15 +117,14 @@ class Transport:
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers={
             "content-type": "application/json", "x-api-key": self.key, "anthropic-version": API_VERSION})
-        for attempt in range(3):
-            try:
-                with urllib.request.urlopen(req, timeout=600) as resp:
-                    return json.loads(resp.read().decode("utf-8"))
-            except urllib.error.HTTPError as error:
-                if error.code in (429, 500, 502, 503, 529) and attempt < 2:
-                    time.sleep(float(error.headers.get("retry-after") or 2 ** (attempt + 2)))
-                    continue
-                raise PilotAbort(f"API error {error.code}: {error.read()[:300]!r}") from None
+        try:
+            with urllib.request.urlopen(req, timeout=600) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as error:
+            # A failed response does not prove that the provider did no paid work.
+            # Never retry automatically under the same budget check.
+            raise PilotAbort(f"API error {error.code}: {error.read()[:300]!r}") from None
+
 
 
 # --- the agent's tools ----------------------------------------------------------------------------------------------
@@ -233,11 +234,31 @@ def cost(usage: dict, prices: dict) -> float:
 class Ledger:
     def __init__(self, approval: dict, path: Path | None):
         self.approval, self.path, self.total = approval, path, 0.0
+        self.files = ExitStack()
+        try:
+            self.log = self.files.enter_context(path.open("x", encoding="utf-8", newline="\n")) if path else None
+            self.requests = self.files.enter_context(path.with_name("requests.jsonl").open(
+                "x", encoding="utf-8", newline="\n")) if path else None
+        except BaseException:
+            self.close()
+            raise
+
+    @staticmethod
+    def _append(stream, row):
+        if stream:
+            stream.write(json.dumps(row, sort_keys=True) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
 
     def entry(self, row: dict) -> None:
-        if self.path:
-            with self.path.open("a", encoding="utf-8", newline="\n") as f:
-                f.write(json.dumps(row, sort_keys=True) + "\n")
+        self._append(self.log, row)
+
+    def request(self, row: dict) -> None:
+        # A durable intent survives an abrupt stop before a response can be accounted for.
+        self._append(self.requests, row)
+
+    def close(self):
+        self.files.close()
 
 
 def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
@@ -266,16 +287,13 @@ def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
             if spent + worst > lim["max_cost_per_run_usd"]:
                 deviations.append(f"budget_stop: run spent {spent:.4f} + worst {worst:.4f} > per-run ceiling")
                 break
+            ledger.request({"order": item["order"], "call": calls + 1, "worst_case_usd": worst})
             resp = transport.send(body)
             calls += 1
             usage = resp.get("usage")
             if not isinstance(usage, dict) or "input_tokens" not in usage or "output_tokens" not in usage:
                 raise PilotAbort("a response carried no usage: measurement failed")
-            if resp.get("model") != model:
-                raise PilotAbort(f"answered by {resp.get('model')!r}, not the approved {model!r}")
             c = cost(usage, prices)
-            if c > worst + 1e-9:
-                raise PilotAbort(f"a response cost {c:.6f} > its checked worst case {worst:.6f}")
             spent += c
             ledger.total += c
             tokens["input"] += usage["input_tokens"]
@@ -283,8 +301,13 @@ def run_one(item: dict, approval: dict, transport, ledger: Ledger) -> dict:
             tokens["cache_write"] += usage.get("cache_creation_input_tokens") or 0
             tokens["cache_read"] += usage.get("cache_read_input_tokens") or 0
             ledger.entry({"order": item["order"], "scenario": scenario.sid, "condition": arm, "call": calls,
-                          "request_id": resp.get("id"), "usage": usage, "cost_usd": round(c, 6),
-                          "worst_case_usd": round(worst, 6), "pilot_total_usd": round(ledger.total, 6)})
+                          "request_id": resp.get("id"), "model": resp.get("model"), "usage": usage,
+                          "cost_usd": round(c, 6), "worst_case_usd": round(worst, 6),
+                          "pilot_total_usd": round(ledger.total, 6)})
+            if resp.get("model") != model:
+                raise PilotAbort(f"answered by {resp.get('model')!r}, not the approved {model!r}")
+            if c > worst + 1e-9:
+                raise PilotAbort(f"a response cost {c:.6f} > its checked worst case {worst:.6f}")
             content = resp.get("content") or []
             messages.append({"role": "assistant", "content": content})  # append-only: blocks passed back unchanged
             stop = resp.get("stop_reason")
@@ -335,22 +358,51 @@ def pilot(approval: dict, out: Path, transport, *, require_clean: bool = True) -
     require_clean: refuse uncommitted changes under buddie/ (always on from the command line; tests of the runner
     itself turn it off so that they do not depend on the working tree)."""
     import bench
-    out.mkdir(parents=True, exist_ok=True)
-    runtime = H.runtime()
-    if runtime["buddie_file"] != "buddie/__init__.py" or (require_clean and runtime["buddie_dirty"] is not False):
-        raise PilotAbort(f"isolation: the buddie measured is not this checkout's clean code ({runtime})")
-    plan = bench.live_plan(approval, out)
-    ledger = Ledger(approval, out / "ledger.jsonl")
-    records, status = [], "complete"
     try:
-        for item in plan["runs"]:
-            records.append(run_one(item, approval, transport, ledger))
-            bench.write(records, out / "live.jsonl")
-    except PilotAbort as error:
-        status = f"aborted: {error}"
-    summary = {"status": status, "runs_planned": len(plan["runs"]), "runs_recorded": len(records),
-               "usage_cost_usd": round(ledger.total, 6), "runtime": runtime}
-    (out / "status.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8", newline="\n")
+        out.mkdir(parents=True, exist_ok=False)
+    except FileExistsError as error:
+        raise PilotAbort(f"output already exists or is reserved; reuse/resume is refused: {out}") from error
+    records, status, runtime, plan, ledger = [], "initializing", None, None, None
+    try:
+        with (out / "approval.json").open("x", encoding="utf-8", newline="\n") as evidence:
+            json.dump(approval, evidence, indent=1)
+            evidence.write("\n")
+            evidence.flush()
+            os.fsync(evidence.fileno())
+        runtime = H.runtime()
+        if runtime["buddie_file"] != "buddie/__init__.py" or (require_clean and runtime["buddie_dirty"] is not False):
+            raise PilotAbort(f"isolation: the buddie measured is not this checkout's clean code ({runtime})")
+        # bench's planning command permits rewriting its output; isolate that command
+        # and copy its plan exclusively into this already-reserved run directory.
+        with tempfile.TemporaryDirectory(prefix="fb-plan-") as tmp:
+            plan = bench.live_plan(approval, Path(tmp))
+        with (out / "plan.json").open("x", encoding="utf-8", newline="\n") as evidence:
+            json.dump(plan, evidence, indent=1)
+            evidence.write("\n")
+            evidence.flush()
+            os.fsync(evidence.fileno())
+        ledger = Ledger(approval, out / "ledger.jsonl")
+        with (out / "live.jsonl").open("x", encoding="utf-8", newline="\n") as results:
+            for item in plan["runs"]:
+                record = run_one(item, approval, transport, ledger)
+                Ledger._append(results, record)
+                records.append(record)
+        status = "complete"
+    except BaseException as error:
+        status = f"aborted: {type(error).__name__}: {error}"
+        if not isinstance(error, PilotAbort) or plan is None:
+            raise
+    finally:
+        if ledger:
+            ledger.close()
+        summary = {"status": status, "runs_planned": len(plan["runs"]) if plan else None,
+                   "runs_recorded": len(records), "usage_cost_usd": round(ledger.total, 6) if ledger else 0,
+                   "runtime": runtime}
+        with (out / "status.json").open("x", encoding="utf-8", newline="\n") as evidence:
+            json.dump(summary, evidence, indent=1)
+            evidence.write("\n")
+            evidence.flush()
+            os.fsync(evidence.fileno())
     return summary
 
 
