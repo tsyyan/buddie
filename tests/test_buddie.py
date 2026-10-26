@@ -123,7 +123,7 @@ def test_mcp_protocol(store):
         {"jsonrpc": "2.0", "id": 4, "method": "nope"})
     assert init["result"]["protocolVersion"] == "2025-06-18"
     assert {t["name"] for t in listed["result"]["tools"]} == {"verify_report", "snap", "source_text", "summary", "environment_snapshot",
-                                                         "feedback_start", "feedback_resolve"}
+                                                         "feedback_start", "feedback_resolve", "feedback_accept"}
     assert called["result"]["content"][0]["text"].startswith("buddie FAIL")
     assert called["result"]["structuredContent"]["predicate"]["outcome"] == "FAIL"
     assert bad["error"]["code"] == -32601

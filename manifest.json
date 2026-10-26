@@ -47,7 +47,8 @@
     {"name": "summary", "description": "Claude Code only: the summary of finished subagents built from the hook's journal."},
     {"name": "environment_snapshot", "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."},
     {"name": "feedback_start", "description": "Check a report and open a verification feedback chain: feedback with bounded actions for what did not hold."},
-    {"name": "feedback_resolve", "description": "Check a corrected text against the chain's open feedback, with the chain's own options, and record the decision."}
+    {"name": "feedback_resolve", "description": "Check a corrected text against the chain's open feedback, with the chain's own options, and record the decision."},
+    {"name": "feedback_accept", "description": "Whether a final report is the text the feedback chain verified: refuses an edited report or any report of an unverified chain."}
   ],
   "tools_generated": false,
   "user_config": {

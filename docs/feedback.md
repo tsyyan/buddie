@@ -160,7 +160,7 @@ No other field is accepted: a submission cannot set a disposition, an outcome, a
 ## MCP
 
 The local stdio server (`buddie serve`: the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) offers the
-loop as two tools. Both refuse any argument outside their input schema (`additionalProperties: false`); neither takes
+loop as three tools. All refuse any argument outside their input schema (`additionalProperties: false`); none takes
 a receipt, because receipts are unsigned and a tool argument is whatever the agent writes. The server runs every
 check itself.
 
@@ -168,6 +168,7 @@ check itself.
 |---|---|---|---|
 | `feedback_start` | `text` or `path`; `verify_report`'s check options (`repos`, `store`, `fetch`, `access`, `numbers`, `github`, `transcript`, `profile`, `modules`, `checks`); `iteration_limit` (1–3, default 1); `requirements` (at most 32 `{check, subject_prefix}`) | `repair.reverify` of the report, `trace.start`; writes the chain's trace and its check options | `chain`, `feedback` (feedback-v1), `receipt_line`, `state`, `basis` |
 | `feedback_resolve` | `chain`, `feedback` (as returned), `submission` (repair-submission-v1), `original_text`, `corrected_text` | replays the chain, refuses a feedback that is not its open one, re-verifies `corrected_text` with the chain's stored options, `repair.resolve`, commits the new records if the chain is still the one read | `decision`, `feedback` (the next one), `receipt_line`, `state`, `basis` |
+| `feedback_accept` | `chain`, `final_text` | `repair.accept`: reads the chain, runs no check, writes nothing | `accepted`, `reason` (`not_verified`, `artifact_mismatch`), `disposition`, `task`, `artifact_sha256`, `final_sha256`, `chain`, `basis` |
 
 `state` is `{disposition, task, iteration, terminal}` as `trace.replay` reads the chain; `receipt_line` is
 `receipts.line` of the receipt-v1 buddie made (the tool's text starts with it); `basis` says what the chain was read
@@ -176,6 +177,22 @@ on (see Trust below). A refused submission
 or a chain that cannot be read or committed (`chains.ChainError`, codes below) is a tool error with its `code`, and
 nothing is written. A feedback id is the hash of its content, so a feedback
 changed after it was returned is refused.
+
+**Hand-in boundary.** A chain's `verified` describes the chain's last independently accepted text: the subject of its
+newest verification or re-verification record. It says nothing about any other text. A rejected submission records no
+re-verification, so it never moves that text. An orchestrator accepts a final report only when `feedback_accept`
+(Python: `repair.accept(records, final)`) says `accepted`, that is:
+
+- the disposition is `verified`;
+- the report is byte for byte that text.
+
+Anything else is refused:
+
+- `artifact_mismatch`: an edit after the chain closed, a refused repair handed in anyway, a changed line ending;
+- `not_verified`: any text of a chain that is not `verified`, its own text included.
+
+A refusal is the tool's answer, not an error. An acceptance is no stronger than `basis`: after a server restart it rests
+on the agent-writable files (see Trust below). The benchmark that found the gap is `experiments/feedback-e2e-v1` (F3).
 
 The chain lives in buddie's state dir, as the hook's (`BUDDIE_STATE`, default `~/.cache/buddie/pending`; with
 `BUDDIE_STATE=0` the default place), one directory per chain (`buddie/chains.py`):
@@ -389,7 +406,17 @@ receipt-v0 only and so no feedback.
   line are not judged, so a verified claim can be kept while its sentence is reworded (as verify itself never judges
   the sentence around a quotation or an anchor). A work claim's subject is its kind, so only the new check, not its
   words, keeps it in place.
-- `buddie:` disclosure lines may be added next to scoped lines; their prose is not checked, like any prose.
+- `buddie:` disclosure lines may be added next to scoped lines; their prose is not checked, like any prose. They may
+  not be added next to a finding that has no action (an unavailable CI anchor, say), and a removed paragraph's blank
+  separator line is outside the paragraph's scope. Both honest repairs are rejected as `out_of_scope` today. Narrower
+  rules are proposed, not adopted: `experiments/feedback-e2e-v1/REVIEW-F1-F4.md`, F2.
+- A disclosed gap has no terminal state of its own: after an honest `buddie:` disclosure the chain stays
+  `repair_requested` while budget remains. Feedback is derived from the receipt alone, and a receipt does not record
+  disclosures, so such a state would change feedback-v1 or the receipt. See REVIEW-F1-F4.md, F4.
+- **Evidence attribution is not checked.** A quote is checked against the page its link names, not against the source
+  its sentence names. "The postmortem says “…”" linked to another page that happens to contain the same words is
+  `verified` for the quote. A repair that swaps an unreadable source for a readable page with the words is accepted
+  (benchmark F1). Matching the named source to the linked one is not implemented, and buddie does not guess it.
 - A correction that moves a claim to another paragraph is out of scope; one that rewrites it into another line of
   the same block shows as `corrected` or `removed` by place.
 - Task requirements match a check and a subject prefix only: they cannot say "this PR, merged, in this repository"
