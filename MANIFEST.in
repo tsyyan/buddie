@@ -10,3 +10,7 @@ prune assets
 prune hooks
 prune skills
 global-exclude __pycache__ *.py[cod]
+prune experiments
+prune evidence
+prune private
+prune outputs
