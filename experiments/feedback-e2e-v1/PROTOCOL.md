@@ -42,6 +42,10 @@ Each condition's MCP server lists and serves only its own tools (`bench.py serve
    both conditions.
 5. **No extra evidence.** Neither condition gets any evidence besides the world: no web, no shell, no GitHub, the
    same snapshot store. The feedback adds only what is derived from the receipt.
+6. **Text-only tools in the live pilot (`live.py`).** The agent's tools take text only. The adapter adds the check
+   options from the world in both conditions. In the treatment it also adds the submission's sha256 digests and the
+   feedback echo, as an orchestrator would. A model cannot compute a digest, and options or paths would open the
+   filesystem. The agent therefore asserts only `execution`; the MCP checks stay the server's.
 
 ## Scenarios
 
@@ -154,9 +158,32 @@ One record per run (`metrics.schema.json`) holds:
 - reporting rules;
 - who approved it, and when.
 
-It calls no model. The approved operator runs the plan with the provider's harness, using the two `serve` commands as
-the agent's only tools, and turns each transcript into a record with `bench.py record`. That command labels the run
-from the final report alone. A subscription-based execution needs the same approval.
+It calls no model. Two ways to run the plan:
+
+- **The pilot runner (`live.py`).** It drives one fixed model over the first-party Messages API.
+- **An operator's own harness.** It uses the two `serve` commands as the agent's only tools, and `bench.py record`
+  turns each transcript into a record.
+
+Either way the label comes from the final report alone. A subscription-based execution needs the same approval.
+
+`live.py execute` refuses unless all of these hold:
+
+- the manifest (`approval.pilot.json`) is complete;
+- a person filled in `final_authorization`;
+- `ANTHROPIC_API_KEY` holds an API key. `ANTHROPIC_BASE_URL` and OAuth tokens are ignored, so this session's
+  subscription cannot be used.
+
+Its enforcement:
+
+- **Before every request:** a worst-case cost check against the run and pilot ceilings.
+- **After every response:** cost from the provider's reported usage, written to a per-call ledger.
+- **Abort:**
+  - a response costs more than its checked worst case;
+  - usage is missing;
+  - another model answered;
+  - a record does not hold;
+  - the buddie measured is not this checkout's clean code.
+- **Network:** a process audit hook refuses every DNS lookup but the API host's.
 
 ## Runtime
 

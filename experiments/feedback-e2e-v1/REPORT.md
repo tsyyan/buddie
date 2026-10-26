@@ -114,18 +114,20 @@ Paired cells: both succeed 10, neither 13, control only 0, treatment only 0 (equ
   - S2: deleting the CI claim ends `nothing_verified` (EMPTY).
   - S6: a retried merge with an unknown outcome ends `reconciliation_required`.
 
-## 3. Live phase
+## 3. Live pilot
 
-Not run. It needs an approval naming:
-- provider and model;
-- repetitions;
-- tools and permissions;
-- the cost ceiling;
-- sampling and context settings;
-- reporting rules.
+**Not run.** The design was approved on 2026-10-26 for a limited pilot:
+- Anthropic, one fixed Sonnet;
+- S1–S8 × 2 conditions × 1 repetition, 16 paired randomized runs;
+- at most 2 repairs per run;
+- USD 10 in total.
 
-`bench.py plan` refuses without one, and nothing in this directory calls a model. No paid or subscription model
-execution was made.
+The runner (`live.py`) and the completed manifest (`approval.pilot.json`) are ready and await the final
+authorization. No paid or subscription model execution was made.
+
+Execution is also blocked by the environment: there is no `ANTHROPIC_API_KEY` here. The only endpoint configured is
+`ANTHROPIC_BASE_URL`, which belongs to the coding session. The runner deliberately refuses it, because using it would
+be a subscription-backed run.
 
 ## 4. Risks and limitations
 

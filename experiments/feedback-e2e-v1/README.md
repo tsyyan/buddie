@@ -38,7 +38,35 @@ python -m pytest -q tests/test_feedback_experiment.py
 `replay` re-runs the recorded plan (same seed) and compares every field but wall-clock time. It exits 1 on any
 difference.
 
-## Live phase (not run)
+## Live pilot (prepared, not run)
+
+`approval.pilot.json` is the completed manifest for the approved pilot. It specifies:
+- `claude-sonnet-5-5`;
+- 16 paired, randomized runs;
+- at most 2 repairs per run;
+- at most USD 10 in total and USD 0.60 per run;
+- at most 8000 tokens per request and 8 requests per run.
+
+Its `final_authorization` is empty.
+
+```bash
+python experiments/feedback-e2e-v1/live.py check --approval experiments/feedback-e2e-v1/approval.pilot.json
+```
+
+```bash
+python experiments/feedback-e2e-v1/live.py execute --approval experiments/feedback-e2e-v1/approval.pilot.json --out experiments/feedback-e2e-v1/results/live-pilot
+```
+
+`execute` sends paid requests. It refuses until a person fills in `final_authorization` and `ANTHROPIC_API_KEY` is
+set. It writes:
+- `live.jsonl`: run records;
+- `ledger.jsonl`: per-request usage and cost;
+- `status.json`: complete or aborted, and why;
+- `plan.json`.
+
+`tests/test_feedback_live.py` checks the gate offline with a fake transport.
+
+## Live phase with another harness
 
 1. A person writes an approval (`approval.schema.json`).
 2. `bench.py plan --approval approval.json --out live/` writes the randomized, paired plan and calls no model.

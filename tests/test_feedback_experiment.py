@@ -261,8 +261,10 @@ def test_the_live_phase_needs_an_approval(tmp_path):
     assert bench.main(["plan", "--approval", str(partial), "--out", str(tmp_path / "p")]) == 2
     assert not (tmp_path / "p").exists()
     approval = {"provider": "p", "model": "m", "repetitions": 2, "allowed_tools": ["verify_report"],
-                "permissions": "none", "max_cost_usd": 1, "sampling": {"temperature": 0}, "context": {},
-                "reporting_rules": "all runs", "approved_by": "a person", "approved_at": "2026-10-26T00:00:00Z"}
+                "permissions": "none", "max_cost_usd": 1, "sampling": {"temperature": None, "effort": "medium"},
+                "context": {}, "reporting_rules": "all runs", "approved_by": "a person",
+                "approved_at": "2026-10-26T00:00:00Z", "pricing": {}, "limits": {},
+                "final_authorization": {"authorized_by": "", "authorized_at": ""}}
     assert bench.check_approval(dict(approval, allowed_tools=["Bash"]))
     ok = tmp_path / "ok.json"
     ok.write_text(json.dumps(approval), encoding="utf-8")

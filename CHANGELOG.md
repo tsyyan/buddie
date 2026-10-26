@@ -5,7 +5,8 @@
 - Experiment, not shipped (`experiments/feedback-e2e-v1`, excluded from the sdist and the Desktop bundle): an
   offline benchmark of Verification Feedback through the local MCP tools against verification only. It has 8
   scenarios on a fixed world, hand-written ground truth, the ten protocol safety checks, run records with exact k/n
-  metrics, and replay. A live agent phase is prepared but gated on a person's approval, and it was not run. No
+  metrics, and replay. A live pilot runner (`live.py`) with per-request cost enforcement and a
+  completed manifest is prepared but needs a person's final authorization, and it was not run. No
   production behavior changes.
 - MCP: the local stdio server offers verification feedback as `feedback_start` and `feedback_resolve`
   (docs/feedback.md#mcp). The server runs every check itself, keeps each chain's trace and check options in its state

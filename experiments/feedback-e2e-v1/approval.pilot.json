@@ -1,0 +1,18 @@
+{
+ "provider": "anthropic-api (first-party https://api.anthropic.com, API key in ANTHROPIC_API_KEY; no subscription session, no base-URL override)",
+ "model": "claude-sonnet-5-5",
+ "repetitions": 1,
+ "allowed_tools": ["verify_report", "feedback_start", "feedback_resolve"],
+ "permissions": "only the condition's own text-only tools (live.py TOOLS); no shell, no files, no web, no GitHub; every DNS lookup but api.anthropic.com refused by an audit hook",
+ "max_cost_usd": 10,
+ "sampling": {"temperature": null, "note": "the API takes no temperature/top_p/top_k since 2026-10-21; provider defaults", "effort": "medium", "thinking": "adaptive (the model's default; thinking blocks passed back unchanged)"},
+ "context": {"system": "prompts/<condition>.md", "user": "prompts/task.md with the scenario's report and requirements", "fresh_context_per_run": true, "prompt_caching": "off (no cache_control)", "memory": "none", "fallbacks": "off: no other model may answer; a refusal is recorded as the run's outcome"},
+ "reporting_rules": "all 16 runs reported with their outcomes, failures and deviations; no run dropped or re-run; no claim of statistical significance",
+ "approved_by": "the user, in chat: design approved for a limited live pilot (2026-10-26)",
+ "approved_at": "2026-10-26",
+ "pricing": {"input_per_mtok": 2.0, "output_per_mtok": 10.0, "cache_write_5m_per_mtok": 2.5, "cache_read_per_mtok": 0.2,
+             "source": "claude-api skill model table (cached 2026-10-06) and its prompt-caching notes (5-minute cache write = 1.25x input); re-confirm at https://platform.claude.com/docs/en/about-claude/pricing before authorizing",
+             "checked_at": "2026-10-06 (cached table, not the live page)"},
+ "limits": {"max_cost_usd": 10, "max_cost_per_run_usd": 0.6, "max_tokens_per_call": 8000, "max_calls_per_run": 8, "iteration_limit": 2},
+ "final_authorization": {"authorized_by": "", "authorized_at": ""}
+}

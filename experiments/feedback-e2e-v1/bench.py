@@ -29,7 +29,8 @@ import world as W
 
 HERE = Path(__file__).resolve().parent
 APPROVAL_FIELDS = {"provider", "model", "repetitions", "allowed_tools", "permissions", "max_cost_usd", "sampling",
-                   "context", "reporting_rules", "approved_by", "approved_at"}
+                   "context", "reporting_rules", "approved_by", "approved_at", "pricing", "limits",
+                   "final_authorization"}
 
 
 def plan(seed: int, reps: int, only=None) -> list[tuple]:
@@ -92,8 +93,12 @@ def check_approval(doc) -> list[str]:
             out.append("max_cost_usd is a positive number")
         if not set(doc["allowed_tools"]) <= {"verify_report", "feedback_start", "feedback_resolve"}:
             out.append("allowed_tools are the benchmark's MCP tools only")
-        if not isinstance(doc["sampling"], dict) or "temperature" not in doc["sampling"]:
-            out.append("sampling states at least the temperature")
+        if not isinstance(doc["sampling"], dict) or "temperature" not in doc["sampling"] or \
+                "effort" not in doc["sampling"]:
+            out.append("sampling states the temperature (null where the API takes none) and the effort")
+        if not isinstance(doc["pricing"], dict) or not isinstance(doc["limits"], dict) or \
+                not isinstance(doc["final_authorization"], dict):
+            out.append("pricing, limits and final_authorization are objects")
         if not str(doc["approved_by"]).strip() or not str(doc["approved_at"]).strip():
             out.append("approved_by and approved_at name the person and the time")
     return out
