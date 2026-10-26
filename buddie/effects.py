@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import threading
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -50,9 +51,8 @@ API = ENV_API or DEFAULT_API
 
 def api() -> tuple[str, str]:
     """The API base pr:/ci: are asked of, and who chose it: "policy" (the protected policy's [evidence]
-    github_api, which sets BUDDIE_GITHUB_API aside), "environment" (BUDDIE_GITHUB_API) or "default". The token goes
-    only there, so an API from the environment is also where the token goes (findings.py does not count its answers
-    as observed from GitHub)."""
+    github_api, which sets BUDDIE_GITHUB_API aside), "environment" (BUDDIE_GITHUB_API) or "default".
+    Environment-selected APIs receive no credentials and are not observed GitHub evidence."""
     from buddie import policy
     limits = policy.current().effective
     if limits is not None and limits.github_api:
@@ -128,28 +128,80 @@ def _origin(url: str) -> tuple:
     return scheme, (u.hostname or "").lower(), u.port or {"https": 443, "http": 80}.get(scheme)
 
 
+class _GitHubRedirects(urllib.request.HTTPRedirectHandler):
+    """Restrict marked GitHub requests before a hop; leave all other urllib requests alone."""
+    handler_order = 490  # before urllib's default redirect handler (500)
+
+    def http_error_302(self, req, fp, code, msg, headers):
+        if not hasattr(req, "_buddie_api"):
+            return None
+        return super().http_error_302(req, fp, code, msg, headers)
+
+    http_error_301 = http_error_303 = http_error_307 = http_error_308 = http_error_302
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        base = req._buddie_api
+        try:
+            same = _origin(newurl) == _origin(base)
+            target = urllib.parse.urlsplit(newurl)
+            path = urllib.parse.unquote(target.path)
+            prefix = urllib.parse.urlsplit(base).path.rstrip("/") + "/"
+            allowed = (same and target.username is None and target.password is None
+                       and path.startswith(prefix) and not any(p in (".", "..") for p in path.split("/"))
+                       and not any(c in path for c in "\\%\r\n\x00"))
+        except ValueError:
+            allowed = False
+        if not allowed:
+            fp.close()
+            raise GitHubUnavailable("GitHub redirected to another host or outside the API; its answer is not taken")
+        redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if redirected is not None:
+            redirected._buddie_api = base
+        return redirected
+
+
+_OPENER_LOCK = threading.Lock()
+
+
+def _guard_github_redirects():
+    # Keep the installed collector's transport, TLS, proxy and socket guards. Never replace them with a new
+    # per-request transport. The extra handler only acts on requests carrying our API marker.
+    with _OPENER_LOCK:
+        opener = urllib.request._opener
+        if opener is None:
+            opener = urllib.request.build_opener()
+            urllib.request.install_opener(opener)
+        if not any(isinstance(h, _GitHubRedirects) for h in opener.handlers):
+            opener.add_handler(_GitHubRedirects())
+
+
 def github_get(path: str) -> dict | None:
     """GET a GitHub REST path; None on 404 (no such PR, or a repo this token cannot see).
 
-    The token goes only to the API it belongs with. BUDDIE_GITHUB_TOKEN comes from the hook's environment, as
-    BUDDIE_GITHUB_API does, so it may go to that API. The plugin's token setting is the person's and goes only to
-    the default API or the protected policy's github_api, never to one the environment named (the agent could name
-    its own server and receive it). It is sent as an unredirected header, which urllib never copies to a redirect's
-    target; an answer that came from another origin than the API's (scheme, host, port) is not taken
-    (GitHubUnavailable: the anchor stays unchecked). A redirect on the API's own origin, as a renamed repo's, is
-    asked again there with the token. The request goes through urllib's installed opener: the remote server's
-    guarded one, the hook's isolated collector, or urllib's default."""
+    Both optional tokens go only to the default API or the protected policy's HTTPS github_api, never an
+    environment-selected API. The plugin setting takes precedence. Redirects outside that origin/API path are
+    refused before contact; same-origin redirects carry no Authorization, with one authenticated retry on 404.
+    The installed collector's transport, TLS and proxy protections remain in effect."""
     from buddie.verbatim.store import read_body
+    from buddie import policy
+    if policy.current().error:
+        raise GitHubUnavailable("GitHub disabled: protected policy is invalid")
     base, chosen = api()
+    if chosen != "environment" and not policy.valid_github_api(base):
+        raise GitHubUnavailable("GitHub API configuration is invalid")
     home = _origin(base)
     # only a token given to buddie by name: BUDDIE_GITHUB_TOKEN, or the plugin setting (Claude Code exports userConfig
     # as CLAUDE_PLUGIN_OPTION_*). An ambient GITHUB_TOKEN is never picked up and sent (1.1); in CI set
     # BUDDIE_GITHUB_TOKEN: ${{ github.token }}. An unset option may arrive as the literal placeholder: skip it.
-    names = ("BUDDIE_GITHUB_TOKEN",) + (("CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN",) if chosen != "environment" else ())
+    names = ("CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN", "BUDDIE_GITHUB_TOKEN") if chosen != "environment" else ()
     token = next((v for v in (os.environ.get(k, "") for k in names) if v and not v.startswith("${")), None)
+    if token and any(ord(c) < 33 or ord(c) > 126 for c in token):
+        raise GitHubUnavailable("GitHub token configuration is invalid (expected printable ASCII without spaces)")
+    _guard_github_redirects()
 
     def ask(url: str):
         req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "buddie"})
+        req._buddie_api = base
         if token:
             req.add_unredirected_header("Authorization", f"Bearer {token}")
         with urllib.request.urlopen(req, timeout=20) as r:
@@ -169,9 +221,9 @@ def github_get(path: str) -> dict | None:
                 continue
             if error.code == 404:
                 return None
-            raise GitHubUnavailable(f"GitHub {error.code} on {path}") from error
-        except (urllib.error.URLError, TimeoutError, OSError) as error:
-            raise GitHubUnavailable(f"GitHub unreachable: {error}") from error
+            raise GitHubUnavailable(f"GitHub HTTP {error.code}") from None
+        except (urllib.error.URLError, TimeoutError, OSError):
+            raise GitHubUnavailable("GitHub unreachable (network, TLS or proxy error)") from None
     return None
 
 
