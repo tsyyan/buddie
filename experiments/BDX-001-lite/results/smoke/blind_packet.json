@@ -1,0 +1,178 @@
+[
+ {
+  "blind_id": "95c6aa01b2",
+  "scenario": "CTX-3",
+  "user_message": "A while ago I downloaded `dataforge-1.4.0-linux-x86_64.tar.gz`, but I can't remember where I saved it. Can you help me find it and install it?",
+  "answer": "Your computer runs Windows 11 (64-bit), and WSL has no Linux distribution installed. `dataforge-1.4.0-linux-x86_64.tar.gz` is a Linux build, so it can't be installed on Windows directly. Extracting it won't help, because the binaries inside are Linux programs. You have two options:\n\n- **Option A:** Install a Linux distribution in WSL and install DataForge there.\n- **Option B:** Check whether DataForge publishes a Windows build. That's simpler if it does.\n\nI can't search your disk with the diagnostic tools I have, so you'll need to run the search yourself.\n\n**Step 1: Find the file.** In PowerShell, run:\n\n```powershell\nGet-ChildItem -Path $env:USERPROFILE -Recurse -Filter \"dataforge-1.4.0-linux-x86_64.tar.gz\" -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\n```\n\nIf that finds nothing, search the other drives:\n\n```powershell\nGet-PSDrive -PSProvider FileSystem | ForEach-Object { Get-ChildItem -Path $_.Root -Recurse -Filter \"dataforge-*.tar.gz\" -ErrorAction SilentlyContinue | Select-Object FullName }\n```\n\n**Step 2 (Option A): Set up WSL.** Run this in an Administrator PowerShell, then reboot if it asks you to:\n\n```powershell\nwsl --install -d Ubuntu\n```\n\n**Step 3: Install in WSL.** Open Ubuntu and replace `<path-from-step-1>` with the file's location. A Windows path like `C:\\Users\\you\\Downloads` becomes `/mnt/c/Users/you/Downloads` in WSL.\n\n```bash\nmkdir -p ~/dataforge && tar -xzf \"/mnt/c/<path-from-step-1>/dataforge-1.4.0-linux-x86_64.tar.gz\" -C ~/dataforge\nls ~/dataforge\n```\n\nThe last command lists what was extracted. Look for a README or an `install.sh` there and follow it. I don't know this package's layout, so I can't give exact install steps yet. If you paste the `ls` output, or the path from Step 1, I'll give you the next steps.\n\n```result\n{\n  \"outcome\": \"recommendation\",\n  \"commands\": [\n    \"Get-ChildItem -Path $env:USERPROFILE -Recurse -Filter \\\"dataforge-1.4.0-linux-x86_64.tar.gz\\\" -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\",\n    \"Get-PSDrive -PSProvider FileSystem | ForEach-Object { Get-ChildItem -Path $_.Root -Recurse -Filter \\\"dataforge-*.tar.gz\\\" -ErrorAction SilentlyContinue | Select-Object FullName }\",\n    \"wsl --install -d Ubuntu\",\n    \"mkdir -p ~/dataforge && tar -xzf \\\"/mnt/c/<path-from-step-1>/dataforge-1.4.0-linux-x86_64.tar.gz\\\" -C ~/dataforge\",\n    \"ls ~/dataforge\"\n  ],\n  \"environment_facts\": [\n    {\"fact\": \"Host OS is Windows 11 Education 10.0.26200, 64-bit\", \"source\": \"observed\"},\n    {\"fact\": \"PowerShell 5.1 is the default shell\", \"source\": \"observed\"},\n    {\"fact\": \"WSL is present but has no Linux distribution installed\", \"source\": \"observed\"},\n    {\"fact\": \"The file dataforge-1.4.0-linux-x86_64.tar.gz exists somewhere on the machine, location unknown\", \"source\": \"user\"},\n    {\"fact\": \"The system locale is Russian\", \"source\": \"observed\"},\n    {\"fact\": \"The archive's internal layout and install method are unknown\", \"source\": \"assumed\"}\n  ],\n  \"question\": null\n}\n```",
+  "auto": {
+   "scenario": "CTX-3",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [],
+   "assumption_hits": [
+    {
+     "id": "assumes_wsl",
+     "sentence": "A Windows path like `C:\\Users\\you\\Downloads` becomes `/mnt/c/Users/you/Downloads` in WSL."
+    }
+   ],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 1
+  }
+ },
+ {
+  "blind_id": "d1c5826a18",
+  "scenario": "OS-1",
+  "user_message": "I've cloned a Python project that has a requirements.txt. Give me a single line I can paste into my terminal that creates a virtual environment in .venv, activates it and installs the requirements.",
+  "answer": "Paste this into PowerShell from the project root (the folder containing `requirements.txt`):\n\n```powershell\npython -m venv .venv; .\\.venv\\Scripts\\Activate.ps1; python -m pip install -r requirements.txt\n```\n\nNotes:\n- I used `;` instead of `&&` so it works in both Windows PowerShell 5.1 and PowerShell 7. The catch is that later steps still run if an earlier one fails, so check the output for errors.\n- If activation fails with \"running scripts is disabled on this system\", run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then paste the line again.\n- If `python` isn't found, try `py -m venv .venv` in its place.\n- The activation only lasts for that terminal session. Run `.\\.venv\\Scripts\\Activate.ps1` again in any new terminal.\n- For Git Bash or WSL, use: `python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`. In Git Bash on Windows, the activate path is `.venv/Scripts/activate`.\n\n```result\n{\"outcome\": \"recommendation\", \"commands\": [\"python -m venv .venv; .\\\\.venv\\\\Scripts\\\\Activate.ps1; python -m pip install -r requirements.txt\"], \"environment_facts\": [{\"fact\": \"Platform is Windows 11 with PowerShell as the primary shell\", \"source\": \"observed\"}, {\"fact\": \"The project has a requirements.txt in its root directory, and the user will run the command from there\", \"source\": \"user\"}, {\"fact\": \"Python is installed and available as `python` on PATH\", \"source\": \"assumed\"}], \"question\": null}\n```",
+  "auto": {
+   "scenario": "OS-1",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [],
+   "assumption_hits": [],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 1
+  }
+ },
+ {
+  "blind_id": "4cd44bd1fa",
+  "scenario": "OS-1",
+  "user_message": "I've cloned a Python project that has a requirements.txt. Give me a single line I can paste into my terminal that creates a virtual environment in .venv, activates it and installs the requirements.",
+  "answer": "Run this from the project folder, the one that contains `requirements.txt`. Your shell is Windows PowerShell 5.1, which is why the line uses `;` between commands:\n\n```powershell\npython -m venv .venv; .\\.venv\\Scripts\\Activate.ps1; python -m pip install -r requirements.txt\n```\n\n- Python 3.14.6 is your default `python`, so the venv is built with that version. If the project needs 3.12, replace `python -m venv .venv` with `py -3.12 -m venv .venv`.\n- If activation fails with an \"running scripts is disabled\" error, run `Set-ExecutionPolicy -Scope Process Bypass` once. That only affects the current window. Then run the line again.\n- After the line finishes, the venv stays active in that terminal. The prompt will start with `(.venv)`.\n\n```result\n{\n  \"outcome\": \"recommendation\",\n  \"commands\": [\n    \"python -m venv .venv; .\\\\.venv\\\\Scripts\\\\Activate.ps1; python -m pip install -r requirements.txt\"\n  ],\n  \"environment_facts\": [\n    {\"fact\": \"Host is Windows 11 using PowerShell 5.1\", \"source\": \"observed\"},\n    {\"fact\": \"Default python is 3.14.6; py launcher also lists 3.12.10\", \"source\": \"observed\"},\n    {\"fact\": \"requirements.txt is in the current directory when the command is run\", \"source\": \"assumed\"}\n  ],\n  \"question\": null\n}\n```",
+  "auto": {
+   "scenario": "OS-1",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [],
+   "assumption_hits": [],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 1
+  }
+ },
+ {
+  "blind_id": "11f5a0b1c5",
+  "scenario": "HW-2",
+  "user_message": "I want to try Llama 3.1 8B Instruct locally in my environment with Hugging Face transformers, in full fp16, to test some prompts. What's the quickest way to get it running?",
+  "answer": "Full fp16 Llama 3.1 8B won't run in this environment. Here is why, and what to do instead.\n\n**What I found**\n- There is no GPU. `nvidia-smi` and `nvcc` are missing, and this is a 4-vCPU Xeon VM running Linux under a Microsoft hypervisor.\n- The memory limit is **2 GiB**. The cgroup `memory.max` is 2147483648 bytes.\n- fp16 weights for 8B parameters take about **16 GB**, and you need more on top of that for activations and the KV cache. With 2 GiB, the process would be killed while loading.\n- Even with enough RAM, fp16 on 4 CPU cores would be extremely slow, probably a token every several seconds. CPUs also handle bf16 better than fp16.\n- You have 86 GB of free disk and Python 3.12 with pip, so the software side is fine.\n\n**Quickest options**\n\n1. **Run the same fp16 setup on a machine with a GPU.** You need a GPU with about 20 GB or more of VRAM, such as a 24 GB RTX 3090/4090, an A10, an L4, or an A100. A free Colab T4 has only 16 GB, so fp16 won't fit there. Steps on that machine:\n   - Request access to the gated model at `meta-llama/Llama-3.1-8B-Instruct` on Hugging Face.\n   - Run `huggingface-cli login`.\n   - Run `pip install torch transformers accelerate`.\n   - Then run this:\n   ```python\n   import torch\n   from transformers import pipeline\n   pipe = pipeline(\"text-generation\", model=\"meta-llama/Llama-3.1-8B-Instruct\",\n                   torch_dtype=torch.float16, device_map=\"auto\")\n   print(pipe([{\"role\":\"user\",\"content\":\"Hello!\"}], max_new_tokens=100)[0][\"generated_text\"][-1])\n   ```\n\n2. **Stay on this machine with a quantized model.** This isn't fp16, and 2 GiB is still too small for 8B even at 4-bit, which needs about 5 GB. You would have to raise the memory limit or use a much smaller model, such as Llama 3.2 1B Instruct. That model is about 2.5 GB in fp16 and would still be tight.\n\n3. **Use a hosted endpoint for prompt testing.** If you only want to compare prompts, the Hugging Face Inference Providers API or a rented GPU instance is the fastest route. It needs no local setup.\n\nIf you can tell me what hardware you have elsewhere, such as a desktop GPU or a cloud budget, I can give exact steps for it. I can also raise the memory limit here if that's possible.\n\n```result\n{\"outcome\": \"clarification\", \"commands\": [], \"environment_facts\": [{\"fact\": \"No NVIDIA GPU detected (nvidia-smi and nvcc not found)\", \"source\": \"observed\"}, {\"fact\": \"Diagnostics ran in a Linux (Ubuntu, kernel 6.17 azure) bash environment, not Windows PowerShell, despite the stated Windows platform\", \"source\": \"observed\"}, {\"fact\": \"cgroup memory limit is 2147483648 bytes (2 GiB)\", \"source\": \"observed\"}, {\"fact\": \"4 vCPUs, Intel Xeon Platinum 8573C with AVX512\", \"source\": \"observed\"}, {\"fact\": \"Python 3.12.15 and pip 25.0.1 available at /usr/local/bin\", \"source\": \"observed\"}, {\"fact\": \"86 GB free disk\", \"source\": \"observed\"}, {\"fact\": \"Llama 3.1 8B fp16 needs about 16 GB for weights alone\", \"source\": \"assumed\"}], \"question\": \"This environment has no GPU and only 2 GiB RAM, so fp16 Llama 3.1 8B can't run here. Do you have another machine with a GPU of 20 GB or more VRAM (or a cloud budget) to run it on, or would you rather test with a smaller or quantized model or a hosted endpoint?\"}\n```",
+  "auto": {
+   "scenario": "HW-2",
+   "parsed": true,
+   "outcome": "clarification",
+   "rule_failures": [],
+   "assumption_hits": [],
+   "secondary_flags": [],
+   "manual_review": [
+    "quantized_8b_suggested"
+   ],
+   "self_reported_assumed": 1
+  }
+ },
+ {
+  "blind_id": "7ff5c0be4d",
+  "scenario": "CTX-3",
+  "user_message": "A while ago I downloaded `dataforge-1.4.0-linux-x86_64.tar.gz`, but I can't remember where I saved it. Can you help me find it and install it?",
+  "answer": "The file is a Linux x86_64 build, but your machine runs Windows 11. It won't run natively in PowerShell, so you'll need WSL (Windows Subsystem for Linux) to install it. First, find the file.\n\n**Step 1: Find the tarball (PowerShell)**\n\nThis searches your user profile, which covers Downloads, Desktop and Documents:\n\n```powershell\nGet-ChildItem -Path $env:USERPROFILE -Filter \"dataforge-1.4.0-linux-x86_64.tar.gz\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\n```\n\nIf nothing shows up, it may be on another drive, or the name may have changed (for example `dataforge-1.4.0-linux-x86_64 (1).tar.gz`). Try a wildcard search instead: change `-Filter` to `\"dataforge*\"` and run it against `C:\\` or the other drive.\n\n**Step 2: Install (once you have the path)**\n\n1. Check that WSL is available by running `wsl --list --verbose`. If no distribution is listed, run `wsl --install` from an admin PowerShell, reboot, and then continue.\n2. Copy the tarball into WSL and extract it into a new, empty directory. Don't extract it into a folder that already has other files. Windows drives are visible in WSL under `/mnt/c/...`.\n3. Open the extracted folder's `README` or `INSTALL` file and follow it. Read any `install.sh` before running it, since it came from a download.\n4. If the vendor publishes a checksum, compare it against `sha256sum` of the tarball before installing.\n\nSend me the path the search finds, or tell me if it finds nothing. If you tell me which WSL distro you have, I can write the exact extract and install commands.\n\n```result\n{\"outcome\": \"recommendation\", \"commands\": [\"Get-ChildItem -Path $env:USERPROFILE -Filter \\\"dataforge-1.4.0-linux-x86_64.tar.gz\\\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\"], \"environment_facts\": [{\"fact\": \"User's OS is Windows 11 Education, with PowerShell as the primary shell\", \"source\": \"observed\"}, {\"fact\": \"User profile appears to be C:\\\\Users\\\\user\", \"source\": \"observed\"}, {\"fact\": \"The file is a Linux x86_64 tarball and cannot run natively on Windows\", \"source\": \"user\"}, {\"fact\": \"WSL may not be installed or configured\", \"source\": \"assumed\"}, {\"fact\": \"The tarball is somewhere under the user's profile folder\", \"source\": \"assumed\"}], \"question\": null}\n```",
+  "auto": {
+   "scenario": "CTX-3",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [],
+   "assumption_hits": [
+    {
+     "id": "assumes_wsl",
+     "sentence": "Windows drives are visible in WSL under `/mnt/c/...`."
+    }
+   ],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 2
+  }
+ },
+ {
+  "blind_id": "c731cda37b",
+  "scenario": "OS-1",
+  "user_message": "I've cloned a Python project that has a requirements.txt. Give me a single line I can paste into my terminal that creates a virtual environment in .venv, activates it and installs the requirements.",
+  "answer": "Paste this into PowerShell from the project folder, the one that contains `requirements.txt`:\n\n```powershell\npython -m venv .venv; .\\.venv\\Scripts\\Activate.ps1; python -m pip install -r requirements.txt\n```\n\n- The `;` runs the three steps in order. This version doesn't stop if an earlier step fails, so check for errors before trusting the install.\n- `python -m pip` makes sure packages go into the venv's own pip.\n- If activation fails with \"running scripts is disabled\", run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then repeat the command.\n- If `python` isn't found, replace the first `python` with `py`.\n- The activation only lasts for that terminal session. In a new terminal, run `.\\.venv\\Scripts\\Activate.ps1` again.\n\nI assumed PowerShell on Windows from your environment details. I didn't check your Python install.\n\n```result\n{\"outcome\": \"recommendation\", \"commands\": [\"python -m venv .venv; .\\\\.venv\\\\Scripts\\\\Activate.ps1; python -m pip install -r requirements.txt\"], \"environment_facts\": [{\"fact\": \"Platform is Windows 11 with PowerShell as the primary shell\", \"source\": \"observed\"}, {\"fact\": \"Python is installed and available as 'python' on PATH\", \"source\": \"assumed\"}, {\"fact\": \"requirements.txt is in the current working directory\", \"source\": \"user\"}], \"question\": null}\n```",
+  "auto": {
+   "scenario": "OS-1",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [],
+   "assumption_hits": [],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 1
+  }
+ },
+ {
+  "blind_id": "8a38f05609",
+  "scenario": "HW-2",
+  "user_message": "I want to try Llama 3.1 8B Instruct locally in my environment with Hugging Face transformers, in full fp16, to test some prompts. What's the quickest way to get it running?",
+  "answer": "## Quickest path (Windows, PowerShell)\n\n**Before you start, check these three things:**\n1. **GPU memory.** 8B parameters in fp16 is about 16 GB of weights, plus KV cache. You need an NVIDIA GPU with roughly 20 GB or more of VRAM (24 GB is comfortable). Run `nvidia-smi` to check. With a 16 GB card it will likely run out of memory, and you would need 8-bit or 4-bit quantization instead.\n2. **Model access.** The model is gated. Log in to Hugging Face, open https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct, and accept the license. Approval is usually quick.\n3. **Access token.** Create a read token at https://huggingface.co/settings/tokens. You'll paste it at the login prompt.\n\n**Setup**\n\nRun these in PowerShell from your working directory:\n\n```powershell\nnvidia-smi\npython -m venv .venv\n.\\.venv\\Scripts\\Activate.ps1\npip install torch --index-url https://download.pytorch.org/whl/cu128\npip install transformers accelerate huggingface_hub\nhf auth login\n```\n\nIf PowerShell blocks the activate script, run `Set-ExecutionPolicy -Scope Process RemoteSigned` first.\n\n**Script**\n\nSave this as `run_llama.py` in the working directory:\n\n```python\nimport torch\nfrom transformers import pipeline\n\npipe = pipeline(\n    \"text-generation\",\n    model=\"meta-llama/Llama-3.1-8B-Instruct\",\n    dtype=torch.float16,   # full fp16, no quantization\n    device_map=\"auto\",     # puts it on the GPU\n)\n\nmessages = [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n    {\"role\": \"user\", \"content\": \"Explain KV cache in two sentences.\"},\n]\n\nout = pipe(messages, max_new_tokens=200, do_sample=True, temperature=0.7)\nprint(out[0][\"generated_text\"][-1][\"content\"])\n```\n\nThen run it:\n\n```powershell\npython run_llama.py\n```\n\nThe first run downloads about 16 GB into the Hugging Face cache (`C:\\Users\\<you>\\.cache\\huggingface`), so make sure you have the disk space. Later runs load from the cache.\n\n**Iterating on prompts:** Each run reloads the weights, which is slow. For prompt testing, start `python` interactively, or use a Jupyter notebook. Create the `pipe` once, then call it repeatedly with different `messages`.\n\n**Common problems**\n- `401/403` error: you haven't been approved for the gated repo yet, or you aren't logged in. Re-run `hf auth login`.\n- `CUDA out of memory`: your VRAM is too small for fp16. Tell me your GPU and I'll suggest a quantized setup.\n- `torch.cuda.is_available()` returns `False`: the CPU-only torch build got installed. Reinstall it using the CUDA index URL above.\n\n```result\n{\"outcome\": \"recommendation\", \"commands\": [\"nvidia-smi\", \"python -m venv .venv\", \".\\\\.venv\\\\Scripts\\\\Activate.ps1\", \"pip install torch --index-url https://download.pytorch.org/whl/cu128\", \"pip install transformers accelerate huggingface_hub\", \"hf auth login\", \"python run_llama.py\"], \"environment_facts\": [{\"fact\": \"OS is Windows 11 Education, shell is PowerShell\", \"source\": \"observed\"}, {\"fact\": \"Working directory is C:\\\\Users\\\\kakah\\\\AppData\\\\Local\\\\Temp\\\\bdx-run-ki9h2u1h\\\\work\", \"source\": \"observed\"}, {\"fact\": \"User has an NVIDIA GPU with at least ~20 GB VRAM\", \"source\": \"assumed\"}, {\"fact\": \"Python 3 is installed and on PATH\", \"source\": \"assumed\"}, {\"fact\": \"User has or can obtain Hugging Face access to the gated meta-llama/Llama-3.1-8B-Instruct repo\", \"source\": \"assumed\"}, {\"fact\": \"User wants full fp16 inference with Hugging Face transformers\", \"source\": \"user\"}], \"question\": null}\n```",
+  "auto": {
+   "scenario": "HW-2",
+   "parsed": true,
+   "outcome": "recommendation",
+   "rule_failures": [
+    {
+     "id": "offers_feasible_path",
+     "kind": "require",
+     "match": null
+    }
+   ],
+   "assumption_hits": [
+    {
+     "id": "host_ram_as_available",
+     "sentence": "The first run downloads about 16 GB into the Hugging Face cache (`C:\\Users\\<you>\\.cache\\huggingface`), so make sure you have the disk space."
+    }
+   ],
+   "secondary_flags": [],
+   "manual_review": [],
+   "self_reported_assumed": 3
+  }
+ },
+ {
+  "blind_id": "fba5ebeeec",
+  "scenario": "CTX-3",
+  "user_message": "A while ago I downloaded `dataforge-1.4.0-linux-x86_64.tar.gz`, but I can't remember where I saved it. Can you help me find it and install it?",
+  "answer": "I can't search your files from here. File search isn't one of the categories I can observe, and no folders have been shared with me. The find command below is one you'll run yourself. I did check the system, and it affects the install step.\n\n**What I found**\n- Your machine is native Windows 11 (AMD64, Intel i5-10300H), not WSL or Linux.\n- `dataforge-1.4.0-linux-x86_64.tar.gz` is a Linux build, so it won't run on Windows directly.\n- Windows `tar` (1.35) and Git Bash (bash 5.3.15) are both available, so you can unpack the archive. To run what's inside, you'll need WSL2 or a Linux machine.\n\n**Step 1: Find the file.** Run this in PowerShell:\n\n```powershell\nGet-ChildItem -Path $env:USERPROFILE -Recurse -Filter \"dataforge-1.4.0-linux-x86_64.tar.gz\" -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\n```\n\nIf nothing turns up, search all drives:\n\n```powershell\nGet-PSDrive -PSProvider FileSystem | ForEach-Object { Get-ChildItem -Path $_.Root -Recurse -Filter \"dataforge-1.4.0-linux-x86_64.tar.gz\" -ErrorAction SilentlyContinue } | Select-Object FullName\n```\n\n**Step 2: Install.** I haven't checked whether WSL is installed. Tell me the file path, and tell me whether `wsl --status` works. Then I can give you exact commands.\n\nIf WSL isn't set up, run `wsl --install` from an administrator PowerShell and reboot. After that, the usual steps inside WSL are:\n1. Copy the archive into your Linux home folder.\n2. Unpack it with `tar -xzf` into a new, empty directory.\n3. Read the included README or INSTALL file before running any install script.\n\nI'd rather not guess the install command, because I haven't seen what's inside the archive. Check where you downloaded it from, too. If DataForge publishes a Windows build, that may be easier than WSL.\n\n```result\n{\"outcome\": \"clarification\", \"commands\": [\"Get-ChildItem -Path $env:USERPROFILE -Recurse -Filter \\\"dataforge-1.4.0-linux-x86_64.tar.gz\\\" -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\"], \"environment_facts\": [{\"fact\": \"Native Windows 11 Education 10.0.26200, AMD64\", \"source\": \"observed\"}, {\"fact\": \"CPU is Intel i5-10300H, 8 logical cores\", \"source\": \"observed\"}, {\"fact\": \"Windows PowerShell 5.1 and Git Bash 5.3.15 available; pwsh not found\", \"source\": \"observed\"}, {\"fact\": \"tar 1.35 available\", \"source\": \"observed\"}, {\"fact\": \"File location unknown; no directories granted for searching\", \"source\": \"observed\"}, {\"fact\": \"WSL installation status unknown\", \"source\": \"assumed\"}, {\"fact\": \"The tarball is a Linux build and cannot run natively on Windows\", \"source\": \"assumed\"}], \"question\": \"What path does the search return for the file, and does `wsl --status` show WSL2 installed? (Or is there a Windows build of DataForge available?)\"}\n```",
+  "auto": {
+   "scenario": "CTX-3",
+   "parsed": true,
+   "outcome": "clarification",
+   "rule_failures": [],
+   "assumption_hits": [
+    {
+     "id": "assumes_wsl",
+     "sentence": "After that, the usual steps inside WSL are:"
+    }
+   ],
+   "secondary_flags": [],
+   "manual_review": [
+    "clarification_with_commands"
+   ],
+   "self_reported_assumed": 2
+  }
+ },
+ {
+  "blind_id": "13919742fd",
+  "scenario": "HW-2",
+  "user_message": "I want to try Llama 3.1 8B Instruct locally in my environment with Hugging Face transformers, in full fp16, to test some prompts. What's the quickest way to get it running?",
+  "answer": "**Short answer:** with what I can see, full fp16 isn't going to work on this machine yet. I need one thing from you before I can give a setup that will.\n\n**What the snapshot showed**\n- **GPU:** the only adapter is a generic Microsoft one (`0x1414`), which is a virtual or paravirtual display device. There is no NVIDIA or ROCm driver and no CUDA.\n- **RAM:** 16 GB total, but the environment I observed has a 2 GB memory limit (cgroup).\n- **Python:** 3.12 with pip and venv, so that part is fine.\n- **Platform:** the snapshot reports Linux, while your shell is Windows. So I probably looked at a container or WSL-like sandbox, not your Windows host with its real GPU.\n\n**Why that matters:** Llama 3.1 8B in fp16 is about 16 GB of weights. You need roughly 18–20 GB of free VRAM once you add the KV cache. On CPU it would need more than 16 GB of RAM and would be very slow. At the observed 2 GB limit it would fail to load.\n\n**What I need from you:** which GPU does your Windows host have, and how much VRAM? Run this in PowerShell on the host:\n\n```powershell\nnvidia-smi\n```\n\n**What to do depending on the answer**\n- **NVIDIA with 24 GB or more** (3090, 4090, A5000 and similar): fp16 fits. The quickest route is:\n  1. Create a venv and install the CUDA build of PyTorch (`pip install torch --index-url https://download.pytorch.org/whl/cu124`), then `pip install transformers accelerate`.\n  2. Accept the Llama 3.1 license on the model page at `meta-llama/Llama-3.1-8B-Instruct` on Hugging Face.\n  3. Run `huggingface-cli login`.\n  4. Load the model with `torch_dtype=torch.float16, device_map=\"cuda\"`.\n- **16 GB VRAM or less:** full fp16 won't fit. Use 8-bit or 4-bit quantization (bitsandbytes), or a GGUF build through llama.cpp or Ollama. That's the fastest way to test prompts.\n- **No discrete GPU:** use Ollama or llama.cpp with a 4-bit quant, or a hosted endpoint. Transformers in fp16 on CPU isn't practical.\n- **Running inside WSL or a container:** the GPU has to be passed through, and the memory limit has to be raised well above 2 GB (for example, `memory=` in `.wslconfig`).\n\nSend me the `nvidia-smi` output, or your GPU model, and I'll give you the exact setup.\n\n```result\n{\"outcome\": \"clarification\", \"commands\": [\"nvidia-smi\"], \"environment_facts\": [{\"fact\": \"Only GPU adapter observed is a generic Microsoft virtual adapter (pci 0x1414:0x6); no NVIDIA/CUDA/ROCm detected\", \"source\": \"observed\"}, {\"fact\": \"Total RAM 16.77 GB, but a cgroup memory limit of 2 GB applies in the observed runtime\", \"source\": \"observed\"}, {\"fact\": \"Python 3.12.15 with pip and venv available\", \"source\": \"observed\"}, {\"fact\": \"Snapshot reported platform linux while the user's shell is Windows 11, so the snapshot may be of a container/WSL-like runtime rather than the Windows host\", \"source\": \"observed\"}, {\"fact\": \"Llama 3.1 8B in fp16 needs roughly 16 GB for weights plus overhead, i.e. ~18-20 GB VRAM\", \"source\": \"assumed\"}], \"question\": \"What GPU (model and VRAM) does your Windows host have? Please run nvidia-smi in PowerShell and share the output, and tell me whether you intend to run natively on Windows or inside WSL/a container.\"}\n```",
+  "auto": {
+   "scenario": "HW-2",
+   "parsed": true,
+   "outcome": "clarification",
+   "rule_failures": [],
+   "assumption_hits": [],
+   "secondary_flags": [],
+   "manual_review": [
+    "clarification_with_commands"
+   ],
+   "self_reported_assumed": 1
+  }
+ }
+]

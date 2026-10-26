@@ -81,8 +81,8 @@
   "fallback_credit": null
  },
  "cost_usd": 0.017349999999999997,
- "status": "harness_failure",
- "failure": "host_context_injected: claude -p (no --bare, no API key) attached the host environment block (win32, Windows 11 Education, PowerShell, date) to the conversation; condition A was not information-free (ENV_LEAK.md)",
+ "status": "ok",
+ "failure": null,
  "isolation": {
   "init_tools": [],
   "mcp_servers": [],
@@ -125,5 +125,6 @@
   "collected_at": {
    "win-laptop": "2026-10-26T02:29:50Z"
   }
- }
+ },
+ "readmitted": "Ran 2026-10-26 with the same flags as the --allow-host-context runs (no --bare); first marked harness_failure for host-context injection, re-admitted when the user approved running the smoke test under that confound. Not re-run (9-run cap)."
 }

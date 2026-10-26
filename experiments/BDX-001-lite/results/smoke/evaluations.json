@@ -1,11 +1,11 @@
 {
- "evaluated_at": "2026-10-26T02:55:26Z",
+ "evaluated_at": "2026-10-26T02:59:54Z",
  "rows": [
   {
    "run_id": "CTX-3-A-r1",
    "scenario": "CTX-3",
    "condition": "A",
-   "label": "HARNESS_FAILURE",
+   "label": "APPLICABLE",
    "verdict": {
     "scenario": "CTX-3",
     "parsed": true,
@@ -32,20 +32,311 @@
    "cache_read_tokens": 0,
    "cache_creation_tokens": 1169,
    "cost_usd": 0.017349999999999997
+  },
+  {
+   "run_id": "CTX-3-B-r1",
+   "scenario": "CTX-3",
+   "condition": "B",
+   "label": "APPLICABLE",
+   "verdict": {
+    "scenario": "CTX-3",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [],
+    "assumption_hits": [
+     {
+      "id": "assumes_wsl",
+      "sentence": "A Windows path like `C:\\Users\\you\\Downloads` becomes `/mnt/c/Users/you/Downloads` in WSL."
+     }
+    ],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 1
+   },
+   "tool_used": true,
+   "diagnostic_iterations": 1,
+   "response_bytes_total": 1204,
+   "used_relevant_source": true,
+   "context_sufficient": "partial",
+   "duration_s": 17.304,
+   "input_tokens": 4,
+   "output_tokens": 1633,
+   "cache_read_tokens": 3450,
+   "cache_creation_tokens": 1700,
+   "cost_usd": 0.023483
+  },
+  {
+   "run_id": "CTX-3-C-r1",
+   "scenario": "CTX-3",
+   "condition": "C",
+   "label": "JUSTIFIED_CLARIFICATION",
+   "verdict": {
+    "scenario": "CTX-3",
+    "parsed": true,
+    "outcome": "clarification",
+    "rule_failures": [],
+    "assumption_hits": [
+     {
+      "id": "assumes_wsl",
+      "sentence": "After that, the usual steps inside WSL are:"
+     }
+    ],
+    "secondary_flags": [],
+    "manual_review": [
+     "clarification_with_commands"
+    ],
+    "self_reported_assumed": 2
+   },
+   "tool_used": true,
+   "diagnostic_iterations": 2,
+   "response_bytes_total": 17750,
+   "used_relevant_source": true,
+   "context_sufficient": "partial",
+   "duration_s": 18.93,
+   "input_tokens": 6,
+   "output_tokens": 1631,
+   "cache_read_tokens": 10505,
+   "cache_creation_tokens": 9344,
+   "cost_usd": 0.054748500000000005
+  },
+  {
+   "run_id": "HW-2-A-r1",
+   "scenario": "HW-2",
+   "condition": "A",
+   "label": "INAPPLICABLE",
+   "verdict": {
+    "scenario": "HW-2",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [
+     {
+      "id": "offers_feasible_path",
+      "kind": "require",
+      "match": null
+     }
+    ],
+    "assumption_hits": [
+     {
+      "id": "host_ram_as_available",
+      "sentence": "The first run downloads about 16 GB into the Hugging Face cache (`C:\\Users\\<you>\\.cache\\huggingface`), so make sure you have the disk space."
+     }
+    ],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 3
+   },
+   "tool_used": false,
+   "diagnostic_iterations": 0,
+   "response_bytes_total": 0,
+   "used_relevant_source": null,
+   "context_sufficient": "none",
+   "duration_s": 21.723,
+   "input_tokens": 2,
+   "output_tokens": 2305,
+   "cache_read_tokens": 0,
+   "cache_creation_tokens": 1166,
+   "cost_usd": 0.027718
+  },
+  {
+   "run_id": "HW-2-B-r1",
+   "scenario": "HW-2",
+   "condition": "B",
+   "label": "UNJUSTIFIED_CLARIFICATION",
+   "verdict": {
+    "scenario": "HW-2",
+    "parsed": true,
+    "outcome": "clarification",
+    "rule_failures": [],
+    "assumption_hits": [],
+    "secondary_flags": [],
+    "manual_review": [
+     "quantized_8b_suggested"
+    ],
+    "self_reported_assumed": 1
+   },
+   "tool_used": true,
+   "diagnostic_iterations": 2,
+   "response_bytes_total": 4894,
+   "used_relevant_source": true,
+   "context_sufficient": "partial",
+   "duration_s": 20.732,
+   "input_tokens": 6,
+   "output_tokens": 1865,
+   "cache_read_tokens": 5164,
+   "cache_creation_tokens": 4912,
+   "cost_usd": 0.0388264
+  },
+  {
+   "run_id": "HW-2-C-r1",
+   "scenario": "HW-2",
+   "condition": "C",
+   "label": "UNJUSTIFIED_CLARIFICATION",
+   "verdict": {
+    "scenario": "HW-2",
+    "parsed": true,
+    "outcome": "clarification",
+    "rule_failures": [],
+    "assumption_hits": [],
+    "secondary_flags": [],
+    "manual_review": [
+     "clarification_with_commands"
+    ],
+    "self_reported_assumed": 1
+   },
+   "tool_used": true,
+   "diagnostic_iterations": 1,
+   "response_bytes_total": 6315,
+   "used_relevant_source": true,
+   "context_sufficient": "full",
+   "duration_s": 20.103,
+   "input_tokens": 4,
+   "output_tokens": 1813,
+   "cache_read_tokens": 3467,
+   "cache_creation_tokens": 4031,
+   "cost_usd": 0.0346087
+  },
+  {
+   "run_id": "OS-1-A-r1",
+   "scenario": "OS-1",
+   "condition": "A",
+   "label": "APPLICABLE",
+   "verdict": {
+    "scenario": "OS-1",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [],
+    "assumption_hits": [],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 1
+   },
+   "tool_used": false,
+   "diagnostic_iterations": 0,
+   "response_bytes_total": 0,
+   "used_relevant_source": null,
+   "context_sufficient": "none",
+   "duration_s": 11.967,
+   "input_tokens": 2,
+   "output_tokens": 734,
+   "cache_read_tokens": 0,
+   "cache_creation_tokens": 1159,
+   "cost_usd": 0.01198
+  },
+  {
+   "run_id": "OS-1-B-r1",
+   "scenario": "OS-1",
+   "condition": "B",
+   "label": "APPLICABLE",
+   "verdict": {
+    "scenario": "OS-1",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [],
+    "assumption_hits": [],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 1
+   },
+   "tool_used": true,
+   "diagnostic_iterations": 1,
+   "response_bytes_total": 330,
+   "used_relevant_source": true,
+   "context_sufficient": "partial",
+   "duration_s": 11.081,
+   "input_tokens": 4,
+   "output_tokens": 700,
+   "cache_read_tokens": 3452,
+   "cache_creation_tokens": 1391,
+   "cost_usd": 0.0129172
+  },
+  {
+   "run_id": "OS-1-C-r1",
+   "scenario": "OS-1",
+   "condition": "C",
+   "label": "APPLICABLE",
+   "verdict": {
+    "scenario": "OS-1",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [],
+    "assumption_hits": [],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 1
+   },
+   "tool_used": false,
+   "diagnostic_iterations": 0,
+   "response_bytes_total": 0,
+   "used_relevant_source": false,
+   "context_sufficient": "partial",
+   "duration_s": 8.84,
+   "input_tokens": 2,
+   "output_tokens": 673,
+   "cache_read_tokens": 0,
+   "cache_creation_tokens": 2224,
+   "cost_usd": 0.015629999999999998
   }
  ],
  "summary": {
   "A": {
-   "n": 0,
-   "harness_failures": 1
+   "n": 3,
+   "harness_failures": 0,
+   "applicable": 2,
+   "ARR": 0.667,
+   "inapplicable": 1,
+   "justified_clarification": 0,
+   "unjustified_clarification": 0,
+   "no_result": 0,
+   "unsupported_assumption_runs": 2,
+   "UAR": 0.667,
+   "tool_use_rate": null,
+   "mean_diagnostic_iterations": 0,
+   "mean_response_bytes": 0,
+   "used_relevant_source": null,
+   "median_duration_s": 14.604,
+   "median_duration_applicable_s": 13.285499999999999,
+   "manual_review": 0,
+   "total_cost_usd": 0.057
   },
   "B": {
-   "n": 0,
-   "harness_failures": 0
+   "n": 3,
+   "harness_failures": 0,
+   "applicable": 2,
+   "ARR": 0.667,
+   "inapplicable": 0,
+   "justified_clarification": 0,
+   "unjustified_clarification": 1,
+   "no_result": 0,
+   "unsupported_assumption_runs": 1,
+   "UAR": 0.333,
+   "tool_use_rate": 1.0,
+   "mean_diagnostic_iterations": 1.33,
+   "mean_response_bytes": 2143,
+   "used_relevant_source": 3,
+   "median_duration_s": 17.304,
+   "median_duration_applicable_s": 14.192499999999999,
+   "manual_review": 1,
+   "total_cost_usd": 0.0752
   },
   "C": {
-   "n": 0,
-   "harness_failures": 0
+   "n": 3,
+   "harness_failures": 0,
+   "applicable": 1,
+   "ARR": 0.333,
+   "inapplicable": 0,
+   "justified_clarification": 1,
+   "unjustified_clarification": 1,
+   "no_result": 0,
+   "unsupported_assumption_runs": 1,
+   "UAR": 0.333,
+   "tool_use_rate": 0.667,
+   "mean_diagnostic_iterations": 1,
+   "mean_response_bytes": 8022,
+   "used_relevant_source": 2,
+   "median_duration_s": 18.93,
+   "median_duration_applicable_s": 8.84,
+   "manual_review": 2,
+   "total_cost_usd": 0.105
   }
  }
 }
