@@ -54,3 +54,15 @@ def test_checked_in_package_description_matches_authoritative_record():
 def test_codex_package_instructions_require_explicit_hook_trust():
     text=rn.render_package_readme(RECORD,"codex")
     assert "manual" in text.lower() and "trust" in text.lower()
+
+
+def test_release_record_covers_feedback_accept_and_changelog_has_no_stale_unreleased():
+    root = Path(__file__).resolve().parents[1]
+    record = rn.load_release(root / "releases/2.0.2.json", "2.0.2")
+    changes = "\\n".join(record["changes"])
+    for tool in ("feedback_start", "feedback_resolve", "feedback_accept"):
+        assert tool in changes
+    changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+    section = changelog.split("## buddie 2.0.2 (not released)", 1)[1].split("## buddie 2.0.1", 1)[0]
+    assert "## Unreleased" not in section
+    assert "releases/2.0.2.json" in section
