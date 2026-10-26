@@ -352,6 +352,71 @@ def test_oversized_state_is_refused(world):
         == "malformed_chain"
 
 
+def test_an_oversized_initial_trace_is_not_published(world, monkeypatch):
+    options, _ = world
+    monkeypatch.setattr(chains, "MAX_TRACE_BYTES", 1024)
+    got = call("feedback_start", dict(options, text=report(), requirements=REQUIRED))
+    assert code(got) == "trace_too_large"
+    assert not chains.root().exists()
+    assert chains._KNOWN == {}
+
+
+def guarded_state_reads(monkeypatch, limits):
+    """Real files, but reject reads that would allocate unbounded attacker-written state."""
+    original_open, sizes = Path.open, []
+
+    class Reader:
+        def __init__(self, raw, limit):
+            self.raw, self.limit = raw, limit
+
+        def __enter__(self):
+            self.raw.__enter__()
+            return self
+
+        def __exit__(self, *args):
+            return self.raw.__exit__(*args)
+
+        def read(self, size=-1):
+            sizes.append(size)
+            assert 0 <= size <= self.limit + 1, "state read must be bounded before allocation"
+            return self.raw.read(size)
+
+    def open_state(path, mode="r", *args, **kwargs):
+        raw = original_open(path, mode, *args, **kwargs)
+        return Reader(raw, limits[path.name]) if mode == "rb" and path.name in limits else raw
+
+    monkeypatch.setattr(Path, "open", open_state)
+    return sizes
+
+
+def test_load_reads_both_state_files_with_byte_limits(world, monkeypatch):
+    started, _, _ = opened(world)
+    sizes = guarded_state_reads(monkeypatch, {"trace.jsonl": chains.MAX_TRACE_BYTES,
+                                            "options.json": chains.MAX_OPTIONS_BYTES})
+    assert chains.load(started["chain"]).basis == "server"
+    assert len(sizes) == 2
+
+
+def test_commit_bounds_its_reread_and_refuses_oversized_changed_state(world, monkeypatch):
+    started, original, corrected = opened(world)
+    read = chains.load(started["chain"])
+    got = repair.reverify(corrected, **mcp._checking(read.options))
+    result = repair.resolve(read.records, started["feedback"], repair.submission(started["feedback"], original, corrected),
+                            original=original, corrected=corrected, assessment=got)
+    # A changed file is much larger than the allowed trace; keep the fixture small and the bound independently set.
+    limit = len(tr.dumps(result.records).encode("utf-8")) + 1
+    monkeypatch.setattr(chains, "MAX_TRACE_BYTES", limit)
+    path = trace_file(started["chain"])
+    path.write_bytes(b"x" * (limit + 100))
+    before = path.read_bytes()
+    with monkeypatch.context() as context:
+        sizes = guarded_state_reads(context, {"trace.jsonl": limit})
+        with pytest.raises(chains.ChainError, match="state_corrupt"):
+            chains.commit(read, result.records, lambda state: pytest.fail("oversized state must not replay"))
+        assert sizes
+    assert path.read_bytes() == before
+
+
 LOCKER = """
 import sys
 from buddie import chains

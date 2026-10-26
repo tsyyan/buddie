@@ -202,7 +202,9 @@ feedback/<chain hex>/trace.jsonl    trace.dumps lines
 - **Bounded.** A chain whose files have not changed for 30 days is removed when a chain is started, whether it is
   open or not. A removed chain can no longer be resolved (`unknown_chain`) and never becomes a result. At most 256
   chains are kept (`state_full` until older ones age out or are removed by hand: delete the chain's directory). A
-  trace is at most 1 MiB, the options at most 64 KiB (`options_too_large`).
+  trace is at most 1 MiB, the options at most 64 KiB (`options_too_large`). An oversized initial trace is refused
+  before publishing any chain (`trace_too_large`). State reads, including the commit-time reread, are bounded
+  before allocation; oversized on-disk state is `state_corrupt` and is not replayed or committed.
 
 The caller cannot pass weaker options for a correction: the server re-verifies with the chain's stored ones.
 

@@ -109,6 +109,15 @@ def _write(path: Path, data: bytes) -> None:
         os.fsync(f.fileno())
 
 
+def _read(path: Path, limit: int) -> bytes:
+    """Bound allocation before parsing agent-writable state, including the commit-time reread."""
+    with path.open("rb") as stream:
+        data = stream.read(limit + 1)
+    if len(data) > limit:
+        raise ChainError("state_corrupt", "a chain file is over its size limit")
+    return data
+
+
 @contextlib.contextmanager
 def _locked(where: Path, timeout: float | None = None):
     """The chain's lock, across processes."""
@@ -177,6 +186,9 @@ def create(chain: str, records: tuple, options: dict) -> None:
                        ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
     if len(body) > MAX_OPTIONS_BYTES:
         raise ChainError("options_too_large", f"check options over {MAX_OPTIONS_BYTES} bytes (too many repos?)")
+    trace = tr.dumps(records).encode("utf-8")
+    if len(trace) > MAX_TRACE_BYTES:
+        raise ChainError("trace_too_large", f"initial trace over {MAX_TRACE_BYTES} bytes; no chain was started")
     prune()
     if final.exists():
         raise ChainError("chain_exists", f"{chain} exists already (the same check of the same text); not started again")
@@ -188,7 +200,7 @@ def create(chain: str, records: tuple, options: dict) -> None:
     try:
         temporary.mkdir()
         _write(temporary / "options.json", body)
-        _write(temporary / "trace.jsonl", tr.dumps(records).encode("utf-8"))
+        _write(temporary / "trace.jsonl", trace)
         try:
             os.rename(temporary, final)
         except OSError:
@@ -227,7 +239,8 @@ def load(chain: str) -> Chain:
         raise ChainError("unknown_chain", f"no chain {chain} here: start one with feedback_start")
     with _locked(where):
         try:
-            trace, options = (where / "trace.jsonl").read_bytes(), (where / "options.json").read_bytes()
+            trace = _read(where / "trace.jsonl", MAX_TRACE_BYTES)
+            options = _read(where / "options.json", MAX_OPTIONS_BYTES)
         except FileNotFoundError:
             raise ChainError("state_corrupt", "the chain's directory is missing a file") from None
     records, state, opts, sealed = _parse(chain, trace, options)
@@ -246,7 +259,7 @@ def commit(read: Chain, records: tuple, recheck) -> None:
         raise ChainError("write_failed", "a commit only extends the trace, within its size limit")
     with _locked(where):
         try:
-            now = (where / "trace.jsonl").read_bytes()
+            now = _read(where / "trace.jsonl", MAX_TRACE_BYTES)
         except FileNotFoundError:
             raise ChainError("unknown_chain", "the chain was removed while the submission was checked") from None
         if now != read.trace:
