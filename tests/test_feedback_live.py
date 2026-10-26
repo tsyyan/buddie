@@ -357,3 +357,49 @@ def test_transport_never_retries_an_ambiguous_request(monkeypatch, code):
     with pytest.raises(live.PilotAbort, match=f"API error {code}"):
         live.Transport("offline-test").send({"model": "fake"})
     assert len(attempts) == 1
+
+
+def test_socket_failure_leaves_unreconciled_intent_and_refuses_resume(tmp_path):
+    class Disconnected(Fake):
+        def send(self, body):
+            self.bodies.append(body)
+            raise ConnectionResetError("offline uncertain response")
+
+    out, transport = tmp_path / "run", Disconnected()
+    with pytest.raises(ConnectionResetError):
+        live.pilot(authorized(), out, transport, require_clean=False)
+    assert len(transport.bodies) == 1
+    requests = (out / "requests.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(requests) == 1 and json.loads(requests[0])["worst_case_usd"] > 0
+    assert (out / "ledger.jsonl").read_bytes() == b""
+    assert (out / "live.jsonl").read_bytes() == b""
+    assert "ConnectionResetError" in json.loads((out / "status.json").read_text())["status"]
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    with pytest.raises(live.PilotAbort):
+        live.pilot(authorized(), out, transport, require_clean=False)
+    assert len(transport.bodies) == 1
+    assert {p.name: p.read_bytes() for p in out.iterdir()} == before
+
+
+def test_intent_write_failure_prevents_transport_and_preserves_reservation(tmp_path, monkeypatch):
+    out, fake = tmp_path / "run", Fake()
+    def unavailable(_self, _row):
+        raise OSError("offline journal unavailable")
+    monkeypatch.setattr(live.Ledger, "request", unavailable)
+    with pytest.raises(OSError, match="journal unavailable"):
+        live.pilot(authorized(), out, fake, require_clean=False)
+    assert fake.bodies == []
+    assert "OSError" in json.loads((out / "status.json").read_text())["status"]
+    with pytest.raises(live.PilotAbort):
+        live.pilot(authorized(), out, fake, require_clean=False)
+
+
+def test_socket_errors_are_not_retried_by_transport(monkeypatch):
+    attempts = []
+    def disconnected(req, timeout):
+        attempts.append(req)
+        raise live.urllib.error.URLError("offline connection reset")
+    monkeypatch.setattr(live.urllib.request, "urlopen", disconnected)
+    with pytest.raises(live.urllib.error.URLError):
+        live.Transport("offline-test").send({"model": "fake"})
+    assert len(attempts) == 1
