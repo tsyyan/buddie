@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Verification feedback v1 (docs/feedback.md, ADR-001): `buddie/feedback.py` turns a receipt-v1 into advisory,
+  machine-readable feedback (a condition per finding, at most one bounded action, the receipt's evidence references
+  unchanged); `buddie/repair.py` takes one corrected text per feedback within the actions' line scope, judges it only
+  by a new receipt-v1 of no weaker scope, and ends within the repair budget (1 by default, at most 3);
+  `buddie/trace.py` records each iteration as append-only, hash-chained records that replay. New command
+  `buddie feedback RECEIPT.json`. Nothing existing changes: receipts, outcomes, the hook, MCP and the CLI's other
+  commands are as before; no dependency is added. A chain is started and decided only on a `verify.Assessment` made
+  in the caller's process (a receipt dict is refused: receipts are unsigned); a repair may not add lines but
+  `buddie:` disclosures, and a verified claim must stay where it was; task requirements stated by the orchestrator
+  keep a corrected report apart from a finished task (`requirements_unmet`).
+
+- Automatically verify literal GitHub citations in ordinary Markdown reports through the existing `quote` check:
+  full-SHA file links, PR description bodies and file/side/line-addressed PR diffs. Inline and fenced code are
+  extracted; matching preserves code characters and indentation (CRLF → LF only). Ambiguous bindings and incomplete
+  patches flag gaps. GitHub evidence bundles retain revisions, locations and snapshot hashes, support offline
+  replay, and follow existing provenance/public-only remote access boundaries. No new dependency or MCP tool.
+  Existing non-GitHub reports keep their behavior. See `docs/github-citations.md` for supported forms and limits.
+
 ## buddie 2.0.1 (2026-10-26)
 
 Upgrading from 2.0.0: nothing to change. The MCP tools and their arguments, receipt-v0 and receipt-v1, outcomes,
