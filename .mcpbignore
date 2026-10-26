@@ -33,5 +33,3 @@ MANIFEST.in
 render.yaml
 commands/
 evals/
-
-experiments/
