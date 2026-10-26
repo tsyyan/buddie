@@ -26,6 +26,7 @@ jobs:
           tests/test_workflow_pins.py
           tests/test_feedback.py
           tests/test_mcp_feedback.py
+          tests/test_release_size_gate.py
   test:
     if: github.event_name == 'push' || github.event_name == 'merge_group'
     runs-on: ubuntu-latest
@@ -62,7 +63,8 @@ jobs:
       - name: plugin runs from a clone without install
         run: python3 run.py verify examples/quickstart/report.md --no-fetch --anchors-only
   release-candidate:
-    if: github.event_name == 'push' || github.event_name == 'merge_group'
+    # Building artifacts on main would duplicate pre-merge validation; tag runs build the publishable candidate.
+    if: github.event_name == 'merge_group'
     # what a release would publish (release-candidate.yml): sdist, wheel and the Claude Desktop bundle built from
     # this commit, twine check, wheel contents, the bundle validated, packed, unpacked and started, both packages
     # installed into clean venvs and run, the manifest and SHA256SUMS. Publishes nothing
@@ -160,7 +162,12 @@ jobs:
               test "$result" = skipped || { echo "::error::full job unexpectedly $result on PR"; exit 1; }
             done
           else
-            for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER"; do
+            for result in "$TEST" "$OS" "$CATALOGS" "$DOCKER"; do
               test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
             done
+            if [ "$EVENT_NAME" = merge_group ]; then
+              test "$RELEASE_CANDIDATE" = success || { echo "::error::merge candidate check: $RELEASE_CANDIDATE"; exit 1; }
+            else
+              test "$RELEASE_CANDIDATE" = skipped || { echo "::error::unexpected candidate rebuild: $RELEASE_CANDIDATE"; exit 1; }
+            fi
           fi
