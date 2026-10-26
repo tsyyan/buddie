@@ -95,16 +95,10 @@ No separate distribution for MVP. A later independently installable extension re
 
 ## 9. Decisions deferred beyond MVP
 
-1. Storage format and conflict resolution for multiple local clients.
-2. Binding project focus to Claude Code/Codex/MCP sessions without leaking state.
-3. Which evidence is safe to refresh automatically vs requiring user approval.
-4. How to extend receipt-v1 check/module/reason enums compatibly and whether a new schema version is required.
-5. Where trusted collector identity is established for new GitHub/state collectors.
-6. Whether release readiness belongs to new findings or a projection over existing findings and user acceptance criteria.
-7. Whether user-authored decisions are shared across hosts and under which privacy controls.
-
-Every decision should be recorded with rationale before runtime changes.
-
+Section 10 is authoritative for MVP storage/concurrency, session binding, grant authority, full-head observation
+and readiness projection. Those are implementation prerequisites, not deferred decisions. Post-MVP questions:
+SQLite migration, cross-host sync, authenticated HTTP Projects, new Context Checker vocabulary after RX, optional
+hook gate integration and any separately distributed extension. None is required or authorized by this docs PR.
 
 ## 10. MVP contract (design only, no implementation authorized here)
 
