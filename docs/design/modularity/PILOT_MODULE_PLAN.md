@@ -28,7 +28,7 @@
 
 ## 2. Предусловия
 
-- Слиты R0 (golden-корпус receipts) и R2 (ленивые импорты `mandate` и `freshness`).
+- Слиты R0 (golden-корпус receipts), R1 (явный журнал) и R2 (ленивые импорты `mandate` и `freshness`).
 - Ветка от актуального `main`, например `refactor/sources-module`. `main` не трогать, PR не сливать автоматически.
 - Локально проходит `python -m pytest -q` (Windows: `PYTHONUTF8=1`).
 
@@ -71,6 +71,7 @@
        fetch: bool = True
        access: str | None = None
        numbers: str = "gap"
+       journal: tuple[Path, ...] = ()  # разрешён R1 до вызова модуля
        quotes: bool = True          # call option: False = anchors only (as today's `quotes`)
 
    @dataclass(frozen=True)
@@ -81,8 +82,8 @@
 
    API_VERSION = 1
    ```
-   В пилоте `Inputs` содержит **только** поля, нужные `sources`. Поля для `github`/`execution` (repos, github,
-   transcript, journal, mandate, rev) добавляются в R8, не сейчас. Поле `run` у `Module` по умолчанию `None`, так
+   В пилоте `Inputs` содержит поля `sources` и явный journal после R1. Поля для `github`/`execution` (repos, github,
+   transcript, mandate, rev) добавляются в R8, не сейчас. Поле `run` у `Module` по умолчанию `None`, так
    что `github` и `execution` не меняются. Обновить docstring модуля: у модуля может быть `run`, загрузки кода
    по-прежнему нет.
 2. **`sources.py`.** Перенести `check_quotes`, `check_numbers`, `_quote_row`, `KEEP` из `verify.py` без изменений
@@ -102,7 +103,7 @@
 3. **`verify._assess`.** До строки 215 сохранить исходные опции вызова: `quotes_asked, numbers_asked = quotes,
    numbers`. Строки 215-217 перезаписывают эти имена. Сами вычисления `quotes`/`numbers`/`run_numbers` оставить как
    есть: они нужны и для других веток (`coverage`, `not_run`). Заменить строку 226 вызовом
-   `out = mods.by_id("sources").run(text, mods.Inputs(store, fetch, access, numbers_asked, quotes_asked), on)`.
+   `out = mods.by_id("sources").run(text, mods.Inputs(store=store, fetch=fetch, access=access, numbers=numbers_asked, quotes=quotes_asked, journal=journal), on)`.
    `q_results`, `skipped`, `vv` брать из `out`; строку 238 — `n_rows = [... из out.rows["numbers"] ...]`.
    **Порядок обращений к хранилищу сохраняется:** сначала цитаты, затем числа. Между ними сейчас выполняются якоря и
    `mandate`, но хранилище они не используют. Если R0 покажет расхождение, вернуть вызов чисел на прежнее место
@@ -147,7 +148,7 @@
    `catalogs`, `docker`).
 3. Golden receipts (R0) совпадают байт-в-байт для v0 и v1.
 4. Новые тесты §5 зелёные.
-5. `verify.verify(...)` на тексте из одного file-якоря загружает те же модули `buddie.*`, что и сейчас (E3: 19), плюс
+5. `verify.verify(...)` на тексте из одного file-якоря загружает тот же набор `buddie.*`, что и `main` после R2, плюс
    только `buddie.sources`.
 6. Новый файл проходит `tests/test_release_hardening.py`: тест сканирует все `buddie/**/*.py`.
 7. `buddie verify examples/quickstart/report.md --no-fetch` и шаги CI «examples behave as the README says» дают тот
@@ -162,7 +163,7 @@
   **остановиться** и записать причину в PR. Это результат эксперимента: оркестратор держит неявный контракт порядка.
   Не «чинить» эталон.
 - Если для пилота приходится править любой запрещённый файл из §3, остановиться и вынести вопрос на ревью.
-- Откат: `git revert` PR целиком. R0 и R2 остаются полезными сами по себе.
+- Откат: `git revert` PR целиком. R0, R1 и R2 остаются полезными сами по себе.
 
 ---
 

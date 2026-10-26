@@ -5,8 +5,8 @@
 файлов и новые тесты; **L** — затрагивает гейт или несколько модулей. Сроков нет намеренно.
 
 Общие правила для всех задач:
-- не меняются слова вердиктов, outcome, форма receipt-v0/v1, `tools/list`, коды выхода CLI;
-- все существующие тесты проходят **без правок**; разрешено только добавлять тесты;
+- не меняются слова вердиктов, outcome, форма receipt-v0/v1 при рефакторинге (новые checks — только после RX), `tools/list`, коды выхода CLI;
+- все существующие тесты проходят **без правок**; разрешено только добавлять тесты; исключение RX: осознанное расширение closed enums и `tests/test_modules.py::IDS` при добавлении нового модуля;
 - новых runtime-зависимостей нет;
 - откат — `git revert` одного PR (каждая задача атомарна).
 
@@ -35,15 +35,18 @@
 
 ### R1. Явный вход журнала для `choice:` (C3) · S · приоритет 1
 **Зачем.** Сейчас результат `verify()` зависит от журнала машины, которого нет в аргументах (эксперимент E1).
-**Изменения.** Необязательный kwarg `journal: list[Path] | None = None` в `verify.verify/assess/assess_selected/
+**Изменения.** Необязательный kwarg `journal: tuple[Path, ...] | None = None` в `verify.verify/assess/assess_selected/
 assessment`. Он передаётся в контекст `anc.check_text` (`verify.py:228`) как `"journal"`. При `None` вызов
 разрешается в `logbook.journal_paths()` **в одном месте** (`verify.assessment`), а не внутри
-`summary.check_choice`, так что поведение 2.0.1 сохраняется. CLI, MCP и хук не меняются.
-**Тесты.** (a) `journal=[]` → `choice:` всегда UNCHECKABLE, что бы ни лежало в `BUDDIE_LOG`; (b) `journal=None` → как
-сейчас (воспроизводит E1); (c) `summary.check_choice` без `journal` в ctx больше не читает файлы (audit hook, как в
+`summary.check_choice`, так что поведение 2.0.1 сохраняется. CLI, MCP и хук не меняются. Тот же явный journal передаётся в `decisions.choices` / `journal_cards`;
+`promises.basis` разрешает default на своей границе и передаёт tuple в `summary.check_choice`.
+Внутри checker отсутствие ключа journal означает пустой tuple; ambient fallback удаляется в обоих путях.
+**Тесты.** (a) `journal=()` и `transcript=None` → `choice:` всегда UNCHECKABLE, что бы ни лежало в `BUDDIE_LOG`; (b) `journal=None` → как
+сейчас (воспроизводит E1); (c) `summary.check_choice` без `journal` и с `transcript=None` в ctx больше не читает файлы (audit hook, как в
 `tests/test_layers.py::test_importing_the_shared_parts_reads_and_writes_no_file`).
-**Риск.** Хук передаёт свой контекст: нужно проверить, что журнал хука — тот же путь. Ловится `gate_golden.json` и
-`tests/test_summary.py`.
+**Риск.** `hook.assess_for` не передаёт journal: через `assess`/`assess_selected` он достигает
+единой точки разрешения `assessment`. Проверить default hook, прямой `promises.basis`, оба пути decisions/summary,
+и transcript pick при `journal=()` (может дать HOLDS). Ловится `gate_golden.json`, tests summary/decisions/promises.
 **Открытый вопрос (продуктовый).** Должны ли CLI/MCP по умолчанию передавать `journal=[]`? Это изменение поведения:
 не делать в R1, решить отдельно.
 **Приёмка.** Новые тесты зелёные, R0 без изменений.
@@ -62,10 +65,10 @@ assessment`. Он передаётся в контекст `anc.check_text` (`ve
 **Зачем.** Будущий рефакторинг не должен «тихо» начать ловить исключения и превращать их в GAPS.
 **Приёмка.** Тест зелёный сейчас и после R5.
 
-### R4. Тест границ модулей (декларация полномочий) · S · приоритет 2 · после R1, R2
+### R4. Тест границ модулей (декларация полномочий) · S · приоритет 2 · после R1
 **Изменения.** `tests/test_module_boundaries.py`: AST-проверка импортов по файлам модулей. Минимальный набор правил:
 (a) `buddie/verbatim/**` не импортирует ничего из `buddie.*`, кроме `buddie.verbatim.*` и `buddie.runner`;
-(b) checker'ы (`verbatim`, `anchors`, `effects`, `mandate`) не импортируют `logbook`/`journal`/`hook`/`config`;
+(b) checker'ы (`verbatim`, `anchors`, `effects`, `mandate`) не импортируют `logbook`/`journal`/`hook`/`config`/`summary`/`decisions`;
 (c) `summary.check_choice` не вызывает `journal_paths` (после R1).
 Правила, которые сейчас нарушаются, записываются как `xfail(strict=True)` со ссылкой на задачу. Известные нарушения:
 `mandate.py:175` импортирует `config.read_toml`, `anchors.py:229` — `summary`. Тогда исправление
@@ -79,7 +82,8 @@ assessment`. Он передаётся в контекст `anc.check_text` (`ve
 **Тесты.** Транзитивное замыкание импортов `policy` не содержит `diagnostics`/`probes`/`environment`; поведение
 разбора `[environment]` не меняется (`tests/test_policy.py`, `tests/test_diagnostics.py`).
 **Риск.** `diagnostics.REGISTRY` содержит `Method`-описания: переносить нужно только id и tier, а не коллекторы.
-**Приёмка.** SCC из аудита уменьшается (повторный запуск графа в §3 аудита); все тесты зелёные.
+**Приёмка.** На базовом `0bc048e` удаление только `policy → diagnostics` даёт SCC из 11 модулей
+(вместо 15); R2 ленивость рёбра статического графа не удаляет. Повторить REPRODUCTION.md, все тесты зелёные.
 
 **Контрольная точка после фазы 1.** Если в обозримом плане нет **новых модулей проверки**, на этом стоит
 остановиться: фазы 0–1 закрывают все найденные дефекты границ. Фазу 2 стоит начинать только при реальной
@@ -89,7 +93,7 @@ assessment`. Он передаётся в контекст `anc.check_text` (`ve
 
 ## Фаза 2 — минимальный Module API (пилот)
 
-### R6. `Inputs` + `Module.run` для `sources` · M · приоритет 2 · после R0, R2
+### R6. `Inputs` + `Module.run` для `sources` · M · приоритет 2 · после R0, R1, R2
 Подробно — в [PILOT_MODULE_PLAN.md](PILOT_MODULE_PLAN.md).
 **Приёмка.** R0 байт-в-байт; все тесты без правок; `verify._assess` вызывает `sources` через реестр.
 
@@ -118,7 +122,7 @@ receipt-v1 и `diagnostics` (PROPOSAL §5.2), новых слов не ввод�
 строится из своего finding. Поведение должно совпасть по всем 819 сценариям `gate_golden.json`.
 
 ### Не планируется
-Отдельные пакеты (вариант B), загрузка сторонних модулей, модули вне процесса, модуль history/lineage, новый
+Отдельные пакеты (вариант B), загрузка сторонних модулей, модули вне процесса, реализация history/lineage (#51) или Projects (#57) в этом PR, новый
 MCP-инструмент discovery. Пересмотреть при появлении модуля с тяжёлой runtime-зависимостью или внешнего автора модулей.
 
 ---
@@ -130,7 +134,8 @@ graph LR
   R0 --> R6
   R2 --> R6
   R1 --> R4
-  R2 --> R4
+  R1 --> R6
+  RX --> NEW[Новые checks: history / Projects]
   R6 --> R7
   R6 --> R8
   R0 --> R9
@@ -144,9 +149,25 @@ graph LR
 | R1 явный journal | 1 | S | нет (default = 2.0.1) | — |
 | R2 ленивые импорты | 1 | S | нет | — |
 | R3 тест fail-closed | 1 | S | нет | — |
-| R4 тест границ | 1 | S | нет | R1, R2 |
+| R4 тест границ | 1 | S | нет | R1 |
 | R5 categories.py | 1 | S–M | нет | — |
-| R6 пилот `sources` | 2 | M | нет | R0, R2 |
+| R6 пилот `sources` | 2 | M | нет | R0, R1, R2 |
 | R7 `modules --json` | 2 | S–M | аддитивно | R6 |
 | R8 github/execution | 3 | L | нет | R6 |
 | R9 хук на findings | 3 | L | нет | R0 |
+
+## RX. Receipt-v1 extension/versioning — до любого нового check/module
+
+Это отдельный design gate, не runtime-изменение данного PR. Текущие `$defs/check`, `$defs/module`,
+`finding.reason` — closed enums; ни history (#51), ни Projects (#57) в них сейчас не входят.
+Зафиксировать решение: расширять ли совместимую версию v1 с negotiated capabilities или вводить v2.
+До решения неизвестные check/module/reason не принимаются, не теряются и не превращаются в PASS.
+Рекомендация: оставить существующую v1 замороженной для старых потребителей, новый vocabulary публиковать
+с новой версией schema/predicateType и явным opt-in; не выдавать расширенный документ под старым URI.
+Приёмка: таблица writer/reader старый×новый, CLI/MCP opt-in, hook остаётся v0, negative unknown-enum tests,
+golden старых receipts неизменны. В отдельном feature PR разрешено обновить IDS test и enum fixtures,
+с review каждого нового слова. R6 переносит существующий sources и RX не требует.
+
+При merge #55 первым: расширить R0 GitHub literal file/body/diff, private/offline evidence и обе receipt версии;
+обновить привязки строк аудита, не считать citation checker уже подключённым через Module API.
+Projects — встроенная опциональная возможность, не внешний сервис; его checker отдельно после R0/R1/R3/R6/RX.

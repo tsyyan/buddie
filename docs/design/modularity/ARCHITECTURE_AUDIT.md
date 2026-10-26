@@ -105,7 +105,7 @@ macOS/Windows на 3.11, `.github/workflows/ci.yml`. Версия 3.14 в CI н�
 ### 3.1 Как получен
 
 **[O]** AST-скрипт обошёл все `import`/`from … import` в `buddie/**/*.py` и разделил импорты на уровень модуля и уровень
-функции. Скрипт лежит вне репозитория, в scratchpad сессии; его вывод воспроизводится любым AST-обходом. Итог:
+функции. Воспроизводимые команды и полный скрипт приведены в [REPRODUCTION.md](REPRODUCTION.md). Исходный итог:
 
 - 48 импортов `buddie.*` на уровне модуля, 187 — внутри функций;
 - **граф уровня модуля ацикличен** (DFS-поиск циклов дал пустой результат);
@@ -267,7 +267,9 @@ graph TD
 ### C3. Скрытый вход: `choice:` читает журнал машины **[O]**
 `anchors.check_text` получает контекст только `{"github", "transcript"}` (`verify.py:228`). `summary.check_choice`
 берёт `ctx.get("journal")`, получает `None` и читает `logbook.journal_paths()` (`summary.py:438-453, 460-468`), то есть
-локальный журнал хука. Вход `journal` модуля `execution` объявлен (`modules.py:46`), но **передать его через
+локальный журнал хука. Второй путь чтения: `decisions.choices` → `journal_cards(paths=None)` →
+`journal_paths()` (`decisions.py:155–158`). Вне verify `promises.basis` напрямую вызывает
+`summary.check_choice(a, {"transcript": transcript})` (`promises.py:153`); R1 обязан сохранить этот путь. Вход `journal` модуля `execution` объявлен (`modules.py:46`), но **передать его через
 `verify()`/`assessment()` нельзя**.
 **Эксперимент E1:** один и тот же текст `⚓ choice:card42=3` с одними и теми же аргументами `verify.verify(...)` даёт
 `GAPS/UNCHECKABLE`, если журнала нет, и `PASS/HOLDS`, если в `BUDDIE_LOG` записана строка `choice`.
@@ -278,7 +280,7 @@ Provenance этой улики корректно помечена `AGENT_WRITAB
 `policy.py:196` при разборе `[environment]` импортирует `diagnostics` и вызывает приватную `diagnostics._allow_list`.
 `effects.api()` (`effects.py:51-60`) читает `policy.current()`, и каждая `pr:`/`ci:` проверка зависит от
 `policy`. Через это ребро ядро доверия (`policy`) связано с необязательной возможностью (`diagnostics` → `probes`,
-`environment`). Это главный источник 15-модульной SCC.
+`environment`). Это крупнейший единичный вклад в SCC: удаление только этого ребра уменьшает её с 15 до 11 модулей.
 
 ### C5. Receipt-v0 как внутренний API **[O]**
 Хук, журнал и summary читают поля `predicate` напрямую (`hook.py:110-123, 443, 463-469, 504, 541-543`;
@@ -375,8 +377,8 @@ E2: если `summary` или `decisions` недоступны, текст из 
 (run `40253608829`).
 
 ### 12.2 Эксперименты
-Скрипты лежат в scratchpad сессии, а не в репозитории. Запуск: `python -I <script> <repo>`; `BUDDIE_LOG` указывает
-во временный каталог или отключён (`0`).
+Команды E1–E3 и AST-графа: [REPRODUCTION.md](REPRODUCTION.md). Все записи E1 идут во временный каталог;
+каждый E2/E3 выполняется в отдельном процессе, без сети.
 
 **E1 — скрытый журнал.** `verify.verify("… ⚓ `choice:card42=3`", fetch=False, mandate=False)`:
 
@@ -419,7 +421,7 @@ E2: если `summary` или `decisions` недоступны, текст из 
 | Реестр не диспетчеризует (C1) | высокая | `modules.py`, `verify._assess` |
 | Скрытый вход `choice:` (C3) | высокая | E1 |
 | Отказ модуля не изолирован (C7) | высокая | E2 |
-| `policy` → `diagnostics` — главный источник SCC (C4) | средняя | граф; другие ленивые рёбра (`environment→policy`, `freshness→environment`) тоже участвуют |
+| `policy` → `diagnostics` — крупнейший единичный вклад в SCC (C4) | средняя | граф; другие ленивые рёбра (`environment→policy`, `freshness→environment`) тоже участвуют |
 | Пилот `sources` выделяется без изменения контрактов | средняя | по коду; не проверено реализацией |
 | Независимые пакеты сейчас не окупаются | средняя | [I] из отсутствия зависимостей и размера; данных о пользователях нет |
 
@@ -447,10 +449,16 @@ E2: если `summary` или `decisions` недоступны, текст из 
 1. Должен ли CLI/MCP `verify` вообще читать журнал машины для `choice:`, или `choice:` вне хука должен давать
    UNCHECKABLE без явного `journal`? Это продуктовое решение: техническое исправление C3 возможно в обоих вариантах.
 2. Есть ли внешние потребители, которые полагаются на точный текст строк `blocking`/`gaps` receipt-v0? Данных нет.
-3. Есть ли планы на новые модули проверки (например, history/lineage)? **[O]** Реализации истории или lineage как
+3. Открытый PR [#51](https://github.com/tsyyan/buddie/pull/51) уже проектирует history/lineage. **[O]** Реализации истории или lineage как
    модуля проверки в коде нет. Есть журнал хука (`journal.py`) и freshness, но это не проверка утверждений отчёта.
 4. Насколько тесты покрывают межмодульный поток `quote_backed`/`unanchored`.
 5. Поведение на Python 3.14 в CI не проверяется (матрица 3.11–3.13).
+6. Открытый [#55](https://github.com/tsyyan/buddie/pull/55) меняет verify/findings/mcp/remote/verbatim.report и добавляет
+   hard-coded GitHub citation checker: это развитие C1, а не реализация Module API. При его merge первым повторить R0
+   на новом main и перепривязать номера строк; они здесь остаются снимком `0bc048e`.
+7. [#57](https://github.com/tsyyan/buddie/pull/57) — встроенный опциональный Projects: registry/focus/workstreams
+   принадлежат слою возможностей, Context Integrity — сверке свидетельств, history — истории. Ни один дизайн не
+   меняет receipt/политику и не считается слитым. Новые checks требуют узла RX roadmap до реализации.
 
 ---
 
@@ -461,3 +469,14 @@ E2: если `summary` или `decisions` недоступны, текст из 
 
 Результат: **1353 passed, 53 skipped за 273.79 с, код выхода 0** (Windows 11, Python 3.14.6). Причины пропусков не
 разбирались; **[I]** скорее всего, это проверки только для POSIX и внешних инструментов.
+
+
+## Follow-up validation — 2026-10-26
+
+D1–D7 and both minor review items addressed in documentation only. Fresh Windows / Python 3.14 run:
+`PYTHONUTF8=1 py -3.14 -m pytest -q`: **1350 passed, 56 skipped, 360.85 s**, exit 0.
+This differs from the earlier recorded count; skips depend on available optional tools. The earlier run is
+historical evidence, not the result of this follow-up. REPRODUCTION.md was executed successfully: E1 GAPS→PASS,
+E2 table reproduced, E3 counts 5/4/19/2/2/1, SCC 15→11 and three residual pairs.
+Independent follow-up review found no blocking defect; its minor reproduction-count omission was addressed.
+This prepares an exact-head merge review; it is not an approval or a claim of merged runtime functionality.
