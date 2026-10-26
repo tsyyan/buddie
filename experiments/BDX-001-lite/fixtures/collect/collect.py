@@ -53,15 +53,20 @@ def decode(data: bytes) -> str:
 
 class Redactor:
     def __init__(self, alias: str):
+        # generic account names (a container's root, a CI runner's account) identify nobody and also appear in
+        # outputs as ordinary words (/dev/root): they are left as they are
+        generic = {"root", "runner", "user", "admin", "administrator"}
         users = {getpass.getuser(), Path.home().name, os.environ.get("USERNAME", ""), os.environ.get("USER", "")}
         host = socket.gethostname().split(".")[0]
-        names = [(u, "user") for u in sorted(users, key=len, reverse=True)] + [(host, alias)]
+        names = [(host, alias)] + [(u, "user") for u in sorted(users, key=len, reverse=True)
+                                   if u.lower() not in generic]
         self.pairs = [(v, rep) for v, rep in names if v and len(v) >= 3]
         self.count = 0
 
     def __call__(self, text: str) -> str:
-        for value, rep in self.pairs:
-            text, n = re.subn(re.escape(value), rep, text, flags=re.IGNORECASE)
+        for value, rep in self.pairs:  # whole names only: not inside a longer word
+            text, n = re.subn(r"(?<![A-Za-z0-9])" + re.escape(value) + r"(?![A-Za-z0-9])", rep, text,
+                              flags=re.IGNORECASE)
             self.count += n
         return text
 
