@@ -36,6 +36,14 @@ def git(repo: Path, *args, data: bytes = b"", env: dict | None = None) -> str:
 def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = None) -> Path:
     """A repository whose one commit holds exactly `files` (with `modes`), made without a working tree (one
     `git fast-import` stream: no checkout, no line-ending conversion, no file-system symlink support needed)."""
+    files = dict(files)
+    import re
+    version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
+    release_path = f"releases/{version}.json"
+    if release_path not in files:
+        record = json.loads((ROOT / "releases/2.0.2.json").read_text())
+        record["version"] = version
+        files[release_path] = json.dumps(record).encode()
     tmp.mkdir(parents=True)
     subprocess.run(["git", "init", "-q", str(tmp)], check=True, capture_output=True)
     stream = [b"commit refs/heads/main\n", b"committer t <t@t> 1759320000 +0000\n", b"data 7\nsource\n"]
@@ -48,7 +56,7 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
 
 def with_version(files: dict[str, bytes], version: str) -> dict[str, bytes]:
     out = dict(files)
-    out["buddie/__init__.py"] = out["buddie/__init__.py"].replace(b'__version__ = "2.0.1"',
+    out["buddie/__init__.py"] = out["buddie/__init__.py"].replace(b'__version__ = "2.0.2"',
                                                                   f'__version__ = "{version}"'.encode())
     plugin = json.loads(out[".claude-plugin/plugin.json"])
     plugin["version"] = version
@@ -61,7 +69,7 @@ def with_version(files: dict[str, bytes], version: str) -> dict[str, bytes]:
 def test_the_package_is_the_runtime_and_nothing_else(head):
     data, manifest, files = head
     tracked = {p for p, _, _ in pp.tracked(ROOT, "HEAD")}
-    assert set(files) <= tracked
+    assert set(files) - {"RELEASE_NOTES.md"} <= tracked
     assert not [p for p in files if p.startswith(pp.NEVER)]
     for path in pp.REQUIRED:
         assert path in files
@@ -71,7 +79,7 @@ def test_the_package_is_the_runtime_and_nothing_else(head):
     runtime = {p for p in tracked if pi.category(p) == "runtime-required"}
     assert runtime <= set(files)
     assert set(files) - runtime == {".claude-plugin/marketplace.json", "README.md", "LICENSE", "NOTICE", "PRIVACY.md",
-                                    "assets/icon.png"}
+                                    "assets/icon.png", "RELEASE_NOTES.md"}
     assert manifest["file_count"] == len(files) <= pp.MAX_FILES and manifest["total_bytes"] <= pp.MAX_BYTES
     assert max(len(b) for p, b in files.items() if not p.endswith(".png")) <= pp.MAX_TEXT
 

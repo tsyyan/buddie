@@ -101,6 +101,7 @@ def _identity(server: dict) -> dict:
     package it sends clients to. The registry stores no digest; the bytes are PyPI's, checked there."""
     return {"name": server.get("name"), "version": server.get("version"),
             "repository": (server.get("repository") or {}).get("url"),
+            "release_metadata": (server.get("_meta") or {}).get(rm.rn.META),
             "packages": [{k: p.get(k) for k in ("registryType", "registryBaseUrl", "identifier", "version")}
                          | {"transport": (p.get("transport") or {}).get("type"),
                             "arguments": [a.get("value") for a in p.get("packageArguments", [])]}
@@ -212,6 +213,8 @@ def _audit(gh: GitHub, release: dict, wanted: dict) -> list[str]:
     """The names still missing from `release`; Stop for an asset that is not the candidate's file, one whose
     upload did not finish, one GitHub gives no digest for and that cannot be downloaded, and a name the candidate
     does not have."""
+    if release.get("body") != wanted["release-notes.md"][0].read_text(encoding="utf-8"):
+        raise Stop("release body differs from the approved candidate notes")
     missing = set(wanted)
     for asset in release.get("assets", []):
         name = asset.get("name")
@@ -240,6 +243,8 @@ def github_release(gh: GitHub, rc: Path, *, tag: str, sha: str, version: str, no
     problems = rm.verify(rc, version, sha)
     if problems:
         raise Stop("; ".join(problems))
+    if notes.encode("utf-8") != (rc / "metadata/release-notes.md").read_bytes():
+        raise Stop("notes differ from the approved candidate notes")
     if tag != f"v{version}":
         raise Stop(f"tag {tag} is not v{version}")
     named = gh.tag_commit(tag)

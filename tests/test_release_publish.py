@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import release_manifest as rm  # noqa: E402
 import release_publish as rp  # noqa: E402
-from test_release_manifest import bind_plugin  # noqa: E402
+from test_release_manifest import bind_metadata, bind_plugin  # noqa: E402
 
 V, TAG, REPO = "2.0.0", "v2.0.0", "tsyyan/buddie"
 SHA = "4ae6b16566f3b5c9c2081396a28dc886a9b18fae"
@@ -31,6 +31,7 @@ def rc(tmp_path):
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(path.encode() * 50)
     bind_plugin(root, V, SHA)
+    bind_metadata(root, V)
     assert rm.write(root, V, SHA, f"refs/tags/{TAG}", REPO, RUN) == []
     return root
 
@@ -55,7 +56,7 @@ class FakeGitHub(rp.GitHub):
         self.digests, self.downloads, self.interrupt, self.partial, self.uploads = digests, downloads, interrupt, partial, 0
 
     def add(self, draft=True, tag=TAG, files=None, **asset):
-        rel = {"id": self._id(), "tag_name": tag, "draft": draft, "assets": []}
+        rel = {"id": self._id(), "tag_name": tag, "draft": draft, "body": __import__("release_notes").render_markdown({"schema": "buddie-public-release-v1", "version": V, "date": "2026-10-26", "summary": "Public release.", "changes": ["Candidate release notes."], "upgrade": "Install this version.", "permissions": "Optional credentials.", "security": "Local checks.", "limitations": "Catalog display unverified."}), "assets": []}
         for name, data in (files or {}).items():
             rel["assets"].append(self._asset(name, data, **asset))
         self.items.append(rel)
@@ -105,6 +106,7 @@ class FakeGitHub(rp.GitHub):
         if method == "POST" and path == "/releases":
             obj = json.loads(body)
             rel = self.add(draft=obj["draft"], tag=obj["tag_name"])
+            rel["body"] = obj["body"]
             return 201, self._view(rel)
         if method == "POST" and parts.netloc == "uploads.github.com" and path.endswith("/assets"):
             self.uploads += 1
@@ -122,7 +124,7 @@ class FakeGitHub(rp.GitHub):
 
 
 def _publish(gh, rc, **kw):
-    return rp.github_release(gh, rc, tag=kw.get("tag", TAG), sha=kw.get("sha", SHA), version=V, notes="notes")
+    return rp.github_release(gh, rc, tag=kw.get("tag", TAG), sha=kw.get("sha", SHA), version=V, notes=(rc / "metadata/release-notes.md").read_text(encoding="utf-8"))
 
 
 def _ok(gh, rc):
@@ -341,6 +343,7 @@ def test_the_artifacts_own_record_must_name_this_run_repository_and_tag(tmp_path
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(b"x")
     bind_plugin(root, V, SHA)
+    bind_metadata(root, V)
     meta = {"ref": f"refs/tags/{TAG}", "repository": REPO, "run_id": RUN} | {field: value}
     assert rm.write(root, V, SHA, meta["ref"], meta["repository"], meta["run_id"]) == []
     assert any(why in p for p in rp.authorize(root, _run(), RUN, **GOOD))
@@ -414,3 +417,14 @@ def test_a_registry_entry_that_names_another_package_or_version_is_refused(path,
         node = node[key]
     node[path[-1]] = value
     assert any(why in p for p in rp.registry_check(_server(), listed))
+
+
+@pytest.mark.parametrize("draft", [True, False])
+def test_changed_existing_release_body_is_refused(rc, draft):
+    gh=FakeGitHub(); rel=gh.add(draft=draft, files=_files(rc)); rel["body"]="modified"
+    with pytest.raises(rp.Stop, match="body"): _publish(gh,rc)
+    assert gh.writes() == []
+
+def test_notes_argument_must_be_candidate_bytes(rc):
+    with pytest.raises(rp.Stop,match="notes"):
+        rp.github_release(FakeGitHub(),rc,tag=TAG,sha=SHA,version=V,notes="version only")

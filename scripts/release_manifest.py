@@ -21,7 +21,9 @@ import re
 import sys
 from pathlib import Path
 
-SCHEMA = "buddie-release-candidate-v1"
+SCHEMA = "buddie-release-candidate-v2"
+
+import release_notes as rn
 MANIFEST = "release-manifest.json"
 SUMS = "SHA256SUMS"
 NAME = "buddie"
@@ -32,12 +34,13 @@ def expected(version: str) -> dict[str, str]:
     """Each file a candidate of `version` consists of, by its path in DIR, and its kind."""
     return {f"dist/{NAME}-{version}-py3-none-any.whl": "wheel", f"dist/{NAME}-{version}.tar.gz": "sdist",
             f"bundle/{NAME}-{version}.mcpb": "mcpb", f"plugin/{NAME}-plugin-{version}.zip": "plugin",
-            f"plugin/{PLUGIN_MANIFEST}": "plugin-manifest"}
+            f"plugin/{PLUGIN_MANIFEST}": "plugin-manifest",
+            **{f"metadata/{name}": "public-metadata" for name in ("release-notes.md", "release-notes.json", "server.json", "pypi-readme.md", "claude-readme.md", "desktop-readme.md", "codex-readme.md")}}
 
 
 PLUGIN_SCHEMA = "buddie-plugin-package-v1"
 PLUGIN_MANIFEST = "plugin-manifest.json"
-KINDS = ("dist", "bundle", "plugin")
+KINDS = ("dist", "bundle", "plugin", "metadata")
 
 
 def _sha256(path: Path) -> str:
@@ -109,6 +112,7 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
     problems += [f"unexpected {p}" for p in sorted(_present(root) - set(files))]
     if not problems:
         problems += plugin_binding(root, version, commit, files)
+        problems += metadata_binding(root, version)
     try:
         sums = (root / SUMS).read_text(encoding="utf-8")
     except OSError as error:
@@ -117,6 +121,21 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
         if sums != "".join(f"{f.get('sha256')}  {f.get('path')}\n" for f in record.get("files", [])):
             problems.append(f"{SUMS} disagrees with {MANIFEST}")
     return problems
+
+
+def metadata_binding(root: Path, version: str) -> list[str]:
+    try:
+        record = rn.load_release(root / "metadata/release-notes.json", version)
+        payloads = {"release-notes.md": rn.render_markdown(record)}
+        payloads.update({c + "-readme.md": rn.render_package_readme(record, c) for c in rn.CHANNELS})
+        problems = [f"metadata/{name} differs from the public release record" for name, text in payloads.items()
+                    if (root / "metadata" / name).read_bytes() != text.encode("utf-8")]
+        server = json.loads((root / "metadata/server.json").read_text(encoding="utf-8"))
+        if server != rn.registry_payload(server, record):
+            problems.append("Registry release metadata differs from the public release record")
+        return problems
+    except (OSError, ValueError, TypeError, KeyError) as error:
+        return [f"public release metadata / Registry: {error}"]
 
 
 def plugin_binding(root: Path, version: str, commit: str, files: dict) -> list[str]:
