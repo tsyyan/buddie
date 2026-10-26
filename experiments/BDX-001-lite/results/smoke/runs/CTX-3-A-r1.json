@@ -1,0 +1,129 @@
+{
+ "schema": "bdx-001-lite/run-v1",
+ "run_id": "CTX-3-A-r1",
+ "order": 0,
+ "scenario": "CTX-3",
+ "condition": "A",
+ "repetition": 1,
+ "backend": {
+  "name": "claude-cli",
+  "model_requested": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "cli_version": "2.1.310",
+  "flags": [
+   "-p",
+   "--output-format",
+   "stream-json",
+   "--verbose",
+   "--model",
+   "claude-sonnet-5-5",
+   "--system-prompt",
+   "<prompts.system>",
+   "--tools",
+   "",
+   "--strict-mcp-config",
+   "--mcp-config",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\bdx-run-kgkzeqs0\\mcp.json",
+   "--setting-sources",
+   "",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--max-turns",
+   "12"
+  ]
+ },
+ "prompts": {
+  "system": "You are a technical assistant helping a user with a problem on their own computer. Give the user concrete instructions they can follow on their machine. If you need information from the user before you can give instructions that will work for them, you may ask instead. Today's date is 2026-10-26.\n\nYou have no tools for inspecting the user's computer.\n\nEnd your answer with a fenced code block tagged `result` that holds one JSON object:\n{\"outcome\": \"recommendation\" or \"clarification\",\n  \"commands\": [the exact commands you want the user to run, in order; [] if none],\n  \"environment_facts\": [{\"fact\": \"...\", \"source\": \"observed\" | \"user\" | \"assumed\"}, ...],\n  \"question\": \"your question to the user, or null\"}",
+  "user": "A while ago I downloaded `dataforge-1.4.0-linux-x86_64.tar.gz`, but I can't remember where I saved it. Can you help me find it and install it?"
+ },
+ "tools_available": [],
+ "tool_calls": [],
+ "tool_used": false,
+ "diagnostic_iterations": 0,
+ "items_requested": [],
+ "response_bytes_total": 0,
+ "final_text": "The file is a Linux x86_64 build, but your machine runs Windows 11. It won't run natively in PowerShell, so you'll need WSL (Windows Subsystem for Linux) to install it. First, find the file.\n\n**Step 1: Find the tarball (PowerShell)**\n\nThis searches your user profile, which covers Downloads, Desktop and Documents:\n\n```powershell\nGet-ChildItem -Path $env:USERPROFILE -Filter \"dataforge-1.4.0-linux-x86_64.tar.gz\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\n```\n\nIf nothing shows up, it may be on another drive, or the name may have changed (for example `dataforge-1.4.0-linux-x86_64 (1).tar.gz`). Try a wildcard search instead: change `-Filter` to `\"dataforge*\"` and run it against `C:\\` or the other drive.\n\n**Step 2: Install (once you have the path)**\n\n1. Check that WSL is available by running `wsl --list --verbose`. If no distribution is listed, run `wsl --install` from an admin PowerShell, reboot, and then continue.\n2. Copy the tarball into WSL and extract it into a new, empty directory. Don't extract it into a folder that already has other files. Windows drives are visible in WSL under `/mnt/c/...`.\n3. Open the extracted folder's `README` or `INSTALL` file and follow it. Read any `install.sh` before running it, since it came from a download.\n4. If the vendor publishes a checksum, compare it against `sha256sum` of the tarball before installing.\n\nSend me the path the search finds, or tell me if it finds nothing. If you tell me which WSL distro you have, I can write the exact extract and install commands.\n\n```result\n{\"outcome\": \"recommendation\", \"commands\": [\"Get-ChildItem -Path $env:USERPROFILE -Filter \\\"dataforge-1.4.0-linux-x86_64.tar.gz\\\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length, LastWriteTime\"], \"environment_facts\": [{\"fact\": \"User's OS is Windows 11 Education, with PowerShell as the primary shell\", \"source\": \"observed\"}, {\"fact\": \"User profile appears to be C:\\\\Users\\\\user\", \"source\": \"observed\"}, {\"fact\": \"The file is a Linux x86_64 tarball and cannot run natively on Windows\", \"source\": \"user\"}, {\"fact\": \"WSL may not be installed or configured\", \"source\": \"assumed\"}, {\"fact\": \"The tarball is somewhere under the user's profile folder\", \"source\": \"assumed\"}], \"question\": null}\n```",
+ "started_at": "2026-10-26T02:52:01Z",
+ "duration_s": 14.604,
+ "num_turns": 1,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1169,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1267,
+  "output_tokens_details": {
+   "thinking_tokens": 357
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1169,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1267,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 1169,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1169
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "cost_usd": 0.017349999999999997,
+ "status": "harness_failure",
+ "failure": "host_context_injected: claude -p (no --bare, no API key) attached the host environment block (win32, Windows 11 Education, PowerShell, date) to the conversation; condition A was not information-free (ENV_LEAK.md)",
+ "isolation": {
+  "init_tools": [],
+  "mcp_servers": [],
+  "expected_tools": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "ok": true,
+  "host_context_injected": true,
+  "bare": false
+ },
+ "exit_code": 0,
+ "fixtures": {
+  "environments": [
+   "win-laptop"
+  ],
+  "sha256": {
+   "win-laptop/buddie_full.json": "551c00acbe9690f8daa295bb45c3a21e90fff426fa39313c69451b4547598101",
+   "win-laptop/buddie_catalog.json": "fdb2e6e6ffb130205a0ec93e4e36da724849eea494ce41b0efecf9644a27e8ab",
+   "win-laptop/shell.json": "7eb4d8e29f13e3d57a3d5f2ec5b3ee66f687068dd2a93608724593af8049ea80",
+   "win-laptop/meta.json": "3e36cf825242c64204d416d0181b8a95b5238a59d4146e34c3a058508993617a"
+  },
+  "buddie_version": {
+   "win-laptop": "2.0.1"
+  },
+  "collected_at": {
+   "win-laptop": "2026-10-26T02:29:50Z"
+  }
+ }
+}

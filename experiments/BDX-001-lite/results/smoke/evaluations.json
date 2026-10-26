@@ -1,0 +1,51 @@
+{
+ "evaluated_at": "2026-10-26T02:55:26Z",
+ "rows": [
+  {
+   "run_id": "CTX-3-A-r1",
+   "scenario": "CTX-3",
+   "condition": "A",
+   "label": "HARNESS_FAILURE",
+   "verdict": {
+    "scenario": "CTX-3",
+    "parsed": true,
+    "outcome": "recommendation",
+    "rule_failures": [],
+    "assumption_hits": [
+     {
+      "id": "assumes_wsl",
+      "sentence": "Windows drives are visible in WSL under `/mnt/c/...`."
+     }
+    ],
+    "secondary_flags": [],
+    "manual_review": [],
+    "self_reported_assumed": 2
+   },
+   "tool_used": false,
+   "diagnostic_iterations": 0,
+   "response_bytes_total": 0,
+   "used_relevant_source": null,
+   "context_sufficient": "none",
+   "duration_s": 14.604,
+   "input_tokens": 2,
+   "output_tokens": 1267,
+   "cache_read_tokens": 0,
+   "cache_creation_tokens": 1169,
+   "cost_usd": 0.017349999999999997
+  }
+ ],
+ "summary": {
+  "A": {
+   "n": 0,
+   "harness_failures": 1
+  },
+  "B": {
+   "n": 0,
+   "harness_failures": 0
+  },
+  "C": {
+   "n": 0,
+   "harness_failures": 0
+  }
+ }
+}

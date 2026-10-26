@@ -112,6 +112,10 @@ def run(args) -> int:
         print("claude-cli uses the logged-in account's usage: pass --confirm-cost once it is approved",
               file=sys.stderr)
         return 2
+    import os
+    if args.backend == "claude-cli" and not os.environ.get("ANTHROPIC_API_KEY") and not args.allow_host_context:
+        print(f"refused before any run: {backends.HOST_CONTEXT}", file=sys.stderr)
+        return 2
     entries = json.loads((batch / "plan.json").read_text(encoding="utf-8"))["runs"]
     done = 0
     for e in entries:
@@ -124,7 +128,7 @@ def run(args) -> int:
         started = now()
         print(f"[{e['order']}] {e['run_id']} ...", flush=True)
         try:
-            out = backends.claude_cli(r, args.model)
+            out = backends.claude_cli(r, args.model, allow_host_context=args.allow_host_context)
         except (backends.HarnessFailure, OSError, TimeoutError) as error:
             out = {"failure": f"harness: {type(error).__name__}: {error}"}
         except Exception as error:  # noqa: BLE001 - a crashed run is recorded, not lost
@@ -251,6 +255,8 @@ def main(argv=None) -> int:
     p.add_argument("--model", required=True)
     p.add_argument("--limit", type=int)
     p.add_argument("--confirm-cost", action="store_true")
+    p.add_argument("--allow-host-context", action="store_true",
+                   help="run claude -p without --bare (no API key): the host's OS/shell/date reach every condition")
     p.set_defaults(func=run)
     p = sub.add_parser("evaluate")
     p.add_argument("batch")

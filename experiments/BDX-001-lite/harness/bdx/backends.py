@@ -28,10 +28,19 @@ class HarnessFailure(Exception):
     pass
 
 
-def claude_cli(run: dict, model: str, timeout: int = 900, max_turns: int = 12) -> dict:
+HOST_CONTEXT = ("without --bare, claude -p attaches the host's environment block (platform, OS version, shell, "
+                "working directory, today's date) and the account's e-mail to every conversation, even with "
+                "--system-prompt (results/smoke/ENV_LEAK.md); --bare removes it but accepts only ANTHROPIC_API_KEY")
+
+
+def claude_cli(run: dict, model: str, timeout: int = 900, max_turns: int = 12,
+               allow_host_context: bool = False) -> dict:
     exe = shutil.which("claude")
     if exe is None:
         raise HarnessFailure("claude CLI not found on PATH")
+    bare = bool(os.environ.get("ANTHROPIC_API_KEY"))
+    if not bare and not allow_host_context:
+        raise HarnessFailure(HOST_CONTEXT)
     cond, sid, rid = run["condition"], run["scenario"], run["run_id"]
     with tempfile.TemporaryDirectory(prefix="bdx-run-") as tmp:
         tmp = Path(tmp)
@@ -50,7 +59,7 @@ def claude_cli(run: dict, model: str, timeout: int = 900, max_turns: int = 12) -
         flags = ["-p", "--output-format", "stream-json", "--verbose", "--model", model,
                  "--system-prompt", run["prompts"]["system"], "--tools", "", "--strict-mcp-config",
                  "--mcp-config", str(cfg), "--setting-sources", "", "--disable-slash-commands",
-                 "--no-session-persistence", "--max-turns", str(max_turns)]
+                 "--no-session-persistence", "--max-turns", str(max_turns)] + (["--bare"] if bare else [])
         if allowed:
             flags += ["--allowedTools", ",".join(allowed)]
         env = {k: v for k, v in os.environ.items() if not k.startswith(("BUDDIE", "VERBATIM"))}
@@ -72,6 +81,7 @@ def claude_cli(run: dict, model: str, timeout: int = 900, max_turns: int = 12) -
     init_tools = sorted(init.get("tools") or [])
     servers_seen = sorted(s.get("name", "?") for s in init.get("mcp_servers") or [])
     isolation = {"init_tools": init_tools, "mcp_servers": servers_seen, "expected_tools": sorted(allowed),
+                 "bare": bare, "host_context_injected": not bare,
                  "plugins": init.get("plugins"), "ok": init_tools == sorted(allowed)
                  and servers_seen == (["diag"] if allowed else [])}
     out = {"duration_s": round(duration, 3), "exit_code": proc.returncode,
