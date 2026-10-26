@@ -321,17 +321,10 @@ def _unknown(args: dict, tool: str) -> tuple[dict, bool] | None:
     return None
 
 
-def _chain_files(chain) -> tuple[Path, Path]:
-    """A feedback chain's trace and check options: <state dir>/feedback/<hex>.jsonl and <hex>.options.json. The state
-    dir is the hook's (BUDDIE_STATE, default ~/.cache/buddie/pending); BUDDIE_STATE=0 stops the gate's return
-    tracking, and a chain still needs its file, so it is kept in the default place then."""
-    from buddie import feedback as fb
-    if not isinstance(chain, str) or not fb.ID.match(chain):
-        raise ValueError("chain is sha256:<64 hex>, as feedback_start returned it")
-    root = os.environ.get("BUDDIE_STATE", "")
-    root = Path(root) if root not in ("", "0") else Path.home() / ".cache" / "buddie" / "pending"
-    name = chain.split(":", 1)[1]
-    return root / "feedback" / f"{name}.jsonl", root / "feedback" / f"{name}.options.json"
+def _refused(error) -> tuple[dict, bool]:
+    """A chains.ChainError or repair.SubmissionError as a tool error: nothing was written."""
+    out = {"error": str(error), "code": error.code}
+    return (dict(out, decision=error.decision) if getattr(error, "decision", None) else out), True
 
 
 def _chain_state(state) -> dict:
@@ -342,7 +335,7 @@ def _chain_state(state) -> dict:
 def feedback_start(args: dict) -> tuple[dict, bool]:
     """A new feedback chain (docs/feedback.md#mcp), local only (remote.py does not offer it). buddie checks the report
     itself; no argument carries a receipt."""
-    from buddie import feedback as fb, receipts, repair, trace as tr
+    from buddie import chains, feedback as fb, receipts, repair, trace as tr
     if refused := _unknown(args, "feedback_start"):
         return refused
     text, name = _report(args)
@@ -350,57 +343,36 @@ def feedback_start(args: dict) -> tuple[dict, bool]:
     options = check_options(args)
     got = repair.reverify(text, name=name, **_checking(options))
     records, first = tr.start(got, iteration_limit=limit, requirements=args.get("requirements"))
-    trace_file, options_file = _chain_files(first["chain"])
-    trace_file.parent.mkdir(parents=True, exist_ok=True)
-    try:  # never overwritten: a chain's files are created once, then the trace is only appended to
-        with options_file.open("x", encoding="utf-8", newline="\n") as f:
-            f.write(json.dumps(options, ensure_ascii=False, sort_keys=True) + "\n")
-        with trace_file.open("x", encoding="utf-8", newline="\n") as f:
-            f.write(tr.dumps(records))
-    except FileExistsError:
-        return {"error": f"a chain {first['chain']} exists already (the same check of the same text); it is not "
-                         "started again", "code": "chain_exists", "chain": first["chain"]}, True
+    try:  # the chain's directory, whole or not at all (buddie/chains.py)
+        chains.create(first["chain"], records, options)
+    except chains.ChainError as error:
+        return dict(_refused(error)[0], chain=first["chain"]), True
     return {"chain": first["chain"], "feedback": first, "receipt_line": receipts.line(receipts.v1(got)),
-            "state": _chain_state(tr.replay(records))}, False
+            "state": _chain_state(tr.replay(records)), "basis": "server"}, False
 
 
 def feedback_resolve(args: dict) -> tuple[dict, bool]:
     """One iteration of a chain from feedback_start: the corrected text is checked here with the chain's own options
-    (the caller cannot pass weaker ones), repair.resolve decides, and only the new records are appended."""
-    from buddie import receipts, repair, trace as tr
+    (the caller cannot pass weaker ones), repair.resolve decides, and the longer trace is committed only if the chain
+    is still the one read (buddie/chains.py): one submission per feedback, whatever runs at the same time."""
+    from buddie import chains, receipts, repair, trace as tr
     if refused := _unknown(args, "feedback_resolve"):
         return refused
     original, corrected = args.get("original_text"), args.get("corrected_text")
     for key, value in (("original_text", original), ("corrected_text", corrected)):
         if not isinstance(value, str) or len(value) > MAX_REPORT_BYTES:
             raise ValueError(f"{key} is a text of at most {MAX_REPORT_BYTES // 2**20} MiB")
-    trace_file, options_file = _chain_files(args.get("chain"))
-    try:
-        written = trace_file.read_text(encoding="utf-8")
-        records = tr.loads(written)
-        state = tr.replay(records)
-        options = json.loads(options_file.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        return {"error": f"no chain {args['chain']} here: start one with feedback_start", "code": "unknown_chain"}, True
-    except (tr.TraceError, ValueError, KeyError, TypeError) as error:
-        return {"error": f"the chain's file does not replay: {error}", "code": "trace_invalid"}, True
-    if state.chain != args["chain"] or not isinstance(options, dict) or set(options) != set(_CHECK_OPTIONS):
-        return {"error": "the chain's files do not belong together", "code": "trace_invalid"}, True
     feedback, sub = args.get("feedback"), args.get("submission")
     try:
-        repair.admit(state, feedback, sub, original=original)  # refused before anything is checked or fetched
-        got = repair.reverify(corrected, name="corrected", **_checking(options))
-        result = repair.resolve(records, feedback, sub, original=original, corrected=corrected, assessment=got)
-    except repair.SubmissionError as error:
-        out = {"error": str(error), "code": error.code}
-        return (dict(out, decision=error.decision) if error.decision else out), True
-    if trace_file.read_text(encoding="utf-8") != written:
-        return {"error": "the chain changed while this submission was checked: nothing appended",
-                "code": "chain_changed"}, True
-    with trace_file.open("a", encoding="utf-8", newline="\n") as f:
-        f.write(tr.dumps(result.records[len(records):]))
+        read = chains.load(args.get("chain"))
+        repair.admit(read.state, feedback, sub, original=original)  # refused before anything is checked or fetched
+        got = repair.reverify(corrected, name="corrected", **_checking(read.options))
+        result = repair.resolve(read.records, feedback, sub, original=original, corrected=corrected, assessment=got)
+        chains.commit(read, result.records, lambda newer: repair.admit(newer, feedback, sub, original=original))
+    except (chains.ChainError, repair.SubmissionError) as error:
+        return _refused(error)
     return {"decision": result.decision, "feedback": result.feedback, "receipt_line": receipts.line(receipts.v1(got)),
-            "state": _chain_state(tr.replay(result.records))}, False
+            "state": _chain_state(tr.replay(result.records)), "basis": read.basis}, False
 
 
 HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary,

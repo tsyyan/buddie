@@ -166,25 +166,55 @@ check itself.
 
 | Tool | Takes | Does | Returns (`structuredContent`) |
 |---|---|---|---|
-| `feedback_start` | `text` or `path`; `verify_report`'s check options (`repos`, `store`, `fetch`, `access`, `numbers`, `github`, `transcript`, `profile`, `modules`, `checks`); `iteration_limit` (1–3, default 1); `requirements` (at most 32 `{check, subject_prefix}`) | `repair.reverify` of the report, `trace.start`; writes the chain's trace and its check options | `chain`, `feedback` (feedback-v1), `receipt_line`, `state` |
-| `feedback_resolve` | `chain`, `feedback` (as returned), `submission` (repair-submission-v1), `original_text`, `corrected_text` | replays the chain, refuses a feedback that is not its open one, re-verifies `corrected_text` with the chain's stored options, `repair.resolve`, appends only the new records | `decision`, `feedback` (the next one), `receipt_line`, `state` |
+| `feedback_start` | `text` or `path`; `verify_report`'s check options (`repos`, `store`, `fetch`, `access`, `numbers`, `github`, `transcript`, `profile`, `modules`, `checks`); `iteration_limit` (1–3, default 1); `requirements` (at most 32 `{check, subject_prefix}`) | `repair.reverify` of the report, `trace.start`; writes the chain's trace and its check options | `chain`, `feedback` (feedback-v1), `receipt_line`, `state`, `basis` |
+| `feedback_resolve` | `chain`, `feedback` (as returned), `submission` (repair-submission-v1), `original_text`, `corrected_text` | replays the chain, refuses a feedback that is not its open one, re-verifies `corrected_text` with the chain's stored options, `repair.resolve`, commits the new records if the chain is still the one read | `decision`, `feedback` (the next one), `receipt_line`, `state`, `basis` |
 
 `state` is `{disposition, task, iteration, terminal}` as `trace.replay` reads the chain; `receipt_line` is
-`receipts.line` of the receipt-v1 buddie made (the tool's text starts with it). A refused submission
+`receipts.line` of the receipt-v1 buddie made (the tool's text starts with it); `basis` says what the chain was read
+on (see Trust below). A refused submission
 (`repair.SubmissionError`: `duplicate_submission`, `forged_feedback`, `feedback_mismatch`, `artifact_mismatch`, ...)
-is a tool error with its `code`, and nothing is appended. A feedback id is the hash of its content, so a feedback
+or a chain that cannot be read or committed (`chains.ChainError`, codes below) is a tool error with its `code`, and
+nothing is written. A feedback id is the hash of its content, so a feedback
 changed after it was returned is refused.
 
 The chain lives in buddie's state dir, as the hook's (`BUDDIE_STATE`, default `~/.cache/buddie/pending`; with
-`BUDDIE_STATE=0` the default place): `feedback/<chain hex>.jsonl` (`trace.dumps` lines, created once and then only
-appended to) and `feedback/<chain hex>.options.json` (the check options, absolute paths). The caller cannot pass
-weaker options for a correction; an edit of the options file is caught only as far as `resolve` catches a weaker
-re-verification (`weaker_verification`). Starting the same check of the same text twice is refused (`chain_exists`).
+`BUDDIE_STATE=0` the default place), one directory per chain (`buddie/chains.py`):
+
+```
+feedback/<chain hex>/trace.jsonl    trace.dumps lines
+                     options.json   the check options (absolute paths) and the sha256 of chain and options
+                     lock           the chain's lock
+```
+
+- **Start is whole or nothing.** Both files are written and synced in a hidden temporary directory that is then
+  renamed to the chain's name. A failure (`write_failed`) or a crash leaves no chain, only a temporary directory
+  that is ignored and removed after an hour; the start can be repeated.
+- **One submission per feedback.** The trace is read under the chain's lock, the submission is checked without it
+  (a re-verification can fetch), and the longer trace is committed under the lock only if the file is still the one
+  read. Otherwise the other call's record decides (`duplicate_submission`) or nothing is written (`chain_changed`).
+  The lock is the operating system's (`fcntl.flock`, `msvcrt.locking`) and goes away with the process that held it.
+- **A failed write changes nothing.** A commit writes the whole longer trace to a temporary file, syncs it and renames
+  it over the old one, so a reader sees the old trace or the new one, never part of it. On `write_failed` the chain is
+  as it was and the same submission can be sent again. Every commit only extends the trace, so the history stays
+  append-only.
+- **Damaged state is refused, not repaired.** A trace that does not replay, options outside the contract (keys, types,
+  vocabularies) or options whose digest is not theirs are `state_corrupt`, and the chain is not resolved.
+- **Bounded.** A chain whose files have not changed for 30 days is removed when a chain is started, whether it is
+  open or not. A removed chain can no longer be resolved (`unknown_chain`) and never becomes a result. At most 256
+  chains are kept (`state_full` until older ones age out or are removed by hand: delete the chain's directory). A
+  trace is at most 1 MiB, the options at most 64 KiB (`options_too_large`).
+
+The caller cannot pass weaker options for a correction: the server re-verifies with the chain's stored ones.
 
 **Trust.** The chain files are on the agent's machine and the agent can write them, like the journal
-(`core.Provenance.AGENT_WRITABLE`). `trace.replay` detects a history that does not hold together, not who wrote it:
-a party that can write the files can write a consistent chain. The decisions are buddie's only as far as the chain
-file is.
+(`core.Provenance.AGENT_WRITABLE`). The options digest and `trace.replay` detect a damaged file, not who wrote it:
+anyone who can write the files can write a consistent chain, digest and all. Nothing on this machine authenticates
+them (there is no key the agent could not also read). What the agent cannot write is the server's memory. A chain
+this server process started or committed is checked against the options digest and newest record it remembers, and
+a change made outside the server is `state_tampered`. After a restart the server has only the files, and every
+result says which it relied on: `basis` is `server` or `agent_writable`. An `agent_writable` decision is buddie's only
+as far as the files are: options rewritten consistently while the server was not running (another store, other
+repos) are not detected.
 
 The remote HTTP server (`remote.py`) does not offer these tools: it reads no local files and returns receipt-v0 only.
 
@@ -365,6 +395,7 @@ receipt-v0 only and so no feedback.
 - Evidence for corrected claims is gathered by the re-verification run, under its options: a new source the agent
   cites is read only if that run may read it.
 - No hook integration yet: callers use the Python API, `buddie feedback` or the local MCP tools ([MCP](#mcp)).
-- The trace is unsigned and, outside the MCP tools, kept by the caller; the MCP server keeps it in its state dir.
+- The trace is unsigned and, outside the MCP tools, kept by the caller; the MCP server keeps it in its state dir,
+  bounded as described in [MCP](#mcp), and authenticates it only within its own lifetime (`basis`).
 - The repair budget is at most 3 by design; a longer loop needs a new chain from a new receipt, which the trace of
   the old chain does not link.
