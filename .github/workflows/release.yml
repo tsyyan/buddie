@@ -9,6 +9,12 @@
 #    files as they were recorded (SHA-256 checked before and after), never a rebuild: PyPI by trusted publishing (the
 #    `pypi` environment, no token stored), the MCP Registry (GitHub OIDC), the GitHub Release. Every stage can be run
 #    again, alone (`only`), and skips what is already published identically.
+# 3. plugin-stable (separately, never part of `all`). Run by hand on the tag with the same `candidate`, `only` =
+#    plugin-stable and `confirm` = "promote buddie X.Y.Z to plugin-stable": after the same authorization, the
+#    candidate's verified compact plugin becomes the next commit of the distribution branch plugin-stable
+#    (scripts/plugin_promote.py): never forced, idempotent, refused on any unexpected branch state; then the branch is
+#    checked file by file, installed into an isolated Claude Code configuration and run. Its first promotion also
+#    needs `create_branch`. Nothing else, including the default branch and the tags, is touched.
 name: release
 
 on:
@@ -21,14 +27,18 @@ on:
         type: string
         default: ""
       confirm:
-        description: "publish: type exactly: publish buddie X.Y.Z"
+        description: "publish: type exactly: publish buddie X.Y.Z (plugin-stable: promote buddie X.Y.Z to plugin-stable)"
         type: string
         default: ""
       only:
         description: "publish: every stage, or one of them again"
         type: choice
-        options: [all, pypi, mcp-registry, github-release]
+        options: [all, pypi, mcp-registry, github-release, plugin-stable]
         default: all
+      create_branch:
+        description: "plugin-stable: allow its first promotion to create the branch"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -67,6 +77,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           CANDIDATE: ${{ inputs.candidate }}
           CONFIRM: ${{ inputs.confirm }}
+          ONLY: ${{ inputs.only }}
         run: |
           [[ "$CANDIDATE" =~ ^[0-9]+$ ]] || { echo "::error::candidate must be a run id"; exit 1; }
           v=$(python3 -c "import buddie; print(buddie.__version__)")
@@ -75,7 +86,7 @@ jobs:
           on_main=no; git merge-base --is-ancestor "$GITHUB_SHA" origin/main && on_main=yes
           python3 scripts/release_publish.py authorize rc --run run.json --candidate "$CANDIDATE" \
             --repo "$GITHUB_REPOSITORY" --sha "$GITHUB_SHA" --ref-type "$GITHUB_REF_TYPE" --ref-name "$GITHUB_REF_NAME" \
-            --tag-commit "$tag_commit" --on-main "$on_main" --version "$v" --confirm "$CONFIRM"
+            --tag-commit "$tag_commit" --on-main "$on_main" --version "$v" --confirm "$CONFIRM" --only "$ONLY"
           echo "version=$v" >> "$GITHUB_OUTPUT"
 
   pypi:
@@ -214,3 +225,51 @@ jobs:
           [ -s notes.md ] || echo "buddie $V" > notes.md
           python3 scripts/release_publish.py github-release rc --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" \
             --sha "$GITHUB_SHA" --version "$V" --notes notes.md
+
+  plugin-stable:
+    # the authorized candidate's compact plugin onto the distribution branch, only when chosen by hand; the commit,
+    # its source commit and package SHA-256 go to the run summary. A plain push: a moved branch rejects it
+    needs: authorize
+    if: inputs.only == 'plugin-stable'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    env:
+      V: ${{ needs.authorize.outputs.version }}
+      CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0
+        with:
+          name: release-candidate
+          path: rc/
+          run-id: ${{ inputs.candidate }}
+          github-token: ${{ github.token }}
+      - name: the candidate's plugin, unchanged and rebuilt identically from the tag's commit
+        run: |
+          python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
+          python3 scripts/plugin_package.py verify rc/plugin --ref "$GITHUB_SHA"
+      - name: promote, or find it already promoted
+        env:
+          CREATE: ${{ inputs.create_branch }}
+        run: |
+          flag=""; [ "$CREATE" = true ] && flag="--create"
+          python3 scripts/plugin_promote.py promote rc --version "$V" --source "$GITHUB_SHA" $flag > promotion.json
+          { echo "### plugin-stable"; echo; echo '```json'; cat promotion.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: the branch is exactly the package, and it installs and runs
+        run: |
+          commit=$(python3 -c "import json; print(json.load(open('promotion.json'))['commit'])")
+          git fetch --quiet origin plugin-stable
+          test "$(git rev-parse FETCH_HEAD)" = "$commit" || { echo "::error::plugin-stable is not $commit"; exit 1; }
+          python3 scripts/plugin_promote.py verify --commit "$commit" --manifest rc/plugin/plugin-manifest.json
+          mkdir "$RUNNER_TEMP/stable" && git archive "$commit" | tar -x -C "$RUNNER_TEMP/stable"
+          export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude-config"
+          mkdir -p "$CLAUDE_CONFIG_DIR"
+          npx --yes "$CLAUDE_CLI" plugin validate --strict "$RUNNER_TEMP/stable"
+          npx --yes "$CLAUDE_CLI" plugin marketplace add "$RUNNER_TEMP/stable"
+          npx --yes "$CLAUDE_CLI" plugin install buddie@buddie
+          installed=$(python3 -c "import json,os; d=json.load(open(os.path.join(os.environ['CLAUDE_CONFIG_DIR'], 'plugins', 'installed_plugins.json'))); print(d['plugins']['buddie@buddie'][0]['installPath'])")
+          python3 scripts/smoke_plugin.py "$installed" --manifest rc/plugin/plugin-manifest.json

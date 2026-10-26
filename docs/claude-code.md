@@ -28,6 +28,19 @@ Optional setting: a GitHub token for `pr:`/`ci:` anchors (the plugin asks for it
 sent only to api.github.com, or to the GitHub API an administrator's protected policy names: never to one the
 environment names). Without it GitHub allows 60 lookups an hour and private repos can't be checked.
 
+The same destination restriction applies to the explicit `BUDDIE_GITHUB_TOKEN` used by CLI and CI. An
+environment-configured `BUDDIE_GITHUB_API` receives no token. For authenticated GitHub Enterprise, an administrator
+sets `[evidence] github_api = "https://github.example.com/api/v3"` in the
+[protected system policy](policy.md); do not put this grant in project `buddie.toml`. Invalid policy or an unsafe
+endpoint fails closed. The policy's owner must trust that endpoint, its TLS and any configured proxy.
+The plugin option takes precedence when both token names are present. Clear the option or unset the environment
+variable to avoid authentication; revoke the token in GitHub settings to invalidate it.
+
+The plugin starts `run.py serve` and the checked-in hook launcher locally; it does not download code during
+startup. Python 3.11+ and, for hooks, a POSIX shell must already be installed. Optional browser access is installed
+only when you choose it and is not required for basic operation. See [privacy and credential flows](../PRIVACY.md).
+For the Directory audit and remaining packaging review items, see [compliance audit](claude-directory-audit.md).
+
 Without Claude Code: `python3 run.py verify REPORT.md --repo .` from a clone works without installing anything.
 
 ## Levels and the intro mode
