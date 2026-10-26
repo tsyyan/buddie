@@ -25,7 +25,7 @@ The word “module” denotes a **user-facing capability**. Internally distingui
 2. **Workstream / Decision Ledger** — adapter-side data store of claims, statuses and historical decisions, *not* independent evidence.
 3. **State Reconciler** — bounded, permissioned evidence collection from known Git/GitHub sources; does not mint findings or policy decisions.
 4. **Context Checker** — proposed verification module through Buddie Core, comparing precisely scoped claims to recognized evidence; never trusts a ledger record as proof.
-5. **Release Gate** — uses explicitly configured acceptance criteria and checker outcomes. Whether to block an agent action remains protected-policy responsibility.
+5. **Release Readiness Projection** — combines explicitly configured acceptance criteria and existing checker outcomes. MVP has no new hook gate or policy class; any future action blocking needs separate policy/schema review.
 
 Reuse `core.py`, `modules.py`, `verify.py`, `findings.py`, `receipts.py`, existing GitHub read client and the evidence/provenance controls. Do not build a second verification engine or receipt format.
 
@@ -65,7 +65,7 @@ Permission scopes per project: `project.read` (metadata), `source.git.read`, `so
 
 Network and local filesystem reads obey existing evidence controls and protected policy; no shell scripts from repositories, no arbitrary hooks/collectors, no secret echo, no reuse of credentials across unrelated repos, no silent external sync. A stored ledger can be agent-writable and therefore must never independently establish observed provenance. Failure or unavailable collector must not result in PASS.
 
-MVP storage choice remains an implementation decision. Prefer existing Buddie user configuration/state conventions and single-user local storage before adding dependencies. SQLite is a candidate, **not** a committed prerequisite. Document data location, export, conflict behavior and privacy before implementation.
+MVP storage contract is specified in §10. It remains single-user local state with no new dependency; SQLite and synchronization are deferred. No state file is a trust anchor.
 
 ## 6. Proposed user surface (not shipped)
 
@@ -93,7 +93,7 @@ MVP must not change existing CLI/MCP tools, receipt-v0, default module behavior,
 
 No separate distribution for MVP. A later independently installable extension requires an explicit trust and execution model; do not introduce dynamic Python entry points as a shortcut.
 
-## 9. Open design decisions
+## 9. Decisions deferred beyond MVP
 
 1. Storage format and conflict resolution for multiple local clients.
 2. Binding project focus to Claude Code/Codex/MCP sessions without leaking state.
@@ -104,3 +104,116 @@ No separate distribution for MVP. A later independently installable extension re
 7. Whether user-authored decisions are shared across hosts and under which privacy controls.
 
 Every decision should be recorded with rationale before runtime changes.
+
+
+## 10. MVP contract (design only, no implementation authorized here)
+
+MVP is P1–P3 plus a read-only projection over **existing** `pr:` / `ci:` / local immutable file/commit findings.
+It includes registry, explicit focus, workstreams, authored decisions and bounded revalidation. P4 new Context
+Checker and new receipt words/tools are excluded until #54 R0/R1/R3/R6 and RX are accepted and implemented.
+R2 is a transitive R6 prerequisite. Projects is enabled by an explicit feature setting, not by selecting an
+unknown id in the current verification module registry. Turning it off means no Projects state reads or writes.
+
+### Identity, session and authorization
+
+Registry v1: project_id (opaque UUID), display_name, canonical owner/repo locators, optional approved local roots,
+source allowlist, policy reference, archived, revision. Focus is keyed by authenticated transport principal and
+session id, never by a shared process-global field or a model-provided session name alone. A CLI call carries
+`--project ID` or an explicitly bound local session handle; stdio uses connection-local focus. Stateless HTTP
+must carry project explicitly and authenticate its grant. The existing public HTTP server has no such identity:
+**MVP does not expose Projects there**. A reconnect/new session has no focus until explicitly selected or bound by
+a trusted client; repository auto-detection can suggest, but cannot silently choose among multiple matches.
+
+Effective access = host policy ceiling ∩ configured project grant ∩ call/session scope. A focus change never
+widens it. Registry/ledger are agent-writable metadata, so they cannot supply that ceiling or grant new roots,
+repos or disclosure audiences. `project.configure` must be mediated by a trusted user/client configuration path;
+an agent-writable field saying `allowed=true` is not authorization. Collection permission and disclosure permission
+are checked separately for every record, including cached data, portfolio labels, errors and export. Revoke a grant
+or archive/remove a mapping: invalidate session focus and deny cached disclosure immediately. No metadata or titles
+from ungranted projects in listing results. IDs are not bearer capabilities.
+
+These are requirements for compliant built-in code, not an in-process Python sandbox or confidentiality from a
+malicious same-user process. Existing runner/network/protected-policy controls do not currently implement a
+project ACL. That new authorization boundary must be independently reviewed before any runtime MVP claim.
+
+### Persistence and concurrent clients
+
+Design choice: per-user local `projects/registry.json` and per-project authored `ledger.jsonl` beneath Buddie's
+user state/config location; adapters discover that location using existing platform conventions. Paths are
+configuration details, never echoed into remote reports. Schema_version=1 and registry_revision are mandatory.
+No SQLite/runtime dependency. Registry updates use atomic replacement with expected revision and exclusive writer
+coordination; competing writes fail as conflict/retry, never silently overwrite. Ledger appends are serialized;
+partial/truncated records are rejected and surfaced. Export is explicit and scope-filtered; secrets and raw API
+bundles are excluded by default. A recoverable backup is not an integrity anchor. The exact file-lock primitive
+and migration code are implementation review items. No arbitrary repository hook or executable is loaded.
+
+### Workstreams and decisions
+
+Workstream v1 requires project_id, immutable workstream_id, kind, title, authored lifecycle, acceptance items,
+blocking refs, expected_version (optional), last_reviewed_at, revision and supersedes. Decision records contain
+actor/source, timestamp and supersession, not model-inferred consent. `released` and `release_ready` entered in a
+ledger remain authored assertions; verified readiness is a read-only derived projection with missing-evidence list.
+`blocked`/`on_hold` require reason/resumption condition; inactivity cannot set abandoned. Project completion is
+never inferred from a workstream title, elapsed time, a saved receipt or a green CI check alone.
+
+### Independent current-state checks and freshness
+
+Before returning a volatile claim as current, obtain a new admitted observation in that request, bound to
+repo + PR/run + exact head SHA + observation time. Default cache reuse for mutable PR/CI state is **zero** in MVP;
+a later TTL optimization requires a stated `observed_as_of`, configured maximum age and non-current cached label.
+A timestamp or cached receipt is not fresh collection. Read PR head/state, then CI for that SHA, then re-read head;
+if head changed, discard the combined readiness result and return unverified/raced, with bounded retry at most once.
+This cannot eliminate changes after the final observation; always report as-of rather than permanent truth.
+Merge claim requires `merged`/merge identity from the PR source, not successful checks or an editable PR description.
+
+Existing verification outcomes remain exact: raw anchor HOLDS/BROKEN/UNCHECKABLE, Core SUPPORTED/CONTRADICTED/
+UNDETERMINED and receipt-v1 PASS/FAIL/GAPS/UNKNOWN. UI conflict/stale/current labels are projections, never new
+Finding.reason values. UNKNOWN provenance/offline hash-valid receipts cannot become fresh collector observations.
+#55 proves literal presence in addressed file/body/diff; it does not prove PR merged, runtime correctness, authorship
+or release readiness. A caller-supplied GitHub callback retains CALLER_SUPPLIED provenance. Reconciler metadata
+cannot promote it by setting `collector_identity`. Only the trust kernel can attribute the actual collection.
+
+Observation budget per project status: at most five existing source checks, one bounded retry after a head race,
+no unbounded portfolio refresh. Denial/offline/partial budget gives explicitly incomplete coverage. Local Git may
+support checkout/commit facts, GitHub supports hosted PR/CI facts; neither silently overrides the other's subject.
+Release tags/publication/acceptance without a supported current collector remain unverified/manual requirements.
+Preserve old observations as historical claims; #51 can later establish log-chain continuity only with its own
+external anchor. Context Integrity compares present claims/evidence, while History/Lineage describes past records.
+
+### MVP acceptance gate
+
+All scenarios A01–A28 must have deterministic permissioned fixtures and explicit scope/revision/as-of assertions
+before runtime work is called complete. Existing receipts, tools/list, default profiles and hook golden results
+remain unchanged. No new checker may overload existing enum meanings. This PR supplies the design and test plan;
+its scenarios have **not** been executed and no Projects runtime exists on this baseline.
+
+
+### Finite MVP state predicates and exact comparisons
+
+| Predicate | Evidence / rule |
+| --- | --- |
+| `pr.state` | Exact API projection: `draft` when state=open and draft=true; `open` when state=open and draft=false; `merged` only merged=true with merge identity/time; `closed_unmerged` when state=closed and merged=false; inconsistent/missing fields are uncheckable |
+| `pr.head` | Full 40-character head SHA and canonical repo/PR identity from the same admitted response; compare exact SHA, no prefix matching |
+| `ci.result` | Existing freshness/CI aggregation for that full SHA and configured required checks; missing/pending/unavailable is not success; no inferred merged state |
+| `commit.exists` | Full immutable commit identity in an explicitly granted repository, independent of a branch name |
+| `acceptance.complete` | Read-only projection: every declared criterion has admissible support for the target revision, no missing/conflicting/stale item; never a writable ledger fact |
+
+No arbitrary natural-language StateClaim parser in MVP. Unsupported predicates stay authored/unchecked. Existing
+`pr:...=open` also accepts draft, and `=closed` also accepts merged; do not reuse those coarser meanings as the exact
+`pr.state` projection. Existing anchor rows abbreviate SHA; they alone do not satisfy `pr.head`. P2 needs an admitted
+observation retaining the complete raw response/full SHA, approved at the collector boundary; if that boundary is
+not available, exact-head status remains unverified rather than reconstructed from a prefix. This is new adapter
+work, not an already shipped API. A mutable PR address is legitimate for a fresh state read; mutable file refs
+remain inadmissible for an immutable code claim.
+
+Observation time comes from the collector host's UTC clock at completion, with monotonic elapsed time for a
+30-second operation budget; never from ledger/model-supplied timestamps. Future cache timestamps or detected clock
+rollback invalidate freshness and require live collection; if clock confidence or live refresh is unavailable,
+return unverified/last-known. MVP never lets an old timestamp suppress revalidation. Tombstones record project/id
+revision, are access-filtered, invalidate focus, and cannot transfer the old grant to a recreated same-title project.
+
+The trusted host must supply a versioned project-scope ceiling through OS-protected policy or an authenticated
+client authorization service that the agent cannot edit. Until that integration has an exact enforcement and
+revocation contract with tests, P1–P3 runtime is blocked. A user-state JSON file by itself is not such a service.
+New optional MCP tools require capability negotiation plus exact tools/list/catalog tests for each supported client;
+legacy/default surfaces remain unchanged. No Projects tools on the anonymous public MCP endpoint in MVP.
