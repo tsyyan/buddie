@@ -66,7 +66,22 @@ def unsafe(name: str) -> bool:
 def verify_zip_streams(path: Path) -> None:
     """Verify local metadata and complete STORED/DEFLATE streams without trusting claimed output sizes."""
     with zipfile.ZipFile(path) as archive, path.open('rb') as raw:
-        for member in archive.infolist():
+        members = archive.infolist()
+        raw.seek(0, 2)
+        length = raw.tell()
+        raw.seek(max(0, length - 22))
+        end = raw.read(22)
+        if len(end) != 22:
+            raise ValueError('truncated ZIP end record')
+        signature, disk, start_disk, disk_count, total_count, central_size, central_offset, comment = struct.unpack('<4s4H2IH', end)
+        if (signature != b'PK\x05\x06' or disk or start_disk or comment or archive.comment
+                or disk_count != len(members) or total_count != len(members)
+                or central_offset != archive.start_dir or central_offset + central_size != length - 22):
+            raise ValueError('unreviewed ZIP prefix, trailer, comment or end record')
+        cursor = 0
+        for member in sorted(members, key=lambda m: m.header_offset):
+            if member.header_offset != cursor:
+                raise ValueError('ZIP carries unindexed local data or a prefix')
             if member.compress_type not in {zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED}:
                 raise ValueError('unaudited ZIP compression')
             if member.compress_size > MAX_FILE * 2 + 1024:
@@ -104,6 +119,17 @@ def verify_zip_streams(path: Path) -> None:
                 raise ValueError('ZIP compressed stream is incomplete')
             if count != member.file_size or actual_crc != member.CRC:
                 raise ValueError('ZIP payload size/CRC mismatch')
+            if flags & 8:
+                descriptor = raw.read(4)
+                if descriptor == b'PK\x07\x08':
+                    descriptor = raw.read(12)
+                else:
+                    descriptor += raw.read(8)
+                if len(descriptor) != 12 or struct.unpack('<3I', descriptor) != (member.CRC, member.compress_size, member.file_size):
+                    raise ValueError('ZIP data descriptor disagrees with directory')
+            cursor = raw.tell()
+        if cursor != archive.start_dir:
+            raise ValueError('ZIP carries unindexed data before its directory')
 
 
 def problems(path: Path) -> list[str]:

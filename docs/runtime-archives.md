@@ -11,6 +11,10 @@ The previous runtime-only patch was independently reviewed against main `0a638d3
 For ZIP formats the gate also reads approved members in bounded chunks to validate their CRCs and agreement
 between local headers and the central directory. It rejects a local traversal filename hidden behind an approved
 central-directory path before extraction or installation. No archive bytes are executed by this check.
+Only STORED and DEFLATE are accepted. Complete decompressed size, CRC and end-of-stream are checked independently
+of the declared size; all local extra fields are refused. Local records must cover the archive's data area exactly,
+so hidden unindexed entries, prefixes and trailing payloads cannot bypass the inventory. Ordinary streaming data
+descriptors remain supported and are checked against the directory. Approved builders emit no global ZIP comment.
 
 ## Validation
 

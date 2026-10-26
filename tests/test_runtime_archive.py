@@ -232,3 +232,45 @@ def test_zip_unaudited_compression_is_rejected(tmp_path, compression):
         for name in names('mcpb'):
             archive.writestr(name, b'x')
     assert check(path).returncode == 1
+
+
+def test_zip_hidden_local_member_is_rejected(tmp_path):
+    path = tmp_path / 'hidden.mcpb'
+    with zipfile.ZipFile(path, 'w') as archive:
+        archive.writestr('../hidden-evidence.txt', b'private')
+        for name in names('mcpb'):
+            archive.writestr(name, b'x')
+    data = bytearray(path.read_bytes())
+    central = data.index(b'PK\x01\x02')
+    filename_length, extra_length, comment_length = struct.unpack_from('<HHH', data, central + 28)
+    removed = 46 + filename_length + extra_length + comment_length
+    del data[central:central + removed]
+    end = data.rfind(b'PK\x05\x06')
+    count = struct.unpack_from('<H', data, end + 8)[0] - 1
+    struct.pack_into('<HH', data, end + 8, count, count)
+    size = struct.unpack_from('<I', data, end + 12)[0]
+    struct.pack_into('<I', data, end + 12, size - removed)
+    path.write_bytes(data)
+    with zipfile.ZipFile(path) as archive:
+        assert '../hidden-evidence.txt' not in archive.namelist()
+        assert archive.testzip() is None
+    assert check(path).returncode == 1
+
+
+def test_zip_trailing_payload_is_rejected(tmp_path):
+    path = write(tmp_path, 'mcpb', names('mcpb'))
+    path.write_bytes(path.read_bytes() + b'private trailing payload')
+    assert check(path).returncode == 1
+
+
+def test_zip_streaming_data_descriptors_remain_supported(tmp_path):
+    class Streaming(io.BytesIO):
+        def seek(self, *args):
+            raise io.UnsupportedOperation('stream')
+    stream = Streaming()
+    with zipfile.ZipFile(stream, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+        for name in names('mcpb'):
+            archive.writestr(name, b'x')
+    path = tmp_path / 'streaming.mcpb'
+    path.write_bytes(stream.getvalue())
+    assert check(path).returncode == 0
