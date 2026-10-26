@@ -16,6 +16,7 @@
 [![License](https://img.shields.io/github/license/tsyyan/buddie)](https://github.com/tsyyan/buddie/blob/v2.0.1/LICENSE)
 [![Buddie on Glama](https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg)](https://glama.ai/mcp/servers/tsyyan/buddie)
 [![Buddie on MCPRush](https://mcprush.com/badge/buddie-mcp/score.svg)](https://mcprush.com/to/buddie-mcp?ref=badge)
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/tsyyan/buddie)
 
 <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.1/assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
 
