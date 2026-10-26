@@ -27,5 +27,12 @@ Notes:
   answer shows the cause directly: the leaked Windows context contradicted a correct observation. Read with that
   caveat, it is a confound result, not evidence about buddie.
 - **Automatic probes:** 4 hits, all false positives. 1 real unsupported assumption was missed (HW-2-A). Manual
-  unsupported-assumption runs: A 2/3 (OS-1-A and CTX-3-A cite leaked facts as "observed"; HW-2-A assumes Windows +
+  unsupported-assumption runs: A **3/3** (OS-1-A and CTX-3-A cite leaked facts as "observed"; HW-2-A assumes Windows +
   GPU), B 0/3, C 1/3 (OS-1-C assumes the platform from injected context; it says so).
+
+
+Correction 2026-10-26: the prior numerator 2 contradicted the three listed A runs. The corrected numerator is 3.
+Here unsupported includes host-context facts misattributed as observed from the assigned diagnostic channel;
+OS-1-A and CTX-3-A are provenance defects, while HW-2-A also assumes the wrong device environment.
+Machine-readable adjudication lives in `manual_labels.json`; it preserves the non-blind nature of this review.
+Auto probes are not silently relabelled: the original automatic evaluation stays reproducible and separate.

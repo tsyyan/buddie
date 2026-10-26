@@ -1,0 +1,16 @@
+{
+  "schema": "bdx-001-lite/manual-v1",
+  "review": "not blind; historical smoke, corrected 2026-10-26",
+  "unsupported_definition": "not supported by the assigned diagnostic channel; includes injected context misattributed as observed, distinct from factually false environment assumptions",
+  "runs": {
+    "OS-1-A-r1": {"label": "APPLICABLE", "unsupported": true, "kind": "misattributed_injected_context"},
+    "OS-1-B-r1": {"label": "APPLICABLE", "unsupported": false, "kind": null},
+    "OS-1-C-r1": {"label": "APPLICABLE", "unsupported": true, "kind": "injected_context_instead_of_channel"},
+    "HW-2-A-r1": {"label": "INAPPLICABLE", "unsupported": true, "kind": "unsupported_device_assumption"},
+    "HW-2-B-r1": {"label": "APPLICABLE", "unsupported": false, "kind": null},
+    "HW-2-C-r1": {"label": "UNJUSTIFIED_CLARIFICATION", "unsupported": false, "kind": null},
+    "CTX-3-A-r1": {"label": "APPLICABLE", "unsupported": true, "kind": "misattributed_injected_context"},
+    "CTX-3-B-r1": {"label": "APPLICABLE", "unsupported": false, "kind": null},
+    "CTX-3-C-r1": {"label": "JUSTIFIED_CLARIFICATION", "unsupported": false, "kind": null}
+  }
+}

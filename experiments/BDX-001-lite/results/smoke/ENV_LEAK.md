@@ -30,8 +30,15 @@ checks tools, not prompt context.
 `CLAUDE_CODE_SIMPLE=1` which `--bare` sets, remove these sections but accept only `ANTHROPIC_API_KEY`. Under OAuth they
 fail with "Not logged in". No API key is set on this machine.
 
-**Consequence.**
+**Initial consequence (historical intermediate state, superseded below).**
 - The smoke test was stopped after 1 of the 9 approved runs.
 - `runs/CTX-3-A-r1.json` is kept and marked `harness_failure`, and is excluded from all rates.
 - The backend now refuses to run without `--bare` unless `--allow-host-context` is passed explicitly, and records
   `host_context_injected` in each run.
+
+
+**Final state / correction 2026-10-26.** The user subsequently allowed the documented confound for the smoke.
+Eight more runs completed and CTX-3-A was re-admitted under the same flags, giving nine total distinct runs.
+The final CTX-3-A record is `status: ok` with `host_context_injected: true`; it is included in the descriptive
+rates, and every rate remains confounded. The historical stop above is not the final run count or status.
+No clean-backend efficacy claim, new paid smoke, or 72-run expansion is authorized by this correction.
