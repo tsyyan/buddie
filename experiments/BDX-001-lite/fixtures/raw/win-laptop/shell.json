@@ -1,0 +1,286 @@
+{
+ "shell": "Windows PowerShell 5.1 (powershell.exe -NoProfile)",
+ "menu_sha256": "d3891342e29e6e3b0b0cc900148ced153a493252d64aaf4a1a620342a8d24595",
+ "records": [
+  {
+   "command": "uname -a",
+   "recorded_at": "2026-10-26T02:26:56Z",
+   "exit": 0,
+   "stdout": "MINGW64_NT-10.0-26200 ws-alpha 3.6.9-b4195d69.x86_64 2026-06-06 17:49 UTC x86_64 Msys\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "cat /etc/os-release",
+   "recorded_at": "2026-10-26T02:26:57Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "cat : Не удается найти путь \"C:\\etc\\os-release\", так как он не существует.\r\nстрока:1 знак:1\r\n+ cat /etc/os-release\r\n+ ~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (C:\\etc\\os-release:String) [Get-Content], ItemNotFoundException\r\n    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "echo $SHELL",
+   "recorded_at": "2026-10-26T02:26:57Z",
+   "exit": 0,
+   "stdout": "",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "bash --version",
+   "recorded_at": "2026-10-26T02:26:57Z",
+   "exit": 0,
+   "stdout": "GNU bash, version 5.3.15(1)-release (x86_64-pc-cygwin)\nCopyright (C) 2025 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "id -u",
+   "recorded_at": "2026-10-26T02:26:58Z",
+   "exit": 0,
+   "stdout": "197609\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "lscpu",
+   "recorded_at": "2026-10-26T02:26:58Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "lscpu : Имя \"lscpu\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте прав\r\nильность написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ lscpu\r\n+ ~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (lscpu:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "nproc",
+   "recorded_at": "2026-10-26T02:26:58Z",
+   "exit": 0,
+   "stdout": "8\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "free -b",
+   "recorded_at": "2026-10-26T02:26:59Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "free : Имя \"free\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правил\r\nьность написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ free -b\r\n+ ~~~~\r\n    + CategoryInfo          : ObjectNotFound: (free:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "cat /sys/fs/cgroup/memory.max",
+   "recorded_at": "2026-10-26T02:26:59Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "cat : Не удается найти путь \"C:\\sys\\fs\\cgroup\\memory.max\", так как он не существует.\r\nстрока:1 знак:1\r\n+ cat /sys/fs/cgroup/memory.max\r\n+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (C:\\sys\\fs\\cgroup\\memory.max:String) [Get-Content], ItemNotFoundExceptio \r\n   n\r\n    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "nvidia-smi",
+   "recorded_at": "2026-10-26T02:26:59Z",
+   "exit": 0,
+   "stdout": "Mon Oct 26 06:26:59 2026       \r\n+-----------------------------------------------------------------------------------------+\r\n| NVIDIA-SMI 596.49                 Driver Version: 596.49         CUDA Version: 13.2     |\r\n+-----------------------------------------+------------------------+----------------------+\r\n| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |\r\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\r\n|                                         |                        |               MIG M. |\r\n|=========================================+========================+======================|\r\n|   0  NVIDIA GeForce GTX 1650      WDDM  |   00000000:01:00.0  On |                  N/A |\r\n| N/A   74C    P0             15W /   50W |     689MiB /   4096MiB |      0%      Default |\r\n|                                         |                        |                  N/A |\r\n+-----------------------------------------+------------------------+----------------------+\r\n\r\n+-----------------------------------------------------------------------------------------+\r\n| Processes:                                                                              |\r\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\r\n|        ID   ID                                                               Usage      |\r\n|=========================================================================================|\r\n|    0   N/A  N/A            2204    C+G   ...Chrome\\Application\\chrome.exe      N/A      |\r\n|    0   N/A  N/A            2824    C+G   ...2p2nqsd0c76g0\\app\\ChatGPT.exe      N/A      |\r\n|    0   N/A  N/A            3528    C+G   ...Chrome\\Application\\chrome.exe      N/A      |\r\n|    0   N/A  N/A            8928    C+G   ...laude\\app-3.6556.2\\claude.exe      N/A      |\r\n|    0   N/A  N/A            9684    C+G   ...ice\\root\\Office16\\WINWORD.EXE      N/A      |\r\n|    0   N/A  N/A           10184    C+G   ...y\\StartMenuExperienceHost.exe      N/A      |\r\n|    0   N/A  N/A           10416    C+G   C:\\Windows\\explorer.exe               N/A      |\r\n|    0   N/A  N/A           10564    C+G   ...2txyewy\\CrossDeviceResume.exe      N/A      |\r\n|    0   N/A  N/A           11292    C+G   ..._cw5n1h2txyewy\\SearchHost.exe      N/A      |\r\n|    0   N/A  N/A           12640    C+G   ....0.4283.62\\msedgewebview2.exe      N/A      |\r\n|    0   N/A  N/A           13144    C+G   ...indows\\System32\\ShellHost.exe      N/A      |\r\n|    0   N/A  N/A           13588    C+G   ...\\codex-computer-use-swift.exe      N/A      |\r\n|    0   N/A  N/A           13716    C+G   ...yb3d8bbwe\\WindowsTerminal.exe      N/A      |\r\n|    0   N/A  N/A           14676    C+G   ...5n1h2txyewy\\TextInputHost.exe      N/A      |\r\n|    0   N/A  N/A           16000    C+G   ...SnippingTool\\SnippingTool.exe      N/A      |\r\n|    0   N/A  N/A           17740    C+G   ...xyewy\\ShellExperienceHost.exe      N/A      |\r\n|    0   N/A  N/A           21460    C+G   ...em32\\ApplicationFrameHost.exe      N/A      |\r\n|    0   N/A  N/A           23124    C+G   ...x86)\\Radmin VPN\\RvRvpnGui.exe      N/A      |\r\n|    0   N/A  N/A           24924    C+G   ...laude\\app-3.6556.2\\claude.exe      N/A      |\r\n|    0   N/A  N/A           26364    C+G   ...2p2nqsd0c76g0\\app\\ChatGPT.exe      N/A      |\r\n|    0   N/A  N/A           29364    C+G   ...yb3d8bbwe\\Notepad\\Notepad.exe      N/A      |\r\n+-----------------------------------------------------------------------------------------+\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "nvcc --version",
+   "recorded_at": "2026-10-26T02:26:59Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "nvcc : Имя \"nvcc\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правил\r\nьность написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ nvcc --version\r\n+ ~~~~\r\n    + CategoryInfo          : ObjectNotFound: (nvcc:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "python --version",
+   "recorded_at": "2026-10-26T02:27:00Z",
+   "exit": 0,
+   "stdout": "Python 3.14.6\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "python3 --version",
+   "recorded_at": "2026-10-26T02:27:00Z",
+   "exit": 0,
+   "stdout": "Python 3.14.6\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "python3 -m pip --version",
+   "recorded_at": "2026-10-26T02:27:01Z",
+   "exit": 0,
+   "stdout": "pip 26.1.2 from C:\\Users\\user\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\pip (python 3.14)\r\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "which -a python python3 pip pip3",
+   "recorded_at": "2026-10-26T02:27:01Z",
+   "exit": 0,
+   "stdout": "/c/Users/user/AppData/Local/Microsoft/WindowsApps/python\n/c/Users/user/AppData/Local/Python/bin/python\n/c/Users/user/AppData/Local/Microsoft/WindowsApps/python3\n/c/Users/user/AppData/Local/Python/bin/python3\n/c/Users/user/AppData/Local/Python/bin/pip\n/c/Users/user/AppData/Local/Python/bin/pip3\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "node --version",
+   "recorded_at": "2026-10-26T02:27:02Z",
+   "exit": 0,
+   "stdout": "v24.19.0\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "npm --version",
+   "recorded_at": "2026-10-26T02:27:02Z",
+   "exit": 0,
+   "stdout": "11.17.0\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "apt --version",
+   "recorded_at": "2026-10-26T02:27:03Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "apt : Имя \"apt\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правильн\r\nость написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ apt --version\r\n+ ~~~\r\n    + CategoryInfo          : ObjectNotFound: (apt:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "brew --version",
+   "recorded_at": "2026-10-26T02:27:03Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "brew : Имя \"brew\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правил\r\nьность написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ brew --version\r\n+ ~~~~\r\n    + CategoryInfo          : ObjectNotFound: (brew:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "git --version",
+   "recorded_at": "2026-10-26T02:27:03Z",
+   "exit": 0,
+   "stdout": "git version 2.55.0.windows.3\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "docker --version",
+   "recorded_at": "2026-10-26T02:27:04Z",
+   "exit": 1,
+   "stdout": "",
+   "stderr": "docker : Имя \"docker\" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте пр\r\nавильность написания имени, а также наличие и правильность пути, после чего повторите попытку.\r\nстрока:1 знак:1\r\n+ docker --version\r\n+ ~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (docker:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n",
+   "truncated": false
+  },
+  {
+   "command": "$PSVersionTable.PSVersion",
+   "recorded_at": "2026-10-26T02:27:04Z",
+   "exit": 0,
+   "stdout": "\r\nMajor  Minor  Build  Revision\r\n-----  -----  -----  --------\r\n5      1      26100  9711    \r\n\r\n\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, FreePhysicalMemory",
+   "recorded_at": "2026-10-26T02:27:04Z",
+   "exit": 0,
+   "stdout": "\r\nCaption                                              Version    OSArchitecture FreePhysicalMemory\r\n-------                                              -------    -------------- ------------------\r\nМайкрософт Windows 11 для образовательных учреждений 10.0.26200 64-разрядная              1543456\r\n\r\n\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_Processor | Select-Object Name, NumberOfLogicalProcessors",
+   "recorded_at": "2026-10-26T02:27:05Z",
+   "exit": 0,
+   "stdout": "\r\nName                                      NumberOfLogicalProcessors\r\n----                                      -------------------------\r\nIntel(R) Core(TM) i5-10300H CPU @ 2.50GHz                         8\r\n\r\n\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-CimInstance Win32_ComputerSystem | Select-Object TotalPhysicalMemory",
+   "recorded_at": "2026-10-26T02:27:06Z",
+   "exit": 0,
+   "stdout": "\r\nTotalPhysicalMemory\r\n-------------------\r\n        17083187200\r\n\r\n\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-Command python, python3, py, pip -All -ErrorAction SilentlyContinue | Select-Object Name, Version, Source",
+   "recorded_at": "2026-10-26T02:27:07Z",
+   "exit": 0,
+   "stdout": "\r\nName        Version Source                                                        \r\n----        ------- ------                                                        \r\npython.exe  0.0.0.0 C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe \r\npython.exe  0.0.0.0 C:\\Users\\user\\AppData\\Local\\Python\\bin\\python.exe            \r\npython3.exe 0.0.0.0 C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\python3.exe\r\npython3.exe 0.0.0.0 C:\\Users\\user\\AppData\\Local\\Python\\bin\\python3.exe           \r\npy.exe      0.0.0.0 C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\py.exe     \r\npip.exe     0.0.0.0 C:\\Users\\user\\AppData\\Local\\Python\\bin\\pip.exe               \r\n\r\n\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "py --list",
+   "recorded_at": "2026-10-26T02:27:07Z",
+   "exit": 0,
+   "stdout": " -V:3.14[-64] *   Python 3.14.6\r\n -V:3.12[-64]     Python 3.12.10\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "winget --version",
+   "recorded_at": "2026-10-26T02:27:07Z",
+   "exit": 0,
+   "stdout": "v1.29.380\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "hostname",
+   "recorded_at": "2026-10-26T02:27:08Z",
+   "exit": 0,
+   "stdout": "ws-alpha\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "date -u",
+   "recorded_at": "2026-10-26T02:27:08Z",
+   "exit": 0,
+   "stdout": "Mon Oct 26 02:27:08 UTC 2026\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "Get-Date -Format o",
+   "recorded_at": "2026-10-26T02:27:08Z",
+   "exit": 0,
+   "stdout": "2026-10-26T06:27:09.0395594+04:00\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "echo $PATH",
+   "recorded_at": "2026-10-26T02:27:09Z",
+   "exit": 0,
+   "stdout": "",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "$env:Path",
+   "recorded_at": "2026-10-26T02:27:09Z",
+   "exit": 0,
+   "stdout": "C:\\Users\\user\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\user\\bin;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR;C:\\Program Files\\dotnet;C:\\Program Files\\Git\\cmd;C:\\Program Files\\GitHub CLI;C:\\WINDOWS\\System32\\OpenSSH;C:\\Program Files\\nodejs;C:\\Program Files\\WSL;C:\\Users\\user\\AppData\\Local\\Programs\\OpenAI\\Codex\\bin;C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\user\\AppData\\Local\\Python\\bin;C:\\Users\\user\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\user\\AppData\\Local\\Programs\\Ollama;C:\\Users\\user\\AppData\\Roaming\\npm;C:\\Users\\user\\.local\\bin;C:\\Users\\user\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim;C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python310;C:\\Program Files\\nodejs;C:\\Program Files\\Python310;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\GitHub CLI;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl\r\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "df -h .",
+   "recorded_at": "2026-10-26T02:27:09Z",
+   "exit": 0,
+   "stdout": "Filesystem      Size  Used Avail Use% Mounted on\nC:              232G  201G   31G  87% /c\n",
+   "stderr": "",
+   "truncated": false
+  },
+  {
+   "command": "wsl --list --verbose",
+   "recorded_at": "2026-10-26T02:27:09Z",
+   "exit": 1,
+   "stdout": "подсистема Windows для Linux не имеет установленных дистрибутивов.\r\nЧтобы устранить эту проблему, установите дистрибутив с инструкциями ниже:\r\n\r\nИспользуйте \"wsl.exe --list --online' для перечисления доступных дистрибутивов\r\nи \"wsl.exe --install <Distro>\" для установки.\r\n",
+   "stderr": "",
+   "truncated": false
+  }
+ ]
+}
