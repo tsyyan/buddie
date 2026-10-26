@@ -5,12 +5,13 @@
         [--branch plugin-stable] [--create] [--dry-run]      # prints the promotion record (JSON)
     python scripts/plugin_promote.py verify --repo DIR --commit SHA --manifest RC/plugin/plugin-manifest.json
 
-The branch holds the package and nothing else: its tree is exactly the files of the candidate's verified ZIP
+Live GitHub governance is checked before any remote promotion; unavailable checks block it. The branch holds
+the package and nothing else: its tree is exactly the files of the candidate's verified ZIP
 (plugin_package.py), so the plugin a user installs from it is the plugin the candidate tested. What it was made from
 is in the commit message, as trailers: Buddie-Version, Source-Commit, Package-SHA256, Plugin-Manifest-SHA256.
 
-Never forced, never rewritten. The new commit's parent is the branch head read before the push, and the push is a
-plain one: a branch that moved meanwhile rejects it (not a fast-forward) and nothing changes. Fails closed:
+Never rewritten. The new commit's parent is the branch head read before the push. An explicit lease compares
+that exact head, including branch absence: a branch that moved meanwhile rejects it and nothing changes. Fails closed:
   - the candidate must verify (release_manifest.py, plugin_package.py) for this version and source commit
   - no branch: refused unless --create (the first promotion is its own decision)
   - a head that is not a promotion (no trailers): refused
@@ -35,6 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import plugin_package as pp  # noqa: E402
 import release_manifest as rm  # noqa: E402
+import release_governance as governance  # noqa: E402
 
 BRANCH = "plugin-stable"
 IDENTITY = ("github-actions[bot]", "41898282+github-actions[bot]@users.noreply.github.com")
@@ -106,13 +108,18 @@ def verify(repo: Path, commit: str, manifest: dict) -> list[str]:
     if t.get("Buddie-Version") != manifest["version"] or t.get("Source-Commit") != manifest["commit"] \
             or t.get("Package-SHA256") != manifest["package"]["sha256"]:
         problems.append(f"the commit's trailers {t} do not name this package")
+    digest = hashlib.sha256((json.dumps(manifest, indent=2) + "\n").encode()).hexdigest()
+    if t.get("Plugin-Manifest-SHA256") != digest:
+        problems.append("the commit's plugin manifest provenance digest differs")
     return problems
 
 
 def _tree(repo: Path, files: dict[str, bytes]) -> str:
     """The Git tree of exactly `files` (mode 100644), written into `repo`'s object store."""
     git_dir = Path(git(repo, "rev-parse", "--git-dir"))
-    index = (git_dir if git_dir.is_absolute() else repo / git_dir) / "plugin-promote.index"
+    handle, filename = tempfile.mkstemp(prefix="plugin-promote-", dir=git_dir if git_dir.is_absolute() else repo / git_dir)
+    os.close(handle)
+    index = Path(filename)
     env = {"GIT_INDEX_FILE": str(index)}
     paths = sorted(files)
     with tempfile.TemporaryDirectory() as tmp:  # the bytes as they are (no filters: --no-filters), hashed at once
@@ -135,7 +142,26 @@ def _tree(repo: Path, files: dict[str, bytes]) -> str:
 
 def promote(rc: Path, repo: Path, *, version: str, source: str, remote: str = "origin", branch: str = BRANCH,
             create: bool = False, dry_run: bool = False) -> dict:
-    problems = rm.verify(rc, version, source) + pp.verify(rc / "plugin")
+    urls = git(repo, "remote", "get-url", "--push", "--all", remote).splitlines()
+    if len(urls) != 1:
+        raise Refused("promotion requires exactly one push destination")
+    url = urls[0]
+    github = re.fullmatch(r"(?:https://github\.com/|git@github\.com:)([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+?)(?:\.git)?", url)
+    if github:
+        if branch != BRANCH:
+            raise Refused("remote promotion is restricted to plugin-stable")
+        try:
+            governance.check(github[1])
+        except governance.GovernanceError as error:
+            raise Refused(str(error)) from error
+    elif not Path(url).exists():
+        raise Refused("unrecognized remote: live governance cannot be verified")
+    problems = rm.verify(rc, version, source)
+    if not problems:
+        try:
+            problems += pp.verify(rc / "plugin", repo, source)
+        except subprocess.CalledProcessError as error:
+            problems.append(f"source cannot be rebuilt: {error.returncode}")
     if problems:
         raise Refused("the candidate does not verify: " + "; ".join(problems))
     manifest = json.loads((rc / "plugin" / pp.MANIFEST).read_text(encoding="utf-8"))
@@ -165,6 +191,8 @@ def promote(rc: Path, repo: Path, *, version: str, source: str, remote: str = "o
         if same and git(repo, "rev-parse", f"{head}^{{tree}}") != tree:
             raise Refused(f"{branch}'s head {head} names this package but its tree is not it: a person looks first")
         if same:
+            if errors := verify(repo, head, manifest):
+                raise Refused("existing promotion provenance: " + "; ".join(errors))
             return dict(record, action="already-promoted", commit=head, parent=git(repo, "rev-parse", f"{head}^",
                                                                                      check=False) or None)
         if t["Buddie-Version"] == version:
@@ -185,8 +213,9 @@ def promote(rc: Path, repo: Path, *, version: str, source: str, remote: str = "o
     record.update(action="dry-run" if dry_run else ("created" if head is None else "advanced"), commit=commit)
     if dry_run:
         return record
-    # a plain push: no force, no +refspec. A branch that moved since `head` rejects it as not a fast-forward.
-    git(repo, "push", "--quiet", remote, f"{commit}:{ref}")
+    # The constructed commit is a direct child of the observed head. An explicit lease adds an exact-head
+    # guard even for deletion/recreation races; it never permits us to construct or push a history rewrite.
+    git(repo, "push", "--quiet", f"--force-with-lease={ref}:{head or ''}", remote, f"{commit}:{ref}")
     after = git(repo, "ls-remote", remote, ref).split()
     if not after or after[0] != commit:
         raise Refused(f"after the push {branch} names {after[:1]}, not {commit}")

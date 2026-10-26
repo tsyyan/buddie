@@ -38,6 +38,10 @@ def unapply(text: str, patch: str) -> str:
     return "\n".join(lines)
 
 
+def without_governance(text: str) -> str:
+    return unapply(text, (MAINTENANCE / "proposals/release-governance.patch").read_text(encoding="utf-8"))
+
+
 def test_the_plugin_stable_proposal_is_the_only_other_change():
     """The compact-plugin release PR's change to release.yml is exactly proposals/plugin-stable.patch: taken back
     out, the workflow is main's at the proposal's base, which the test below then checks as before."""
@@ -45,7 +49,7 @@ def test_the_plugin_stable_proposal_is_the_only_other_change():
     patch = (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8").replace("\r\n", "\n")
     assert proposal["workflow_path"] == ".github/workflows/release.yml" and "requires the owner" in proposal["status"]
     live = (ROOT / proposal["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
-    base = unapply(live, patch)
+    base = unapply(without_governance(live), patch)
     assert "plugin-stable" not in base and "create_branch" not in base
 
 
@@ -60,7 +64,7 @@ def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
     assert added == ["    environment: pypi"]
     live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
     proposal = json.loads((MAINTENANCE / "proposals/plugin-stable.json").read_text(encoding="utf-8"))
-    live = unapply(live, (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8")
+    live = unapply(without_governance(live), (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8")
                    .replace("\r\n", "\n"))
     for pinned, floating in PINNED_SINCE_PROPOSAL.items():
         assert f"uses: {pinned}\n" in live, pinned

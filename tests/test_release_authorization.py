@@ -232,7 +232,8 @@ def test_plugin_stable_pushes_without_force_verifies_and_installs():
     assert not re.search(r"--force|push -f|\+refs/", WORKFLOW)
     promote = (ROOT / "scripts/plugin_promote.py").read_text(encoding="utf-8")
     pushes = re.findall(r'git\(repo, "push"[^)]*\)', promote)
-    assert pushes == ['git(repo, "push", "--quiet", remote, f"{commit}:{ref}")']
+    assert pushes == ['git(repo, "push", "--quiet", f"--force-with-lease={ref}:{head or \'\'}", remote, f"{commit}:{ref}")']
+    assert 'governance.check(github[1])' in promote
 
 
 def test_a_publish_approval_does_not_promote_and_a_promotion_approval_does_not_publish():

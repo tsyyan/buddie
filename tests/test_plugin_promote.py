@@ -190,3 +190,53 @@ def test_verify_finds_a_branch_tree_that_is_not_the_package(world, tmp_path):
     with pytest.raises(promote_mod.Refused, match="its tree is not it"):
         run(repo, rc, "2.0.1", commit)
     assert head(remote) == forged                                         # refused, not repaired silently
+
+
+def test_verify_rejects_a_changed_manifest_provenance_trailer(world):
+    _remote, candidate = world
+    repo, rc, commit = candidate("2.0.1")
+    record = run(repo, rc, "2.0.1", commit, create=True, dry_run=True)
+    message = git(repo, "show", "-s", "--format=%B", record["commit"])
+    message = message.replace(record["plugin_manifest_sha256"], "0" * 64)
+    forged = git(repo, "commit-tree", record["tree"], data=message.encode())
+    manifest = json.loads((rc / "plugin" / pp.MANIFEST).read_text(encoding="utf-8"))
+    assert any("manifest" in p.lower() for p in promote_mod.verify(repo, forged, manifest))
+
+
+def test_github_remote_requires_live_governance_before_any_push(world, monkeypatch):
+    _remote, candidate = world
+    repo, rc, commit = candidate("2.0.1")
+    real_git = promote_mod.git
+    def offline_git(repo, *args, **kwargs):
+        if args[:2] == ("remote", "get-url"):
+            return "https://github.com/example/offline-fixture.git"
+        return real_git(repo, *args, **kwargs)  # actual remote remains the local bare test repository
+    monkeypatch.setattr(promote_mod, "git", offline_git)
+    import release_governance
+    def refused(_repository):
+        raise release_governance.GovernanceError("unprotected branch")
+    monkeypatch.setattr(release_governance, "check", refused)
+    with pytest.raises(promote_mod.Refused, match="unprotected branch"):
+        run(repo, rc, "2.0.1", commit, create=True)
+
+
+def test_multiple_push_destinations_are_refused_offline(world):
+    remote, candidate = world
+    repo, rc, commit = candidate("2.0.1")
+    git(repo, "remote", "set-url", "--add", "--push", "origin", str(remote))
+    git(repo, "remote", "set-url", "--add", "--push", "origin", str(remote))
+    with pytest.raises(promote_mod.Refused, match="one push destination"):
+        run(repo, rc, "2.0.1", commit, create=True)
+
+
+def test_retry_refuses_changed_manifest_trailer_on_same_package(world):
+    remote, candidate = world
+    repo, rc, commit = candidate("2.0.1")
+    record = run(repo, rc, "2.0.1", commit, create=True)
+    message = git(repo, "show", "-s", "--format=%B", record["commit"])
+    message = message.replace(record["plugin_manifest_sha256"], "0" * 64)
+    forged = git(repo, "commit-tree", record["tree"], "-p", record["commit"], data=message.encode())
+    git(repo, "push", "-q", "origin", f"{forged}:{BRANCH}")
+    with pytest.raises(promote_mod.Refused, match="manifest"):
+        run(repo, rc, "2.0.1", commit)
+    assert head(remote) == forged
