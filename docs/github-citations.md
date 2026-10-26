@@ -123,3 +123,15 @@ were found. PASS means the checked citations matched their addressed sources; it
 report is true, the explanation follows from the code, tests passed, or a change fixes a bug. Semantic claims,
 paraphrases, and unsupported Markdown forms require separate review. Existing `pr:`/`ci:` status anchors retain
 their separate meaning.
+
+
+### Scoped bundles and generic readers
+
+GitHub API bundles are not generic publisher pages. The ordinary numeric checker will report SOURCE_UNAVAILABLE
+for their serialized JSON; it cannot search response metadata or material outside the addressed source scope.
+Numbers literally included in a strict quotation are checked as part of that quotation. Independent numerical
+claims require a readable publisher source; a scoped GitHub number adapter is not implemented.
+The public server also refuses saved bundles through `source_text`, including URL, full digest and digest prefix.
+Local `source_text` can inspect a bundle and may reveal the entire authenticated API response: keep local and
+public-server storage separate. The replay block is not an access control boundary against a process that can
+rewrite the server's store/index or checker.

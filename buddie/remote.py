@@ -222,7 +222,7 @@ def snap(args: dict) -> tuple[dict, bool]:
 
 def source_text(args: dict) -> tuple[dict, bool]:
     _only(args, {"ref", "grep", "context"})
-    return mcp.source_text(args)
+    return mcp.source_text(args, github_bundles=False)
 
 
 HANDLERS = {"verify_report": budgeted(verify_report), "snap": budgeted(snap),

@@ -182,6 +182,7 @@ def test_an_inline_url_is_not_its_own_source():
 def test_quotation_marks_around_inline_code_do_not_add_an_empty_claim(world):
     p = pred(world, f'“`allow()`” ([source]({BLOB})).')
     assert p['outcome'] == 'PASS' and len(p['quotes']) == 1
+    assert p['summary']['short_quotes_skipped'] == 0
 
 
 def test_adjacent_preceding_inline_sources_are_ambiguous(world):
@@ -218,3 +219,39 @@ def test_literal_prose_does_not_change_lone_cr(world):
     world[1][f'{ROOT}/contents/src/a.py?ref={HEAD}']['content'] = base64.b64encode(b'alpha\nbeta').decode()
     p = pred(world, f'“alpha\rbeta” ([source]({BLOB})).')
     assert p['outcome'] == 'FAIL' and p['quotes'][0]['quote'] == 'alpha\rbeta'
+
+
+@pytest.mark.parametrize('literal', ['allow() ', '\tallow()', 'allow()\t'])
+def test_literal_prose_keeps_boundary_whitespace(world, literal):
+    p = pred(world, f'“{literal}” ([source]({BLOB})).')
+    assert p['outcome'] == 'FAIL'
+    assert p['quotes'][0]['quote'] == literal
+
+
+def test_private_bundle_is_not_a_generic_number_source(world, monkeypatch):
+    secret = 'The secret budget has 12345 dollars allocated to submarine project. '
+    world[1][f'{ROOT}/pulls/7']['body'] = secret + 'Ordinary context detail. ' * 30
+    assert pred(world, f'“{secret.strip()}” ([source]({PR})).')['outcome'] == 'PASS'
+    monkeypatch.setenv('VERBATIM_STORE', str(world[0].root))
+    receipt, error = remote.verify_report({'text': f'{secret.rstrip().removesuffix(chr(46))} ([source]({PR})).',
+                                         'fetch': False, 'github': False})
+    assert not error and receipt['predicate']['outcome'] == 'GAPS'
+    assert all(r['verdict'] == 'SOURCE_UNAVAILABLE' for r in receipt['predicate']['numbers'])
+    assert '12345 dollars' not in json.dumps(receipt['predicate']['numbers'][0].get('match'))
+
+
+@pytest.mark.parametrize('reference', ['url', 'digest', 'prefix'])
+def test_remote_source_text_cannot_disclose_a_saved_bundle(world, monkeypatch, reference):
+    p = pred(world, f'“A literal PR description.” ([source]({PR})).')
+    sha = p['quotes'][0]['sha256']
+    monkeypatch.setenv('VERBATIM_STORE', str(world[0].root))
+    ref = {'url': PR, 'digest': sha, 'prefix': sha[:12]}[reference]
+    result, error = remote.source_text({'ref': ref})
+    assert error
+    assert 'A literal PR description.' not in json.dumps(result)
+
+
+@pytest.mark.parametrize('heading', [f'# `allow()` ([source]({BLOB}))',
+                                    f'`allow()` ([source]({BLOB}))\n---'])
+def test_heading_code_is_outside_citation_scope(heading):
+    assert github_report.code_claims(heading) == []

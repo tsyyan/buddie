@@ -205,13 +205,15 @@ def snap(args: dict) -> tuple[dict, bool]:
     return {"snapshots": out}, not any(o["sha256"] for o in out)
 
 
-def source_text(args: dict) -> tuple[dict, bool]:
+def source_text(args: dict, *, github_bundles: bool = True) -> tuple[dict, bool]:
     from buddie.verbatim.store import Store
     from buddie.verbatim.textlayer import Unreadable, layers
     try:
         entry, data = Store(args.get("store")).resolve(args["ref"])
     except KeyError:
         return {"error": f"no snapshot for {args['ref']}; call snap first"}, True
+    if entry.get("github_source") and not github_bundles:
+        return {"error": "saved GitHub bundles are unavailable on the public server"}, True
     try:
         visible = layers(data, entry.get("content_type"), entry.get("content_encoding"))["visible"]
     except Unreadable as error:

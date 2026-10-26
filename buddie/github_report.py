@@ -70,6 +70,8 @@ def code_claims(text: str) -> list[dict]:
     defs = _defs(body)
     claims = []
     for line, block, _ in report._blocks(body, literal=True):
+        if re.match(r'^ {0,3}#{1,6}(?:[ \t]|$)', block) or re.search(r'\n {0,3}(?:=+|-+)[ \t]*$', block):
+            continue
         links = report._links(block, defs)
         for m in INLINE.finditer(block):
             if any(a <= m.start() < b for a, b, _ in links):

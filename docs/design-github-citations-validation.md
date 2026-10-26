@@ -47,3 +47,26 @@ available. This restriction is documented in the design and user guide.
 Engineering choices: full-SHA files only; syntactic citation binding; no interpretation of prose verbs; unsupported
 or incomplete source shapes flag gaps. Expanding these choices later requires new tests, not a broader PASS claim.
 No semantic-verification, general Markdown completeness, release, deployment or merge is claimed by this change.
+
+
+## Independent follow-up audit — 2026-10-26
+
+Reviewed after original head `3c3a64551b6d991610bbc87da567a2e6d4c5efa5`, against main `0bc048e`.
+Concrete defects reproduced before fixes:
+
+- Literal prose removed boundary spaces/tabs, yielding false PASS (three failing regressions).
+- Saved private bundle JSON remained readable by generic numeric checks despite Resolver replay being disabled.
+- Public `source_text` disclosed bundle JSON by URL/full digest/prefix (three failing regressions).
+- ATX/setext headings became inline code citations despite the documented scope (two failing regressions).
+
+Fixes preserve literal boundaries, reject scoped bundles in generic `readable`, deny bundle disclosure in the
+remote source reader, and exclude headings. The masked-inline-code skip counter has a separate assertion.
+Independent reviewer reran synthetic privacy, literal, and heading repros after fixes: no remaining security
+blocker identified. Its mechanical receipt was `buddie EMPTY: nothing to check`; that is not validation of code.
+Focused integration/provenance/remote/receipts run: 226 passed before the two heading cases were added;
+final parser + quote regression run: 180 passed, 18 skipped. Full exact-tree and remote CI results belong in
+Project Control; a pending run is not claimed green here.
+
+Residual limits: documented Markdown subset; no semantics; GitHub compare may omit files; API visibility can
+change after an observation; offline bundles are UNKNOWN provenance; local raw bundles can contain private
+responses. No new token grants, model calls, dependencies, tool names or receipt vocabulary were added.

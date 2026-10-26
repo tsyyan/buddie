@@ -295,7 +295,11 @@ def from_markdown(markdown: str, min_chars: int = 12, *, literal: bool = False) 
         if is_bq:
             quotes = quotes or [(block, True, 0, len(block), not_a_quote(_plain(block), "", ""))]  # a citation by form
         for q, attr, a, b, kind in quotes:
-            q = q.strip() if literal else _plain(q)
+            # Literal sources preserve boundary whitespace too. A whitespace-only
+            # span can be the blanked inline code inside quotation marks.
+            if not q.strip():
+                continue
+            q = q if literal else _plain(q)
             if len(q) < min_chars or URL.fullmatch(q):
                 skipped += 1
                 continue
