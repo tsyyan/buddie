@@ -20,4 +20,3 @@ def test_stored_smoke_is_reconciled_without_any_model_call():
     assert report['manual']['C']['unsupported'] == 1
     assert report['manual']['B']['applicable'] == 3
     assert abs(report['cost_usd'] - 0.2372618) < 1e-9
-
