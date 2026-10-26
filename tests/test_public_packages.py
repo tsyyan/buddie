@@ -18,7 +18,7 @@ PROJECT = tomllib.loads((ROOT / 'pyproject.toml').read_text(encoding='utf-8'))['
 RECORD = rn.load_release(ROOT / 'releases/2.0.2.json', '2.0.2')
 
 
-def package(tmp_path, kind, change=None):
+def package(tmp_path, kind, change=None, newline='\n'):
     headers = {'Name': PROJECT['name'], 'Version': RECORD['version'], 'Summary': PROJECT['description'],
                'Requires-Python': PROJECT['requires-python'], 'License-Expression': PROJECT['license']}
     urls = dict(PROJECT['urls'])
@@ -31,7 +31,7 @@ def package(tmp_path, kind, change=None):
     elif change == 'summary': headers['Summary'] = 'Unexpected metadata'
     raw = ('\n'.join(f'{k}: {v}' for k, v in headers.items()) + '\n' +
            ''.join(f'Project-URL: {k}, {v}\n' for k, v in urls.items()) +
-           ''.join(f'License-File: {v}\n' for v in licenses) + '\n' + body).encode('utf-8')
+           ''.join(f'License-File: {v}\n' for v in licenses) + '\n' + body).replace('\n', newline).encode('utf-8')
     if kind == 'wheel':
         path = tmp_path / 'buddie-2.0.2-py3-none-any.whl'
         with zipfile.ZipFile(path, 'w') as archive:
@@ -60,3 +60,8 @@ def test_project_version_must_match_release_record(tmp_path):
     project = copy.deepcopy(PROJECT)
     project['version'] = '2.0.1'
     assert check.problems(package(tmp_path, 'wheel'), RECORD, project)
+
+
+@pytest.mark.parametrize('kind', ['wheel', 'sdist'])
+def test_rfc_metadata_crlf_preserves_public_description(tmp_path, kind):
+    assert check.problems(package(tmp_path, kind, newline='\r\n'), RECORD, PROJECT) == []

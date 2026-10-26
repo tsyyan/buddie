@@ -49,7 +49,7 @@ def problems(path: Path, record: dict, project: dict) -> list[str]:
             errors.append('project links differ from project metadata')
         if sorted(message.get_all('License-File', [])) != sorted(project['license-files']):
             errors.append('legal/privacy metadata differs from project metadata')
-        body = (message.get_payload(decode=True) or b'').decode('utf-8')
+        body = (message.get_payload(decode=True) or b'').decode('utf-8').replace('\r\n', '\n')
         if body.strip() != rn.render_package_readme(record, 'pypi').strip():
             errors.append('package description differs from public release record')
         return errors
