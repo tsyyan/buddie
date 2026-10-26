@@ -8,6 +8,7 @@ Tools:
   environment_snapshot  diagnostics of this machine (OS, CPU, memory, GPU, Python, ...) the person granted; local only
   feedback_start  check a report and open a verification feedback chain (docs/feedback.md#mcp); local only
   feedback_resolve  check a corrected text against the chain's open feedback and record the decision; local only
+  feedback_accept  whether a final report is the text the chain verified (the hand-in boundary); local only
 """
 from __future__ import annotations
 
@@ -194,6 +195,18 @@ TOOLS = [
             "original_text": {"type": "string", "description": "the text the feedback was made for"},
             "corrected_text": {"type": "string", "description": "the corrected text"}}},
     },
+    {
+        "name": "feedback_accept",
+        "description": "Before accepting a final report from a feedback chain: whether it is the text the chain "
+                       "verified. accepted is true only when the chain's disposition is verified and the report is "
+                       "byte for byte the chain's last accepted text; a report edited afterwards, a refused repair "
+                       "handed in anyway, or any report of a chain that is not verified is refused (reason). Reads "
+                       "the chain, checks nothing, changes nothing.",
+        "inputSchema": {"type": "object", "additionalProperties": False, "required": ["chain", "final_text"],
+                        "properties": {
+            "chain": {"type": "string", "description": "the chain feedback_start returned (sha256:...)"},
+            "final_text": {"type": "string", "description": "the final report as it is handed in"}}},
+    },
 ]
 
 
@@ -378,9 +391,26 @@ def feedback_resolve(args: dict) -> tuple[dict, bool]:
             "state": _chain_state(tr.replay(result.records)), "basis": read.basis}, False
 
 
+def feedback_accept(args: dict) -> tuple[dict, bool]:
+    """The hand-in boundary (repair.accept): a chain's verified covers its last accepted text only. A refusal is the
+    tool's answer, not an error; basis says whether the chain was read against this server's memory or from the
+    agent-writable files alone (after a restart), and an acceptance is no stronger than that."""
+    from buddie import chains, repair
+    if refused := _unknown(args, "feedback_accept"):
+        return refused
+    final = args.get("final_text")
+    if not isinstance(final, str) or len(final) > MAX_REPORT_BYTES:
+        raise ValueError(f"final_text is a text of at most {MAX_REPORT_BYTES // 2**20} MiB")
+    try:
+        read = chains.load(args.get("chain"))
+    except chains.ChainError as error:
+        return _refused(error)
+    return dict(repair.accept(read.records, final), chain=read.chain, basis=read.basis), False
+
+
 HANDLERS = {"verify_report": verify_report, "snap": snap, "source_text": source_text, "summary": summary,
             "environment_snapshot": environment_snapshot, "feedback_start": feedback_start,
-            "feedback_resolve": feedback_resolve}
+            "feedback_resolve": feedback_resolve, "feedback_accept": feedback_accept}
 
 # MCP tool annotations (clients and app directories ask for them): nothing here changes the user's data; the
 # fetching tools reach the open web, summary only reads this machine's journal
@@ -395,6 +425,7 @@ _ANNOTATIONS = {
                        "idempotentHint": False},
     "feedback_resolve": {"title": "Resolve verification feedback", "openWorldHint": True, "readOnlyHint": False,
                          "idempotentHint": False},
+    "feedback_accept": {"title": "Accept a final report from a feedback chain", "openWorldHint": False},
 }
 for _tool in TOOLS:
     _tool["annotations"] = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True,
@@ -435,6 +466,10 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
                 text = first + "\n" + "".join(f"{n}\n" for n in note if n) + text
             elif name in ("feedback_start", "feedback_resolve") and not is_error:
                 text = data["receipt_line"] + "\n" + text
+            elif name == "feedback_accept" and not is_error:
+                verdict = "accepted" if data["accepted"] else f"refused ({data['reason']})"
+                text = (f"buddie feedback: final report {verdict}; chain {data['disposition']}, "
+                        f"basis {data['basis']}") + "\n" + text
             elif name == "summary" and not is_error:
                 text = data["text"] + "\n" + text
             elif name == "environment_snapshot" and not is_error and data.get("format", "").endswith("diagnostics-v1"):
