@@ -57,8 +57,8 @@ Nothing here names an agent platform. Both formats are inputs a caller's adapter
   much of a proposal rests on it.
 - `confirm`: operations the agent wants to decide itself; a proposal may suggest them, never record them as done.
 
-The more of a policy is in `operations`, the smaller the share a summarizer's model decides. The agent sets that
-share; this note only makes it measurable.
+A larger operations vocabulary can reduce the declared instruction-labelled share, but does not measure
+how much the model decided inside named operations. This note measures declared provenance, not model influence.
 
 ## The proposal
 
@@ -82,13 +82,13 @@ verdict and, when not `HOLDS`, the operations or lines it rests on:
 | `POLICY_MATCH` | the proposal's policy digest is the policy given | `POLICY_MISMATCH`: checked against another version |
 | `ALLOWED` | every recorded `op` is in the policy, with parameters inside the declared ones | `NOT_ALLOWED`, listing each op |
 | `CONFIRM_RESPECTED` | no op listed in `confirm` is recorded as done | `DONE_WITHOUT_CONFIRM` |
-| `KEEP_RAW_RESPECTED` | every event of a `keep_raw` kind that OLD quotes is still quoted by NEW (by `retention` levels on the two versions) | `RAW_TOUCHED`: the event was dropped, merged, or fell to a bare anchor or the inside of a range |
-| `COVERED` | every line added, changed or removed between the versions is in some operation's `lines` | `UNRECORDED_CHANGE`: the summarizer did more than it logged |
+| `KEEP_RAW_RESPECTED` | every input event of a `keep_raw` kind has its complete canonical body preserved byte-for-byte in NEW raw blocks; normalized snippets are insufficient | `RAW_TOUCHED`: the event was dropped, merged, or fell to a bare anchor or the inside of a range |
+| `COVERED` | every actual old/new changed line is covered by the operation's version-qualified old_lines/new_lines (see clarification) | `UNRECORDED_CHANGE`: the summarizer did more than it logged |
+| `BASE_MATCH` | supplied OLD/NEW bytes match the declared layer digests and operation ids | `BASE_MISMATCH` |
 | `INPUT_INTACT` | the input anchor holds (history module `EVENT_ANCHOR`) | the anchor's own verdict |
 
-Beside the verdicts, two counts no gate reads: the share of changed lines under `instruction` (the model-decided
-share), and the share of new lines the history module leaves unchecked. A proposal with every check `HOLDS` is one
-that stayed inside its policy; whether it is a good consolidation is not a question this command answers.
+Beside the verdicts, two counts no gate reads: the share of changed lines labelled `instruction` (declared operation attribution, not measured model influence), and the share of new lines the history module leaves unchecked. A proposal with every check `HOLDS` is one
+whose declared operations and byte changes satisfy these structural constraints; whether it is a good consolidation is not a question this command answers.
 
 Like the rest of `lineage-v1`, `conformance` is read by no gate. A caller that wants to refuse non-conforming
 proposals does so on the document.
@@ -100,7 +100,7 @@ The formats make the comparisons of an experiment possible without buddie runnin
 | Comparison | Uses |
 |---|---|
 | per-agent policies vs one shared policy, same summarizer | `divergence --window` over the agents' logs |
-| one policy, one input, two summarizers | `retention` between the two proposals' layers; the `instruction` share of each |
+| one policy, one input, two summarizers | `retention` between the two proposals' layers; the declared `instruction` share of each |
 | agent X's policy on agent Y's log | `divergence` against both agents |
 | distance between policies vs distance between histories | policy digests and operation vectors, `divergence` on the logs |
 
@@ -111,7 +111,7 @@ placebo reorganization of the same size), which are outside buddie.
 
 | Actor | Can | So |
 |---|---|---|
-| The summarizer (a model) | do more than the policy allows, log less than it did, reword under `instruction` | `ALLOWED` and `COVERED` compare the log of operations with the actual diff; work under `instruction` is counted as model-decided, never as policy-conforming detail |
+| The summarizer (a model) | do more than the policy allows, log less than it did, reword under `instruction` | `ALLOWED` and `COVERED` compare the log of operations with the actual diff; work under `instruction` is counted as instruction-labelled, never as policy-conforming detail |
 | The runner | misstate the model, seed or input | `runner` is recorded as stated; `INPUT_INTACT` checks only the input range, by bytes |
 | The agent, same OS user | write a self-serving policy, rewrite the policy after the fact | the policy digest is in the proposal; a policy that drops what it dislikes conforms, and `retention` still shows what was dropped |
 | The policy file | be malformed, name unknown operations | strict shapes; unknown means `INVALID`, the whole policy, and `conformance` gives `UNDETERMINED` |
@@ -136,3 +136,40 @@ model's idea of a good consolidation; that is a question for the experiment.
   policy version.
 - `tests/test_adversarial.py`: rows for a proposal whose operation log omits a deleted line, and one whose input
   anchor points at a rewritten range.
+
+
+## Mechanical conformance clarification — 2026-10-26
+
+Conformance is structural, not proof that an allowed operation was semantically applied correctly. `merge_duplicates`
+does not prove two meanings are equivalent; `archive_below_salience` does not establish salience. If exact structural
+semantics cannot be specified, classify the change as `instruction`, not deterministic work. It is allowed only
+when policy.instructions is nonempty and is counted as instruction-labelled; HOLDS never judges the instruction followed.
+
+Proposal includes exact OLD and NEW byte digests, policy digest/version, input range and operation records with
+`old_lines` / `new_lines`. Line ids are `(layer_digest, 1-based LF line index, exact line digest)`; duplicate lines
+remain distinct. Deletions reference OLD, additions NEW, replacements both; moves are accounted for on both sides.
+`COVERED` is computed against the actual bounded byte diff, not a caller's declared changed-line list. Missing,
+out-of-range, inconsistent or ambiguous references make the proposal invalid. `lines` naming only NEW cannot
+cover a deletion and is superseded by these two explicit fields in the proposed v1 contract.
+
+`keep_raw` applies to every selected input event of the declared kinds, not only those OLD happened to quote.
+NEW must retain the complete canonical body in a tagged raw block with full event identity/digest. Comparing only a
+FOUND_NORMALIZED quotation could retain one word and is not raw preservation. This can be expensive; the caller
+may choose a narrower input range/policy, but the checker cannot silently weaken keep_raw. Log retention itself
+is the caller's responsibility and not proven by a quote. Confirmed/proposed operation states are explicit;
+any op listed in confirm may only be proposed, never marked applied by a summarizer's assertion.
+
+Policy/input/model metadata can all be rewritten by the same OS user. A matching hash proves consistency of the
+provided tuple, not historical authority. Apply the external checkpoint contract from history-and-lineage.md to
+any historical claim. Accepting a proposal is not user authorization to write a different project's state.
+Unknown schema/op/parameter, truncated or unreadable inputs produce invalid/uncheckable results, never partial
+success. Add fixtures for deletion-only changes, duplicate/moved lines, altered OLD/NEW digests, normalized snippets
+masquerading as keep_raw, and instruction under an empty instructions policy. All are planned tests, not shipped.
+
+
+All operation event refs must be within the authorized input log/epoch/range and match that immutable snapshot;
+a reference to a true event outside the allowed input is not admissible. BASE_MATCH precedes byte-diff coverage.
+Instruction-labelled share counts distinct changed old/new line identities in the actual diff once each. Overlap
+with any instruction operation makes that identity instruction-labelled; duplicate attribution cannot inflate
+the denominator. No changed identities gives share=null with reason=no_changes, not 0 or a claim of no model input.
+Even a zero instruction-labelled share does not establish model independence inside named operations.

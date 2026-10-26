@@ -49,7 +49,7 @@ An input, not something buddie writes. JSON Lines, one event per line, append-on
   `(",", ":")`, `ensure_ascii=False`, UTF-8: the same canonical form `receipts.py` uses).
 - `prev`: the `sha256` of event `seq - 1`; `null` for `seq` 0.
 - `kind` and `body`: the caller's; buddie reads `body` only as text to quote from (the *visible text* of an event
-  is defined per `kind` by a small fixed table, else the JSON string values of `body` in key order).
+  is defined per `kind` by a small fixed table, else each JSON string leaf of `body` as a separate segment in JSON-pointer order; see strict contract below).
 
 A log is read through a **log store** (`buddie/history/store.py`), a directory `<store>/logs/<log>.jsonl` with the
 same discipline as the snapshot store: never modified by buddie, located by an explicit argument
@@ -80,7 +80,7 @@ Module("history", (Check.EVENT_ANCHOR, Check.EVENT_QUOTE), ("history",),
 |---|---|---|
 | `HOLDS` | SUPPORTED | the event (range) is there, the digest matches, the chain from FROM to TO is unbroken |
 | `DIGEST_MISMATCH` | CONTRADICTED | the event is there with other bytes: the log or the anchor was rewritten |
-| `NO_SUCH_EVENT` | CONTRADICTED | the log has fewer events, or no such log in the store |
+| `NO_SUCH_EVENT` | CONTRADICTED | a completely read, valid admitted log lacks that event (missing/unreadable/partial log is LOG_UNAVAILABLE) |
 | `CHAIN_BROKEN` | CONTRADICTED | a `prev` inside the range does not match: a gap, a reordering or an edit |
 | `LOG_UNAVAILABLE` | UNDETERMINED | no log store given, or the file unreadable |
 
@@ -187,15 +187,16 @@ task), so agents are compared on the same tasks instead of on whatever each happ
 declared in the file; buddie matches its value as a string and evaluates nothing.
 
 It reports distances, not causes: whether a convergence comes from a summarizer or from the tasks is a question
-of the experiment around it, which needs its own controls. A distance above its self-distance and its permutation
-floor says the logs differ more than chance; it does not say why.
+of the experiment around it, which needs its own controls. Self-distance and the permutation reference are descriptive diagnostics, not proof of a chance effect.
+Event autocorrelation, task mixture and multiple comparisons violate a naive permutation interpretation;
+no significance or causal claim follows without a separately justified experimental design.
 
 ## Threat model
 
 | Actor | Can | So |
 |---|---|---|
 | The summarizer (a model) | write any derived text, cite events that do not say it, invent anchors | every quotation is compared with the bytes of its event; an anchor without a quotation is checked for existence only and its line counted as anchor-only; a claim it does not quote is unchecked, never supported |
-| The agent, same OS user | rewrite the log file, its own anchors, `buddie.toml` | a self-consistent rewrite passes `chain`; only a head digest pinned outside its reach (protected policy, an external receipt) detects it. buddie reports what the bytes say, not who wrote them |
+| The agent, same OS user | rewrite the log file, its own anchors, `buddie.toml` | a self-consistent rewrite passes `chain`; only a full head digest pinned outside its reach (protected policy, an external receipt) detects it. buddie reports what the bytes say, not who wrote them |
 | An administrator | write the protected policy | can pin log heads and set the `history` gate floor |
 | The log itself | be huge, malformed, have hostile text | bounded reads (`MAX_PAGE_BYTES` per event, a line limit per log), strict JSON shapes, a malformed line is `UNREADABLE` at that `seq`, never skipped; regexes only as `patterns.py` bounds them |
 
@@ -218,3 +219,85 @@ floor says the logs differ more than chance; it does not say why.
   event, and one where a quoted event is only inside a range in NEW (listed as a fall, not as kept); `divergence`
   on identical logs (distance 0) and disjoint ones (distance 1), on two halves of one long log (between-agent
   distance not above the self-distance and the permutation floor), and a fixed seed giving the same floor twice.
+
+
+## Merge contract / clarification — 2026-10-26
+
+This is a design-only proposal. History, lineage, new gate classes, `anchor_only_lines`, `event_text`, `--history`
+and the example Check enums are **not shipped**. Existing receipt-v1 check/module/reason enums are closed. Before
+runtime: #54 R0 golden corpus, R1 explicit journal across all callers, R3 fail-closed, R6 Module API and **RX**
+receipt extension/versioning decision (R2 transitively precedes R6). New public vocabulary uses a separately
+versioned schema/predicateType with explicit opt-in unless RX approves another tested negotiation strategy.
+Do not emit new fields/words under the current immutable v1 schema, edit legacy goldens to hide drift, or silently
+extend default tools/list. Include old/new reader×writer tests, IDS updates in the feature PR, and explicit
+catalog/hook migration review. Existing interfaces/default gating remain unchanged by this docs PR.
+
+### Responsibility boundaries
+
+History checks cited bytes/existence and chain structure, never intent, approval or semantic truth. Lineage is a
+separate deterministic measurement document read by no gate. Context Integrity compares scoped current claims
+with admitted observations; Projects (#57) manages optional registry/focus/workstream claims inside Buddie.
+Neither Projects state nor a saved receipt supplies a trusted log checkpoint by virtue of its name or hash.
+#55 literal GitHub evidence is similarly scoped: a quoted PR body saying merged is not current merge evidence.
+The resident reflection note is an external caller/application sketch, not a new Buddie runtime, scheduler,
+paid model service or Projects implementation. Buddie itself does not invoke a model or mutate raw history.
+
+### Strict event bytes, reading and disclosure
+
+History-store schema v1 has exact required keys `v,log,seq,at,kind,body,prev,sha256`, no duplicate JSON keys,
+unknown fields, NaN/Infinity or non-integer/bool sequence numbers. `v` is integer 1; `seq` is nonnegative integer;
+`at` is RFC3339 UTC text, recorded as supplied (not proof of time). Hashes are lowercase full 64-hex SHA-256 with
+`sha256:` prefix; genesis prev=null only at seq=0. Body permits only JSON objects/arrays/strings/booleans/null and
+bounded integers; floats are rejected in v1 to avoid cross-runtime numeric serialization ambiguity. The canonical
+form is the documented Python UTF-8 JSON encoding, not a claim of compliance with JCS. Hash excludes only sha256;
+all other required fields including log identity/sequence/prev are covered. Reject unsupported schema as a whole.
+
+Proposed read limits: 1 MiB UTF-8 per JSONL record, 100,000 events and 128 MiB per log, 30-second monotonic operation
+budget. Limit/read/permission failure is UNREADABLE/LOG_UNAVAILABLE with partial coverage; never prove absence
+from a prefix. File missing/inaccessible is LOG_UNAVAILABLE; NO_SUCH_EVENT requires a complete valid selected log.
+Use one bounded byte snapshot per check: detect concurrent replacement/appends, report unstable/unavailable rather
+than mixing reads. Canonicalize root and log path; reject symlink/root escape; log id cannot contain separators.
+No repository-supplied executable, shell, plugin or arbitrary deserializer is evaluated. Regex follows existing
+bounded runner rules. Raw event text is untrusted data, including prompt instructions and secrets.
+
+Visible-text segments v1: `person_message`/`agent_message` use body.text; `tool_result` uses body.stdout and
+body.stderr as **separate** segments; other kinds expose each string leaf separately with a JSON-pointer locator.
+No quote may cross event or field boundaries. No recursive concatenation of leaf values into invented prose.
+Report event digest, segment locator, actual match span and normalization. Ordinary quote normalization is inherited
+from verbatim and must be disclosed; exact raw preservation/conformance never uses normalized quote matching.
+Text matching does not authenticate speaker, authorship, a tool's success or user consent.
+
+Log input and event disclosure need separate grants, explicit store/project/session scope and bounded output.
+`event_text` is not exposed on anonymous remote MCP; a known LOG id or digest is not authorization. A caller's
+agent-writable log stays AGENT_WRITABLE; other supplied logs stay CALLER_SUPPLIED. A hash-valid external checkpoint
+adds an integrity observation and does not relabel all event contents COLLECTOR_OBSERVED.
+
+### External integrity checkpoint
+
+Self-consistency (`chain=INTACT`) and external anchoring are separate results. A checkpoint must bind schema,
+canonical log identity plus epoch, seq, **full** head SHA-256, observer identity, observation time and a separately
+trusted location/verification method. The agent cannot replace/delete/roll back it. A receipt in the same writable
+store is not external. Prefix anchors (12+ hex) are convenient locators only, never cryptographic checkpoints.
+
+To claim anchored inclusion for FROM..TO, recompute every event digest and prev link from the cited range through
+the pinned checkpoint; a checkpoint before TO cannot attest to the suffix. Verify log/epoch/seq identity and detect
+rollback against the last trusted checkpoint. Valid independent branches at the same seq are a fork/conflict,
+not a choice made by the agent. Without access to that trusted checkpoint, state unanchored/unknown explicitly.
+The range still proves only inclusion of those bytes; it cannot prove nothing was omitted before collection,
+prove real-world time or prove that an event happened outside the log. `ev:` anchor-only prose remains unchecked.
+
+### Additional acceptance fixtures (planned, not executed runtime tests)
+
+Duplicate keys, bool seq, floats, nonfinite JSON, unknown v, oversized and partial lines; symlink escape;
+concurrent append/replacement; missing store versus absent event in a complete log; cross-field quote;
+self-consistent rewrite without checkpoint; checkpoint rollback/fork/wrong epoch; digest prefix collision;
+checkpoint older than cited suffix; checkpoint stored beside agent-writable logs; cross-project event disclosure;
+old reader refusing new vocabulary; quote with a false semantic lead-in. Retention/divergence results explicitly
+state sample sizes, selection/window/seed, zero-count feature handling and no causal or significance conclusion.
+
+
+Divergence numeric contract: JS distance is sqrt(JS divergence) with log base 2, common declared feature support,
+0·log(0/q)=0; maximum 1 only for nonempty normalized distributions. Empty feature/log/window or too few events to
+form the required halves yields unavailable with counts, never distance 0. Fixed seed, PRNG algorithm/version and
+permutation/window selection are recorded. Event permutations here are descriptive only; a future inferential
+study must predeclare task strata, order-preserving blocks/null and multiple-window comparison treatment.
