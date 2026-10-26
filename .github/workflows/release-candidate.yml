@@ -3,7 +3,7 @@
 # run, then recorded (commit, sizes, SHA-256) in
 # release-manifest.json and SHA256SUMS, all uploaded as the artifact `release-candidate`. It publishes nothing and
 # asks for no permission beyond reading the repository. release.yml calls it for a tag and publishes these same
-# files later; ci.yml calls it on every pull request, so the path is tested before a release needs it.
+# files later; ordinary PRs use focused CI; PRs labeled full-ci-required (ci.yml) exercise this full path.
 name: release-candidate
 
 on:
@@ -96,6 +96,7 @@ jobs:
             --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID"
           python scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
           (cd rc && sha256sum -c SHA256SUMS)
+          python scripts/release_size_gate.py rc  # fast compressed payload budget gate; no rebuild
           { echo "### buddie $V release candidate"; echo; echo "commit \`$GITHUB_SHA\`, run $GITHUB_RUN_ID"; echo;
             echo '```'; cat rc/SHA256SUMS; echo '```'; echo; echo '```json'; cat rc/release-manifest.json; echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
