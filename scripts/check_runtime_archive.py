@@ -31,12 +31,12 @@ buddie/verbatim/check.py buddie/verbatim/cli.py buddie/verbatim/numbers.py
 buddie/verbatim/report.py buddie/verbatim/store.py buddie/verbatim/textlayer.py
 '''.split())
 LEGAL = {'README.md', 'LICENSE', 'NOTICE', 'PRIVACY.md'}
-SDIST = LEGAL | {'CHANGELOG.md', 'run.py', 'pyproject.toml', 'MANIFEST.in', 'PKG-INFO', 'setup.cfg'}
+SDIST = (LEGAL - {'README.md'}) | {'packaging/README.md', 'run.py', 'pyproject.toml', 'MANIFEST.in', 'PKG-INFO', 'setup.cfg'}
 EGG = {'PKG-INFO', 'SOURCES.txt', 'dependency_links.txt', 'entry_points.txt', 'requires.txt', 'top_level.txt'}
 DIST = {'METADATA', 'WHEEL', 'entry_points.txt', 'top_level.txt', 'RECORD',
         'licenses/LICENSE', 'licenses/NOTICE', 'licenses/PRIVACY.md'}
-MCPB = LEGAL | {'manifest.json', 'run.py', 'assets/icon.png'}
-PLUGIN = LEGAL | {'.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json', 'run.py',
+MCPB = LEGAL | {'RELEASE_NOTES.md', 'manifest.json', 'run.py', 'assets/icon.png'}
+PLUGIN = LEGAL | {'RELEASE_NOTES.md', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json', 'run.py',
                   'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png', 'skills/buddie/SKILL.md',
                   'skills/verbatim/SKILL.md', 'commands/check.md', 'commands/init.md', 'commands/status.md'}
 VERSION = r'\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?'

@@ -32,12 +32,27 @@ def bind_plugin(root: Path, version: str, commit: str, claimed: str | None = Non
                     "sha256": hashlib.sha256(data).hexdigest()}}), encoding="utf-8")
 
 
+def bind_metadata(root, version):
+    import release_notes as rn
+    record = {"schema": rn.SCHEMA, "version": version, "date": "2026-10-26", "summary": "Public release.", "changes": ["Candidate release notes."], "upgrade": "Install this version.", "permissions": "Optional credentials.", "security": "Local checks.", "limitations": "Catalog display unverified."}
+    rn.write_candidate_metadata(record, root / "metadata", {"name": rn.NAMESPACE, "repository": {"url": "https://github.com/tsyyan/buddie"}, "version": version, "packages": [{"version": version, "registryType": "pypi", "registryBaseUrl": "https://pypi.org", "identifier": "buddie", "transport": {"type": "stdio"}}]})
+
+
+def freeze_source(monkeypatch, root):
+    import release_notes as rn
+    record=rn.load_release(root / "metadata/release-notes.json", V)
+    server=json.loads((root / "metadata/server.json").read_text())
+    monkeypatch.setattr(rm, "source_metadata", lambda version, commit: (record, server))
+
+
 @pytest.fixture
-def rc(tmp_path):
+def rc(tmp_path, monkeypatch):
     for path in rm.expected(V):
         (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / path).write_bytes(path.encode() * 100)
     bind_plugin(tmp_path, V, SHA)
+    bind_metadata(tmp_path, V)
+    freeze_source(monkeypatch, tmp_path)
     assert rm.write(tmp_path, V, SHA, "refs/tags/v2.0.0", "tsyyan/buddie", "1") == []
     return tmp_path
 
@@ -45,7 +60,7 @@ def rc(tmp_path):
 def test_the_record_names_the_commit_and_every_file_by_size_and_sha256(rc):
     record = rm.load(rc)
     assert (record["schema"], record["version"], record["commit"]) == (rm.SCHEMA, V, SHA)
-    assert [f["kind"] for f in record["files"]] == ["wheel", "sdist", "mcpb", "plugin", "plugin-manifest"]
+    assert [f["kind"] for f in record["files"]] == list(rm.expected(V).values())
     for f in record["files"]:
         data = (rc / f["path"]).read_bytes()
         assert (f["size"], f["sha256"]) == (len(data), hashlib.sha256(data).hexdigest())
@@ -240,3 +255,25 @@ def test_a_swapped_plugin_zip_is_refused_even_when_the_record_is_rewritten(rc):
 def test_an_extra_file_in_plugin_is_refused(rc):
     (rc / "plugin" / "notes.txt").write_text("x", encoding="utf-8")
     assert "unexpected plugin/notes.txt" in rm.verify(rc, V, SHA)
+
+
+def test_notes_cannot_be_rewritten_with_checksums(rc):
+    (rc / "metadata/release-notes.md").write_text("changed", encoding="utf-8")
+    _rewrite_record(rc)
+    assert any("release-notes.md" in p for p in rm.verify(rc, V, SHA))
+
+def test_foreign_registry_payload_is_refused(rc):
+    p=rc / "metadata/server.json"
+    server=json.loads(p.read_text()); server["version"]="9.9.9"; p.write_text(json.dumps(server))
+    _rewrite_record(rc)
+    assert any("Registry" in p for p in rm.verify(rc,V,SHA))
+
+
+def test_coherent_metadata_replacement_cannot_keep_original_source_commit(rc):
+    import release_notes as rn
+    record=rn.load_release(rc / "metadata/release-notes.json", V)
+    record["summary"]="Replaced public content."
+    server=json.loads((rc / "metadata/server.json").read_text())
+    rn.write_candidate_metadata(record, rc / "metadata", server)
+    _rewrite_record(rc)
+    assert any("source commit" in p for p in rm.verify(rc,V,SHA))

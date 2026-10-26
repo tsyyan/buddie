@@ -41,7 +41,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "buddie-plugin-package-v1"
 MANIFEST = "plugin-manifest.json"
 NAME = "buddie"
-BUILDER = 1  # bump when the selection or the ZIP layout changes: it is part of the manifest
+BUILDER = 2  # bump when the selection or the ZIP layout changes: it is part of the manifest
 
 # the audited runtime: what the Claude Code plugin loads, starts or shows, and the files a reader of it needs
 EXACT = (
@@ -228,6 +228,17 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
         raise PackageError("; ".join(problems))
     files = _blobs(repo, chosen)
     version = _version(files)
+    import release_notes as rn
+    release_path = f"releases/{version}.json"
+    entries = [e for e in tracked(repo, commit) if e[0] == release_path]
+    if len(entries) != 1 or entries[0][1] not in ("100644", "100755"):
+        raise PackageError(f"missing or nonregular public release record {release_path}")
+    try:
+        record = rn.parse_release(_blobs(repo, entries)[release_path].decode("utf-8"), version)
+        files["README.md"] = rn.render_package_readme(record, "claude").encode("utf-8")
+        files["RELEASE_NOTES.md"] = rn.render_markdown(record).encode("utf-8")
+    except ValueError as error:
+        raise PackageError(str(error)) from error
     problems = _content_problems(files) + _reference_problems(files, version)
     problems += [f"{p} is never part of the package" for p in files if p.startswith(NEVER)]
     if problems:

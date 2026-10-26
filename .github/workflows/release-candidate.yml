@@ -41,18 +41,33 @@ jobs:
             fv=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$f")
             test "$fv" = "$v" || { echo "::error::$f is version $fv, the code $v"; exit 1; }
           done
+      - name: freeze public release metadata
+        env:
+          V: ${{ steps.version.outputs.version }}
+        run: |
+          python scripts/release_notes.py --version "$V" --out rc/metadata
+          cmp packaging/README.md rc/metadata/pypi-readme.md
       - name: sdist and wheel
         run: |
           python -m pip install -q build twine
           python -m build --outdir rc/dist
           python -m twine check --strict rc/dist/*
           python scripts/check_runtime_archive.py rc/dist/*
+          python scripts/check_public_packages.py --version "${{ steps.version.outputs.version }}" \
+            --record "releases/${{ steps.version.outputs.version }}.json" rc/dist/*
+      - name: generated Registry payload matches its supported schema
+        run: |
+          python -m pip install -q jsonschema
+          curl -fsSL "$(python -c "import json; print(json.load(open('server.json'))['\$schema'])")" -o "$RUNNER_TEMP/registry-schema.json"
+          python -c "import json,jsonschema,sys; jsonschema.validate(json.load(open('rc/metadata/server.json')), json.load(open(sys.argv[1])))" "$RUNNER_TEMP/registry-schema.json"
       - name: Claude Desktop bundle (manifest.json, .mcpbignore)
         env:
           V: ${{ steps.version.outputs.version }}
         run: |
           mkdir -p rc/bundle
           npx --yes @anthropic-ai/mcpb@2.1.2 validate manifest.json
+          cp rc/metadata/desktop-readme.md README.md
+          cp rc/metadata/release-notes.md RELEASE_NOTES.md
           npx --yes @anthropic-ai/mcpb@2.1.2 pack . "rc/bundle/buddie-$V.mcpb"
           python scripts/check_runtime_archive.py "rc/bundle/buddie-$V.mcpb"
           npx --yes @anthropic-ai/mcpb@2.1.2 unpack "rc/bundle/buddie-$V.mcpb" "$RUNNER_TEMP/bundle"

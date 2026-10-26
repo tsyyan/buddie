@@ -151,6 +151,9 @@ Every surface in detail: [getting started](https://github.com/tsyyan/buddie/blob
 | | Version |
 |---|---|
 | Latest release: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **2.0.1** |
+| Development source described here | **2.0.2**, prepared, not yet released |
+
+Registries give 2.0.1. To inspect the prepared source after review: `pip install git+https://github.com/tsyyan/buddie@hardening/public-release-record`.
 
 Upgrading from 2.0.0 changes nothing; 2.0.1 fixes how the MCP server reads its input on Windows systems whose code
 page is not UTF-8. Upgrading from 1.1.1 changes nothing for a 1.x setup. What can differ, and why, is in the

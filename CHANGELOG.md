@@ -1,51 +1,13 @@
 # Changelog
 
-## Unreleased
+## buddie 2.0.2 (not released)
 
-- MCP and Python API: the hand-in boundary for verification feedback, `feedback_accept` / `repair.accept` (local
-  servers only). A chain's `verified` covers its last independently accepted text only. A final report is accepted
-  when the chain is `verified` and the report is byte for byte that text; otherwise it is refused (`artifact_mismatch`,
-  `not_verified`). It is read-only: no trace record, schema, disposition or existing tool changes. It was found by the
-  Feedback E2E benchmark (F3): a chain verified at start, an edit refused, and the edited text still read as verified.
-  docs/feedback.md also records the evidence-attribution limit (F1) and today's scope and disclosure behaviour (F2, F4).
-- Experiment, not shipped (`experiments/feedback-e2e-v1`, excluded from the sdist and the Desktop bundle): an
-  offline benchmark of Verification Feedback through the local MCP tools against verification only. It has 8
-  scenarios on a fixed world, hand-written ground truth, the ten protocol safety checks, run records with exact k/n
-  metrics, and replay. A live pilot runner (`live.py`) with per-request cost enforcement and a
-  completed manifest is prepared but needs a person's final authorization, and it was not run. No
-  production behavior changes.
-- Release: the candidate also builds the compact Claude Code plugin (`scripts/plugin_package.py`, docs/plugin-
-  distribution.md). It is an audited runtime allowlist of one commit's Git blobs, with deterministic STORED ZIP bytes and a
-  manifest of the commit, the files and the package hash. It is validated with the pinned Claude Code CLI, installed
-  into an isolated configuration and run (`scripts/smoke_plugin.py`), and recorded and bound to the commit by
-  `release_manifest.py`. A new manual `release.yml` stage, `only: plugin-stable`, promotes an authorized candidate's
-  plugin to the distribution branch `plugin-stable` (`scripts/plugin_promote.py`): never forced, idempotent, refused
-  on any unexpected branch state. No tag, default branch, published artifact or Directory submission changes.
-- MCP: the local stdio server offers verification feedback as `feedback_start` and `feedback_resolve`
-  (docs/feedback.md#mcp). The server runs every check itself, keeps each chain's trace and check options in its state
-  dir and re-verifies a correction with the chain's own options; no tool takes a receipt. Not on the remote server.
-  A chain is started whole or not at all and committed under an OS lock only if unchanged since read (one
-  submission per feedback across processes); a failed write leaves it as it was; damaged state is refused
-  (`state_corrupt`), a change outside a running server too (`state_tampered`), and every result says whether it
-  rests on the server's memory or on the agent-writable files (`basis`). Chains idle for 30 days are removed, at
-  most 256 are kept (`buddie/chains.py`).
-- Verification feedback v1 (docs/feedback.md, ADR-001): `buddie/feedback.py` turns a receipt-v1 into advisory,
-  machine-readable feedback (a condition per finding, at most one bounded action, the receipt's evidence references
-  unchanged); `buddie/repair.py` takes one corrected text per feedback within the actions' line scope, judges it only
-  by a new receipt-v1 of no weaker scope, and ends within the repair budget (1 by default, at most 3);
-  `buddie/trace.py` records each iteration as append-only, hash-chained records that replay. New command
-  `buddie feedback RECEIPT.json`. Nothing existing changes: receipts, outcomes, the hook, MCP and the CLI's other
-  commands are as before; no dependency is added. A chain is started and decided only on a `verify.Assessment` made
-  in the caller's process (a receipt dict is refused: receipts are unsigned); a repair may not add lines but
-  `buddie:` disclosures, and a verified claim must stay where it was; task requirements stated by the orchestrator
-  keep a corrected report apart from a finished task (`requirements_unmet`).
+Public release notes for this development version are generated from the authoritative
+[release record](releases/2.0.2.json).
 
-- Automatically verify literal GitHub citations in ordinary Markdown reports through the existing `quote` check:
-  full-SHA file links, PR description bodies and file/side/line-addressed PR diffs. Inline and fenced code are
-  extracted; matching preserves code characters and indentation (CRLF → LF only). Ambiguous bindings and incomplete
-  patches flag gaps. GitHub evidence bundles retain revisions, locations and snapshot hashes, support offline
-  replay, and follow existing provenance/public-only remote access boundaries. No new dependency or MCP tool.
-  Existing non-GitHub reports keep their behavior. See `docs/github-citations.md` for supported forms and limits.
+The public record above is the sole authoritative description of the planned 2.0.2 release.
+Detailed development behavior remains documented in `docs/feedback.md`, `docs/github-citations.md`,
+and `docs/plugin-distribution.md`; no second editable 2.0.2 change list is maintained here.
 
 ## buddie 2.0.1 (2026-10-26)
 

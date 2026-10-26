@@ -45,6 +45,7 @@ def test_the_plugin_stable_proposal_is_the_only_other_change():
     patch = (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8").replace("\r\n", "\n")
     assert proposal["workflow_path"] == ".github/workflows/release.yml" and "requires the owner" in proposal["status"]
     live = (ROOT / proposal["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    live = unapply(live, (MAINTENANCE / "proposals/public-release-metadata.patch").read_text(encoding="utf-8"))
     base = unapply(live, patch)
     assert "plugin-stable" not in base and "create_branch" not in base
 
@@ -59,6 +60,7 @@ def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
     added = [line[1:] for line in patch.splitlines() if line.startswith("+") and not line.startswith("+++")]
     assert added == ["    environment: pypi"]
     live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    live = unapply(live, (MAINTENANCE / "proposals/public-release-metadata.patch").read_text(encoding="utf-8"))
     proposal = json.loads((MAINTENANCE / "proposals/plugin-stable.json").read_text(encoding="utf-8"))
     live = unapply(live, (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8")
                    .replace("\r\n", "\n"))

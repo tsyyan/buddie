@@ -25,12 +25,12 @@ def names(kind):
         return RUNTIME + [DIST + p for p in ['METADATA', 'WHEEL', 'entry_points.txt', 'top_level.txt',
                                             'RECORD', 'licenses/LICENSE', 'licenses/NOTICE', 'licenses/PRIVACY.md']]
     if kind == 'sdist':
-        return RUNTIME + LEGAL + ['CHANGELOG.md', 'run.py', 'pyproject.toml', 'MANIFEST.in', 'PKG-INFO',
+        return RUNTIME + [p for p in LEGAL if p != 'README.md'] + ['packaging/README.md', 'run.py', 'pyproject.toml', 'MANIFEST.in', 'PKG-INFO',
                                  'setup.cfg'] + ['buddie.egg-info/' + p for p in ['PKG-INFO', 'SOURCES.txt',
                                  'dependency_links.txt', 'entry_points.txt', 'requires.txt', 'top_level.txt']]
     if kind == 'mcpb':
-        return RUNTIME + LEGAL + ['manifest.json', 'run.py', 'assets/icon.png']
-    return RUNTIME + LEGAL + ['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json',
+        return RUNTIME + LEGAL + ['RELEASE_NOTES.md', 'manifest.json', 'run.py', 'assets/icon.png']
+    return RUNTIME + LEGAL + ['RELEASE_NOTES.md', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json',
                              'run.py', 'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png',
                              'skills/buddie/SKILL.md', 'skills/verbatim/SKILL.md',
                              'commands/check.md', 'commands/init.md', 'commands/status.md']

@@ -288,8 +288,8 @@ REPO_URL = re.compile(r"https://(raw)\.githubusercontent\.com/tsyyan/buddie/([^/
 
 
 def _tag() -> str:
-    import buddie
-    return f"v{buddie.__version__}"
+    # Public links continue to name the latest published release during development.
+    return f"v{_changelog_versions()[0]}"
 
 
 def _local(url: str) -> str | None:

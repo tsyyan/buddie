@@ -102,12 +102,18 @@ jobs:
           node-version: "22"
       - name: verify built archives and clean wheel/sdist installs
         run: |
+          v=$(python -c "import buddie; print(buddie.__version__)")
+          python scripts/release_notes.py --version "$v" --out "$RUNNER_TEMP/public-metadata"
+          cmp packaging/README.md "$RUNNER_TEMP/public-metadata/pypi-readme.md"
           python -m pip install build
           python -m build --outdir "$RUNNER_TEMP/runtime-dist"
           python scripts/check_runtime_archive.py "$RUNNER_TEMP"/runtime-dist/*
+          python scripts/check_public_packages.py --version "$v" --record "releases/$v.json" "$RUNNER_TEMP"/runtime-dist/*
           python scripts/check_clean_archives.py "$RUNNER_TEMP/runtime-dist"
       - name: verify and smoke MCPB and compact plugin on this OS
         run: |
+          cp "$RUNNER_TEMP/public-metadata/desktop-readme.md" README.md
+          cp "$RUNNER_TEMP/public-metadata/release-notes.md" RELEASE_NOTES.md
           npx --yes @anthropic-ai/mcpb@2.1.2 pack . "$RUNNER_TEMP/buddie.mcpb"
           python scripts/check_runtime_archive.py "$RUNNER_TEMP/buddie.mcpb"
           npx --yes @anthropic-ai/mcpb@2.1.2 unpack "$RUNNER_TEMP/buddie.mcpb" "$RUNNER_TEMP/runtime-bundle"

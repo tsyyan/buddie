@@ -1,0 +1,19 @@
+{
+  "schema": "buddie-public-release-v1",
+  "version": "2.0.2",
+  "date": "2026-10-26",
+  "summary": "Versioned public release information and source-bound distribution candidates.",
+  "changes": [
+    "Public release notes are generated from one reviewed record and bound to candidate checksums.",
+    "Channel descriptions include versioned upgrade, permission, security and limitation information.",
+    "Runtime archives carry explicitly approved files and required legal and privacy documents.",
+    "Local MCP feedback_start and feedback_resolve open and advance bounded verification chains; feedback_accept checks whether the final report exactly matches the verified artifact, without running a new check or changing the chain.",
+    "Feedback corrections retain append-only verification traces and fail closed on inconsistent or tampered chain state.",
+    "The compact Claude Code plugin is packaged from a reviewed runtime Git-blob allowlist with reproducible ZIP bytes.",
+    "Literal GitHub citations in Markdown reports can be checked against pinned GitHub file, pull request and diff evidence."
+  ],
+  "upgrade": "Install buddie==2.0.2 with pip or select the matching approved plugin or Desktop bundle. Existing PyPI 2.0.1 artifacts remain unchanged.",
+  "permissions": "No new runtime permissions are required. Local checks run without a model. GitHub anchors may use optional GitHub credentials; browser access is optional and requires a separate browser installation.",
+  "security": "Release candidates bind public notes and Registry payloads to the recorded source revision and file digests. Report vulnerabilities through SECURITY.md.",
+  "limitations": "Checks support evidence review and do not establish that every claim is true. Catalog display of release notes is unverified; publication and plugin promotion require separate authorization."
+}

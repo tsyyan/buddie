@@ -6,7 +6,7 @@ tag publishes nothing.
 
 ```mermaid
 flowchart LR
-  T["tag vX.Y.Z pushed<br/>(or a manual run, no candidate)"] --> C["candidate<br/>build · validate · install · record"]
+  T["tag vX.Y.Z pushed<br/>(or a manual run, no candidate)"] --> C["candidate<br/>build В· validate В· install В· record"]
   C -->|"artifact release-candidate<br/>release-manifest.json, SHA256SUMS"| A
   M["manual run on the tag<br/>candidate = run id<br/>confirm = publish buddie X.Y.Z"] --> A["authorize<br/>(environment pypi: approval)"]
   A --> P["PyPI<br/>(environment pypi)"]
@@ -63,7 +63,7 @@ cd rc && sha256sum -c SHA256SUMS
 
 ## 2. Publishing
 
-Only a manual run publishes: Actions → **release** → *Run workflow*, **on the tag** `vX.Y.Z` (not a branch), with
+Only a manual run publishes: Actions в†’ **release** в†’ *Run workflow*, **on the tag** `vX.Y.Z` (not a branch), with
 
 | Input | Value |
 |---|---|
@@ -98,7 +98,7 @@ Then each stage downloads the **candidate's artifact** (never a new build) and c
 
 | Stage | Before | Publishes | How | After | What the check proves |
 |---|---|---|---|---|---|
-| `pypi` | PyPI's JSON API for the version: absent → upload; exactly the candidate's files → done, no upload; any other file → **stop** | the wheel and the sdist (not the bundle) | trusted publishing from environment `pypi` (GitHub's OIDC token, no PyPI token stored), `skip-existing` | PyPI serves exactly the candidate's two files | **bytes**: PyPI publishes each file's SHA-256 |
+| `pypi` | PyPI's JSON API for the version: absent в†’ upload; exactly the candidate's files в†’ done, no upload; any other file в†’ **stop** | the wheel and the sdist (not the bundle) | trusted publishing from environment `pypi` (GitHub's OIDC token, no PyPI token stored), `skip-existing` | PyPI serves exactly the candidate's two files | **bytes**: PyPI publishes each file's SHA-256 |
 | `mcp-registry` | PyPI serves the candidate's files; the registry's entry for the version, if any, must name the same server, version, repository and PyPI package as `server.json`, else **stop** | `server.json` as `io.github.tsyyan/buddie` | `mcp-publisher` v1.8.1, its download checked against its release's SHA-256; GitHub OIDC proves the namespace | the entry matches `server.json` | **metadata only**: the registry stores no digest. It points clients at `buddie==X.Y.Z` on PyPI, whose bytes the `pypi` check covers |
 | `github-release` | PyPI serves the candidate's files; the tag names the candidate's commit | a release with the CHANGELOG section, the three files, `release-manifest.json` and `SHA256SUMS` | finds the published release by tag, else the one draft for the tag, else creates a draft; re-reads it by id; uploads only missing files; checks every asset; publishes; reads it back by tag | every asset is the candidate's, by SHA-256 | **bytes**: GitHub's asset `digest`, or the asset downloaded and hashed when GitHub gives none |
 
@@ -133,7 +133,7 @@ deployment-ref policy, and allowed administrators to bypass it (read through the
 2026-10-24 the owner configured it: reviewer `tsyyan` with self-review allowed, administrator bypass off,
 deployments only from tags `v*` (read back through the API; see the final pre-release checklist).*
 
-**What the owner sets** (Settings → Environments → `pypi`):
+**What the owner sets** (Settings в†’ Environments в†’ `pypi`):
 
 - **Required reviewers.** Solo maintainer: the owner, with self-review allowed. That is a deliberate manual
   checkpoint under the owner's account, not two-person approval, and an agent acting as that account cannot be told
@@ -257,7 +257,7 @@ this page last observed through the API is dated; it is not proof of the setting
 - [ ] **The `pypi` environment**: required reviewer, administrator bypass off, deployment limited to tags `v*`.
   Observed on 2026-10-24: reviewer `tsyyan` with self-review allowed (a solo checkpoint, not two-person approval),
   bypass off, tag policy `v*`.
-- [ ] **PyPI's trusted publisher**, checked by the owner on pypi.org (the project → Publishing): repository
+- [ ] **PyPI's trusted publisher**, checked by the owner on pypi.org (the project в†’ Publishing): repository
   `tsyyan/buddie`, workflow `release.yml`, environment `pypi`. Not visible from GitHub; the 1.x releases were
   published under these names (run 39439955515).
 - [ ] **No conflict**: no tag `v2.0.0` (`git ls-remote --tags origin v2.0.0` prints nothing), no `buddie 2.0.0` on PyPI
@@ -326,7 +326,7 @@ Tags, PyPI, the MCP Registry, the GitHub Release and the Directory submission ar
 
 1. Bump the version in `buddie/__init__.py`, `pyproject.toml`, `CITATION.cff`, `.claude-plugin/plugin.json`,
    `.codex-plugin/plugin.json`, `manifest.json`, `server.json` (both fields), `integrations/chatgpt/plugin.json` and
-   the pinned `pip install buddie==…` in `skills/verbatim/SKILL.md` (`tests/test_version.py`,
+   the pinned `pip install buddie==вЂ¦` in `skills/verbatim/SKILL.md` (`tests/test_version.py`,
    `tests/test_manifest.py` and `tests/test_catalog.py` fail until they agree). `plugin.json`'s version is what moves
    installed plugin users to the release.
 2. In a release-commit PR, date the release. The date is the owner's decision, the day publication is approved
@@ -341,8 +341,8 @@ Tags, PyPI, the MCP Registry, the GitHub Release and the Directory submission ar
    - remove the pre-release wording from the README and getting-started ("not yet released", "Until X.Y.Z is
      released", the from-source workaround); `tests/test_readme.py` fails while any of it is left;
    - pin the README's links and images to the tag `vX.Y.Z`: PyPI shows the README and resolves no relative path.
-     Images become `https://raw.githubusercontent.com/tsyyan/buddie/vX.Y.Z/…`, files
-     `https://github.com/tsyyan/buddie/blob/vX.Y.Z/…`, directories `…/tree/vX.Y.Z/…`; never `main`, which moves on.
+     Images become `https://raw.githubusercontent.com/tsyyan/buddie/vX.Y.Z/вЂ¦`, files
+     `https://github.com/tsyyan/buddie/blob/vX.Y.Z/вЂ¦`, directories `вЂ¦/tree/vX.Y.Z/вЂ¦`; never `main`, which moves on.
      `tests/test_readme.py` maps each pinned URL back to the file in the checkout and refuses a relative one. Until
      the tag is pushed (step 4) these URLs answer 404 on GitHub; after it they are permanent (`v*` tags are
      immutable). Check the page as PyPI renders it: `python -m readme_renderer README.md -o readme.html`.
@@ -399,7 +399,7 @@ cd buddie-X.Y.Z
 ```
 
 ```bash
-mkdir -p dist bundle plugin && mv buddie-X.Y.Z-py3-none-any.whl buddie-X.Y.Z.tar.gz dist/ && mv buddie-X.Y.Z.mcpb bundle/ && mv buddie-plugin-X.Y.Z.zip plugin-manifest.json plugin/
+mkdir -p dist bundle plugin metadata && mv buddie-X.Y.Z-py3-none-any.whl buddie-X.Y.Z.tar.gz dist/ && mv buddie-X.Y.Z.mcpb bundle/ && mv buddie-plugin-X.Y.Z.zip plugin-manifest.json plugin/ && mv release-notes.md release-notes.json server.json pypi-readme.md claude-readme.md desktop-readme.md codex-readme.md metadata/
 ```
 
 ```bash
@@ -416,3 +416,19 @@ repository next to the download folder, with `COMMIT` the tag's full commit SHA 
 the clone). It checks more than the sums: that the folder holds exactly the three files the manifest lists, each
 with its recorded size and SHA-256, that `SHA256SUMS` agrees with the manifest, and that the manifest is for
 `X.Y.Z` built from `COMMIT`. `tests/test_release_manifest.py` runs these steps on a flat copy of a candidate.
+
+
+Public release records
+----------------------
+
+`releases/<version>.json` is the human-reviewed source for public release content. Run
+`python scripts/release_notes.py --version 2.0.2 --out rc/metadata` to generate UTF-8/LF notes and channel payloads.
+Candidate schema v2 binds these files and the Registry payload alongside the runtime archives.
+The GitHub body must equal candidate Markdown exactly, including on retries of drafts and published releases.
+Older v1 candidates require their original tagged workflow; they are not accepted as v2 candidates.
+
+PyPI uses the generated `packaging/README.md`, included in the sdist so wheel rebuilds keep the description.
+The MCP Registry stores version, canonical asset URL and SHA-256 in its supported publisher-provided metadata namespace;
+this does not establish downstream catalog display. Compact Claude packages derive public README and RELEASE_NOTES
+from the same commit's release-record blob. Desktop packaging uses the generated Desktop README and Markdown notes
+as ordinary files, without extra manifest fields.
