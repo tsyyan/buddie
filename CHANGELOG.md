@@ -20,6 +20,7 @@
   in the caller's process (a receipt dict is refused: receipts are unsigned); a repair may not add lines but
   `buddie:` disclosures, and a verified claim must stay where it was; task requirements stated by the orchestrator
   keep a corrected report apart from a finished task (`requirements_unmet`).
+
 - Automatically verify literal GitHub citations in ordinary Markdown reports through the existing `quote` check:
   full-SHA file links, PR description bodies and file/side/line-addressed PR diffs. Inline and fenced code are
   extracted; matching preserves code characters and indentation (CRLF → LF only). Ambiguous bindings and incomplete
