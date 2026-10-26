@@ -151,3 +151,10 @@ The labellers were Claude subagents working blind to the verdicts.
 </details>
 
 Method, limits and how to reproduce: [research.md](research.md).
+
+## GitHub citations
+
+The same report workflow also checks literal quotations and code linked to GitHub files at full commit SHAs,
+PR descriptions and addressed diff lines. See [GitHub citations](github-citations.md) for report examples, strict
+matching, revision binding, replay, supported Markdown and source limits. A matching quote does not establish the
+truth of its surrounding explanation.
