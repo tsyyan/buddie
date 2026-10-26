@@ -17,6 +17,10 @@ Versioned public release information and source-bound distribution candidates.
 - Public release notes are generated from one reviewed record and bound to candidate checksums.
 - Channel descriptions include versioned upgrade, permission, security and limitation information.
 - Runtime archives carry explicitly approved files and required legal and privacy documents.
+- Local MCP feedback_start and feedback_resolve open and advance bounded verification chains; feedback_accept checks whether the final report exactly matches the verified artifact, without running a new check or changing the chain.
+- Feedback corrections retain append-only verification traces and fail closed on inconsistent or tampered chain state.
+- The compact Claude Code plugin is packaged from a reviewed runtime Git-blob allowlist with reproducible ZIP bytes.
+- Literal GitHub citations in Markdown reports can be checked against pinned GitHub file, pull request and diff evidence.
 
 ## Upgrade
 
