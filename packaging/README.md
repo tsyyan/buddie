@@ -4,7 +4,7 @@ Buddie checks agent reports against primary evidence with local deterministic ch
 
 Install: `pip install buddie==2.0.2`.
 
-[Repository](https://github.com/tsyyan/buddie) · [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.2/PRIVACY.md) · [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.2/release-notes.md)
+[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.2/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.2/release-notes.md)
 
 # Buddie 2.0.2
 

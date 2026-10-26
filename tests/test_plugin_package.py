@@ -37,13 +37,19 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
     """A repository whose one commit holds exactly `files` (with `modes`), made without a working tree (one
     `git fast-import` stream: no checkout, no line-ending conversion, no file-system symlink support needed)."""
     files = dict(files)
-    import re
-    version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
-    release_path = f"releases/{version}.json"
-    if release_path not in files:
-        record = json.loads((ROOT / "releases/2.0.2.json").read_text())
-        record["version"] = version
-        files[release_path] = json.dumps(record).encode()
+    if "buddie/__init__.py" in files:
+        import re
+        version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
+        release_path = f"releases/{version}.json"
+        if release_path not in files:
+            record = json.loads((ROOT / "releases/2.0.2.json").read_text())
+            record["version"] = version
+            files[release_path] = json.dumps(record).encode()
+        if "server.json" not in files:
+            server = json.loads((ROOT / "server.json").read_text(encoding="utf-8"))
+            server["version"] = version
+            server["packages"][0]["version"] = version
+            files["server.json"] = json.dumps(server).encode()
     tmp.mkdir(parents=True)
     subprocess.run(["git", "init", "-q", str(tmp)], check=True, capture_output=True)
     stream = [b"commit refs/heads/main\n", b"committer t <t@t> 1759320000 +0000\n", b"data 7\nsource\n"]

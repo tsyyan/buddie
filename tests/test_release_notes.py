@@ -43,3 +43,14 @@ def test_candidate_payloads_and_registry_digest(tmp_path):
 def test_registry_rejects_foreign_same_version_server():
     server={"version":"2.0.2", "name":"foreign/server", "repository":{"url":"https://example.org"}, "packages":[{"version":"2.0.2"}]}
     with pytest.raises(ValueError,match="identity"): rn.registry_payload(server, RECORD)
+
+
+def test_checked_in_package_description_matches_authoritative_record():
+    root=Path(__file__).resolve().parents[1]
+    record=rn.load_release(root / "releases/2.0.2.json", "2.0.2")
+    assert (root / "packaging/README.md").read_bytes() == rn.render_package_readme(record,"pypi").encode("utf-8")
+
+
+def test_codex_package_instructions_require_explicit_hook_trust():
+    text=rn.render_package_readme(RECORD,"codex")
+    assert "manual" in text.lower() and "trust" in text.lower()

@@ -58,8 +58,13 @@ def render_package_readme(record: dict, channel: str) -> str:
     if channel not in CHANNELS: raise ValueError("unknown release channel")
     intro = "Buddie checks agent reports against primary evidence with local deterministic checks."
     marker = "<!-- mcp-name: io.github.tsyyan/buddie -->\n\n" if channel == "pypi" else ""
-    return (marker + intro + "\n\n" + f"Install: `pip install buddie=={record['version']}`.\n\n"
-            + f"[Repository](https://github.com/tsyyan/buddie) В· [Privacy](https://github.com/tsyyan/buddie/blob/v{record['version']}/PRIVACY.md) В· [Release notes]({canonical_url(record)})\n\n"
+    install = f"Install: `pip install buddie=={record['version']}`."
+    if channel == "codex":
+        install = ("Install this Codex plugin profile through the supported manual plugin installation flow. "
+                   "Review and explicitly trust the bundled MCP launcher and optional hooks before enabling them; "
+                   "installing the Python package alone does not install the Codex profile.")
+    return (marker + intro + "\n\n" + install + "\n\n"
+            + f"[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v{record['version']}/PRIVACY.md) | [Release notes]({canonical_url(record)})\n\n"
             + render_markdown(record))
 
 def registry_payload(server: dict, record: dict) -> dict:

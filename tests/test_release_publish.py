@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import release_manifest as rm  # noqa: E402
 import release_publish as rp  # noqa: E402
-from test_release_manifest import bind_metadata, bind_plugin  # noqa: E402
+from test_release_manifest import bind_metadata, bind_plugin, freeze_source  # noqa: E402
 
 V, TAG, REPO = "2.0.0", "v2.0.0", "tsyyan/buddie"
 SHA = "4ae6b16566f3b5c9c2081396a28dc886a9b18fae"
@@ -25,13 +25,14 @@ RUN = "40020947041"
 
 
 @pytest.fixture
-def rc(tmp_path):
+def rc(tmp_path, monkeypatch):
     root = tmp_path / "rc"
     for path in rm.expected(V):
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(path.encode() * 50)
     bind_plugin(root, V, SHA)
     bind_metadata(root, V)
+    freeze_source(monkeypatch, root)
     assert rm.write(root, V, SHA, f"refs/tags/{TAG}", REPO, RUN) == []
     return root
 
@@ -337,13 +338,14 @@ def test_a_modified_or_foreign_artifact_is_refused(rc):
 @pytest.mark.parametrize("field, value, why", [("run_id", "1", "records run 1"),
                                                 ("repository", "someone/buddie", "records repository"),
                                                 ("ref", "refs/heads/main", "built for refs/heads/main")])
-def test_the_artifacts_own_record_must_name_this_run_repository_and_tag(tmp_path, field, value, why):
+def test_the_artifacts_own_record_must_name_this_run_repository_and_tag(tmp_path, monkeypatch, field, value, why):
     root = tmp_path / "rc"
     for path in rm.expected(V):
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(b"x")
     bind_plugin(root, V, SHA)
     bind_metadata(root, V)
+    freeze_source(monkeypatch, root)
     meta = {"ref": f"refs/tags/{TAG}", "repository": REPO, "run_id": RUN} | {field: value}
     assert rm.write(root, V, SHA, meta["ref"], meta["repository"], meta["run_id"]) == []
     assert any(why in p for p in rp.authorize(root, _run(), RUN, **GOOD))

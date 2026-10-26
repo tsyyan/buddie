@@ -31,11 +31,14 @@ def package_files():
 
 
 @pytest.fixture
-def world(tmp_path, package_files):
+def world(tmp_path, package_files, monkeypatch):
     """A source repository (one commit per version, made on demand) whose origin is an empty bare repository."""
     remote = tmp_path / "remote.git"
     subprocess.run(["git", "init", "-q", "--bare", str(remote)], check=True, capture_output=True)
     made = {}
+    sources = {}
+    original_source_metadata = rm.source_metadata
+    monkeypatch.setattr(rm, "source_metadata", lambda version, commit: original_source_metadata(version, commit, sources[commit]))
 
     def candidate(version: str, files: dict | None = None) -> tuple[Path, Path, str]:
         repo = source(tmp_path / f"src-{version}-{len(made)}", files or with_version(package_files, version))
@@ -48,6 +51,12 @@ def world(tmp_path, package_files):
             if not path.startswith("plugin/"):
                 (rc / path).parent.mkdir(parents=True, exist_ok=True)
                 (rc / path).write_bytes(path.encode())
+        import release_notes as rn
+        record, server = original_source_metadata(version, commit, repo)
+        rn.write_candidate_metadata(record, rc / "metadata", server)
+        sources[commit] = repo
+        assert Path(git(repo, "remote", "get-url", "--push", "origin")).resolve() == remote.resolve()
+        assert git(remote, "rev-parse", "--is-bare-repository") == "true"
         assert rm.write(rc, version, commit, f"refs/tags/v{version}", "tsyyan/buddie", "1") == []
         made[version + str(len(made))] = repo
         return repo, rc, commit

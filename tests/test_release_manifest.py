@@ -38,13 +38,21 @@ def bind_metadata(root, version):
     rn.write_candidate_metadata(record, root / "metadata", {"name": rn.NAMESPACE, "repository": {"url": "https://github.com/tsyyan/buddie"}, "version": version, "packages": [{"version": version, "registryType": "pypi", "registryBaseUrl": "https://pypi.org", "identifier": "buddie", "transport": {"type": "stdio"}}]})
 
 
+def freeze_source(monkeypatch, root):
+    import release_notes as rn
+    record=rn.load_release(root / "metadata/release-notes.json", V)
+    server=json.loads((root / "metadata/server.json").read_text())
+    monkeypatch.setattr(rm, "source_metadata", lambda version, commit: (record, server))
+
+
 @pytest.fixture
-def rc(tmp_path):
+def rc(tmp_path, monkeypatch):
     for path in rm.expected(V):
         (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / path).write_bytes(path.encode() * 100)
     bind_plugin(tmp_path, V, SHA)
     bind_metadata(tmp_path, V)
+    freeze_source(monkeypatch, tmp_path)
     assert rm.write(tmp_path, V, SHA, "refs/tags/v2.0.0", "tsyyan/buddie", "1") == []
     return tmp_path
 
@@ -259,3 +267,13 @@ def test_foreign_registry_payload_is_refused(rc):
     server=json.loads(p.read_text()); server["version"]="9.9.9"; p.write_text(json.dumps(server))
     _rewrite_record(rc)
     assert any("Registry" in p for p in rm.verify(rc,V,SHA))
+
+
+def test_coherent_metadata_replacement_cannot_keep_original_source_commit(rc):
+    import release_notes as rn
+    record=rn.load_release(rc / "metadata/release-notes.json", V)
+    record["summary"]="Replaced public content."
+    server=json.loads((rc / "metadata/server.json").read_text())
+    rn.write_candidate_metadata(record, rc / "metadata", server)
+    _rewrite_record(rc)
+    assert any("source commit" in p for p in rm.verify(rc,V,SHA))

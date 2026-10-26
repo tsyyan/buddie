@@ -19,6 +19,7 @@ import hashlib
 import json
 import re
 import sys
+import subprocess
 from pathlib import Path
 
 SCHEMA = "buddie-release-candidate-v2"
@@ -112,7 +113,7 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
     problems += [f"unexpected {p}" for p in sorted(_present(root) - set(files))]
     if not problems:
         problems += plugin_binding(root, version, commit, files)
-        problems += metadata_binding(root, version)
+        problems += metadata_binding(root, version, commit)
     try:
         sums = (root / SUMS).read_text(encoding="utf-8")
     except OSError as error:
@@ -123,18 +124,30 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
     return problems
 
 
-def metadata_binding(root: Path, version: str) -> list[str]:
+def source_metadata(version: str, commit: str, repo: Path | None = None) -> tuple[dict, dict]:
+    """Read public inputs from the exact recorded commit, never candidate-supplied JSON."""
+    repo = repo or Path(__file__).resolve().parents[1]
+    def blob(path):
+        return subprocess.run(["git", "-C", str(repo), "cat-file", "blob", f"{commit}:{path}"],
+                              capture_output=True, check=True, stdin=subprocess.DEVNULL).stdout.decode("utf-8")
+    return rn.parse_release(blob(f"releases/{version}.json"), version), json.loads(blob("server.json"))
+
+
+def metadata_binding(root: Path, version: str, commit: str) -> list[str]:
     try:
         record = rn.load_release(root / "metadata/release-notes.json", version)
+        source_record, source_server = source_metadata(version, commit)
+        if record != source_record:
+            return ["public release record differs from the recorded source commit"]
         payloads = {"release-notes.md": rn.render_markdown(record)}
         payloads.update({c + "-readme.md": rn.render_package_readme(record, c) for c in rn.CHANNELS})
         problems = [f"metadata/{name} differs from the public release record" for name, text in payloads.items()
                     if (root / "metadata" / name).read_bytes() != text.encode("utf-8")]
         server = json.loads((root / "metadata/server.json").read_text(encoding="utf-8"))
-        if server != rn.registry_payload(server, record):
+        if server != rn.registry_payload(source_server, source_record):
             problems.append("Registry release metadata differs from the public release record")
         return problems
-    except (OSError, ValueError, TypeError, KeyError) as error:
+    except (OSError, ValueError, TypeError, KeyError, subprocess.CalledProcessError) as error:
         return [f"public release metadata / Registry: {error}"]
 
 
