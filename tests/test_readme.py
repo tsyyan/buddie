@@ -474,7 +474,7 @@ def test_the_readme_uses_only_markdown_and_html_github_keeps():
 def test_the_readme_carries_the_registry_name_and_honest_badges():
     assert README.startswith("<!-- mcp-name: io.github.tsyyan/buddie -->")  # the MCP Registry checks it on PyPI
     badges = re.findall(r"\[!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)", README)
-    assert [b[0] for b in badges] == ["CI", "Python", "License", "Buddie on Glama", "Buddie on MCPRush"]
+    assert [b[0] for b in badges] == ["CI", "Python", "License", "Buddie on Glama", "Buddie on MCPRush", "Listed on mcpservers.org"]
     expected = {"CI": ("github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg", "actions/workflows/ci.yml"),
                 "Python": ("img.shields.io/pypi/pyversions/buddie", "pypi.org/project/buddie"),
                 "License": ("img.shields.io/github/license/tsyyan/buddie", "LICENSE")}
@@ -483,7 +483,9 @@ def test_the_readme_carries_the_registry_name_and_honest_badges():
     listings = {"Buddie on Glama": ("https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg",
                                     "https://glama.ai/mcp/servers/tsyyan/buddie"),
                 "Buddie on MCPRush": ("https://mcprush.com/badge/buddie-mcp/score.svg",
-                                      "https://mcprush.com/to/buddie-mcp?ref=badge")}
+                                      "https://mcprush.com/to/buddie-mcp?ref=badge"),
+                "Listed on mcpservers.org": ("https://mcpservers.org/badge.svg",
+                                             "https://mcpservers.org/servers/tsyyan/buddie")}
     for label, image, target in badges:
         if label in listings:
             assert (image, target) == listings[label], label
