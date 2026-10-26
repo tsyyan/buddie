@@ -29,7 +29,8 @@ def test_buddie_document_is_consistent_and_complete(name):
 def test_shell_recording_covers_the_frozen_menu(name):
     rec = fixtures.env(name)["shell"]
     assert [r["command"] for r in rec["records"]] == fixtures.menu()
-    assert rec["menu_sha256"] == hashlib.sha256(fixtures.MENU.read_bytes()).hexdigest()
+    lf = fixtures.MENU.read_bytes().replace(b"\r\n", b"\n")  # a Windows checkout may hold CRLF
+    assert rec["menu_sha256"] == hashlib.sha256(lf).hexdigest()
 
 
 @pytest.mark.parametrize("name", ENVS)
