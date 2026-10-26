@@ -10,12 +10,13 @@ Install: `pip install buddie==2.0.2`.
 
 2026-10-26
 
-Versioned public release information and reproducible distribution candidates.
+Versioned public release information and source-bound distribution candidates.
 
 ## Changes
 
 - Public release notes are generated from one reviewed record and bound to candidate checksums.
 - Channel descriptions include versioned upgrade, permission, security and limitation information.
+- Runtime archives carry explicitly approved files and required legal and privacy documents.
 
 ## Upgrade
 
@@ -23,7 +24,7 @@ Install buddie==2.0.2 with pip or select the matching approved plugin or Desktop
 
 ## Permissions
 
-Local checks run without a model. GitHub anchors may use optional GitHub credentials; browser access is optional and requires a separate browser installation.
+No new runtime permissions are required. Local checks run without a model. GitHub anchors may use optional GitHub credentials; browser access is optional and requires a separate browser installation.
 
 ## Security
 
