@@ -377,6 +377,10 @@ def readable(store: Store, entry: dict | None, url: str = "") -> tuple[dict, Pag
     """(entry, page) when the snapshot has text to check, else {"error": why not}."""
     if entry is None:
         return {"error": "no snapshot"}
+    if entry.get("github_source"):
+        # A scoped API bundle is not a publisher page. Its JSON can contain
+        # private or out-of-range material; only the strict resolver may use it.
+        return {"error": "GitHub evidence bundles require scoped citation verification"}
     if not entry.get("sha256") or (entry.get("http_status") or 200) >= 400:
         return {"error": entry.get("error") or f"HTTP {entry.get('http_status')}"}
     try:

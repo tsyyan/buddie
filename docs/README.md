@@ -18,6 +18,7 @@ Start with the [project overview and quick start](../README.md). For installatio
 | Read receipts | [Receipt contract](receipts.md) |
 | Understand freshness | [Freshness](freshness.md) |
 | Inspect environment observations | [Environment snapshots](environment.md) |
+| Check code and quotations from GitHub files and PRs | [GitHub citations](github-citations.md) |
 | Understand quote checking | [Method](verbatim-method.md), [verdicts](verbatim-verdicts.md) |
 | Examine adversarial tests | [Adversarial suite](adversarial.md) |
 | Read research results and reproduce evaluations | [Research](research.md) |
