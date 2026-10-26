@@ -72,7 +72,7 @@ TOOLS = [
             "transcript": {"type": "string", "description": "Claude Code session jsonl for run: anchors"},
             "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
                         "description": "a number of a cited sentence not in its source: gap, fail or off"},
-            "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
+            "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors and strict GitHub citation sources"},
             "profile": {"type": "string", "enum": ["developer", "research", "complete", "custom"],
                         "description": "what to check (default: everything): developer (repo, PR, CI, run: and work "
                                        "claims), research (quotes and numbers), complete, or custom with modules "

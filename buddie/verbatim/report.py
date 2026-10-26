@@ -222,7 +222,7 @@ def _plain(text: str) -> str:
     return text.strip()
 
 
-def _blocks(markdown: str) -> list[tuple[int, str, bool]]:
+def _blocks(markdown: str, *, literal: bool = False) -> list[tuple[int, str, bool]]:
     """(first line number, text, is_blockquote)."""
     out: list[tuple[int, str, bool]] = []
     cur: list[str] = []
@@ -234,7 +234,8 @@ def _blocks(markdown: str) -> list[tuple[int, str, bool]]:
             out.append((start, "\n".join(cur), quote_run))
         cur = []
 
-    for n, line in enumerate(markdown.splitlines(), 1):
+    lines = markdown.replace('\r\n', '\n').split('\n') if literal else markdown.splitlines()
+    for n, line in enumerate(lines, 1):
         is_q = line.lstrip().startswith(">")
         if not line.strip():
             flush()
@@ -256,7 +257,7 @@ def _blank_code(markdown: str) -> str:
     return INLINE_CODE.sub(lambda m: " " * len(m.group(0)), markdown)
 
 
-def from_markdown(markdown: str, min_chars: int = 12) -> tuple[list[dict], int]:
+def from_markdown(markdown: str, min_chars: int = 12, *, literal: bool = False) -> tuple[list[dict], int]:
     text = _blank_code(markdown)
     defs = {}
     for key, value in DEF.findall(text):
@@ -267,7 +268,7 @@ def from_markdown(markdown: str, min_chars: int = 12) -> tuple[list[dict], int]:
     claims: list[dict] = []
     skipped = 0
     prev_links: list[str] = []
-    for line, block, is_bq in _blocks(body):
+    for line, block, is_bq in _blocks(body, literal=literal):
         links = _links(block, defs)
         block_urls = _unique(u for _, _, u in links if u)
         # link targets and titles are not quotes: blank them in place, so offsets still point into the block
@@ -294,7 +295,7 @@ def from_markdown(markdown: str, min_chars: int = 12) -> tuple[list[dict], int]:
         if is_bq:
             quotes = quotes or [(block, True, 0, len(block), not_a_quote(_plain(block), "", ""))]  # a citation by form
         for q, attr, a, b, kind in quotes:
-            q = _plain(q)
+            q = q.strip() if literal else _plain(q)
             if len(q) < min_chars or URL.fullmatch(q):
                 skipped += 1
                 continue

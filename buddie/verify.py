@@ -46,7 +46,7 @@ FOUND = {"FOUND", "FOUND_NORMALIZED"}
 QUOTE_OUTCOME, NUMBER_OUTCOME = fnd.QUOTE_FACTS, fnd.NUMBER_FACTS
 CONTRADICTED, OPEN = core.Fact.CONTRADICTED, (core.Fact.UNDETERMINED, core.Fact.UNRECOGNIZED)
 KEEP = ("id", "line", "quote", "url", "verdict", "sha256", "fetched_at", "via", "provenance", "visible_offset",
-        "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read")
+        "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read", "github")
 
 
 def _quote_row(r: dict) -> dict:
@@ -59,15 +59,26 @@ def _quote_row(r: dict) -> dict:
 
 
 def check_quotes(text: str, *, store=None, fetch: bool = True, access: str | None = None,
-                 min_chars: int = 12) -> tuple[list[dict], int, str]:
+                 min_chars: int = 12, github=None) -> tuple[list[dict], int, str]:
     from buddie.verbatim import __version__ as vv
     from buddie.verbatim.access import parse
     from buddie.verbatim.check import check_claims
     from buddie.verbatim.report import from_markdown
     from buddie.verbatim.store import Store
+    from buddie.github_sources import Resolver, is_github
+    from buddie.github_report import code_claims
     claims, skipped = from_markdown(text, min_chars)
+    # A second literal extraction keeps code punctuation/underscores inside prose quotation marks intact.
+    literal, _ = from_markdown(text, 0, literal=True)
+    github_claims = [c for c in literal if c["quote"] and any(is_github(u) for u in c["urls"])]
+    claims = [c for c in claims if not any(is_github(u) for u in c["urls"])]
+    github_claims += code_claims(text)
+    skipped -= sum(len(c["quote"]) < min_chars for c in literal if any(is_github(u) for u in c["urls"]))
     store = store if isinstance(store, Store) else Store(store)
     results = check_claims(claims, store, fetch=fetch, access=parse(access)) if claims else []
+    resolver = Resolver(store, github, fetch)
+    results += [resolver.check(c) for c in github_claims]
+    results.sort(key=lambda c: c.get("line") or 0)
     return results, skipped, vv
 
 
@@ -223,7 +234,7 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
     from buddie.stores import UnionStore
     own_store = type(store) in (Store, UnionStore) and type(store.collected) is set
     before = frozenset(store.collected) if own_store else frozenset()
-    q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access) if quotes else ([], 0, None)
+    q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access, github=github) if quotes else ([], 0, None)
     keep = None if selected == mods.REGISTRY else (lambda a: fnd.anchor_check(a) in on)
     a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript}, keep=keep)
     prose, prose_examples = eff.prose_work(text, anc.ANCHOR)
@@ -239,7 +250,8 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
     clean = clean and evidence.network_clean()
     observed = frozenset(store.collected) - before if clean and own_store else frozenset()
     found = fnd.from_rows(rows, a_results, claims, n_rows, observed=observed,
-                          github_collected=clean and eff.own_get(github))
+                          github_collected=clean and eff.own_get(github),
+                          github_quotes_collected=clean and own_store and eff.own_get(github))
     result = core.v0_outcome(found, core.Policy(numbers == "fail"))
     covered = fnd.coverage(found, quotes=quotes, numbers=numbers, mandate_off=mandate is False or mandate is None,
                            mandate_config=cfg is not None, short_quotes=skipped, unlinked_terms=terms,
@@ -319,7 +331,7 @@ def _detected(text: str) -> dict:
     from buddie.verbatim.report import from_markdown
     # every countable kind gets a count, 0 included: an absent kind is "none in the text", not "cannot tell"
     out: dict = {c: 0 for c in core.Check if c is core.Check.QUOTE or c.name.endswith("_ANCHOR")}
-    out[core.Check.QUOTE] = len(from_markdown(text, 12)[0])
+    out[core.Check.QUOTE] = _quote_count(text)
     for found in (anc.ANCHOR.findall(line) for line in text.splitlines()):
         for a in found:
             out[fnd.anchor_check(a)] = out.get(fnd.anchor_check(a), 0) + 1
@@ -336,7 +348,7 @@ def _excluded(text: str, selection) -> list[tuple[str, str, int | None]]:
            if c not in selection.checks and any(c in m.checks for m in selection.modules)]
     if core.Check.QUOTE not in selection.checks:
         from buddie.verbatim.report import from_markdown
-        if n := len(from_markdown(text, 12)[0]):
+        if n := _quote_count(text):
             out.append(("excluded:quote", f"quotations in the text, not checked (profile {selection.profile})", n))
     anchors: dict[str, int] = {}
     for found in (anc.ANCHOR.findall(line) for line in text.splitlines()):
@@ -379,3 +391,13 @@ def line(result: str, rows: list[dict], anchors: list[dict], skipped: int = 0, b
     if prose:
         parts.append(f"{prose} work claims in prose")
     return f"buddie {result}: " + ("; ".join(parts) or "nothing to check")
+
+
+def _quote_count(text: str) -> int:
+    from buddie.github_report import code_claims
+    from buddie.github_sources import is_github
+    from buddie.verbatim.report import from_markdown
+    normal = from_markdown(text, 12)[0]
+    literal = from_markdown(text, 0, literal=True)[0]
+    return (sum(not any(is_github(u) for u in c["urls"]) for c in normal)
+            + sum(bool(c["quote"]) and any(is_github(u) for u in c["urls"]) for c in literal) + len(code_claims(text)))

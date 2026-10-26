@@ -59,10 +59,16 @@ def _snapshot(row: dict, observed=frozenset()) -> tuple[EvidenceRef, ...]:
                         source=row.get("provenance"), observed_at=row.get("fetched_at")),)
 
 
-def quote(row: dict, observed=frozenset()) -> Finding:
+def quote(row: dict, observed=frozenset(), github_collected: bool = False) -> Finding:
     fact = quote_fact(row["verdict"])
+    evidence = _snapshot(row, observed)
+    if row.get("github") and row.get("sha256"):
+        provenance = (github_provenance(github_collected) if row["github"].get("collection") == "live"
+                      else Provenance.UNKNOWN)
+        evidence = (EvidenceRef("github_api", row.get("url", ""), provenance, digest=row["sha256"],
+                                source="github_api", observed_at=row.get("fetched_at")),)
     return Finding(Check.QUOTE, row.get("quote", ""), row["verdict"], fact, _reason(row["verdict"], fact),
-                   _snapshot(row, observed), row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
+                   evidence, row.get("line"), row.get("error"), tuple(row.get("doubts") or ()))
 
 
 def number(row: dict, observed=frozenset()) -> Finding:
@@ -148,10 +154,10 @@ def work_claim(row: dict) -> Finding:
 
 
 def from_rows(quotes=(), anchors=(), claims=(), numbers=(), observed=frozenset(),
-              github_collected: bool | None = None) -> list[Finding]:
+              github_collected: bool | None = None, github_quotes_collected: bool = False) -> list[Finding]:
     """observed: sha256 of the snapshots this check fetched itself (see _snapshot); github_collected: whether its
     pr:/ci: answers are buddie's own collection over a clean network (see github_provenance)."""
-    return ([quote(r, observed) for r in quotes] + [number(r, observed) for r in numbers]
+    return ([quote(r, observed, github_collected=github_quotes_collected) for r in quotes] + [number(r, observed) for r in numbers]
             + [anchor(r, github_collected) for r in anchors] + [work_claim(c) for c in claims])
 
 

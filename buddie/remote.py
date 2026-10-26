@@ -134,15 +134,16 @@ LINK = re.compile(r"https?://[^\s<>()\[\]\"'`]+")
 # What one call may spend (a Budget, enforced at the socket and in read_body): connections, body bytes, seconds
 CALL_REQUESTS, CALL_BYTES, CALL_SECONDS = 60, 64 * 2**20, 90
 GITHUB_PATHS = re.compile(r"^/repos/(?P<owner>[A-Za-z0-9_.-]{1,100})/(?P<repo>[A-Za-z0-9_.-]{1,100})/(?P<rest>"
-                          r"pulls/[0-9]{1,9}|commits/[0-9a-f]{7,64}(?:/status|/check-runs\?"
+                          r"contents/(?:[A-Za-z0-9_.~%+-]+/)*[A-Za-z0-9_.~%+-]+\?ref=[0-9a-f]{40}|"
+                          r"compare/[0-9a-f]{40}\.\.\.[0-9a-f]{40}|pulls/[0-9]{1,9}|commits/[0-9a-f]{7,64}(?:/status|/check-runs\?"
                           r"(?:filter=latest&)?per_page=100&page=(?:[1-9]|1[0-9]|20))?)")
 
 
 def public_github(get):
     """`get` (effects.github_get, with the server's token) limited to public repositories. Anyone who can reach the
     server sends the anchors, while the token may see its owner's private repos: a pr:/ci: anchor on one of those
-    would tell a stranger its PR states, commits and check names. Only the paths effects.py and freshness.py ask
-    for pass (GITHUB_PATHS: a PR, a commit, its latest check runs or status; the legacy check-runs
+    would tell a stranger its PR states, commits and check names. Only the paths effects.py, freshness.py and github_sources.py ask
+    for pass (GITHUB_PATHS: a PR, pinned file contents, a pinned compare, a commit, its latest check runs or status; the legacy check-runs
     query is also accepted). Check-run pages are 1..20, as in freshness._ci_runs. ASCII owner and repo names have
     no . or .. part; the repo is looked up first and must say `private: false` under the very name asked for (a renamed or redirected
     repo, whose full_name differs, is not followed); a PR's own base repo must say so too. Anything else answers
@@ -153,6 +154,11 @@ def public_github(get):
         m = GITHUB_PATHS.fullmatch(path)
         if not m or m["owner"] in (".", "..") or m["repo"] in (".", ".."):
             return None
+        if m['rest'].startswith('contents/'):
+            from urllib.parse import unquote
+            content_path = unquote(m['rest'].split('?', 1)[0][len('contents/'):])
+            if any(p in ('', '.', '..') for p in content_path.split('/')) or any(c in content_path for c in '\\?#\x00\r\n'):
+                return None
         slug = f"{m['owner']}/{m['repo']}".lower()
         if slug not in seen:
             repo = get(f"/repos/{m['owner']}/{m['repo']}")
@@ -191,9 +197,15 @@ def verify_report(args: dict) -> tuple[dict, bool]:
         raise ValueError("give text")
     if len(set(LINK.findall(args["text"]))) > MAX_REPORT_URLS:
         raise ValueError(f"at most {MAX_REPORT_URLS} distinct links per report on the remote server")
-    receipt = verify(args["text"], name="report", repos=[], fetch=args.get("fetch", True), mandate=False,
-                     github=public_github(github_get) if args.get("github", True) else None,
-                     numbers=args.get("numbers", "gap"))
+    from buddie.github_sources import SAVED_SOURCES
+    # Local stores may contain authenticated private responses. Never replay them merely by a public caller's URL.
+    token = SAVED_SOURCES.set(False)
+    try:
+        receipt = verify(args["text"], name="report", repos=[], fetch=args.get("fetch", True), mandate=False,
+                         github=public_github(github_get) if args.get("github", True) else None,
+                         numbers=args.get("numbers", "gap"))
+    finally:
+        SAVED_SOURCES.reset(token)
     return receipt, False
 
 
