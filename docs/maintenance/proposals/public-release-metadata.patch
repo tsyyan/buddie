@@ -1,0 +1,46 @@
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -165,7 +165,7 @@
+           github-token: ${{ github.token }}
+       - name: server.json is the version, and PyPI serves the candidate's files
+         run: |
+-          sv=$(python3 -c "import json; d=json.load(open('server.json')); print(d['version'], d['packages'][0]['version'])")
++          sv=$(python3 -c "import json; d=json.load(open('rc/metadata/server.json')); print(d['version'], d['packages'][0]['version'])")
+           [ "$sv" = "$V $V" ] || { echo "::error::server.json is $sv"; exit 1; }
+           curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json
+           python3 scripts/release_manifest.py pypi rc pypi.json
+@@ -173,7 +173,7 @@
+         run: |
+           code=$(curl -s -o listed.json -w '%{http_code}' "$SERVER/$V")
+           if [ "$code" = 200 ]; then
+-            python3 scripts/release_publish.py registry-check server.json listed.json
++            python3 scripts/release_publish.py registry-check rc/metadata/server.json listed.json
+             echo "::notice::the registry already lists $V as server.json describes it"; exit 0
+           fi
+           [ "$code" = 404 ] || { echo "::error::the registry answered $code"; exit 1; }
+@@ -181,11 +181,12 @@
+           echo "$PUBLISHER_SHA256  publisher.tar.gz" | sha256sum -c -
+           tar xzf publisher.tar.gz mcp-publisher
+           ./mcp-publisher login github-oidc
++          cp rc/metadata/server.json server.json
+           ./mcp-publisher publish
+       - name: the registry lists it as server.json describes it
+         run: |
+           for i in $(seq 10); do
+-            curl -fsS "$SERVER/$V" -o listed.json && python3 scripts/release_publish.py registry-check server.json \
++            curl -fsS "$SERVER/$V" -o listed.json && python3 scripts/release_publish.py registry-check rc/metadata/server.json \
+               listed.json && exit 0
+             sleep 10
+           done
+@@ -221,10 +222,8 @@
+           python3 scripts/release_manifest.py pypi rc pypi.json
+       - name: the release, with the changelog section and the candidate's files
+         run: |
+-          awk -v v="$V" '$0 ~ "^## buddie " v "( |$)" {on=1; next} on && /^## / {exit} on' CHANGELOG.md > notes.md
+-          [ -s notes.md ] || echo "buddie $V" > notes.md
+           python3 scripts/release_publish.py github-release rc --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" \
+-            --sha "$GITHUB_SHA" --version "$V" --notes notes.md
++            --sha "$GITHUB_SHA" --version "$V" --notes rc/metadata/release-notes.md
+ 
+   plugin-stable:
+     # the authorized candidate's compact plugin onto the distribution branch, only when chosen by hand; the commit,

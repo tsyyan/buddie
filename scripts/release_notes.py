@@ -59,7 +59,7 @@ def render_package_readme(record: dict, channel: str) -> str:
     intro = "Buddie checks agent reports against primary evidence with local deterministic checks."
     marker = "<!-- mcp-name: io.github.tsyyan/buddie -->\n\n" if channel == "pypi" else ""
     return (marker + intro + "\n\n" + f"Install: `pip install buddie=={record['version']}`.\n\n"
-            + f"[Repository](https://github.com/tsyyan/buddie) · [Privacy](https://github.com/tsyyan/buddie/blob/v{record['version']}/PRIVACY.md) · [Release notes]({canonical_url(record)})\n\n"
+            + f"[Repository](https://github.com/tsyyan/buddie) В· [Privacy](https://github.com/tsyyan/buddie/blob/v{record['version']}/PRIVACY.md) В· [Release notes]({canonical_url(record)})\n\n"
             + render_markdown(record))
 
 def registry_payload(server: dict, record: dict) -> dict:
@@ -67,6 +67,11 @@ def registry_payload(server: dict, record: dict) -> dict:
     result = copy.deepcopy(server)
     if result.get("version") != record["version"] or not result.get("packages") or any(p.get("version") != record["version"] for p in result["packages"]):
         raise ValueError("Registry payload version mismatch")
+    if result.get("name") != NAMESPACE or result.get("repository", {}).get("url") != "https://github.com/tsyyan/buddie" or len(result["packages"]) != 1:
+        raise ValueError("Registry payload identity mismatch")
+    package = result["packages"][0]
+    if (package.get("identifier"), package.get("registryType"), package.get("registryBaseUrl"), package.get("transport")) != ("buddie", "pypi", "https://pypi.org", {"type": "stdio"}):
+        raise ValueError("Registry package identity mismatch")
     result.setdefault("_meta", {}).setdefault(META, {})[NAMESPACE] = {
         "url": canonical_url(record), "version": record["version"],
         "sha256": hashlib.sha256(render_markdown(record).encode("utf-8")).hexdigest()}

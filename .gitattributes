@@ -1,4 +1,4 @@
 *.sh text eol=lf
 # A captured page is evidence: its bytes are hashed (the README shows the hash), so no checkout may convert them
 examples/quickstart/page.html -text
-`npackaging/README.md text eol=lf
+packaging/README.md text eol=lf

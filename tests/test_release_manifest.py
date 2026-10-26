@@ -35,7 +35,7 @@ def bind_plugin(root: Path, version: str, commit: str, claimed: str | None = Non
 def bind_metadata(root, version):
     import release_notes as rn
     record = {"schema": rn.SCHEMA, "version": version, "date": "2026-10-26", "summary": "Public release.", "changes": ["Candidate release notes."], "upgrade": "Install this version.", "permissions": "Optional credentials.", "security": "Local checks.", "limitations": "Catalog display unverified."}
-    rn.write_candidate_metadata(record, root / "metadata", {"version": version, "packages": [{"version": version}]})
+    rn.write_candidate_metadata(record, root / "metadata", {"name": rn.NAMESPACE, "repository": {"url": "https://github.com/tsyyan/buddie"}, "version": version, "packages": [{"version": version, "registryType": "pypi", "registryBaseUrl": "https://pypi.org", "identifier": "buddie", "transport": {"type": "stdio"}}]})
 
 
 @pytest.fixture

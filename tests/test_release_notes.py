@@ -30,7 +30,7 @@ def test_duplicate_keys_rejected(tmp_path):
     with pytest.raises(ValueError,match="duplicate"): rn.load_release(p,"2.0.2")
 
 def test_candidate_payloads_and_registry_digest(tmp_path):
-    server={"version":"2.0.2","packages":[{"version":"2.0.2"}]}
+    server=json.loads((Path(__file__).resolve().parents[1] / "server.json").read_text())
     rn.write_candidate_metadata(RECORD,tmp_path,server)
     payload=json.loads((tmp_path / "server.json").read_text())
     import hashlib
@@ -38,3 +38,8 @@ def test_candidate_payloads_and_registry_digest(tmp_path):
     assert meta["sha256"] == hashlib.sha256((tmp_path / "release-notes.md").read_bytes()).hexdigest()
     assert meta["version"] == "2.0.2"
     assert "v2.0.2" in meta["url"]
+
+
+def test_registry_rejects_foreign_same_version_server():
+    server={"version":"2.0.2", "name":"foreign/server", "repository":{"url":"https://example.org"}, "packages":[{"version":"2.0.2"}]}
+    with pytest.raises(ValueError,match="identity"): rn.registry_payload(server, RECORD)
