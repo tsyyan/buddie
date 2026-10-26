@@ -133,7 +133,7 @@ def run(args) -> int:
             out = {"failure": f"harness: {type(error).__name__}: {error}"}
         except Exception as error:  # noqa: BLE001 - a crashed run is recorded, not lost
             out = {"failure": f"harness: {type(error).__name__}: {error}"}
-        rec = record(r, out, args.backend, args.model, started)
+        rec = json.loads(redact(json.dumps(record(r, out, args.backend, args.model, started), ensure_ascii=False)))
         (batch / "events").mkdir(exist_ok=True)
         (batch / "events" / f"{e['run_id']}.jsonl").write_text(
             redact("\n".join(json.dumps(x, ensure_ascii=False) for x in out.get("events") or [])), encoding="utf-8")
@@ -149,13 +149,22 @@ def run(args) -> int:
 
 
 def redact(text: str) -> str:
-    """The run machine's profile folder name, wherever a CLI event or an answer repeats a path, becomes `user`."""
+    """Sanitize serialized/nested events before writing; never emit matched sensitive values."""
+    import os
     import re
-    name = Path.home().name
-    if len(name) < 3 or name.lower() in ("user", "root", "runner"):
-        return text
-    n = re.escape(name)
-    return re.sub(rf"(?i)(Users(?:\\\\|\\|/)+|C--Users-|/home/){n}(?![A-Za-z0-9])", r"\1user", text)
+    # Known credentials first, including formats not recognized by heuristic patterns.
+    for key, value in os.environ.items():
+        if any(word in key.upper() for word in ("TOKEN", "API_KEY", "SECRET", "PASSWORD")) and len(value) >= 8:
+            text = text.replace(value, "[redacted]")
+    def profile(match):
+        name = match[2]
+        return match[1] + (name if name.lower() in ("user", "root", "runner", "public", "default") else "user")
+    text = re.sub(r'(Users(?:\\+|/)+|/home/)([^\\/\s"<>]+)', profile, text, flags=re.I)
+    text = re.sub(r'(C--Users-)([^-\s"<>]+)', profile, text, flags=re.I)
+    text = re.sub(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', '[redacted-email]', text, flags=re.I)
+    return re.sub(r'\b(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-ant-[A-Za-z0-9_-]{20,})',
+                  '[redacted-token]', text)
+
 
 
 def _used_relevant(rec: dict, gt: dict) -> bool | None:
