@@ -1,0 +1,11 @@
+{
+  "schema": "bdx-002/expected-v1",
+  "fixture_only": true,
+  "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "PR_CI": {"pr": "open", "draft": false, "ci": "success", "require_full_sha": true},
+  "COMMIT": {"exists": true, "message": "Fix bounded fixture parser", "require_full_sha": true},
+  "DIFF": {"path": "src/a.py", "side": "R", "line": 2, "literal": "new = False", "kind": "added", "B_core": "explicit unsupported coverage permitted; not a correct completed citation"},
+  "FALSE_MERGE": {"merged": false, "pr": "open", "must_correct_previous_claim": true},
+  "RELEASE": {"ready": false, "missing": ["merged changes", "acceptance approval", "publication evidence"], "green_ci_sufficient": false},
+  "not_a_model_input": true
+}
