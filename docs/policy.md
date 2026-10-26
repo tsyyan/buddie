@@ -221,14 +221,17 @@ What each key guarantees, and what it does not:
 ### The GitHub token
 
 `github_get` sends a token only where it belongs:
-- `BUDDIE_GITHUB_TOKEN` comes from the hook's environment, as `BUDDIE_GITHUB_API` does, so it may go to that API.
-- The plugin's token setting (`CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN`) is the person's. It goes only to
+- Both `BUDDIE_GITHUB_TOKEN` and the plugin's token setting (`CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN`) go only to
   `api.github.com` or the policy's `github_api`, never to an API the environment named: otherwise an agent could
-  name its own server and receive it. A GitHub Enterprise installation that uses the plugin setting names its API
-  in the policy.
+  name its own server and receive it. Authenticated GitHub Enterprise installations name their API in the
+  protected policy. An environment-selected API gets no token, including one inherited from a parent process.
+  The plugin setting wins when both tokens are present; unset or unresolved placeholders are ignored.
+- A protected API must be HTTPS with a host and valid optional port, without embedded credentials, query,
+  fragment or path traversal. An invalid protected policy disables GitHub requests rather than falling back.
 - The token is an unredirected header, which urllib never copies to a redirect's target. An answer from another
-  origin than the API's (scheme, host and port) is not taken, and the anchor stays unchecked. A redirect on the
-  API's own origin (a renamed repo) is asked again there, with the token.
+  origin than the API's (scheme, host and port), or a redirect outside the API path, is refused before contact,
+  and the anchor stays unchecked. A same-origin 404 after a redirect (a renamed private repo) is asked once
+  more within that API path, with the token. Transport exceptions are reported without their untrusted text.
 - Requests go through the opener installed in the process: the remote server's guarded one, the hook's isolated
   collector, or urllib's default.
 

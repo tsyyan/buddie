@@ -5,6 +5,7 @@
 hooks/
 skills/
 results/
+experiments/
 tests/
 examples/
 docs/

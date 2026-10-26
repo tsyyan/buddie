@@ -4,6 +4,7 @@ confirmed run that `authorize` checks."""
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import shlex
 import shutil
@@ -21,11 +22,22 @@ V = "2.0.0"
 SHA = "b6464a7839274297c5c110ddd1a50557f4281c42"
 
 
+def bind_plugin(root: Path, version: str, commit: str, claimed: str | None = None) -> None:
+    """A plugin manifest that names the candidate's ZIP, commit and version (or `claimed`), as plugin_package.py
+    writes one."""
+    data = (root / f"plugin/buddie-plugin-{version}.zip").read_bytes()
+    (root / f"plugin/{rm.PLUGIN_MANIFEST}").write_text(json.dumps({
+        "schema": rm.PLUGIN_SCHEMA, "name": "buddie", "version": claimed or version, "commit": commit,
+        "package": {"path": f"buddie-plugin-{version}.zip", "size": len(data),
+                    "sha256": hashlib.sha256(data).hexdigest()}}), encoding="utf-8")
+
+
 @pytest.fixture
 def rc(tmp_path):
     for path in rm.expected(V):
         (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / path).write_bytes(path.encode() * 100)
+    bind_plugin(tmp_path, V, SHA)
     assert rm.write(tmp_path, V, SHA, "refs/tags/v2.0.0", "tsyyan/buddie", "1") == []
     return tmp_path
 
@@ -33,7 +45,7 @@ def rc(tmp_path):
 def test_the_record_names_the_commit_and_every_file_by_size_and_sha256(rc):
     record = rm.load(rc)
     assert (record["schema"], record["version"], record["commit"]) == (rm.SCHEMA, V, SHA)
-    assert [f["kind"] for f in record["files"]] == ["wheel", "sdist", "mcpb"]
+    assert [f["kind"] for f in record["files"]] == ["wheel", "sdist", "mcpb", "plugin", "plugin-manifest"]
     for f in record["files"]:
         data = (rc / f["path"]).read_bytes()
         assert (f["size"], f["sha256"]) == (len(data), hashlib.sha256(data).hexdigest())
@@ -74,7 +86,7 @@ def test_write_refuses_an_incomplete_candidate(tmp_path):
 
 def test_pypi_must_serve_exactly_the_candidates_wheel_and_sdist(rc):
     files = {Path(f["path"]).name: f["sha256"] for f in rm.load(rc)["files"]}
-    urls = [{"filename": n, "digests": {"sha256": h}} for n, h in files.items() if not n.endswith(".mcpb")]
+    urls = [{"filename": n, "digests": {"sha256": h}} for n, h in files.items() if n.endswith((".whl", ".tar.gz"))]
     assert rm.pypi(rc, {"urls": urls}) == []
     assert rm.pypi(rc, {"urls": urls[:1]}) == [f"PyPI has no buddie-{V}.tar.gz"]
     urls[0]["digests"]["sha256"] = "f" * 64
@@ -91,7 +103,7 @@ def _jobs(path: str) -> dict[str, str]:
 def test_a_tag_push_builds_a_candidate_and_publishes_nothing():
     release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
     jobs = _jobs("release.yml")
-    assert set(jobs) == {"candidate", "authorize", "pypi", "mcp-registry", "github-release"}
+    assert set(jobs) == {"candidate", "authorize", "pypi", "mcp-registry", "github-release", "plugin-stable"}
     assert "uses: ./.github/workflows/release-candidate.yml" in jobs["candidate"]
     assert "if: github.event_name == 'workflow_dispatch' && inputs.candidate != ''" in jobs["authorize"]
     for name in ("pypi", "mcp-registry", "github-release"):
@@ -158,7 +170,7 @@ def test_the_documented_release_check_works_on_a_flat_download(rc, tmp_path):
     steps = _documented_steps(V, SHA)
     assert steps[0] == f"gh release download v{V} --repo tsyyan/buddie --dir buddie-{V}"
     _release_download(rc, tmp_path / f"buddie-{V}")
-    assert len(_sha256sum_check(tmp_path / f"buddie-{V}")) == 3  # the old instruction, on the flat layout
+    assert len(_sha256sum_check(tmp_path / f"buddie-{V}")) == len(rm.expected(V))  # the flat layout, unmoved
     cwd = tmp_path
     for step in steps[1:]:
         if step.startswith("cd "):
@@ -193,3 +205,38 @@ def test_the_documented_moves_name_every_file_a_release_carries():
     for path in rm.expected(V):
         folder, name = path.split("/")
         assert re.search(rf"mv [^&]*\b{re.escape(name)}\b[^&]* {folder}/", move), path
+
+
+# --- the compact plugin in the candidate (scripts/plugin_package.py) -----------------------------------------------
+
+def test_the_plugin_schema_is_the_builders():
+    import plugin_package as pp
+    assert rm.PLUGIN_SCHEMA == pp.SCHEMA and rm.PLUGIN_MANIFEST == pp.MANIFEST
+    assert f"plugin/{pp.package_name(V)}" in rm.expected(V)
+
+
+def _rewrite_record(rc):
+    """Re-record every file as it is now: a consistent record of a tampered candidate."""
+    for name in (rm.MANIFEST, rm.SUMS):
+        (rc / name).unlink()
+    assert rm.write(rc, V, SHA, "refs/tags/v2.0.0", "tsyyan/buddie", "1") == []
+
+
+def test_a_plugin_built_from_another_commit_or_version_is_refused(rc):
+    bind_plugin(rc, V, "0" * 40)
+    _rewrite_record(rc)
+    assert any("the plugin was built from" in p for p in rm.verify(rc, V, SHA))
+    bind_plugin(rc, V, SHA, claimed="9.9.9")
+    _rewrite_record(rc)
+    assert any("the plugin is version '9.9.9'" in p for p in rm.verify(rc, V, SHA))
+
+
+def test_a_swapped_plugin_zip_is_refused_even_when_the_record_is_rewritten(rc):
+    (rc / f"plugin/buddie-plugin-{V}.zip").write_bytes(b"another package")
+    _rewrite_record(rc)                              # every file hashes as recorded now
+    assert "the plugin manifest does not name the recorded ZIP (size, sha256)" in rm.verify(rc, V, SHA)
+
+
+def test_an_extra_file_in_plugin_is_refused(rc):
+    (rc / "plugin" / "notes.txt").write_text("x", encoding="utf-8")
+    assert "unexpected plugin/notes.txt" in rm.verify(rc, V, SHA)

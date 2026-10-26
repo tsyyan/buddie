@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import release_manifest as rm  # noqa: E402
 import release_publish as rp  # noqa: E402
+from test_release_manifest import bind_plugin  # noqa: E402
 
 V, TAG, REPO = "2.0.0", "v2.0.0", "tsyyan/buddie"
 SHA = "4ae6b16566f3b5c9c2081396a28dc886a9b18fae"
@@ -29,6 +30,7 @@ def rc(tmp_path):
     for path in rm.expected(V):
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(path.encode() * 50)
+    bind_plugin(root, V, SHA)
     assert rm.write(root, V, SHA, f"refs/tags/{TAG}", REPO, RUN) == []
     return root
 
@@ -136,7 +138,7 @@ def test_no_release_creates_a_draft_uploads_everything_and_publishes_it(rc):
     gh = FakeGitHub()
     _publish(gh, rc)
     _ok(gh, rc)
-    assert gh.uploads == 5
+    assert gh.uploads == len(_files(rc))  # every candidate file, the record and the sums
     # created as a draft, re-read by its id, published last
     writes = gh.writes()
     assert writes[0][0] == "POST" and writes[0][1].endswith("/releases") and writes[-1][0] == "PATCH"
@@ -174,7 +176,7 @@ def test_a_draft_with_some_assets_gets_only_the_missing_ones(rc):
     gh.add(draft=True, files=dict(list(files.items())[:2]))
     _publish(gh, rc)
     _ok(gh, rc)
-    assert gh.uploads == 3
+    assert gh.uploads == len(_files(rc)) - 2
 
 
 def test_a_draft_with_every_asset_is_only_published(rc):
@@ -235,7 +237,7 @@ def test_a_run_cut_off_mid_upload_is_completed_by_the_next(rc):
     gh.interrupt = None
     _publish(gh, rc)
     _ok(gh, rc)
-    assert gh.uploads == 3 + 3  # the second run sent only the three still missing
+    assert gh.uploads == 3 + len(_files(rc)) - 2  # the second run sent only the ones still missing
 
 
 def test_a_half_made_asset_stops_for_a_person(rc):
@@ -338,6 +340,7 @@ def test_the_artifacts_own_record_must_name_this_run_repository_and_tag(tmp_path
     for path in rm.expected(V):
         (root / path).parent.mkdir(parents=True, exist_ok=True)
         (root / path).write_bytes(b"x")
+    bind_plugin(root, V, SHA)
     meta = {"ref": f"refs/tags/{TAG}", "repository": REPO, "run_id": RUN} | {field: value}
     assert rm.write(root, V, SHA, meta["ref"], meta["repository"], meta["run_id"]) == []
     assert any(why in p for p in rp.authorize(root, _run(), RUN, **GOOD))

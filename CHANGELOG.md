@@ -14,6 +14,13 @@
   metrics, and replay. A live pilot runner (`live.py`) with per-request cost enforcement and a
   completed manifest is prepared but needs a person's final authorization, and it was not run. No
   production behavior changes.
+- Release: the candidate also builds the compact Claude Code plugin (`scripts/plugin_package.py`, docs/plugin-
+  distribution.md). It is an audited runtime allowlist of one commit's Git blobs, with deterministic STORED ZIP bytes and a
+  manifest of the commit, the files and the package hash. It is validated with the pinned Claude Code CLI, installed
+  into an isolated configuration and run (`scripts/smoke_plugin.py`), and recorded and bound to the commit by
+  `release_manifest.py`. A new manual `release.yml` stage, `only: plugin-stable`, promotes an authorized candidate's
+  plugin to the distribution branch `plugin-stable` (`scripts/plugin_promote.py`): never forced, idempotent, refused
+  on any unexpected branch state. No tag, default branch, published artifact or Directory submission changes.
 - MCP: the local stdio server offers verification feedback as `feedback_start` and `feedback_resolve`
   (docs/feedback.md#mcp). The server runs every check itself, keeps each chain's trace and check options in its state
   dir and re-verifies a correction with the chain's own options; no tool takes a receipt. Not on the remote server.
