@@ -3,10 +3,31 @@ on:
   push:
     branches: [main]
   pull_request:
+  merge_group:
+    types: [checks_requested]
 permissions:
   contents: read
 jobs:
+  fast:
+    # A stable, inexpensive pull-request signal. Full matrix and packaging run on merge_group/main.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e . pytest
+      - name: security boundaries, verification and release authorization
+        run: >-
+          python -m pytest -q
+          tests/test_core.py
+          tests/test_security_hardening.py
+          tests/test_release_authorization.py
+          tests/test_workflow_pins.py
+          tests/test_feedback.py
+          tests/test_mcp_feedback.py
   test:
+    if: github.event_name == 'push' || github.event_name == 'merge_group'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,11 +62,13 @@ jobs:
       - name: plugin runs from a clone without install
         run: python3 run.py verify examples/quickstart/report.md --no-fetch --anchors-only
   release-candidate:
+    if: github.event_name == 'push' || github.event_name == 'merge_group'
     # what a release would publish (release-candidate.yml): sdist, wheel and the Claude Desktop bundle built from
     # this commit, twine check, wheel contents, the bundle validated, packed, unpacked and started, both packages
     # installed into clean venvs and run, the manifest and SHA256SUMS. Publishes nothing
     uses: ./.github/workflows/release-candidate.yml
   os:
+    if: github.event_name == 'push' || github.event_name == 'merge_group'
     # the hook on Linux, macOS and Windows: tests from a clone (the smoke run on recorded events through hooks/run.sh
     # among them), then the same smoke run through a clean `pip install`
     strategy:
@@ -71,6 +94,7 @@ jobs:
           buddie --version
           cd "$RUNNER_TEMP" && python -m pytest -q -p no:cacheprovider "$GITHUB_WORKSPACE/tests/test_config.py" -k smoke -v
   catalogs:
+    if: github.event_name == 'push' || github.event_name == 'merge_group'
     # what the catalogs read: the Claude Code plugin and marketplace (claude plugin validate), server.json against
     # the MCP Registry schema
     runs-on: ubuntu-latest
@@ -93,6 +117,7 @@ jobs:
           curl -fsSL "$(python3 -c "import json; print(json.load(open('server.json'))['\$schema'])")" -o schema.json
           python3 -c "import json,jsonschema; jsonschema.validate(json.load(open('server.json')), json.load(open('schema.json')))"
   docker:
+    if: github.event_name == 'push' || github.event_name == 'merge_group'
     # the remote MCP server as it is deployed (Dockerfile, docs/deploy.md): build, start, health, initialize, tools
     runs-on: ubuntu-latest
     steps:
@@ -111,3 +136,31 @@ jobs:
           python3 -c "import json; r=json.load(open('ssrf.json'))['result']; e=r['structuredContent']['snapshots'][0]['error']; assert 'not a public address' in e, r"
       - if: always()
         run: docker logs buddie || true
+
+  gate:
+    # Stable status across PR, merge queue and main. Merge queue MUST be required by repository rules.
+    name: gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [fast, test, release-candidate, os, catalogs, docker]
+    steps:
+      - name: enforce results for this event
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          FAST: ${{ needs.fast.result }}
+          TEST: ${{ needs.test.result }}
+          RELEASE_CANDIDATE: ${{ needs.release-candidate.result }}
+          OS: ${{ needs.os.result }}
+          CATALOGS: ${{ needs.catalogs.result }}
+          DOCKER: ${{ needs.docker.result }}
+        run: |
+          test "$FAST" = success || { echo "::error::fast checks failed: $FAST"; exit 1; }
+          if [ "$EVENT_NAME" = pull_request ]; then
+            for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER"; do
+              test "$result" = skipped || { echo "::error::full job unexpectedly $result on PR"; exit 1; }
+            done
+          else
+            for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER"; do
+              test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
+            done
+          fi
