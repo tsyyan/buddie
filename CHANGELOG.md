@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- MCP: the local stdio server offers verification feedback as `feedback_start` and `feedback_resolve`
+  (docs/feedback.md#mcp). The server runs every check itself, keeps each chain's trace and check options in its state
+  dir and re-verifies a correction with the chain's own options; no tool takes a receipt. Not on the remote server.
+  A chain is started whole or not at all and committed under an OS lock only if unchanged since read (one
+  submission per feedback across processes); a failed write leaves it as it was; damaged state is refused
+  (`state_corrupt`), a change outside a running server too (`state_tampered`), and every result says whether it
+  rests on the server's memory or on the agent-writable files (`basis`). Chains idle for 30 days are removed, at
+  most 256 are kept (`buddie/chains.py`).
 - Verification feedback v1 (docs/feedback.md, ADR-001): `buddie/feedback.py` turns a receipt-v1 into advisory,
   machine-readable feedback (a condition per finding, at most one bounded action, the receipt's evidence references
   unchanged); `buddie/repair.py` takes one corrected text per feedback within the actions' line scope, judges it only

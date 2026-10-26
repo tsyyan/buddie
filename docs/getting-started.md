@@ -93,8 +93,10 @@ git clone https://github.com/tsyyan/buddie
 | `source_text` | the visible text of a snapshot, or the matches of a pattern with context: copy quotes from here |
 | `summary` | Claude Code only: the code-built summary of finished subagents, from the hook's journal |
 | `environment_snapshot` | *(2.0)* observes the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes, ...), only the categories you granted ([environment.md](environment.md#diagnostics)) |
+| `feedback_start` | checks a report and opens a verification feedback chain: feedback-v1 with bounded actions ([feedback.md](feedback.md#mcp)) |
+| `feedback_resolve` | checks a corrected text against the chain's open feedback with the chain's own options and records the decision |
 
-Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all five; `summary` has data
+Every stdio server (the Claude Code and Codex plugins, Desktop, `uvx buddie serve`) lists all seven; `summary` has data
 only with the Claude Code hook, and `environment_snapshot` collects nothing until you grant categories. The remote
 server has the first three. **The MCP tools and the CLI advise**: they
 report, and you or the agent decide what to do with `FAIL`. **The hooks enforce**: they check the answer itself and
