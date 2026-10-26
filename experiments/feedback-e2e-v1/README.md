@@ -16,8 +16,8 @@ Does Verification Feedback v1 help an AI agent hand in a report it can rely on? 
 
 ## Reproduce (offline, no model, about a minute)
 
-From the repository root, with this branch checked out (the feedback tools come from tsyyan/buddie#60, which is not
-in a release):
+From the repository root. The feedback tools are on `main` since `16b525f` (tsyyan/buddie#60), but not in a
+release:
 
 ```bash
 python experiments/feedback-e2e-v1/bench.py smoke --out experiments/feedback-e2e-v1/results/smoke.jsonl

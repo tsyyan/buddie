@@ -4,7 +4,7 @@
 measures an AI agent. The question this benchmark asks (does feedback improve an agent's final report?) is still
 open.
 
-## 0. Preconditions (2026-10-26)
+## 0. Preconditions (2026-10-26, when the smoke run was made; kept as recorded)
 
 | Check | Observed |
 |---|---|
@@ -18,6 +18,22 @@ open.
 One runtime deviation was found and controlled for. On this machine `python -I` imports buddie from another
 checkout's editable install, so the benchmark pins its own checkout and a test fails if it does not
 (`test_the_benchmark_runs_this_checkouts_buddie`).
+
+### 0b. Re-check after #60 was merged (`main` = `16b525f`)
+
+#60 was merged on 2026-10-26 as `16b525f`. Before merging it gained one more change, `20fbcc5`, which bounds chain
+creation and state reads (`trace_too_large`, bounded rereads). This branch now has `main` merged in, with no rebase
+and no force-push.
+
+| Check | Observed |
+|---|---|
+| `feedback_start` / `feedback_resolve` on `main` | **yes**, since `16b525f`. They are still not in a release (2.0.1). |
+| Experiment files changed by the merge | none. `scenarios.py` (ground truth), `harness.py` (labels and criteria), the candidates and `results/` are byte-identical to `9e6b5b0`. |
+| `bench.py replay results/smoke.jsonl` on the merged code | every deterministic field matches (46/46 runs) |
+| Fresh smoke on the merged code (`f7a7c47`, seed 20261026) | summary identical to the committed `smoke-summary.json` apart from wall-clock time. It was not committed, so the recorded data stay as they ran. |
+| Protocol checks `test_1` … `test_10` | 10 passed |
+| Benchmark, live-gate and MCP feedback tests | 54 passed |
+| Full suite on the merged tree (Windows, Python 3.14) | 1506 passed, 52 skipped |
 
 ## 1. Preparation: protocol safety (offline, deterministic)
 

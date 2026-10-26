@@ -190,4 +190,4 @@ Its enforcement:
 The benchmark imports buddie from this checkout, never from an installed copy: `python -I` resolves to whatever
 editable install the machine has, which here was another checkout. Every record's runtime is in REPORT.md:
 `buddie.__file__`, commit and version. The public release (buddie 2.0.1 on PyPI and in the plugin) has no feedback
-tools; this benchmark needs this branch's buddie, built on tsyyan/buddie#60.
+tools. This benchmark needs a checkout of `main` at or after `16b525f` (tsyyan/buddie#60 merged), or this branch.
