@@ -20,6 +20,12 @@
   in the caller's process (a receipt dict is refused: receipts are unsigned); a repair may not add lines but
   `buddie:` disclosures, and a verified claim must stay where it was; task requirements stated by the orchestrator
   keep a corrected report apart from a finished task (`requirements_unmet`).
+- Automatically verify literal GitHub citations in ordinary Markdown reports through the existing `quote` check:
+  full-SHA file links, PR description bodies and file/side/line-addressed PR diffs. Inline and fenced code are
+  extracted; matching preserves code characters and indentation (CRLF → LF only). Ambiguous bindings and incomplete
+  patches flag gaps. GitHub evidence bundles retain revisions, locations and snapshot hashes, support offline
+  replay, and follow existing provenance/public-only remote access boundaries. No new dependency or MCP tool.
+  Existing non-GitHub reports keep their behavior. See `docs/github-citations.md` for supported forms and limits.
 
 ## buddie 2.0.1 (2026-10-26)
 

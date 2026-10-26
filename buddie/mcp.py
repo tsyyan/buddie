@@ -67,7 +67,8 @@ _CHECK_OPTIONS = {
     "transcript": {"type": "string", "description": "Claude Code session jsonl for run: anchors"},
     "numbers": {"type": "string", "enum": ["gap", "fail", "off"], "default": "gap",
                 "description": "a number of a cited sentence not in its source: gap, fail or off"},
-    "github": {"type": "boolean", "default": True, "description": "ask GitHub for pr:/ci: anchors"},
+    "github": {"type": "boolean", "default": True,
+               "description": "ask GitHub for pr:/ci: anchors and strict GitHub citation sources"},
     "profile": {"type": "string", "enum": ["developer", "research", "complete", "custom"],
                 "description": "what to check (default: everything): developer (repo, PR, CI, run: and work "
                                "claims), research (quotes and numbers), complete, or custom with modules "
@@ -262,13 +263,15 @@ def snap(args: dict) -> tuple[dict, bool]:
     return {"snapshots": out}, not any(o["sha256"] for o in out)
 
 
-def source_text(args: dict) -> tuple[dict, bool]:
+def source_text(args: dict, *, github_bundles: bool = True) -> tuple[dict, bool]:
     from buddie.verbatim.store import Store
     from buddie.verbatim.textlayer import Unreadable, layers
     try:
         entry, data = Store(args.get("store")).resolve(args["ref"])
     except KeyError:
         return {"error": f"no snapshot for {args['ref']}; call snap first"}, True
+    if entry.get("github_source") and not github_bundles:
+        return {"error": "saved GitHub bundles are unavailable on the public server"}, True
     try:
         visible = layers(data, entry.get("content_type"), entry.get("content_encoding"))["visible"]
     except Unreadable as error:

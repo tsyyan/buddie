@@ -551,7 +551,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--json", help="write the receipt here")
     s.add_argument("--rev", help="judge work claims against the queue as of this commit")
     s.add_argument("--transcript", help="Claude Code session jsonl for run: anchors")
-    s.add_argument("--no-github", action="store_true", help="leave pr:/ci: anchors UNCHECKABLE (offline)")
+    s.add_argument("--no-github", action="store_true", help="disable GitHub collection for pr:/ci: anchors and citation sources (saved citations may replay)")
     s.add_argument("--numbers", choices=("gap", "fail", "off"), default="gap",
                    help="a number of a cited sentence not in its source: a gap (default), a failure, or not checked")
     s.set_defaults(func=cmd_verify)
