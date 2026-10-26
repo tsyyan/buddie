@@ -82,7 +82,7 @@ def test_a_redirect_to_another_origin_gets_neither_the_token_nor_belief(two_host
     other_routes["/steal"] = '{"state": "open"}'
     with pytest.raises(effects.GitHubUnavailable, match="another host"):  # its answer is not taken
         effects.github_get("/repos/o/r/pulls/1")
-    assert other_seen == [("/steal", None)]  # urllib followed the redirect, without the token
+    assert other_seen == []  # refused before a request to the other origin
     routes["/repos/o/r/pulls/2"] = ("redirect", f"{other}/missing")  # a 404 there is not "no such PR" either
     with pytest.raises(effects.GitHubUnavailable, match="another host"):
         effects.github_get("/repos/o/r/pulls/2")
@@ -91,6 +91,10 @@ def test_a_redirect_to_another_origin_gets_neither_the_token_nor_belief(two_host
 def test_a_redirect_on_the_same_origin_is_followed_with_the_token(two_hosts, monkeypatch):
     (api, routes, seen), _ = two_hosts
     _api(monkeypatch, api)
+    # This test isolates redirect transport over loopback HTTP; the protected HTTPS destination parser is
+    # exercised separately in test_directory_credentials.py and test_evidence.py.
+    monkeypatch.setattr(effects, "api", lambda: (api, "policy"))
+    monkeypatch.setattr(policy, "valid_github_api", lambda value: value == api)
     monkeypatch.setenv("BUDDIE_GITHUB_TOKEN", "t0ken")
     routes["/repos/o/r/pulls/1"] = ("redirect", f"{api}/repositories/7/pulls/1")  # a renamed private repo
     routes["/repositories/7/pulls/1"] = ("private", '{"state": "open"}')
@@ -123,9 +127,9 @@ def test_the_plugins_token_does_not_go_to_an_api_the_environment_named(two_hosts
     routes["/repos/o/r/pulls/1"] = '{"state": "open"}'
     effects.github_get("/repos/o/r/pulls/1")
     assert seen == [("/repos/o/r/pulls/1", None)]
-    monkeypatch.setenv("BUDDIE_GITHUB_TOKEN", "fr0m-env")  # the environment's own token may go to its own API
+    monkeypatch.setenv("BUDDIE_GITHUB_TOKEN", "fr0m-env")  # neither credential may go to an environment API
     effects.github_get("/repos/o/r/pulls/1")
-    assert seen[-1] == ("/repos/o/r/pulls/1", "Bearer fr0m-env")
+    assert seen[-1] == ("/repos/o/r/pulls/1", None)
 
 
 @pytest.mark.parametrize("env_api", ["https://api.github.com/", "https://API.github.com", "https://api.github.com.",

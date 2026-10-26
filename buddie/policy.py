@@ -43,6 +43,23 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
+
+
+def valid_github_api(value) -> bool:
+    """A protected credential destination, without URL-embedded secrets or ambiguous paths."""
+    if not isinstance(value, str) or any(c.isspace() or ord(c) < 32 or c in "\\?#" for c in value):
+        return False
+    try:
+        parts = urlsplit(value)
+        port = parts.port
+        path = unquote(parts.path)
+        return (parts.scheme == "https" and bool(parts.hostname) and parts.username is None
+                and parts.password is None and (port is None or 1 <= port <= 65535)
+                and not any(p in (".", "..") for p in path.split("/"))
+                and not any(c in path for c in "\\%\r\n\x00"))
+    except ValueError:
+        return False
 
 VERSION = 1
 LEVELS = ("block", "warn", "off")
@@ -186,9 +203,8 @@ def parse(data: dict) -> Policy:
         if evidence.get(key, values[0]) not in values:
             raise ValueError(f"[evidence] {key} = {evidence[key]!r}: one of {', '.join(values)}")
     api = evidence.get("github_api")
-    if api is not None and (not isinstance(api, str) or not api.startswith("https://")
-                            or any(c.isspace() or c in "?#" for c in api)):
-        raise ValueError(f"[evidence] github_api = {api!r}: an https:// URL")
+    if api is not None and not valid_github_api(api):
+        raise ValueError("[evidence] github_api: an https:// URL with a host, no credentials, query, fragment or traversal")
     env = data.get("environment", {})
     if not isinstance(env, dict) or (bad := sorted(set(env) - {"allow", "roots"})):
         raise ValueError(f"[environment]: {', '.join(bad) if isinstance(env, dict) else 'not a table'}: keys allow, "

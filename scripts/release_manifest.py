@@ -5,8 +5,11 @@ and the check that PyPI serves exactly those files (the GitHub Release: release_
     python scripts/release_manifest.py verify DIR --version V --commit SHA
     python scripts/release_manifest.py pypi DIR PYPI_JSON        # PyPI's /pypi/buddie/V/json against the record
 
-DIR holds `dist/` (the wheel and the sdist) and `bundle/` (the Claude Desktop bundle); `write` adds
-`release-manifest.json` and `SHA256SUMS` (the `sha256sum -c` format) to it. Exit 0 when everything agrees, 1 with
+DIR holds `dist/` (the wheel and the sdist), `bundle/` (the Claude Desktop bundle) and `plugin/` (the compact Claude
+Code plugin and its manifest, scripts/plugin_package.py); `write` adds `release-manifest.json` and `SHA256SUMS` (the
+`sha256sum -c` format) to it. Besides each file's bytes, `verify` checks that the plugin's own manifest names the
+candidate's commit and version and the recorded ZIP by size and SHA-256, so a plugin built from another commit, or
+a ZIP swapped with its manifest, is refused even when every file hashes as recorded. Exit 0 when everything agrees, 1 with
 each disagreement on stderr. Standard library only: it runs before anything is installed.
 """
 from __future__ import annotations
@@ -28,7 +31,13 @@ SHA = re.compile(r"^[0-9a-f]{40}$")
 def expected(version: str) -> dict[str, str]:
     """Each file a candidate of `version` consists of, by its path in DIR, and its kind."""
     return {f"dist/{NAME}-{version}-py3-none-any.whl": "wheel", f"dist/{NAME}-{version}.tar.gz": "sdist",
-            f"bundle/{NAME}-{version}.mcpb": "mcpb"}
+            f"bundle/{NAME}-{version}.mcpb": "mcpb", f"plugin/{NAME}-plugin-{version}.zip": "plugin",
+            f"plugin/{PLUGIN_MANIFEST}": "plugin-manifest"}
+
+
+PLUGIN_SCHEMA = "buddie-plugin-package-v1"
+PLUGIN_MANIFEST = "plugin-manifest.json"
+KINDS = ("dist", "bundle", "plugin")
 
 
 def _sha256(path: Path) -> str:
@@ -40,7 +49,7 @@ def _sha256(path: Path) -> str:
 
 
 def _present(root: Path) -> set[str]:
-    return {p.relative_to(root).as_posix() for d in ("dist", "bundle") if (root / d).is_dir()
+    return {p.relative_to(root).as_posix() for d in KINDS if (root / d).is_dir()
             for p in (root / d).iterdir() if p.is_file()}
 
 
@@ -98,6 +107,8 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
         elif p.stat().st_size != f.get("size") or _sha256(p) != f.get("sha256"):
             problems.append(f"{path} is not the file the candidate recorded")
     problems += [f"unexpected {p}" for p in sorted(_present(root) - set(files))]
+    if not problems:
+        problems += plugin_binding(root, version, commit, files)
     try:
         sums = (root / SUMS).read_text(encoding="utf-8")
     except OSError as error:
@@ -106,6 +117,25 @@ def verify(root: Path, version: str, commit: str) -> list[str]:
         if sums != "".join(f"{f.get('sha256')}  {f.get('path')}\n" for f in record.get("files", [])):
             problems.append(f"{SUMS} disagrees with {MANIFEST}")
     return problems
+
+
+def plugin_binding(root: Path, version: str, commit: str, files: dict) -> list[str]:
+    """The plugin manifest is the builder's, for this commit and version, and names the recorded ZIP exactly."""
+    zip_path, man_path = f"plugin/{NAME}-plugin-{version}.zip", f"plugin/{PLUGIN_MANIFEST}"
+    try:
+        plugin = json.loads((root / man_path).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        return [f"{man_path}: {error}"]
+    package = plugin.get("package") or {}
+    checks = [
+        (plugin.get("schema") == PLUGIN_SCHEMA, f"{man_path} is not a {PLUGIN_SCHEMA} manifest"),
+        (plugin.get("version") == version, f"the plugin is version {plugin.get('version')!r}, not {version}"),
+        (plugin.get("commit") == commit, f"the plugin was built from {plugin.get('commit')!r}, not {commit}"),
+        (package.get("path") == Path(zip_path).name, f"the plugin manifest names {package.get('path')!r}"),
+        ((package.get("size"), package.get("sha256")) == (files[zip_path].get("size"), files[zip_path].get("sha256")),
+         "the plugin manifest does not name the recorded ZIP (size, sha256)"),
+    ]
+    return [why for ok, why in checks if not ok]
 
 
 def pypi(root: Path, release: dict) -> list[str]:

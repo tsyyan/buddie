@@ -1,0 +1,7 @@
+{
+  "base_main": "16b525f1ec8deba1d6ec47e4b2468a24af7b4363",
+  "workflow_path": ".github/workflows/release.yml",
+  "patch": "plugin-stable.patch",
+  "status": "PROPOSED in the compact-plugin release PR; requires the owner's separate approval before merge",
+  "expected_change": "Add the manual plugin-stable stage (only: plugin-stable, never part of all; needs authorize; contents: write only there), the create_branch input, the stage choice, and pass --only to authorize; every existing job, permission and environment unchanged"
+}

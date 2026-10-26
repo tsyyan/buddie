@@ -23,15 +23,45 @@ PINNED_SINCE_PROPOSAL = {
 }
 
 
+def unapply(text: str, patch: str) -> str:
+    """`text` with the unified diff `patch` taken back out, exactly: every hunk's new lines must be where the hunk
+    says, and are replaced by its old lines. AssertionError when the patch does not match `text` byte for byte."""
+    lines = text.split("\n")
+    hunks = re.split(r"(?m)^(?=@@ )", patch)[1:]
+    for hunk in reversed(hunks):
+        head, *body = hunk.rstrip("\n").split("\n")
+        start = int(re.match(r"@@ -\d+(?:,\d+)? \+(\d+)", head)[1]) - 1
+        new = [b[1:] for b in body if b[:1] in (" ", "+")]
+        old = [b[1:] for b in body if b[:1] in (" ", "-")]
+        assert lines[start:start + len(new)] == new, f"the patch does not match the workflow at line {start + 1}"
+        lines[start:start + len(new)] = old
+    return "\n".join(lines)
+
+
+def test_the_plugin_stable_proposal_is_the_only_other_change():
+    """The compact-plugin release PR's change to release.yml is exactly proposals/plugin-stable.patch: taken back
+    out, the workflow is main's at the proposal's base, which the test below then checks as before."""
+    proposal = json.loads((MAINTENANCE / "proposals/plugin-stable.json").read_text(encoding="utf-8"))
+    patch = (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8").replace("\r\n", "\n")
+    assert proposal["workflow_path"] == ".github/workflows/release.yml" and "requires the owner" in proposal["status"]
+    live = (ROOT / proposal["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    base = unapply(live, patch)
+    assert "plugin-stable" not in base and "create_branch" not in base
+
+
 def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
     """Removing the patch's one added line from the live workflow, and undoing the action pins of the 2.0.0 release
     commit, gives back, byte for byte (LF), the base the proposal was reviewed against; the line is there once, in
-    the authorize job. Any other change to release.yml fails here."""
+    the authorize job. Any other change to release.yml fails here, but the plugin-stable proposal, taken back out
+    exactly first (test above)."""
     source = json.loads((MAINTENANCE / "proposals/source.json").read_text(encoding="utf-8"))
     patch = (MAINTENANCE / "proposals/authorize-environment.patch").read_text(encoding="utf-8")
     added = [line[1:] for line in patch.splitlines() if line.startswith("+") and not line.startswith("+++")]
     assert added == ["    environment: pypi"]
     live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    proposal = json.loads((MAINTENANCE / "proposals/plugin-stable.json").read_text(encoding="utf-8"))
+    live = unapply(live, (MAINTENANCE / "proposals" / proposal["patch"]).read_text(encoding="utf-8")
+                   .replace("\r\n", "\n"))
     for pinned, floating in PINNED_SINCE_PROPOSAL.items():
         assert f"uses: {pinned}\n" in live, pinned
         live = live.replace(f"uses: {pinned}\n", f"uses: {floating}\n")

@@ -13,7 +13,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
 PUBLISHERS = ("pypi", "mcp-registry", "github-release")
-ORDER = ("candidate", "authorize", *PUBLISHERS)
+PROMOTER = "plugin-stable"  # the distribution branch: authorized like a publisher, chosen only by hand
+ORDER = ("candidate", "authorize", *PUBLISHERS, PROMOTER)
 
 
 def _jobs(text: str) -> dict[str, dict]:
@@ -123,7 +124,7 @@ def test_what_can_write_is_only_in_jobs_that_need_authorize():
     writers = {n for n, j in JOBS.items()
                if re.search(r"id-token: write|contents: write|pypi-publish|mcp-publisher|release_publish.py github",
                             j["block"])}
-    assert writers == set(PUBLISHERS)
+    assert writers == set(PUBLISHERS) | {PROMOTER}
     assert all("authorize" in JOBS[n]["needs"] for n in writers)
 
 
@@ -202,3 +203,42 @@ def test_each_stage_still_verifies_the_candidates_files(name, checks):
     assert "run-id: ${{ inputs.candidate }}" in block and "python -m build" not in block
     for check in checks:
         assert check in block, (name, check)
+
+
+# --- plugin-stable (scripts/plugin_promote.py) ----------------------------------------------------------------------
+
+def _promote(only="plugin-stable"):
+    return {"candidate": "40023776731", "confirm": "promote buddie 2.0.0 to plugin-stable", "only": only}
+
+
+def test_plugin_stable_runs_only_when_chosen_by_hand_and_authorized():
+    results = _run("workflow_dispatch", _promote())
+    assert results["authorize"] == "success" and results[PROMOTER] == "success"
+    assert _published(results) == set()                     # promoting publishes nothing else
+    for event, inputs in (("push", {}), ("workflow_dispatch", _dispatch("all")),
+                          ("workflow_dispatch", _dispatch("all", candidate="")), ("workflow_dispatch", _dispatch("pypi"))):
+        assert _run(event, inputs)[PROMOTER] == "skipped", (event, inputs)
+    for ends in ("failure", "cancelled"):
+        assert _run("workflow_dispatch", _promote(), authorize_ends=ends)[PROMOTER] == "skipped"
+
+
+def test_plugin_stable_pushes_without_force_verifies_and_installs():
+    block = JOBS[PROMOTER]["block"]
+    assert JOBS[PROMOTER]["needs"] == ["authorize"] and JOBS[PROMOTER]["environment"] is None
+    for needed in ("run-id: ${{ inputs.candidate }}", "release_manifest.py verify rc", "plugin_package.py verify rc/plugin --ref",
+                   "plugin_promote.py promote rc", "plugin_promote.py verify --commit", "plugin install buddie@buddie",
+                   "smoke_plugin.py", "create_branch"):
+        assert needed in block, needed
+    assert not re.search(r"--force|push -f|\+refs/", WORKFLOW)
+    promote = (ROOT / "scripts/plugin_promote.py").read_text(encoding="utf-8")
+    pushes = re.findall(r'git\(repo, "push"[^)]*\)', promote)
+    assert pushes == ['git(repo, "push", "--quiet", remote, f"{commit}:{ref}")']
+
+
+def test_a_publish_approval_does_not_promote_and_a_promotion_approval_does_not_publish():
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import release_publish as rp
+    assert rp.confirmation("2.0.0") == "publish buddie 2.0.0"
+    assert rp.confirmation("2.0.0", "plugin-stable") == "promote buddie 2.0.0 to plugin-stable"
+    assert rp.confirmation("2.0.0", "all") != rp.confirmation("2.0.0", "plugin-stable")

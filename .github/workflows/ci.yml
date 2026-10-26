@@ -80,7 +80,14 @@ jobs:
         with:
           node-version: "22"
       - run: npm install -g --silent @anthropic-ai/claude-code
-      - run: claude plugin validate . && claude plugin validate .claude-plugin/plugin.json
+      - run: claude plugin validate --strict . && claude plugin validate --strict .claude-plugin/plugin.json
+      - name: inventory the actual Directory source (including remaining review holds)
+        run: python3 scripts/plugin_inventory.py --ref "$GITHUB_SHA" > "$RUNNER_TEMP/claude-directory-inventory.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: claude-directory-inventory
+          path: ${{ runner.temp }}/claude-directory-inventory.json
+          if-no-files-found: error
       - run: |
           python3 -m pip install -q jsonschema
           curl -fsSL "$(python3 -c "import json; print(json.load(open('server.json'))['\$schema'])")" -o schema.json

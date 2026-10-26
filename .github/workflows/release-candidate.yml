@@ -1,5 +1,6 @@
-# The release candidate (docs/release.md): sdist, wheel and the Claude Desktop bundle built once from this exact
-# commit, validated, installed into clean venvs and run, then recorded (commit, sizes, SHA-256) in
+# The release candidate (docs/release.md): sdist, wheel, the Claude Desktop bundle and the compact Claude Code plugin
+# built once from this exact commit, validated, installed (clean venvs; an isolated Claude Code configuration) and
+# run, then recorded (commit, sizes, SHA-256) in
 # release-manifest.json and SHA256SUMS, all uploaded as the artifact `release-candidate`. It publishes nothing and
 # asks for no permission beyond reading the repository. release.yml calls it for a tag and publishes these same
 # files later; ci.yml calls it on every pull request, so the path is tested before a release needs it.
@@ -55,10 +56,27 @@ jobs:
           npx --yes @anthropic-ai/mcpb@2.1.2 pack . "rc/bundle/buddie-$V.mcpb"
           npx --yes @anthropic-ai/mcpb@2.1.2 unpack "rc/bundle/buddie-$V.mcpb" "$RUNNER_TEMP/bundle"
           cd "$RUNNER_TEMP/bundle" && find . -type f | sort | tee "$RUNNER_TEMP/files.txt"
-          if grep -E '^\./(tests|results|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
+          if grep -E '^\./(tests|results|experiments|examples|docs|\.github|hooks|skills)/' "$RUNNER_TEMP/files.txt"; then
             echo "::error::the bundle carries files it should not"; exit 1
           fi
           cd "$GITHUB_WORKSPACE" && python scripts/smoke_mcpb.py "$RUNNER_TEMP/bundle"
+      - name: compact Claude Code plugin (scripts/plugin_package.py), validated, installed and run
+        env:
+          CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
+        run: |
+          python scripts/plugin_package.py build --ref "$GITHUB_SHA" --out rc/plugin --tree "$RUNNER_TEMP/plugin"
+          python scripts/plugin_package.py verify rc/plugin --ref "$GITHUB_SHA"   # a rebuild gives the same bytes
+          # an isolated Claude Code configuration: no sign-in, nothing of the runner's, removed with the runner
+          export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude-config"
+          mkdir -p "$CLAUDE_CONFIG_DIR"
+          npx --yes "$CLAUDE_CLI" plugin validate --strict "$RUNNER_TEMP/plugin"
+          npx --yes "$CLAUDE_CLI" plugin validate --strict "$RUNNER_TEMP/plugin/.claude-plugin/plugin.json"
+          npx --yes "$CLAUDE_CLI" plugin validate --strict --profile directory "$RUNNER_TEMP/plugin"
+          npx --yes "$CLAUDE_CLI" plugin marketplace add "$RUNNER_TEMP/plugin"
+          npx --yes "$CLAUDE_CLI" plugin install buddie@buddie
+          installed=$(python -c "import json,os; d=json.load(open(os.path.join(os.environ['CLAUDE_CONFIG_DIR'], 'plugins', 'installed_plugins.json'))); print(d['plugins']['buddie@buddie'][0]['installPath'])")
+          python scripts/smoke_plugin.py "$installed" --manifest rc/plugin/plugin-manifest.json
+          (cd rc/plugin && sha256sum *)
       - name: the wheel and the sdist install into clean venvs and run
         env:
           V: ${{ steps.version.outputs.version }}
