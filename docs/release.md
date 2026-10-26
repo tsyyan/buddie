@@ -31,11 +31,17 @@ long before a release needs it. With read-only permission and no secret, it:
    ([`scripts/smoke_install.py`](../scripts/smoke_install.py)): both entry points report the version, the stdio MCP
    server lists its five tools (`environment_snapshot` among them), and the quickstart ([verification.md](verification.md#see-it-work)) gives exit 1 and
    `FAIL`;
-5. records the candidate ([`scripts/release_manifest.py`](../scripts/release_manifest.py)): `release-manifest.json`
+5. builds the compact Claude Code plugin from the same commit ([`scripts/plugin_package.py`](../scripts/plugin_package.py),
+   [plugin-distribution.md](plugin-distribution.md)). It checks that a rebuild gives the same bytes, validates it
+   with the pinned Claude Code CLI (`plugin validate --strict`, also `--profile directory`), installs it into an
+   isolated Claude Code configuration, and runs the installed copy
+   ([`scripts/smoke_plugin.py`](../scripts/smoke_plugin.py)): exact files, MCP, an optional token, hooks;
+6. records the candidate ([`scripts/release_manifest.py`](../scripts/release_manifest.py)): `release-manifest.json`
    (schema `buddie-release-candidate-v1`: version, commit, ref, repository, run id, and each file's path, kind,
    size and SHA-256) and `SHA256SUMS` in the format `sha256sum -c` reads; both are checked against the files at once;
-6. uploads `dist/`, `bundle/`, the record and the sums as the artifact `release-candidate`, and writes the sums and
-   the record into the run's summary.
+   The record also requires the plugin's own manifest to name this commit, this version and the recorded ZIP;
+7. uploads `dist/`, `bundle/`, `plugin/`, the record and the sums as the artifact `release-candidate`, and writes the
+   sums and the record into the run's summary.
 
 The same check runs on a machine of your own without GitHub:
 
@@ -278,6 +284,44 @@ Done: the PyPI trusted publisher for `tsyyan/buddie`, workflow `release.yml`, en
 trusted publisher is bound to. If TestPyPI is wanted again, it needs a trusted publisher there and an environment
 `testpypi`; the workflow no longer has that target, since the candidate replaces it as the dry run.
 
+## 3. plugin-stable (the compact plugin's distribution branch)
+
+`plugin-stable` holds the compact plugin of released versions, one commit per version. Each commit's tree is
+exactly a candidate's verified ZIP, and its message records where it came from (`Buddie-Version`, `Source-Commit`,
+`Package-SHA256`, `Plugin-Manifest-SHA256`). It is not a source tree. Nothing is developed on it, `main` stays the
+default branch, and no push to `main` changes it.
+
+The branch moves only in a manual run of `release.yml` on the release tag. That run needs:
+
+- `candidate`: the tag's successful candidate run;
+- `only`: `plugin-stable`, which is never part of `all`;
+- `confirm`: exactly `promote buddie X.Y.Z to plugin-stable`. A publish confirmation does not promote, and a
+  promotion confirmation does not publish;
+- `create_branch`: for the first promotion only.
+
+`authorize` checks the run exactly as for publishing. The `plugin-stable` job then:
+
+1. verifies the candidate's files and rebuilds the plugin from the tag's commit, byte for byte;
+2. runs [`scripts/plugin_promote.py`](../scripts/plugin_promote.py) `promote`. This makes the next commit, whose
+   parent is the head it read, and pushes it with a plain push (never forced: a branch that moved meanwhile rejects
+   it). It refuses:
+   - a head that is not a promotion;
+   - a head that is the same version as another package;
+   - a head that is a newer version (no downgrade).
+
+   If the head is already this package, it does nothing;
+3. fetches the branch, checks that its head is that commit and that its tree is the package file by file, installs
+   it from an archive of that commit into an isolated Claude Code configuration, and runs the installed copy.
+
+**Retry:** run the same job again. The commit is deterministic (fixed identity, the source commit's date, same
+parent), so a push that failed is made again with the same commit, and one that succeeded is found as
+`already-promoted`.
+
+**Rollback:** promote a fixed newer version. History is never rewritten. In an emergency a person may revert on
+the branch by hand. That commit has no trailers, so the next promotion refuses until a person has looked.
+
+Tags, PyPI, the MCP Registry, the GitHub Release and the Directory submission are not touched by this stage.
+
 ## Cutting a release
 
 1. Bump the version in `buddie/__init__.py`, `pyproject.toml`, `CITATION.cff`, `.claude-plugin/plugin.json`,
@@ -355,7 +399,7 @@ cd buddie-X.Y.Z
 ```
 
 ```bash
-mkdir -p dist bundle && mv buddie-X.Y.Z-py3-none-any.whl buddie-X.Y.Z.tar.gz dist/ && mv buddie-X.Y.Z.mcpb bundle/
+mkdir -p dist bundle plugin && mv buddie-X.Y.Z-py3-none-any.whl buddie-X.Y.Z.tar.gz dist/ && mv buddie-X.Y.Z.mcpb bundle/ && mv buddie-plugin-X.Y.Z.zip plugin-manifest.json plugin/
 ```
 
 ```bash

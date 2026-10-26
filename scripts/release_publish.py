@@ -2,7 +2,7 @@
 who may publish what, whether a stage is already done, and the GitHub Release.
 
     python scripts/release_publish.py authorize RC --run RUN_JSON --candidate ID --repo O/R --sha SHA --ref-type T
-        --ref-name NAME --tag-commit SHA --on-main yes|no --version V --confirm TEXT
+        --ref-name NAME --tag-commit SHA --on-main yes|no --version V --confirm TEXT [--only STAGE]
     python scripts/release_publish.py pypi-plan RC PYPI_JSON|-          # prints upload or done
     python scripts/release_publish.py registry-check SERVER_JSON LISTED_JSON
     python scripts/release_publish.py github-release RC --repo O/R --tag vV --sha SHA --version V --notes FILE
@@ -38,18 +38,24 @@ class Stop(Exception):
 
 # --- authorize -------------------------------------------------------------------------------------------------------
 
+def confirmation(version: str, only: str = "all") -> str:
+    """The words a person types to approve `only`: publishing, or promoting the plugin to plugin-stable. One
+    approval never covers the other."""
+    return f"promote buddie {version} to plugin-stable" if only == "plugin-stable" else f"publish buddie {version}"
+
+
 def authorize(rc: Path, run: dict, candidate: str, *, repo: str, sha: str, ref_type: str, ref_name: str,
-              tag_commit: str, on_main: bool, version: str, confirm: str) -> list[str]:
-    """Every reason this publish run may not publish the candidate in `rc`. `run` is the GitHub API's record of
-    the candidate run, `tag_commit` what the tag names now (git rev-parse), `on_main` whether that commit is in
-    main's history, `version` buddie.__version__ at the checked-out tag."""
+              tag_commit: str, on_main: bool, version: str, confirm: str, only: str = "all") -> list[str]:
+    """Every reason this run may not publish (or, with only="plugin-stable", promote) the candidate in `rc`.
+    `run` is the GitHub API's record of the candidate run, `tag_commit` what the tag names now (git rev-parse),
+    `on_main` whether that commit is in main's history, `version` buddie.__version__ at the checked-out tag."""
     tag = f"v{version}"
     checks = [
         (ref_type == "tag", f"publish runs on a release tag, not the {ref_type or 'unknown'} {ref_name}"),
         (ref_name == tag, f"tag {ref_name} but buddie.__version__ is {version}"),
         (tag_commit == sha, f"the tag {ref_name} names {tag_commit}, the run checked out {sha}"),
         (on_main, f"{sha} is not in main's history"),
-        (confirm == f"publish buddie {version}", f"confirm must be exactly: publish buddie {version}"),
+        (confirm == confirmation(version, only), f"confirm must be exactly: {confirmation(version, only)}"),
         (str(candidate).isdigit() and str(run.get("id")) == str(candidate),
          f"candidate {candidate!r} is not the run the API returned ({run.get('id')})"),
         (run.get("path") == WORKFLOW, f"the candidate run is {run.get('path')}, not {WORKFLOW}"),
@@ -277,6 +283,7 @@ def main(argv: list[str] | None = None) -> int:
     for opt in ("--run", "--candidate", "--repo", "--sha", "--ref-type", "--ref-name", "--tag-commit", "--on-main",
                 "--version", "--confirm"):
         a.add_argument(opt, required=True)
+    a.add_argument("--only", default="all")
     p = sub.add_parser("pypi-plan")
     p.add_argument("rc", type=Path)
     p.add_argument("json")
@@ -293,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
             problems = authorize(args.rc, json.loads(Path(args.run).read_text(encoding="utf-8")), args.candidate,
                                  repo=args.repo, sha=args.sha, ref_type=args.ref_type, ref_name=args.ref_name,
                                  tag_commit=args.tag_commit, on_main=args.on_main == "yes", version=args.version,
-                                 confirm=args.confirm)
+                                 confirm=args.confirm, only=args.only)
         elif args.command == "pypi-plan":
             release = None if args.json == "-" else json.loads(Path(args.json).read_text(encoding="utf-8"))
             print(pypi_plan(args.rc, release))
