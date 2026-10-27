@@ -1,8 +1,8 @@
 {
   "name": "buddie",
-  "displayName": "Buddie — AI Answer Verifier",
+  "displayName": "Buddie — AI Agent Guardrails",
   "version": "2.0.2",
-  "description": "Checks AI-generated answers against cited sources and execution evidence. Verifies quotations, GitHub pull requests, CI results, and session claims with deterministic checks, without another AI model. Flags unsupported statements and provides actionable feedback.",
+  "description": "Buddie checks AI agents before their answers reach you. It catches unsupported claims about sources, code, GitHub, CI and test runs, sends failures back for correction, and gives agents permission-controlled facts about your machine. Deterministic checks, no AI judge.",
   "author": {
     "name": "tsyyan"
   },
