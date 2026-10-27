@@ -1,8 +1,8 @@
 {
   "name": "buddie",
-  "displayName": "buddie: claim checker",
+  "displayName": "Buddie — AI Agent Guardrails",
   "version": "2.0.2",
-  "description": "Checks Claude's answers before you read them: each quote against the page it links to, and anchored claims like merged, CI green or tests passed against git, GitHub and the session log. No model in the check; a false claim goes back to Claude with the reason.",
+  "description": "Buddie checks AI agents before their answers reach you. It catches unsupported claims about sources, code, GitHub, CI and test runs, sends failures back for correction, and gives agents permission-controlled facts about your machine. Deterministic checks, no AI judge.",
   "author": {
     "name": "tsyyan"
   },
