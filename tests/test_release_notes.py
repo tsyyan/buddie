@@ -1,5 +1,6 @@
 import copy
 import json
+import re
 import sys
 from pathlib import Path
 import pytest
@@ -63,6 +64,6 @@ def test_release_record_covers_feedback_accept_and_changelog_has_no_stale_unrele
     for tool in ("feedback_start", "feedback_resolve", "feedback_accept"):
         assert tool in changes
     changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
-    section = changelog.split("## buddie 2.0.2 (not released)", 1)[1].split("## buddie 2.0.1", 1)[0]
+    section = re.split(r"(?m)^## buddie 2\.0\.2 \((?:not released|\d{4}-\d{2}-\d{2})\)$", changelog, maxsplit=1)[1].split("## buddie 2.0.1", 1)[0]
     assert "## Unreleased" not in section
     assert "releases/2.0.2.json" in section

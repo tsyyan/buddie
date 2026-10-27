@@ -1,11 +1,11 @@
 # Changelog
 
-## buddie 2.0.2 (not released)
+## buddie 2.0.2 (2026-10-27)
 
-Public release notes for this development version are generated from the authoritative
+Public release notes for this version are generated from the authoritative
 [release record](releases/2.0.2.json).
 
-The public record above is the sole authoritative description of the planned 2.0.2 release.
+The public record above is the sole authoritative description of the 2.0.2 release.
 Detailed development behavior remains documented in `docs/feedback.md`, `docs/github-citations.md`,
 and `docs/plugin-distribution.md`; no second editable 2.0.2 change list is maintained here.
 

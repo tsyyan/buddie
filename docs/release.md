@@ -248,11 +248,19 @@ this page last observed through the API is dated; it is not proof of the setting
 
 - [ ] **The release commit**: its full SHA, on `main`, is the merge of the release-commit PR ("Cutting a release",
   step 3), and nothing is merged after it before the tag.
-- [ ] **CI on that SHA**: all nine required contexts pass: `test (3.11)`, `test (3.12)`, `test (3.13)`,
-  `os (ubuntu-latest)`, `os (macos-latest)`, `os (windows-latest)`, `catalogs`, `docker`,
-  `release-candidate / build`.
+- [ ] **The release-commit PR ran full validation**: it carries the label `full-ci-required`, and on its final head
+  `gate` passed together with every full job: `fast`, `test (3.11)`, `test (3.12)`, `test (3.13)`,
+  `os (ubuntu-latest)`, `os (macos-latest)`, `os (windows-latest)`, `catalogs`, `docker` and
+  `release-candidate / build` (`ci.yml`). Without the label only `fast` runs and `gate` fails, so the PR cannot merge.
+  The PR's `release-candidate / build` is the pre-merge candidate evidence; keep its run id.
+- [ ] **CI on that SHA**: the push run on `main` passed `gate` with `test`, `os`, `catalogs` and `docker`.
+  `release-candidate` does not run on `main` (it would rebuild what the PR already built); the publishable candidate
+  is built from the tag by `release.yml`.
 - [ ] **`main` and the tags are protected**: ruleset `main-reviewed-ci` (pull request, required checks, no force push
-  or deletion); `release-tags-creation` (only administrators create `v*`); `release-tags-immutable` (no update or
+  or deletion). Its required contexts are the branch-protection rule, not the list of evidence above: observed on
+  2026-10-27 they were `gate` plus `test (3.11)`, `test (3.12)`, `test (3.13)`, `os (ubuntu-latest)`,
+  `os (macos-latest)`, `os (windows-latest)`, `catalogs`, `docker`, `release-candidate / build`. `gate` is the one
+  that enforces the label and the full results; read the ruleset on the day rather than this list; `release-tags-creation` (only administrators create `v*`); `release-tags-immutable` (no update or
   deletion of `v*`, no bypass). Observed active on 2026-10-24.
 - [ ] **The `pypi` environment**: required reviewer, administrator bypass off, deployment limited to tags `v*`.
   Observed on 2026-10-24: reviewer `tsyyan` with self-review allowed (a solo checkpoint, not two-person approval),
@@ -260,8 +268,8 @@ this page last observed through the API is dated; it is not proof of the setting
 - [ ] **PyPI's trusted publisher**, checked by the owner on pypi.org (the project в†’ Publishing): repository
   `tsyyan/buddie`, workflow `release.yml`, environment `pypi`. Not visible from GitHub; the 1.x releases were
   published under these names (run 39439955515).
-- [ ] **No conflict**: no tag `v2.0.0` (`git ls-remote --tags origin v2.0.0` prints nothing), no `buddie 2.0.0` on PyPI
-  (`https://pypi.org/pypi/buddie/2.0.0/json` answers 404), no registry entry for 2.0.0, no release or draft for the tag.
+- [ ] **No conflict**: no tag `vX.Y.Z` (`git ls-remote --tags origin vX.Y.Z` prints nothing), no `buddie X.Y.Z` on PyPI
+  (`https://pypi.org/pypi/buddie/X.Y.Z/json` answers 404), no registry entry for X.Y.Z, no release or draft for the tag.
 - [ ] **The owner approves creating the tag**, explicitly, for that SHA.
 - [ ] **The tagged candidate**: the candidate run started by the tag push succeeded, its summary names the release
   commit, and its `SHA256SUMS` is read and kept with the run id.
@@ -346,7 +354,8 @@ Tags, PyPI, the MCP Registry, the GitHub Release and the Directory submission ar
      `tests/test_readme.py` maps each pinned URL back to the file in the checkout and refuses a relative one. Until
      the tag is pushed (step 4) these URLs answer 404 on GitHub; after it they are permanent (`v*` tags are
      immutable). Check the page as PyPI renders it: `python -m readme_renderer README.md -o readme.html`.
-3. Merge to `main` with CI green (CI has already built a candidate of that commit).
+3. Label the PR `full-ci-required` and merge to `main` once `gate` is green (the PR's `release-candidate / build`
+   has built a candidate of the merge ref; `main` does not rebuild it).
 4. Tag the merge commit and push the tag: the candidate run starts.
 
    ```bash
