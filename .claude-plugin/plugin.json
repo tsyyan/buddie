@@ -1,8 +1,8 @@
 {
   "name": "buddie",
-  "displayName": "buddie: claim checker",
+  "displayName": "Buddie — AI Answer Verifier",
   "version": "2.0.2",
-  "description": "Checks Claude's answers before you read them: each quote against the page it links to, and anchored claims like merged, CI green or tests passed against git, GitHub and the session log. No model in the check; a false claim goes back to Claude with the reason.",
+  "description": "Checks AI-generated answers against cited sources and execution evidence. Verifies quotations, GitHub pull requests, CI results, and session claims with deterministic checks, without another AI model. Flags unsupported statements and provides actionable feedback.",
   "author": {
     "name": "tsyyan"
   },
