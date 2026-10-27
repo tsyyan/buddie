@@ -8,7 +8,7 @@ Install: `pip install buddie==2.0.2`.
 
 # Buddie 2.0.2
 
-2026-10-26
+2026-10-27
 
 Versioned public release information and source-bound distribution candidates.
 
