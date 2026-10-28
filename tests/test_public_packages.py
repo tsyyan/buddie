@@ -15,7 +15,7 @@ import check_public_packages as check
 import release_notes as rn
 
 PROJECT = tomllib.loads((ROOT / 'pyproject.toml').read_text(encoding='utf-8'))['project']
-RECORD = rn.load_release(ROOT / 'releases/2.0.2.json', '2.0.2')
+RECORD = rn.load_release(ROOT / f"releases/{PROJECT['version']}.json", PROJECT['version'])
 
 
 def package(tmp_path, kind, change=None, newline='\n'):
@@ -33,13 +33,13 @@ def package(tmp_path, kind, change=None, newline='\n'):
            ''.join(f'Project-URL: {k}, {v}\n' for k, v in urls.items()) +
            ''.join(f'License-File: {v}\n' for v in licenses) + '\n' + body).replace('\n', newline).encode('utf-8')
     if kind == 'wheel':
-        path = tmp_path / 'buddie-2.0.2-py3-none-any.whl'
+        path = tmp_path / f"buddie-{RECORD['version']}-py3-none-any.whl"
         with zipfile.ZipFile(path, 'w') as archive:
-            archive.writestr('buddie-2.0.2.dist-info/METADATA', raw)
+            archive.writestr(f"buddie-{RECORD['version']}.dist-info/METADATA", raw)
     else:
-        path = tmp_path / 'buddie-2.0.2.tar.gz'
+        path = tmp_path / f"buddie-{RECORD['version']}.tar.gz"
         with tarfile.open(path, 'w:gz') as archive:
-            member = tarfile.TarInfo('buddie-2.0.2/PKG-INFO')
+            member = tarfile.TarInfo(f"buddie-{RECORD['version']}/PKG-INFO")
             member.size = len(raw)
             archive.addfile(member, io.BytesIO(raw))
     return path

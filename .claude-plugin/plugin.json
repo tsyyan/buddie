@@ -1,7 +1,7 @@
 {
   "name": "buddie",
   "displayName": "Buddie — AI Agent Reliability Toolkit",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
   "author": {
     "name": "tsyyan"
