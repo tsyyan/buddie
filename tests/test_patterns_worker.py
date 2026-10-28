@@ -201,8 +201,12 @@ def _alive(pid: int) -> bool:
         return False
     except PermissionError:
         return True
+    if not sys.platform.startswith("linux"):  # no /proc (macOS): the signal is the answer
+        return True
     try:  # a zombie is gone for this purpose
         return Path(f"/proc/{pid}/status").read_text().find("State:\tZ") < 0
+    except (FileNotFoundError, ProcessLookupError):  # reaped between the signal and the read (#73)
+        return False
     except OSError:
         return True
 
@@ -231,11 +235,12 @@ patterns.search(r"a*a*a*a*b", "a" * 3000)  # minutes: buddie is killed meanwhile
         assert _alive(worker)  # matching
         p.kill()
         p.wait(30)
+        ended = False
         for _ in range(50):
-            if not _alive(worker):
+            if not _alive(worker):  # once gone it stays gone: no second read that a reap can race (#73)
+                ended = True
                 break
             time.sleep(0.1)
-        ended = not _alive(worker)
         if not ended:
             detail = f"worker {worker} outlived buddie process {p.pid}"
             if sys.platform.startswith("linux"):

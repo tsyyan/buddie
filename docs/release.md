@@ -248,10 +248,10 @@ this page last observed through the API is dated; it is not proof of the setting
 
 - [ ] **The release commit**: its full SHA, on `main`, is the merge of the release-commit PR ("Cutting a release",
   step 3), and nothing is merged after it before the tag.
-- [ ] **The release-commit PR ran full validation**: it carries the label `full-ci-required`, and on its final head
+- [ ] **The release-commit PR ran full validation**: it is ready for review (not a draft), and on its final head
   `gate` passed together with every full job: `fast`, `test (3.11)`, `test (3.12)`, `test (3.13)`,
   `os (ubuntu-latest)`, `os (macos-latest)`, `os (windows-latest)`, `catalogs`, `docker` and
-  `release-candidate / build` (`ci.yml`). Without the label only `fast` runs and `gate` fails, so the PR cannot merge.
+  `release-candidate / build` (`ci.yml`). As a draft only `fast` runs and `gate` fails, so the PR cannot merge.
   The PR's `release-candidate / build` is the pre-merge candidate evidence; keep its run id.
 - [ ] **CI on that SHA**: the push run on `main` passed `gate` with `test`, `os`, `catalogs` and `docker`.
   `release-candidate` does not run on `main` (it would rebuild what the PR already built); the publishable candidate
@@ -354,7 +354,7 @@ Tags, PyPI, the MCP Registry, the GitHub Release and the Directory submission ar
      `tests/test_readme.py` maps each pinned URL back to the file in the checkout and refuses a relative one. Until
      the tag is pushed (step 4) these URLs answer 404 on GitHub; after it they are permanent (`v*` tags are
      immutable). Check the page as PyPI renders it: `python -m readme_renderer README.md -o readme.html`.
-3. Label the PR `full-ci-required` and merge to `main` once `gate` is green (the PR's `release-candidate / build`
+3. Mark the PR ready for review and merge to `main` once `gate` is green (the PR's `release-candidate / build`
    has built a candidate of the merge ref; `main` does not rebuild it).
 4. Tag the merge commit and push the tag: the candidate run starts.
 
