@@ -1,7 +1,7 @@
 {
   "schema": "buddie-public-release-v1",
   "version": "2.0.4",
-  "date": "2026-10-28",
+  "date": "2026-10-29",
   "summary": "Buddie — AI Agent Reliability Toolkit: canonical Discovery, README-style branding, Linux worker guard hardening and Stop-hook corrections without duplicate answers.",
   "changes": [
     "The compact Claude plugin includes the canonical Buddie Discovery skill and reporting reference, read from the release commit and relocated without changing their bytes.",

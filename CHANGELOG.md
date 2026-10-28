@@ -1,6 +1,6 @@
 # Changelog
 
-## buddie 2.0.4 (2026-10-28)
+## buddie 2.0.4 (2026-10-29)
 
 Public release content is generated from `releases/2.0.4.json` and bound to the candidate.
 

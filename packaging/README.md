@@ -12,7 +12,7 @@ Install: `pip install buddie==2.0.4`.
 
 # Buddie 2.0.4
 
-2026-10-28
+2026-10-29
 
 Buddie — AI Agent Reliability Toolkit: canonical Discovery, README-style branding, Linux worker guard hardening and Stop-hook corrections without duplicate answers.
 
