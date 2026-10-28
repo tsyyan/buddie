@@ -72,6 +72,7 @@ def test_without_buddie_toml_only_what_is_false_goes_back(plain):
     (plain / "README.md").write_text("hi\n", encoding="utf-8")
     code, err, _ = _stop(plain, "Done. ⚓ `README.md#" + "0" * 64 + "`")
     assert code == 2 and err.startswith(hook.RETURNED) and "sha256 is now" in err and hook.FIX in err
+    assert hook.SHOWN in err  # a Stop's answer is already shown: only the corrections come back, not a second copy
 
 
 def test_a_project_with_buddie_toml_keeps_the_full_defaults(plain):
@@ -174,7 +175,7 @@ def test_smoke_on_recorded_events(launcher, tmp_path):
     assert hook_run("stop.json", "transcript.jsonl")[0] == 0  # no buddie.toml: an unanchored answer is not false
     assert hook_run("stop.json", "transcript-anchored.jsonl")[0] == 0
     code, _, err = hook_run("pretooluse.json", "transcript.jsonl")
-    assert code == 2 and "anchor line 1" in err
+    assert code == 2 and "anchor line 1" in err and hook.SHOWN not in err  # a tool's text is resent whole
     (tmp_path / "buddie.toml").write_text(config.TEMPLATE, encoding="utf-8")
     code, out, err = hook_run("stop.json", "transcript.jsonl")
     assert code == 0 and "intro, final 1 of" in json.loads(out)["systemMessage"]
