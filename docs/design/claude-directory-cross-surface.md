@@ -74,6 +74,13 @@ When user asks `Was this PR merged with green CI?`, use an available GitHub conn
 - Re-run Directory validation on a *new* compact candidate; preserve commit/version/hash manifest and release approval gates.
 - Test a no-tool scenario, a false citation, a public GitHub CI scenario, and a Core-connected scenario on each supported surface.
 
+## Brand image continuity and visual-evidence gap
+
+- **Preserve existing art:** use the canonical white dog with dark outlines and cyan-blue collar/accent in README assets and the existing `assets/icon.png`. Do not substitute a newly generated brown/orange dog. Retain the current binary unless actual side-by-side visual inspection shows a concrete defect.
+- The existing `assets/icon.png` is already referenced from `.claude-plugin/plugin.json` and included in the compact archive; its appearance and Directory rendering still require an actual viewer/install check.
+- A Buddie `snap` returning HTTP 200, byte count and SHA-256 demonstrates byte retrieval, **not image decoding or visual analysis**. The staged Discovery skill now includes conditional image inspection instructions, an explicit unviewed state and privacy guardrails. This is not a new shipped Buddie Core image-analysis feature.
+- Before claiming icon consistency, visually compare the actual icon and README hero/logo from a pinned revision. Record source hashes and screenshots or rendered output, plus platform result; do not use a search illustration as a stand-in.
+
 ## Packaging/release constraints
 
 The current packaging allowlist includes `skills/*/SKILL.md`; adding a third root skill changes runtime inventory, tests, metadata and compact archive. Do not patch `plugin-stable` directly. Ship through release candidate, CI, owner approval, and promote the resulting validated artifact.
