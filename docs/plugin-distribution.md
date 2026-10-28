@@ -21,6 +21,8 @@ claims Directory approval or full compliance.
 - `buddie/*.py`, `buddie/verbatim/*.py`, `skills/*/SKILL.md`, `commands/*.md`;
 - `assets/icon.png`, `README.md`, `LICENSE`, `NOTICE`, `PRIVACY.md`.
 
+Discovery uses the canonical `integrations/agensi/SKILL.md` and `references/reporting.md`. Builder revision 3 relocates these exact blobs into `skills/buddie-discovery/` in the compact ZIP. The manifest records source-to-destination paths. Missing dependencies and competing tracked Discovery destinations refuse the build. A source checkout keeps Discovery under integrations; the release compact plugin is the installable distribution.
+
 **Files are read as Git blobs of the exact commit**, never from the working tree.
 
 **Every tracked file under a runtime root must match a rule, or the build fails.** The roots are `buddie/`,

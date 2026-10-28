@@ -9,7 +9,7 @@
 
 ### Verify the claim. Know the context.
 
-**Evidence and environment awareness for AI agents.**
+**Buddie — AI Agent Reliability Toolkit**
 
 [![CI](https://github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg)](https://github.com/tsyyan/buddie/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/buddie)](https://pypi.org/project/buddie/)
@@ -48,6 +48,8 @@ result.
 **Observe.** Before it suggests a command, an agent can ask Buddie for the parts of your machine the task needs: the
 operating system, CPU, memory, GPU, Python, runtimes, tools. Buddie reads only the categories you have granted,
 changes nothing, and records how each value was observed.
+
+**Discover.** The compact Claude plugin includes a Discovery skill for evidence triage with the tools available in the current session. It uses real Core verification when connected, performs independent checks otherwise, and marks unavailable checks as not checked. Local hooks and MCP capabilities vary by surface; Cowork, Chat and mobile require separate live verification. Projects/Context remains a future design.
 
 ## See it in action
 
