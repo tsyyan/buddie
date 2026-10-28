@@ -2,7 +2,7 @@
 
 The authoritative Discovery implementation is `integrations/agensi/SKILL.md`, with `references/reporting.md`, in PR #69. This directory deliberately contains no competing SKILL.md.
 
-Dependency: PR #69 remains unmerged pending the owner's Linux worker risk decision. Reviewed source candidate: [10736ae67761f4b54b02b12f2b7e78bc8ac12a4b](https://github.com/tsyyan/buddie/blob/10736ae67761f4b54b02b12f2b7e78bc8ac12a4b/integrations/agensi/SKILL.md). After its approved merge, use that canonical source through the normal reviewed packaging process. This PR does not ship or submit a Directory skill.
+PR #69 was merged after full CI and gate passed on head `bcf1c0f367fc7aac7341856faa7e1516c8b106c0`. Compact packaging reads its canonical source from the release commit and relocates the exact blobs to `skills/buddie-discovery/`; the package manifest records the mapping and digests. This does not establish Directory approval or availability on every Claude surface.
 
 Buddie — AI Agent Reliability Toolkit
 
@@ -19,7 +19,7 @@ Verify provides evidence checks and feedback. Observe provides permission-contro
 
 ## Original branding
 
-Preserve repository art: white dog, dark outlines, cyan/blue collar and accents, minimalist style. Keep assets/icon.png unchanged. No visual inspection or icon defect is claimed by this reconciliation.
+Use repository branding: white dog, dark outlines, cyan/blue collar and accents, minimalist style. The owner requested the previously created README-style square dog icon instead of the legacy green check. The replacement PNG was visually compared with the README logo and hero before adoption; actual Directory rendering still requires a platform check.
 
 ## Binary evidence and image inspection
 

@@ -1,6 +1,10 @@
 <!-- mcp-name: io.github.tsyyan/buddie -->
 
-Buddie checks agent reports against primary evidence with local deterministic checks.
+# Buddie — AI Agent Reliability Toolkit
+
+Verify the claim. Know the context.
+
+Buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
 Install: `pip install buddie==2.0.2`.
 

@@ -37,7 +37,7 @@ Note: A plugin's local MCP does *not* become a cloud-accessible remote MCP by ha
 
 ## Proposed user-facing skill extension
 
-Adopt PR #69’s authoritative `integrations/agensi/SKILL.md` and its reporting reference; do not create `skills/buddie-discovery/` or maintain a Directory copy. PR #69 is not merged: Linux worker root cause remains unresolved and requires an explicit owner risk decision. The pinned source and preserved binary/image requirements are in `integrations/claude-directory/discovery/README.md`. Packaging adoption depends on the approved canonical merge and a separately validated candidate. The full `skills/buddie/SKILL.md` remains distinct.
+Use PR #69’s canonical `integrations/agensi/SKILL.md` and reporting reference. PR #69 was merged after full CI and gate passed on its updated head. Builder revision 3 relocates these exact Git blobs into `skills/buddie-discovery/` in the compact package; no second implementation is maintained in the source tree. Missing dependencies and competing destination sources refuse packaging. The full `skills/buddie/SKILL.md` remains distinct.
 
 ### When triggered
 
@@ -77,14 +77,14 @@ When user asks `Was this PR merged with green CI?`, use an available GitHub conn
 
 ## Brand image continuity and visual-evidence gap
 
-- **Preserve existing art:** use the canonical white dog with dark outlines and cyan-blue collar/accent in README assets and the existing `assets/icon.png`. Do not substitute a newly generated brown/orange dog. Retain the current binary unless actual side-by-side visual inspection shows a concrete defect.
-- The existing `assets/icon.png` is already referenced from `.claude-plugin/plugin.json` and included in the compact archive; its appearance and Directory rendering still require an actual viewer/install check.
+- **Preserve existing art:** use the canonical white dog with dark outlines and cyan-blue collar/accent in README assets. The owner subsequently requested replacing the legacy green check in `assets/icon.png` with the previously created square dog icon matching the README. That original PNG was visually compared with the README logo and hero and copied unchanged; no new mascot was generated.
+- The existing `assets/icon.png` is already referenced from `.claude-plugin/plugin.json` and included in the compact archive; its README-style replacement was opened and visually compared with the README art; Directory rendering still requires an actual install check.
 - A Buddie `snap` returning HTTP 200, byte count and SHA-256 demonstrates byte retrieval, **not image decoding or visual analysis**. The Directory companion reference preserves conditional image inspection instructions, an explicit unviewed state and privacy guardrails. This is not a new shipped Buddie Core image-analysis feature.
 - Before claiming icon consistency, visually compare the actual icon and README hero/logo from a pinned revision. Record source hashes and screenshots or rendered output, plus platform result; do not use a search illustration as a stand-in.
 
 ## Packaging/release constraints
 
-The current packaging allowlist includes `skills/*/SKILL.md`; this reconciliation adds no third root skill. Future packaging of the canonical Discovery source requires reviewed runtime inventory, tests, metadata and compact archive changes. Do not patch `plugin-stable` directly. Ship through release candidate, CI, owner approval, and promote the resulting validated artifact.
+The current packaging allowlist includes `skills/*/SKILL.md`; the canonical Discovery files are separately allowlisted and relocated at build time. Builder and archive-policy tests cover these files and their required reference. Do not patch `plugin-stable` directly. Ship through release candidate, CI, owner approval, and promote the resulting validated artifact.
 
 ## Submission recommendation
 

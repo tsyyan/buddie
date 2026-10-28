@@ -4,14 +4,14 @@
     "name": "tsyyan"
   },
   "metadata": {
-    "description": "Buddie: automatic evidence checks and guardrails for AI agents."
+    "description": "Buddie — AI Agent Reliability Toolkit"
   },
   "plugins": [
     {
       "name": "buddie",
       "source": "./",
-      "description": "Buddie checks AI agents before their answers reach you. It catches unsupported claims about sources, code, GitHub, CI and test runs, sends failures back for correction, and gives agents permission-controlled facts about your machine. Deterministic checks, no AI judge.",
-      "displayName": "Buddie — AI Agent Guardrails"
+      "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
+      "displayName": "Buddie — AI Agent Reliability Toolkit"
     }
   ]
 }

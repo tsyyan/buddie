@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.tsyyan/buddie",
-  "title": "buddie",
-  "description": "Checks agent reports: quotes against source snapshots, repo/PR/CI claims against git and GitHub.",
+  "title": "Buddie — AI Agent Reliability Toolkit",
+  "description": "AI Agent Reliability Toolkit: evidence checks, feedback and permission-controlled local diagnostics.",
   "repository": {
     "url": "https://github.com/tsyyan/buddie",
     "source": "github"

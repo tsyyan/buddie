@@ -56,7 +56,14 @@ def canonical_url(record: dict) -> str:
 
 def render_package_readme(record: dict, channel: str) -> str:
     if channel not in CHANNELS: raise ValueError("unknown release channel")
-    intro = "Buddie checks agent reports against primary evidence with local deterministic checks."
+    intro = ("# Buddie — AI Agent Reliability Toolkit\n\nVerify the claim. Know the context.\n\n"
+             "Buddie checks agent reports against primary evidence with deterministic Core verification, "
+             "actionable feedback, and permission-controlled local environment diagnostics.")
+    if channel == "claude":
+        intro += ("\n\nDiscovery provides independent evidence triage with the tools actually available when Core "
+                  "is absent, and marks unavailable checks as not checked. Core receipts require an actual "
+                  "Core call. Local MCP and automatic hooks vary by Claude surface; Chat has no local hooks. "
+                  "Cowork and mobile availability require separate live testing. Projects/Context is not shipped.")
     marker = "<!-- mcp-name: io.github.tsyyan/buddie -->\n\n" if channel == "pypi" else ""
     install = f"Install: `pip install buddie=={record['version']}`."
     if channel == "codex":
