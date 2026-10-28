@@ -8,9 +8,11 @@ errors, receipt versions, the protected policy, evidence provenance and platform
 
 Two kinds of integration, and the difference matters:
 
-- **Enforcement: the hooks** (Claude Code, Codex). buddie checks the agent's answer before it reaches you. A false
-  claim is sent back to the agent with the reason; the answer goes out once it is fixed or the unverified part is
-  disclosed. Levels per class (`block`, `warn`, `off`), profiles and the protected policy's floors apply here
+- **Enforcement: the hooks** (Claude Code, Codex). Buddie checks supported claims at `Stop`; in Claude Code the
+  answer is already displayed, and a failed check requests corrected lines without repeating the whole answer.
+  Supported `PreToolUse` message checks run before delivery. A false claim is returned to the agent with the
+  reason so it can correct the claim or disclose what remains unverified. A Stop return does not retract text
+  already shown. Levels per class (`block`, `warn`, `off`), profiles and the protected policy's floors apply here
   ([policy.md](policy.md), [profiles.md](profiles.md)).
 - **Advice: the CLI, MCP tools, the remote server and the Python API.** buddie checks a text when asked and returns
   a receipt. Nothing is held back: the caller (you, an orchestrator, an agent) decides what to do with `FAIL`. The

@@ -45,6 +45,9 @@ Without Claude Code: `python3 run.py verify REPORT.md --repo .` from a clone wor
 
 ## Levels and the intro mode
 
+At `Stop`, the answer is already displayed and cannot be retracted. A failed verification asks the agent for
+corrected lines without repeating that answer. Supported `PreToolUse` message checks still run before delivery.
+
 **Right after installing** (no `buddie.toml` in the repo), the hook returns an answer only for what is false: a
 quote that is not on the page it links to, or an anchor that does not hold. An answer with no quotes and no anchors
 passes untouched, and so does one whose source could not be read. Numbers of cited sentences that are not on their

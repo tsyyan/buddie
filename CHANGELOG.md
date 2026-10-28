@@ -1,6 +1,17 @@
 # Changelog
 
-## buddie 2.0.3 (2026-10-28)
+## buddie 2.0.4 (2026-10-28)
+
+Public release content is generated from `releases/2.0.4.json` and bound to the candidate.
+
+- Include canonical Discovery, Toolkit positioning and the README-style dog icon from the unpublished 2.0.3 candidate.
+- Include PR #77: guard Linux regex workers when parent-death registration fails or the parent already ended; correct the test's process-disappearance observation race.
+- At Stop, request only corrections instead of repeating the answer already displayed; leave PreToolUse behavior unchanged.
+- Run full CI automatically on ready PRs, parallelize the main test suite and keep timing-sensitive worker tests separate.
+- Close #73 at the owner's request after #77. These guard/observation fixes do not prove the historical intermittent failure's root cause.
+- Supersede the immutable 2.0.3 candidate before publication; its waiting publication run was cancelled.
+
+## buddie 2.0.3 (not released; candidate superseded by 2.0.4)
 
 Public release content is generated from `releases/2.0.3.json` and bound to the candidate.
 

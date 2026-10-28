@@ -33,6 +33,8 @@
 - [ ] 5. Align version fields, date, changelog and releases/2.0.3.json; regenerate public metadata. Run final full CI on release PR and main. Tag exact approved merge SHA, keep candidate bytes and checksums, publish via existing protected workflow, then separately promote plugin-stable. Verify live outputs.
 
 ## Execution ledger
+- 2026-10-28 owner update: include merged PR77, close issue73, and run the new candidate through the actual Claude Directory submission validator. The pending 2.0.3 publication was cancelled before authorization; its immutable tag is retained. Prepare 2.0.4 from main d7a29899f1e699f0fd37edfa928eb08543a8ecc4.
+- Replacement release tasks: align current version fields and release record; describe Linux worker guards, liveness observation, Stop-only correction guidance and CI changes accurately; run version/package/hook checks and full CI; build a new candidate; run the actual Directory validator against its exact compact source. Never claim the historical worker failure's cause was proven.
 - User authorized implementation, merges, submission and the repository release process after reviewing the scope.
 - Existing linked worktree reused; no changes to other worktrees.
 - #69 updated to bcf1c0f by merging main 55cc23d; full CI started by push.
