@@ -201,6 +201,8 @@ def _alive(pid: int) -> bool:
         return False
     except PermissionError:
         return True
+    if not sys.platform.startswith("linux"):  # no /proc (macOS): the signal is the answer
+        return True
     try:  # a zombie is gone for this purpose
         return Path(f"/proc/{pid}/status").read_text().find("State:\tZ") < 0
     except (FileNotFoundError, ProcessLookupError):  # reaped between the signal and the read (#73)
