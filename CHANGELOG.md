@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Clarify the staged Discovery skill's three evidence modes and privacy boundaries; no runtime packaging or release metadata change.
+- Preserve worker process diagnostics and clean up surviving workers when the parent-death lifecycle test fails.
 
 ## buddie 2.0.2 (2026-10-27)
 
