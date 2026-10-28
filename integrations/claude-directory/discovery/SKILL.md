@@ -5,6 +5,9 @@ description: Use when checking citations, quoted claims, GitHub PR/CI status, ag
 
 # Buddie — evidence triage across Claude surfaces
 
+Buddie is an **AI Agent Reliability Toolkit**. This standalone skill provides limited evidence triage and is not a replacement for Buddie Core. Product areas: Verify and Observe are current Core capabilities; Context is a future design, not a shipped function.
+
+
 Use the tools the current Claude surface actually provides. This skill works without a local Buddie server; full Buddie verification requires the official installed and available MCP/CLI.
 
 ## Detect your mode
