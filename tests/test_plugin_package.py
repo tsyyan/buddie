@@ -45,7 +45,8 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
         version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
         release_path = f"releases/{version}.json"
         if release_path not in files:
-            record = json.loads((ROOT / "releases/2.0.2.json").read_text())
+            current = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))["version"]
+            record = json.loads((ROOT / f"releases/{current}.json").read_text(encoding="utf-8"))
             record["version"] = version
             files[release_path] = json.dumps(record).encode()
         if "server.json" not in files:
@@ -65,8 +66,9 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
 
 def with_version(files: dict[str, bytes], version: str) -> dict[str, bytes]:
     out = dict(files)
-    out["buddie/__init__.py"] = out["buddie/__init__.py"].replace(b'__version__ = "2.0.2"',
-                                                                  f'__version__ = "{version}"'.encode())
+    import re
+    out["buddie/__init__.py"] = re.sub(rb'(?m)^__version__ = "[^"]+"',
+                                      f'__version__ = "{version}"'.encode(), out["buddie/__init__.py"])
     plugin = json.loads(out[".claude-plugin/plugin.json"])
     plugin["version"] = version
     out[".claude-plugin/plugin.json"] = (json.dumps(plugin, indent=2) + "\n").encode()
