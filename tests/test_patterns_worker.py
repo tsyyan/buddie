@@ -225,6 +225,8 @@ patterns.search(r"a*a*a*a*b", "a" * 3000)  # minutes: buddie is killed meanwhile
 """
     p = subprocess.Popen([sys.executable, "-I", "-c", code, str(ROOT)], stdout=subprocess.PIPE,
                          stdin=subprocess.DEVNULL, text=True)
+    worker = None
+    detail = ""
     try:
         worker = int(p.stdout.readline())
         time.sleep(1.0)
@@ -237,10 +239,22 @@ patterns.search(r"a*a*a*a*b", "a" * 3000)  # minutes: buddie is killed meanwhile
                 ended = True
                 break
             time.sleep(0.1)
+        if not ended:
+            detail = f"worker {worker} outlived buddie process {p.pid}"
+            if sys.platform.startswith("linux"):
+                try:
+                    detail += "\n" + Path(f"/proc/{worker}/status").read_text()
+                except OSError as error:
+                    detail += f"; status unavailable: {error}"
     finally:
         p.kill()
+        p.wait(30)
+        p.stdout.close()
+        if worker is not None and _alive(worker):
+            try:
+                os.kill(worker, 9)
+            except ProcessLookupError:  # it ended between the observation and cleanup
+                pass
     if sys.platform == "darwin":
-        if not ended:
-            os.kill(worker, 9)
         pytest.skip(f"macOS: the worker {'ended' if ended else 'outlived buddie (known limitation, RH-2)'}")
-    assert ended
+    assert ended, detail
