@@ -4,10 +4,13 @@ Status: proposal, not released; subject to tests and next release candidate. The
 
 ## Repositioning
 
+Product architecture: **Verify** (evidence and feedback), **Observe** (permissioned environment), **Context** (proposed, not shipped). Claude Code, Codex, Cowork and Chat are distribution surfaces, not separate product features. Keep the existing tagline **Verify the claim. Know the context.** This positioning supersedes the narrower Guardrails copy merged in PR #68; it is proposed for a future approved release and not currently published in 2.0.2.
+
+
 Current Directory displayName `buddie: claim checker` and description mention the old narrow positioning. Proposed next-release manifest:
 
-- `displayName`: `Buddie — Evidence & Environment for AI Agents`
-- `description`: `Evidence-based checks for AI agent output: verify supported claims against sources, GitHub and recorded command results; detect mismatches, get structured feedback, and observe permitted machine details. Capabilities depend on the Claude surface.`
+- `displayName`: `Buddie — AI Agent Reliability Toolkit`
+- `description`: `Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Inspect cited sources and execution evidence, flag unsupported claims, and help agents correct mistakes. Features vary by Claude surface; deterministic Core verification does not use another AI model.`
 - Keep `name: buddie` unchanged; changing the machine identifier breaks installation/update identity.
 - Keep version strictly aligned with a newly approved release; do not relabel the 2.0.2 release artifact.
 - Update marketplace listing copy, README, generated package README and directory metadata in the normal release pipeline.
