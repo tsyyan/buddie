@@ -98,6 +98,11 @@ def test_discovery_competing_source_is_refused(head, tmp_path):
     with pytest.raises(pp.PackageError, match="competing Discovery"):
         pp.build(source(tmp_path / "competing", files), "HEAD")
 
+
+def test_discovery_case_variant_cannot_collide_after_relocation():
+    entries = [(p, "100644", "0" * 40) for p in (*pp.REQUIRED, "skills/Buddie-Discovery/SKILL.md")]
+    assert any("competing Discovery" in problem for problem in pp.select(entries)[1])
+
 def test_the_package_is_the_runtime_and_nothing_else(head):
     data, manifest, files = head
     tracked = {p for p, _, _ in pp.tracked(ROOT, "HEAD")}

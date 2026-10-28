@@ -111,7 +111,7 @@ def select(entries: list[tuple[str, str, str]]) -> tuple[list[tuple[str, str, st
     """The allowlisted entries, and every reason the selection is refused."""
     problems, chosen = [], []
     for path, mode, oid in entries:
-        if path.startswith("skills/buddie-discovery/"):
+        if path.casefold().startswith("skills/buddie-discovery/"):
             problems.append(f"competing Discovery source: {path}; use integrations/agensi")
         directory = _rule(path)
         if path in EXACT:
