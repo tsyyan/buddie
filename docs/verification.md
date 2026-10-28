@@ -105,7 +105,7 @@ work in prose are listed in the receipt as such, so you can see what went unchec
 | PR and CI checks | confirm merged or open, passing or failing, on the commit the claim names |
 | Execution evidence | confirms that the session transcript shows a command printing what the report says (Claude Code) |
 | Typed findings | each blocking item says what failed and why, so the agent can fix or disclose it |
-| The gate | returns an answer with a false claim to the agent before you read it, with the reasons (Claude Code, Codex) |
+| The gate | returns failed verification with reasons; at `Stop`, requests corrections without retracting an answer already displayed (Claude Code, Codex) |
 | Verification profiles *(2.0)* | run only the checks you need: `developer`, `research`, `complete` or `custom` |
 | Protected policy *(2.0)* | an administrator's file that settings the agent can write cannot weaken |
 | Receipt v1 *(2.0)* | adds what ran, what did not and why, coverage and provenance; v0 stays the default |
@@ -122,7 +122,7 @@ work in prose are listed in the receipt as such, so you can see what went unchec
 | `path#`, `path@` | yes | yes, given `repos` | yes, given `repos` | yes | no |
 | `pr:`, `ci:` | yes | yes | yes | yes | public repos |
 | `run:` | yes | unchecked | unchecked | with `--transcript` | no |
-| gate before you read | yes | at `Stop` | no | exit code | no |
+| automatic verification | `Stop` after display; supported message checks before delivery | at `Stop` | no | exit code | no |
 | receipt v1 *(2.0)* | MCP tool | MCP tool | yes | `--receipt v1` | no (v0) |
 | protected policy *(2.0)* | enforced | enforced | not a gate | not a gate | not a gate |
 

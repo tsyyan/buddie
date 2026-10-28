@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "buddie",
   "display_name": "Buddie — AI Agent Reliability Toolkit",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
   "long_description": "buddie checks what an AI agent reports before you rely on it. A quotation with a link is looked up in a SHA-256 snapshot of that page; a repo anchor (`path#sha256`, `path@commit`) is checked against your checkout; `pr:` and `ci:` anchors are checked against the GitHub API. No model takes part in the check, and every check ends in a receipt anyone can re-run.\n\nIn Claude Desktop buddie runs as a local MCP server with the tools `verify_report`, `snap` and `source_text` (`summary` is listed too, with data only under Claude Code), and `environment_snapshot`, which describes the parts of this machine you granted (OS, CPU, memory, GPU, Python). Claude Code adds a hook that gates the final answer and `run:` anchors checked against the session transcript; Desktop has neither, so `run:` anchors come out as unchecked (GAPS), not as errors.",
   "author": {
