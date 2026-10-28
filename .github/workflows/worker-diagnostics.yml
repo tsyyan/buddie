@@ -43,3 +43,15 @@ jobs:
               print('ITERATION', i, flush=True)
               scope['test_the_worker_ends_with_buddies_process_mid_match']()
           PY
+      - name: Stress the untyped syscall and uninstrumented lifecycle
+        run: |
+          python -u - <<'PY'
+          import ctypes, runpy
+          for i in range(100000):
+              rc = ctypes.CDLL(None, use_errno=True).prctl(1, 9)
+              assert rc == 0, (i, rc, ctypes.get_errno())
+          scope = runpy.run_path('tests/test_patterns_worker.py')
+          for i in range(100):
+              print('UNINSTRUMENTED', i, flush=True)
+              scope['test_the_worker_ends_with_buddies_process_mid_match']()
+          PY
