@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Clarify the staged Discovery skill's three evidence modes and privacy boundaries; no runtime packaging or release metadata change.
+
 ## buddie 2.0.2 (2026-10-27)
 
 Public release notes for this version are generated from the authoritative

@@ -14,7 +14,9 @@ Use when a user asks you to verify source quotations, repository or CI claims, c
 
 **Standalone (no Buddie Core):** You may inspect evidence using tools already authorized and available in this agent session. Identify checkable claims, find primary evidence, compare precisely, record source URLs/revisions/timestamps, and label each finding `independently checked`, `not checked`, or `contradicted by observed evidence`. These are *not* Buddie Core verdicts or receipts. If no access to the source exists, do not infer verification from a citation or from an agent's own prose.
 
-**Core-connected:** Discover available Buddie MCP tools or CLI; read their declared schemas/help; use them for supported verification, feedback, and permitted environment snapshots. Report their actual verdict and evidence scope accurately. Never fabricate a tool response or treat `GAPS`, `EMPTY`, or `UNCHECKABLE` as `PASS`.
+**No relevant tools:** Identify the specific missing evidence and mark the claim `not checked` (unverified). Do not imply that any source, command, environment, or CI state was observed.
+
+**Core-connected:** Discover available Buddie MCP tools or CLI; read their declared schemas/help; invoke the actual available verifier for supported claims, and use the available tools for supported verification, feedback, and permitted environment snapshots. Report their actual verdict and evidence scope accurately. Never fabricate a tool response or treat `GAPS`, `EMPTY`, or `UNCHECKABLE` as `PASS`.
 
 ## Workflow
 
@@ -41,7 +43,6 @@ Do not assume that baseline 2.0.2 is the latest release. If access is unavailabl
 - Environment diagnostics require the permissions enforced by the official Buddie implementation; this skill cannot grant them.
 - Do not promise automatic answer blocking in clients that do not support Buddie's relevant hooks.
 - If you cannot access a tool or evidence, say so instead of simulating a result.
-- Do not promise automatic answer blocking in clients that do not support Buddie's relevant hooks.
-- If you cannot access a tool or evidence, say so instead of simulating a result.
+- Do not read or forward ambient credentials or disclose private evidence to external services without authorization.
 
 For practical reporting and integration guidance see `references/reporting.md`.
