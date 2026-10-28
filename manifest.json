@@ -1,9 +1,9 @@
 {
   "manifest_version": "0.3",
   "name": "buddie",
-  "display_name": "buddie",
-  "version": "2.0.2",
-  "description": "Receipts for agent work: checks quotes against the bytes of their sources and repo, PR and CI claims against the repo and GitHub, without a model.",
+  "display_name": "Buddie — AI Agent Reliability Toolkit",
+  "version": "2.0.3",
+  "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
   "long_description": "buddie checks what an AI agent reports before you rely on it. A quotation with a link is looked up in a SHA-256 snapshot of that page; a repo anchor (`path#sha256`, `path@commit`) is checked against your checkout; `pr:` and `ci:` anchors are checked against the GitHub API. No model takes part in the check, and every check ends in a receipt anyone can re-run.\n\nIn Claude Desktop buddie runs as a local MCP server with the tools `verify_report`, `snap` and `source_text` (`summary` is listed too, with data only under Claude Code), and `environment_snapshot`, which describes the parts of this machine you granted (OS, CPU, memory, GPU, Python). Claude Code adds a hook that gates the final answer and `run:` anchors checked against the session transcript; Desktop has neither, so `run:` anchors come out as unchecked (GAPS), not as errors.",
   "author": {
     "name": "tsyyan",
@@ -21,13 +21,23 @@
   "privacy_policies": [
     "https://github.com/tsyyan/buddie/blob/main/PRIVACY.md"
   ],
-  "keywords": ["verification", "citations", "quotes", "provenance", "agents", "github"],
+  "keywords": [
+    "verification",
+    "citations",
+    "quotes",
+    "provenance",
+    "agents",
+    "github"
+  ],
   "server": {
     "type": "python",
     "entry_point": "run.py",
     "mcp_config": {
       "command": "python3",
-      "args": ["${__dirname}/run.py", "serve"],
+      "args": [
+        "${__dirname}/run.py",
+        "serve"
+      ],
       "env": {
         "PYTHONIOENCODING": "utf-8",
         "VERBATIM_STORE": "${user_config.store}",
@@ -41,14 +51,38 @@
     }
   },
   "tools": [
-    {"name": "verify_report", "description": "Check a report: every quote in the bytes of the page it links to, every anchor in the repos or on GitHub; returns a receipt FAIL / GAPS / PASS / EMPTY."},
-    {"name": "snap", "description": "Snapshot URLs (bytes by SHA-256) so quotes can be taken from and checked against them."},
-    {"name": "source_text", "description": "Visible text of a snapshot, optionally only around a regex: copy quotes from here."},
-    {"name": "summary", "description": "Claude Code only: the summary of finished subagents built from the hook's journal."},
-    {"name": "environment_snapshot", "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."},
-    {"name": "feedback_start", "description": "Check a report and open a verification feedback chain: feedback with bounded actions for what did not hold."},
-    {"name": "feedback_resolve", "description": "Check a corrected text against the chain's open feedback, with the chain's own options, and record the decision."},
-    {"name":"feedback_accept","description":"Whether a final report is the text the feedback chain verified: refuses an edited report or any report of an unverified chain."}
+    {
+      "name": "verify_report",
+      "description": "Check a report: every quote in the bytes of the page it links to, every anchor in the repos or on GitHub; returns a receipt FAIL / GAPS / PASS / EMPTY."
+    },
+    {
+      "name": "snap",
+      "description": "Snapshot URLs (bytes by SHA-256) so quotes can be taken from and checked against them."
+    },
+    {
+      "name": "source_text",
+      "description": "Visible text of a snapshot, optionally only around a regex: copy quotes from here."
+    },
+    {
+      "name": "summary",
+      "description": "Claude Code only: the summary of finished subagents built from the hook's journal."
+    },
+    {
+      "name": "environment_snapshot",
+      "description": "Observe the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes): only the categories the person granted locally."
+    },
+    {
+      "name": "feedback_start",
+      "description": "Check a report and open a verification feedback chain: feedback with bounded actions for what did not hold."
+    },
+    {
+      "name": "feedback_resolve",
+      "description": "Check a corrected text against the chain's open feedback, with the chain's own options, and record the decision."
+    },
+    {
+      "name": "feedback_accept",
+      "description": "Whether a final report is the text the feedback chain verified: refuses an edited report or any report of an unverified chain."
+    }
   ],
   "tools_generated": false,
   "user_config": {
@@ -68,7 +102,11 @@
     }
   },
   "compatibility": {
-    "platforms": ["darwin", "win32", "linux"],
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
     "runtimes": {
       "python": ">=3.11"
     }

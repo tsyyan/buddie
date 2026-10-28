@@ -1,20 +1,20 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.tsyyan/buddie",
-  "title": "buddie",
-  "description": "Checks agent reports: quotes against source snapshots, repo/PR/CI claims against git and GitHub.",
+  "title": "Buddie — AI Agent Reliability Toolkit",
+  "description": "AI Agent Reliability Toolkit: evidence checks, feedback and permission-controlled local diagnostics.",
   "repository": {
     "url": "https://github.com/tsyyan/buddie",
     "source": "github"
   },
   "websiteUrl": "https://github.com/tsyyan/buddie",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "buddie",
-      "version": "2.0.2",
+      "version": "2.0.3",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"

@@ -1,9 +1,15 @@
 # Changelog
 
-## Unreleased
+## buddie 2.0.3 (2026-10-28)
 
-- Clarify the staged Discovery skill's three evidence modes and privacy boundaries; no runtime packaging or release metadata change.
-- Preserve worker process diagnostics and clean up surviving workers when the parent-death lifecycle test fails.
+Public release content is generated from `releases/2.0.3.json` and bound to the candidate.
+
+- Package the canonical Discovery skill and reporting reference without a second source implementation.
+- Distinguish Core verification, independent evidence checks and unavailable tools.
+- Adopt Buddie — AI Agent Reliability Toolkit positioning and the existing README-style dog icon.
+- Reject missing Discovery references and competing paths, including Windows case variants.
+- Retain worker test diagnostics and cleanup; do not claim the historical Linux issue is resolved.
+- Agensi Discovery 0.1.0 submitted for review; approval and additional Claude surfaces remain unverified.
 
 ## buddie 2.0.2 (2026-10-27)
 

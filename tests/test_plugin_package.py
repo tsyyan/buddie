@@ -37,12 +37,16 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
     """A repository whose one commit holds exactly `files` (with `modes`), made without a working tree (one
     `git fast-import` stream: no checkout, no line-ending conversion, no file-system symlink support needed)."""
     files = dict(files)
+    for original, destination in pp.DISCOVERY.items():
+        if destination in files and original not in files:
+            files[original] = files.pop(destination)
     if "buddie/__init__.py" in files:
         import re
         version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
         release_path = f"releases/{version}.json"
         if release_path not in files:
-            record = json.loads((ROOT / "releases/2.0.2.json").read_text())
+            current = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))["version"]
+            record = json.loads((ROOT / f"releases/{current}.json").read_text(encoding="utf-8"))
             record["version"] = version
             files[release_path] = json.dumps(record).encode()
         if "server.json" not in files:
@@ -62,8 +66,9 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
 
 def with_version(files: dict[str, bytes], version: str) -> dict[str, bytes]:
     out = dict(files)
-    out["buddie/__init__.py"] = out["buddie/__init__.py"].replace(b'__version__ = "2.0.2"',
-                                                                  f'__version__ = "{version}"'.encode())
+    import re
+    out["buddie/__init__.py"] = re.sub(rb'(?m)^__version__ = "[^"]+"',
+                                      f'__version__ = "{version}"'.encode(), out["buddie/__init__.py"])
     plugin = json.loads(out[".claude-plugin/plugin.json"])
     plugin["version"] = version
     out[".claude-plugin/plugin.json"] = (json.dumps(plugin, indent=2) + "\n").encode()
@@ -72,20 +77,48 @@ def with_version(files: dict[str, bytes], version: str) -> dict[str, bytes]:
 
 # --- selection -----------------------------------------------------------------------------------------------------
 
+def test_discovery_and_reference_are_canonical_git_bytes(head):
+    files = head[2]
+    for relative in ("SKILL.md", "references/reporting.md"):
+        original = subprocess.run(["git", "-C", str(ROOT), "show", f"HEAD:integrations/agensi/{relative}"],
+                                  check=True, capture_output=True).stdout
+        assert files[f"skills/buddie-discovery/{relative}"] == original
+    assert sum(b"name: buddie-discovery\n" in body for body in files.values()) == 1
+
+
+def test_discovery_missing_reference_refuses_build(head, tmp_path):
+    files = dict(head[2])
+    files.pop("skills/buddie-discovery/references/reporting.md", None)
+    with pytest.raises(pp.PackageError, match="missing required integrations/agensi/references/reporting.md"):
+        pp.build(source(tmp_path / "missing-reference", files), "HEAD")
+
+
+def test_discovery_competing_source_is_refused(head, tmp_path):
+    files = dict(head[2])
+    files["integrations/agensi/SKILL.md"] = b"canonical\n"
+    files["skills/buddie-discovery/SKILL.md"] = b"competing\n"
+    with pytest.raises(pp.PackageError, match="competing Discovery"):
+        pp.build(source(tmp_path / "competing", files), "HEAD")
+
+
+def test_discovery_case_variant_cannot_collide_after_relocation():
+    entries = [(p, "100644", "0" * 40) for p in (*pp.REQUIRED, "skills/Buddie-Discovery/SKILL.md")]
+    assert any("competing Discovery" in problem for problem in pp.select(entries)[1])
+
 def test_the_package_is_the_runtime_and_nothing_else(head):
     data, manifest, files = head
     tracked = {p for p, _, _ in pp.tracked(ROOT, "HEAD")}
-    assert set(files) - {"RELEASE_NOTES.md"} <= tracked
+    assert set(files) - {"RELEASE_NOTES.md"} - set(pp.DISCOVERY.values()) <= tracked
     assert not [p for p in files if p.startswith(pp.NEVER)]
     for path in pp.REQUIRED:
-        assert path in files
+        assert pp.DISCOVERY.get(path, path) in files
     # every runtime file of #61's inventory is in it, unchanged; the rest is listing, legal and the icon
     sys.path.insert(0, str(ROOT / "scripts"))
     import plugin_inventory as pi
     runtime = {p for p in tracked if pi.category(p) == "runtime-required"}
     assert runtime <= set(files)
     assert set(files) - runtime == {".claude-plugin/marketplace.json", "README.md", "LICENSE", "NOTICE", "PRIVACY.md",
-                                    "assets/icon.png", "RELEASE_NOTES.md"}
+                                    "assets/icon.png", "RELEASE_NOTES.md", *pp.DISCOVERY.values()}
     assert manifest["file_count"] == len(files) <= pp.MAX_FILES and manifest["total_bytes"] <= pp.MAX_BYTES
     assert max(len(b) for p, b in files.items() if not p.endswith(".png")) <= pp.MAX_TEXT
 

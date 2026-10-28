@@ -41,7 +41,11 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "buddie-plugin-package-v1"
 MANIFEST = "plugin-manifest.json"
 NAME = "buddie"
-BUILDER = 2  # bump when the selection or the ZIP layout changes: it is part of the manifest
+BUILDER = 3  # canonical Discovery blobs are relocated, never copied into a second source implementation
+DISCOVERY = {
+    "integrations/agensi/SKILL.md": "skills/buddie-discovery/SKILL.md",
+    "integrations/agensi/references/reporting.md": "skills/buddie-discovery/references/reporting.md",
+}
 
 # the audited runtime: what the Claude Code plugin loads, starts or shows, and the files a reader of it needs
 EXACT = (
@@ -52,6 +56,7 @@ EXACT = (
     "hooks/hooks.json", "hooks/run.sh",
     "assets/icon.png",                 # plugin.json "icon"
     "README.md", "LICENSE", "NOTICE", "PRIVACY.md",
+    *DISCOVERY,
 )
 DIRECTORIES = {                        # directory -> the patterns its tracked files must match (relative names)
     "buddie": ("*.py",),
@@ -106,6 +111,8 @@ def select(entries: list[tuple[str, str, str]]) -> tuple[list[tuple[str, str, st
     """The allowlisted entries, and every reason the selection is refused."""
     problems, chosen = [], []
     for path, mode, oid in entries:
+        if path.casefold().startswith("skills/buddie-discovery/"):
+            problems.append(f"competing Discovery source: {path}; use integrations/agensi")
         directory = _rule(path)
         if path in EXACT:
             chosen.append((path, mode, oid))
@@ -227,6 +234,8 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     if problems:
         raise PackageError("; ".join(problems))
     files = _blobs(repo, chosen)
+    for original, destination in DISCOVERY.items():
+        files[destination] = files.pop(original)
     version = _version(files)
     import release_notes as rn
     release_path = f"releases/{version}.json"
@@ -246,7 +255,8 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     data = zip_bytes(files)
     manifest = {
         "schema": SCHEMA, "name": NAME, "version": version, "commit": commit, "tree": tree, "builder": BUILDER,
-        "selection": {"exact": list(EXACT), "directories": {d: list(p) for d, p in DIRECTORIES.items()}},
+        "selection": {"exact": list(EXACT), "directories": {d: list(p) for d, p in DIRECTORIES.items()},
+                      "relocations": DISCOVERY},
         "files": [{"path": p, "size": len(files[p]), "sha256": _sha256(files[p])} for p in sorted(files)],
         "file_count": len(files), "total_bytes": sum(map(len, files.values())),
         "package": {"path": package_name(version), "size": len(data), "sha256": _sha256(data),

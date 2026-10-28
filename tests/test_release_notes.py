@@ -32,6 +32,9 @@ def test_duplicate_keys_rejected(tmp_path):
 
 def test_candidate_payloads_and_registry_digest(tmp_path):
     server=json.loads((Path(__file__).resolve().parents[1] / "server.json").read_text())
+    server["version"] = RECORD["version"]
+    for package in server["packages"]:
+        package["version"] = RECORD["version"]
     rn.write_candidate_metadata(RECORD,tmp_path,server)
     payload=json.loads((tmp_path / "server.json").read_text())
     import hashlib
@@ -48,7 +51,8 @@ def test_registry_rejects_foreign_same_version_server():
 
 def test_checked_in_package_description_matches_authoritative_record():
     root=Path(__file__).resolve().parents[1]
-    record=rn.load_release(root / "releases/2.0.2.json", "2.0.2")
+    from buddie import __version__
+    record=rn.load_release(root / f"releases/{__version__}.json", __version__)
     assert (root / "packaging/README.md").read_bytes() == rn.render_package_readme(record,"pypi").encode("utf-8")
 
 
