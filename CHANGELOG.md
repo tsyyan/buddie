@@ -9,6 +9,9 @@ The public record above is the sole authoritative description of the 2.0.2 relea
 Detailed development behavior remains documented in `docs/feedback.md`, `docs/github-citations.md`,
 and `docs/plugin-distribution.md`; no second editable 2.0.2 change list is maintained here.
 
+- Documentation: dated Projects architecture status, dependency gates and future implementation milestones;
+  Projects remains a proposal and its 28 acceptance scenarios remain unexecuted.
+
 ## buddie 2.0.1 (2026-10-26)
 
 Upgrading from 2.0.0: nothing to change. The MCP tools and their arguments, receipt-v0 and receipt-v1, outcomes,
