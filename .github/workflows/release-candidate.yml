@@ -3,7 +3,7 @@
 # run, then recorded (commit, sizes, SHA-256) in
 # release-manifest.json and SHA256SUMS, all uploaded as the artifact `release-candidate`. It publishes nothing and
 # asks for no permission beyond reading the repository. release.yml calls it for a tag and publishes these same
-# files later; ordinary PRs use focused CI; PRs labeled full-ci-required (ci.yml) exercise this full path.
+# files later; draft PRs use focused CI; ready PRs and drafts labeled full-ci-required (ci.yml) exercise this path.
 name: release-candidate
 
 on:
