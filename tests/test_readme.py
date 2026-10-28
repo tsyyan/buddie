@@ -184,7 +184,7 @@ def test_the_readme_opens_with_the_brand_then_the_hero():
     """The first screen: logo, tagline, one line of what it is, the badges, the hero, then "Why Buddie?"."""
     opening = README.split("\n## Why Buddie?", 1)[0]
     order = [opening.index(s) for s in ("buddie-logo.png", "### Verify the claim. Know the context.",
-                                        "**Evidence and environment awareness for AI agents.**", "[![CI]",
+                                        "**Buddie — AI Agent Reliability Toolkit**", "[![CI]",
                                         "[![License]", "readme-hero.png", "</div>")]
     assert order == sorted(order), order
     assert README.count("readme-hero.png") == 1
@@ -498,7 +498,7 @@ def test_the_readme_carries_the_registry_name_and_honest_badges():
 def test_the_readme_says_what_buddie_is_in_its_opening():
     opening = README.split("## See it in action", 1)[0]
     assert "### Verify the claim. Know the context." in opening
-    assert "**Evidence and environment awareness for AI agents.**" in opening
+    assert "**Buddie — AI Agent Reliability Toolkit**" in opening
     for capability in ("**Verify.**", "**Catch mismatches.**", "**Observe.**"):
         assert capability in _section(README, "## What Buddie does"), capability
     assert "No language model takes part in the check" in opening
