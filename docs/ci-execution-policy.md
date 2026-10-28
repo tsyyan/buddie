@@ -1,8 +1,9 @@
 # CI execution policy
 
-Ordinary PR updates run a fast, focused suite. Full validation (test matrix, three-OS clean installs, catalogs,
-Docker, and the release candidate with its size gate) runs when a maintainer asks for it with the label
-**`full-ci-required`**, and again after merge on `main`. GitHub Merge Queue is **not** used: this repository
+Every ready (non-draft) PR runs full validation (test matrix, three-OS clean installs, catalogs, Docker, and the
+release candidate with its size gate) on each head, and again after merge on `main`. A draft PR runs only the fast,
+focused suite, unless a maintainer labels it **`full-ci-required`**. Tests run in parallel (`pytest -n auto`); the
+regex worker's timing-sensitive tests (`tests/test_patterns_worker.py`) run alone after them. GitHub Merge Queue is **not** used: this repository
 belongs to a personal account, where merge queue is not assumed to be available.
 
 ## The required check: `gate`
@@ -12,15 +13,15 @@ when GitHub groups it by workflow). It runs on every event, needs every other jo
 
 | Event | Fast | Full jobs | Release candidate | `gate` passes only if |
 | --- | --- | --- | --- | --- |
-| PR without the label | runs | skipped | skipped | never: fails with "full validation not requested" |
-| PR with `full-ci-required` | runs | run on the PR merge ref | built and size-gated | fast and every full job and the candidate succeeded |
+| draft PR without the label | runs | skipped | skipped | never: fails with "draft PR" |
+| ready PR, or draft with `full-ci-required` | runs | run on the PR merge ref | built and size-gated | fast and every full job and the candidate succeeded |
 | push to `main` | runs | run | skipped (no duplicate build) | fast and every full job succeeded |
 | any other event | - | - | - | never |
 
 - **New commits invalidate it.** A status belongs to a commit; a push creates a new head SHA whose `gate` starts
-  pending and has to pass again (the label stays, so full validation reruns on the new head).
-- **Removing the label invalidates it.** `unlabeled` starts a new run for the same head; its `gate` fails, and as
-  the newest check run of that name it replaces the earlier success. The per-PR concurrency group with
+  pending and has to pass again (full validation reruns on the new head).
+- **Back to draft invalidates it.** `converted_to_draft` (or removing the label from a draft) starts a new run for
+  the same head; its `gate` fails, and as the newest check run of that name it replaces the earlier success. The per-PR concurrency group with
   `cancel-in-progress` cancels any older full run, so it cannot finish later and overwrite the newer result.
 - **Base changes.** `pull_request` runs test the proposed merge result (`refs/pull/N/merge`) as of the run. Require
   branches to be up to date before merging, so a moved `main` forces an update, a new head and a new `gate`.
@@ -32,8 +33,9 @@ when GitHub groups it by workflow). It runs on every event, needs every other jo
    `gate` to pass. This holds for any Actions-based gate (merge queue included). Mitigations: require an approving
    review (and CODEOWNERS for `.github/`), and for outside contributors require approval before workflows run.
    Review every change to `.github/workflows/`.
-2. **Who may label.** Only users with triage/write access can add labels; fork authors cannot. Adding the label is a
-   request to run, not an approval: `gate` still needs the full jobs to succeed.
+2. **Cost of ready PRs.** Every ready PR's push runs the full matrix (macOS and Windows runners included); keep
+   work-in-progress PRs as drafts. For outside contributors, require approval before workflows run. Only users
+   with triage/write access can label a draft; the label is a request to run, not an approval.
 3. **Check name collisions.** Another job named `gate` in another workflow would also report a `gate` check. Pin the
    required check to the GitHub Actions app as its source, and do not add other jobs named `gate`.
 4. **Admin bypass.** Unless "Do not allow bypassing the above settings" is on, an admin can merge on a red `gate`.
