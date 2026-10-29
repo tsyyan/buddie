@@ -11,30 +11,42 @@
 # systemMessage, so this never loops. Every other event goes on with the reason on stderr. This path uses shell
 # builtins only: without Python the tools on PATH cannot be relied on either. It does not read the protected
 # policy (that takes Python), so it holds the answer whether or not one is installed.
-root=$(dirname "$(printf '%s' "$0" | tr '\\' '/' 2>/dev/null)" 2>/dev/null)/..  # a Windows path may come with backslashes
-for py in python3 python "py -3"; do
-  if $py -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
-    exec $py -I "$root/run.py" "$@"
-  fi
-done
+# Keep each command independently readable by the Directory's shell validator. A Windows path may have backslashes.
+script_path=$(printf '%s' "$0" | tr '\\' '/' 2>/dev/null)
+script_dir=$(dirname "$script_path" 2>/dev/null)
+root="$script_dir/.."
+if python3 -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec python3 -I "$root/run.py" "$@"
+fi
+if python -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec python -I "$root/run.py" "$@"
+fi
+if py -3 -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec py -3 -I "$root/run.py" "$@"
+fi
 event=""
-while IFS= read -r line || [ -n "$line" ]; do
+while IFS= read -r line || test -n "$line"; do
   event="$event$line "
 done
-case "$event" in
-  *'"hook_event_name":"Stop"'* | *'"hook_event_name": "Stop"'*) stop=1 ;;
-  *) stop=0 ;;
-esac
-case "$event" in
-  *'"stop_hook_active":true'* | *'"stop_hook_active": true'*) active=1 ;;
-  *) active=0 ;;
-esac
+stop=0
+# Parameter matching keeps the no-Python path builtin-only. The Directory mistakes case patterns for program names.
+stop_compact='"hook_event_name":"Stop"'
+stop_spaced='"hook_event_name": "Stop"'
+if test "$event" != "${event#*"$stop_compact"}" || test "$event" != "${event#*"$stop_spaced"}"; then
+  stop=1
+fi
+active=0
+active_compact='"stop_hook_active":true'
+active_spaced='"stop_hook_active": true'
+if test "$event" != "${event#*"$active_compact"}" || test "$event" != "${event#*"$active_spaced"}"; then
+  active=1
+fi
 why="buddie: no Python 3.11+ (python3, python, py -3) for the hook, so nothing was checked"
-if [ "$stop" = 1 ] && [ "$active" = 0 ]; then
+if test "$stop" = 1 && test "$active" = 0; then
   echo "$why. This answer goes back once and was not checked: say so to the reader in a line starting with 'buddie:'. Installing Python 3.11+ restores the checks." >&2
   exit 2
 fi
-if [ "$stop" = 1 ]; then
+if test "$stop" = 1; then
   printf '%s\n' '{"systemMessage": "buddie: this answer was not checked (no Python 3.11+ for the hook)."}'
 fi
 echo "$why." >&2
