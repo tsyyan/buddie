@@ -25,7 +25,7 @@ if py -3 -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/d
   exec py -3 -I "$root/run.py" "$@"
 fi
 event=""
-while IFS= read -r line || [ -n "$line" ]; do
+while IFS= read -r line || test -n "$line"; do
   event="$event$line "
 done
 case "$event" in
@@ -37,11 +37,11 @@ case "$event" in
   *) active=0 ;;
 esac
 why="buddie: no Python 3.11+ (python3, python, py -3) for the hook, so nothing was checked"
-if [ "$stop" = 1 ] && [ "$active" = 0 ]; then
+if test "$stop" = 1 && test "$active" = 0; then
   echo "$why. This answer goes back once and was not checked: say so to the reader in a line starting with 'buddie:'. Installing Python 3.11+ restores the checks." >&2
   exit 2
 fi
-if [ "$stop" = 1 ]; then
+if test "$stop" = 1; then
   printf '%s\n' '{"systemMessage": "buddie: this answer was not checked (no Python 3.11+ for the hook)."}'
 fi
 echo "$why." >&2
