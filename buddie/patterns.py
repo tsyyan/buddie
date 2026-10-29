@@ -30,12 +30,16 @@ _BUDGET: contextvars.ContextVar = contextvars.ContextVar("buddie_pattern_budget"
 STARTUP = 15.0        # seconds for the worker to start (not a pattern's time), and never past the event's budget
 CLEANUP = 5.0         # seconds to wait for a stopped worker and the threads on its pipes
 WORKER = r"""
-import json, re, sys
-try:  # Linux: the kernel ends the worker when buddie's process ends, even mid-match (re holds the GIL)
-    import ctypes
-    ctypes.CDLL(None).prctl(1, 9)  # PR_SET_PDEATHSIG, SIGKILL
-except Exception:
-    pass
+import json, os, re, sys
+if sys.platform.startswith("linux"):  # the kernel ends the worker when buddie's process ends, even mid-match (re holds the GIL)
+    try:
+        import ctypes
+        if ctypes.CDLL(None, use_errno=True).prctl(1, 9) != 0:  # PR_SET_PDEATHSIG, SIGKILL
+            sys.exit(3)  # no guard: refuse to start rather than run unbounded
+    except (OSError, AttributeError):
+        sys.exit(3)
+    if os.getppid() != int(sys.argv[1]):  # buddie ended before the guard was set: the signal will never come
+        sys.exit(3)
 cache = {}
 sys.stdout.write("{}\n")
 sys.stdout.flush()
@@ -137,7 +141,7 @@ class _Worker:
     def __init__(self, by: float):
         from buddie.runner import _windows_job, without_credentials
         import os
-        self.proc = subprocess.Popen([sys.executable, "-I", "-c", WORKER], stdin=subprocess.PIPE,
+        self.proc = subprocess.Popen([sys.executable, "-I", "-c", WORKER, str(os.getpid())], stdin=subprocess.PIPE,
                                      stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, env=without_credentials(),
                                      text=True, encoding="ascii", bufsize=1)
         self.job = _windows_job(self.proc) if os.name == "nt" else None  # ends with buddie's process, too

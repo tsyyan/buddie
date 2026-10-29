@@ -150,6 +150,9 @@ RETURNED = ("buddie (a plugin that checks claims against their sources, without 
 FIX = ("Fix each item: copy a quote character for character from its page (buddie's source_text tool, after snap), "
        "or correct the anchor (ready anchors are listed above when buddie could compute them). If an item cannot be "
        "fixed, keep it and add a line starting with 'buddie:' that tells the reader what is unverified and why.")
+# at Stop the answer is already on the person's screen (Claude Code cannot take it back): a whole rewrite shows it twice
+SHOWN = ("This answer is already shown to the person and stays on screen: do not write it again. Reply with only the "
+         "corrected lines (the fixed anchors or quotes, and any 'buddie:' line), each under the claim it corrects.")
 
 SEND = re.compile(r"(?:^|__)(?:reply|post_message|send_message)$|^SendMessage$")
 
@@ -520,6 +523,8 @@ def gate(event: dict, err, passed=lambda: [], out=None, ctx=None) -> tuple[int, 
         for item in ready:
             print(item, file=err)
     print(FIX, file=err)
+    if name == "Stop":
+        print(SHOWN, file=err)
     if preempted and not hard:
         print("The 'buddie:' line in this text was written before buddie checked it, so it does not count yet: buddie "
               "found the items above. Fix them; a 'buddie:' line about an item counts once you have seen it here.",

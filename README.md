@@ -1,37 +1,44 @@
-Buddie checks agent reports against primary evidence with local deterministic checks.
+# Buddie — AI Agent Reliability Toolkit
 
-Install: `pip install buddie==2.0.2`.
+Verify the claim. Know the context.
 
-[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.2/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.2/release-notes.md)
+Buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
-# Buddie 2.0.2
+Discovery provides independent evidence triage with the tools actually available when Core is absent, and marks unavailable checks as not checked. Core receipts require an actual Core call. Local MCP and automatic hooks vary by Claude surface; Chat has no local hooks. Cowork and mobile availability require separate live testing. Projects/Context is not shipped.
 
-2026-10-27
+Install: `pip install buddie==2.0.4`.
 
-Versioned public release information and source-bound distribution candidates.
+[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.4/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.4/release-notes.md)
+
+# Buddie 2.0.4
+
+2026-10-29
+
+Buddie — AI Agent Reliability Toolkit: canonical Discovery, README-style branding, Linux worker guard hardening and Stop-hook corrections without duplicate answers.
 
 ## Changes
 
-- Public release notes are generated from one reviewed record and bound to candidate checksums.
-- Channel descriptions include versioned upgrade, permission, security and limitation information.
-- Runtime archives carry explicitly approved files and required legal and privacy documents.
-- Local MCP feedback_start and feedback_resolve open and advance bounded verification chains; feedback_accept checks whether the final report exactly matches the verified artifact, without running a new check or changing the chain.
-- Feedback corrections retain append-only verification traces and fail closed on inconsistent or tampered chain state.
-- The compact Claude Code plugin is packaged from a reviewed runtime Git-blob allowlist with reproducible ZIP bytes.
-- Literal GitHub citations in Markdown reports can be checked against pinned GitHub file, pull request and diff evidence.
+- The compact Claude plugin includes the canonical Buddie Discovery skill and reporting reference, read from the release commit and relocated without changing their bytes.
+- Discovery distinguishes real Core verification, independent evidence triage with authorized tools, and unverified claims when relevant tools are unavailable.
+- Public manifests and generated package descriptions adopt the AI Agent Reliability Toolkit positioning and the existing Verify the claim. Know the context. tagline.
+- The plugin and Desktop bundle use the previously created white-dog icon with cyan accents matching the README artwork.
+- Packaging rejects missing Discovery dependencies and competing destination paths, including case variants on Windows.
+- On Linux, regex workers refuse to proceed if registering the parent-death signal fails or if the expected parent has already ended. The liveness test handles a process disappearing during the /proc read and retains diagnostics and cleanup.
+- At Stop, failed verification now asks for corrected lines instead of repeating the full answer that is already displayed. PreToolUse delivery checks retain their existing behavior.
+- Ready pull requests automatically run full validation. CI runs the main suite in parallel and the timing-sensitive worker tests separately, with pip caching.
 
 ## Upgrade
 
-Install buddie==2.0.2 with pip or select the matching approved plugin or Desktop bundle. Existing PyPI 2.0.1 artifacts remain unchanged.
+Install buddie==2.0.4 or use the matching approved plugin or Desktop bundle. This release replaces the unpublished 2.0.3 candidate and includes merged PR77. Standalone Discovery retains version 0.1.0. Published 2.0.2 artifacts and the immutable 2.0.3 candidate remain unchanged.
 
 ## Permissions
 
-No new runtime permissions are required. Local checks run without a model. GitHub anchors may use optional GitHub credentials; browser access is optional and requires a separate browser installation.
+No new Core runtime permissions are required. Discovery uses only tools and evidence already authorized in the host session; optional Core diagnostics retain existing permission grants. No automatic installation or credential access is added.
 
 ## Security
 
-Release candidates bind public notes and Registry payloads to the recorded source revision and file digests. Report vulnerabilities through SECURITY.md.
+Linux regex workers now fail closed when their parent-death guard cannot be established. The candidate binds archives, public metadata and canonical Discovery sources to the source revision and SHA-256 digests. Issue73 was closed at the owner’s request after PR77; the historical intermittent failure’s precise root cause remains unproven. Report vulnerabilities through SECURITY.md.
 
 ## Limitations
 
-Checks support evidence review and do not establish that every claim is true. Catalog display of release notes is unverified; publication and plugin promotion require separate authorization.
+Discovery is an instruction skill, not an executable verifier. Automatic hooks and local MCP vary by client; actual Cowork, Claude Chat and mobile behavior is not certified by package validation. Projects/Context, hosted remote MCP and image-understanding tools are not introduced. Agensi submission is pending review, not approved.
