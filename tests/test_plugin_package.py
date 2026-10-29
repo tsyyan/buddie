@@ -128,7 +128,9 @@ def test_the_package_marketplace_is_its_own_not_the_repository_channel(head):
     files = head[2]
     packaged = json.loads(files[".claude-plugin/marketplace.json"])
     assert [p["source"] for p in packaged["plugins"]] == ["./"]
-    assert files[".claude-plugin/marketplace.json"] == (ROOT / "packaging/plugin/marketplace.json").read_bytes()
+    blob = subprocess.run(["git", "-C", str(ROOT), "show", "HEAD:packaging/plugin/marketplace.json"],
+                          check=True, capture_output=True).stdout  # the Git bytes: a Windows checkout may hold CRLF
+    assert files[".claude-plugin/marketplace.json"] == blob
     channel = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
     assert [p["source"] for p in channel["plugins"]] == [
         {"source": "github", "repo": "tsyyan/buddie", "ref": "plugin-stable"}]
