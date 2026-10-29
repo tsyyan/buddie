@@ -29,6 +29,7 @@ while IFS= read -r line || test -n "$line"; do
   event="$event$line "
 done
 stop=0
+# Parameter matching keeps the no-Python path builtin-only. The Directory mistakes case patterns for program names.
 stop_compact='"hook_event_name":"Stop"'
 stop_spaced='"hook_event_name": "Stop"'
 if test "$event" != "${event#*"$stop_compact"}" || test "$event" != "${event#*"$stop_spaced"}"; then
