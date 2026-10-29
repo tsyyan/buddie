@@ -4,14 +4,14 @@
     "name": "tsyyan"
   },
   "metadata": {
-    "description": "Buddie — AI Agent Reliability Toolkit"
+    "description": "buddie: verify the claim, know the context. AI agent reliability toolkit."
   },
   "plugins": [
     {
       "name": "buddie",
-      "source": "./",
-      "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
-      "displayName": "Buddie — AI Agent Reliability Toolkit"
+      "displayName": "buddie",
+      "description": "Checks what an AI agent reports against primary evidence (quotes against their sources; repo, PR and CI claims against git and GitHub; test claims against the session log), with no model in the check, plus permission-scoped environment diagnostics. A false claim goes back to the agent with the reason.",
+      "source": "./"
     }
   ]
 }
