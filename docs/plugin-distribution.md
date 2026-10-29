@@ -16,7 +16,10 @@ claims Directory approval or full compliance.
 
 **Selection.** An explicit allowlist in `plugin_package.py` (`EXACT`, `DIRECTORIES`):
 
-- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json`, `run.py`;
+- `.claude-plugin/plugin.json`, `.mcp.json`, `run.py`;
+- the package's own marketplace, `packaging/plugin/marketplace.json` (source `./`), relocated byte for byte to
+  `.claude-plugin/marketplace.json` (builder revision 4). The repository root's `.claude-plugin/marketplace.json` is the
+  public Claude Code channel and points at `plugin-stable`; it never enters the package;
 - `hooks/hooks.json`, `hooks/run.sh`;
 - `buddie/*.py`, `buddie/verbatim/*.py`, `skills/*/SKILL.md`, `commands/*.md`;
 - `assets/icon.png`, `README.md`, `LICENSE`, `NOTICE`, `PRIVACY.md`.
@@ -153,7 +156,7 @@ Its synthetic sources are made with `git fast-import`, so modes and bytes do not
 | Claude Desktop MCPB | none. Same `.mcpbignore` (from #61) and checks. |
 | MCP Registry | none |
 | GitHub Release | from the next release, two more assets: `buddie-plugin-X.Y.Z.zip` and `plugin-manifest.json`. The documented release check moves them into `plugin/`. Releases already published are only re-checked, never changed. |
-| Claude Code from the repository root (`/plugin marketplace add tsyyan/buddie`) | none: the root stays a working plugin and marketplace. The full research history is still in it. |
+| Claude Code from the repository (`/plugin marketplace add tsyyan/buddie`) | since 2026-10-29 the root marketplace's entry is a `github` source with `ref: plugin-stable`: it installs the promoted compact plugin, not `main`. The root still holds a valid plugin for `--plugin-dir` and Codex. |
 | Claude Code from `plugin-stable` | new, after the first authorized promotion. The branch root is a marketplace with one plugin at `./`. |
 | Codex plugin, `uvx buddie serve`, Docker, remote server | none |
 | `release.yml` | `all` includes `plugin-stable` immediately after authorization. `only: plugin-stable` remains for standalone promotion/recovery; `create_branch` is needed only to create the branch. |

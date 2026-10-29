@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -574,7 +575,8 @@ def test_no_environment_variable_user_or_local_path_is_in_a_snapshot(repo, monke
     except Exception:  # noqa: BLE001 - no user name to look for
         user = None
     if user and len(user) > 3:
-        assert f'"{user}"' not in text
+        # the user name as a value; "root" is also a key of the snapshot, so a key match is not a leak
+        assert not re.search(rf'(?<!{{)"{re.escape(user)}"(?!\s*:)', text)
 
 
 # --- the protected policy -------------------------------------------------------------------------------------------

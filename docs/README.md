@@ -28,7 +28,7 @@ Start with the [project overview and quick start](../README.md). For installatio
 | Review execution risks | [Security boundaries](security.md) |
 | Understand data handling | [Privacy](../PRIVACY.md) |
 | Contribute | [Contributor guide](../CONTRIBUTING.md) |
-| Inspect releases and distribution | [Release process](release.md), [distribution](distribution.md), [catalogs](catalogs.md) |
+| Inspect releases and distribution | [Release process](release.md), [distribution](distribution.md), [catalogs](catalogs.md), [listing copy](listing-copy.md), [directory submission](directory-submission.md) |
 
 Documentation on `main` describes development code. For a published version, select its tag in GitHub before
 following version-specific instructions. Research data and licensing notes are in [results](../results/README.md).

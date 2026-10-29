@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use buddie, verbatim or their results, please cite it as below."
-title: "Buddie — AI Agent Reliability Toolkit"
+title: "buddie: verify the claim, know the context (AI agent reliability toolkit)"
 type: software
 authors:
   - alias: tsyyan

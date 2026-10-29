@@ -181,10 +181,10 @@ def test_the_readme_diagnostics_card_shows_the_excerpts_values():
 
 
 def test_the_readme_opens_with_the_brand_then_the_hero():
-    """The first screen: logo, tagline, one line of what it is, the badges, the hero, then "Why Buddie?"."""
-    opening = README.split("\n## Why Buddie?", 1)[0]
+    """The first screen: logo, tagline, one line of what it is, the badges, the hero, then "Why buddie?"."""
+    opening = README.split("\n## Why buddie?", 1)[0]
     order = [opening.index(s) for s in ("buddie-logo.png", "### Verify the claim. Know the context.",
-                                        "**Buddie — AI Agent Reliability Toolkit**", "[![CI]",
+                                        "**AI agent reliability toolkit**", "[![CI]",
                                         "[![License]", "readme-hero.png", "</div>")]
     assert order == sorted(order), order
     assert README.count("readme-hero.png") == 1
@@ -474,15 +474,15 @@ def test_the_readme_uses_only_markdown_and_html_github_keeps():
 def test_the_readme_carries_the_registry_name_and_honest_badges():
     assert README.startswith("<!-- mcp-name: io.github.tsyyan/buddie -->")  # the MCP Registry checks it on PyPI
     badges = re.findall(r"\[!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)", README)
-    assert [b[0] for b in badges] == ["CI", "Python", "License", "Buddie on Glama", "Buddie on MCPRush", "Listed on mcpservers.org"]
+    assert [b[0] for b in badges] == ["CI", "Python", "License", "buddie on Glama", "buddie on MCPRush", "Listed on mcpservers.org"]
     expected = {"CI": ("github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg", "actions/workflows/ci.yml"),
                 "Python": ("img.shields.io/pypi/pyversions/buddie", "pypi.org/project/buddie"),
                 "License": ("img.shields.io/github/license/tsyyan/buddie", "LICENSE")}
     # the two directory listings, by the owner's choice: their images are the directories' own scores of the
     # listing, so they are named for the directory and link to its page, never presented as buddie's own status
-    listings = {"Buddie on Glama": ("https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg",
+    listings = {"buddie on Glama": ("https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg",
                                     "https://glama.ai/mcp/servers/tsyyan/buddie"),
-                "Buddie on MCPRush": ("https://mcprush.com/badge/buddie-mcp/score.svg",
+                "buddie on MCPRush": ("https://mcprush.com/badge/buddie-mcp/score.svg",
                                       "https://mcprush.com/to/buddie-mcp?ref=badge"),
                 "Listed on mcpservers.org": ("https://mcpservers.org/badge.svg",
                                              "https://mcpservers.org/servers/tsyyan/buddie")}
@@ -498,12 +498,12 @@ def test_the_readme_carries_the_registry_name_and_honest_badges():
 def test_the_readme_says_what_buddie_is_in_its_opening():
     opening = README.split("## See it in action", 1)[0]
     assert "### Verify the claim. Know the context." in opening
-    assert "**Buddie — AI Agent Reliability Toolkit**" in opening
+    assert "**AI agent reliability toolkit**" in opening
     for capability in ("**Verify.**", "**Catch mismatches.**", "**Observe.**"):
-        assert capability in _section(README, "## What Buddie does"), capability
+        assert capability in _section(README, "## What buddie does"), capability
     assert "No language model takes part in the check" in opening
     assert [h for h in re.findall(r"(?m)^## (.+)$", README)] == [
-        "Why Buddie?", "What Buddie does", "See it in action", "Get started", "Documentation", "Limitations"]
+        "Why buddie?", "What buddie does", "See it in action", "Get started", "Documentation", "Limitations"]
     # a landing page, not a manual: the detail lives in docs/
     words = len(re.findall(r"\w+", re.sub(r"```.*?```|<[^>]+>|\([^)\s]*\)", " ", README, flags=re.S)))
     assert words <= 1300, words
@@ -521,7 +521,7 @@ def test_the_pages_claim_no_more_than_buddie_does():
     assert "reproduces the verdict only while that evidence is unchanged" in VERIFICATION
     assert "not listed in Anthropic's plugin directory yet" in GETTING
     # the gate is named only for the clients that have one
-    catch = _section(README, "## What Buddie does").split("**Catch mismatches.**", 1)[1].split("\n\n", 1)[0]
+    catch = _section(README, "## What buddie does").split("**Catch mismatches.**", 1)[1].split("\n\n", 1)[0]
     assert "In Claude Code and Codex" in catch and "Other clients" in catch
     # the README's limits: short, and each of these said
     limits = _section(README, "## Limitations")

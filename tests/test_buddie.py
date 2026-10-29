@@ -221,7 +221,11 @@ def test_plugin_manifests_parse():
     # lab keeps the marketplace at its root; the public buddie repo is plugin and marketplace at once
     home = ROOT if (ROOT / ".claude-plugin" / "marketplace.json").is_file() else ROOT.parents[1]
     market = json.loads((home / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
-    assert (home / market["plugins"][0]["source"] / ".claude-plugin" / "plugin.json").is_file()
+    source = market["plugins"][0]["source"]
+    if isinstance(source, dict):  # the public repository's channel: the released plugin on plugin-stable
+        assert source == {"source": "github", "repo": "tsyyan/buddie", "ref": "plugin-stable"}
+        source = "./"
+    assert (home / source / ".claude-plugin" / "plugin.json").is_file()
 
 
 def test_unanchored_counts_are_a_signal_not_a_failure():

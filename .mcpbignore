@@ -28,6 +28,7 @@ PROVENANCE.json
 pyproject.toml
 integrations/
 .codex-plugin/
+.agents/
 server.json
 MANIFEST.in
 render.yaml

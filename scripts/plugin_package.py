@@ -41,16 +41,22 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "buddie-plugin-package-v1"
 MANIFEST = "plugin-manifest.json"
 NAME = "buddie"
-BUILDER = 3  # canonical Discovery blobs are relocated, never copied into a second source implementation
+BUILDER = 4  # 3: canonical Discovery blobs relocated; 4: the package's marketplace comes from packaging/plugin
 DISCOVERY = {
     "integrations/agensi/SKILL.md": "skills/buddie-discovery/SKILL.md",
     "integrations/agensi/references/reporting.md": "skills/buddie-discovery/references/reporting.md",
 }
+# The repository root's .claude-plugin/marketplace.json is the public channel: it points Claude Code at the released
+# plugin on `plugin-stable`. The package root is its own marketplace (source "./"), so the package carries the one
+# from packaging/plugin instead, relocated byte for byte; the root's file never enters the package.
+MARKETPLACE = {"packaging/plugin/marketplace.json": ".claude-plugin/marketplace.json"}
+RELOCATIONS = {**DISCOVERY, **MARKETPLACE}
+CHANNEL = ".claude-plugin/marketplace.json"  # the repository channel, outside the package
 
 # the audited runtime: what the Claude Code plugin loads, starts or shows, and the files a reader of it needs
 EXACT = (
     ".claude-plugin/plugin.json",      # plugin manifest and Directory listing fields
-    ".claude-plugin/marketplace.json", # makes the package root installable as a marketplace (source "./")
+    *MARKETPLACE,                      # makes the package root installable as a marketplace (source "./")
     ".mcp.json",                       # the local MCP server
     "run.py",                          # the launcher (MCP and hooks)
     "hooks/hooks.json", "hooks/run.sh",
@@ -114,6 +120,8 @@ def select(entries: list[tuple[str, str, str]]) -> tuple[list[tuple[str, str, st
         if path.casefold().startswith("skills/buddie-discovery/"):
             problems.append(f"competing Discovery source: {path}; use integrations/agensi")
         directory = _rule(path)
+        if path == CHANNEL:
+            continue
         if path in EXACT:
             chosen.append((path, mode, oid))
         elif directory is not None and any(fnmatch.fnmatchcase(path[len(directory) + 1:], pat)
@@ -234,7 +242,7 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     if problems:
         raise PackageError("; ".join(problems))
     files = _blobs(repo, chosen)
-    for original, destination in DISCOVERY.items():
+    for original, destination in RELOCATIONS.items():
         files[destination] = files.pop(original)
     version = _version(files)
     import release_notes as rn
@@ -256,7 +264,7 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     manifest = {
         "schema": SCHEMA, "name": NAME, "version": version, "commit": commit, "tree": tree, "builder": BUILDER,
         "selection": {"exact": list(EXACT), "directories": {d: list(p) for d, p in DIRECTORIES.items()},
-                      "relocations": DISCOVERY},
+                      "relocations": RELOCATIONS},
         "files": [{"path": p, "size": len(files[p]), "sha256": _sha256(files[p])} for p in sorted(files)],
         "file_count": len(files), "total_bytes": sum(map(len, files.values())),
         "package": {"path": package_name(version), "size": len(data), "sha256": _sha256(data),

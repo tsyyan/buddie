@@ -5,8 +5,10 @@ newer: `python3` on macOS and Linux, `python` on Windows.
 
 ## As a plugin (recommended)
 
-This repository is also a Codex marketplace: Codex reads `.claude-plugin/marketplace.json` and the plugin's
-`.codex-plugin/plugin.json`.
+This repository is also a Codex marketplace: Codex reads `.agents/plugins/marketplace.json` and the plugin's
+`.codex-plugin/plugin.json`. (`.claude-plugin/marketplace.json` is Claude Code's: it points at the compact plugin on
+`plugin-stable`, which has no Codex manifest.) The marketplace follows `main`; to stay on a release, add it pinned:
+`codex plugin marketplace add tsyyan/buddie@v2.0.4`.
 
 ```bash
 codex plugin marketplace add tsyyan/buddie

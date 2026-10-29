@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.tsyyan/buddie",
-  "title": "Buddie — AI Agent Reliability Toolkit",
-  "description": "AI Agent Reliability Toolkit: evidence checks, feedback and permission-controlled local diagnostics.",
+  "title": "buddie",
+  "description": "Checks AI agents' claims against primary evidence, with no model; observes only what you grant.",
   "repository": {
     "url": "https://github.com/tsyyan/buddie",
     "source": "github"

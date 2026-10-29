@@ -1,8 +1,68 @@
 # Distribution: where buddie is, what each channel serves, what to do after a release
 
-## Current channel check (2026-10-25)
+## Current channel check (2026-10-29)
 
-This check supersedes the pre-release version/status statements in the historical audit below.
+Supersedes the 2026-10-25 check below. Name everywhere: **buddie** (the package, the logo's wordmark and every
+listing); "Verify the claim. Know the context." and "AI agent reliability toolkit" are the tagline and the category,
+not part of the name. Icon everywhere: `assets/icon.png` (the dog from the README logo). Reusable text:
+[listing copy](listing-copy.md).
+
+| Channel | What it serves on 2026-10-29 | How it was checked | Next action (who) |
+|---|---|---|---|
+| [PyPI](https://pypi.org/project/buddie/) | 2.0.4 latest; 2.0.3 never published | `pip index versions buddie` | none until the next release |
+| [GitHub Release v2.0.4](https://github.com/tsyyan/buddie/releases/tag/v2.0.4) | wheel, sdist, `.mcpb`, compact plugin ZIP, manifests, `SHA256SUMS` (14 assets); `v2.0.3` is a tag without a release | GitHub API | none |
+| [Official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=io.github.tsyyan/buddie) | 2.0.4 `isLatest`; 1.0.0 to 2.0.2 active, no 2.0.3 | registry API | none; the next `server.json` carries the title `buddie` |
+| Claude Code marketplace (`/plugin marketplace add tsyyan/buddie`) | **from this change:** the released compact plugin on `plugin-stable` (2.0.4, `b2c1efb`), not `main` | isolated `CLAUDE_CONFIG_DIR`, Claude Code 2.1.310: marketplace add + install resolved `plugin-stable` | protect `plugin-stable` (owner, below) |
+| Codex marketplace (`codex plugin marketplace add tsyyan/buddie`) | the repository root from `main` (`.agents/plugins/marketplace.json`); `@v2.0.4` or `--ref v2.0.4` pins a release | isolated `CODEX_HOME`, codex-cli 0.165.0: both forms install 2.0.4 | none |
+| Claude Desktop (`.mcpb`) | `buddie-2.0.4.mcpb` on the release | release assets | none |
+| [Glama](https://glama.ai/mcp/servers/tsyyan/buddie) | 2.0.4, all 8 tools, TDQS A (3.6/5); the stale `GITHUB_TOKEN` variable is gone; "responsiveness: unresponsive" | public page | owner: set name `buddie` and the icon in the listing's Admin |
+| [MCPRush](https://mcprush.com/tsyyan/buddie-mcp) | "buddie MCP", v2.0.4 (29 Oct), Grade A, 2,635 installs, **5 of 8 tools** (no `feedback_*`), **every tool labelled `read`**, unpinned `uvx buddie serve`, a "BU" letter tile instead of the icon | owner's screenshot, 2026-10-29 (the site refuses scripted reads) | owner, Studio: rename to `buddie`, upload the icon, set access labels from [listing copy](listing-copy.md#tools-and-access), re-sync tools |
+| [mcpservers.org](https://mcpservers.org/servers/tsyyan/buddie) | approved 2026-10-26 (owner's email) | page not retrievable by script | owner: check the name and install line |
+| Anthropic plugin directory | **withdrawn by the owner** (a submission under review cannot be edited); no submission now | owner | new submission: [directory-submission.md](directory-submission.md) |
+| Agensi (Discovery skill 0.1.0) | submitted 2026-10-28, pending per the 2.0.4 release record; no public page found | agensi.io search | owner: check the review |
+| Cline [#336](https://github.com/cline/marketplace/pull/336), Kilo [#484](https://github.com/Kilo-Org/kilo-marketplace/pull/484) | draft PRs, pinned to `buddie@2.0.1`, no reviews | GitHub | owner: bump both to the current release and mark ready |
+| GitHub MCP Registry ([github.com/mcp](https://github.com/mcp?search=buddie)) | not listed (it shows a curated subset of the official registry) | search page | none possible from here |
+| Smithery | not used: accounts and its CLI end 2026-10-31 | 2026-10-25 check | none |
+
+**The marketplace no longer follows `main`.** `.claude-plugin/marketplace.json` at the repository root names the
+plugin by a `github` source with `ref: plugin-stable`, so `/plugin marketplace add tsyyan/buddie` installs and updates
+only what a release promoted ([plugin-distribution.md](plugin-distribution.md)). The compact package carries its own
+marketplace (`packaging/plugin/marketplace.json`, source `./`), relocated byte for byte by the builder, so the package
+root stays installable on its own and in the release candidate's clean install. Codex reads
+`.agents/plugins/marketplace.json` first; it keeps the repository root (Codex needs `.codex-plugin/` and its hook,
+which the compact package does not carry), so Codex users who want only releases pin a tag.
+
+**Owner steps this change cannot make** (the session's GitHub access refuses ref deletion and ruleset writes):
+
+1. Protect `plugin-stable` now that it is the public Claude Code channel: Settings → Rules → new branch ruleset on
+   `refs/heads/plugin-stable` with *Restrict deletions* and *Block force pushes* (and, if you want, *Restrict updates*
+   with GitHub Actions as the bypass actor, so only `release.yml` advances it).
+2. Delete the merged branches: [branch cleanup](maintenance/branch-cleanup-2026-10-29.md).
+3. Release 2.0.5 so PyPI, the Registry, the `.mcpb` and `plugin-stable` carry the name `buddie` and the 23 KB icon.
+
+## Where to expand (2026-10-29)
+
+Ordered by reach per hour of work. "Automatic" means a correct record elsewhere is enough.
+
+| Where | Fit for buddie | How | Effort |
+|---|---|---|---|
+| Anthropic plugin directory | the main audience (Claude Code, Cowork) | new submission tracking `plugin-stable`: [directory-submission.md](directory-submission.md) | owner, portal |
+| PulseMCP | MCP discovery and newsletter | ingests the official registry; claim the listing once it appears | owner, minutes |
+| GitHub Copilot CLI | reads `.claude-plugin/marketplace.json` | test `copilot plugin marketplace add tsyyan/buddie`, then document it | half a day, needs a Copilot seat |
+| skills.sh (`npx skills add`) | the `buddie`, `verbatim` and Discovery skills, for agents without MCP | `npx skills add tsyyan/buddie --list` must find them; then an indexing request issue at vercel-labs/skills | an hour |
+| Gemini CLI extensions gallery | MCP + context file, indexed from GitHub | a `gemini-extension.json` at the root (MCP server `run.py serve`, context from the skill); the gallery indexes it | half a day |
+| punkpeye/awesome-mcp-servers | the most-read list; needs a Glama listing (have it) | PR under a verification or developer-tools category | an hour |
+| mcp.so | large directory | web form or issue at chatmcp/mcpso | minutes |
+| Docker MCP Catalog | Docker Desktop's MCP Toolkit | PR to docker/mcp-registry with the existing `Dockerfile`; in a container buddie checks quotes, numbers and `pr:`/`ci:` only, not repo anchors or `run:` | a day, review by Docker |
+| Cline, Kilo | already prepared | finish the two open PRs (above) | an hour |
+| OpenAI plugin directory | needs a hosted server (remote route) or allowlisting (local route) | after a hosted deployment exists | later |
+
+Not worth it now: Smithery (closing accounts), the claude.ai MCP connector (needs a hosted, rate-limited server with
+auth), paid marketplaces.
+
+## Channel check (2026-10-25, superseded)
+
+This check superseded the pre-release version/status statements in the historical audit below.
 It does not republish or modify the 2.0.0 artifacts. Use [listing copy](listing-copy.md) for new descriptions.
 The observations below retain the original October 25 audit snapshot; the follow-up column records owner
 confirmation and a separate public recheck later that day.
@@ -81,6 +141,8 @@ Registry points at PyPI; MCPRush and Glama are directories that describe it and 
 | **Glama** (`tsyyan/buddie`) | "v1.1.1" from its last inspection; README as of `0f864ec` (2026-10-22) | the GitHub repository (default branch), inspected by running the server | Glama's "Deploy Server" / "Try in Browser", or the README's commands | Glama re-indexes the repository on its own schedule (observed: about a day behind) | not by this repository | none observed | no (deploying needs a Glama account and runs buddie on Glama's infrastructure) | wait for or trigger a re-index; check the tools, env vars and README |
 
 ## The marketplace follows `main`
+
+**Resolved 2026-10-29:** the root marketplace now points at `plugin-stable` (current channel check above).
 
 `.claude-plugin/marketplace.json` names the plugin at `./`, the repository itself, so Claude Code and Codex install
 whatever `main` holds. PR #37 set `plugin.json` to 2.0.0 on `main`, so since `b6464a7` a person with 1.1.1 who runs
