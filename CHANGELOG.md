@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## buddie 2.0.5 (2026-10-30)
+
+Public release content is generated from `releases/2.0.5.json` and bound to the candidate.
 
 - One name, `buddie`, in every manifest and listing (plugin, Codex, Desktop, MCP Registry title, CITATION, README,
   generated package READMEs); the tagline and "AI agent reliability toolkit" move to descriptions.
