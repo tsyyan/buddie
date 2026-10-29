@@ -30,7 +30,7 @@ Install buddie==2.0.6 or update the plugin. The Claude Code marketplace follows 
 
 ## Permissions
 
-No new runtime permissions or dependencies. Checks run locally without a model; GitHub credentials stay optional.
+No new runtime permissions or dependencies. Checks run locally without a model. Optional evidence checks request cited URLs and the GitHub API (api.github.com, or an administrator-approved Enterprise API); GitHub credentials stay optional. No report or transcript is sent to a Buddie collection service.
 
 ## Security
 
@@ -38,4 +38,4 @@ Python hooks still run with -I and require Python 3.11 or newer. The candidate b
 
 ## Limitations
 
-Checks support evidence review and do not establish that every claim is true. Passing automated directory validation does not imply Anthropic approval; publication in its directory requires a separate review.
+Checks support evidence review and do not establish that every claim is true. Local source snapshots, pending report lines and feedback state can contain personal data and have no automatic expiry; the person can delete them. See PRIVACY.md for controls. Passing automated directory validation does not imply Anthropic approval; publication in its directory requires a separate review.
