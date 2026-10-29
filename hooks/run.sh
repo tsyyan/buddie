@@ -28,14 +28,18 @@ event=""
 while IFS= read -r line || test -n "$line"; do
   event="$event$line "
 done
-case "$event" in
-  *'"hook_event_name":"Stop"'* | *'"hook_event_name": "Stop"'*) stop=1 ;;
-  *) stop=0 ;;
-esac
-case "$event" in
-  *'"stop_hook_active":true'* | *'"stop_hook_active": true'*) active=1 ;;
-  *) active=0 ;;
-esac
+stop=0
+stop_compact='"hook_event_name":"Stop"'
+stop_spaced='"hook_event_name": "Stop"'
+if test "$event" != "${event#*"$stop_compact"}" || test "$event" != "${event#*"$stop_spaced"}"; then
+  stop=1
+fi
+active=0
+active_compact='"stop_hook_active":true'
+active_spaced='"stop_hook_active": true'
+if test "$event" != "${event#*"$active_compact"}" || test "$event" != "${event#*"$active_spaced"}"; then
+  active=1
+fi
 why="buddie: no Python 3.11+ (python3, python, py -3) for the hook, so nothing was checked"
 if test "$stop" = 1 && test "$active" = 0; then
   echo "$why. This answer goes back once and was not checked: say so to the reader in a line starting with 'buddie:'. Installing Python 3.11+ restores the checks." >&2
