@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
 PUBLISHERS = ("pypi", "mcp-registry", "github-release")
-PROMOTER = "plugin-stable"  # the distribution branch: authorized like a publisher, chosen only by hand
+PROMOTER = "plugin-stable"  # the distribution branch: included in all, also recoverable on its own
 ORDER = ("candidate", "authorize", *PUBLISHERS, PROMOTER)
 
 
@@ -211,15 +211,24 @@ def _promote(only="plugin-stable"):
     return {"candidate": "40023776731", "confirm": "promote buddie 2.0.0 to plugin-stable", "only": only}
 
 
-def test_plugin_stable_runs_only_when_chosen_by_hand_and_authorized():
+def test_plugin_stable_runs_in_all_and_on_its_own_after_authorization():
     results = _run("workflow_dispatch", _promote())
     assert results["authorize"] == "success" and results[PROMOTER] == "success"
     assert _published(results) == set()                     # promoting publishes nothing else
-    for event, inputs in (("push", {}), ("workflow_dispatch", _dispatch("all")),
+    assert _run("workflow_dispatch", _dispatch("all"))[PROMOTER] == "success"
+    for event, inputs in (("push", {}),
                           ("workflow_dispatch", _dispatch("all", candidate="")), ("workflow_dispatch", _dispatch("pypi"))):
         assert _run(event, inputs)[PROMOTER] == "skipped", (event, inputs)
-    for ends in ("failure", "cancelled"):
-        assert _run("workflow_dispatch", _promote(), authorize_ends=ends)[PROMOTER] == "skipped"
+    for inputs in (_promote(), _dispatch("all")):
+        for ends in ("failure", "cancelled"):
+            assert _run("workflow_dispatch", inputs, authorize_ends=ends)[PROMOTER] == "skipped"
+
+
+@pytest.mark.parametrize("only", ["all", "plugin-stable"])
+def test_plugin_stable_cannot_run_with_skipped_authorization(only):
+    assert not _evaluate(JOBS[PROMOTER]["if"],
+                         {"event": "workflow_dispatch", "inputs": _dispatch(only)},
+                         {"authorize": "skipped"})
 
 
 def test_plugin_stable_pushes_without_force_verifies_and_installs():
@@ -235,7 +244,7 @@ def test_plugin_stable_pushes_without_force_verifies_and_installs():
     assert pushes == ['git(repo, "push", "--quiet", remote, f"{commit}:{ref}")']
 
 
-def test_a_publish_approval_does_not_promote_and_a_promotion_approval_does_not_publish():
+def test_all_keeps_publish_confirmation_and_standalone_promotion_keeps_its_own():
     import sys
     sys.path.insert(0, str(ROOT / "scripts"))
     import release_publish as rp

@@ -39,8 +39,7 @@ class Stop(Exception):
 # --- authorize -------------------------------------------------------------------------------------------------------
 
 def confirmation(version: str, only: str = "all") -> str:
-    """The words a person types to approve `only`: publishing, or promoting the plugin to plugin-stable. One
-    approval never covers the other."""
+    """The confirmation for the chosen mode: all publishes and promotes; standalone promotion uses its own words."""
     return f"promote buddie {version} to plugin-stable" if only == "plugin-stable" else f"publish buddie {version}"
 
 

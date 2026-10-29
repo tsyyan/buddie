@@ -156,8 +156,8 @@ Its synthetic sources are made with `git fast-import`, so modes and bytes do not
 | Claude Code from the repository root (`/plugin marketplace add tsyyan/buddie`) | none: the root stays a working plugin and marketplace. The full research history is still in it. |
 | Claude Code from `plugin-stable` | new, after the first authorized promotion. The branch root is a marketplace with one plugin at `./`. |
 | Codex plugin, `uvx buddie serve`, Docker, remote server | none |
-| `release.yml` | new choice `only: plugin-stable` (never in `all`), new input `create_branch`. Existing stages, permissions and their tests are unchanged. |
-| `release_publish.authorize` | stage-specific confirmation. `publish buddie X.Y.Z` is unchanged for every existing stage. |
+| `release.yml` | `all` includes `plugin-stable` immediately after authorization. `only: plugin-stable` remains for standalone promotion/recovery; `create_branch` is needed only to create the branch. |
+| `release_publish.authorize` | `publish buddie X.Y.Z` covers publication and promotion in `all`; standalone promotion has its own confirmation. |
 
 ## Directory compliance reconciliation (with PR #61)
 
@@ -203,8 +203,11 @@ its exact commit has been validated.
    This is the repository owner's setting, not testable here.
 3. **Release.** Cut the next release as usual (docs/release.md, "Cutting a release"). The candidate now includes the
    plugin.
-4. **Publish.** Run the publishing stages as before.
-5. **Promote.** Run `release.yml` by hand on the tag with:
+4. **Publish and promote.** Run `release.yml` on the tag with `only: all` and `confirm: publish buddie X.Y.Z`.
+   After authorization, `plugin-stable` starts immediately alongside publication. The branch may advance even if
+   another stage later fails. Check all results independently.
+5. **Standalone promotion/recovery.** For recovery, or an older tag such as `v2.0.4` whose workflow predates the
+   combined mode, run `release.yml` by hand on the tag with:
    - `candidate`: the tag's candidate run;
    - `only`: `plugin-stable`;
    - `confirm`: `promote buddie X.Y.Z to plugin-stable`;
