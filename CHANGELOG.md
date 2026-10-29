@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- One name, `buddie`, in every manifest and listing (plugin, Codex, Desktop, MCP Registry title, CITATION, README,
+  generated package READMEs); the tagline and "AI agent reliability toolkit" move to descriptions.
+- The icon (`assets/icon.png`, the dog from the README logo) is 23 KB instead of 884 KB: a 256-colour palette,
+  visually unchanged (PSNR 46 dB).
+- Claude Code's marketplace (`/plugin marketplace add tsyyan/buddie`) installs the released compact plugin from
+  `plugin-stable` instead of `main`. The package carries its own marketplace (`packaging/plugin/marketplace.json`,
+  builder revision 4). Codex reads the new `.agents/plugins/marketplace.json` and keeps the repository root.
+- Documentation: a dated channel check and expansion plan (docs/distribution.md), listing copy for 2.0.4 with tool
+  access labels, a packet for a new Anthropic directory submission, and the approved branch cleanup.
+- Two tests no longer fail when the suite runs as root.
+
 ## buddie 2.0.4 (2026-10-29)
 
 Public release content is generated from `releases/2.0.4.json` and bound to the candidate.

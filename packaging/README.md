@@ -1,16 +1,16 @@
 <!-- mcp-name: io.github.tsyyan/buddie -->
 
-# Buddie — AI Agent Reliability Toolkit
+# buddie
 
-Verify the claim. Know the context.
+Verify the claim. Know the context. AI agent reliability toolkit.
 
-Buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
+buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
 Install: `pip install buddie==2.0.4`.
 
 [Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.4/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.4/release-notes.md)
 
-# Buddie 2.0.4
+# buddie 2.0.4
 
 2026-10-29
 

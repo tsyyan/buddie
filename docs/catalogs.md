@@ -1,10 +1,10 @@
 # Catalog listings
 
-**Current check: 2026-10-26.** Buddie 2.0.1 is published on PyPI, GitHub Releases and the
-Official MCP Registry (2.0.0 before it, 2026-10-24). The repository marketplace manifests also say 2.0.1. See the
-[current channel check](distribution.md#current-channel-check-2026-10-25) and
-[reusable listing copy](listing-copy.md) before using the older submission notes below.
-The Anthropic submission is already awaiting review; continue it rather than creating another.
+**Current check: 2026-10-29.** buddie 2.0.4 is published on PyPI, GitHub Releases and the Official MCP Registry.
+Claude Code's marketplace installs the released plugin from `plugin-stable`. See the
+[current channel check](distribution.md#current-channel-check-2026-10-29), the
+[reusable listing copy](listing-copy.md) and, for Anthropic's directory, the
+[new submission packet](directory-submission.md). The 1.1.1 submission was withdrawn by the owner.
 The third-party mcpservers.org listing was approved by email on 2026-10-26; this is catalog acceptance, not security certification or confirmation of client installation.
 
 Where buddie can be listed, what is ready in this repository, and what only the owner can do: accounts, forms and the
@@ -17,10 +17,10 @@ what to do after a release: [distribution.md](distribution.md).
 | PyPI (`buddie`) | `pyproject.toml`, `release.yml` | trusted publisher (done for 1.x); per release a tag and the publish run | no |
 | MCP Registry (`io.github.tsyyan/buddie`) | `server.json`, `mcp-name` line in README, job in `release.yml` | none: GitHub OIDC proves the namespace | no |
 | [mcpservers.org](https://mcpservers.org/servers/tsyyan/buddie) (third-party discovery catalog) | Public listing URL and README badge; submission approval email received 2026-10-26 | Approved per email; verify live listing details and install instructions manually (page could not be independently retrieved during this update) | no for the listed local stdio MCP server |
-| Anthropic's directory: plugin for Claude Code and Cowork | `.claude-plugin/`, README, LICENSE, `claude plugin validate` in CI | submitted (1.1.1, held for review); new versions through the tracked ref | no |
+| Anthropic's directory: plugin for Claude Code and Cowork | the compact plugin on `plugin-stable`, validated in every release candidate | new submission tracking `plugin-stable` ([directory-submission.md](directory-submission.md)); the 1.1.1 one was withdrawn | no |
 | Anthropic's directory: MCP connector for claude.ai | `buddie serve --http`, Docker image | deploy, then submit the URL | **yes** |
 | Claude Desktop | `.mcpb` attached to each GitHub Release | share the release link; check the portal for a desktop-extension listing | no |
-| Codex marketplace (this repository) | `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json` | none: `codex plugin marketplace add tsyyan/buddie` works once the repo is public | no |
+| Codex marketplace (this repository) | `.agents/plugins/marketplace.json`, `.codex-plugin/plugin.json` | none: `codex plugin marketplace add tsyyan/buddie` works once the repo is public | no |
 | OpenAI's plugin directory (ChatGPT and Codex) | remote template in `integrations/chatgpt/`; local repository plugin is a separate channel | remote route: deploy and submit URL; local public route: approved-partner allowlisting first (below) | remote route **yes**; restricted local route **no** |
 
 ## PyPI and the MCP Registry
@@ -32,12 +32,12 @@ Each release publishes both from the publish run of `release.yml` ([release.md](
 
 ## Anthropic's directory: the plugin
 
-buddie was submitted as "buddie: claim checker" (version 1.1.1, commit `3a351b4`) and is held for a reviewer. The
-audit of its files against the directory's checklist, which warnings are actionable, and what to do after 2.0.0 is in
-[distribution.md](distribution.md#anthropics-plugin-directory). A hold is not a rejection; continue the existing
-submission rather than starting a new one (the portal allows one submission per repository and folder).
+buddie was submitted as "buddie: claim checker" (version 1.1.1, commit `3a351b4`), held for a reviewer, and
+withdrawn by the owner on 2026-10-29 because a submission under review cannot be edited. The new submission tracks
+the compact plugin on `plugin-stable`: [directory-submission.md](directory-submission.md). The audit of the old
+submission's files is kept in [distribution.md](distribution.md#anthropics-plugin-directory).
 
-For a first submission elsewhere, the steps were:
+The steps of the withdrawn submission, for reference:
 
 1. Connect your GitHub account on claude.ai (the portal checks that it can push to `tsyyan/buddie`).
 2. At [claude.ai/directory/manage](https://claude.ai/directory/manage) → **Submit new** → **Plugin bundle**.

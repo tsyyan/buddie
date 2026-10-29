@@ -28,12 +28,12 @@ buddie needs Python 3.11 or newer and has no dependencies.
 ```
 
 From a shell: `claude plugin marketplace add tsyyan/buddie`, then `claude plugin install buddie@buddie`. The plugin
-installs this repository's `main` (2.0.4 today). Its hook checks the final answer at `Stop` and messages sent with
+installs the released compact plugin from the `plugin-stable` branch (2.0.4 today), not unreleased work on `main`. Its hook checks the final answer at `Stop` and messages sent with
 `SendMessage`; on `FAIL` the agent receives the reasons. At `Stop` the answer is already displayed, so the hook asks
 for corrected lines without repeating the full answer. Optional: a GitHub token for `pr:` and
 `ci:`, which the plugin asks for and keeps as a secret. Levels, the intro mode and what the hook reads:
-[claude-code.md](claude-code.md). buddie is not listed in Anthropic's plugin directory yet: a submission is
-in review.
+[claude-code.md](claude-code.md). buddie is not listed in Anthropic's plugin directory yet: a new submission
+is being prepared.
 
 ### Codex
 

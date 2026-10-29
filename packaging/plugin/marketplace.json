@@ -1,0 +1,17 @@
+{
+  "name": "buddie",
+  "owner": {
+    "name": "tsyyan"
+  },
+  "metadata": {
+    "description": "buddie: verify the claim, know the context. AI agent reliability toolkit."
+  },
+  "plugins": [
+    {
+      "name": "buddie",
+      "displayName": "buddie",
+      "description": "Checks what an AI agent reports against primary evidence (quotes against their sources; repo, PR and CI claims against git and GitHub; test claims against the session log), with no model in the check, plus permission-scoped environment diagnostics. A false claim goes back to the agent with the reason.",
+      "source": "./"
+    }
+  ]
+}

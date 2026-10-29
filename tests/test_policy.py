@@ -226,6 +226,7 @@ def test_a_read_only_attribute_is_not_protection(world):
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="POSIX ownership")
+@pytest.mark.skipif(os.name != "nt" and os.geteuid() == 0, reason="run as root, this user's file is root's")
 def test_a_file_of_this_user_is_not_protected_even_read_only(world):
     repo, install, _ = world
     install(POLICY, protected=False)

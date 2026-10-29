@@ -1,7 +1,7 @@
 {
   "name": "buddie",
   "version": "2.0.4",
-  "description": "Buddie makes AI agents more reliable through evidence-based verification, supported automatic answer checks, actionable feedback, and permission-controlled environment diagnostics. Features vary by Claude surface; deterministic Core verification does not use another AI model.",
+  "description": "Checks what an AI agent reports against primary evidence (quotes against their sources; repo, PR and CI claims against git and GitHub; test claims against the session log), with no model in the check, plus permission-scoped environment diagnostics. A false claim goes back to the agent with the reason.",
   "keywords": [
     "verification",
     "citations",
@@ -26,7 +26,7 @@
   },
   "hooks": "./integrations/codex/hooks.json",
   "interface": {
-    "displayName": "Buddie — AI Agent Reliability Toolkit",
+    "displayName": "buddie",
     "shortDescription": "Check an agent's report against the sources it cites, the repo and GitHub before you rely on it.",
     "longDescription": "buddie checks what an agent reports: a quotation with a link against a SHA-256 snapshot of that page, a repo anchor (path#sha256, path@commit) against your checkout, pr: and ci: anchors against the GitHub API. No model takes part in the check. In Codex the plugin brings the MCP tools verify_report, snap and source_text (summary is listed too, with data only under Claude Code; environment_snapshot describes the machine categories you granted), the skills that teach anchors, and a Stop hook that returns failed verification for correction. A Stop return asks for corrected lines rather than another copy of the full answer; it does not retract an answer already displayed.",
     "developerName": "tsyyan",

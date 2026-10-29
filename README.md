@@ -9,44 +9,44 @@
 
 ### Verify the claim. Know the context.
 
-**Buddie — AI Agent Reliability Toolkit**
+**AI agent reliability toolkit**
 
 [![CI](https://github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg)](https://github.com/tsyyan/buddie/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/buddie)](https://pypi.org/project/buddie/)
 [![License](https://img.shields.io/github/license/tsyyan/buddie)](https://github.com/tsyyan/buddie/blob/v2.0.4/LICENSE)
-[![Buddie on Glama](https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg)](https://glama.ai/mcp/servers/tsyyan/buddie)
-[![Buddie on MCPRush](https://mcprush.com/badge/buddie-mcp/score.svg)](https://mcprush.com/to/buddie-mcp?ref=badge)
+[![buddie on Glama](https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg)](https://glama.ai/mcp/servers/tsyyan/buddie)
+[![buddie on MCPRush](https://mcprush.com/badge/buddie-mcp/score.svg)](https://mcprush.com/to/buddie-mcp?ref=badge)
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/tsyyan/buddie)
 
 <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.4/assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
 
 </div>
 
-## Why Buddie?
+## Why buddie?
 
 An agent finishes a task and tells you that CI passed, that a source supports its summary, or that your laptop has
 CUDA and Python 3.12. It sounds certain, and often it is right. When it is wrong, the mistake hides inside a
 confident sentence.
 
-Buddie separates what can be checked from what is only claimed. It checks supported claims against the evidence
+buddie separates what can be checked from what is only claimed. It checks supported claims against the evidence
 itself, gives the agent real observations of your machine instead of guesses, and marks what it could not check as
 unchecked. In 929 checkable quotations from published deep-research reports, 212 were altered or absent from the
-page they cited; Buddie flagged 207 of them ([research](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/research.md)).
+page they cited; buddie flagged 207 of them ([research](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/research.md)).
 
-## What Buddie does
+## What buddie does
 
-**Verify.** Buddie checks supported claims against their evidence: a quotation against the page it links to, a file
+**Verify.** buddie checks supported claims against their evidence: a quotation against the page it links to, a file
 or commit against your repository, a merged PR or a green CI run against GitHub, a test result against the session's
 record of the command. No language model takes part in the check, so the agent cannot argue its way to a different
 verdict.
 
-**Catch mismatches.** In Claude Code and Codex, Buddie's hook checks supported claims at `Stop` and returns failures
-with the reason. In Claude Code the answer is already visible at that point; Buddie asks for corrected lines
+**Catch mismatches.** In Claude Code and Codex, buddie's hook checks supported claims at `Stop` and returns failures
+with the reason. In Claude Code the answer is already visible at that point; buddie asks for corrected lines
 instead of another copy of the whole answer. Supported message checks before delivery retain their existing
 behavior. Other clients call the checks through MCP or the command line and decide what to do with the result.
 
-**Observe.** Before it suggests a command, an agent can ask Buddie for the parts of your machine the task needs: the
-operating system, CPU, memory, GPU, Python, runtimes, tools. Buddie reads only the categories you have granted,
+**Observe.** Before it suggests a command, an agent can ask buddie for the parts of your machine the task needs: the
+operating system, CPU, memory, GPU, Python, runtimes, tools. buddie reads only the categories you have granted,
 changes nothing, and records how each value was observed.
 
 **Discover.** The compact Claude plugin includes a Discovery skill for evidence triage with the tools available in the current session. It uses real Core verification when connected, performs independent checks otherwise, and marks unavailable checks as not checked. Local hooks and MCP capabilities vary by surface; Cowork, Chat and mobile require separate live verification. Projects/Context remains a future design.
@@ -56,7 +56,7 @@ changes nothing, and records how each value was observed.
 ### Verify an agent's claim
 
 An agent reports that it fixed a date parser and that the test suite is green. It marks the claim with a small
-anchor, `⚓ run:pytest -q => 41 passed`, that Buddie can check. The session transcript records what the test command
+anchor, `⚓ run:pytest -q => 41 passed`, that buddie can check. The session transcript records what the test command
 actually printed:
 
 <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.4/assets/demo/verification.svg" alt="Verify, from a real run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q => 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit 1." width="600">
@@ -75,14 +75,14 @@ note  pr:/ci:/run: anchors show what happened (PR state, checks on a commit, a c
 buddie FAIL: effects 0/1 hold, 1 broken
 ```
 
-The files are a teaching fixture: Buddie reads the recorded output rather than rerunning pytest. `--json receipt.json`
+The files are a teaching fixture: buddie reads the recorded output rather than rerunning pytest. `--json receipt.json`
 also writes a receipt naming the evidence behind the verdict. Quotation, PR and CI examples, and which integration
 checks what: [verification guide](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/verification.md).
 
 ### Know the environment
 
 An agent is asked to set up a local development environment. Instead of guessing the operating system, GPU or Python
-version, it asks Buddie for three categories, which the person has granted:
+version, it asks buddie for three categories, which the person has granted:
 
 <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.4/assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Authorized categories: system.os, hardware.gpu, software.python. Observed: OS Windows 11; GPU NVIDIA GeForce GTX 1650, 4 GiB; Python 3.14.6 with pip and venv." width="600">
 
@@ -105,13 +105,13 @@ buddie snapshot: diagnostics of 3 categories (grants active, policy absent; thes
 Abridged from a run of buddie 2.0.0: the lines shown are unedited, and the machine's other observed values are left
 out. `diagnostics.json` holds the full document, with the method and time of each value.
 
-A category you have not granted is reported as denied, and its collector never runs. A value Buddie cannot read is
+A category you have not granted is reported as denied, and its collector never runs. A value buddie cannot read is
 marked unavailable, with the reason. Diagnostics is read-only and installs nothing; it gives the agent better facts,
 not a guarantee that its next command is right. [Categories, grants and the document](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/environment.md#diagnostics).
 
 ## Get started
 
-Buddie needs Python 3.11 or newer and has no dependencies.
+buddie needs Python 3.11 or newer and has no dependencies.
 
 ### Claude Code
 
@@ -123,7 +123,7 @@ The recommended start. The plugin adds the answer check, the MCP tools including
 /plugin install buddie@buddie
 ```
 
-It installs this repository's default branch. To allow diagnostics, save the categories you choose as
+It installs the latest released plugin (the `plugin-stable` branch), not unreleased work on `main`. To allow diagnostics, save the categories you choose as
 `environment.toml` in `~/.config/buddie/` (`%APPDATA%\buddie\` on Windows). For the demo above:
 
 <!-- readme-grants -->
@@ -176,7 +176,7 @@ UTF-8. Upgrading from 1.1.1 changes nothing for a 1.x setup. What can differ, an
 
 ## Limitations
 
-Buddie is not a truth detector. It checks claims in the forms it recognises, such as quotations with links and
+buddie is not a truth detector. It checks claims in the forms it recognises, such as quotations with links and
 anchored claims about files, PRs, CI and commands, against the evidence it can read. Paraphrases and unanchored claims
 stay unchecked. `PASS` covers only what was checked, and `GAPS` and `EMPTY` are not passes.
 
@@ -184,7 +184,7 @@ The answer check exists only in Claude Code and Codex, and it returns an answer 
 fixes the claim or discloses it as unverified. An agent running as your user can edit local evidence, settings and
 the diagnostics grants file; only an administrator's protected policy sets limits it cannot raise.
 
-Buddie runs locally, with no model calls and no telemetry. It fetches the pages a report cites and calls GitHub for
+buddie runs locally, with no model calls and no telemetry. It fetches the pages a report cites and calls GitHub for
 PR and CI claims. [All limitations](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/limitations.md) · [Security boundaries](https://github.com/tsyyan/buddie/blob/v2.0.4/docs/security.md) ·
 [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.4/PRIVACY.md)
 

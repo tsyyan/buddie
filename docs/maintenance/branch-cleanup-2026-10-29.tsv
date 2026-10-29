@@ -1,0 +1,75 @@
+audit/project-control-20261026	9c51671f1b4d47075f8177241c5e8f462b77c1ad	ancestor-of-main
+canon-here	089dbfc0d73fa96ec6c0f56a89f00c0da358dcde	ancestor-of-main
+catalog-p1	08a835d8e5d44d217aa93fec070654c8353b58cd	ancestor-of-main
+charset	7abd07be8e3850e5703cb89507fee57899016a5c	ancestor-of-main
+ci/auto-full-parallel	0317b3f5169922e64da5acd1d44ba7c89860c259	ancestor-of-main
+ci/fast-pr-full-merge-20261027	0fa62e8f76db9b72b336a58fac5c8099944ca311	ancestor-of-main
+ci/release-all-promotes-plugin	db000f29a0a3bc7ecc2b01eeda1960e97a0a76ab	ancestor-of-main
+ci/targeted-linux-worker-diagnostics	f65c770a094aa56834dca924fd2ddcda424aa1e2	ancestor-of-main
+claude/project-thread-7d8b7g	d93d8bcdb4337568a00009f2b3944cba370e867f	ancestor-of-main
+codex	f6e875f152dde8f28ea07dfcb0698154a7061abd	ancestor-of-main
+config-decoupling	4296db7d0997e8f3637d02ff21f5389faf021bf1	ancestor-of-main
+design/claude-directory-cross-surface	828dcd341100c321629d15af4e5eb75293f98bc4	ancestor-of-main
+disclose-after-return	fe56e8363e70766c7642bd715a16ea8a80becf4c	ancestor-of-main
+docs/architecture-audit	96eeaec6c09f24bb62a8ec08b45a7a89e01baee2	ancestor-of-main
+docs/history-lineage-design	b1adc3baee36c1a2e37a189e5904b8f8fea0874e	ancestor-of-main
+docs/readme-2.0	7b619e96330ba7997207cf108d5655a80f693845	ancestor-of-main
+experiment/feedback-e2e-v1	cd6c46efd63c445c104aff87fb75afffd59af218	ancestor-of-main
+feat/agensi-discovery-skill	bcf1c0f367fc7aac7341856faa7e1516c8b106c0	ancestor-of-main
+feat/github-report-citations	c7b606be4aa9356481a81a94461397c0ebae8ecc	ancestor-of-main
+feat/mcp-verification-feedback	20fbcc5bd5b44c5585a4635a0fe8baa9504e723a	ancestor-of-main
+feat/verification-feedback-v1	79a2d2e1f2c65b71c4c2e2c5c790c629dbad391e	ancestor-of-main
+fix/claude-directory-compliance	52445aaa378b45964c85fa328128e513d1c0c284	ancestor-of-main
+fix/linux-worker-ci-hooks	37b90027d559414a1c4e4ed28c1490cf42e8c8dd	ancestor-of-main
+fix/remote-github-ci-verification	4a3fe483360815ce5007157cf464612b3e9be5b4	ancestor-of-main
+fix/worker-liveness-73	bf5fd4917c73fe3acec6bfe0a4cc381145673b10	ancestor-of-main
+hardening/public-release-record	430e346cad66506bfbd276cc13ebdbd6570d3e37	ancestor-of-main
+hardening/runtime-archives	346c3096c9c23ebd6691fe614ede8ec6717d2959	ancestor-of-main
+http-remote	10fa8371598952d04ec17cdc12833fc452502ac4	ancestor-of-main
+instructions	74f923e99c73b21b965d8fd3e20358f98a78ba28	ancestor-of-main
+lab-sync	cae0b76785cbd710fb4bd7b238a6524bfad881c6	ancestor-of-main
+mcpb	093f13156c4bab63a3b05beb913c907e3ff2d206	ancestor-of-main
+numbers-cyrillic	c998d822526efa2e001ccd5227465bcf7719bf79	ancestor-of-main
+p2-evals	6e6b29f3886f33c17345ad1347591a75d84d539b	ancestor-of-main
+pypi	24099ba5c37b93e7e1f4da21f4061533a4f3f816	ancestor-of-main
+release-1.0	296039d35d8fde069e934e963b3bb2080b76fe5c	ancestor-of-main
+release-1.0.1	d5fdcee539ea45cb6df78fb4e62a4b3d220fd32d	ancestor-of-main
+release-1.1.0	fd04593b9a9517c5d94851cb00155814fc5f6abf	ancestor-of-main
+release-1.1.1	0e8796429023b19a0a14ccf205f04b3b726a070b	ancestor-of-main
+release-prep-2.0.0	344d8470e0b6368ca4f30ef27164080b8a848572	ancestor-of-main
+release-unified-approval-gate	811f310ddbc6b1ba5688e1b6902a4d97d59e82c0	ancestor-of-main
+release/2.0.0	64a03eefffc6ccd8fc351aaaca9b66c1da6072e9	ancestor-of-main
+release/2.0.3-final	03455b8864bf7d361e7325d2f2186b56cdaf8be4	ancestor-of-main
+release/2.0.4-date-20261029	95fae629431e3d1dd30afc241caf8f933ae08fae	ancestor-of-main
+release/2.0.4-with-77	d884332af57070b074ad837b5ec5ae568762cd6f	ancestor-of-main
+release/compact-plugin	bb2a05ef8287fde3e8660f33230435a76d1dd633	ancestor-of-main
+render	16021757ec9c6bd4b577567d461a61af7d047857	ancestor-of-main
+repo-trust-boundary	74766755c27c5016767767a275ea96cc1b7fe850	ancestor-of-main
+safe-defaults	fbc092f3d93d89397c915fa9d26e7e4992ef8308	ancestor-of-main
+trust-and-limits	1ca1083d6d3664f9f6181da237a85e889dd9070f	ancestor-of-main
+typed-findings	856358a3a9f2bad30c09321c42883572aa6eef4f	ancestor-of-main
+typed-gate	2af4785a16948135b95ca3883bd737861319b401	ancestor-of-main
+adversarial-verification-suite	9059fc0796b7ebbe1e0a5b4b1a59ef84c18b7632	squash-merged #36
+chore/plugin-listing-clarity	a89e4169650a0dbe6e5989545988468b4b071d53	squash-merged #68
+docs/cline-kilo-smithery-2026-10-25	bbcc85a07d31929cb6f3ba93893da97bbba7b18b	squash-merged #48
+docs/distribution-listings-2026-10-25	f17fa0bd29ed48f5ae8ae75991583bddf36a3a7b	squash-merged #47
+docs/listing-copy-2.0.1	3de89812f47cae1294bd019dd13127b62949d180	squash-merged #52
+docs/mcpservers-listing-20261026	a8e7176099ed986dd0c023fbb751953d56b51ad3	squash-merged #53
+environment-collector-snapshots	d77cd83203b0db92f5c5c7d3110c5211ff0e4abc	squash-merged #33
+evidence-freshness-staleness	f2646571644335e50e8c30532b1ff4de34deb639	squash-merged #35
+evidence-registry	2f1b8f2963e4d119767347d03663eb0702869fc7	squash-merged #29
+existing-integrations-ux	ef98d073956b288b05432aaaffe399f9bec5a20c	squash-merged #32
+feat/task-aware-environment-collector	87f25afd2c994d9a7578d81d8c5a03f2afd1fa7f	squash-merged #43
+fix/mcp-stdin-utf8	44e7588d4e52136b6eec12823e78da209c5671f8	squash-merged #49
+pre-release-maintenance-2026-10-24	206c168640db6348de5a4c0275ae15528b440cbc	squash-merged #39
+protected-policy	12e779e1cdfbc8cd90d9a15392c773fdb07631d8	squash-merged #28
+receipt-contract-v1	70b7b84e913b5316f535aeafcdbb7383498a9841	squash-merged #31
+release-candidate-2.0	431f924c5ac00d46cff2f2e71d68b977be5024f5	squash-merged #38
+release-hardening-2.0	24527342cba5c3105240e7e799aadbca615a321d	squash-merged #37
+release/2.0.1	fc803623e2e3e524c816d476e258af714e2e301d	squash-merged #50
+release/2.0.2-finalize	00005b06035a3bd7e16a188809825929115d198f	squash-merged #67
+security-git-execution-hardening	f2ab90e3ab19736badbc84f10f5b5d205759edc8	squash-merged #34
+verification-profiles	3f8dbe6679cc73d2091dc0587d9ce6d24d77e2b6	squash-merged #30
+directory-candidate-2.0.4	24b863f28fabfe04afaeee68646da268a04562a4	owner-approved 2026-10-29
+bdx-001-lite-collect	460ee46d2172c95407e588b284b2f47c08cb5f7f	owner-approved 2026-10-29
+investigate/linux-worker-lifecycle	221e00c198b644092551e8995673306852062546	owner-approved 2026-10-29

@@ -37,7 +37,7 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
     """A repository whose one commit holds exactly `files` (with `modes`), made without a working tree (one
     `git fast-import` stream: no checkout, no line-ending conversion, no file-system symlink support needed)."""
     files = dict(files)
-    for original, destination in pp.DISCOVERY.items():
+    for original, destination in pp.RELOCATIONS.items():
         if destination in files and original not in files:
             files[original] = files.pop(destination)
     if "buddie/__init__.py" in files:
@@ -108,19 +108,41 @@ def test_discovery_case_variant_cannot_collide_after_relocation():
 def test_the_package_is_the_runtime_and_nothing_else(head):
     data, manifest, files = head
     tracked = {p for p, _, _ in pp.tracked(ROOT, "HEAD")}
-    assert set(files) - {"RELEASE_NOTES.md"} - set(pp.DISCOVERY.values()) <= tracked
+    assert set(files) - {"RELEASE_NOTES.md"} - set(pp.RELOCATIONS.values()) <= tracked
     assert not [p for p in files if p.startswith(pp.NEVER)]
     for path in pp.REQUIRED:
-        assert pp.DISCOVERY.get(path, path) in files
+        assert pp.RELOCATIONS.get(path, path) in files
     # every runtime file of #61's inventory is in it, unchanged; the rest is listing, legal and the icon
     sys.path.insert(0, str(ROOT / "scripts"))
     import plugin_inventory as pi
     runtime = {p for p in tracked if pi.category(p) == "runtime-required"}
     assert runtime <= set(files)
-    assert set(files) - runtime == {".claude-plugin/marketplace.json", "README.md", "LICENSE", "NOTICE", "PRIVACY.md",
-                                    "assets/icon.png", "RELEASE_NOTES.md", *pp.DISCOVERY.values()}
+    assert set(files) - runtime == {"README.md", "LICENSE", "NOTICE", "PRIVACY.md", "assets/icon.png", "RELEASE_NOTES.md",
+                                    *pp.RELOCATIONS.values()}
     assert manifest["file_count"] == len(files) <= pp.MAX_FILES and manifest["total_bytes"] <= pp.MAX_BYTES
     assert max(len(b) for p, b in files.items() if not p.endswith(".png")) <= pp.MAX_TEXT
+
+
+def test_the_package_marketplace_is_its_own_not_the_repository_channel(head):
+    """The repository's marketplace sends Claude Code to `plugin-stable`; the package is a marketplace of itself."""
+    files = head[2]
+    packaged = json.loads(files[".claude-plugin/marketplace.json"])
+    assert [p["source"] for p in packaged["plugins"]] == ["./"]
+    assert files[".claude-plugin/marketplace.json"] == (ROOT / "packaging/plugin/marketplace.json").read_bytes()
+    channel = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
+    assert [p["source"] for p in channel["plugins"]] == [
+        {"source": "github", "repo": "tsyyan/buddie", "ref": "plugin-stable"}]
+    for key in ("name", "owner", "metadata"):
+        assert channel[key] == packaged[key], key
+    strip = lambda p: {k: v for k, v in p.items() if k != "source"}  # noqa: E731
+    assert [strip(p) for p in channel["plugins"]] == [strip(p) for p in packaged["plugins"]]
+
+
+def test_codex_marketplace_keeps_the_repository_plugin():
+    """Codex reads .agents/plugins/marketplace.json before .claude-plugin's, and installs the root (.codex-plugin)."""
+    codex = json.loads((ROOT / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
+    assert [(p["name"], p["source"]) for p in codex["plugins"]] == [("buddie", {"source": "local", "path": "./"})]
+    assert (ROOT / ".codex-plugin/plugin.json").is_file()
 
 
 def test_the_same_commit_gives_the_same_bytes(head, tmp_path):

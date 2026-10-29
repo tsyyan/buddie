@@ -46,7 +46,7 @@ def validate(record: dict, version: str) -> None:
 
 def render_markdown(record: dict) -> str:
     validate(record, record.get("version", ""))
-    parts = [f"# Buddie {record['version']}", record["date"], record["summary"], "## Changes", "\n".join("- " + x for x in record["changes"])]
+    parts = [f"# buddie {record['version']}", record["date"], record["summary"], "## Changes", "\n".join("- " + x for x in record["changes"])]
     for field in ("upgrade", "permissions", "security", "limitations"):
         parts += ["## " + field.title(), record[field]]
     return "\n\n".join(parts) + "\n"
@@ -56,8 +56,8 @@ def canonical_url(record: dict) -> str:
 
 def render_package_readme(record: dict, channel: str) -> str:
     if channel not in CHANNELS: raise ValueError("unknown release channel")
-    intro = ("# Buddie — AI Agent Reliability Toolkit\n\nVerify the claim. Know the context.\n\n"
-             "Buddie checks agent reports against primary evidence with deterministic Core verification, "
+    intro = ("# buddie\n\nVerify the claim. Know the context. AI agent reliability toolkit.\n\n"
+             "buddie checks agent reports against primary evidence with deterministic Core verification, "
              "actionable feedback, and permission-controlled local environment diagnostics.")
     if channel == "claude":
         intro += ("\n\nDiscovery provides independent evidence triage with the tools actually available when Core "
