@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import shlex
 from pathlib import Path
 
 import pytest
@@ -149,6 +150,42 @@ def test_the_launcher_runs_python_isolated(tmp_path):
            "BUDDIE_STATE": str(tmp_path / "p"), "BUDDIE_FETCH": "0", "BUDDIE_GITHUB": "0", "BUDDIE_LESSONS": "0"}
     got = _launch({"hook_event_name": "SessionStart", "session_id": "s", "cwd": str(tmp_path)}, env)
     assert got.returncode == 0 and not marker.exists()
+
+
+@launcher
+@pytest.mark.parametrize("chosen", ["python3", "python", "py"])
+@pytest.mark.parametrize("backslashes", [False, True])
+def test_launcher_fallback_preserves_event_arguments_and_isolation(tmp_path, chosen, backslashes):
+    """Store stubs/old interpreters fail probes; only a working interpreter receives stdin."""
+    package = tmp_path / "plugin with spaces"
+    (package / "hooks").mkdir(parents=True)
+    shutil.copyfile(ROOT / "hooks" / "run.sh", package / "hooks" / "run.sh")
+    (package / "run.py").write_text(
+        "import json, sys\n"
+        "print(json.dumps({'event': json.load(sys.stdin), 'args': sys.argv[1:], 'isolated': sys.flags.isolated}))\n",
+        encoding="utf-8")
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    for name in ("python3", "python", "py"):
+        stub = bin_ / name
+        body = "#!/bin/sh\n"
+        if name != chosen:
+            body += "exit 1\n"
+        else:
+            if name == "py":
+                body += '[ "$1" = "-3" ] || exit 98\nshift\n'
+            body += f'exec {shlex.quote(Path(sys.executable).as_posix())} "$@"\n'
+        stub.write_text(body, encoding="utf-8", newline="\n")
+        stub.chmod(0o755)
+    # Git Bash still needs its auxiliary tools; only our controlled Python choices are on PATH.
+    shell_tools = Path(SH).resolve().parent.parent / "usr" / "bin" if sys.platform == "win32" else Path(SH).parent
+    env = {**os.environ, "PATH": os.pathsep.join((str(bin_), str(shell_tools)))}
+    script = str(package / "hooks" / "run.sh") if backslashes else (package / "hooks" / "run.sh").as_posix()
+    event = {"hook_event_name": "SessionStart", "session_id": "stdin-survives-probes"}
+    got = subprocess.run([SH, script, "hook", "one argument with spaces"], input=json.dumps(event).encode(),
+                         capture_output=True, env=env, timeout=30)
+    assert got.returncode == 0, got.stderr
+    assert json.loads(got.stdout) == {"event": event, "args": ["hook", "one argument with spaces"], "isolated": 1}
 
 
 # --- one policy reading per event ---------------------------------------------------------------------------------

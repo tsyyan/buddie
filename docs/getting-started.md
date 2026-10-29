@@ -28,7 +28,7 @@ buddie needs Python 3.11 or newer and has no dependencies.
 ```
 
 From a shell: `claude plugin marketplace add tsyyan/buddie`, then `claude plugin install buddie@buddie`. The plugin
-installs the released compact plugin from the `plugin-stable` branch (2.0.5 today), not unreleased work on `main`. Its hook checks the final answer at `Stop` and messages sent with
+installs the released compact plugin from the `plugin-stable` branch (2.0.6 today), not unreleased work on `main`. Its hook checks the final answer at `Stop` and messages sent with
 `SendMessage`; on `FAIL` the agent receives the reasons. At `Stop` the answer is already displayed, so the hook asks
 for corrected lines without repeating the full answer. Optional: a GitHub token for `pr:` and
 `ci:`, which the plugin asks for and keeps as a secret. Levels, the intro mode and what the hook reads:
@@ -50,7 +50,7 @@ session log is not Claude Code's transcript. Setup and the MCP-only route: [inst
 
 ### Claude Desktop
 
-Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (2.0.5 today) and open
+Download `buddie-<version>.mcpb` from the [releases](https://github.com/tsyyan/buddie/releases) (2.0.6 today) and open
 it. Desktop has no hooks, so Claude has to call `verify_report` itself, and `run:` is unchecked.
 [install-claude-desktop.md](install-claude-desktop.md).
 
@@ -62,7 +62,7 @@ For a client that starts a command (stdio), with [uv](https://docs.astral.sh/uv/
 uvx buddie serve
 ```
 
-This runs the latest release on PyPI (2.0.5 today); `uvx buddie@2.0.5 serve` pins that version. A
+This runs the latest release on PyPI (2.0.6 today); `uvx buddie@2.0.6 serve` pins that version. A
 remote server you host for claude.ai or ChatGPT: [deploy.md](deploy.md).
 
 ### Terminal or CI
@@ -83,7 +83,7 @@ git clone https://github.com/tsyyan/buddie
 ```
 
 `python3 run.py verify REPORT.md --repo .` runs from the clone with nothing installed, and `pip install .` installs
-2.0.5. Contributing: [CONTRIBUTING.md](../CONTRIBUTING.md).
+2.0.6. Contributing: [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ## MCP tools
 

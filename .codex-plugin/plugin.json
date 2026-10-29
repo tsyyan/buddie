@@ -1,6 +1,6 @@
 {
   "name": "buddie",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Checks what an AI agent reports against primary evidence (quotes against their sources; repo, PR and CI claims against git and GitHub; test claims against the session log), with no model in the check, plus permission-scoped environment diagnostics. A false claim goes back to the agent with the reason.",
   "keywords": [
     "verification",

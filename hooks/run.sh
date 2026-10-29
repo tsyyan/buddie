@@ -11,12 +11,19 @@
 # systemMessage, so this never loops. Every other event goes on with the reason on stderr. This path uses shell
 # builtins only: without Python the tools on PATH cannot be relied on either. It does not read the protected
 # policy (that takes Python), so it holds the answer whether or not one is installed.
-root=$(dirname "$(printf '%s' "$0" | tr '\\' '/' 2>/dev/null)" 2>/dev/null)/..  # a Windows path may come with backslashes
-for py in python3 python "py -3"; do
-  if $py -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
-    exec $py -I "$root/run.py" "$@"
-  fi
-done
+# Keep each command independently readable by the Directory's shell validator. A Windows path may have backslashes.
+script_path=$(printf '%s' "$0" | tr '\\' '/' 2>/dev/null)
+script_dir=$(dirname "$script_path" 2>/dev/null)
+root="$script_dir/.."
+if python3 -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec python3 -I "$root/run.py" "$@"
+fi
+if python -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec python -I "$root/run.py" "$@"
+fi
+if py -3 -I -c 'import sys; sys.exit(sys.version_info < (3, 11))' </dev/null >/dev/null 2>&1; then
+  exec py -3 -I "$root/run.py" "$@"
+fi
 event=""
 while IFS= read -r line || [ -n "$line" ]; do
   event="$event$line "
