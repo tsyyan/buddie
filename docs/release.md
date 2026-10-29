@@ -10,6 +10,7 @@ flowchart LR
   C -->|"artifact release-candidate<br/>release-manifest.json, SHA256SUMS"| A
   M["manual run on the tag<br/>candidate = run id<br/>confirm = publish buddie X.Y.Z"] --> A["authorize<br/>(environment pypi: approval)"]
   A --> P["PyPI<br/>(environment pypi)"]
+  A --> S["plugin-stable<br/>(all or standalone promotion)"]
   P --> R["MCP Registry"]
   P --> G["GitHub Release"]
 ```
@@ -116,7 +117,7 @@ full publication or a recovery of one stage:
 | Run | Approval before anything is published |
 |---|---|
 | tag push, or a manual run with no `candidate` | none needed: only the candidate is built, nothing is published |
-| `only: all` | `authorize`, then the `pypi` job asks again |
+| `only: all` | `authorize` starts `plugin-stable` and publication; the `pypi` job asks again |
 | `only: pypi` | `authorize`, then the `pypi` job asks again |
 | `only: mcp-registry` (recovery) | `authorize` |
 | `only: github-release` (recovery) | `authorize` |
@@ -294,18 +295,28 @@ trusted publisher is bound to. If TestPyPI is wanted again, it needs a trusted p
 
 ## 3. plugin-stable (the compact plugin's distribution branch)
 
-`plugin-stable` holds the compact plugin of released versions, one commit per version. Each commit's tree is
+`plugin-stable` holds the compact plugin of authorized release candidates, one commit per version. Each commit's tree is
 exactly a candidate's verified ZIP, and its message records where it came from (`Buddie-Version`, `Source-Commit`,
 `Package-SHA256`, `Plugin-Manifest-SHA256`). It is not a source tree. Nothing is developed on it, `main` stays the
 default branch, and no push to `main` changes it.
 
-The branch moves only in a manual run of `release.yml` on the release tag. That run needs:
+The branch moves in a manual run of `release.yml` on the release tag. A normal `only: all` publication includes
+this stage: after `authorize` succeeds, it starts immediately, in parallel with publication. No separate promotion
+dispatch or confirmation is needed. It does not wait for PyPI, the MCP Registry or GitHub Release, so the branch
+can advance even if those stages later fail or the second PyPI approval is rejected. Each stage's result must be
+checked separately.
+
+The normal run needs:
 
 - `candidate`: the tag's successful candidate run;
-- `only`: `plugin-stable`, which is never part of `all`;
-- `confirm`: exactly `promote buddie X.Y.Z to plugin-stable`. A publish confirmation does not promote, and a
-  promotion confirmation does not publish;
+- `only`: `all`;
+- `confirm`: exactly `publish buddie X.Y.Z`, authorizing publication and promotion;
 - `create_branch`: for the first promotion only.
+
+For standalone promotion or recovery, use `only: plugin-stable` and exactly
+`confirm: promote buddie X.Y.Z to plugin-stable`, with the same candidate. This mode does not run other publishing
+stages. Tag pushes and candidate-only builds never promote; rejected, failed or skipped authorization never promotes.
+Older release tags use their own workflow: the `v2.0.4` workflow still requires a separate promotion dispatch.
 
 `authorize` checks the run exactly as for publishing. The `plugin-stable` job then:
 
@@ -321,7 +332,7 @@ The branch moves only in a manual run of `release.yml` on the release tag. That 
 3. fetches the branch, checks that its head is that commit and that its tree is the package file by file, installs
    it from an archive of that commit into an isolated Claude Code configuration, and runs the installed copy.
 
-**Retry:** run the same job again. The commit is deterministic (fixed identity, the source commit's date, same
+**Retry:** dispatch a new approved standalone promotion with the same candidate. The commit is deterministic (fixed identity, the source commit's date, same
 parent), so a push that failed is made again with the same commit, and one that succeeded is found as
 `already-promoted`.
 
