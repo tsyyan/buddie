@@ -1,0 +1,38 @@
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -9,9 +9,10 @@
+ #    files as they were recorded (SHA-256 checked before and after), never a rebuild: PyPI by trusted publishing (the
+ #    `pypi` environment, no token stored), the MCP Registry (GitHub OIDC), the GitHub Release. Every stage can be run
+ #    again, alone (`only`), and skips what is already published identically.
+-# 3. plugin-stable (separately, never part of `all`). Run by hand on the tag with the same `candidate`, `only` =
+-#    plugin-stable and `confirm` = "promote buddie X.Y.Z to plugin-stable": after the same authorization, the
+-#    candidate's verified compact plugin becomes the next commit of the distribution branch plugin-stable
++# 3. plugin-stable is included in `all`, immediately after authorization, alongside the publishing stages.
++#    It can also be recovered separately on the tag with the same `candidate`, `only` = plugin-stable and
++#    `confirm` = "promote buddie X.Y.Z to plugin-stable". The candidate's verified compact plugin becomes the next
++#    commit of the distribution branch plugin-stable
+ #    (scripts/plugin_promote.py): never forced, idempotent, refused on any unexpected branch state; then the branch is
+ #    checked file by file, installed into an isolated Claude Code configuration and run. Its first promotion also
+ #    needs `create_branch`. Nothing else, including the default branch and the tags, is touched.
+@@ -31,7 +32,7 @@ on:
+         type: string
+         default: ""
+       only:
+-        description: "publish: every stage, or one of them again"
++        description: "all: publish and promote plugin-stable; or recover one stage"
+         type: choice
+         options: [all, pypi, mcp-registry, github-release, plugin-stable]
+         default: all
+@@ -226,10 +227,10 @@ jobs:
+             --sha "$GITHUB_SHA" --version "$V" --notes rc/metadata/release-notes.md
+ 
+   plugin-stable:
+-    # the authorized candidate's compact plugin onto the distribution branch, only when chosen by hand; the commit,
++    # the authorized candidate's compact plugin onto the distribution branch, in all or standalone; the commit,
+     # its source commit and package SHA-256 go to the run summary. A plain push: a moved branch rejects it
+     needs: authorize
+-    if: inputs.only == 'plugin-stable'
++    if: inputs.only == 'all' || inputs.only == 'plugin-stable'
+     runs-on: ubuntu-latest
+     permissions:
+       contents: write
