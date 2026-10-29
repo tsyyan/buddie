@@ -1,5 +1,15 @@
 # New Anthropic plugin directory submission (prepared 2026-10-29)
 
+## Portal check, 2026-10-30
+
+The published 2.0.5 on `plugin-stable` (`469fa13`) is blocked by `UNPINNED_NPX` in `hooks/run.sh`.
+There is no package download in that launcher: the expanded finding says the scanner mistook shell patterns for
+program names. Explicit Python calls and split path commands alone did not resolve it. A compact 2.0.6 preview
+(`7214182` on `preview/anthropic-launcher-206`) passed after replacing the fallback's `case` patterns with equivalent
+builtin parameter matching and `test`; Next became enabled. The five warnings and six policy holds remain visible
+for reviewers. This preview is not a release or a submission. Submit only after publishing 2.0.6, promoting its exact
+package to `plugin-stable`, and validating that released revision again.
+
 The 1.1.1 submission ("buddie: claim checker", repository root at `3a351b4`) was withdrawn by the owner: a submission
 under review cannot be edited. This is the packet for the new one. Nothing here submits anything; the portal steps
 are the owner's. Approval is the reviewer's decision under the

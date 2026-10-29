@@ -1,6 +1,6 @@
 # buddie: listing copy and local installation
 
-Checked against release 2.0.6 on 2026-10-30. Reusable copy for every directory and marketplace, so each listing
+Prepared for release 2.0.6 on 2026-10-30. Reusable copy for every directory and marketplace, so each listing
 says the same thing. It is not a claim that a directory has approved it.
 
 ## Identity

@@ -4,11 +4,11 @@ from __future__ import annotations
 import io
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
 import tempfile
-import shlex
 from pathlib import Path
 
 import pytest
@@ -121,21 +121,23 @@ SH = shutil.which("sh")
 launcher = pytest.mark.skipif(SH is None, reason="no sh")
 
 
-def _launch(event: dict, env: dict | None = None) -> subprocess.CompletedProcess:
-    return subprocess.run([SH, (ROOT / "hooks" / "run.sh").as_posix(), "hook"], input=json.dumps(event).encode(),
+def _launch(event: dict, env: dict | None = None, *, compact: bool = False) -> subprocess.CompletedProcess:
+    body = json.dumps(event, separators=(",", ":") if compact else None).encode()
+    return subprocess.run([SH, (ROOT / "hooks" / "run.sh").as_posix(), "hook"], input=body,
                           capture_output=True, env=env, timeout=60)
 
 
 @launcher
-def test_no_python_is_not_a_pass_and_does_not_loop(tmp_path):
+@pytest.mark.parametrize("compact", [False, True])
+def test_no_python_is_not_a_pass_and_does_not_loop(tmp_path, compact):
     no_python = {"PATH": str(tmp_path / "empty"), "SYSTEMROOT": os.environ.get("SYSTEMROOT", "")}
-    first = _launch({"hook_event_name": "Stop", "stop_hook_active": False, "session_id": "s"}, no_python)
+    first = _launch({"hook_event_name": "Stop", "stop_hook_active": False, "session_id": "s"}, no_python, compact=compact)
     assert first.returncode == 2 and b"nothing was checked" in first.stderr
-    again = _launch({"hook_event_name": "Stop", "stop_hook_active": True, "session_id": "s"}, no_python)
+    again = _launch({"hook_event_name": "Stop", "stop_hook_active": True, "session_id": "s"}, no_python, compact=compact)
     assert again.returncode == 0 and "not checked" in json.loads(again.stdout)["systemMessage"]
     for other in ({"hook_event_name": "SessionStart"}, {"hook_event_name": "PreToolUse", "tool_name": "SendMessage"},
                   {"hook_event_name": "PostToolUse", "tool_name": "Read"}):
-        got = _launch(other, no_python)
+        got = _launch(other, no_python, compact=compact)
         assert got.returncode == 0 and b"nothing was checked" in got.stderr and got.stdout == b""
 
 
@@ -178,8 +180,14 @@ def test_launcher_fallback_preserves_event_arguments_and_isolation(tmp_path, cho
         stub.write_text(body, encoding="utf-8", newline="\n")
         stub.chmod(0o755)
     # Git Bash still needs its auxiliary tools; only our controlled Python choices are on PATH.
-    shell_tools = Path(SH).resolve().parent.parent / "usr" / "bin" if sys.platform == "win32" else Path(SH).parent
-    env = {**os.environ, "PATH": os.pathsep.join((str(bin_), str(shell_tools)))}
+    if sys.platform == "win32":
+        shell_tools = Path(SH).parent
+        if not (shell_tools / "tr.exe").is_file():  # Git/bin/sh.exe vs Git/usr/bin/sh.exe
+            shell_tools = shell_tools.parent / "usr" / "bin"
+        tool_paths = [str(shell_tools)]
+    else:
+        tool_paths = ["/usr/bin", "/bin"]  # macOS keeps tr/dirname in /usr/bin
+    env = {**os.environ, "PATH": os.pathsep.join([str(bin_), *tool_paths])}
     script = str(package / "hooks" / "run.sh") if backslashes else (package / "hooks" / "run.sh").as_posix()
     event = {"hook_event_name": "SessionStart", "session_id": "stdin-survives-probes"}
     got = subprocess.run([SH, script, "hook", "one argument with spaces"], input=json.dumps(event).encode(),

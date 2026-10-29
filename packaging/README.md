@@ -14,12 +14,13 @@ Install: `pip install buddie==2.0.6`.
 
 2026-10-30
 
-An explicit Python hook launcher for Anthropic directory inspection, preserving existing runtime behavior.
+A shell hook launcher the Anthropic directory can inspect, preserving existing runtime behavior.
 
 ## Changes
 
 - Hook startup uses separate, literal python3, python and py -3 commands instead of a computed command name.
 - Path normalization is split into independently readable shell commands; Windows backslashes and paths with spaces remain supported.
+- The no-Python fallback uses equivalent builtin tests and parameter matching instead of case patterns that the directory misread as program names.
 - Python 3.11+, isolated mode, interpreter fallback order, hook stdin and arguments, and the no-Python Stop disclosure remain unchanged.
 - Real-shell compatibility tests cover all three interpreter choices, Windows paths, argument boundaries and isolated mode.
 
