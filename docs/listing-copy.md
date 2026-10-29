@@ -1,6 +1,6 @@
 # buddie: listing copy and local installation
 
-Checked against release 2.0.5 on 2026-10-30. Reusable copy for every directory and marketplace, so each listing
+Prepared for release 2.0.6 on 2026-10-30. Reusable copy for every directory and marketplace, so each listing
 says the same thing. It is not a claim that a directory has approved it.
 
 ## Identity
@@ -40,7 +40,7 @@ says the same thing. It is not a claim that a directory has approved it.
 
 ## Tools and access
 
-Eight MCP tools in 2.0.5. Directories that label access (MCPRush, Glama) should use these labels: `read` alone is
+Eight MCP tools in 2.0.6. Directories that label access (MCPRush, Glama) should use these labels: `read` alone is
 wrong for the tools that fetch pages or write snapshots and feedback state.
 
 | Tool | What it does | Access |
@@ -63,7 +63,7 @@ validate every numeric assertion or establish its semantic truth.
 uvx buddie serve
 ```
 
-Pin a version where a listing prints one (`uvx buddie@2.0.5 serve`), and update the pin with each release.
+Pin a version where a listing prints one (`uvx buddie@2.0.6 serve`), and update the pin with each release.
 
 Generic MCP client configuration (adapt the outer structure to the client):
 

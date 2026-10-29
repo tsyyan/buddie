@@ -1,5 +1,16 @@
 # Changelog
 
+## buddie 2.0.6 (2026-10-30)
+
+Public release content is generated from `releases/2.0.6.json` and bound to the candidate.
+
+- Explicit `python3`, `python` and `py -3` hook launches and independently readable path normalization for the
+  Anthropic directory's shell inspection, replacing a computed command name.
+- Equivalent builtin tests and parameter matching in the no-Python fallback replace `case` patterns the Directory
+  misread as program names; the fallback still needs no external tools.
+- Preserve Python 3.11+, isolated mode, fallback order, hook stdin/arguments and no-Python Stop behavior.
+- Real-shell regression coverage for each interpreter choice, paths with spaces/backslashes and argument boundaries.
+
 ## buddie 2.0.5 (2026-10-30)
 
 Public release content is generated from `releases/2.0.5.json` and bound to the candidate.

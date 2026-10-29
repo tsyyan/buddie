@@ -1,5 +1,15 @@
 # New Anthropic plugin directory submission (prepared 2026-10-29)
 
+## Portal check, 2026-10-30
+
+The published 2.0.5 on `plugin-stable` (`469fa13`) is blocked by `UNPINNED_NPX` in `hooks/run.sh`.
+There is no package download in that launcher: the expanded finding says the scanner mistook shell patterns for
+program names. Explicit Python calls and split path commands alone did not resolve it. A compact 2.0.6 preview
+(`7214182` on `preview/anthropic-launcher-206`) passed after replacing the fallback's `case` patterns with equivalent
+builtin parameter matching and `test`; Next became enabled. The five warnings and six policy holds remain visible
+for reviewers. This preview is not a release or a submission. Submit only after publishing 2.0.6, promoting its exact
+package to `plugin-stable`, and validating that released revision again.
+
 The 1.1.1 submission ("buddie: claim checker", repository root at `3a351b4`) was withdrawn by the owner: a submission
 under review cannot be edited. This is the packet for the new one. Nothing here submits anything; the portal steps
 are the owner's. Approval is the reviewer's decision under the
@@ -79,10 +89,10 @@ Then **Validate** in the portal and fix anything marked *Blocking*.
 
 | Question | Answer |
 |---|---|
-| Reads personal data? | It reads the session transcript locally to check the final answer; it does not extract or upload it. |
-| Stores data? | A local journal (`~/.cache/buddie/hook.jsonl`) with hashes and verdicts, not conversation text; content-addressed snapshots of cited public pages. |
-| Sends data elsewhere? | Requests to the pages a report cites, and to the GitHub API with the person's token if they set one. Nothing else. |
-| Retention | Local files only, until the person deletes them. |
+| Reads personal data? | **Reads and stores**: transcript/report text is read locally; source snapshots, pending report lines and feedback state can contain personal data. The transcript file itself is not copied or uploaded. |
+| Stores data? | Local journal hashes/verdicts, pending report lines, feedback state and content-addressed snapshots, including explicitly authorized private GitHub evidence. Optional journal text is off by default. See PRIVACY.md for all locations and controls. |
+| Sends data elsewhere? | **Yes, listed in README**: requests to cited URLs and the GitHub API (or an administrator-approved Enterprise API). No report or transcript is sent to a Buddie collection service. |
+| Retention | **Longer**: local files have no automatic expiry and remain until the person deletes them. There is no developer-operated collection backend in the plugin. |
 | Intended for people under 18? | No. |
 
 Evidence for the description: the plugin evals ([research.md](research.md#plugin-evals)). Limits to state plainly:

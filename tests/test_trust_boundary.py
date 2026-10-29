@@ -4,6 +4,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -120,21 +121,23 @@ SH = shutil.which("sh")
 launcher = pytest.mark.skipif(SH is None, reason="no sh")
 
 
-def _launch(event: dict, env: dict | None = None) -> subprocess.CompletedProcess:
-    return subprocess.run([SH, (ROOT / "hooks" / "run.sh").as_posix(), "hook"], input=json.dumps(event).encode(),
+def _launch(event: dict, env: dict | None = None, *, compact: bool = False) -> subprocess.CompletedProcess:
+    body = json.dumps(event, separators=(",", ":") if compact else None).encode()
+    return subprocess.run([SH, (ROOT / "hooks" / "run.sh").as_posix(), "hook"], input=body,
                           capture_output=True, env=env, timeout=60)
 
 
 @launcher
-def test_no_python_is_not_a_pass_and_does_not_loop(tmp_path):
+@pytest.mark.parametrize("compact", [False, True])
+def test_no_python_is_not_a_pass_and_does_not_loop(tmp_path, compact):
     no_python = {"PATH": str(tmp_path / "empty"), "SYSTEMROOT": os.environ.get("SYSTEMROOT", "")}
-    first = _launch({"hook_event_name": "Stop", "stop_hook_active": False, "session_id": "s"}, no_python)
+    first = _launch({"hook_event_name": "Stop", "stop_hook_active": False, "session_id": "s"}, no_python, compact=compact)
     assert first.returncode == 2 and b"nothing was checked" in first.stderr
-    again = _launch({"hook_event_name": "Stop", "stop_hook_active": True, "session_id": "s"}, no_python)
+    again = _launch({"hook_event_name": "Stop", "stop_hook_active": True, "session_id": "s"}, no_python, compact=compact)
     assert again.returncode == 0 and "not checked" in json.loads(again.stdout)["systemMessage"]
     for other in ({"hook_event_name": "SessionStart"}, {"hook_event_name": "PreToolUse", "tool_name": "SendMessage"},
                   {"hook_event_name": "PostToolUse", "tool_name": "Read"}):
-        got = _launch(other, no_python)
+        got = _launch(other, no_python, compact=compact)
         assert got.returncode == 0 and b"nothing was checked" in got.stderr and got.stdout == b""
 
 
@@ -149,6 +152,48 @@ def test_the_launcher_runs_python_isolated(tmp_path):
            "BUDDIE_STATE": str(tmp_path / "p"), "BUDDIE_FETCH": "0", "BUDDIE_GITHUB": "0", "BUDDIE_LESSONS": "0"}
     got = _launch({"hook_event_name": "SessionStart", "session_id": "s", "cwd": str(tmp_path)}, env)
     assert got.returncode == 0 and not marker.exists()
+
+
+@launcher
+@pytest.mark.parametrize("chosen", ["python3", "python", "py"])
+@pytest.mark.parametrize("backslashes", [False, True])
+def test_launcher_fallback_preserves_event_arguments_and_isolation(tmp_path, chosen, backslashes):
+    """Store stubs/old interpreters fail probes; only a working interpreter receives stdin."""
+    package = tmp_path / "plugin with spaces"
+    (package / "hooks").mkdir(parents=True)
+    shutil.copyfile(ROOT / "hooks" / "run.sh", package / "hooks" / "run.sh")
+    (package / "run.py").write_text(
+        "import json, sys\n"
+        "print(json.dumps({'event': json.load(sys.stdin), 'args': sys.argv[1:], 'isolated': sys.flags.isolated}))\n",
+        encoding="utf-8")
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    for name in ("python3", "python", "py"):
+        stub = bin_ / name
+        body = "#!/bin/sh\n"
+        if name != chosen:
+            body += "exit 1\n"
+        else:
+            if name == "py":
+                body += '[ "$1" = "-3" ] || exit 98\nshift\n'
+            body += f'exec {shlex.quote(Path(sys.executable).as_posix())} "$@"\n'
+        stub.write_text(body, encoding="utf-8", newline="\n")
+        stub.chmod(0o755)
+    # Git Bash still needs its auxiliary tools; only our controlled Python choices are on PATH.
+    if sys.platform == "win32":
+        shell_tools = Path(SH).parent
+        if not (shell_tools / "tr.exe").is_file():  # Git/bin/sh.exe vs Git/usr/bin/sh.exe
+            shell_tools = shell_tools.parent / "usr" / "bin"
+        tool_paths = [str(shell_tools)]
+    else:
+        tool_paths = ["/usr/bin", "/bin"]  # macOS keeps tr/dirname in /usr/bin
+    env = {**os.environ, "PATH": os.pathsep.join([str(bin_), *tool_paths])}
+    script = str(package / "hooks" / "run.sh") if backslashes else (package / "hooks" / "run.sh").as_posix()
+    event = {"hook_event_name": "SessionStart", "session_id": "stdin-survives-probes"}
+    got = subprocess.run([SH, script, "hook", "one argument with spaces"], input=json.dumps(event).encode(),
+                         capture_output=True, env=env, timeout=30)
+    assert got.returncode == 0, got.stderr
+    assert json.loads(got.stdout) == {"event": event, "args": ["hook", "one argument with spaces"], "isolated": 1}
 
 
 # --- one policy reading per event ---------------------------------------------------------------------------------

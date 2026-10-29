@@ -3,8 +3,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.5/assets/brand/buddie-logo-dark.png">
-  <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.5/assets/brand/buddie-logo.png" alt="buddie." width="360">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.6/assets/brand/buddie-logo-dark.png">
+  <img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.6/assets/brand/buddie-logo.png" alt="buddie." width="360">
 </picture>
 
 ### Verify the claim. Know the context.
@@ -13,12 +13,12 @@
 
 [![CI](https://github.com/tsyyan/buddie/actions/workflows/ci.yml/badge.svg)](https://github.com/tsyyan/buddie/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/buddie)](https://pypi.org/project/buddie/)
-[![License](https://img.shields.io/github/license/tsyyan/buddie)](https://github.com/tsyyan/buddie/blob/v2.0.5/LICENSE)
+[![License](https://img.shields.io/github/license/tsyyan/buddie)](https://github.com/tsyyan/buddie/blob/v2.0.6/LICENSE)
 [![buddie on Glama](https://glama.ai/mcp/servers/tsyyan/buddie/badges/score.svg)](https://glama.ai/mcp/servers/tsyyan/buddie)
 [![buddie on MCPRush](https://mcprush.com/badge/buddie-mcp/score.svg)](https://mcprush.com/to/buddie-mcp?ref=badge)
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/tsyyan/buddie)
 
-<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.5/assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
+<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.6/assets/brand/readme-hero.png" alt="The buddie dog between a stack of source documents under a magnifying glass and a laptop showing a chip: evidence on one side, the machine on the other.">
 
 </div>
 
@@ -31,7 +31,7 @@ confident sentence.
 buddie separates what can be checked from what is only claimed. It checks supported claims against the evidence
 itself, gives the agent real observations of your machine instead of guesses, and marks what it could not check as
 unchecked. In 929 checkable quotations from published deep-research reports, 212 were altered or absent from the
-page they cited; buddie flagged 207 of them ([research](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/research.md)).
+page they cited; buddie flagged 207 of them ([research](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/research.md)).
 
 ## What buddie does
 
@@ -59,9 +59,9 @@ An agent reports that it fixed a date parser and that the test suite is green. I
 anchor, `⚓ run:pytest -q => 41 passed`, that buddie can check. The session transcript records what the test command
 actually printed:
 
-<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.5/assets/demo/verification.svg" alt="Verify, from a real run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q => 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit 1." width="600">
+<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.6/assets/demo/verification.svg" alt="Verify, from a real run on the bundled examples/work fixture. Agent claim: the test suite is green, run:pytest -q => 41 passed. Evidence check, session transcript: 1 failed, 40 passed in 3.1s. Verification outcome: FAIL, effects 0/1 hold, 1 broken, exit 1." width="600">
 
-Run it yourself from a clone; the report and transcript are in [`examples/work`](https://github.com/tsyyan/buddie/tree/v2.0.5/examples/work):
+Run it yourself from a clone; the report and transcript are in [`examples/work`](https://github.com/tsyyan/buddie/tree/v2.0.6/examples/work):
 
 <!-- readme-example: work -->
 ```bash
@@ -77,14 +77,14 @@ buddie FAIL: effects 0/1 hold, 1 broken
 
 The files are a teaching fixture: buddie reads the recorded output rather than rerunning pytest. `--json receipt.json`
 also writes a receipt naming the evidence behind the verdict. Quotation, PR and CI examples, and which integration
-checks what: [verification guide](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/verification.md).
+checks what: [verification guide](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/verification.md).
 
 ### Know the environment
 
 An agent is asked to set up a local development environment. Instead of guessing the operating system, GPU or Python
 version, it asks buddie for three categories, which the person has granted:
 
-<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.5/assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Authorized categories: system.os, hardware.gpu, software.python. Observed: OS Windows 11; GPU NVIDIA GeForce GTX 1650, 4 GiB; Python 3.14.6 with pip and venv." width="600">
+<img src="https://raw.githubusercontent.com/tsyyan/buddie/v2.0.6/assets/demo/environment.svg" alt="Observe, from a real run on one Windows machine. Task: configure local development environment. Authorized categories: system.os, hardware.gpu, software.python. Observed: OS Windows 11; GPU NVIDIA GeForce GTX 1650, 4 GiB; Python 3.14.6 with pip and venv." width="600">
 
 <!-- readme-diagnostics -->
 ```bash
@@ -107,7 +107,7 @@ out. `diagnostics.json` holds the full document, with the method and time of eac
 
 A category you have not granted is reported as denied, and its collector never runs. A value buddie cannot read is
 marked unavailable, with the reason. Diagnostics is read-only and installs nothing; it gives the agent better facts,
-not a guarantee that its next command is right. [Categories, grants and the document](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/environment.md#diagnostics).
+not a guarantee that its next command is right. [Categories, grants and the document](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/environment.md#diagnostics).
 
 ## Get started
 
@@ -133,28 +133,28 @@ allow = ["system.os", "hardware.gpu", "software.python"]
 roots = []
 ```
 
-Levels, the intro mode and what the hook reads: [Claude Code guide](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/claude-code.md).
+Levels, the intro mode and what the hook reads: [Claude Code guide](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/claude-code.md).
 
 ### Other integrations
 
 - **Codex:** `codex plugin marketplace add tsyyan/buddie`, then `codex plugin add buddie@buddie`, and enable its hook
-  in `/hooks`. The check runs at `Stop`; `run:` claims stay unchecked. [Codex guide](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/install-codex.md)
+  in `/hooks`. The check runs at `Stop`; `run:` claims stay unchecked. [Codex guide](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/install-codex.md)
 - **Any MCP client:** `uvx buddie serve` starts the stdio server. There is no gate: the agent calls the tools.
-  [Integrations](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/integrations.md)
+  [Integrations](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/integrations.md)
 - **Command line and CI:** `pip install buddie`, then `buddie verify REPORT.md --json receipt.json`. It exits 1 on
   `FAIL`; `GAPS` and `EMPTY` exit 0, so a CI step that requires `PASS` should read the receipt's outcome.
 - **Claude Desktop:** the `.mcpb` bundle from [Releases](https://github.com/tsyyan/buddie/releases), without a gate.
-  [Desktop guide](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/install-claude-desktop.md)
+  [Desktop guide](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/install-claude-desktop.md)
 
-Every surface in detail: [getting started](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/getting-started.md).
+Every surface in detail: [getting started](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/getting-started.md).
 
 ### Release status
 
 | | Version |
 |---|---|
-| Release described here: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **2.0.5** |
+| Release described here: PyPI, GitHub Releases, the Desktop bundle, the MCP Registry | **2.0.6** |
 
-Upgrading from 2.0.4 changes nothing you have to do: 2.0.5 gives every listing one name, `buddie`, a smaller icon, and makes Claude Code's marketplace install only released plugins (from `plugin-stable`); Codex keeps installing from the repository.
+Upgrading from 2.0.5 changes nothing you have to do: 2.0.6 makes the hook's Python commands explicit for Anthropic directory inspection, preserving isolated mode, interpreter fallback and hook behavior. Claude Code's marketplace continues to install releases from `plugin-stable`.
 
 Upgrading from 2.0.2: 2.0.4 includes canonical Discovery, the README-style dog icon and Toolkit positioning, Linux worker guard hardening, and Stop-hook guidance that asks for corrections without repeating the already displayed answer. No new permissions are required; on Linux a failed parent-death guard now prevents the regex worker from running. Discovery leaves unavailable checks unverified. The 2.0.3 candidate was superseded before publication.
 
@@ -162,19 +162,19 @@ Upgrading from 2.0.1 changes nothing you have to do: 2.0.2 adds the local feedba
 `feedback_resolve`, `feedback_accept`), GitHub citation checks and versioned public release notes. Upgrading from
 2.0.0 changes nothing; 2.0.1 fixed how the MCP server reads its input on Windows systems whose code page is not
 UTF-8. Upgrading from 1.1.1 changes nothing for a 1.x setup. What can differ, and why, is in the
-[changelog](https://github.com/tsyyan/buddie/blob/v2.0.5/CHANGELOG.md).
+[changelog](https://github.com/tsyyan/buddie/blob/v2.0.6/CHANGELOG.md).
 
 ## Documentation
 
 | Topic | Read |
 |---|---|
-| Install on every surface | [Getting started](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/getting-started.md) |
-| What each integration does | [Integrations](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/integrations.md) |
-| Checks, outcomes and receipts | [Verification](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/verification.md), [receipts](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/receipts.md) |
-| Environment diagnostics | [Environment](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/environment.md#diagnostics) |
-| Security and privacy | [Limitations](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/limitations.md), [security](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/security.md), [privacy](https://github.com/tsyyan/buddie/blob/v2.0.5/PRIVACY.md) |
-| Contributing | [CONTRIBUTING.md](https://github.com/tsyyan/buddie/blob/v2.0.5/CONTRIBUTING.md) |
-| Everything else | [Documentation index](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/README.md) |
+| Install on every surface | [Getting started](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/getting-started.md) |
+| What each integration does | [Integrations](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/integrations.md) |
+| Checks, outcomes and receipts | [Verification](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/verification.md), [receipts](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/receipts.md) |
+| Environment diagnostics | [Environment](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/environment.md#diagnostics) |
+| Security and privacy | [Limitations](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/limitations.md), [security](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/security.md), [privacy](https://github.com/tsyyan/buddie/blob/v2.0.6/PRIVACY.md) |
+| Contributing | [CONTRIBUTING.md](https://github.com/tsyyan/buddie/blob/v2.0.6/CONTRIBUTING.md) |
+| Everything else | [Documentation index](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/README.md) |
 
 ## Limitations
 
@@ -187,13 +187,13 @@ fixes the claim or discloses it as unverified. An agent running as your user can
 the diagnostics grants file; only an administrator's protected policy sets limits it cannot raise.
 
 buddie runs locally, with no model calls and no telemetry. It fetches the pages a report cites and calls GitHub for
-PR and CI claims. [All limitations](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/limitations.md) · [Security boundaries](https://github.com/tsyyan/buddie/blob/v2.0.5/docs/security.md) ·
-[Privacy](https://github.com/tsyyan/buddie/blob/v2.0.5/PRIVACY.md)
+PR and CI claims. [All limitations](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/limitations.md) · [Security boundaries](https://github.com/tsyyan/buddie/blob/v2.0.6/docs/security.md) ·
+[Privacy](https://github.com/tsyyan/buddie/blob/v2.0.6/PRIVACY.md)
 
 ---
 
 <div align="center">
 
-[Apache-2.0](https://github.com/tsyyan/buddie/blob/v2.0.5/LICENSE) · [Changelog](https://github.com/tsyyan/buddie/blob/v2.0.5/CHANGELOG.md) · [Citation](https://github.com/tsyyan/buddie/blob/v2.0.5/CITATION.cff) · [Issues](https://github.com/tsyyan/buddie/issues)
+[Apache-2.0](https://github.com/tsyyan/buddie/blob/v2.0.6/LICENSE) · [Changelog](https://github.com/tsyyan/buddie/blob/v2.0.6/CHANGELOG.md) · [Citation](https://github.com/tsyyan/buddie/blob/v2.0.6/CITATION.cff) · [Issues](https://github.com/tsyyan/buddie/issues)
 
 </div>

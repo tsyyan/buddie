@@ -6,37 +6,36 @@ Verify the claim. Know the context. AI agent reliability toolkit.
 
 buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
-Install: `pip install buddie==2.0.5`.
+Install: `pip install buddie==2.0.6`.
 
-[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.5/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.5/release-notes.md)
+[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.6/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.6/release-notes.md)
 
-# buddie 2.0.5
+# buddie 2.0.6
 
 2026-10-30
 
-One name and icon across every channel, and a Claude Code marketplace that installs only released plugins.
+A shell hook launcher the Anthropic directory can inspect, preserving existing runtime behavior.
 
 ## Changes
 
-- Every manifest and listing uses the single name buddie; the tagline and the AI agent reliability toolkit category move to descriptions.
-- The plugin and Desktop icon is the same dog image as a 23 KB palette PNG instead of 884 KB.
-- The repository's Claude Code marketplace installs the released compact plugin from the plugin-stable branch instead of the default branch. The compact plugin carries its own marketplace file.
-- Codex reads a dedicated .agents/plugins/marketplace.json and keeps installing the repository plugin; a tag pins a release.
-- Documentation records the current channel check, listing copy with tool access labels and the plan for a new Anthropic directory submission.
-- Two tests no longer fail when the suite runs as the root user.
+- Hook startup uses separate, literal python3, python and py -3 commands instead of a computed command name.
+- Path normalization is split into independently readable shell commands; Windows backslashes and paths with spaces remain supported.
+- The no-Python fallback uses equivalent builtin tests and parameter matching instead of case patterns that the directory misread as program names.
+- Python 3.11+, isolated mode, interpreter fallback order, hook stdin and arguments, and the no-Python Stop disclosure remain unchanged.
+- Real-shell compatibility tests cover all three interpreter choices, Windows paths, argument boundaries and isolated mode.
 
 ## Upgrade
 
-Install buddie==2.0.5 or update the plugin. Claude Code users who added the repository marketplace now receive releases from plugin-stable; no reinstall is needed. Codex users who want only releases add the marketplace pinned to a tag.
+Install buddie==2.0.6 or update the plugin. The Claude Code marketplace follows plugin-stable and receives this release after publication; no reinstall is needed.
 
 ## Permissions
 
-No new runtime permissions. Checks run locally without a model; GitHub credentials stay optional.
+No new runtime permissions or dependencies. Checks run locally without a model. Optional evidence checks request cited URLs and the GitHub API (api.github.com, or an administrator-approved Enterprise API); GitHub credentials stay optional. No report or transcript is sent to a Buddie collection service.
 
 ## Security
 
-plugin-stable, now the Claude Code channel, is protected against deletion and force pushes. The candidate binds archives and public metadata to the source revision and SHA-256 digests. Report vulnerabilities through SECURITY.md.
+Python hooks still run with -I and require Python 3.11 or newer. The candidate binds archives and public metadata to the source revision and SHA-256 digests. Report vulnerabilities through SECURITY.md.
 
 ## Limitations
 
-Checks support evidence review and do not establish that every claim is true. Directory listings and their display of name and icon are updated separately by the owner. The Anthropic directory submission is not yet made.
+Checks support evidence review and do not establish that every claim is true. Local source snapshots, pending report lines and feedback state can contain personal data and have no automatic expiry; the person can delete them. See PRIVACY.md for controls. Passing automated directory validation does not imply Anthropic approval; publication in its directory requires a separate review.
