@@ -16,8 +16,16 @@ feedback, D's only difference from C is the instruction (A's).
         --provider github --model openai/gpt-4.1-mini --n 20 --out data/runs.jsonl
 
 Providers (key from the environment): github (GITHUB_TOKEN, models: read), groq (GROQ_API_KEY),
-gemini (GEMINI_API_KEY), openrouter (OPENROUTER_API_KEY). Resumable: rows already in --out are skipped.
-A daily limit (a 429 asking to wait over --max-wait seconds) stops the run cleanly; run it again later.
+gemini (GEMINI_API_KEY), openrouter (OPENROUTER_API_KEY), ovh (no key: the anonymous tier), cloudflare
+(CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID). See PROVIDERS.md.
+
+--provider may list several (ovh,groq,cloudflare) serving the same --model. Every arm of a unit goes to one provider:
+a unit already begun stays with its provider, a new unit takes the first provider not yet spent. When a provider's
+limit is reached, the unit it was on waits for that provider (never split) and the run goes on with the others.
+Rows record the provider; --model stays the model's common name (MODEL_IDS maps it to each provider's id).
+
+Resumable: rows already in --out are skipped. A daily limit (a 429 asking to wait over --max-wait seconds) or the
+request budget spends a provider; the run ends when every provider is spent. Run it again later.
 """
 from __future__ import annotations
 
@@ -37,7 +45,15 @@ PROVIDERS = {
     "groq": ("https://api.groq.com/openai/v1/chat/completions", "GROQ_API_KEY"),
     "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", "GEMINI_API_KEY"),
     "openrouter": ("https://openrouter.ai/api/v1/chat/completions", "OPENROUTER_API_KEY"),
+    "ovh": ("https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions", None),
+    "cloudflare": ("https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/v1/chat/completions",
+                   "CLOUDFLARE_API_TOKEN"),
 }
+MODEL_IDS = {  # the model's common name -> its id at a provider, where it differs
+    "openai/gpt-oss-120b": {"ovh": "gpt-oss-120b", "cloudflare": "@cf/openai/gpt-oss-120b"},
+    "openai/gpt-oss-20b": {"ovh": "gpt-oss-20b", "cloudflare": "@cf/openai/gpt-oss-20b"},
+}
+RPM = {"ovh": 2, "groq": 20}  # free-tier pace where known (PROVIDERS.md); others 8, --rpm overrides all
 SYSTEM = ("You prepare a paragraph from a research report before it is sent to a reader. In this report, text in "
           "quotation marks presents the exact words of the source it links to.")
 ASK_A = "Return the paragraph ready to send to the reader. Keep its links. Reply with the paragraph only."
@@ -117,10 +133,15 @@ def buddie_feedback(store, text: str) -> tuple[str | None, dict]:
 class Client:
     def __init__(self, provider: str, model: str, rpm: float, max_requests: int, max_wait: float,
                  temperature: float | None):
-        self.url, env = PROVIDERS[provider]
-        self.key = os.environ.get(env) or ""
-        if not self.key:
+        url, env = PROVIDERS[provider]
+        if "{CLOUDFLARE_ACCOUNT_ID}" in url:
+            if not os.environ.get("CLOUDFLARE_ACCOUNT_ID"):
+                raise SystemExit("CLOUDFLARE_ACCOUNT_ID is not set")
+            url = url.replace("{CLOUDFLARE_ACCOUNT_ID}", os.environ["CLOUDFLARE_ACCOUNT_ID"])
+        self.url, self.key = url, (os.environ.get(env) or "") if env else ""
+        if env and not self.key:
             raise SystemExit(f"{env} is not set")
+        model = MODEL_IDS.get(model, {}).get(provider, model)
         self.model, self.gap, self.left, self.max_wait = model, 60.0 / rpm, max_requests, max_wait
         self.temperature, self.last = temperature, 0.0
 
@@ -137,10 +158,11 @@ class Client:
             if wait > 0:
                 time.sleep(wait)
             self.last, self.left = time.monotonic(), self.left - 1
-            req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method="POST", headers={
-                "Content-Type": "application/json", "Accept": "application/json",
-                "User-Agent": "buddie-bdx003/1 (+https://github.com/tsyyan/buddie)",
-                "Authorization": f"Bearer {self.key}"})
+            headers = {"Content-Type": "application/json", "Accept": "application/json",
+                       "User-Agent": "buddie-bdx003/1 (+https://github.com/tsyyan/buddie)"}
+            if self.key:
+                headers["Authorization"] = f"Bearer {self.key}"
+            req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method="POST", headers=headers)
             try:
                 with urllib.request.urlopen(req, timeout=180) as r:
                     raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type")
@@ -236,14 +258,14 @@ def main(argv=None) -> int:
     ap.add_argument("--units", required=True)
     ap.add_argument("--eligible", required=True)
     ap.add_argument("--store", required=True)
-    ap.add_argument("--provider", choices=sorted(PROVIDERS), required=True)
+    ap.add_argument("--provider", required=True, help="one, or several in order of preference: ovh,groq,cloudflare")
     ap.add_argument("--model", required=True)
     ap.add_argument("--arms", default="A,B,C")
     ap.add_argument("--n", type=int, help="units (a seeded, stratified sample of the eligible ones)")
     ap.add_argument("--reps", type=int, default=1)
     ap.add_argument("--rounds", type=int, default=2, help="buddie feedback rounds in arms C and D")
     ap.add_argument("--seed", type=int, default=20261030)
-    ap.add_argument("--rpm", type=float, default=8)
+    ap.add_argument("--rpm", type=float, help="requests a minute for every provider (default: RPM, else 8)")
     ap.add_argument("--max-requests", type=int, default=400)
     ap.add_argument("--max-wait", type=float, default=300)
     ap.add_argument("--temperature", type=float, default=0.0)
@@ -253,35 +275,60 @@ def main(argv=None) -> int:
     units = read_json(a.units)["units"]
     eligible = {r["id"]: r for r in read_json(a.eligible)["rows"]}
     store = Store(a.store)
-    client = Client(a.provider, a.model, a.rpm, a.max_requests, a.max_wait,
-                    None if a.no_temperature else a.temperature)
-    done = {(r["unit"], r["arm"], r["model"], r["rep"]) for r in read_jsonl(a.out)}
+    providers = a.provider.split(",")
+    if set(providers) - set(PROVIDERS):
+        ap.error(f"unknown provider in --provider {a.provider!r}")
+    clients = {}
+    for p in providers:
+        try:
+            clients[p] = Client(p, a.model, a.rpm or RPM.get(p, 8), a.max_requests, a.max_wait,
+                                None if a.no_temperature else a.temperature)
+        except SystemExit as e:
+            print("provider", p, "left out:", e)
+    if not clients:
+        raise SystemExit("no provider is usable")
+    rows = read_jsonl(a.out)
+    done = {(r["unit"], r["arm"], r["model"], r["rep"]) for r in rows}
+    pinned = {(r["unit"], r["model"], r["rep"]): r.get("provider") for r in rows}
     arms = a.arms.split(",")
     if set(arms) - {"A", "B", "C", "D"}:
         ap.error(f"unknown arm in --arms {a.arms!r}")
+    spent: set[str] = set()
     rng = random.Random(a.seed + 1)
-    try:
-        for unit in select(units, eligible, a.n, a.seed):
-            for rep in range(a.reps):
-                order = arms[:]
-                rng.shuffle(order)
-                for arm in order:
-                    if (unit["id"], arm, a.model, rep) in done:
-                        continue
-                    t0 = time.monotonic()
-                    row = {"unit": unit["id"], "arm": arm, "model": a.model, "provider": a.provider, "rep": rep,
-                           "seed": a.seed}
-                    try:
-                        row |= run_arm(client, store, unit, arm, a.rounds)
-                    except Stop:
-                        raise
-                    except Exception as e:  # noqa: BLE001 - a failed run is a result: recorded, counted
-                        row |= {"error": str(e)[:300]}
-                    row["seconds"] = round(time.monotonic() - t0, 2)
-                    append_jsonl(a.out, row)
-                    print(unit["id"], arm, "error" if "error" in row else "ok", row.get("requests"), flush=True)
-    except Stop as stop:
-        print("stopped:", stop)
+    for unit in select(units, eligible, a.n, a.seed):
+        for rep in range(a.reps):
+            order = arms[:]
+            rng.shuffle(order)
+            todo = [arm for arm in order if (unit["id"], arm, a.model, rep) not in done]
+            while todo:
+                prov = pinned.get((unit["id"], a.model, rep)) or next((p for p in clients if p not in spent), None)
+                if prov is None or prov in spent or prov not in clients:
+                    print(unit["id"], "waits for", prov or "a provider", flush=True)
+                    break
+                try:
+                    while todo:
+                        arm = todo[0]
+                        t0 = time.monotonic()
+                        row = {"unit": unit["id"], "arm": arm, "model": a.model, "provider": prov, "rep": rep,
+                               "seed": a.seed}
+                        try:
+                            row |= run_arm(clients[prov], store, unit, arm, a.rounds)
+                        except Stop:
+                            raise
+                        except Exception as e:  # noqa: BLE001 - a failed run is a result: recorded, counted
+                            row |= {"error": str(e)[:300]}
+                        row["seconds"] = round(time.monotonic() - t0, 2)
+                        append_jsonl(a.out, row)
+                        pinned[(unit["id"], a.model, rep)] = prov
+                        todo.pop(0)
+                        print(unit["id"], arm, prov, "error" if "error" in row else "ok", row.get("requests"),
+                              flush=True)
+                except Stop as stop:
+                    print("provider", prov, "stopped:", stop, flush=True)
+                    spent.add(prov)
+        if spent >= set(clients):
+            print("every provider is spent")
+            break
     return 0
 
 

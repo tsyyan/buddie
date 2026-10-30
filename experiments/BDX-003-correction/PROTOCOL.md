@@ -94,3 +94,8 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
      thresholds were set after reading pilot 1 and reproduce the hand reading of its 13 rows; one row (similarity
      0.85, "every groundhog looks different") sits on the UNQUOTED_KEPT boundary. The audit (20 %) checks them.
   Pilot 2 (arms A–D, same model) checks the plumbing of these changes and is not pooled either.
+- 2026-10-30, before the main run: `openai/gpt-oss-120b` is served by several free providers (PROVIDERS.md: OVHcloud
+  anonymous tier, Groq, Cloudflare Workers AI), because one free tier allows only about 8 units a day. Every arm of a
+  unit runs at one provider: a unit begun at a provider waits for it when its limit is reached, it is never split.
+  Rows record the provider; the per-model tables pool providers, and `judge.py` reports the cells per provider next
+  to them. Gemini Flash stays the second model, from Google only.

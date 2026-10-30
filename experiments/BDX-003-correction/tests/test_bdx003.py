@@ -5,9 +5,11 @@ arm C (with a scripted model) and the judge. Run from the experiment directory:
 """
 from __future__ import annotations
 
+import os
 import sys
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
@@ -154,6 +156,70 @@ class ArmD(unittest.TestCase):
             self.assertEqual((client.tools, rec["buddie"]), ([None], []))
 
 
+class Providers(unittest.TestCase):
+    def test_model_ids_and_keys(self):
+        c = run.Client("ovh", "openai/gpt-oss-120b", 2, 10, 30, None)
+        self.assertEqual((c.model, c.key), ("gpt-oss-120b", ""))
+        with unittest.mock.patch.dict(os.environ, {"CLOUDFLARE_API_TOKEN": "t", "CLOUDFLARE_ACCOUNT_ID": "acc"}):
+            c = run.Client("cloudflare", "openai/gpt-oss-120b", 2, 10, 30, None)
+            self.assertEqual(c.model, "@cf/openai/gpt-oss-120b")
+            self.assertIn("/accounts/acc/ai/v1/chat/completions", c.url)
+        with unittest.mock.patch.dict(os.environ, {"CLOUDFLARE_ACCOUNT_ID": ""}):
+            with self.assertRaises(SystemExit):
+                run.Client("cloudflare", "openai/gpt-oss-120b", 2, 10, 30, None)
+
+    def _run(self, tmp, stop_after):
+        """arms.main with fake providers: ovh stops after stop_after requests, groq never does."""
+        calls = {"ovh": 0, "groq": 0}
+
+        class Fake:
+            def __init__(self, provider, *args):
+                self.provider = provider
+
+            def chat(self, messages, tools):
+                calls[self.provider] += 1
+                if self.provider == "ovh" and calls["ovh"] > stop_after:
+                    raise run.Stop("daily limit")
+                return {"content": UNIT_OK["paragraph"]}, {}
+
+        d = Path(tmp)
+        us = [UNIT_ERR | {"id": f"T:{i}"} for i in range(3)]
+        common.write_json(d / "units.json", {"units": us})
+        common.write_json(d / "eligible.json", {"rows": [{"id": u["id"], "eligible": True} for u in us]})
+        if not (d / "store").exists():
+            store_with_page(tmp)
+        with unittest.mock.patch.object(run, "Client", Fake):
+            run.main(["--units", str(d / "units.json"), "--eligible", str(d / "eligible.json"),
+                      "--store", str(d / "store"), "--provider", "ovh,groq", "--model", "m", "--arms", "A,B",
+                      "--out", str(d / "runs.jsonl")])
+        rows = common.read_jsonl(d / "runs.jsonl")
+        by_unit = {}
+        for r in rows:
+            by_unit.setdefault(r["unit"], set()).add(r["provider"])
+        return rows, by_unit
+
+    def test_a_unit_never_changes_provider(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rows, by_unit = self._run(tmp, stop_after=3)  # ovh: one unit (2 requests) and half of the next
+            self.assertTrue(all(len(p) == 1 for p in by_unit.values()), by_unit)
+            started_at_ovh = [u for u, p in by_unit.items() if p == {"ovh"}]
+            self.assertEqual(len(started_at_ovh), 2)
+            per_unit = {u: sum(r["unit"] == u for r in rows) for u in by_unit}
+            waiting = [u for u in started_at_ovh if per_unit[u] == 1]
+            self.assertEqual(len(waiting), 1)  # the split unit waits for ovh
+            self.assertEqual(len(rows), 5)
+            rows, by_unit = self._run(tmp, stop_after=99)  # the next day: ovh again
+            self.assertEqual(by_unit[waiting[0]], {"ovh"})
+            self.assertEqual(len(rows), 6)
+
+    def test_a_provider_spent_before_a_unit_begins_passes_it_on(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rows, by_unit = self._run(tmp, stop_after=2)
+            self.assertEqual(len(rows), 6)
+            self.assertEqual(sorted(len(p) for p in by_unit.values()), [1, 1, 1])
+            self.assertEqual(sorted(next(iter(p)) for p in by_unit.values()), ["groq", "groq", "ovh"])
+
+
 class Judge(unittest.TestCase):
     def test_outcomes(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -197,6 +263,10 @@ class Judge(unittest.TestCase):
         self.assertEqual(s["paired"]["m | ERROR | D-B"]["diff"], -1.0)
         self.assertEqual(s["cells"]["m | D | ERROR"]["paraphrased"], 1.0)
         self.assertIn("paraphrased", judge.markdown(s))
+        self.assertEqual(s["providers"]["m | ? | D | ERROR"]["removed"], 1.0)
+        s = judge.summarize([r | {"provider": "ovh"} for r in rows])
+        self.assertEqual(s["providers"]["m | ovh | B | ERROR"]["wrong"], 1.0)
+        self.assertIn("| m | ovh | B | ERROR |", judge.markdown(s))
 
 
 if __name__ == "__main__":

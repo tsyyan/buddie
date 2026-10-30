@@ -11,7 +11,7 @@ on:
     branches: [experiment/bdx-003-pilot, experiment/bdx-003-report]
   workflow_dispatch:
     inputs:
-      provider: {description: 'github, groq, gemini or openrouter (its key as a repository secret)', default: ''}
+      provider: {description: 'github, groq, gemini, openrouter, ovh or cloudflare, or several: ovh,groq (PROVIDERS.md)', default: ''}
       model: {description: 'model id for that provider', default: ''}
       pool: {description: 'units to fetch (seeded, stratified)', default: ''}
       n: {description: 'eligible units to run', default: ''}
@@ -65,18 +65,20 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cd experiments/BDX-003-correction
           python - <<'PY'
           import os, arms
           ok = False
-          for prov, model in ((os.environ["PROVIDER"], os.environ["MODEL"]), ("groq", "openai/gpt-oss-120b"),
-                              ("gemini", "gemini-3.8-flash")):
+          wanted = os.environ["PROVIDER"].split(",")
+          for prov, model in [(p, os.environ["MODEL"]) for p in wanted] + [("gemini", "gemini-3.8-flash")]:
               try:
                   c = arms.Client(prov, model, 60, 1, 30, None)
                   msg, _ = c.chat([{"role": "user", "content": "Reply with the word pong."}], None)
                   res = "answered: " + (msg.get("content") or "")[:60]
-                  ok = ok or prov == os.environ["PROVIDER"]
+                  ok = ok or prov in wanted
               except SystemExit as e:
                   res = f"no key: {e}"
               except Exception as e:  # noqa: BLE001
@@ -105,10 +107,12 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cd experiments/BDX-003-correction
           python arms.py --units data/units.json --eligible data/eligible.json --store data/store \
-            --provider "$PROVIDER" --model "$MODEL" --n "$N" --arms "$ARMS" --rpm "$RPM" \
+            --provider "$PROVIDER" --model "$MODEL" --n "$N" --arms "$ARMS" ${RPM:+--rpm "$RPM"} \
             --max-requests "$MAX_REQUESTS" --out data/runs.jsonl
       - name: judge (independent of buddie)
         if: always()

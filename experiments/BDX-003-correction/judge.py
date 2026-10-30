@@ -111,6 +111,17 @@ def summarize(judged: list[dict]) -> dict:
             cell["mean_" + k] = round(sum(vals) / n, 2) if n else None
         cell["flagged"] = round(sum(r["flagged"] for r in ok) / n, 3) if n else None
         out["cells"][f"{model} | {arm} | {gold}"] = cell
+    # per provider, next to the pooled cells: a provider effect would show here (PROVIDERS.md)
+    out["providers"] = {}
+    byp = defaultdict(list)
+    for r in judged:
+        byp[(r["model"], r.get("provider") or "?", r["arm"], r["gold"])].append(r)
+    for (model, prov, arm, gold), rows in sorted(byp.items()):
+        ok = [r for r in rows if "error" not in r]
+        out["providers"][f"{model} | {prov} | {arm} | {gold}"] = {
+            "n": len(ok), "failed_runs": len(rows) - len(ok),
+            **{o.lower(): round(sum(r["outcome"] == o for r in ok) / len(ok), 3) if ok else None
+               for o in ("CORRECT", "WRONG", "REMOVED")}}
     # paired: the same unit, model and rep in two arms; 1 = the bad outcome for that gold
     bad = {"ERROR": lambda r: r["outcome"] == "WRONG", "OK": lambda r: r["outcome"] != "CORRECT"}
     index = {(r["model"], r["unit"], r["rep"], r["arm"]): r for r in judged if "error" not in r}
@@ -142,6 +153,10 @@ def markdown(s: dict) -> str:
               "|---|---|---|" + "---:|" * len(REMOVED_AS)]
     for key, c in s["cells"].items():
         lines.append(f"| {key} | " + " | ".join(str(c.get(d.lower())) for d in REMOVED_AS) + " |")
+    lines += ["", "Per provider:", "", "| model | provider | arm | gold | n | correct | wrong | removed | failed |",
+              "|---|---|---|---|---:|---:|---:|---:|---:|"]
+    for key, c in s.get("providers", {}).items():
+        lines.append(f"| {key} | {c['n']} | {c['correct']} | {c['wrong']} | {c['removed']} | {c['failed_runs']} |")
     lines += ["", "Paired (bad = WRONG on ERROR units; not CORRECT on OK units), later arm minus earlier:", "",
               "| comparison | n | diff | 95 % CI | only earlier bad | only later bad |", "|---|---:|---:|---|---:|---:|"]
     for key, p in s["paired"].items():
@@ -184,7 +199,7 @@ def main(argv=None) -> int:
     judged = []
     for r in read_jsonl(a.runs):
         u = units[r["unit"]]
-        row = {k: r.get(k) for k in ("unit", "arm", "model", "rep", "requests", "tool_calls", "prompt_tokens",
+        row = {k: r.get(k) for k in ("unit", "arm", "model", "provider", "rep", "requests", "tool_calls", "prompt_tokens",
                                        "completion_tokens", "seconds", "feedback_rounds", "final")}
         row["gold"] = u["gold"]
         if "error" in r:

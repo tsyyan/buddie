@@ -12,6 +12,10 @@ Status 2026-10-30: built, tested without a model, one pilot run on Groq (below).
 
 ## Run
 
+Providers for the main run, and why these: [PROVIDERS.md](PROVIDERS.md). `--provider ovh,groq,cloudflare` uses them
+in that order, each unit at one provider (OVH needs no key; Cloudflare needs `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID`).
+
 In GitHub Actions: put a free key in a repository secret (`GROQ_API_KEY`, `GEMINI_API_KEY` or `OPENROUTER_API_KEY`;
 GitHub Models uses the workflow's own token but answers only `OK` from this repository's Actions), set the provider
 and model in `pilot.env`, and push to `experiment/bdx-003-pilot`, or run the `bdx003` workflow by hand (its inputs
