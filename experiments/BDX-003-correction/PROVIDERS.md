@@ -32,7 +32,18 @@ Leads from [awesome-freellm-apis][freellm]; figures are from the provider's own 
 | GitHub Models | `models.github.ai` answers every request with a plain-text `OK`, from a local machine too | no |
 | LLM7.io, OpenCode Zen, Chutes | no gpt-oss-120b in their model lists (anonymous `GET /v1/models`) | no |
 
-None of the three in the registry has been called with a key yet: a key, then one tool-calling request, before a run.
+| Vercel AI Gateway | $5 of credits every 30 days for a team that has never paid ([pricing][vercel]); gpt-oss-120b's model page marks all its backends (Baseten, Bedrock, Fireworks, Groq, Parasail, Nebius, Together, Cerebras) "Free AI Gateway Credit: Yes", from $0.10 in / $0.50 out per M tokens ([model][vercel-oss]); free-tier rate limits are lower per model, numbers not published; buying credits ends the free tier | in the registry as `vercel-<backend>` (`AI_GATEWAY_API_KEY`), each pinned with `providerOptions.gateway.only` so a unit never changes backend; about 600 units a month at Baseten's price; the best find |
+| FastRouter | lists `openai/gpt-oss-120b:free` at $0 (anonymous `GET /api/v1/models`); limits not found in its docs | in the registry (`FASTROUTER_API_KEY`); size unknown until run |
+| OpenRouter | no `gpt-oss-120b:free` any more (anonymous `GET /api/v1/models`); `:batch` is cheap but paid | no |
+| OrcaRouter | `-free` models, none of them gpt-oss (`GET /v1/models`); the lowest free tier also caps prompt size | no |
+| Puter.js | gpt-oss without a key, but billed to the browser user's Puter account (user pays); not a server-side API | no |
+
+None of the registry entries above has been called with a key yet: a key, then one tool-calling request, before a
+run. Whether Vercel's OpenAI-compatible endpoint takes `providerOptions` in the body as its AI SDK does is the first
+thing that request checks.
+
+Units a month at Vercel: pilot 3's ERROR-unit means for arms A–D, about 36,000 tokens in and 9,000 out a unit, at
+$0.10 / $0.50 per M is about $0.008 a unit; $5 / $0.008 is about 600. An estimate, not measured.
 
 ## Gemini Flash (second model)
 
@@ -67,3 +78,5 @@ reports.
 [scaleway]: https://www.scaleway.com/generative-apis/
 [hf]: https://huggingface.co/docs/inference-providers/pricing
 [ollama]: https://ollama.com/pricing
+[vercel]: https://vercel.com/docs/ai-gateway/pricing
+[vercel-oss]: https://vercel.com/ai-gateway/models/gpt-oss-120b

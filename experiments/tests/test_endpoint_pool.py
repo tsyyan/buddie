@@ -165,6 +165,24 @@ class Client(unittest.TestCase):
         self.assertIn("/accounts/acc/", url)
         self.assertEqual(cf.model_ids["openai/gpt-oss-120b"], "@cf/openai/gpt-oss-120b")
 
+    def test_extra_body_pins_a_gateway_backend(self):
+        ep = ep_mod.REGISTRY["vercel-baseten"]
+        send = Script()
+        cl = EndpointClient(ep, "openai/gpt-oss-120b", Pace(ep), send=send, environ={"AI_GATEWAY_API_KEY": "k"})
+        cl.chat([], None)
+        body = send.calls[0][2]
+        self.assertEqual(body["model"], "openai/gpt-oss-120b")
+        self.assertEqual(body["providerOptions"], {"gateway": {"only": ["baseten"]}})
+
+    def test_402_spends_the_endpoint(self):
+        send = Script(a=[(402, {}, b"insufficient credits")])
+        pace = Pace(A)
+        cl = EndpointClient(A, "m", pace, send=send, environ={})
+        with self.assertRaises(Spent):
+            cl.chat([], None)
+        with self.assertRaises(Spent):
+            pace.acquire()
+
     def test_a_4xx_is_an_error_not_a_retry(self):
         send = Script(a=[(400, {}, b"bad request")])
         cl = EndpointClient(A, "m", Pace(A), send=send, environ={})

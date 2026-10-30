@@ -51,6 +51,7 @@ class Endpoint:
     tpd: int | None = None
     concurrency: int = 1
     url_env: tuple[str, ...] = ()  # environment variables the url needs, as {NAME}
+    extra: dict = field(default_factory=dict)  # added to every request body (e.g. a gateway's routing options)
 
     def resolve(self, environ=os.environ) -> tuple[str, str]:
         """The url and key from the environment; raises Spent when something is missing."""
@@ -66,7 +67,8 @@ class Endpoint:
 
 
 GPT_OSS = {"openai/gpt-oss-120b": {"ovh": "gpt-oss-120b", "cloudflare": "@cf/openai/gpt-oss-120b",
-                                   "sambanova": "gpt-oss-120b", "cerebras": "gpt-oss-120b", "scaleway": "gpt-oss-120b"},
+                                   "sambanova": "gpt-oss-120b", "cerebras": "gpt-oss-120b", "scaleway": "gpt-oss-120b",
+                                   "fastrouter": "openai/gpt-oss-120b:free"},
            "openai/gpt-oss-20b": {"ovh": "gpt-oss-20b", "cloudflare": "@cf/openai/gpt-oss-20b"}}
 
 
@@ -96,7 +98,16 @@ REGISTRY = {
                          _ids("cerebras"), rpm=5, tpm=30_000, tpd=1_000_000),
     "scaleway": Endpoint("scaleway", "https://api.scaleway.ai/v1/chat/completions", "SCALEWAY_API_KEY",
                          _ids("scaleway")),
+    "fastrouter": Endpoint("fastrouter", "https://go.fastrouter.ai/api/v1/chat/completions", "FASTROUTER_API_KEY",
+                           _ids("fastrouter")),
 }
+# Vercel AI Gateway: $5 of credits every 30 days for a team that has never paid, usable on gpt-oss-120b at every
+# backend it lists. One endpoint per backend, pinned with providerOptions.gateway.only, so a job never changes
+# backend; they share one key and one $5 (the pool sees that as each one's 429s and 402s).
+for _backend in ("baseten", "groq", "cerebras", "nebius", "parasail", "together", "bedrock"):
+    REGISTRY[f"vercel-{_backend}"] = Endpoint(
+        f"vercel-{_backend}", "https://ai-gateway.vercel.sh/v1/chat/completions", "AI_GATEWAY_API_KEY",
+        extra={"providerOptions": {"gateway": {"only": [_backend]}}})
 
 
 # ---- pace ----------------------------------------------------------------------------------------------------
@@ -290,7 +301,7 @@ class EndpointClient:
         self.temperature, self.max_tokens, self.user_agent = temperature, max_tokens, user_agent
 
     def chat(self, messages: list[dict], tools: list | None) -> tuple[dict, dict]:
-        body = {"model": self.model, "messages": messages, "max_tokens": self.max_tokens}
+        body = {"model": self.model, "messages": messages, "max_tokens": self.max_tokens, **self.ep.extra}
         if self.temperature is not None:
             body["temperature"] = self.temperature
         if tools:
@@ -312,6 +323,10 @@ class EndpointClient:
             if status >= 500:
                 self.pace.failed()
                 continue
+            if status == 402:  # credits spent (a gateway's free allowance): out for this run
+                with self.pace.lock:
+                    self.pace.spent = Spent(f"{self.ep.name}: HTTP 402, credits spent: {raw[:120]!r}")
+                raise self.pace.spent
             if status >= 400:
                 raise TransportError(f"HTTP {status}: {raw[:300]!r}")
             try:
