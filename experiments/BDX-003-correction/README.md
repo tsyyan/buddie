@@ -5,9 +5,9 @@ Status 2026-10-30: built, tested without a model, one pilot run on Groq (below).
 | File | What it does |
 |---|---|
 | `units.py` | 251 units from the blind labels of E008 and E011 (a quotation, its paragraph, its link, ERROR or OK) |
-| `refetch.py` | fetches the sources again (direct, then web archive); keeps a unit only if its label still holds |
-| `arms.py` | runs arms A (pass-through), B (self-check with a source tool), C (B plus buddie's feedback) |
-| `judge.py` | judges the final paragraphs with an independent matcher (not buddie), pairs the arms, writes an audit sheet |
+| `refetch.py` | drops units whose paragraph lacks their link; fetches the sources again (direct, then web archive); keeps a unit only if its label still holds |
+| `arms.py` | runs arms A (pass-through), B (self-check with a source tool), C (B plus buddie's feedback), D (A's instruction, the tool, buddie's feedback) |
+| `judge.py` | judges the final paragraphs with an independent matcher (not buddie), splits REMOVED, pairs the arms, writes an audit sheet |
 | `common.py` | the matcher, page text, file helpers |
 
 ## Run
@@ -82,6 +82,34 @@ What it suggests: a model told to check its quotations with a source tool alread
 buddie adds little on top in that setting. Models mostly REMOVE or paraphrase a false quote rather than restore the
 source's words, and some REMOVED rows may be correct replacement quotes the judge does not recognize (similarity to
 the original under 0.6).
+
+### Pilot 1, REMOVED rows read by hand (step 1, 2026-10-30)
+
+Artifact downloaded to `data/pilot1/` (ignored by git); the rows are dumped in `data/pilot1/removed_rows.txt`.
+13 REMOVED rows (B 6, C 7), read against the unit's label and evidence:
+
+| what the model did | rows | units |
+|---|---:|---|
+| paraphrase without quotation marks, source lacks the words (AGENT_ABSENT): what ASK_BC asks for | 6 | F089 C, F124 C, F068 B+C, F107 B+C |
+| paraphrase, source has near words (AGENT_ALTERED): not restored | 3 | F173 B+C, F001 B |
+| false wording kept, only the quotation marks dropped, still linked | 2 | F228 B, F001 C |
+| no paragraph: "the source link isn't provided", asks for the URL | 2 | F035 B+C |
+| a correct replacement quote from the source | **0** | |
+
+What follows:
+
+- REPLACED_CORRECT (step 2) would not change pilot 1: no REMOVED row is a correct quote the judge missed.
+  The two ERROR units counted CORRECT (F200, F261, both arms) restored the source's words.
+- REMOVED mixes a good outcome (paraphrase where the source lacks the words, as instructed) with two bad ones:
+  the false words kept without quotation marks under the same link, and no paragraph at all.
+- F035 is a unit defect, not a model failure: its paragraph is a bare blockquote with no link. In `units.json`
+  55 of 251 units (ERROR 50, OK 5) do not contain their `url` in the paragraph (footnote references such as
+  `[^30]`, or no link). In arms B and C the model cannot reach the source for them.
+- On AGENT_ALTERED units no B or C row restored the exact words; only AGENT_ABSENT-style paraphrase happened.
+
+Done after this reading (PROTOCOL.md, "Changes after data", owner's decision): arm D added; units without their
+link excluded in `refetch.py`; REMOVED split into NO_PARAGRAPH / UNQUOTED_KEPT / REPLACED_CORRECT / PARAPHRASED
+(`removed_as`, secondary). On pilot 1's 13 rows the split reproduces the hand reading. `pilot.env` runs A–D.
 
 ### Next steps, in order
 

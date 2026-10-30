@@ -78,3 +78,19 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
 - 2026-10-30: the source refetch uses the web archive only when the live page does not bear the label out (a full
   archive search took minutes per page), searching the newest 3 Common Crawl crawls. Eligibility of the 40-unit pilot
   pool: 34 eligible (ERROR 25, OK 9).
+- 2026-10-30, after pilot 1 (run 40996423234) and before the main run, decided by the owner. Read by hand, the 13
+  REMOVED rows of pilot 1 were: 6 paraphrases where the source lacks the words (what B and C are asked to do), 3
+  paraphrases where the source has near words, 2 with the false words kept and only the quotation marks dropped,
+  2 with no paragraph at all (the model asked for the link), none a correct replacement quote. Three changes:
+  1. **Arm D**: A's instruction (no request to check), the `source_text` tool available, buddie's feedback as in C.
+     D against A is what the hook alone fixes; D against B is the hook against asking the model to check itself.
+     Reported as secondary comparisons (D−A, D−B on paired ERROR and OK units); the primary endpoint stays C−B.
+  2. **Units without their link**: a unit whose paragraph does not contain its URL (55 of 251, mostly footnote
+     references such as `[^30]`) is excluded before fetching (`no_link_in_paragraph`): a model checking the
+     paragraph cannot reach that source.
+  3. **REMOVED split** (secondary only; CORRECT/WRONG/REMOVED and the primary endpoint unchanged): NO_PARAGRAPH (under
+     30 % of the paragraph's words left), UNQUOTED_KEPT (a run of words at least 0.85 like the target, without
+     quotation marks), REPLACED_CORRECT (a new quoted span of 4+ words that is in the source), PARAPHRASED. The two
+     thresholds were set after reading pilot 1 and reproduce the hand reading of its 13 rows; one row (similarity
+     0.85, "every groundhog looks different") sits on the UNQUOTED_KEPT boundary. The audit (20 %) checks them.
+  Pilot 2 (arms A–D, same model) checks the plumbing of these changes and is not pooled either.

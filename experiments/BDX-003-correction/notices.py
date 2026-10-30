@@ -26,7 +26,9 @@ def lines(data: Path) -> list[tuple[str, str]]:
                     f"errors {len(errs)}" + (f"; first: {errs[0][:300]}" if errs else "")))
     if (data / "judged" / "summary.json").exists():
         s = read_json(data / "judged" / "summary.json")
-        cells = [f"{k}: n {c['n']}, correct {c['correct']}, wrong {c['wrong']}, removed {c['removed']}, "
+        cells = [f"{k}: n {c['n']}, correct {c['correct']}, wrong {c['wrong']}, removed {c['removed']} "
+                 f"(no paragraph {c.get('no_paragraph')}, unquoted kept {c.get('unquoted_kept')}, "
+                 f"replaced correct {c.get('replaced_correct')}, paraphrased {c.get('paraphrased')}), "
                  f"req {c['mean_requests']}, tok {c['mean_prompt_tokens']}/{c['mean_completion_tokens']}, "
                  f"failed {c['failed_runs']}" for k, c in s["cells"].items()]
         for i in range(0, len(cells), 3):

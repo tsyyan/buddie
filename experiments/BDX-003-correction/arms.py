@@ -1,4 +1,4 @@
-"""Run the three arms on eligible units with an OpenAI-compatible chat API (free tiers).
+"""Run the arms on eligible units with an OpenAI-compatible chat API (free tiers).
 
 Arms, same model, same paragraph, same system prompt:
   A  pass-through: "return the paragraph ready to send" (no tools);
@@ -6,8 +6,11 @@ Arms, same model, same paragraph, same system prompt:
   C  self-check + buddie: B, and after each answer buddie checks the paragraph against the same snapshot and, when a
      quote does not hold, returns the hook's own words (buddie/hook.py RETURNED, FIX) with the failing items, up to
      --rounds times. This is what the Claude Code Stop hook does, outside Claude Code.
+  D  A's instruction (no request to check) with the source_text tool available, and buddie's feedback as in C: the
+     hook catching an agent nobody asked to check its quotations (added after pilot 1, PROTOCOL.md).
 
-B and C get the identical source_text tool over the identical curated store; C's only extra is buddie's feedback.
+B, C and D get the identical source_text tool over the identical curated store; C's only extra over B is buddie's
+feedback, D's only difference from C is the instruction (A's).
 
     python arms.py --units data/units.json --eligible data/eligible.json --store data/store \
         --provider github --model openai/gpt-4.1-mini --n 20 --out data/runs.jsonl
@@ -195,11 +198,11 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
 def run_arm(client, store, unit: dict, arm: str, rounds: int) -> dict:
     rec = {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "feedback_rounds": 0,
            "buddie": []}
-    ask = ASK_A if arm == "A" else ASK_BC
+    ask = ASK_BC if arm in ("B", "C") else ASK_A
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": f"Paragraph:\n\n{unit['paragraph']}\n\n{ask}"}]
     text = answer(client, store, messages, arm != "A", rec)
-    if arm == "C":
+    if arm in ("C", "D"):
         for _ in range(rounds):
             fb, receipt = buddie_feedback(store, text)
             rec["buddie"].append(receipt)
@@ -238,7 +241,7 @@ def main(argv=None) -> int:
     ap.add_argument("--arms", default="A,B,C")
     ap.add_argument("--n", type=int, help="units (a seeded, stratified sample of the eligible ones)")
     ap.add_argument("--reps", type=int, default=1)
-    ap.add_argument("--rounds", type=int, default=2, help="buddie feedback rounds in arm C")
+    ap.add_argument("--rounds", type=int, default=2, help="buddie feedback rounds in arms C and D")
     ap.add_argument("--seed", type=int, default=20261030)
     ap.add_argument("--rpm", type=float, default=8)
     ap.add_argument("--max-requests", type=int, default=400)
@@ -254,6 +257,8 @@ def main(argv=None) -> int:
                     None if a.no_temperature else a.temperature)
     done = {(r["unit"], r["arm"], r["model"], r["rep"]) for r in read_jsonl(a.out)}
     arms = a.arms.split(",")
+    if set(arms) - {"A", "B", "C", "D"}:
+        ap.error(f"unknown arm in --arms {a.arms!r}")
     rng = random.Random(a.seed + 1)
     try:
         for unit in select(units, eligible, a.n, a.seed):

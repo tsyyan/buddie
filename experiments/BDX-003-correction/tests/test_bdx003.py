@@ -41,10 +41,11 @@ class Scripted:
     """A stand-in for run.Client: answers from a list, records what it was sent."""
 
     def __init__(self, replies):
-        self.replies, self.sent = list(replies), []
+        self.replies, self.sent, self.tools = list(replies), [], []
 
     def chat(self, messages, tools):
         self.sent.append([dict(m) for m in messages])
+        self.tools.append(tools)
         return self.replies.pop(0), {"prompt_tokens": 10, "completion_tokens": 5}
 
 
@@ -83,6 +84,11 @@ class Eligibility(unittest.TestCase):
         self.assertEqual(refetch.consistent(UNIT_ERR, text.replace("2027", "2030"))[1], "error_quote_now_matched")
         self.assertEqual(refetch.consistent(UNIT_ERR, text.replace("2027", "2028"))[1], "evidence_not_matched")
         self.assertEqual(refetch.consistent(UNIT_OK, "short")[1], "unreadable")
+
+    def test_a_paragraph_without_its_link_is_excluded(self):
+        self.assertTrue(refetch.linked(UNIT_ERR))
+        self.assertTrue(refetch.linked(UNIT_ERR | {"url": URL + "#:~:text=fully%20funded"}))
+        self.assertFalse(refetch.linked(UNIT_ERR | {"paragraph": "The plan is “fully funded through 2030”.[^3]"}))
 
 
 class Tool(unittest.TestCase):
@@ -129,6 +135,25 @@ class ArmC(unittest.TestCase):
             self.assertIn("2027", client.sent[1][-1]["content"])  # the tool result
 
 
+class ArmD(unittest.TestCase):
+    def test_a_instruction_with_the_tool_and_buddies_feedback(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            s = store_with_page(tmp)
+            client = Scripted([{"content": UNIT_ERR["paragraph"]}, {"content": UNIT_OK["paragraph"]}])
+            rec = run.run_arm(client, s, UNIT_ERR, "D", rounds=2)
+            self.assertIn(run.ASK_A, client.sent[0][-1]["content"])
+            self.assertNotIn("source_text tool", client.sent[0][-1]["content"])
+            self.assertEqual(client.tools[0], [run.TOOL])
+            self.assertEqual((rec["feedback_rounds"], rec["final"]), (1, UNIT_OK["paragraph"]))
+            self.assertIn("sent this text back", client.sent[1][-1]["content"])
+
+    def test_arm_a_still_has_no_tool(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            client = Scripted([{"content": UNIT_ERR["paragraph"]}])
+            rec = run.run_arm(client, store_with_page(tmp), UNIT_ERR, "A", rounds=2)
+            self.assertEqual((client.tools, rec["buddie"]), ([None], []))
+
+
 class Judge(unittest.TestCase):
     def test_outcomes(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -137,8 +162,25 @@ class Judge(unittest.TestCase):
         self.assertEqual(judge.judge(UNIT_ERR, UNIT_OK["paragraph"], text, 0.6)["outcome"], "CORRECT")
         para = f"The committee said the plan is funded for years ([1]({URL}))."
         self.assertEqual(judge.judge(UNIT_ERR, para, text, 0.6)["outcome"], "REMOVED")
+        self.assertIsNone(judge.judge(UNIT_ERR, UNIT_ERR["paragraph"], text, 0.6)["removed_as"])
         j = judge.judge(UNIT_ERR, UNIT_ERR["paragraph"] + "\nbuddie: the 2030 quote is unverified.", text, 0.6)
         self.assertEqual((j["outcome"], j["flagged"]), ("WRONG", True))
+
+    def test_removed_is_split(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            text = common.page_text(store_with_page(tmp), URL)[1]
+        cases = {
+            "PARAPHRASED": f"The committee said the plan is funded for years ([1]({URL})).",
+            "UNQUOTED_KEPT": f"The committee said the plan is fully funded through 2030 ([1]({URL})).",
+            "REPLACED_CORRECT": f"The committee said “construction will start in the spring” ([1]({URL})).",
+            "NO_PARAGRAPH": "I cannot check this quotation without its source. Could you share the link?",
+        }
+        for expected, final in cases.items():
+            j = judge.judge(UNIT_ERR, final, text, 0.6)
+            self.assertEqual((j["outcome"], j["removed_as"]), ("REMOVED", expected), expected)
+        # a new quote that is not in the source is not a replacement
+        wrong = f"The committee said “construction will start in the autumn” ([1]({URL}))."
+        self.assertEqual(judge.judge(UNIT_ERR, wrong, text, 0.6)["removed_as"], "PARAPHRASED")
 
     def test_summary_pairs_units_across_arms(self):
         rows = []
@@ -150,6 +192,11 @@ class Judge(unittest.TestCase):
         p = s["paired"]["m | ERROR | C-B"]
         self.assertEqual((p["n"], p["diff"], p["only_a_bad"], p["only_b_bad"]), (6, -0.667, 4, 0))
         self.assertEqual(s["cells"]["m | B | ERROR"]["wrong"], 1.0)
+        rows += [r | {"arm": "D", "outcome": "REMOVED", "removed_as": "PARAPHRASED"} for r in rows if r["arm"] == "B"]
+        s = judge.summarize(rows)
+        self.assertEqual(s["paired"]["m | ERROR | D-B"]["diff"], -1.0)
+        self.assertEqual(s["cells"]["m | D | ERROR"]["paraphrased"], 1.0)
+        self.assertIn("paraphrased", judge.markdown(s))
 
 
 if __name__ == "__main__":

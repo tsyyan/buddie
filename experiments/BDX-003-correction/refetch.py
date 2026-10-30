@@ -8,6 +8,9 @@ ELIGIBLE when the independent matcher (common.in_text) agrees with its blind lab
 - ERROR, altered: the quote is not in the page text, and the labeller's evidence (the source's real words) is;
 - ERROR, absent: the quote is not in the page text, and the page has readable text.
 
+A unit whose paragraph does not contain its link (a footnote reference such as [^30], or no link) is excluded
+first, without fetching (reason no_link_in_paragraph): a model checking the paragraph cannot reach that source.
+
 Stratum SAME: the chosen snapshot has the SHA-256 the labels were made on; STABLE: different bytes, label still holds.
 Everything else is excluded with a reason. The curated store (--store) gets exactly one snapshot per URL, the chosen
 one, so the arms, buddie in arm C and the judge all read the same bytes.
@@ -22,6 +25,11 @@ from collections import Counter
 from common import in_text, read_json, write_json
 
 MIN_CHARS = 500
+
+
+def linked(unit: dict) -> bool:
+    """The paragraph contains the unit's link (without its #fragment), so a model can look the source up."""
+    return unit["url"].split("#", 1)[0] in unit["paragraph"]
 
 
 def consistent(unit: dict, text: str | None) -> tuple[bool, str]:
@@ -60,6 +68,9 @@ def main(argv=None) -> int:
     if a.only:
         keep = set(a.only.split(","))
         units = [u for u in units if u["id"] in keep]
+    rows = [{"id": u["id"], "url": u["url"].split("#", 1)[0], "gold": u["gold"], "eligible": False,
+             "reason": "no_link_in_paragraph"} for u in units if not linked(u)]
+    units = [u for u in units if linked(u)]
     if a.sample:
         import random
         rng = random.Random(a.seed)
@@ -72,7 +83,6 @@ def main(argv=None) -> int:
     raw, curated = Store(a.raw), Store(a.store)
     fetched: set[str] = set()
     archived: set[str] = set()
-    rows = []
     for i, u in enumerate(units, 1):
         url = u["url"].split("#", 1)[0]
         if url not in fetched:
