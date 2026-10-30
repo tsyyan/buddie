@@ -38,7 +38,13 @@ Leads from [awesome-freellm-apis][freellm]; figures are from the provider's own 
 | OrcaRouter | `-free` models, none of them gpt-oss (`GET /v1/models`); the lowest free tier also caps prompt size | no |
 | Puter.js | gpt-oss without a key, but billed to the browser user's Puter account (user pays); not a server-side API | no |
 
-None of the registry entries above has been called with a key yet: a key, then one tool-calling request, before a
+Probe of 2026-10-31 from Actions (`endpoint-probe` workflow, run 41134971156): OVH, Groq and Cloudflare answered
+with a `source_text` tool call (Cloudflare's first call from Actions). Vercel refused every backend with HTTP 403
+`customer_verification_required`: the key is accepted, but the free credits unlock only with a credit card on
+file; nothing has been paid and the free tier would stay free until a payment is made. Whether `providerOptions`
+pins a backend is still untested.
+
+Apart from that probe, none of the registry entries above has been called with a key yet: a key, then one tool-calling request, before a
 run. Whether Vercel's OpenAI-compatible endpoint takes `providerOptions` in the body as its AI SDK does is the first
 thing that request checks.
 

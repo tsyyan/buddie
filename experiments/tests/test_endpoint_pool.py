@@ -174,14 +174,15 @@ class Client(unittest.TestCase):
         self.assertEqual(body["model"], "openai/gpt-oss-120b")
         self.assertEqual(body["providerOptions"], {"gateway": {"only": ["baseten"]}})
 
-    def test_402_spends_the_endpoint(self):
-        send = Script(a=[(402, {}, b"insufficient credits")])
-        pace = Pace(A)
-        cl = EndpointClient(A, "m", pace, send=send, environ={})
-        with self.assertRaises(Spent):
-            cl.chat([], None)
-        with self.assertRaises(Spent):
-            pace.acquire()
+    def test_an_account_refusal_spends_the_endpoint(self):
+        for status in (401, 402, 403):
+            send = Script(a=[(status, {}, b"customer_verification_required")])
+            pace = Pace(A)
+            cl = EndpointClient(A, "m", pace, send=send, environ={})
+            with self.assertRaises(Spent):
+                cl.chat([], None)
+            with self.assertRaises(Spent):
+                pace.acquire()
 
     def test_a_4xx_is_an_error_not_a_retry(self):
         send = Script(a=[(400, {}, b"bad request")])

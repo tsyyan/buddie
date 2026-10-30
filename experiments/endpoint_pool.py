@@ -323,9 +323,9 @@ class EndpointClient:
             if status >= 500:
                 self.pace.failed()
                 continue
-            if status == 402:  # credits spent (a gateway's free allowance): out for this run
+            if status in (401, 402, 403):  # the key or the account, not this job: out for this run
                 with self.pace.lock:
-                    self.pace.spent = Spent(f"{self.ep.name}: HTTP 402, credits spent: {raw[:120]!r}")
+                    self.pace.spent = Spent(f"{self.ep.name}: HTTP {status}: {raw[:160]!r}")
                 raise self.pace.spent
             if status >= 400:
                 raise TransportError(f"HTTP {status}: {raw[:300]!r}")
