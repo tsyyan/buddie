@@ -48,7 +48,7 @@ TOOL = {"type": "function", "function": {
     "parameters": {"type": "object", "additionalProperties": False, "required": ["url", "query"], "properties": {
         "url": {"type": "string", "description": "the link as it appears in the paragraph"},
         "query": {"type": "string", "description": "words to look for, e.g. the quotation"}}}}}
-MAX_TOOL_STEPS = 6
+MAX_TOOL_STEPS = 8
 WORD = re.compile(r"\w+", re.U)
 
 
@@ -181,11 +181,14 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
             except (ValueError, KeyError, TypeError) as e:
                 out = f"tool error: {e}"
             messages.append({"role": "tool", "tool_call_id": c.get("id"), "content": out})
-    messages.append({"role": "user", "content": "Reply now with the paragraph only."})
-    msg, usage = client.chat(messages, None)
+    # the tools stay declared (some providers reject a tool call when none are), but another call ends the run
+    messages.append({"role": "user", "content": "No more tool calls. Reply now with the paragraph only."})
+    msg, usage = client.chat(messages, [TOOL] if tools else None)
     rec["requests"] += 1
     for k in ("prompt_tokens", "completion_tokens"):
         rec[k] += int(usage.get(k) or 0)
+    if msg.get("tool_calls"):
+        raise RuntimeError(f"still calling tools after {MAX_TOOL_STEPS} steps")
     return msg.get("content") or ""
 
 
