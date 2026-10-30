@@ -124,7 +124,7 @@ class Client:
     def chat(self, messages: list[dict], tools: list | None) -> tuple[dict, dict]:
         if self.left <= 0:
             raise Stop("request budget spent")
-        body = {"model": self.model, "messages": messages, "max_tokens": 2000}
+        body = {"model": self.model, "messages": messages, "max_tokens": 4000}
         if self.temperature is not None:
             body["temperature"] = self.temperature
         if tools:

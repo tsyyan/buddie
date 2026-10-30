@@ -72,6 +72,9 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   (`models.github.ai` answers every request, including its model catalog, with a plain-text `OK`; three pilot runs
   recorded only failed calls, no model output). The first model moves to Groq (`llama-3.3-70b-versatile`, key as the
   repository secret `GROQ_API_KEY`); GitHub Models stays a provider for when it answers. Nothing else changes.
+  Later the same day, still before any model output: `llama-3.3-70b-versatile` is no longer offered by Groq; the
+  pilot model is `openai/gpt-oss-120b` (Groq), the second model `gemini-3.8-flash` (Gemini free tier), names taken
+  from the providers' model lists. Answer limit raised to 4,000 tokens (gpt-oss reasons before answering).
 - 2026-10-30: the source refetch uses the web archive only when the live page does not bear the label out (a full
   archive search took minutes per page), searching the newest 3 Common Crawl crawls. Eligibility of the 40-unit pilot
   pool: 34 eligible (ERROR 25, OK 9).
