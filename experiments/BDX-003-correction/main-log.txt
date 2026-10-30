@@ -1,0 +1,2 @@
+# main run chunks (UTC): when a chunk was started and what the previous one left
+2026-10-30T07:14Z chunk 1 started after pilot 3 (run 41002796371: 59 rows, 15 units, 1 failed run)
