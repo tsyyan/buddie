@@ -17,7 +17,6 @@ one, so the arms, buddie in arm C and the judge all read the same bytes.
 from __future__ import annotations
 
 import argparse
-import time
 from collections import Counter
 
 from common import in_text, read_json, write_json
@@ -43,6 +42,8 @@ def candidates(raw, url: str) -> list[dict]:
 
 
 def main(argv=None) -> int:
+    import os
+    os.environ.setdefault("VERBATIM_CC_CRAWLS", "3")  # the newest crawls only: 24 take minutes per page
     from buddie.verbatim import access
     from buddie.verbatim.store import Store
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -70,21 +71,24 @@ def main(argv=None) -> int:
         units = err[:a.sample - n_good] + good[:n_good]
     raw, curated = Store(a.raw), Store(a.store)
     fetched: set[str] = set()
+    archived: set[str] = set()
     rows = []
-    for u in units:
+    for i, u in enumerate(units, 1):
         url = u["url"].split("#", 1)[0]
         if url not in fetched:
             fetched.add(url)
             if not candidates(raw, url):
-                raw.fetch(url)
-            have = candidates(raw, url)
-            if not a.no_archive and not any(e["sha256"] == u.get("labelled_sha256") for e in have):
-                if not any(e.get("via") == "archive" for e in have):
-                    try:
-                        access.archive(raw, url)
-                    except Exception as error:  # noqa: BLE001 - recorded, the unit is then judged on what exists
-                        print("archive failed", url, str(error)[:80])
-                    time.sleep(1)
+                raw.fetch(url, timeout=20)
+        # the web archive only when no snapshot we have bears the label out (it is slow, and a capture may be of
+        # another time than the label)
+        if not a.no_archive and not any(consistent(u, _text(raw, e))[0] for e in candidates(raw, url)) \
+                and url not in archived:
+            archived.add(url)
+            try:
+                access.archive(raw, url)
+            except Exception as error:  # noqa: BLE001 - recorded, the unit is then judged on what exists
+                print("archive failed", url, str(error)[:80])
+        print(f"[{i}/{len(units)}] {u['id']}", flush=True)
         options = candidates(raw, url)
         # the labelled bytes first, then direct fetches before archive captures, newest first
         options.sort(key=lambda e: (e["sha256"] != u.get("labelled_sha256"), e.get("via") == "archive",
