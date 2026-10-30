@@ -138,8 +138,12 @@ class Client:
                 "Content-Type": "application/json", "Authorization": f"Bearer {self.key}"})
             try:
                 with urllib.request.urlopen(req, timeout=180) as r:
-                    data = json.loads(r.read())
-                return data["choices"][0]["message"], data.get("usage") or {}
+                    raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type")
+                try:
+                    data = json.loads(raw)
+                    return data["choices"][0]["message"], data.get("usage") or {}
+                except (ValueError, KeyError, IndexError, TypeError) as e:
+                    raise RuntimeError(f"HTTP {status} {ctype}: not a chat completion: {raw[:200]!r}") from e
             except urllib.error.HTTPError as e:
                 after = float(e.headers.get("Retry-After") or 0) or min(120.0, 5 * 2 ** attempt)
                 if e.code == 429 and after > self.max_wait:
