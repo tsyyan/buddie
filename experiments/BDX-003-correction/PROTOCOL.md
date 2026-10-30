@@ -99,3 +99,8 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   unit runs at one provider: a unit begun at a provider waits for it when its limit is reached, it is never split.
   Rows record the provider; the per-model tables pool providers, and `judge.py` reports the cells per provider next
   to them. Gemini Flash stays the second model, from Google only.
+- 2026-10-31, during the main run (60 of 146 units done): the judge's quoted-span pattern stopped at 600 characters,
+  so a quotation longer than that was never found and its run counted REMOVED in every arm, arm A included. Two
+  eligible units have such quotes (E011:F044 OK, 779 characters; E011:F053 ERROR, 996). The limit is now 2,000. Found
+  from arm A's rows (pass-through, so arm-neutral), not from a difference between arms; the judge re-reads every run,
+  no model answer is redone, and eligibility (which does not use this pattern) is unchanged.

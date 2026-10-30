@@ -61,7 +61,8 @@ def in_text(quote: str, page: str) -> bool:
     return True
 
 
-QUOTED = re.compile(r'“([^”]{3,600})”|"([^"\n]{3,600})"|«([^»]{3,600})»|„([^“”]{3,600})[“”]')
+# up to 2,000 characters: the longest unit quote is 996 (a 600 limit hid two units; PROTOCOL.md, 2026-10-31)
+QUOTED = re.compile(r'“([^”]{3,2000})”|"([^"\n]{3,2000})"|«([^»]{3,2000})»|„([^“”]{3,2000})[“”]')
 
 
 def quoted_spans(text: str) -> list[str]:

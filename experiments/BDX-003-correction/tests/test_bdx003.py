@@ -72,6 +72,13 @@ class Matcher(unittest.TestCase):
     def test_bracketed_insertion_is_a_gap(self):
         self.assertTrue(common.in_text("[A]t a nonhub airport", "at a nonhub airport, it takes fewer"))
 
+    def test_a_long_quote_is_seen(self):
+        long = " ".join(f"sentence {i} of a long passage." for i in range(40))  # over 1,000 characters
+        self.assertGreater(len(long), 1000)
+        self.assertEqual(common.quoted_spans(f'They wrote "{long}" ([1]({URL})).'), [long])
+        self.assertEqual(common.best_span(long, f"They wrote “{long}”.")[1], 1.0)
+        self.assertLessEqual(max(len(u["quote"]) for u in units_mod.build()), 2000)
+
     def test_best_span(self):
         span, sim = common.best_span("fully funded through 2030", "They said “fully funded through 2027” and “soon”.")
         self.assertEqual(span, "fully funded through 2027")
