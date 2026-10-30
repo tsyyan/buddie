@@ -47,6 +47,15 @@ here are public benchmark reports.
 - B and C share the source tool. A model that ignores the tool gets no source in B; C still gets buddie's feedback.
   That is the comparison intended: buddie's check against the model's own diligence.
 
+## Main run in chunks
+
+`main.env` sets the providers, model and arms; each push to `experiment/bdx-003-main` runs one chunk (job `main` of
+`bdx003.yml`): it restores `data/` from the newest Actions cache of earlier chunks (the first chunk fetches every
+unit's source), resumes `arms.py` until the providers' limits or `MINUTES`, judges every row so far and saves
+`data/` again. The annotation "BDX-003 main progress" says how many eligible units have every arm. To switch to the
+second model, change `MODEL` (and `PROVIDER=gemini`) in `main.env` and push: rows are keyed by model, the snapshots
+are shared.
+
 ## Current state and next steps (handoff, 2026-10-30)
 
 Written so a new session (Claude Code on the owner's machine) can pick this up without the previous chat.
