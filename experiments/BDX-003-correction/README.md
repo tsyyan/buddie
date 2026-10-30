@@ -1,7 +1,6 @@
 # BDX-003: correction of false quotations, with and without buddie
 
-Status 2026-10-30: built and tested without a model; the pilot runs in GitHub Actions on GitHub Models' free tier.
-No results yet. The question, arms, outcomes and stop rules are fixed in [PROTOCOL.md](PROTOCOL.md).
+Status 2026-10-30: built, tested without a model, one pilot run on Groq (below). No main-run results yet. The question, arms, outcomes and stop rules are fixed in [PROTOCOL.md](PROTOCOL.md).
 
 | File | What it does |
 |---|---|
@@ -43,3 +42,74 @@ here are public benchmark reports.
 - Pages changed since labelling; only units whose label still holds are used, so the sample shifts toward stable pages.
 - B and C share the source tool. A model that ignores the tool gets no source in B; C still gets buddie's feedback.
   That is the comparison intended: buddie's check against the model's own diligence.
+
+## Current state and next steps (handoff, 2026-10-30)
+
+Written so a new session (Claude Code on the owner's machine) can pick this up without the previous chat.
+
+### Where things are
+
+- Code: branch `experiment/bdx-003-correction`, PR [#84](https://github.com/tsyyan/buddie/pull/84) (open, CI
+  green, not merged). `experiment/bdx-003-pilot` is the same code; pushing to it runs the pilot job of
+  `.github/workflows/bdx003.yml`. `experiment/bdx-003-report` re-reads an earlier pilot's artifact (run id in
+  `REPORT_RUN`) and prints its numbers as annotations.
+- Secrets in the repository: `GROQ_API_KEY`, `GEMINI_API_KEY` (added by the owner 2026-10-30).
+  GitHub Models does not work from this repository's Actions: `models.github.ai` answers every request,
+  even its model catalog, with a plain-text `OK`. Not diagnosed further.
+- Model names that exist today (from the providers' model lists, 2026-10-30): Groq `openai/gpt-oss-120b`,
+  `openai/gpt-oss-20b`, `qwen/qwen3.8-27b`; Gemini `gemini-3.8-flash`, `gemini-3.5-flash`, `gemini-flash-latest`.
+  `llama-3.3-70b-versatile` and `gemini-2.5-flash` are gone for new users.
+- `pilot.env` sets what a push runs (now Groq `openai/gpt-oss-120b`, pool 40, n 16).
+
+### Pilot 1 (run 40996423234, Groq `openai/gpt-oss-120b`, seed 20261030)
+
+Eligibility: 34 of a 40-unit pool (ERROR 25, OK 9). Runs: 41 rows for 13–14 units before the run stopped,
+most likely at Groq's daily token limit (not confirmed: logs and artifacts cannot be read from the cloud session;
+download them with `gh run download 40996423234`). 4 failed runs, all HTTP 400 "Tool choice is none, but model
+called a tool" on the forced last step; fixed in `a7219e3` (tools stay declared, a model still calling tools after 8
+steps is a failed run).
+
+| arm | ERROR units still WRONG | CORRECT | REMOVED | mean requests | mean input tokens |
+|---|---|---|---|---:|---:|
+| A pass-through | 10 / 10 | 0 | 0 | 1.0 | ~590 |
+| B self-check | 1 / 9 | 2 | 6 | 4.2 | ~4,700 |
+| C B + buddie | 0 / 9 | 2 | 7 | 4.3 | ~6,100 |
+
+C − B on paired ERROR units: −0.125 (n 8, 95 % interval −0.375 to 0). OK units: 3, all kept correct in every arm.
+A pilot: not pooled with the main run, no claim from it (PROTOCOL.md).
+
+What it suggests: a model told to check its quotations with a source tool already removes nearly all false ones;
+buddie adds little on top in that setting. Models mostly REMOVE or paraphrase a false quote rather than restore the
+source's words, and some REMOVED rows may be correct replacement quotes the judge does not recognize (similarity to
+the original under 0.6).
+
+### Next steps, in order
+
+1. **Read the pilot rows by hand**: `gh run download 40996423234`, open `data/judged/audit_sheet.csv`, check the
+   REMOVED rows (removed, paraphrased, or replaced with a correct quote?).
+2. **Judge**: add an outcome for a replacement quote that is in the source (REPLACED_CORRECT), so REMOVED means only
+   dropped or paraphrased. Add a unit test for it.
+3. **Arm D** (proposed to the owner, not yet approved in PROTOCOL.md): A's instruction (no request to check) plus
+   buddie's feedback, the source tool available. It is the realistic case: agents are usually not told to check
+   quotations, and the hook catches them there. D vs A = what the hook alone fixes; D vs B = the hook against asking
+   the model to check itself. Record it in PROTOCOL.md under "Changes after data" (decided after the pilot, before
+   the main run).
+4. **Main run**: every eligible unit (about 200 of 251 expected), Groq `openai/gpt-oss-120b` and Gemini
+   `gemini-3.8-flash`, arms A, B, C (and D if approved). Groq's free tier seems to allow about 15 units a day at
+   this token use, so run it locally where `arms.py` resumes from `data/runs.jsonl`, or in Actions with a persistent
+   copy of `data/` (an Actions run starts empty: download the previous artifact first). Refetch once and reuse
+   `data/store` for every model and day, so all arms read the same bytes.
+5. **Audit**: a person labels a random 20 % of `audit_sheet.csv` without the arm (PROTOCOL.md).
+6. **Product confirmation** (PROTOCOL.md): 20–30 full reports in Claude Code, plugin on against a clean
+   `CLAUDE_CONFIG_DIR` with no plugin (the owner has `buddie@synced` installed globally: the no-plugin arm must not
+   load it).
+
+### Elsewhere in the project (same day)
+
+- Released 2.0.4, 2.0.5 and 2.0.6; `plugin-stable` is the Claude Code channel and is protected (ruleset
+  `plugin-stable-channel`). The Anthropic directory submission tracking `plugin-stable` was sent 2026-10-30 with
+  the webhook connected; avoid releases while it is in review.
+- Listings to update by hand: MCPRush (name `buddie`, icon, 8 tools, access labels from `docs/listing-copy.md`),
+  Glama (name, icon), Cline #336 and Kilo #484 (bump from 2.0.1).
+- BDX-002 (GitHub evidence efficiency) is shelved: it measures cost of reading GitHub through buddie, not whether
+  fewer false claims reach a person, and is not runnable as it stands.
