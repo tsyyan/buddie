@@ -17,6 +17,23 @@ Estimates of units a day: pilot 1's mean tokens per run (A about 600 in / 530 ou
 requests per unit would take about 7 minutes a unit; its daily ceiling, if any, is not documented and is found by
 running.
 
+## More candidates for gpt-oss-120b (checked 2026-10-31)
+
+Leads from [awesome-freellm-apis][freellm]; figures are from the provider's own page or a live call unless a row says otherwise.
+
+| provider | free terms | use |
+|---|---|---|
+| SambaNova | free tier without a card: gpt-oss-120b 20 RPM, 20 RPD, 200K TPD ([rate limits][samba]); model listed at `api.sambanova.ai/v1/models` without a key | in `endpoint_pool.REGISTRY` (`SAMBANOVA_API_KEY`); about 1 unit a day, a spare |
+| Cerebras | Free Trial: gpt-oss-120b 5 RPM, 30K uncached TPM, 1M TPH and TPD ([rate limits][cerebras]); third-party pages say the trial needs a payment method and its $5 credit lasts 30 days, not confirmed on Cerebras's pages | in the registry (`CEREBRAS_API_KEY`); a trial, about 20 units a day while it lasts |
+| Scaleway | 1M free tokens once for a new customer, then paid: from a web search of [Scaleway's page][scaleway], the page itself not read; `api.scaleway.ai/v1/models` answers 401 without a key | in the registry (`SCALEWAY_API_KEY`); a one-off, about 20 units |
+| Kilo Code | gpt-oss-120b is a paid model: an anonymous call answers `PAID_MODEL_AUTH_REQUIRED` | no |
+| Hugging Face router | lists gpt-oss-120b; free accounts get no Inference Providers credits ([pricing][hf]) | no |
+| Ollama Cloud | pay per token, gpt-oss:120b priced ([pricing][ollama]); no free tier | no |
+| GitHub Models | `models.github.ai` answers every request with a plain-text `OK`, from a local machine too | no |
+| LLM7.io, OpenCode Zen, Chutes | no gpt-oss-120b in their model lists (anonymous `GET /v1/models`) | no |
+
+None of the three in the registry has been called with a key yet: a key, then one tool-calling request, before a run.
+
 ## Gemini Flash (second model)
 
 Google AI Studio key (`GEMINI_API_KEY`, a repository secret), model `gemini-3.8-flash`. Google no longer publishes
@@ -44,3 +61,9 @@ reports.
 [cf-price]: https://developers.cloudflare.com/workers-ai/platform/pricing/
 [cf-model]: https://developers.cloudflare.com/workers-ai/models/gpt-oss-120b/
 [nim]: https://build.nvidia.com/openai/gpt-oss-120b
+[freellm]: https://github.com/open-free-llm-api/awesome-freellm-apis
+[samba]: https://docs.sambanova.ai/docs/en/models/rate-limits
+[cerebras]: https://inference-docs.cerebras.ai/support/rate-limits
+[scaleway]: https://www.scaleway.com/generative-apis/
+[hf]: https://huggingface.co/docs/inference-providers/pricing
+[ollama]: https://ollama.com/pricing

@@ -65,7 +65,8 @@ class Endpoint:
         return url, key
 
 
-GPT_OSS = {"openai/gpt-oss-120b": {"ovh": "gpt-oss-120b", "cloudflare": "@cf/openai/gpt-oss-120b"},
+GPT_OSS = {"openai/gpt-oss-120b": {"ovh": "gpt-oss-120b", "cloudflare": "@cf/openai/gpt-oss-120b",
+                                   "sambanova": "gpt-oss-120b", "cerebras": "gpt-oss-120b", "scaleway": "gpt-oss-120b"},
            "openai/gpt-oss-20b": {"ovh": "gpt-oss-20b", "cloudflare": "@cf/openai/gpt-oss-20b"}}
 
 
@@ -88,6 +89,13 @@ REGISTRY = {
     "openrouter": Endpoint("openrouter", "https://openrouter.ai/api/v1/chat/completions", "OPENROUTER_API_KEY",
                            rpm=20, rpd=50),
     "github": Endpoint("github", "https://models.github.ai/inference/chat/completions", "GITHUB_TOKEN"),
+    # checked 2026-10-31, not yet called with a key (PROVIDERS.md): free but small, and two trials
+    "sambanova": Endpoint("sambanova", "https://api.sambanova.ai/v1/chat/completions", "SAMBANOVA_API_KEY",
+                          _ids("sambanova"), rpm=20, rpd=20, tpd=200_000),
+    "cerebras": Endpoint("cerebras", "https://api.cerebras.ai/v1/chat/completions", "CEREBRAS_API_KEY",
+                         _ids("cerebras"), rpm=5, tpm=30_000, tpd=1_000_000),
+    "scaleway": Endpoint("scaleway", "https://api.scaleway.ai/v1/chat/completions", "SCALEWAY_API_KEY",
+                         _ids("scaleway")),
 }
 
 
