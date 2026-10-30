@@ -135,7 +135,9 @@ class Client:
                 time.sleep(wait)
             self.last, self.left = time.monotonic(), self.left - 1
             req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method="POST", headers={
-                "Content-Type": "application/json", "Authorization": f"Bearer {self.key}"})
+                "Content-Type": "application/json", "Accept": "application/json",
+                "User-Agent": "buddie-bdx003/1 (+https://github.com/tsyyan/buddie)",
+                "Authorization": f"Bearer {self.key}"})
             try:
                 with urllib.request.urlopen(req, timeout=180) as r:
                     raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type")
