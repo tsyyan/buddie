@@ -13,8 +13,10 @@ No results yet. The question, arms, outcomes and stop rules are fixed in [PROTOC
 
 ## Run
 
-In GitHub Actions (free, the workflow's own token with `models: read`): push to `experiment/bdx-003-pilot`, or run
-the `bdx003` workflow by hand (model, pool, n, arms, request budget). The run summary shows the table; the artifact
+In GitHub Actions: put a free key in a repository secret (`GROQ_API_KEY`, `GEMINI_API_KEY` or `OPENROUTER_API_KEY`;
+GitHub Models uses the workflow's own token but answers only `OK` from this repository's Actions), set the provider
+and model in `pilot.env`, and push to `experiment/bdx-003-pilot`, or run the `bdx003` workflow by hand (its inputs
+override `pilot.env`). The numbers appear as the run's annotations (`notices.py`). The run summary shows the table; the artifact
 holds units, eligibility, runs and judgements. Page snapshots are not uploaded: they are other people's pages.
 
 Locally, with another free provider:

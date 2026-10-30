@@ -45,7 +45,7 @@ quoted span at least 0.6 similar: dropped or paraphrased).
 ## Models and runs
 
 Free tiers through OpenAI-compatible APIs (`arms.py`): GitHub Models (`openai/gpt-4.1-mini` first), then one open
-model (Groq or OpenRouter) and one Gemini Flash model. Temperature 0 where accepted. One repetition per unit, arm and
+model (Groq or OpenRouter) and one Gemini Flash model (see the change of 2026-10-30 below). Temperature 0 where accepted. One repetition per unit, arm and
 model in the main run.
 
 Pilot: 40 units fetched, 16 eligible units run on one model. The pilot is for plumbing, the eligible share and the
@@ -68,4 +68,10 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
 
 ## Changes after data
 
-(none yet)
+- 2026-10-30, before any model answer was recorded: GitHub Models is not usable from this repository's Actions
+  (`models.github.ai` answers every request, including its model catalog, with a plain-text `OK`; three pilot runs
+  recorded only failed calls, no model output). The first model moves to Groq (`llama-3.3-70b-versatile`, key as the
+  repository secret `GROQ_API_KEY`); GitHub Models stays a provider for when it answers. Nothing else changes.
+- 2026-10-30: the source refetch uses the web archive only when the live page does not bear the label out (a full
+  archive search took minutes per page), searching the newest 3 Common Crawl crawls. Eligibility of the 40-unit pilot
+  pool: 34 eligible (ERROR 25, OK 9).
