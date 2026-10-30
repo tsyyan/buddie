@@ -67,12 +67,23 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           cd experiments/BDX-003-correction
-          python -c "
-          import arms, sys
-          c = arms.Client('$PROVIDER', '$MODEL', 60, 1, 30, None)
-          msg, usage = c.chat([{'role': 'user', 'content': 'Reply with the word pong.'}], None)
-          print('::notice title=BDX-003 probe::$PROVIDER $MODEL answered: ' + (msg.get('content') or '')[:80].replace(chr(10), ' '))
-          "
+          python - <<'PY'
+          import os, arms
+          ok = False
+          for prov, model in ((os.environ["PROVIDER"], os.environ["MODEL"]), ("groq", "llama-3.3-70b-versatile"),
+                              ("gemini", "gemini-2.5-flash")):
+              try:
+                  c = arms.Client(prov, model, 60, 1, 30, None)
+                  msg, _ = c.chat([{"role": "user", "content": "Reply with the word pong."}], None)
+                  res = "answered: " + (msg.get("content") or "")[:60]
+                  ok = ok or prov == os.environ["PROVIDER"]
+              except SystemExit as e:
+                  res = f"no key: {e}"
+              except Exception as e:  # noqa: BLE001
+                  res = f"failed: {str(e)[:250]}"
+              print(f"::notice title=BDX-003 probe {prov}::{model} " + res.replace(chr(10), " "))
+          raise SystemExit(0 if ok else 1)
+          PY
       - name: units and sources (fetched again; changed pages are left out)
         run: |
           cd experiments/BDX-003-correction
