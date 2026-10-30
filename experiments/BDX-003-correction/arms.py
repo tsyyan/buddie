@@ -34,11 +34,14 @@ import json
 import os
 import random
 import re
+import sys
 import time
 import urllib.error
 import urllib.request
 
-from common import page_text, read_json, read_jsonl, append_jsonl
+from common import HERE, page_text, read_json, read_jsonl, append_jsonl
+
+sys.path.append(str(HERE.parent))  # experiments/endpoint_pool.py, for --pool
 
 PROVIDERS = {
     "github": ("https://models.github.ai/inference/chat/completions", "GITHUB_TOKEN"),
@@ -270,6 +273,9 @@ def main(argv=None) -> int:
     ap.add_argument("--max-wait", type=float, default=300)
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--no-temperature", action="store_true", help="for models that reject the parameter")
+    ap.add_argument("--pool", action="store_true",
+                    help="all --provider endpoints at once, each at its own adaptive pace (experiments/endpoint_pool.py)")
+    ap.add_argument("--minutes", type=float, help="with --pool: start no new unit after this many minutes")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     units = read_json(a.units)["units"]
@@ -278,6 +284,10 @@ def main(argv=None) -> int:
     providers = a.provider.split(",")
     if set(providers) - set(PROVIDERS):
         ap.error(f"unknown provider in --provider {a.provider!r}")
+    if set(a.arms.split(",")) - {"A", "B", "C", "D"}:
+        ap.error(f"unknown arm in --arms {a.arms!r}")
+    if a.pool:
+        return run_pool(a, units, eligible, store)
     clients = {}
     for p in providers:
         try:
@@ -291,8 +301,6 @@ def main(argv=None) -> int:
     done = {(r["unit"], r["arm"], r["model"], r["rep"]) for r in rows}
     pinned = {(r["unit"], r["model"], r["rep"]): r.get("provider") for r in rows}
     arms = a.arms.split(",")
-    if set(arms) - {"A", "B", "C", "D"}:
-        ap.error(f"unknown arm in --arms {a.arms!r}")
     spent: set[str] = set()
     rng = random.Random(a.seed + 1)
     for unit in select(units, eligible, a.n, a.seed):
@@ -329,6 +337,53 @@ def main(argv=None) -> int:
         if spent >= set(clients):
             print("every provider is spent")
             break
+    return 0
+
+
+def run_pool(a, units: list[dict], eligible: dict, store) -> int:
+    """--pool: every listed endpoint works at once; a job is one unit and repetition with its remaining arms, and
+    it stays with the endpoint it started at (endpoint_pool.Pool), so the never-split rule holds as before."""
+    import dataclasses
+
+    from endpoint_pool import REGISTRY, Pool, Spent
+    endpoints = [dataclasses.replace(REGISTRY[p], rpm=a.rpm) if a.rpm else REGISTRY[p] for p in a.provider.split(",")]
+    pool = Pool(endpoints, a.model, max_wait=a.max_wait, max_requests=a.max_requests,
+                temperature=None if a.no_temperature else a.temperature)
+    rows = read_jsonl(a.out)
+    done = {(r["unit"], r["arm"], r["model"], r["rep"]) for r in rows}
+    started = {f"{r['unit']}#{r['rep']}" for r in rows if r["model"] == a.model}
+    pinned = {f"{r['unit']}#{r['rep']}": r["provider"] for r in rows if r["model"] == a.model and r.get("provider")}
+    arms, rng, jobs = a.arms.split(","), random.Random(a.seed + 1), []
+    for unit in select(units, eligible, a.n, a.seed):
+        for rep in range(a.reps):
+            order = arms[:]
+            rng.shuffle(order)  # the same arm order as the sequential run
+            todo = [arm for arm in order if (unit["id"], arm, a.model, rep) not in done]
+            if todo:
+                jobs.append({"key": f"{unit['id']}#{rep}", "unit": unit, "rep": rep, "todo": todo})
+
+    def work(job: dict, client, name: str) -> None:
+        while job["todo"]:
+            arm, t0 = job["todo"][0], time.monotonic()
+            row = {"unit": job["unit"]["id"], "arm": arm, "model": a.model, "provider": name, "rep": job["rep"],
+                   "seed": a.seed}
+            try:
+                row |= run_arm(client, store, job["unit"], arm, a.rounds)
+            except Spent:
+                raise
+            except Exception as e:  # noqa: BLE001 - a failed run is a result: recorded, counted
+                row |= {"error": str(e)[:300]}
+            row["seconds"] = round(time.monotonic() - t0, 2)
+            with pool.lock:
+                append_jsonl(a.out, row)
+                started.add(job["key"])
+            job["todo"].pop(0)
+            print(row["unit"], arm, name, "error" if "error" in row else "ok", row.get("requests"), flush=True)
+
+    deadline = time.monotonic() + 60 * a.minutes if a.minutes else None
+    out = pool.run(jobs, work, started=lambda j: j["key"] in started, key=lambda j: j["key"], pinned=pinned,
+                   deadline=deadline)
+    print("pool:", json.dumps(out["endpoints"]), "| jobs left", len(out["left"]), flush=True)
     return 0
 
 

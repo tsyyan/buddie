@@ -227,6 +227,41 @@ class Providers(unittest.TestCase):
             self.assertEqual(sorted(next(iter(p)) for p in by_unit.values()), ["groq", "groq", "ovh"])
 
 
+class PoolMode(unittest.TestCase):
+    def test_arms_with_the_endpoint_pool(self):
+        import functools
+        import json as json_mod
+
+        import endpoint_pool
+
+        def send(url, headers, body):
+            reply = {"choices": [{"message": {"role": "assistant", "content": UNIT_OK["paragraph"]}}],
+                     "usage": {"prompt_tokens": 20, "completion_tokens": 5}}
+            return 200, {}, json_mod.dumps(reply).encode()
+
+        with tempfile.TemporaryDirectory() as tmp:
+            d = Path(tmp)
+            store_with_page(tmp)
+            us = [UNIT_ERR | {"id": f"T:{i}"} for i in range(4)]
+            common.write_json(d / "units.json", {"units": us})
+            common.write_json(d / "eligible.json", {"rows": [{"id": u["id"], "eligible": True} for u in us]})
+            argv = ["--units", str(d / "units.json"), "--eligible", str(d / "eligible.json"), "--store", str(d / "store"),
+                    "--provider", "ovh,groq", "--model", "openai/gpt-oss-120b", "--arms", "A,B", "--rpm", "6000",
+                    "--pool", "--out", str(d / "runs.jsonl")]
+            pool = functools.partial(endpoint_pool.Pool, send=send, environ={"GROQ_API_KEY": "k"})
+            with unittest.mock.patch.object(endpoint_pool, "Pool", pool):
+                run.main(argv)
+                rows = common.read_jsonl(d / "runs.jsonl")
+                self.assertEqual(len(rows), 8)
+                self.assertEqual({r["model"] for r in rows}, {"openai/gpt-oss-120b"})
+                by_unit = {}
+                for r in rows:
+                    by_unit.setdefault(r["unit"], set()).add(r["provider"])
+                self.assertTrue(all(len(p) == 1 and p <= {"ovh", "groq"} for p in by_unit.values()), by_unit)
+                run.main(argv)  # resumed: nothing left to do
+                self.assertEqual(len(common.read_jsonl(d / "runs.jsonl")), 8)
+
+
 class Judge(unittest.TestCase):
     def test_outcomes(self):
         with tempfile.TemporaryDirectory() as tmp:
