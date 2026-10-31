@@ -57,7 +57,7 @@ def starts_program(line):
         executable = quoted[1][1:-1]
         return (executable.lower() in PROGRAMS or
                 re.match(r'^(?:\.?\.?[/\\]|[A-Za-z]:[/\\])', executable) is not None)
-    first = line.split()[0]
+    first = re.split(r'[;&|]', line.split()[0], maxsplit=1)[0]
     return (first.lower() in PROGRAMS or re.match(r'^python3\.\d+$', first) is not None or
             re.match(r'^\$env:\w+\s*=', line, re.I) is not None or
             re.match(r'^(?:\.?\.?[/\\]|[A-Za-z]:[/\\])\S+', first) is not None or

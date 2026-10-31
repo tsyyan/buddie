@@ -129,7 +129,7 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and
   `all_commands_decided` for analysis; empty answers remain ASKED or NO_COMMANDS, never OK.
 - Only an explicit complete task or base-command rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
-  observation, incomplete observations, dynamic code, pipelines, compound commands and redirects stay UNKNOWN.
+  observation, incomplete observations, dynamic code, unsupported pipelines and redirects stay UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.
   Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
   names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
@@ -155,7 +155,15 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 - Earlier recognized INSTALLS commands make their programs available to later commands in the same answer,
   assuming successful installation; failed/unknown installers do not. State resets between answers. Downloads,
   package repository availability, privileges outside the stated scenario, service state and file existence are
-  not verified. Activation scripts stay UNKNOWN because their existence is not observed.
+  not verified. Literal `python -m venv DIR` (including observed python3/py forms) also records DIR after a FITS
+  result. POSIX `source DIR/bin/activate` or `. DIR/bin/activate` then FITS when the profile shell supports it;
+  source is rejected for sh. Unknown/pre-existing paths remain UNKNOWN; state resets between answers.
+- POSIX lists split on unquoted `&&`, `||`, `;` and newlines; PowerShell statements split on unquoted `;`
+  and newlines. Nested expansions and script blocks remain opaque. Each list keeps child verdicts under
+  `commands` and takes the worst: WONT_RUN > UNKNOWN > INSTALLS > FITS. Complete-list syntax is also checked
+  by the profile parser. No answer text is executed. Effects flow through successful sequential/AND steps;
+  a failed or unknown AND predecessor cannot establish setup. OR alternatives use separate state, and
+  effects are not exported from an OR-containing list. Unsupported actual pipelines remain UNKNOWN.
 - CUDA wheel tags use the task's explicit rule `wheel CUDA <= observed driver CUDA`; this is an experiment rule,
   not a general CUDA compatibility oracle. The judge does not infer toolkit presence from the driver's CUDA ceiling.
 - Extraction recognizes the documented shell fences and inline commands with a bounded program vocabulary or

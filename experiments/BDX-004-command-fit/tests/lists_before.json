@@ -1,0 +1,732 @@
+{
+  "commit": "5e4c330efd84f80dd2181406c5ac68a7eb9b8203",
+  "answers": 60,
+  "commands": 44,
+  "counts": {
+    "FITS": 19,
+    "WONT_RUN": 23,
+    "INSTALLS": 1,
+    "UNKNOWN": 1
+  },
+  "unknown_share": 0.022727272727272728,
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  },
+  "rows": [
+    {
+      "id": "01-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "01-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "python3 not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "01-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "02-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python --version",
+          "shell": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "02-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "py not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "02-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "03-fitting",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": [
+        {
+          "text": "system_profiler SPDisplaysDataType",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "03-broken",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": [
+        {
+          "text": "nvidia-smi",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_os",
+          "detail": "NVIDIA/CUDA tools are not applicable on this platform"
+        }
+      ]
+    },
+    {
+      "id": "03-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": []
+    },
+    {
+      "id": "04-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "04-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "conda create -n project python=3.12",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "04-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": []
+    },
+    {
+      "id": "05-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "05-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "conda --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "05-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "06-fitting",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu122",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "06-broken",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "version_mismatch",
+          "detail": "wheel CUDA 12.4 exceeds driver CUDA 12.2"
+        }
+      ]
+    },
+    {
+      "id": "06-question",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": []
+    },
+    {
+      "id": "07-fitting",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": [
+        {
+          "text": "podman --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "07-broken",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": [
+        {
+          "text": "docker --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "docker not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "07-question",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": []
+    },
+    {
+      "id": "08-fitting",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "08-broken",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "sh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "08-question",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "09-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "set APP_MODE=development",
+          "shell": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "09-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "09-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "10-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": [
+        {
+          "text": "curl.exe -o data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "10-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": [
+        {
+          "text": "wget -O data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "10-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": []
+    },
+    {
+      "id": "11-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "11-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ]
+    },
+    {
+      "id": "11-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": []
+    },
+    {
+      "id": "12-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": [
+        {
+          "text": "tar -czf data.tar.gz data",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "12-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": [
+        {
+          "text": "wget --help",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "12-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": []
+    },
+    {
+      "id": "13-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": [
+        {
+          "text": "sudo systemctl restart ssh",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "13-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": [
+        {
+          "text": "systemctl restart ssh",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        }
+      ]
+    },
+    {
+      "id": "13-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": []
+    },
+    {
+      "id": "14-fitting",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "14-broken",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "14-question",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": []
+    },
+    {
+      "id": "15-fitting",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "15-broken",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "15-question",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "16-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "16-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "16-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "bash-for-powershell",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        }
+      ]
+    },
+    {
+      "id": "bash-for-ash",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "missing-venv-module",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "Python venv module unavailable"
+        }
+      ]
+    },
+    {
+      "id": "explanation-only",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "not-environment-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": []
+    },
+    {
+      "id": "unknown-flags",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python --imaginary",
+          "shell": "cmd",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "installer-not-elevated",
+      "profile": "win11-cmd-nogpu",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "choco install ffmpeg",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "bash-on-macos",
+      "profile": "macos-arm",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls -la",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "bash-on-alpine",
+      "profile": "alpine-container",
+      "task": "make-directory",
+      "commands": [
+        {
+          "text": "mkdir -p output",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "alpine-double-brackets",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "[[ -d output ]]",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "alpine-array",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "items=(one two)",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "powershell-on-cmd",
+      "profile": "win11-cmd-nogpu",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a cmd scenario"
+        }
+      ]
+    }
+  ]
+}

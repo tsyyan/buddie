@@ -89,3 +89,14 @@ quoted literals, and shlex's foreign quoting rules were treated as authoritative
 failing regressions and fixed both. Added a module-availability-before-tag regression too.
 Final suite: 53 tests pass with bash/dash/pwsh; eight profiles validate. Recorded UNKNOWN
 counts remain 3/39 before, 1/39 matched after, 1/44 expanded after. No deferred findings.
+
+## Lists and control structures follow-up
+
+User authorization: add quote-aware POSIX lists/PowerShell statements, venv setup state,
+POSIX control structures as one extracted command, and recorded cases/UNKNOWN shares.
+Plan: commit lists/state with regressions; commit control extraction/evaluation; commit
+recorded cases and measurements. All changes stay in this experiment directory.
+
+Captured the current 60-answer/44-command baseline at 5e4c330: 1 UNKNOWN with bash,
+dash and pwsh available (tests/lists_before.json). List/state tests were observed failing
+before implementation. Full suite now passes 61 tests with those parsers; profiles validate.

@@ -9,6 +9,8 @@ from commands import extract
 from base_commands import rule as base_rule
 from facts import observation, program, python_facts, value, version
 from syntax import family, non_posix, syntax
+from shell_lists import split_list
+from venvs import parser_text, rule as venv_rule
 from tool import HERE, load_profile
 
 
@@ -52,7 +54,7 @@ def simple(text):
     return quote is None and '$(' not in text
 
 
-def judge_command(command, profile, req, installed):
+def judge_simple(command, profile, req, installed, venvs):
     text, hint, target = command['text'], command['shell'], req['shell']
 
     def verdict(status, reason=None, detail=None, **extra):
@@ -119,6 +121,9 @@ def judge_command(command, profile, req, installed):
     rule = next((r for r in relevant if re.fullmatch(r['pattern'], text, flags)), None)
     if rule is None:
         rule = base_rule(profile, req, name, text)
+    special = venv_rule(tokens, target)
+    if special:
+        rule = special
     if not rule:
         return verdict('UNKNOWN', detail='no complete task rule for this command form')
     if rule.get('needs_admin') and not sudo:
@@ -126,7 +131,7 @@ def judge_command(command, profile, req, installed):
             return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
         if elevated is None:
             return verdict('UNKNOWN', detail='elevation unobserved')
-    if rule.get('requires_path'):
+    if rule.get('requires_path') and rule.get('activates_venv') not in venvs:
         return verdict('UNKNOWN', detail='the profile cannot establish that the activation script exists')
     if rule.get('nvidia'):
         adapters = value(profile, 'hardware.gpu', 'adapters')
@@ -153,7 +158,7 @@ def judge_command(command, profile, req, installed):
             return verdict('WONT_RUN', 'version_mismatch', 'program below task minimum version')
     if found is None:
         return verdict('UNKNOWN', detail='program availability unobserved')
-    parsed = syntax(target, command['text'])
+    parsed = syntax(target, parser_text(command['text'], target))
     if parsed is False:
         return verdict('WONT_RUN', 'wrong_shell_syntax', 'syntax parser rejected the command')
     if parsed is None:
@@ -163,7 +168,60 @@ def judge_command(command, profile, req, installed):
             installed[installed_name] = rule.get('installed_versions', {}).get(installed_name)
         return verdict('INSTALLS', detail='recognized installation; subsequent commands assume success',
                        installs=rule['installs'])
+    if rule.get('creates_venv'):
+        venvs.add(rule['creates_venv'])
     return verdict('FITS', detail='explicit task rule, program and syntax checks satisfied')
+
+
+RANK = {'FITS': 0, 'INSTALLS': 1, 'UNKNOWN': 2, 'WONT_RUN': 3}
+
+
+def aggregate(command, children, parsed):
+    worst = max(children, key=lambda c: RANK[c['status']])
+    result = dict(command, status=worst['status'], reason=worst['reason'],
+                  detail='worst verdict of constituent commands', commands=children)
+    if parsed is False and worst['reason'] not in ('wrong_os', 'program_missing'):
+        result.update(status='WONT_RUN', reason='wrong_shell_syntax', detail='profile parser rejected the complete list')
+    elif parsed is None and result['status'] != 'WONT_RUN':
+        result.update(status='UNKNOWN', reason=None, detail='complete construct syntax not established')
+    return result
+
+
+def judge_command(command, profile, req, installed, venvs):
+    parts, is_list = split_list(command['text'], req['shell'])
+    if not is_list or not parts:
+        return judge_simple(command, profile, req, installed, venvs)
+    parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+    programs, created = dict(installed), set(venvs)
+    has_or = any(after == '||' for _, after in parts)
+    children, reachable, prior, alternatives = [], True, '', []
+    for text, after in parts:
+        if prior in (';', '\n'):
+            reachable = True
+            alternatives = []
+        if prior == '||':
+            programs, created, reachable = dict(installed), set(venvs), True
+        if not reachable:
+            child_programs, child_venvs = dict(installed), set(venvs)
+        else:
+            child_programs, child_venvs = programs, created
+        child = judge_simple(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
+        children.append(child)
+        if after == '||':
+            alternatives.append((dict(programs), set(created)))
+        elif prior == '||' and alternatives:
+            for other_programs, other_venvs in alternatives:
+                programs = {name: version if version == other_programs[name] else None
+                            for name, version in programs.items() if name in other_programs}
+                created &= other_venvs
+            alternatives = []
+        if after == '&&' and child['status'] in ('WONT_RUN', 'UNKNOWN'):
+            reachable = False
+        prior = after
+    if parsed is True and not has_or:
+        installed.update(programs)
+        venvs.update(created)
+    return aggregate(command, children, parsed)
 
 
 def judge_answer(answer, profile, task):
@@ -171,9 +229,9 @@ def judge_answer(answer, profile, task):
     p, t = load_profile(profile), load_task(task)
     if p['id'] not in t['requirements']:
         raise ValueError('task does not apply to this profile')
-    rows, installed = [], {}
+    rows, installed, venvs = [], {}, set()
     for command in extract(answer):
-        rows.append(judge_command(command, p, t['requirements'][p['id']], installed))
+        rows.append(judge_command(command, p, t['requirements'][p['id']], installed, venvs))
     if rows:
         status = ('BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else
                   'UNDECIDED' if any(r['status'] == 'UNKNOWN' for r in rows) else 'OK')
