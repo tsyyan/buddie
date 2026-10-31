@@ -130,12 +130,15 @@ def main(argv=None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "judged.json", rows)
     write_json(out / "summary.json", {"cells": cells, "paired": paired})
+    # GitHub shows 10 notices a step: the paired comparisons first, three to a notice, then the cells two to one
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
           f"skipped for an unreadable snapshot {skipped}; why failed {dict(why)}")
-    for k, c in cells.items():
-        print(f"::notice title=BDX-003 product {k}::{c}")
-    for k, p in paired.items():
-        print(f"::notice title=BDX-003 product paired {k}::{p}")
+    pl = [f"{k}: {p}" for k, p in paired.items()]
+    for i in range(0, len(pl), 3):
+        print(f"::notice title=BDX-003 product paired {i // 3 + 1}::" + " || ".join(pl[i:i + 3]))
+    cl = [f"{k}: {c}" for k, c in cells.items()]
+    for i in range(0, len(cl), 2):
+        print(f"::notice title=BDX-003 product cells {i // 2 + 1}::" + " || ".join(cl[i:i + 2]))
     return 0
 
 
