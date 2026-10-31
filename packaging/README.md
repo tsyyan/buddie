@@ -6,11 +6,11 @@ Verify the claim. Know the context. AI agent reliability toolkit.
 
 buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
-Install: `pip install buddie==2.0.6`.
+Install: `pip install buddie==2.0.7`.
 
-[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.6/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.6/release-notes.md)
+[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.7/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.7/release-notes.md)
 
-# buddie 2.0.6
+# buddie 2.0.7
 
 2026-10-30
 
@@ -26,7 +26,7 @@ A shell hook launcher the Anthropic directory can inspect, preserving existing r
 
 ## Upgrade
 
-Install buddie==2.0.6 or update the plugin. The Claude Code marketplace follows plugin-stable and receives this release after publication; no reinstall is needed.
+Install buddie==2.0.7 or update the plugin. The Claude Code marketplace follows plugin-stable and receives this release after publication; no reinstall is needed.
 
 ## Permissions
 
