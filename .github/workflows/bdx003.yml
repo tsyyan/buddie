@@ -292,14 +292,14 @@ jobs:
       - name: settings (product.env)
         run: grep -E '^[A-Z_]+=' experiments/BDX-003-correction/product.env >> "$GITHUB_ENV"
       - name: the main run's units and snapshots (read only)
-        if: env.PRODUCT_RUN == '1'
+        if: env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge'
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
         with:
           path: experiments/BDX-003-correction/data
           key: bdx003-main-none
           restore-keys: bdx003-main-
       - name: earlier product chunks
-        if: env.PRODUCT_RUN == '1'
+        if: env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge'
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
         with:
           path: experiments/BDX-003-correction/product-data
@@ -347,14 +347,14 @@ jobs:
             --n-error "$N_ERROR" --n-ok "$N_OK" --n-summary "$N_SUMMARY" --reps "$REPS" --minutes "$MINUTES" --conditions "$CONDITIONS" \
             || echo "product.py ended with $?"
       - name: judge (independent of buddie)
-        if: always() && env.PRODUCT_RUN == '1'
+        if: always() && (env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge')
         run: |
           cd experiments/BDX-003-correction
           test -s product-data/product-runs.jsonl || exit 0
           python product_judge.py --units data/units.json --store data/store --runs product-data/product-runs.jsonl \
             --out product-data/judged
       - uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
-        if: always() && env.PRODUCT_RUN == '1'
+        if: always() && (env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge')
         with:
           path: experiments/BDX-003-correction/product-data
           key: bdx003-product-${{ github.run_id }}

@@ -217,6 +217,8 @@ class Client:
                         raise Stop(f"rate limit (HTTP 429): {body[:160]!r}") from e
                     time.sleep(after)
                     continue
+                if e.code == 402:  # the account's balance: the provider's, never the model's (a Stop, not a failed run)
+                    raise Stop(f"balance spent (HTTP 402): {e.read()[:160]!r}") from e
                 if e.code in (500, 502, 503, 504, 529) and attempt < 5:
                     time.sleep(after)
                     continue
@@ -373,7 +375,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     if a.drop_rate_limited:
         from pathlib import Path
-        keep = [r for r in read_jsonl(a.out) if not str(r.get("error", "")).startswith("HTTP 429")]
+        keep = [r for r in read_jsonl(a.out) if not str(r.get("error", "")).startswith(("HTTP 429", "HTTP 402"))]
         dropped = len(read_jsonl(a.out)) - len(keep)
         Path(a.out).write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in keep), encoding="utf-8")
         print("dropped", dropped, "rate-limited rows", flush=True)
