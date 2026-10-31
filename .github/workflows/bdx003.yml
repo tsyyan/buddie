@@ -313,6 +313,15 @@ jobs:
           HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
           HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
           echo "::notice title=BDX-003 product plugin::$(HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin list 2>&1 | tr '\n' ' ' | cut -c1-200)"
+          # hook: the same release, its skills taken out of the installed copy (PROTOCOL 2026-10-31, product run)
+          mkdir -p "$RUNNER_TEMP/homes/hook"
+          HOME="$RUNNER_TEMP/homes/hook" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
+          HOME="$RUNNER_TEMP/homes/hook" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
+          removed=$(find "$RUNNER_TEMP/homes/hook/.claude/plugins" -type d -name skills -path '*buddie*' -print -prune)
+          test -n "$removed" || { echo "::error::no buddie skills directory found to take out"; exit 1; }
+          echo "$removed" | xargs rm -rf
+          left=$(find "$RUNNER_TEMP/homes/hook/.claude/plugins" -name SKILL.md -path '*buddie*' | wc -l)
+          echo "::notice title=BDX-003 product hook-only::skills taken out: $(echo "$removed" | wc -l) dirs; SKILL.md left: $left"
       - name: runs (resumes; stops after MINUTES)
         if: env.PRODUCT_RUN == '1'
         env:
@@ -322,7 +331,7 @@ jobs:
           mkdir -p product-data
           python product.py --units data/units.json --eligible data/eligible.json --store data/store \
             --homes "$RUNNER_TEMP/homes" --out product-data/product-runs.jsonl --model "$MODEL" \
-            --n-error "$N_ERROR" --n-ok "$N_OK" --n-summary "$N_SUMMARY" --reps "$REPS" --minutes "$MINUTES" \
+            --n-error "$N_ERROR" --n-ok "$N_OK" --n-summary "$N_SUMMARY" --reps "$REPS" --minutes "$MINUTES" --conditions "$CONDITIONS" \
             || echo "product.py ended with $?"
       - name: judge (independent of buddie)
         if: always() && env.PRODUCT_RUN == '1'

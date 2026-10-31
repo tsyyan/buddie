@@ -34,9 +34,11 @@ ASK_SUMMARY = ("Read the page at {url} and write a short paragraph (3 to 4 sente
                "Include at least two direct quotations from the page in quotation marks, each followed by the link "
                "as a markdown link. Reply with the paragraph only.")
 # what a user lets a session do without asking: read the web; in `with`, buddie's own tools as well
-ALLOWED = {"without": "WebFetch",
-           "with": "WebFetch mcp__plugin_buddie_buddie__snap mcp__plugin_buddie_buddie__source_text "
-                   "mcp__plugin_buddie_buddie__verify_report"}
+BUDDIE_TOOLS = ("WebFetch mcp__plugin_buddie_buddie__snap mcp__plugin_buddie_buddie__source_text "
+                "mcp__plugin_buddie_buddie__verify_report")
+ALLOWED = {"without": "WebFetch", "with": BUDDIE_TOOLS, "hook": BUDDIE_TOOLS}
+# hook: the same release with its skills taken out of the installed copy (the workflow does it), so nothing tells the
+# model to snap and verify before answering; the Stop hook still checks the answer (PROTOCOL 2026-10-31, product run)
 
 
 def prompt(task: str, unit: dict) -> str:
@@ -85,7 +87,7 @@ def run_one(task: str, unit: dict, condition: str, homes: Path, store: Path, mod
     work = homes / f"work-{condition}-{os.getpid()}"
     work.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, HOME=str(homes / condition))
-    if condition == "with":
+    if condition in ("with", "hook"):
         env["BUDDIE_STORES"] = str(store.resolve())
     cmd = ["npx", "--yes", CLI, "-p", prompt(task, unit), "--model", model, "--output-format", "stream-json",
            "--verbose", "--max-turns", str(max_turns), "--allowedTools", ALLOWED[condition]]
@@ -103,7 +105,7 @@ def run_one(task: str, unit: dict, condition: str, homes: Path, store: Path, mod
 
 
 def plan(units: list[dict], eligible: dict, n_error: int, n_ok: int, n_summary: int, reps: int,
-         seed: int) -> list[tuple]:
+         seed: int, conditions: tuple = ("without", "with")) -> list[tuple]:
     ok = [u for u in units if eligible.get(u["id"], {}).get("eligible")]
     rng = random.Random(seed)
     rng.shuffle(ok)
@@ -118,8 +120,9 @@ def plan(units: list[dict], eligible: dict, n_error: int, n_ok: int, n_summary: 
     out = []
     for task, u in jobs:
         for rep in range(reps if task == "paragraph" and u["gold"] == "ERROR" else 1):
-            conds = ["without", "with"]
-            rng.shuffle(conds)  # which condition of a pair runs first: randomized, recorded by order of rows
+            order = random.Random(f"{seed}:{u['id']}:{task}:{rep}")  # per unit, so adding a condition keeps the rest
+            conds = list(conditions)
+            order.shuffle(conds)  # which condition runs first: randomized, recorded by order of rows
             out += [(task, u, c, rep) for c in conds]
     return out
 
@@ -137,6 +140,7 @@ def main(argv=None) -> int:
     ap.add_argument("--n-summary", type=int, default=50)
     ap.add_argument("--reps", type=int, default=1, help="repeats of ERROR paragraphs (variance on a subset)")
     ap.add_argument("--seed", type=int, default=20261031)
+    ap.add_argument("--conditions", default="without,with", help="of without, with, hook")
     ap.add_argument("--max-turns", type=int, default=12)
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--minutes", type=float, default=300)
@@ -146,7 +150,10 @@ def main(argv=None) -> int:
     out = Path(a.out)
     done = {(r["unit"], r["task"], r["condition"], r["rep"]) for r in read_jsonl(out) if "error" not in r} \
         if out.exists() else set()
-    jobs = plan(list(units.values()), eligible, a.n_error, a.n_ok, a.n_summary, a.reps, a.seed)
+    conditions = tuple(a.conditions.split(","))
+    if set(conditions) - set(ALLOWED):
+        ap.error(f"unknown condition in --conditions {a.conditions!r}")
+    jobs = plan(list(units.values()), eligible, a.n_error, a.n_ok, a.n_summary, a.reps, a.seed, conditions)
     deadline = time.monotonic() + a.minutes * 60
     left = [j for j in jobs if (j[1]["id"], j[0], j[2], j[3]) not in done]
     print(f"::notice title=BDX-003 product plan::{len(jobs)} runs planned, {len(left)} left", flush=True)

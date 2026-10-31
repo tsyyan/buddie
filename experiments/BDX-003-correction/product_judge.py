@@ -11,7 +11,7 @@ paragraph (per run, the unit's target quotation):
 summary (per run, every quotation of 4+ words):
   false_shown  quoted spans not in the source, in any message
   false_final  those in the last message that quotes at all, unless a later message flags them
-Cells: per task, gold and condition; paired with-without by unit (bootstrap, judge.bootstrap_diff).
+Cells: per task, gold and condition; paired by unit: with-without, hook-without, hook-with (bootstrap, judge.bootstrap_diff).
 
     python product_judge.py --units data/units.json --store data/store --runs data/product-runs.jsonl --out data/product
 """
@@ -107,14 +107,16 @@ def main(argv=None) -> int:
     for task, gold in sorted({(r["task"], r["gold"]) for r in rows}):
         def bad(r):
             return (r["outcome"] == "WRONG") if task == "paragraph" else (r["false_final"] > 0)
-        w = {r["unit"]: bad(r) for r in by[(task, gold, "with")] if r["rep"] == 0}
-        wo = {r["unit"]: bad(r) for r in by[(task, gold, "without")] if r["rep"] == 0}
-        pairs = [(int(wo[u]), int(w[u])) for u in w.keys() & wo.keys()]
-        if pairs:
-            paired[f"{task} | {gold} | with-without"] = {
-                "n": len(pairs), "diff": round(sum(b - a for a, b in pairs) / len(pairs), 3),
-                "ci": bootstrap_diff(pairs), "only_without_bad": sum(a and not b for a, b in pairs),
-                "only_with_bad": sum(b and not a for a, b in pairs)}
+        by_cond = {c: {r["unit"]: bad(r) for r in by[(task, gold, c)] if r["rep"] == 0}
+                   for c in ("without", "with", "hook")}
+        for earlier, later in (("without", "with"), ("without", "hook"), ("with", "hook")):
+            a_, b_ = by_cond[earlier], by_cond[later]
+            pairs = [(int(a_[u]), int(b_[u])) for u in a_.keys() & b_.keys()]
+            if pairs:
+                paired[f"{task} | {gold} | {later}-{earlier}"] = {
+                    "n": len(pairs), "diff": round(sum(b - a for a, b in pairs) / len(pairs), 3),
+                    "ci": bootstrap_diff(pairs), f"only_{earlier}_bad": sum(a and not b for a, b in pairs),
+                    f"only_{later}_bad": sum(b and not a for a, b in pairs)}
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "judged.json", rows)

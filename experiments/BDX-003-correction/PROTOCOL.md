@@ -147,3 +147,15 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
      wrong, damage on OK, false quotations left in summaries, turns and tokens per run. A first chunk of 9 sources
      calibrates turns and tokens; the rest is sized to the remaining budget, which is recorded here before it runs.
   4. **Audit**: a blind 20 % sample of judged rows (judge.blind_sheet) is read by the owner before the report.
+- 2026-10-31, decided by the owner after the product run's calibration chunk (18 runs, main-log.txt), before the
+  rest of it. With buddie, Claude Code followed buddie's skills before answering (ToolSearch, snap, source_text,
+  verify_report: about 6 turns and 73-79k input tokens a paragraph, against 1 turn and 11k without), and the Stop
+  hook never had to return anything. The summary task gave no exact quotation without buddie (WebFetch returns a
+  digest of the page), so it measures nothing comparable and is dropped. Changes:
+  1. **A third condition, `hook`**: the same release with its skills taken out of the installed copy (the workflow
+     removes the plugin's `skills/` directories and reports it), MCP tools and hooks unchanged. Whether the Stop hook
+     alone keeps the benefit at a fraction of the cost decides whether the skills should stop asking for a check
+     before answering when the hook is installed.
+  2. **Size**: paragraphs only, 50 ERROR and 25 OK units, three conditions, one run each (the calibration chunk's
+     runs are part of it). Paired comparisons with−without (primary on ERROR: share WRONG), hook−without and
+     hook−with (secondary), damage on OK, turns and input tokens per run.
