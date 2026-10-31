@@ -14,7 +14,9 @@ import sys
 import urllib.error
 import urllib.request
 
-API = "https://api.anthropic.com/v1"
+# Anthropic's API, or a compatible gateway in front of it: ANTHROPIC_BASE_URL as Claude Code reads it (without /v1)
+API = os.environ.get("ANTHROPIC_BASE_URL", "").rstrip("/") or "https://api.anthropic.com"
+API += "/v1"
 NOTICES = False
 
 
@@ -78,6 +80,7 @@ def main() -> int:
         say("anthropic key shape", key_shape(os.environ["ANTHROPIC_API_KEY"]))
         return 1
     ids = [m["id"] for m in body.get("data", [])]
+    say("anthropic endpoint", API.split("//")[1].split("/")[0])
     say("anthropic models", f"{len(ids)}: " + ", ".join(ids))
     if a.model not in ids:
         say("anthropic model", f"{a.model} is not in the list; the probe goes on with it anyway")
@@ -89,6 +92,7 @@ def main() -> int:
         say("anthropic tool use", f"HTTP {st}: {json.dumps(body)[:300]}")
         return 1
     used = [c["name"] for c in body.get("content", []) if c.get("type") == "tool_use"]
+    say("anthropic served model", f"asked {a.model}, the answer names {body.get('model')!r}, id {body.get('id', '')[:8]}…")
     say("anthropic tool use", f"{a.model}: stop_reason {body.get('stop_reason')}, tools called {used}, "
         f"usage {json.dumps(body.get('usage'))}")
     limits = {k.split("anthropic-ratelimit-")[1]: v for k, v in h.items()
