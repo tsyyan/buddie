@@ -78,10 +78,12 @@ def requirements(task, profile):
                         [rule(r'ss -ltnp(?: [\'\"]sport = :8000[\'\"])?', 'ss', os=['linux'])],
         'archive-create': [rule(r'tar -czf data\.tar\.gz data', 'tar')],
         'archive-extract': [rule(r'tar -xzf data\.tar\.gz', 'tar')],
-        'download-file': [rule(r'curl(?:\.exe)? -o data\.txt https://example\.org/data\.txt', 'curl'),
+        'download-file': [rule((r'curl\.exe' if shell == 'powershell' else r'curl(?:\.exe)?') +
+                               r' -o data\.txt https://example\.org/data\.txt', 'curl'),
                           rule(r'Invoke-WebRequest https://example\.org/data\.txt -OutFile data\.txt',
                                'Invoke-WebRequest', os=['windows'])],
-        'permissions': [rule(r'icacls script\.sh /grant "%USERNAME%:RX"', 'icacls', os=['windows'])] if win else
+        'permissions': [rule(r'icacls script\.sh /grant "\$\{env:USERNAME\}:RX"', 'icacls', os=['windows'])] if shell == 'powershell' else \
+                       [rule(r'icacls script\.sh /grant "%USERNAME%:RX"', 'icacls', os=['windows'])] if win else
                        [rule(r'chmod u\+x script\.sh', 'chmod', os=posix)],
         'service-status': [rule(r'Get-Service sshd', 'Get-Service', os=['windows'])] if shell == 'powershell' else
                           [rule(r'sc query sshd', 'sc', os=['windows'])] if win else
@@ -111,7 +113,8 @@ def requirements(task, profile):
                     'dnf': 'dnf install ' + (r'nodejs-20\.[\w.+~-]+' if target == 'node20' else package),
                     'apk': 'apk add ' + (r'nodejs=20\.[\w.+~-]+' if target == 'node20' else package)}
         table[task] = [rule(patterns[pm], pm, installs=['node' if target == 'node20' else target],
-                            admin=pm in ('apt', 'dnf', 'apk', 'choco'))]
+                            admin=pm in ('apt', 'dnf', 'apk', 'choco'),
+                            **({'installed_versions': {'node': '20.0.0'}} if target == 'node20' else {}))]
         table[task].append(rule(('node' if target == 'node20' else target) +
                                 (r' -version' if target == 'ffmpeg' else r' --version'),
                                 'node' if target == 'node20' else target,

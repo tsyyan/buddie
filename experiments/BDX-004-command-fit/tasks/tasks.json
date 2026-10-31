@@ -2775,7 +2775,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -2819,7 +2822,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -2866,7 +2872,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -2912,7 +2921,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -2960,7 +2972,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -3004,7 +3019,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -3050,7 +3068,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -3096,7 +3117,10 @@
               "windows",
               "linux",
               "darwin"
-            ]
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
           },
           {
             "pattern": "node --version",
@@ -4949,7 +4973,7 @@
         "missing_programs": [],
         "commands": [
           {
-            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "pattern": "curl\\.exe -o data\\.txt https://example\\.org/data\\.txt",
             "program": "curl",
             "effect": "FITS",
             "installs": [],
@@ -5289,7 +5313,7 @@
         "missing_programs": [],
         "commands": [
           {
-            "pattern": "icacls script\\.sh /grant \"%USERNAME%:RX\"",
+            "pattern": "icacls script\\.sh /grant \"\\$\\{env:USERNAME\\}:RX\"",
             "program": "icacls",
             "effect": "FITS",
             "installs": [],
