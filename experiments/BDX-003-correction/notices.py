@@ -24,6 +24,10 @@ def lines(data: Path) -> list[tuple[str, str]]:
         errs = [r["error"] for r in runs if "error" in r]
         out.append(("BDX-003 runs", f"{len(runs)} rows; per arm {dict(Counter(r['arm'] for r in runs))}; "
                     f"errors {len(errs)}" + (f"; first: {errs[0][:300]}" if errs else "")))
+        for model in sorted({r["model"] for r in runs}):
+            last = [r["error"] for r in runs if r["model"] == model and "error" in r][-3:]
+            if last:
+                out.append((f"BDX-003 errors {model}", " || ".join(e[:400] for e in last)))
     if (data / "judged" / "summary.json").exists():
         s = read_json(data / "judged" / "summary.json")
         cells = [f"{k}: n {c['n']}, correct {c['correct']}, wrong {c['wrong']}, removed {c['removed']} "
@@ -36,7 +40,7 @@ def lines(data: Path) -> list[tuple[str, str]]:
         out.append(("BDX-003 paired", " || ".join(
             f"{k}: n {p['n']}, diff {p['diff']}, ci {p['ci95']}, only-earlier-bad {p['only_a_bad']}, "
             f"only-later-bad {p['only_b_bad']}" for k, p in s["paired"].items())))
-    return out[:10]
+    return out[:12]
 
 
 if __name__ == "__main__":
