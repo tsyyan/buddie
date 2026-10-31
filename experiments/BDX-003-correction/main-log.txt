@@ -15,3 +15,4 @@
 2026-10-31T14:30Z arm E (improved feedback, PROTOCOL 2026-10-31) started on openai/gpt-oss-120b over the 146 units; A-D rows kept
 2026-10-31T17:00Z claude-opus-5: 5-unit measurement queued after the arm E chunk (main.env N=5, arms A,B,C,E)
 2026-10-31T17:05Z the claude-opus-5 measurement moves to the pilot job (pilot.env, its own 14-unit pool), so it runs now beside the arm E chunk; main.env is arm E on gpt-oss again
+2026-10-31T17:40Z claude-opus-5 measurement (pilot run 41221488994, 5 units, arms A,B,C,E, 0 failed): ERROR A wrong 1.0; B, C, E correct 0.667, paraphrased 0.333, wrong 0. Usage per unit as reported (input/output): A 909/267, B 1240/82, C 2368/282, E 1886/104 on ERROR; one cell (C, OK) came back 0/0, so arms.py now also counts sent characters.
