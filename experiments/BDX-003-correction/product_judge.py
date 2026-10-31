@@ -26,6 +26,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from common import best_span, in_text, page_text, quoted_spans, read_json, read_jsonl, write_json  # noqa: E402
 from judge import FLAG, bootstrap_diff  # noqa: E402
+from product import bad  # noqa: E402
 
 
 def _body(t: str) -> str:
@@ -72,9 +73,16 @@ def main(argv=None) -> int:
     units = {u["id"]: u for u in read_json(Path(a.units))["units"]}
     store = Store(Path(a.store))
     rows, failed, skipped = [], defaultdict(int), 0
-    for r in read_jsonl(Path(a.runs)):
-        if "error" in r:
+    latest = {}
+    for r in read_jsonl(Path(a.runs)):  # a run redone after a failure: its last row counts
+        key = (r["unit"], r["task"], r["condition"], r["rep"])
+        if key not in latest or bad(latest[key]) or not bad(r):
+            latest[key] = r
+    why = defaultdict(int)
+    for r in latest.values():
+        if bad(r):
             failed[(r["task"], r["gold"], r["condition"])] += 1
+            why[bad(r)[:60]] += 1
             continue
         _, page = page_text(store, r["url"])
         if page is None:
@@ -108,8 +116,8 @@ def main(argv=None) -> int:
         def bad(r):
             return (r["outcome"] == "WRONG") if task == "paragraph" else (r["false_final"] > 0)
         by_cond = {c: {r["unit"]: bad(r) for r in by[(task, gold, c)] if r["rep"] == 0}
-                   for c in ("without", "with", "hook")}
-        for earlier, later in (("without", "with"), ("without", "hook"), ("with", "hook")):
+                   for c in ("without", "with", "hook", "hookonly")}
+        for earlier, later in (("without", "with"), ("without", "hookonly"), ("with", "hookonly"), ("without", "hook")):
             a_, b_ = by_cond[earlier], by_cond[later]
             pairs = [(int(a_[u]), int(b_[u])) for u in a_.keys() & b_.keys()]
             if pairs:
@@ -122,7 +130,7 @@ def main(argv=None) -> int:
     write_json(out / "judged.json", rows)
     write_json(out / "summary.json", {"cells": cells, "paired": paired})
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
-          f"skipped for an unreadable snapshot {skipped}")
+          f"skipped for an unreadable snapshot {skipped}; why failed {dict(why)}")
     for k, c in cells.items():
         print(f"::notice title=BDX-003 product {k}::{c}")
     for k, p in paired.items():

@@ -159,3 +159,10 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   2. **Size**: paragraphs only, 50 ERROR and 25 OK units, three conditions, one run each (the calibration chunk's
      runs are part of it). Paired comparisons with−without (primary on ERROR: share WRONG), hook−without and
      hook−with (secondary), damage on OK, turns and input tokens per run.
+- 2026-10-31, after the product run's chunk 2 (run 41226361810), before its numbers are read as results: (a) many
+  rows are not runs of the model: Claude Code printed an API failure, or used no tokens, as its answer (OK
+  paragraphs "removed" in 1 turn with under 1k tokens). `product.bad` now marks such a row failed, it is redone in the
+  next chunk, and the judge counts it as failed with the reason. (b) Without its skills (`hook`), the model still
+  called ToolSearch, snap, source_text and verify_report before answering (the MCP tools invite it), so `hook` did
+  not test the hook alone. It stays as an exploratory variant; the planned comparison moves to **`hookonly`**: skills
+  and the MCP server (`.mcp.json`) taken out of the installed copy, hooks kept, only WebFetch allowed.

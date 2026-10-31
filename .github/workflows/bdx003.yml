@@ -313,15 +313,18 @@ jobs:
           HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
           HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
           echo "::notice title=BDX-003 product plugin::$(HOME="$RUNNER_TEMP/homes/with" npx --yes "$CLAUDE_CLI" plugin list 2>&1 | tr '\n' ' ' | cut -c1-200)"
-          # hook: the same release, its skills taken out of the installed copy (PROTOCOL 2026-10-31, product run)
-          mkdir -p "$RUNNER_TEMP/homes/hook"
-          HOME="$RUNNER_TEMP/homes/hook" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
-          HOME="$RUNNER_TEMP/homes/hook" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
-          removed=$(find "$RUNNER_TEMP/homes/hook/.claude/plugins" -type d -name skills -path '*buddie*' -print -prune)
-          test -n "$removed" || { echo "::error::no buddie skills directory found to take out"; exit 1; }
-          echo "$removed" | xargs rm -rf
-          left=$(find "$RUNNER_TEMP/homes/hook/.claude/plugins" -name SKILL.md -path '*buddie*' | wc -l)
-          echo "::notice title=BDX-003 product hook-only::skills taken out: $(echo "$removed" | wc -l) dirs; SKILL.md left: $left"
+          # hookonly: the same release with its skills and its MCP server taken out of the installed copy, hooks kept
+          # (PROTOCOL 2026-10-31, product run)
+          h="$RUNNER_TEMP/homes/hookonly"; mkdir -p "$h"
+          HOME="$h" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
+          HOME="$h" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
+          n_skill=$(find "$h/.claude/plugins" -name SKILL.md -path '*buddie*' | wc -l)
+          n_mcp=$(find "$h/.claude/plugins" -name .mcp.json -path '*buddie*' | wc -l)
+          find "$h/.claude/plugins" \( -name SKILL.md -o -name .mcp.json \) -path '*buddie*' -delete
+          left=$(find "$h/.claude/plugins" \( -name SKILL.md -o -name .mcp.json \) -path '*buddie*' | wc -l)
+          hooks=$(find "$h/.claude/plugins" -name hooks.json -path '*buddie*' | wc -l)
+          test "$left" = 0 -a "$hooks" -gt 0 || { echo "::error::hookonly: $left skill/mcp files left, $hooks hooks.json"; exit 1; }
+          echo "::notice title=BDX-003 product hookonly::taken out $n_skill SKILL.md and $n_mcp .mcp.json; hooks.json kept: $hooks"
       - name: runs (resumes; stops after MINUTES)
         if: env.PRODUCT_RUN == '1'
         env:

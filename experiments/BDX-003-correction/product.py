@@ -36,9 +36,24 @@ ASK_SUMMARY = ("Read the page at {url} and write a short paragraph (3 to 4 sente
 # what a user lets a session do without asking: read the web; in `with`, buddie's own tools as well
 BUDDIE_TOOLS = ("WebFetch mcp__plugin_buddie_buddie__snap mcp__plugin_buddie_buddie__source_text "
                 "mcp__plugin_buddie_buddie__verify_report")
-ALLOWED = {"without": "WebFetch", "with": BUDDIE_TOOLS, "hook": BUDDIE_TOOLS}
-# hook: the same release with its skills taken out of the installed copy (the workflow does it), so nothing tells the
-# model to snap and verify before answering; the Stop hook still checks the answer (PROTOCOL 2026-10-31, product run)
+ALLOWED = {"without": "WebFetch", "with": BUDDIE_TOOLS, "hook": BUDDIE_TOOLS, "hookonly": "WebFetch"}
+# hook (first try): the release with its skills taken out of the installed copy; its MCP tools still led the model to
+# snap and verify before answering, so it is kept as an exploratory variant. hookonly: skills and MCP server taken
+# out, only the hooks left: nothing invites a check before the answer, the Stop hook still checks it (PROTOCOL).
+
+
+def bad(row: dict) -> str | None:
+    """Why a run says nothing about the model: the API failed (Claude Code prints its error as the answer)."""
+    if row.get("error"):
+        return row["error"]
+    if row.get("is_error"):
+        return "result is_error"
+    if any(t.lstrip().startswith(("API Error", "Failed to authenticate", "Credit balance")) for t in row["texts"]):
+        return "API error as the answer: " + next(t for t in row["texts"] if t.lstrip().startswith(
+            ("API Error", "Failed to authenticate", "Credit balance")))[:160]
+    if not row.get("input_tokens") and (row.get("turns") or 0) <= 1:
+        return "no tokens used"
+    return None
 
 
 def prompt(task: str, unit: dict) -> str:
@@ -76,6 +91,7 @@ def reduce_stream(raw: str) -> dict:
                 returns += 1
     u = result.get("usage") or {}
     return {"texts": texts, "tools": tools, "hook_returns": returns, "denied": denied,
+            "is_error": bool(result.get("is_error")),
             "turns": result.get("num_turns"), "subtype": result.get("subtype"),
             "input_tokens": sum(int(u.get(k) or 0) for k in ("input_tokens", "cache_creation_input_tokens",
                                                               "cache_read_input_tokens")),
@@ -87,7 +103,7 @@ def run_one(task: str, unit: dict, condition: str, homes: Path, store: Path, mod
     work = homes / f"work-{condition}-{os.getpid()}"
     work.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, HOME=str(homes / condition))
-    if condition in ("with", "hook"):
+    if condition in ("with", "hook", "hookonly"):
         env["BUDDIE_STORES"] = str(store.resolve())
     cmd = ["npx", "--yes", CLI, "-p", prompt(task, unit), "--model", model, "--output-format", "stream-json",
            "--verbose", "--max-turns", str(max_turns), "--allowedTools", ALLOWED[condition]]
@@ -101,6 +117,8 @@ def run_one(task: str, unit: dict, condition: str, homes: Path, store: Path, mod
     row["seconds"] = round(time.monotonic() - t0, 1)
     if not row["texts"]:
         row["error"] = err or "no assistant text"
+    elif bad(row):
+        row["error"] = bad(row)
     return row
 
 
@@ -148,7 +166,7 @@ def main(argv=None) -> int:
     units = {u["id"]: u for u in read_json(Path(a.units))["units"]}
     eligible = {r["id"]: r for r in read_json(Path(a.eligible))["rows"]}
     out = Path(a.out)
-    done = {(r["unit"], r["task"], r["condition"], r["rep"]) for r in read_jsonl(out) if "error" not in r} \
+    done = {(r["unit"], r["task"], r["condition"], r["rep"]) for r in read_jsonl(out) if not bad(r)} \
         if out.exists() else set()
     conditions = tuple(a.conditions.split(","))
     if set(conditions) - set(ALLOWED):
