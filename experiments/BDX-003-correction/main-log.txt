@@ -2,3 +2,4 @@
 2026-10-30T07:14Z chunk 1 started after pilot 3 (run 41002796371: 59 rows, 15 units, 1 failed run)
 2026-10-30T13:01Z chunk 2 started; chunk 1 (run 41018866981): 30 of 146 eligible units with every arm, 121 rows, all at ovh, 4 failed runs
 2026-10-30T18:36Z chunk 3 started; chunk 2 (run 41059894111): 60 of 146 eligible units with every arm, 241 rows, all at ovh, 5 failed runs
+2026-10-31T00:01Z chunk 4 started; chunk 3 (run 41108364802): 96 of 146 eligible units with every arm, 384 rows, all at ovh, 9 failed runs in all
