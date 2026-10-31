@@ -38,3 +38,23 @@ class ShellFamilies(unittest.TestCase):
         for text in ['[[ -d output ]]', 'items=(one two)']:
             result = grade('macos-arm', 'list-files', text, 'zsh')
             self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+
+
+class AnswerOutcomes(unittest.TestCase):
+    def test_unknown_only_and_mixed_answers_are_undecided(self):
+        for text in ['python --imaginary', 'python --version\npython --imaginary']:
+            result = grade('win11-cmd-nogpu', 'python-version', text, 'cmd')
+            self.assertEqual(result['status'], 'UNDECIDED')
+            self.assertEqual(result['unknown_commands'], 1)
+            self.assertFalse(result['all_commands_decided'])
+
+    def test_broken_takes_precedence_over_unknown(self):
+        result = grade('win11-cmd-nogpu', 'python-version', 'python --imaginary\nconda --version', 'cmd')
+        self.assertEqual(result['status'], 'BROKEN')
+        self.assertEqual(result['unknown_commands'], 1)
+
+    def test_ok_requires_only_fits_and_installs(self):
+        result = grade('win11-cmd-nogpu', 'python-version', 'python --version', 'cmd')
+        self.assertEqual(result['status'], 'OK')
+        self.assertTrue(result['all_commands_decided'])
+        self.assertEqual(result['unknown_commands'], 0)

@@ -49,7 +49,7 @@ def main():
     rows = []
     for n, (pid, tid, shell, good, bad, reason) in enumerate(PAIRS, 1):
         fit = expected('OK', ('FITS', None))
-        no_parser = expected('OK', ('UNKNOWN', None))
+        no_parser = expected('UNDECIDED', ('UNKNOWN', None))
         if n == 14:
             fit = expected('OK', ('INSTALLS', None), ('FITS', None))
             no_parser = expected('BROKEN', ('UNKNOWN', None), ('WONT_RUN', 'program_missing'))
@@ -75,7 +75,7 @@ def main():
         ('not-environment-question', 'macos-arm', 'gpu-check',
          'Would you like me to help?', expected('NO_COMMANDS')),
         ('unknown-flags', 'win11-cmd-nogpu', 'python-version',
-         '```cmd\npython --imaginary\n```', expected('OK', ('UNKNOWN', None))),
+         '```cmd\npython --imaginary\n```', expected('UNDECIDED', ('UNKNOWN', None))),
         ('installer-not-elevated', 'win11-cmd-nogpu', 'install-ffmpeg',
          '```cmd\nchoco install ffmpeg\nffmpeg -version\n```',
          expected('BROKEN', ('WONT_RUN', 'needs_admin'), ('WONT_RUN', 'program_missing'))),
@@ -85,7 +85,7 @@ def main():
     # A bash fence is a POSIX-family hint, not a demand that Alpine run bash itself.
     ash = next(r for r in rows if r['id'] == 'bash-for-ash')
     ash.update(expected=expected('OK', ('FITS', None)), parser='sh', parser_probe='echo ok',
-               without_parser=expected('OK', ('UNKNOWN', None)))
+               without_parser=expected('UNDECIDED', ('UNKNOWN', None)))
     Path(__file__).with_name('answers.json').write_text(json.dumps(rows, indent=2) + '\n', encoding='utf-8')
 
 

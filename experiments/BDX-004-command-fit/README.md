@@ -32,7 +32,8 @@ was recorded. A task is what a person asks with no word about their machine ("se
 | D | B, then the judge's objections to its commands as feedback, at most 2 rounds (the candidate gate) |
 
 Judged without a model (`judge.py`): every command of the answer is FITS, INSTALLS (it installs what is missing),
-WONT_RUN (with a reason) or UNKNOWN; an answer is OK, BROKEN (a WONT_RUN command), ASKED (asks about the machine
+WONT_RUN (with a reason) or UNKNOWN; an answer is OK (all commands FITS/INSTALLS), UNDECIDED (UNKNOWN but no
+WONT_RUN), BROKEN (a WONT_RUN command), ASKED (asks about the machine
 and gives no command) or NO_COMMANDS.
 
 ## Layout
@@ -98,8 +99,9 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 
 ## Judge limits
 
-- **UNKNOWN never means FITS.** The required answer vocabulary has no UNKNOWN label: `OK` means only that no
-  command is proven WONT_RUN. Always report `unknown_commands` and `all_commands_decided` alongside OK.
+- **UNKNOWN never means FITS.** `OK` requires every command to be FITS or INSTALLS. `UNDECIDED` means at least
+  one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and
+  `all_commands_decided` for analysis; empty answers remain ASKED or NO_COMMANDS, never OK.
 - Only an explicit complete task rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
   observation, incomplete observations, dynamic code, pipelines, compound commands and redirects stay UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.

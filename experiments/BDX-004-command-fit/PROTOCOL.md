@@ -22,7 +22,10 @@ A, B, C, D as in README.md; same system prompt, task and model; order randomized
 
 ## Outcomes (judge.py, no model)
 Per command: FITS, INSTALLS, WONT_RUN (program_missing, wrong_shell_syntax, wrong_os, version_mismatch,
-needs_admin), UNKNOWN. Per answer: OK, BROKEN, ASKED, NO_COMMANDS. UNKNOWN is never counted as FITS.
+needs_admin), UNKNOWN. Per answer: OK (one or more commands, every one FITS/INSTALLS), BROKEN (any WONT_RUN),
+UNDECIDED (at least one UNKNOWN and no WONT_RUN), ASKED (machine question without commands), NO_COMMANDS
+(other text without commands). BROKEN takes precedence over UNDECIDED. UNKNOWN is never counted as FITS;
+UNDECIDED answers must not be counted as OK or silently dropped from the outcome denominator.
 
 Shell hints are families: bash/sh/zsh/shell/console are POSIX, separate from PowerShell and cmd. A tag mismatch
 is a shell failure only across families. OS/program failures take precedence over the tag. Parse the command

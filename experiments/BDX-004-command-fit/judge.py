@@ -158,7 +158,7 @@ def judge_command(command, profile, req, installed):
 
 
 def judge_answer(answer, profile, task):
-    """OK means no proven broken command; inspect UNKNOWN and all_commands_decided too."""
+    """OK requires all FITS/INSTALLS; undecided commands cannot establish success."""
     p, t = load_profile(profile), load_task(task)
     if p['id'] not in t['requirements']:
         raise ValueError('task does not apply to this profile')
@@ -166,7 +166,8 @@ def judge_answer(answer, profile, task):
     for command in extract(answer):
         rows.append(judge_command(command, p, t['requirements'][p['id']], installed))
     if rows:
-        status = 'BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else 'OK'
+        status = ('BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else
+                  'UNDECIDED' if any(r['status'] == 'UNKNOWN' for r in rows) else 'OK')
     else:
         question = '?' in answer and re.search(r'(?i)\b(?:operating system|OS|shell|Python|GPU|driver|sudo|'
                                                r'Windows|macOS|Linux|machine|computer|version|admin|package manager)\b', answer)

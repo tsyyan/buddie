@@ -69,3 +69,6 @@ Baseline f59c325: 55 recorded answers, 39 commands, 3 UNKNOWN (7.6923%) with bas
 dash and pwsh available. Saved actual per-command results in tests/unknown_before.json.
 Shell-family regressions were observed failing before the fix; the complete 37-test
 experiment suite now passes with those parsers. All eight profiles still validate.
+
+UNDECIDED regression observed failing, then fixed. Updated the corpus's literal expected
+outcomes and both protocol/README; BROKEN still precedes UNKNOWN and empty text is not OK.
