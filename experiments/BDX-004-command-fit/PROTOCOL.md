@@ -1,60 +1,103 @@
-# BDX-004 protocol (DRAFT)
+# BDX-004 protocol
 
-Not registered. It is fixed, with its date, before the first model answer is recorded; every change after that is
-listed under "Changes after data" with its reason, as in BDX-003.
+Version 1, 2026-11-01. Written before any model answer. It is registered (this line gets the registration date and
+commit) when the judge-validation pilot below has passed and before the first answer of the experiment is recorded.
+Every change after that is listed under "Changes after data", with its date and reason, as in BDX-003.
 
 ## Question
-See README.md. Primary: share of BROKEN answers (at least one WONT_RUN command), B − A, paired by unit.
-Secondary: C − A; D − B; tool use in B (share of units where the model called the tool, categories asked); objections
-of the judge to commands that a person on that machine could run (false objections, from the audit); tokens and
-requests per unit.
+
+Does buddie's environment snapshot make the commands a model tells a person to run fit that person's machine, and
+would a model-free check of those commands (a candidate hook gate) catch the rest without objecting to commands that
+are fine? See README.md.
 
 ## Material
-- Profiles: at least 8 machines across Windows (PowerShell, cmd), macOS (Apple Silicon), Linux (Ubuntu, Fedora,
-  Alpine container, no root), WSL; with and without an NVIDIA GPU. Each is an environment-diagnostics-v1 document that
-  `buddie.diagnostics.problems` accepts, and says whether it is hand-built or recorded.
-- Tasks: at least 24, each phrased without a word about the machine, each with the categories it needs and what a
-  command must satisfy on each profile.
-- Units: every (profile, task) pair whose task applies to the profile; the list and its seed are recorded.
+
+- **Profiles**: 8 machines (`profiles/index.json`): Windows 11 with PowerShell and an NVIDIA GPU, Windows with cmd and
+  no GPU, macOS on Apple Silicon, Ubuntu 24.04 with CUDA, Ubuntu 22.04 without sudo, WSL, Fedora 40, Alpine in a
+  container. Each is an `environment-diagnostics-v1` document that `buddie.diagnostics.problems` accepts. All are
+  hand-built; none describes a real machine.
+- **Tasks**: 24 (`tasks/tasks.json`), each phrased with no word about the machine, with the categories it needs and
+  what a command must satisfy on each profile.
+- **Units**: the 192 (profile, task) pairs where the task applies (`tasks/units.json`, seed 4).
 
 ## Arms
-A, B, C, D as in README.md; same system prompt, task and model; order randomized per unit.
 
-## Outcomes (judge.py, no model)
+The same model, system prompt and task in every arm; arm order randomized per unit (seed recorded).
+
+| Arm | The model gets |
+|---|---|
+| A | the task only |
+| B | the task, and the tool `environment_snapshot` (`tool_schema.json`) answered by `tool.py` from the profile: the requested categories, those outside the profile's grants as `denied` |
+| C | the task, with the profile's snapshot of the task's categories in the first message |
+| D | arm B, then, while the judge finds a WONT_RUN command, its objections as feedback (at most 2 rounds) |
+
+System prompt (all arms): "You help a person with their own computer. When the answer involves commands, give the
+exact commands for them to run." Arm D's feedback lists each WONT_RUN command with its reason and the profile facts
+it rests on, in the hook's form ("buddie sent this text back ..."); UNKNOWN commands are not fed back.
+
+## Outcomes (judge.py, no model; no answer text is ever executed)
+
 Per command: FITS, INSTALLS, WONT_RUN (program_missing, wrong_shell_syntax, wrong_os, version_mismatch,
-needs_admin), UNKNOWN. Per answer: OK (one or more commands, every one FITS/INSTALLS), BROKEN (any WONT_RUN),
-UNDECIDED (at least one UNKNOWN and no WONT_RUN), ASKED (machine question without commands), NO_COMMANDS
-(other text without commands). BROKEN takes precedence over UNDECIDED. UNKNOWN is never counted as FITS;
-UNDECIDED answers must not be counted as OK or silently dropped from the outcome denominator.
+needs_admin), UNKNOWN. Per answer: OK (one or more commands, every one FITS or INSTALLS), BROKEN (any WONT_RUN),
+UNDECIDED (at least one UNKNOWN, no WONT_RUN), ASKED (asks about the machine, no command), NO_COMMANDS. BROKEN takes
+precedence over UNDECIDED. UNKNOWN never counts as FITS, and UNDECIDED answers stay in every denominator.
 
-Shell hints are families: bash/sh/zsh/shell/console are POSIX, separate from PowerShell and cmd. A tag mismatch
-is a shell failure only across families. OS/program failures take precedence over the tag. Parse the command
-using the profile's shell: sh uses dash -n plus explicit bashism checks; zsh accepts the POSIX-parseable subset
-and is UNKNOWN outside it. No answer text is executed.
-Quoted literal text is not evidence of a bashism. A failure in the judge's non-native tokenizer is UNKNOWN
-unless a target-shell syntax check establishes invalid syntax. Missing Python modules are availability
-failures and also precede a shell-tag mismatch.
+Shell rules:
+- Shell hints are families: bash, sh, zsh, shell, console are POSIX; PowerShell and cmd are separate. A block tagged
+  for a shell is runnable when that shell is observed on the profile (decided 2026-11-01: a PowerShell block on a
+  Windows profile whose default is cmd but which has Windows PowerShell or pwsh is judged as PowerShell, not as a
+  wrong shell). The profile's default shell decides only for untagged blocks.
+- OS and program failures are reported before a shell mismatch.
+- Syntax is parsed with the target shell's parser: `bash -n`; `dash -n` plus explicit bashism checks for sh; the
+  POSIX-parseable subset for zsh (else UNKNOWN); PowerShell's `Parser.ParseInput` when `pwsh` is present (else
+  UNKNOWN); a small explicit rule set for cmd. A failure of the judge's own tokenizer is UNKNOWN, not invalid syntax.
+- Command lists (`&&`, `||`, `;`) and control structures (`if`, `for`, `while`, `case`) are judged part by part; the
+  list takes its worst part (WONT_RUN > UNKNOWN > INSTALLS > FITS).
+- Base userland (`base_commands.py`, cited sources) establishes availability only; an observation that a program is
+  missing overrides it; unrecognized flags stay UNKNOWN.
 
-The judge may also use the cited base-command subsets and bounded forms in base_commands.py. They model the
-synthetic profile's userland (Linux coreutils/util-linux, Alpine BusyBox, macOS BSD, PowerShell core or cmd
-builtins). They establish availability only; stronger observations and task constraints still apply, and
-unrecognized flags remain UNKNOWN. A missing observation overrides a base availability assumption.
+## Endpoints
 
-Report the share of UNKNOWN commands over **all extracted commands across all recorded answers**. Include
-UNKNOWNs in BROKEN answers; questions/prose have no commands. Record parser availability. When the answer corpus
-changes, report both the full current corpus and the original-ID subset with its original denominator.
+- **Primary**: share of BROKEN answers, B − A, paired by unit, all 192 units, 95 % paired bootstrap interval (4000
+  resamples, seed 7, as in BDX-003).
+- **Secondary**: C − A (the snapshot given, not asked for); D − B (what the gate adds); D − A; in B, the share of
+  units where the model called the tool and the categories it asked; ASKED and UNDECIDED shares per arm; input tokens
+  and requests per unit; BROKEN by profile and by reason.
+- **Judge reliability**: from the audit, the share of WONT_RUN verdicts a person on that machine could in fact run
+  (false objections), per reason.
 
-## Pre-run review corrections (2026-11-01)
-Added POSIX-family hints, OS/program reason precedence, UNDECIDED, cited base-userland data and five recorded
-review regressions. No model answers have been collected. With bash, dash and pwsh available, UNKNOWN changes
-from 3/39 (7.69%) at f59c325 to 1/39 (2.56%) for the original 55 answers, or 1/44 (2.27%) for all 60 current
-answers. See tests/unknown_before.json and tests/unknown_after.json. This is a fixture check, not an arm comparison.
+Expectations, stated before data, not tested as hypotheses beyond the intervals: B below A; C at or below B; D below
+B; false objections under 10 % of WONT_RUN verdicts. A gate (`commands` in the hook) is proposed for the plugin only
+if D − B is below zero and false objections stay under 10 %.
 
-## Audit
-A blind 20 % sample of judged commands is read by the owner (does WONT_RUN hold on that machine; would FITS run).
+## Judge-validation pilot (before registration; its answers are not results)
+
+Arm A only, model `openai/gpt-oss-120b` (free tier, as BDX-003), 40 units drawn stratified by profile (5 per profile,
+seed recorded). The owner reads every judged command (a check of the judge, not of the arms).
+The judge passes when UNKNOWN is at most 25 % of extracted commands and no reason class shows a systematic false
+objection. Failing that, the judge is fixed from these answers and the pilot is repeated on 40 other units. The
+pilot's answers are kept apart and never pooled; judge changes after registration go to "Changes after data".
 
 ## Models
-To be fixed before the run: one free model (as BDX-003) and one paid model if a budget is available.
+
+`openai/gpt-oss-120b` through the free providers of BDX-003 (one provider per unit, never split), and
+`claude-opus-5` if a paid budget remains after BDX-003. Each model is run on all four arms.
+
+## Audit
+
+A blind 20 % sample of judged commands, stratified by verdict, is read by the owner: does a WONT_RUN hold on that
+machine, would a FITS run. Disagreements are reported per verdict and reason; a reason class with more than 10 %
+false objections is reported as unreliable and left out of the gate proposal.
+
+## Before data: judge history
+
+- 2026-11-01, review of the starter set: POSIX shell families, OS and program reasons before the shell tag, UNDECIDED,
+  cited base userland, review regressions recorded. UNKNOWN over the recorded answers: 3/39 (7.7 %) at f59c325,
+  1/39 (2.6 %) after, 1/44 (2.3 %) over all 60 answers (tests/unknown_before.json, unknown_after.json). Recorded
+  answers are simpler than a model's, so the pilot above measures UNKNOWN on real ones.
+- 2026-11-01, owner: a tagged block is judged in its own shell when that shell is observed on the profile (above);
+  command lists and control structures are judged part by part.
 
 ## Changes after data
+
 (none)
