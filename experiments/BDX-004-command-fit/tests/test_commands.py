@@ -33,7 +33,7 @@ class Extraction(unittest.TestCase):
 
     def test_aliases_and_console_output(self):
         for tag, shell in [('ps1', 'powershell'), ('powershell', 'powershell'),
-                           ('bat', 'cmd'), ('zsh', 'zsh'), ('shell', 'unknown'), ('console', 'unknown')]:
+                           ('bat', 'cmd'), ('zsh', 'zsh'), ('shell', 'posix'), ('console', 'posix')]:
             with self.subTest(tag=tag):
                 self.assertEqual(commands.extract(f'```{tag}\ngit --version\ngit version 2.47.0\n```'),
                                  [{'text': 'git --version', 'shell': shell}])

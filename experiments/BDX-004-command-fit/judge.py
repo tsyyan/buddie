@@ -7,7 +7,7 @@ import shlex
 
 from commands import extract
 from facts import observation, program, python_facts, value, version
-from syntax import syntax
+from syntax import family, syntax
 from tool import HERE, load_profile
 
 
@@ -57,12 +57,6 @@ def judge_command(command, profile, req, installed):
     def verdict(status, reason=None, detail=None, **extra):
         return dict(command, status=status, reason=reason, detail=detail, **extra)
 
-    if hint != 'unknown' and hint != target:
-        return verdict('WONT_RUN', 'wrong_shell_syntax', f'{hint} block for a {target} scenario')
-    if wrong_syntax(text, target, profile):
-        return verdict('WONT_RUN', 'wrong_shell_syntax', 'explicit cross-shell syntax')
-    if not simple(text):
-        return verdict('UNKNOWN', detail='compound command, expansion, or redirection outside the rule set')
     try:
         tokens = shlex.split(text, posix=target in ('bash', 'sh', 'zsh'))
     except ValueError:
@@ -87,11 +81,19 @@ def judge_command(command, profile, req, installed):
         name = '$env:APP_MODE'
     platform = profile['document']['collector']['platform']
     relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
+    if name in ('nvidia-smi', 'nvcc') and observation(profile, 'software.gpu_stack', 'cuda_driver').get('reason') == 'not_applicable_on_platform':
+        return verdict('WONT_RUN', 'wrong_os', 'NVIDIA/CUDA tools are not applicable on this platform')
     if relevant and all(platform not in r['os'] for r in relevant):
         return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
     found, found_version = program(profile, req, name, installed)
     if found is False:
         return verdict('WONT_RUN', 'program_missing', f'{name} not found on the scenario PATH')
+    if hint != 'unknown' and family(hint) != family(target):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', f'{family(hint)} block for a {family(target)} scenario')
+    if wrong_syntax(text, target, profile):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'explicit cross-shell syntax')
+    if not simple(text):
+        return verdict('UNKNOWN', detail='compound command, expansion, or redirection outside the rule set')
     if name in ('py', 'python', 'python3') or re.fullmatch(r'python3\.\d+', name):
         py = python_facts(profile, name, text)
         if py.get('version_mismatch'):

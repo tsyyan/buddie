@@ -3,7 +3,7 @@ import re
 
 LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell',
              'pwsh': 'powershell', 'ps1': 'powershell', 'cmd': 'cmd', 'bat': 'cmd',
-             'console': 'unknown', 'shell': 'unknown', '': 'unknown'}
+             'console': 'posix', 'shell': 'posix', '': 'unknown'}
 PROGRAMS = set(('python python3 py pip pip3 uv conda pipx node npm npx git curl curl.exe wget '
                 'tar unzip zip ffmpeg nvidia-smi nvcc apt apt-get dnf apk brew winget choco '
                 'sudo docker podman bash sh zsh pwsh powershell cmd env export set echo source . '
@@ -45,6 +45,8 @@ def starts_program(line):
         return False
     if line.startswith('& '):
         return starts_program(line[2:].lstrip())
+    if re.match(r'^(?:\[\[\s|[A-Za-z_]\w*=\()', line):
+        return True  # Keep shell constructs so incompatible profiles can reject them.
     assignment = re.match(r'^[A-Za-z_]\w*=(?:"[^"\n]*"|\x27[^\x27\n]*\x27|[^\s]+)\s+(.+)$', line)
     if assignment:
         return starts_program(assignment[1])

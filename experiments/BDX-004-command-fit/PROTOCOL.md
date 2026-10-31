@@ -24,6 +24,11 @@ A, B, C, D as in README.md; same system prompt, task and model; order randomized
 Per command: FITS, INSTALLS, WONT_RUN (program_missing, wrong_shell_syntax, wrong_os, version_mismatch,
 needs_admin), UNKNOWN. Per answer: OK, BROKEN, ASKED, NO_COMMANDS. UNKNOWN is never counted as FITS.
 
+Shell hints are families: bash/sh/zsh/shell/console are POSIX, separate from PowerShell and cmd. A tag mismatch
+is a shell failure only across families. OS/program failures take precedence over the tag. Parse the command
+using the profile's shell: sh uses dash -n plus explicit bashism checks; zsh accepts the POSIX-parseable subset
+and is UNKNOWN outside it. No answer text is executed.
+
 ## Audit
 A blind 20 % sample of judged commands is read by the owner (does WONT_RUN hold on that machine; would FITS run).
 

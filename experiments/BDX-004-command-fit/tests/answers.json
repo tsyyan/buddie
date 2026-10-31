@@ -894,11 +894,22 @@
     "kind": "tricky",
     "answer": "```bash\nexport APP_MODE=development\n```",
     "expected": {
-      "status": "BROKEN",
+      "status": "OK",
       "commands": [
         {
-          "status": "WONT_RUN",
-          "reason": "wrong_shell_syntax"
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
         }
       ]
     }

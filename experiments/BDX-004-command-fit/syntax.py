@@ -12,10 +12,19 @@ PS_PARSE = ('$t=$null; $e=$null; $s=[Console]::In.ReadToEnd(); '
             'if ($e.Count -gt 0) { exit 1 }; exit 0')
 
 
+def family(shell):
+    return 'posix' if shell in ('bash', 'sh', 'zsh', 'shell', 'console', 'posix') else shell
+
+
+def non_posix(text):
+    """dash -n accepts [[ as a command name, so explicitly reject these extensions too."""
+    return bool(re.search(r'(?:^|[;\n])\s*(?:\[\[\s|source\s|[A-Za-z_]\w*=\()', text))
+
+
 @lru_cache(maxsize=8)
 def parser(shell):
     """Find a local parser without invoking Windows' WSL launch aliases."""
-    candidates = ['pwsh'] if shell == 'powershell' else ['bash'] if shell == 'bash' else ['dash', 'busybox'] if shell == 'sh' else []
+    candidates = ['pwsh'] if shell == 'powershell' else ['bash'] if shell == 'bash' else ['dash'] if shell in ('sh', 'zsh') else []
     for name in candidates:
         exe = shutil.which(name)
         if exe and os.name == 'nt' and ('windowsapps' in exe.lower() or
@@ -23,7 +32,7 @@ def parser(shell):
             continue
         if exe:
             return [exe, '-NoProfile', '-NonInteractive', '-Command', PS_PARSE] if name == 'pwsh' else \
-                   [exe, 'sh', '-n'] if name == 'busybox' else [exe, '--noprofile', '--norc', '-n'] if name == 'bash' else [exe, '-n']
+                   [exe, '--noprofile', '--norc', '-n'] if name == 'bash' else [exe, '-n']
     return None
 
 
@@ -38,8 +47,10 @@ def syntax(shell, text):
                         r'[A-Za-z][\w.-]*(?: [^&|<>\r\n]*)?)', text):
             return True
         return None
-    if shell not in ('bash', 'sh', 'powershell'):
-        return None  # bash -n is not a zsh parser.
+    if shell in ('sh', 'zsh') and non_posix(text):
+        return False if shell == 'sh' else None
+    if shell not in ('bash', 'sh', 'zsh', 'powershell'):
+        return None
     argv = parser(shell)
     if not argv:
         return None
@@ -52,4 +63,4 @@ def syntax(shell, text):
     except (OSError, subprocess.TimeoutExpired, UnicodeError):
         return None
     # 0/1/2 are parser success/syntax failures; other failures are not about the answer.
-    return True if result.returncode == 0 else False if result.returncode in (1, 2) else None
+    return True if result.returncode == 0 else False if shell != 'zsh' and result.returncode in (1, 2) else None

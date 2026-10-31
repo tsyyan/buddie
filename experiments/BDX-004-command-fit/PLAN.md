@@ -57,3 +57,15 @@ installer state, and platform-independent outcomes.
 - Final extraction check reproduced common curl/pip/ffmpeg/Docker version output as
   spurious extra commands. Added a failing regression and filtered these output forms;
   32 experiment tests now pass, with all 8 profiles independently validated.
+
+## PR review corrections (2026-11-01)
+
+User-specified follow-up: (1) POSIX shell families and OS/program reason priority;
+(2) explicit UNDECIDED answers; (3) cited base-command data; (4) expanded recorded
+answers and before/after UNKNOWN shares. Each is a small test-first commit in this folder.
+The earlier OK ruling above is superseded by the requested UNDECIDED outcome.
+
+Baseline f59c325: 55 recorded answers, 39 commands, 3 UNKNOWN (7.6923%) with bash,
+dash and pwsh available. Saved actual per-command results in tests/unknown_before.json.
+Shell-family regressions were observed failing before the fix; the complete 37-test
+experiment suite now passes with those parsers. All eight profiles still validate.

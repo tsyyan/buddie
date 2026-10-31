@@ -106,12 +106,14 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
   names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
   assuming that the original PATH and module lookup still apply. Node 20 rules require major version 20.
-- Bash uses `bash --noprofile --norc -n`; sh uses dash or `busybox sh -n`. PowerShell uses a fixed
+- Bash uses `bash --noprofile --norc -n`; sh uses `dash -n`. Explicit checks also reject `[[ ]]`, arrays and
+  `source` on sh: dash's syntax parser alone treats `[[` as an ordinary command name. PowerShell uses a fixed
   `pwsh -NoProfile -NonInteractive -Command` parser script: answer bytes go only to `ParseInput` through stdin.
-  Cmd uses a small explicit syntax rule set. Missing parsers produce UNKNOWN; zsh has no supported parser and
-  therefore stays UNKNOWN even for otherwise fitting commands. Windows WSL launcher aliases are not started.
-- Shell tags describe the intended execution shell. A block for another scenario shell is rejected with
-  `wrong_shell_syntax`; no implicit shell switching is inferred. Explicit cross-shell idioms are rejected even
+  Cmd uses a small explicit syntax rule set. Missing parsers produce UNKNOWN. For zsh, POSIX text accepted by
+  dash is supported; syntax outside that subset is UNKNOWN. Windows WSL launcher aliases are not started.
+- bash, sh, zsh, shell and console fences share the POSIX family. Tag mismatches produce `wrong_shell_syntax`
+  only across POSIX, PowerShell and cmd families. The profile's shell determines the syntax check, not the tag.
+  OS applicability and observed program availability are checked before a family mismatch. Cross-shell idioms are rejected even
   without a parser. Windows PowerShell 5.1 does not acquire PowerShell 7's `&&` syntax from the host parser.
 - Earlier recognized INSTALLS commands make their programs available to later commands in the same answer,
   assuming successful installation; failed/unknown installers do not. State resets between answers. Downloads,

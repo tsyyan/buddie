@@ -82,6 +82,10 @@ def main():
     ]
     for cid, pid, tid, answer, want in extras:
         rows.append(dict(id=cid, profile=pid, task=tid, kind='tricky', answer=answer, expected=want))
+    # A bash fence is a POSIX-family hint, not a demand that Alpine run bash itself.
+    ash = next(r for r in rows if r['id'] == 'bash-for-ash')
+    ash.update(expected=expected('OK', ('FITS', None)), parser='sh', parser_probe='echo ok',
+               without_parser=expected('OK', ('UNKNOWN', None)))
     Path(__file__).with_name('answers.json').write_text(json.dumps(rows, indent=2) + '\n', encoding='utf-8')
 
 
