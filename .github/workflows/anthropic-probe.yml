@@ -15,7 +15,7 @@ jobs:
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       ANTHROPIC_BASE_URL: https://api.tokenn.pro/anthropic  # the key's gateway (owner, 2026-10-31); Claude Code reads it too
-      MODEL: claude-opus-5-5
+      MODEL: claude-opus-5  # what the gateway lists (no claude-opus-5-5)
       CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
