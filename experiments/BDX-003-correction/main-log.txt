@@ -1,0 +1,18 @@
+# main run chunks (UTC): when a chunk was started and what the previous one left
+2026-10-30T07:14Z chunk 1 started after pilot 3 (run 41002796371: 59 rows, 15 units, 1 failed run)
+2026-10-30T13:01Z chunk 2 started; chunk 1 (run 41018866981): 30 of 146 eligible units with every arm, 121 rows, all at ovh, 4 failed runs
+2026-10-30T18:36Z chunk 3 started; chunk 2 (run 41059894111): 60 of 146 eligible units with every arm, 241 rows, all at ovh, 5 failed runs
+2026-10-31T00:01Z chunk 4 started; chunk 3 (run 41108364802): 96 of 146 eligible units with every arm, 384 rows, all at ovh, 9 failed runs in all
+2026-10-31T05:36Z chunk 5 started; chunk 4 (run 41147821118): 128 of 146 eligible units with every arm, 515 rows, all at ovh, 12 failed runs in all
+2026-10-31T08:11Z openai/gpt-oss-120b complete after chunk 5 (run 41173284591): 146 of 146 eligible units, 584 rows, all at ovh, 14 failed runs (A 1, B 7, C 6, D 0).
+  ERROR units, share still WRONG: A 0.989 (n 93), B 0.276 (n 87), C 0.112 (n 89), D 0.543 (n 94); CORRECT: A 0, B 0.402, C 0.472, D 0.426.
+  OK units, share CORRECT: A 0.942, B 0.923, C 0.941, D 0.962.
+  Paired, ERROR, bad = WRONG: C-B -0.145 [-0.241, -0.048] (n 83; only B bad 16, only C bad 4); D-A -0.452 [-0.548, -0.355] (n 93);
+  D-B +0.276 [0.149, 0.402] (n 87); C-A -0.886; B-A -0.721. Paired, OK, bad = not CORRECT: C-B -0.02 [-0.098, 0.039] (n 51).
+  Mean input tokens per unit (ERROR): A 578, B 9,681, C 13,237, D 18,030; requests A 1.0, B 5.4, C 6.2, D 7.0.
+2026-10-31T08:11Z gemini-3.8-flash started (main.env PROVIDER=gemini)
+2026-10-31T08:50Z gemini-3.8-flash paused: the free tier answers 'You exceeded your current quota' (HTTP 429) almost at once (runs 41183576896, 41184441897: 4 rows, 1 unit; tool calling itself works). Before this fix, 429s were recorded as failed runs; arms.py now stops the provider on a quota 429, and --drop-rate-limited removes the rows written that way. The second model waits for the owner's decision.
+2026-10-31T14:30Z arm E (improved feedback, PROTOCOL 2026-10-31) started on openai/gpt-oss-120b over the 146 units; A-D rows kept
+2026-10-31T17:00Z claude-opus-5: 5-unit measurement queued after the arm E chunk (main.env N=5, arms A,B,C,E)
+2026-10-31T17:05Z the claude-opus-5 measurement moves to the pilot job (pilot.env, its own 14-unit pool), so it runs now beside the arm E chunk; main.env is arm E on gpt-oss again
+2026-10-31T17:40Z claude-opus-5 measurement (pilot run 41221488994, 5 units, arms A,B,C,E, 0 failed): ERROR A wrong 1.0; B, C, E correct 0.667, paraphrased 0.333, wrong 0. Usage per unit as reported (input/output): A 909/267, B 1240/82, C 2368/282, E 1886/104 on ERROR; one cell (C, OK) came back 0/0, so arms.py now also counts sent characters.

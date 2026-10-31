@@ -1,0 +1,268 @@
+name: bdx003
+# BDX-003 (experiments/BDX-003-correction): does buddie's feedback leave fewer false quotations in a paragraph than
+# a model checking its own quotes? Model-free tests on every PR that touches it; the pilot runs only on a push to
+# experiment/bdx-003-pilot or by hand, on GitHub Models with the workflow's own token (free tier, models: read).
+on:
+  pull_request:
+    paths:
+      - 'experiments/BDX-003-correction/**'
+      - '.github/workflows/bdx003.yml'
+  push:
+    branches: [experiment/bdx-003-pilot, experiment/bdx-003-report, experiment/bdx-003-main]
+  workflow_dispatch:
+    inputs:
+      provider: {description: 'github, groq, gemini, openrouter, ovh or cloudflare, or several: ovh,groq (PROVIDERS.md)', default: ''}
+      model: {description: 'model id for that provider', default: ''}
+      pool: {description: 'units to fetch (seeded, stratified)', default: ''}
+      n: {description: 'eligible units to run', default: ''}
+      arms: {default: ''}
+      max_requests: {description: 'request budget for this run', default: ''}
+permissions:
+  contents: read
+jobs:
+  model-free:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -q -e .
+      - run: cd experiments/BDX-003-correction && python -m unittest discover -s tests -v
+  pilot:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/experiment/bdx-003-pilot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+      models: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -q -e .
+      - name: model-free tests
+        run: |
+          python -m unittest discover -s experiments/tests
+          cd experiments/BDX-003-correction && python -m unittest discover -s tests
+      - name: settings (pilot.env, then the inputs of a manual run)
+        env:
+          I_PROVIDER: ${{ inputs.provider }}
+          I_MODEL: ${{ inputs.model }}
+          I_POOL: ${{ inputs.pool }}
+          I_N: ${{ inputs.n }}
+          I_ARMS: ${{ inputs.arms }}
+          I_MAX: ${{ inputs.max_requests }}
+        run: |
+          grep -E '^[A-Z_]+=' experiments/BDX-003-correction/pilot.env >> "$GITHUB_ENV"
+          for v in PROVIDER:I_PROVIDER MODEL:I_MODEL POOL:I_POOL N:I_N ARMS:I_ARMS MAX_REQUESTS:I_MAX; do
+            name="${v%%:*}"; src="${v#*:}"; val="${!src}"
+            if [ -n "$val" ]; then echo "$name=$val" >> "$GITHUB_ENV"; fi
+          done
+      - name: probe the model API (one request)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: ${{ env.ANTHROPIC_BASE_URL }}
+        run: |
+          cd experiments/BDX-003-correction
+          python - <<'PY'
+          import os, arms
+          ok = False
+          wanted = os.environ["PROVIDER"].split(",")
+          for prov, model in [(p, os.environ["MODEL"]) for p in wanted] + [("gemini", "gemini-3.8-flash")]:
+              try:
+                  c = arms.Client(prov, model, 60, 1, 30, None)
+                  msg, _ = c.chat([{"role": "user", "content": "Reply with the word pong."}], None)
+                  res = "answered: " + (msg.get("content") or "")[:60]
+                  ok = ok or prov in wanted
+              except SystemExit as e:
+                  res = f"no key: {e}"
+              except Exception as e:  # noqa: BLE001
+                  res = f"failed: {str(e)[:250]}"
+              print(f"::notice title=BDX-003 probe {prov}::{model} " + res.replace(chr(10), " "))
+          import json, urllib.request
+          for prov, url, env in (("groq", "https://api.groq.com/openai/v1/models", "GROQ_API_KEY"),
+                                 ("gemini", "https://generativelanguage.googleapis.com/v1beta/openai/models", "GEMINI_API_KEY")):
+              try:
+                  req = urllib.request.Request(url, headers={"Authorization": "Bearer " + os.environ.get(env, ""),
+                                                             "User-Agent": "buddie-bdx003/1"})
+                  ids = sorted(m["id"] for m in json.loads(urllib.request.urlopen(req, timeout=60).read())["data"])
+                  print(f"::notice title=BDX-003 models {prov}::" + ", ".join(ids)[:3000])
+              except Exception as e:  # noqa: BLE001
+                  print(f"::notice title=BDX-003 models {prov}::failed: {str(e)[:200]}")
+          raise SystemExit(0 if ok else 1)
+          PY
+      - name: units and sources (fetched again; changed pages are left out)
+        run: |
+          cd experiments/BDX-003-correction
+          python units.py --out data/units.json
+          python refetch.py --units data/units.json --sample "$POOL" --raw data/raw-store --store data/store --out data/eligible.json
+      - name: arms
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: ${{ env.ANTHROPIC_BASE_URL }}
+        run: |
+          cd experiments/BDX-003-correction
+          python arms.py --units data/units.json --eligible data/eligible.json --store data/store \
+            --provider "$PROVIDER" --model "$MODEL" --n "$N" --arms "$ARMS" ${RPM:+--rpm "$RPM"} \
+            --max-requests "$MAX_REQUESTS" --out data/runs.jsonl
+      - name: judge (independent of buddie)
+        if: always()
+        run: |
+          cd experiments/BDX-003-correction
+          test -s data/runs.jsonl && python judge.py --units data/units.json --store data/store --runs data/runs.jsonl --out data/judged
+          test -f data/judged/summary.md && cat data/judged/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+          python notices.py data
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        if: always()
+        with:
+          name: bdx003-pilot-${{ github.run_id }}
+          path: |
+            experiments/BDX-003-correction/data/units.json
+            experiments/BDX-003-correction/data/eligible.json
+            experiments/BDX-003-correction/data/runs.jsonl
+            experiments/BDX-003-correction/data/judged/
+          if-no-files-found: warn
+  report:
+    # the numbers of an earlier pilot as annotations, without calling a model again; the run id is in
+    # experiments/BDX-003-correction/REPORT_RUN on the pushed commit
+    if: github.ref == 'refs/heads/experiment/bdx-003-report'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: '3.12'
+      - id: run
+        run: echo "id=$(cat experiments/BDX-003-correction/REPORT_RUN)" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0
+        with:
+          name: bdx003-pilot-${{ steps.run.outputs.id }}
+          run-id: ${{ steps.run.outputs.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: experiments/BDX-003-correction/data
+      - run: cd experiments/BDX-003-correction && python notices.py data
+  main:
+    # the main run in chunks: each push to experiment/bdx-003-main restores data/ (units, eligibility, the snapshot
+    # stores, runs.jsonl) from the newest cache of earlier chunks, runs what is left until the providers' limits or
+    # MINUTES, judges everything so far and saves data/ again. The snapshot stores stay in the repository's Actions
+    # cache (other people's pages are never uploaded as artifacts).
+    if: github.ref == 'refs/heads/experiment/bdx-003-main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    concurrency:
+      group: bdx003-main
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -q -e .
+      - name: model-free tests
+        run: |
+          python -m unittest discover -s experiments/tests
+          cd experiments/BDX-003-correction && python -m unittest discover -s tests
+      - name: settings (main.env)
+        run: grep -E '^[A-Z_]+=' experiments/BDX-003-correction/main.env >> "$GITHUB_ENV"
+      - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
+        with:
+          path: experiments/BDX-003-correction/data
+          key: bdx003-main-${{ github.run_id }}
+          restore-keys: bdx003-main-
+      - name: units and sources, once (later chunks reuse them)
+        run: |
+          cd experiments/BDX-003-correction
+          if [ -s data/eligible.json ]; then echo "reusing data/ from an earlier chunk"; exit 0; fi
+          python units.py --out data/units.json
+          python refetch.py --units data/units.json --raw data/raw-store --store data/store --out data/eligible.json
+      - name: probe the provider with the source tool (one request each)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: ${{ env.ANTHROPIC_BASE_URL }}
+        run: |
+          cd experiments/BDX-003-correction
+          python - <<'PY' || true
+          import os, arms
+          for prov in os.environ["PROVIDER"].split(","):
+              try:
+                  c = arms.Client(prov, os.environ["MODEL"], 60, 1, 30, None)
+                  msg, _ = c.chat([{"role": "user", "content": "Use the source_text tool on https://example.org with query 'x'."}], [arms.TOOL])
+                  res = f"tool_calls={bool(msg.get('tool_calls'))} content={(msg.get('content') or '')[:80]!r}"
+              except BaseException as e:  # noqa: BLE001 - reported, not fatal
+                  res = f"failed: {str(e)[:400]}"
+              print(f"::notice title=BDX-003 tool probe {prov}::" + res.replace(chr(10), " "))
+          PY
+      - name: arms (resumes; stops at the limits or after MINUTES)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: ${{ env.ANTHROPIC_BASE_URL }}
+        run: |
+          cd experiments/BDX-003-correction
+          timeout --signal=INT "${MINUTES}m" python arms.py --units data/units.json --eligible data/eligible.json \
+            --store data/store --provider "$PROVIDER" --model "$MODEL" --arms "$ARMS" ${RPM:+--rpm "$RPM"} \
+            ${N:+--n "$N"} ${POOL:+--pool} ${DROP_RATE_LIMITED:+--drop-rate-limited} \
+            --max-requests "$MAX_REQUESTS" --out data/runs.jsonl || echo "arms ended with $?"
+      - name: judge everything so far (independent of buddie)
+        if: always()
+        run: |
+          cd experiments/BDX-003-correction
+          test -s data/runs.jsonl || exit 0
+          python judge.py --units data/units.json --store data/store --runs data/runs.jsonl --out data/judged
+          cat data/judged/summary.md >> "$GITHUB_STEP_SUMMARY"
+          python notices.py data
+          python - <<'PY'
+          import collections, os
+          from common import read_json, read_jsonl
+          model, arms = os.environ["MODEL"], set(os.environ["ARMS"].split(","))
+          el = [r for r in read_json("data/eligible.json")["rows"] if r["eligible"]]
+          runs = read_jsonl("data/runs.jsonl")
+          done = collections.Counter(r["unit"] for r in runs if r["model"] == model and r["arm"] in arms)
+          full = sum(1 for r in el if done.get(r["id"], 0) >= len(arms))
+          prov = collections.Counter(r.get("provider") for r in runs if r["model"] == model)
+          print(f"::notice title=BDX-003 main progress::{model}: {full} of {len(el)} eligible units have every arm; "
+                f"{len(runs)} rows in all; rows per provider {dict(prov)}")
+          PY
+      - uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
+        if: always()
+        with:
+          path: experiments/BDX-003-correction/data
+          key: bdx003-main-${{ github.run_id }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        if: always()
+        with:
+          name: bdx003-main-${{ github.run_id }}
+          path: |
+            experiments/BDX-003-correction/data/units.json
+            experiments/BDX-003-correction/data/eligible.json
+            experiments/BDX-003-correction/data/runs.jsonl
+            experiments/BDX-003-correction/data/judged/
+          if-no-files-found: warn
