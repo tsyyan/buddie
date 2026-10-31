@@ -18,7 +18,7 @@ buddie verify report.md --no-fetch
 ```
 
 ```
-BLOCK quote L3.1 not found in https://status.example.com/incidents/42: “elevated error rates on the API between 14:58 and 15:41 UTC” (closest 0.98: “elevated error rates on the API between 14:59 and 15:41 UTC”)
+BLOCK quote L3.1 not found in https://status.example.com/incidents/42: “elevated error rates on the API between 14:58 and 15:41 UTC” (closest 0.98; the page reads: “We identified elevated error rates on the API between 14:59 and 15:41 UTC.”)
 BLOCK quote L7.1 not found in https://status.example.com/incidents/42: “the root cause was a misconfigured load balancer” (closest 0.50: “. The rest of the article discusses unrelated bac”)
 buddie FAIL: quotes 1/3 found, 2 not found
 ```
@@ -41,7 +41,8 @@ read from. An excerpt:
         "verdict": "NOT_FOUND",
         "url": "https://status.example.com/incidents/42",
         "sha256": "cc696ce5cfcc04abf2aeef81f82f0b5a668dd0953f9c9f36c02748ed0fdeb2b1",
-        "closest": {"ratio": 0.983, "text": "elevated error rates on the API between 14:59 and 15:41 UTC"}
+        "closest": {"ratio": 0.983, "text": "elevated error rates on the API between 14:59 and 15:41 UTC",
+                    "passage": "We identified elevated error rates on the API between 14:59 and 15:41 UTC."}
       }
     ]
   }

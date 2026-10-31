@@ -235,6 +235,9 @@ def split_gaps(quote: str, norm=None) -> tuple[list[str], list[int]]:
 SPEECH_TAG = re.compile(r"[\s,.;:!?…\-—–]*[”\"»]\s*([^“”\"«»\n]{3,120}?)\s*[“\"«]")
 QUOTE_SPLIT = re.compile(r"[.,;:!?…](?=\s)")
 SPLIT_MIN_CHARS = 20  # each of the two replies, normalized
+SENTENCE_END = re.compile(r"[.!?…][”\"’»)\]]*(?=\s)|\n\s*\n")
+PASSAGE_MIN = 0.75  # similarity from which the near match is shown as the sentence it stands in
+PASSAGE_REACH = 160  # characters past the near match, either side, to look for the sentence's edge
 
 
 def closest(quote: str, text: str) -> dict:
@@ -310,7 +313,30 @@ class Page:
             a = self.visible_map[near["offset"]]
             b = self.visible_map[min(len(self.visible_map) - 1, near["offset"] + len(near["text"]) - 1)] + 1
             near = {"ratio": near["ratio"], "text": self.visible[a:b], "visible_offset": a}
+            if near["ratio"] >= PASSAGE_MIN:  # a far match is not what the quote meant to say: no text to copy
+                near["passage"] = self.passage(a, b)
         return {"verdict": "NOT_FOUND", "closest": near}
+
+    def passage(self, start: int, end: int, reach: int = PASSAGE_REACH) -> str:
+        """The page's own words around a near match, from sentence start to sentence end (or the nearest word edge
+        within reach): what a writer copies from to fix a quote, without a second look at the page (BDX-003)."""
+        v = self.visible
+        lo, hi = max(0, start - reach), min(len(v), end + reach)
+        ends = [m.end() for m in SENTENCE_END.finditer(v, lo, start)]
+        if ends:
+            a = ends[-1]
+        else:  # the sentence starts further back than reach (or with the page): from the first whole word in reach
+            a = lo
+            while 0 < a < start and not v[a - 1].isspace():
+                a += 1
+        m = SENTENCE_END.search(v, end, hi)
+        if m:
+            b = m.end()
+        else:
+            b = hi
+            while end < b < len(v) and not v[b].isspace():
+                b -= 1
+        return " ".join(v[a:b].split())
 
     def _by_words(self, q: str) -> dict | None:
         """The quote with punctuation between words ignored, whole, elided, or with an editor's [brackets] removed

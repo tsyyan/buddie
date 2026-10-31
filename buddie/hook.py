@@ -147,7 +147,8 @@ def last_answer(transcript: str) -> str:
 # what the model reads first when its text is returned: it may not know buddie (a plugin someone just installed)
 RETURNED = ("buddie (a plugin that checks claims against their sources, without a model) sent this text back: the "
             "items below do not hold. Nothing else in the text was judged.")
-FIX = ("Fix each item: copy a quote character for character from its page (buddie's source_text tool, after snap), "
+FIX = ("Fix each item: copy a quote character for character from its page (from what the item says the page reads, "
+       "or with buddie's source_text tool, after snap), "
        "or correct the anchor (ready anchors are listed above when buddie could compute them). If an item cannot be "
        "fixed, keep it and add a line starting with 'buddie:' that tells the reader what is unverified and why.")
 # at Stop the answer is already on the person's screen (Claude Code cannot take it back): a whole rewrite shows it twice
