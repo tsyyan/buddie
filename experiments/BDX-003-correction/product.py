@@ -149,7 +149,7 @@ def main(argv=None) -> int:
     jobs = plan(list(units.values()), eligible, a.n_error, a.n_ok, a.n_summary, a.reps, a.seed)
     deadline = time.monotonic() + a.minutes * 60
     left = [j for j in jobs if (j[1]["id"], j[0], j[2], j[3]) not in done]
-    print(f"product run: {len(jobs)} runs planned, {len(left)} left", flush=True)
+    print(f"::notice title=BDX-003 product plan::{len(jobs)} runs planned, {len(left)} left", flush=True)
     for task, u, cond, rep in left:
         if time.monotonic() > deadline:
             print("time is up; the next chunk resumes", flush=True)
@@ -167,4 +167,10 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except Exception as e:  # noqa: BLE001 - shown as an annotation (the run's log is not readable from where it is read)
+        import traceback
+        print(f"::error title=BDX-003 product failed::{type(e).__name__}: {e} | "
+              + " | ".join(traceback.format_exc().splitlines()[-6:]))
+        raise
