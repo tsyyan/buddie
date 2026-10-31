@@ -4,3 +4,10 @@
 2026-10-30T18:36Z chunk 3 started; chunk 2 (run 41059894111): 60 of 146 eligible units with every arm, 241 rows, all at ovh, 5 failed runs
 2026-10-31T00:01Z chunk 4 started; chunk 3 (run 41108364802): 96 of 146 eligible units with every arm, 384 rows, all at ovh, 9 failed runs in all
 2026-10-31T05:36Z chunk 5 started; chunk 4 (run 41147821118): 128 of 146 eligible units with every arm, 515 rows, all at ovh, 12 failed runs in all
+2026-10-31T08:11Z openai/gpt-oss-120b complete after chunk 5 (run 41173284591): 146 of 146 eligible units, 584 rows, all at ovh, 14 failed runs (A 1, B 7, C 6, D 0).
+  ERROR units, share still WRONG: A 0.989 (n 93), B 0.276 (n 87), C 0.112 (n 89), D 0.543 (n 94); CORRECT: A 0, B 0.402, C 0.472, D 0.426.
+  OK units, share CORRECT: A 0.942, B 0.923, C 0.941, D 0.962.
+  Paired, ERROR, bad = WRONG: C-B -0.145 [-0.241, -0.048] (n 83; only B bad 16, only C bad 4); D-A -0.452 [-0.548, -0.355] (n 93);
+  D-B +0.276 [0.149, 0.402] (n 87); C-A -0.886; B-A -0.721. Paired, OK, bad = not CORRECT: C-B -0.02 [-0.098, 0.039] (n 51).
+  Mean input tokens per unit (ERROR): A 578, B 9,681, C 13,237, D 18,030; requests A 1.0, B 5.4, C 6.2, D 7.0.
+2026-10-31T08:11Z gemini-3.8-flash started (main.env PROVIDER=gemini)
