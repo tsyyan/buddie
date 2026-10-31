@@ -16,6 +16,7 @@ jobs:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       ANTHROPIC_BASE_URL: https://api.tokenn.pro/anthropic  # the key's gateway (owner, 2026-10-31); Claude Code reads it too
       MODEL: claude-opus-5  # what the gateway lists (no claude-opus-5-5)
+      PROBE_ONLY: "1"
       CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
@@ -23,10 +24,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: api
-        if: false  # checked 2026-10-31 (run 41220…); the product steps below are what is looked at now
         run: python experiments/anthropic_probe.py --model "$MODEL" --notices
       - name: claude code without and with buddie
-        if: always()
+        if: always() && env.PROBE_ONLY != '1'
         run: |
           # LICENSE of the release tag: "Version 2.0, January 2004"; the paragraph quotes it as 2005
           url=https://raw.githubusercontent.com/tsyyan/buddie/v2.0.7/LICENSE
