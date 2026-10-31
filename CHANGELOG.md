@@ -1,5 +1,15 @@
 # Changelog
 
+## buddie 2.0.7 (2026-10-31)
+
+Public release content is generated from `releases/2.0.7.json` and bound to the candidate.
+
+- A quote that is not on its page comes back with the page's sentence around the nearest match (`closest.passage`,
+  from similarity 0.75), so the agent copies the quote from it instead of reopening the page; `closest.text` and
+  `closest.ratio` are unchanged. Below 0.75 no text to copy is offered.
+- The hook's fix instruction points to that sentence first, then to `source_text`.
+- Gate decisions and exit codes unchanged across the 819 recorded scenarios.
+
 ## buddie 2.0.6 (2026-10-30)
 
 Public release content is generated from `releases/2.0.6.json` and bound to the candidate.
