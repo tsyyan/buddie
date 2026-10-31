@@ -1,0 +1,44 @@
+{
+  "type": "function",
+  "function": {
+    "name": "environment_snapshot",
+    "description": "Before giving system-specific instructions (install commands, drivers, setup), observe the parts of this machine the task needs instead of guessing: ask only for those categories (list: true names them). buddie collects what the person granted in their local grants file and the administrator's protected policy allows; anything else comes back denied, unsupported or unavailable with the reason. A request cannot grant: there is no consent argument, and an approval of this call is not a grant. The grants file states the person's intent; an agent with their file access could edit it, so only the protected policy is a ceiling it cannot change. This tool collects diagnostics categories only, never files or reports. Each observation says what it rests on (basis); unavailable means not observed, not absent. Nothing is installed or changed.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "description": "category ids, e.g. system.os, hardware.gpu, hardware.memory, software.python, software.gpu_stack (list: true for all)"
+        },
+        "task": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "what the observation is for; kept as the caller's word, grants nothing"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "software.tools: names from the catalog (list: true shows it)"
+        },
+        "path": {
+          "type": "string",
+          "description": "hardware.storage, development.project, development.repository: a directory the person granted"
+        },
+        "list": {
+          "type": "boolean",
+          "default": false,
+          "description": "only describe the categories and what is granted; collect nothing"
+        }
+      }
+    }
+  }
+}
