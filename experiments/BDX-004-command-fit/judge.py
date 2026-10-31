@@ -133,10 +133,12 @@ def judge_command(command, profile, req, installed):
         daemon = value(profile, 'development.containers', 'docker_daemon')
         if not daemon or not daemon.get('reachable'):
             return verdict('UNKNOWN', detail='Docker daemon availability not established')
-    if rule.get('min_version'):
+    if rule.get('min_version') or rule.get('major_version') is not None:
         if not found_version:
             return verdict('UNKNOWN', detail='program version unobserved')
-        if version(found_version) < version(rule['min_version']):
+        if rule.get('major_version') is not None and version(found_version)[0] != rule['major_version']:
+            return verdict('WONT_RUN', 'version_mismatch', 'program has the wrong major version')
+        if rule.get('min_version') and version(found_version) < version(rule['min_version']):
             return verdict('WONT_RUN', 'version_mismatch', 'program below task minimum version')
     if found is None:
         return verdict('UNKNOWN', detail='program availability unobserved')

@@ -6,7 +6,7 @@ LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell
              'console': 'unknown', 'shell': 'unknown', '': 'unknown'}
 PROGRAMS = set(('python python3 py pip pip3 uv conda pipx node npm npx git curl curl.exe wget '
                 'tar unzip zip ffmpeg nvidia-smi nvcc apt apt-get dnf apk brew winget choco '
-                'sudo docker podman bash sh zsh pwsh powershell cmd export set echo source . '
+                'sudo docker podman bash sh zsh pwsh powershell cmd env export set echo source . '
                 'chmod chown ls dir mkdir rm del cd cp mv touch cat type printf ss lsof netstat '
                 'systemctl service rc-service sc launchctl icacls uname make cmake gcc '
                 'Get-ChildItem New-Item Remove-Item Write-Output Get-NetTCPConnection '
@@ -41,6 +41,16 @@ def starts_program(line):
         return False
     if re.match(r'(?i)^(?:git version |Python \d|Successfully |Requirement already |Collecting |Downloading )', line):
         return False
+    if line.startswith('& '):
+        return starts_program(line[2:].lstrip())
+    assignment = re.match(r'^[A-Za-z_]\w*=(?:"[^"\n]*"|\x27[^\x27\n]*\x27|[^\s]+)\s+(.+)$', line)
+    if assignment:
+        return starts_program(assignment[1])
+    quoted = re.match(r'^("[^"\n]+"|\x27[^\x27\n]+\x27)(?:\s|$)', line)
+    if quoted:
+        executable = quoted[1][1:-1]
+        return (executable.lower() in PROGRAMS or
+                re.match(r'^(?:\.?\.?[/\\]|[A-Za-z]:[/\\])', executable) is not None)
     first = line.split()[0]
     return (first.lower() in PROGRAMS or re.match(r'^python3\.\d+$', first) is not None or
             re.match(r'^\$env:\w+\s*=', line, re.I) is not None or

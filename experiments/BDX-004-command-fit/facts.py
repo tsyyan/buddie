@@ -41,8 +41,7 @@ def program(profile, requirements, name, installed):
         if facts.get('version'):
             return True, facts['version']
         obs = observation(profile, 'software.python', 'interpreters')
-        if obs.get('status') == 'observed' and all('version' in i for i in obs['value']):
-            return False, None
+        # The collector deduplicates aliases by realpath. Omission is not absence.
         return (False, None) if obs.get('reason') == 'not_found_on_path' else (None, None)
     mapping = {'py': ('software.python', 'py_launcher_versions'),
                'nvidia-smi': ('software.gpu_stack', 'cuda_driver'),

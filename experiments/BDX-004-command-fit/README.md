@@ -103,6 +103,9 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 - Only an explicit complete task rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
   observation, incomplete observations, dynamic code, pipelines, compound commands and redirects stay UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.
+  Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
+  names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
+  assuming that the original PATH and module lookup still apply. Node 20 rules require major version 20.
 - Bash uses `bash --noprofile --norc -n`; sh uses dash or `busybox sh -n`. PowerShell uses a fixed
   `pwsh -NoProfile -NonInteractive -Command` parser script: answer bytes go only to `ParseInput` through stdin.
   Cmd uses a small explicit syntax rule set. Missing parsers produce UNKNOWN; zsh has no supported parser and

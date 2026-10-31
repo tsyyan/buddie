@@ -47,3 +47,10 @@ installer state, and platform-independent outcomes.
 - Ruling: OK retains the protocol's meaning of no proven WONT_RUN. UNKNOWN commands are
   separately counted and `all_commands_decided` is false; consumers must retain these
   fields to avoid counting unproven commands as fitting.
+- Final independent review found three important issues, reproduced by failing regression tests:
+  Python alias deduplication was mistaken for absence; extraction dropped quoted/wrapped
+  executables; Node 20 rules allowed later major versions. Fixed the facts/extraction/rule
+  boundaries and retained environment-changing wrappers as UNKNOWN. The recorded Ubuntu
+  broken example now uses observed-missing conda rather than an unobserved Python alias.
+- Review fixes verified: 31 tests passed with Git Bash and pwsh available; all 8 profiles
+  validated again. No deferred review findings. Broader repository tests run separately.

@@ -46,3 +46,13 @@ class Extraction(unittest.TestCase):
     def test_compound_commands_are_not_silently_discarded(self):
         self.assertEqual(commands.extract('```bash\ngit --version && absent --help\n```'),
                          [{'text': 'git --version && absent --help', 'shell': 'bash'}])
+
+    def test_quoted_executables_and_wrappers_survive_extraction(self):
+        for text, shell in [('"nvidia-smi"', 'zsh'),
+                            ('PYTHONPATH=. python3 -m venv .venv', 'bash'),
+                            ('& nvidia-smi', 'powershell'),
+                            ('"C:\\Program Files\\Python\\python.exe" --version', 'cmd'),
+                            ('env APP_MODE=dev python3 --version', 'bash')]:
+            with self.subTest(text=text):
+                self.assertEqual(commands.extract(f'```{shell}\n{text}\n```'),
+                                 [{'text': text, 'shell': shell}])

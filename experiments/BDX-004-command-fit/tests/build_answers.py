@@ -13,7 +13,7 @@ PAIRS = [
     ('ubuntu2404-nvidia', 'python-venv', 'bash', 'python3 -m venv .venv',
      'conda create -n project python=3.12', 'program_missing'),
     ('ubuntu2204-nosudo', 'python-version', 'bash', 'python3 --version',
-     'python3.12 --version', 'program_missing'),
+     'conda --version', 'program_missing'),
     ('wsl-ubuntu', 'pytorch-gpu', 'bash',
      'python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu122',
      'python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124', 'version_mismatch'),

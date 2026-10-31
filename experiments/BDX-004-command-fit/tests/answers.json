@@ -247,7 +247,7 @@
     "profile": "ubuntu2204-nosudo",
     "task": "python-version",
     "kind": "broken",
-    "answer": "Run:\n```bash\npython3.12 --version\n```",
+    "answer": "Run:\n```bash\nconda --version\n```",
     "expected": {
       "status": "BROKEN",
       "commands": [

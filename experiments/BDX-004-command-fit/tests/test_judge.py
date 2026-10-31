@@ -89,6 +89,28 @@ class Judge(unittest.TestCase):
                        'curl -o data.txt https://example.org/data.txt', 'powershell')
         self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
 
+    def test_unlisted_python_alias_is_not_proven_absent(self):
+        for alias in ['python', 'python3.12']:
+            result = grade('ubuntu2404-nvidia', 'python-version', alias + ' --version')
+            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+
+    def test_node20_rejects_other_major_versions(self):
+        p = judge.load_profile('win11-cmd-nogpu')
+        p['document']['categories']['software.runtimes']['observations']['node'].update(
+            status='observed', value='22.0.0', reason=None)
+        result = judge.judge_answer('```cmd\nnode --version\n```', p, 'install-node20')
+        self.assertEqual(result['commands'][0]['reason'], 'version_mismatch')
+
+    def test_quoted_program_and_environment_wrappers_are_not_lost(self):
+        result = grade('macos-arm', 'gpu-check', '"nvidia-smi"', 'zsh')
+        self.assertEqual(result['status'], 'BROKEN')
+        self.assertEqual(result['commands'][0]['reason'], 'wrong_os')
+        for text, pid, tid, shell in [
+                ('PYTHONPATH=. python3 -m venv .venv', 'ubuntu2204-nosudo', 'python-venv', 'bash'),
+                ('& nvidia-smi', 'win11-pwsh-nvidia', 'gpu-check', 'powershell')]:
+            result = grade(pid, tid, text, shell)
+            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+
     def test_question_only_and_explanation(self):
         for text in ['Which operating system and shell are you using?', 'What Python version is installed?',
                      'Do you have an NVIDIA GPU?']:
