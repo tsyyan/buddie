@@ -53,11 +53,14 @@ jobs:
                   pass
           r = next((e for e in events if e.get("type") == "result"), None)
           if not r:
-              print(f"::notice title=claude code {mode} buddie::no result; stderr: {open('err.txt').read()[:300]!r}")
+              tail = [json.dumps(e)[:150] for e in events[-3:]]
+              print(f"::notice title=claude code {mode} buddie::no result; stderr: {open('err.txt').read()[:300]!r}; last events {tail}")
               sys.exit(0)
           steps = []
+          events = [e for e in events if isinstance(e, dict)]
           for e in events:
-              for c in (e.get("message") or {}).get("content") or []:
+              m = e.get("message")
+              for c in (m.get("content") if isinstance(m, dict) and isinstance(m.get("content"), list) else []):
                   if not isinstance(c, dict):
                       continue
                   if c.get("type") == "tool_use":
