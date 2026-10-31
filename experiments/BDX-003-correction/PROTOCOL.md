@@ -171,3 +171,7 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   `hookonly` plus the plugin's `buddie-discovery` skill, the one written for a client without buddie's MCP tools
   (the other skills and `.mcp.json` taken out of the installed copy, WebFetch allowed). Compared with `hookonly`
   (what the skill adds to the hook alone) and with `with` (the release as it ships), on the same units.
+- 2026-11-01, after the key's balance ran out and was topped up, before the rest of the product run: its size is
+  25 ERROR and 15 OK paragraphs (the first of the seeded plan's 50 and 25, so every run kept so far is in it), in four
+  conditions (without, with, hookonly, hookdisc). Smaller than planned because a run with buddie costs about 104k
+  input tokens, not the 53-79k the calibration chunk suggested.
