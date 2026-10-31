@@ -1,0 +1,210 @@
+[
+  {
+    "id": "win11-pwsh-nvidia",
+    "description": "Windows 11; powershell; winget; GTX 1650",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "powershell",
+    "assumptions": {
+      "sudo": false,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": {
+        "version": "3.12.7",
+        "implementation": "cpython",
+        "bits": 64,
+        "pip": true,
+        "venv": true,
+        "ensurepip": true
+      }
+    }
+  },
+  {
+    "id": "win11-cmd-nogpu",
+    "description": "Windows 10; cmd; choco; no NVIDIA GPU",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "cmd",
+    "assumptions": {
+      "sudo": false,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "macos-arm",
+    "description": "macOS 15.0; zsh; brew; no NVIDIA GPU",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "zsh",
+    "assumptions": {
+      "sudo": false,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "ubuntu2404-nvidia",
+    "description": "Ubuntu 24.04; bash; apt; RTX 4090",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "bash",
+    "assumptions": {
+      "sudo": true,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "ubuntu2204-nosudo",
+    "description": "Ubuntu 22.04; bash; apt; no NVIDIA GPU",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "bash",
+    "assumptions": {
+      "sudo": false,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "wsl-ubuntu",
+    "description": "Ubuntu 22.04; bash; apt; RTX 3060",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "bash",
+    "assumptions": {
+      "sudo": true,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "fedora40",
+    "description": "Fedora Linux 40; bash; dnf; no NVIDIA GPU",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell",
+      "development.containers"
+    ],
+    "shell": "bash",
+    "assumptions": {
+      "sudo": true,
+      "libc": "unknown",
+      "sh_semantics": "dash",
+      "launcher_python": null
+    }
+  },
+  {
+    "id": "alpine-container",
+    "description": "Alpine Linux 3.20; sh; apk; no NVIDIA GPU",
+    "provenance": "hand-built",
+    "granted": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ],
+    "shell": "sh",
+    "assumptions": {
+      "sudo": false,
+      "libc": "musl",
+      "sh_semantics": "busybox",
+      "launcher_python": null
+    }
+  }
+]
