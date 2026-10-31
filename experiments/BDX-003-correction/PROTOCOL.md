@@ -122,3 +122,28 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   (Anthropic Messages API, key `ANTHROPIC_API_KEY`; `arms.to_anthropic` / `from_anthropic` translate the requests),
   instead of `gemini-3.1-pro-preview`. Arms A, B, C and E (D is not repeated). First a 5-unit measurement of tokens
   per unit, then the 146 units within the key's budget of about 15M tokens.
+- 2026-10-31, decided by the owner before any `claude-opus-5` answer is pooled (the 5-unit measurement of the pilot
+  job is not). The design is read as what it is, a 2×2: asked to check (no: A, D; yes: B, C) × buddie's feedback
+  (no: A, B; yes: C, D); E is C with the improved feedback. For `claude-opus-5` all five arms run, and:
+  1. **Endpoints for `claude-opus-5`** (the gpt-oss endpoints stay as they were):
+     - *harm*: share WRONG on ERROR units, D − A (buddie as a user meets it, against nothing);
+     - *cost*: mean input tokens (`sent_chars` where the provider's usage is empty) on OK units, D − B, with
+       non-inferiority of D against B on WRONG (margin +0.05);
+     - *damage*: share of OK units not CORRECT, D − A;
+     - C − B stays reported, for comparison with gpt-oss; the factorial main effects and their interaction
+       (logistic, unit as random effect) are secondary.
+  2. **Seeded errors** (a separate set, reported apart, never pooled with the natural errors): correct quotations of
+     eligible OK units altered in four ways (a number, one word, an invented clause, the link to another unit's
+     source), about 150, built by a script before any model sees them, judged as ERROR units.
+  3. **The product run** (`product.py`, `product_judge.py`, job `product`): Claude Code itself, headless
+     (`claude -p`, the version pinned in the workflow), model `claude-opus-5`, without and with buddie installed from
+     its marketplace (the release on `plugin-stable`, recorded per chunk). Permissions are not skipped: `WebFetch`
+     is allowed in both, buddie's `snap`, `source_text`, `verify_report` in `with`; at most 12 turns. Tasks:
+     *paragraph* (a unit's paragraph with arm A's words, about 100 ERROR and 50 OK units) and *summary* (an OK
+     unit's source page, "summarize with at least two exact quotations", about 50 pages). Judged from what the reader
+     saw, every assistant message in order: paragraph CORRECT / WRONG / FLAGGED / REMOVED by the last statement of the
+     target quote, and whether a wrong one was ever shown; summary, false quotations shown and left at the end.
+     Primary product endpoint: share WRONG on ERROR paragraphs, with − without, paired by unit. Secondary: shown
+     wrong, damage on OK, false quotations left in summaries, turns and tokens per run. A first chunk of 9 sources
+     calibrates turns and tokens; the rest is sized to the remaining budget, which is recorded here before it runs.
+  4. **Audit**: a blind 20 % sample of judged rows (judge.blind_sheet) is read by the owner before the report.
