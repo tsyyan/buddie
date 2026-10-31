@@ -16,6 +16,11 @@ Providers for the main run, and why these: [PROVIDERS.md](PROVIDERS.md). `--prov
 in that order, each unit at one provider (OVH needs no key; Cloudflare needs `CLOUDFLARE_API_TOKEN` and
 `CLOUDFLARE_ACCOUNT_ID`).
 
+With `--pool` the listed endpoints work at the same time, each at its own pace (requests and tokens a minute and a
+day, rate-limit headers, a rate that halves on a 429 and climbs back), and a unit started at one stays there:
+[`experiments/endpoint_pool.py`](../endpoint_pool.py), usable by other experiments. `--minutes` stops taking new
+units after that time. Not used by the main run that began before it (chunks 1-3 ran sequentially at OVH).
+
 In GitHub Actions: put a free key in a repository secret (`GROQ_API_KEY`, `GEMINI_API_KEY` or `OPENROUTER_API_KEY`;
 GitHub Models uses the workflow's own token but answers only `OK` from this repository's Actions), set the provider
 and model in `pilot.env`, and push to `experiment/bdx-003-pilot`, or run the `bdx003` workflow by hand (its inputs

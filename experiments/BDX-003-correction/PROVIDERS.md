@@ -17,6 +17,40 @@ Estimates of units a day: pilot 1's mean tokens per run (A about 600 in / 530 ou
 requests per unit would take about 7 minutes a unit; its daily ceiling, if any, is not documented and is found by
 running.
 
+## More candidates for gpt-oss-120b (checked 2026-10-31)
+
+Leads from [awesome-freellm-apis][freellm]; figures are from the provider's own page or a live call unless a row says otherwise.
+
+| provider | free terms | use |
+|---|---|---|
+| SambaNova | free tier without a card: gpt-oss-120b 20 RPM, 20 RPD, 200K TPD ([rate limits][samba]); model listed at `api.sambanova.ai/v1/models` without a key | in `endpoint_pool.REGISTRY` (`SAMBANOVA_API_KEY`); about 1 unit a day, a spare |
+| Cerebras | Free Trial: gpt-oss-120b 5 RPM, 30K uncached TPM, 1M TPH and TPD ([rate limits][cerebras]); third-party pages say the trial needs a payment method and its $5 credit lasts 30 days, not confirmed on Cerebras's pages | in the registry (`CEREBRAS_API_KEY`); a trial, about 20 units a day while it lasts |
+| Scaleway | 1M free tokens once for a new customer, then paid: from a web search of [Scaleway's page][scaleway], the page itself not read; `api.scaleway.ai/v1/models` answers 401 without a key | in the registry (`SCALEWAY_API_KEY`); a one-off, about 20 units |
+| Kilo Code | gpt-oss-120b is a paid model: an anonymous call answers `PAID_MODEL_AUTH_REQUIRED` | no |
+| Hugging Face router | lists gpt-oss-120b; free accounts get no Inference Providers credits ([pricing][hf]) | no |
+| Ollama Cloud | pay per token, gpt-oss:120b priced ([pricing][ollama]); no free tier | no |
+| GitHub Models | `models.github.ai` answers every request with a plain-text `OK`, from a local machine too | no |
+| LLM7.io, OpenCode Zen, Chutes | no gpt-oss-120b in their model lists (anonymous `GET /v1/models`) | no |
+
+| Vercel AI Gateway | $5 of credits every 30 days for a team that has never paid ([pricing][vercel]); gpt-oss-120b's model page marks all its backends (Baseten, Bedrock, Fireworks, Groq, Parasail, Nebius, Together, Cerebras) "Free AI Gateway Credit: Yes", from $0.10 in / $0.50 out per M tokens ([model][vercel-oss]); free-tier rate limits are lower per model, numbers not published; buying credits ends the free tier | in the registry as `vercel-<backend>` (`AI_GATEWAY_API_KEY`), each pinned with `providerOptions.gateway.only` so a unit never changes backend; about 600 units a month at Baseten's price; the best find |
+| FastRouter | lists `openai/gpt-oss-120b:free` at $0 (anonymous `GET /api/v1/models`); limits not found in its docs | in the registry (`FASTROUTER_API_KEY`); size unknown until run |
+| OpenRouter | no `gpt-oss-120b:free` any more (anonymous `GET /api/v1/models`); `:batch` is cheap but paid | no |
+| OrcaRouter | `-free` models, none of them gpt-oss (`GET /v1/models`); the lowest free tier also caps prompt size | no |
+| Puter.js | gpt-oss without a key, but billed to the browser user's Puter account (user pays); not a server-side API | no |
+
+Probe of 2026-10-31 from Actions (`endpoint-probe` workflow, run 41134971156): OVH, Groq and Cloudflare answered
+with a `source_text` tool call (Cloudflare's first call from Actions). Vercel refused every backend with HTTP 403
+`customer_verification_required`: the key is accepted, but the free credits unlock only with a credit card on
+file; nothing has been paid and the free tier would stay free until a payment is made. The owner decided on
+2026-10-31 not to add a card: Vercel is not used, its registry entries stay for whoever has a verified account.
+
+Apart from that probe, none of the registry entries above has been called with a key yet: a key, then one tool-calling request, before a
+run. Whether Vercel's OpenAI-compatible endpoint takes `providerOptions` in the body as its AI SDK does is the first
+thing that request checks.
+
+Units a month at Vercel: pilot 3's ERROR-unit means for arms A–D, about 36,000 tokens in and 9,000 out a unit, at
+$0.10 / $0.50 per M is about $0.008 a unit; $5 / $0.008 is about 600. An estimate, not measured.
+
 ## Gemini Flash (second model)
 
 Google AI Studio key (`GEMINI_API_KEY`, a repository secret), model `gemini-3.8-flash`. Google no longer publishes
@@ -44,3 +78,11 @@ reports.
 [cf-price]: https://developers.cloudflare.com/workers-ai/platform/pricing/
 [cf-model]: https://developers.cloudflare.com/workers-ai/models/gpt-oss-120b/
 [nim]: https://build.nvidia.com/openai/gpt-oss-120b
+[freellm]: https://github.com/open-free-llm-api/awesome-freellm-apis
+[samba]: https://docs.sambanova.ai/docs/en/models/rate-limits
+[cerebras]: https://inference-docs.cerebras.ai/support/rate-limits
+[scaleway]: https://www.scaleway.com/generative-apis/
+[hf]: https://huggingface.co/docs/inference-providers/pricing
+[ollama]: https://ollama.com/pricing
+[vercel]: https://vercel.com/docs/ai-gateway/pricing
+[vercel-oss]: https://vercel.com/ai-gateway/models/gpt-oss-120b
