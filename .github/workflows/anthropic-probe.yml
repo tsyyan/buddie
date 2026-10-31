@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: api
+        if: false  # checked 2026-10-31 (run 41220…); the product steps below are what is looked at now
         run: python experiments/anthropic_probe.py --model "$MODEL" --notices
       - name: claude code without and with buddie
         if: always()
@@ -39,20 +40,44 @@ jobs:
               npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
               echo "::notice title=claude code plugin::$(npx --yes "$CLAUDE_CLI" plugin list 2>&1 | tr '\n' ' ' | cut -c1-300)"
             fi
-            npx --yes "$CLAUDE_CLI" -p "$ask" --model "$MODEL" --output-format json --max-turns 8 \
+            npx --yes "$CLAUDE_CLI" -p "$ask" --model "$MODEL" --output-format stream-json --verbose --max-turns 12 \
               --allowedTools "WebFetch(domain:raw.githubusercontent.com)" > out.json 2> err.txt || true
             python3 - "$mode" <<'EOF'
           import json, sys
           mode = sys.argv[1]
-          try:
-              r = json.load(open("out.json"))
-          except Exception:
-              print(f"::notice title=claude code {mode} buddie::no JSON; stderr: {open('err.txt').read()[:300]!r}")
+          events = []
+          for line in open("out.json"):
+              try:
+                  events.append(json.loads(line))
+              except ValueError:
+                  pass
+          r = next((e for e in events if e.get("type") == "result"), None)
+          if not r:
+              print(f"::notice title=claude code {mode} buddie::no result; stderr: {open('err.txt').read()[:300]!r}")
               sys.exit(0)
+          steps = []
+          for e in events:
+              for c in (e.get("message") or {}).get("content") or []:
+                  if not isinstance(c, dict):
+                      continue
+                  if c.get("type") == "tool_use":
+                      steps.append(f"tool {c.get('name')}")
+                  elif c.get("type") == "tool_result":
+                      t = c.get("content")
+                      t = t if isinstance(t, str) else json.dumps(t)
+                      steps.append(("denied" if "permission" in t.lower() else "result") + f": {t[:60]!r}")
+                  elif c.get("type") == "text" and e.get("type") == "user":
+                      steps.append(f"user/hook: {c['text'][:80]!r}")
+              if e.get("type") == "system" and e.get("subtype") not in (None, "init"):
+                  steps.append(f"system {e.get('subtype')}: {json.dumps(e)[:100]}")
           final = (r.get("result") or "").replace("\n", " ")
           verdict = "kept the false quote" if "January 2005" in final else (
               "fixed it" if "January 2004" in final else "removed or changed it")
-          print(f"::notice title=claude code {mode} buddie::{verdict}; turns {r.get('num_turns')}, "
-                f"cost ${r.get('total_cost_usd')}, usage {json.dumps(r.get('usage'))[:300]}; final: {final[:300]}")
+          u = r.get("usage") or {}
+          print(f"::notice title=claude code {mode} buddie::{verdict}; turns {r.get('num_turns')}, subtype "
+                f"{r.get('subtype')}, cost ${r.get('total_cost_usd')}, input {u.get('input_tokens')}, cache read "
+                f"{u.get('cache_read_input_tokens')}, output {u.get('output_tokens')}; final: {final[:200]}")
+          for i in range(0, len(steps), 6):
+              print(f"::notice title=claude code {mode} steps {i // 6 + 1}::" + " | ".join(steps[i:i + 6])[:900])
           EOF
           done
