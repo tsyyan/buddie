@@ -27,7 +27,7 @@ before the search.
 |---|---|
 | `UNCERTAIN` | `doubts`: `unattributed` (the report gives no speaker), `other_language`, `thin_page` (paywall teaser, JS shell), `other_link`, `copy_only`, `abstract_only`, `unread_link` |
 | `NOT_A_QUOTE` | `not_quote`: `boilerplate`, `title`, `example`; `miss` keeps the verdict the quote would have had |
-| `NOT_FOUND` | none of the above; `closest.ratio` ≈ 0.95+ usually means a changed digit or word, ≈ 0.5 an invented sentence |
+| `NOT_FOUND` | none of the above; `closest.ratio` ≈ 0.95+ usually means a changed digit or word, ≈ 0.5 an invented sentence; from 0.75, `closest.passage` gives the page's whole sentence around the near match, to copy from |
 | `SOURCE_UNAVAILABLE` | the quote's own link has no readable snapshot: HTTP error, cookie or bot gate, almost no text, or an article URL that redirected to the home page |
 
 ## Access cascade (`--access default`)

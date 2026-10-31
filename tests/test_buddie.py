@@ -60,6 +60,22 @@ def test_wrong_digit_fails_with_closest(store):
     assert "14:59" in pred["blocking"][0]
 
 
+def test_a_near_miss_shows_the_whole_sentence_of_the_page():
+    from buddie.verbatim.check import Page
+    page = Page(b"<p>Earlier news. The agency said on Tuesday that the programme is fully funded through 2031, "
+                b"subject to review. Other news follows here.</p>", "text/html")
+    near = page.locate("the programme is fully funded through 2030")["closest"]
+    assert near["passage"] == ("The agency said on Tuesday that the programme is fully funded through 2031, "
+                               "subject to review.")
+
+
+def test_a_far_match_gets_no_passage_to_copy():
+    from buddie.verbatim.check import Page
+    page = Page(b"<p>The weather was mild all week and the harvest came in early this year.</p>", "text/html")
+    near = page.locate("the root cause was a misconfigured load balancer")["closest"]
+    assert near["ratio"] < 0.75 and "passage" not in near
+
+
 def test_unread_source_is_a_gap_not_a_failure(store):
     text = "It said “a sentence on a page nobody fetched” ([x](https://unfetched.example.org/a))."
     assert verify(text, store=store, fetch=False)["predicate"]["outcome"] == "GAPS"

@@ -45,8 +45,19 @@ FOUND = {"FOUND", "FOUND_NORMALIZED"}
 # never support); these names stay for the code and tests that read them here.
 QUOTE_OUTCOME, NUMBER_OUTCOME = fnd.QUOTE_FACTS, fnd.NUMBER_FACTS
 CONTRADICTED, OPEN = core.Fact.CONTRADICTED, (core.Fact.UNDETERMINED, core.Fact.UNRECOGNIZED)
+PASSAGE_MAX = 480  # the source passage a failed quote line carries (sentence-aligned, see Page.passage)
 KEEP = ("id", "line", "quote", "url", "verdict", "sha256", "fetched_at", "via", "provenance", "visible_offset",
         "raw_offset", "doubts", "error", "found_in", "archived_at", "first_read", "github")
+
+
+def _near(c: dict | None) -> str:
+    """What the page says where the quote should be: the whole sentence when buddie could align one, so the writer
+    copies from it instead of opening the page again; the bare near match otherwise."""
+    if not c:
+        return ""
+    if c.get("passage"):
+        return f" (closest {c['ratio']:.2f}; the page reads: “{c['passage'][:PASSAGE_MAX]}”)"
+    return f" (closest {c['ratio']:.2f}: “{c['text'][:120]}”)"
 
 
 def _quote_row(r: dict) -> dict:
@@ -55,6 +66,8 @@ def _quote_row(r: dict) -> dict:
         row["url"] = r["urls"][0]
     if r.get("closest", {}).get("text"):
         row["closest"] = {"ratio": round(r["closest"]["ratio"], 3), "text": r["closest"]["text"][:200]}
+        if r["closest"].get("passage"):
+            row["closest"]["passage"] = r["closest"]["passage"][:PASSAGE_MAX]
     return row
 
 
@@ -259,7 +272,7 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
                            modules_off=[m.id for m in mods.REGISTRY if m not in selected],
                            excluded=_excluded(text, selection))
     blocking = [f"quote {r['id']} not found in {r.get('url')}: “{r['quote'][:120]}”"
-                + (f" (closest {r['closest']['ratio']:.2f}: “{r['closest']['text'][:120]}”)" if r.get("closest") else "")
+                + _near(r.get("closest"))
                 for r in rows if fnd.quote_fact(r["verdict"]) is CONTRADICTED]
     blocking += [f"anchor line {a['line']} ⚓ {a['anchor']}: {a.get('why')}" for a in a_results if a["status"] == anc.BROKEN]
     gaps = [f"quote {r['id']} {r['verdict']}" + (f" ({', '.join(r['doubts'])})" if r.get("doubts") else "")
