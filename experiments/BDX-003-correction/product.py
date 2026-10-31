@@ -141,8 +141,8 @@ def main(argv=None) -> int:
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--minutes", type=float, default=300)
     a = ap.parse_args(argv)
-    units = {u["id"]: u for u in read_json(Path(a.units))}
-    eligible = read_json(Path(a.eligible))
+    units = {u["id"]: u for u in read_json(Path(a.units))["units"]}
+    eligible = {r["id"]: r for r in read_json(Path(a.eligible))["rows"]}
     out = Path(a.out)
     done = {(r["unit"], r["task"], r["condition"], r["rep"]) for r in read_jsonl(out) if "error" not in r} \
         if out.exists() else set()

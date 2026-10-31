@@ -69,7 +69,7 @@ def main(argv=None) -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--min-sim", type=float, default=0.6)
     a = ap.parse_args(argv)
-    units = {u["id"]: u for u in read_json(Path(a.units))}
+    units = {u["id"]: u for u in read_json(Path(a.units))["units"]}
     store = Store(Path(a.store))
     rows, failed, skipped = [], defaultdict(int), 0
     for r in read_jsonl(Path(a.runs)):
