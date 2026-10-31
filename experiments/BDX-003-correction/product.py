@@ -158,8 +158,11 @@ def main(argv=None) -> int:
         row.update(unit=u["id"], task=task, condition=cond, rep=rep, model=a.model, gold=u["gold"],
                    url=u["url"])
         append_jsonl(out, row)
-        print(task, u["id"], cond, rep, "texts", len(row["texts"]), "turns", row["turns"],
-              "returns", row["hook_returns"], row.get("error", ""), flush=True)
+        line = (f"{task} {u['id']} {u['gold']} {cond} rep {rep}: texts {len(row['texts'])}, turns {row['turns']}, "
+                f"returns {row['hook_returns']}, denied {row['denied']}, tools {row['tools'][:6]}, in/out "
+                f"{row['input_tokens']}/{row['output_tokens']}, {row['seconds']}s "
+                f"{('ERROR ' + row['error'][:200]) if 'error' in row else ''}")
+        print(f"::notice title=BDX-003 product run::{line}".replace("\n", " "), flush=True)
     return 0
 
 

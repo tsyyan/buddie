@@ -71,13 +71,14 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     units = {u["id"]: u for u in read_json(Path(a.units))}
     store = Store(Path(a.store))
-    rows, failed = [], defaultdict(int)
+    rows, failed, skipped = [], defaultdict(int), 0
     for r in read_jsonl(Path(a.runs)):
         if "error" in r:
             failed[(r["task"], r["gold"], r["condition"])] += 1
             continue
         _, page = page_text(store, r["url"])
         if page is None:
+            skipped += 1
             continue
         j = paragraph(units[r["unit"]], r["texts"], page, a.min_sim) if r["task"] == "paragraph" \
             else summary(r["texts"], page)
@@ -118,6 +119,8 @@ def main(argv=None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "judged.json", rows)
     write_json(out / "summary.json", {"cells": cells, "paired": paired})
+    print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
+          f"skipped for an unreadable snapshot {skipped}")
     for k, c in cells.items():
         print(f"::notice title=BDX-003 product {k}::{c}")
     for k, p in paired.items():
