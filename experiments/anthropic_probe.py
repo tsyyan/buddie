@@ -44,6 +44,18 @@ def call(method: str, path: str, body: dict | None = None, openai: bool = False)
             return e.code, dict(e.headers), {"raw": raw.decode("utf-8", "replace")}
 
 
+def key_shape(key: str) -> str:
+    """What kind of key the secret holds, without any of its secret part: the public prefix, length, stray characters."""
+    kinds = (("sk-ant-api", "API key (Console)"), ("sk-ant-oat", "OAuth token (Claude subscription, not an API key)"),
+             ("sk-ant-admin", "Admin key (cannot call models)"))
+    core = key.strip().strip("'\"")
+    kind = next((name for p, name in kinds if core.startswith(p)), "not an Anthropic key prefix")
+    stray = [w for w, bad in (("surrounding whitespace or newline", key != key.strip()),
+                              ("quotes", core != key.strip()), ("inner whitespace", any(c.isspace() for c in core)))
+             if bad]
+    return f"{kind}; {len(core)} characters" + (f"; has {', '.join(stray)}" if stray else "; no stray characters")
+
+
 TOOL = {"name": "source_text", "description": "Return passages of the saved copy of a source page.",
         "input_schema": {"type": "object", "properties": {"url": {"type": "string"}, "query": {"type": "string"}},
                          "required": ["url", "query"]}}
@@ -63,6 +75,7 @@ def main() -> int:
     st, _, body = call("GET", "/models?limit=100")
     if st != 200:
         say("anthropic models", f"HTTP {st}: {json.dumps(body)[:300]}")
+        say("anthropic key shape", key_shape(os.environ["ANTHROPIC_API_KEY"]))
         return 1
     ids = [m["id"] for m in body.get("data", [])]
     say("anthropic models", f"{len(ids)}: " + ", ".join(ids))
