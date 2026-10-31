@@ -18,7 +18,24 @@ def family(shell):
 
 def non_posix(text):
     """dash -n accepts [[ as a command name, so explicitly reject these extensions too."""
-    return bool(re.search(r'(?:^|[;\n])\s*(?:\[\[\s|source\s|[A-Za-z_]\w*=\()', text))
+    plain, quote, escaped = [], None, False
+    for char in text:
+        if escaped:
+            plain.append(' ')
+            escaped = False
+        elif char == '\\' and quote != "'":
+            plain.append(' ')
+            escaped = True
+        elif quote:
+            plain.append(' ')
+            if char == quote:
+                quote = None
+        elif char in ('"', "'"):
+            plain.append(' ')
+            quote = char
+        else:
+            plain.append(char)
+    return bool(re.search(r'(?:^|[;\n])\s*(?:\[\[\s|source\s|[A-Za-z_]\w*=\()', ''.join(plain)))
 
 
 @lru_cache(maxsize=8)

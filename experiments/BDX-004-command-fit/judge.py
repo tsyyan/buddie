@@ -8,7 +8,7 @@ import shlex
 from commands import extract
 from base_commands import rule as base_rule
 from facts import observation, program, python_facts, value, version
-from syntax import family, syntax
+from syntax import family, non_posix, syntax
 from tool import HERE, load_profile
 
 
@@ -30,7 +30,7 @@ def wrong_syntax(text, shell, profile):
         return True
     if shell in ('bash', 'sh', 'zsh') and re.match(r'set \w+=', text, re.I):
         return True
-    if shell == 'sh' and (re.search(r'(^|[ ;])(?:source |\[\[)', text) or re.search(r'\w+=\(', text)):
+    if shell == 'sh' and non_posix(text):
         return True
     # Windows PowerShell 5.1 cannot parse PowerShell 7 pipeline-chain operators.
     if shell == 'powershell' and value(profile, 'system.shell', 'pwsh') is None and ('&&' in text or '||' in text):
@@ -61,7 +61,10 @@ def judge_command(command, profile, req, installed):
     try:
         tokens = shlex.split(text, posix=target in ('bash', 'sh', 'zsh'))
     except ValueError:
-        return verdict('WONT_RUN', 'wrong_shell_syntax', 'unclosed quotation')
+        # shlex does not implement PowerShell backtick or cmd quotation rules.
+        if syntax(target, text) is False:
+            return verdict('WONT_RUN', 'wrong_shell_syntax', 'target shell parser rejected the command')
+        return verdict('UNKNOWN', detail='quotation cannot be modeled by this tokenizer')
     if not tokens:
         return verdict('UNKNOWN', detail='empty command')
     elevated = value(profile, 'system.permissions', 'elevated')
@@ -89,19 +92,16 @@ def judge_command(command, profile, req, installed):
     found, found_version = program(profile, req, name, installed)
     if found is False:
         return verdict('WONT_RUN', 'program_missing', f'{name} not found on the scenario PATH')
-    if hint != 'unknown' and family(hint) != family(target):
-        return verdict('WONT_RUN', 'wrong_shell_syntax', f'{family(hint)} block for a {family(target)} scenario')
-    if wrong_syntax(text, target, profile):
-        return verdict('WONT_RUN', 'wrong_shell_syntax', 'explicit cross-shell syntax')
-    if not simple(text):
-        return verdict('UNKNOWN', detail='compound command, expansion, or redirection outside the rule set')
     if name in ('py', 'python', 'python3') or re.fullmatch(r'python3\.\d+', name):
         py = python_facts(profile, name, text)
         if py.get('version_mismatch'):
             return verdict('WONT_RUN', 'version_mismatch', 'requested Python launcher version is not listed')
-        module = re.search(r' -m (venv|pip)\b', text)
-        if module and py.get(module[1]) is False:
-            return verdict('WONT_RUN', 'program_missing', f'Python {module[1]} module unavailable')
+        args = tokens[1:]
+        if name == 'py' and args and re.fullmatch(r'-\d+\.\d+', args[0]):
+            args = args[1:]
+        module = args[1] if len(args) >= 2 and args[0] == '-m' else None
+        if module in ('venv', 'pip') and py.get(module) is False:
+            return verdict('WONT_RUN', 'program_missing', f'Python {module} module unavailable')
     wheel = re.search(r'/whl/cu(\d{2})(\d)(?:\b|/)', text)
     if wheel:
         driver = value(profile, 'software.gpu_stack', 'cuda_driver')
@@ -109,6 +109,12 @@ def judge_command(command, profile, req, installed):
             return verdict('WONT_RUN', 'wrong_os', 'CUDA is not applicable on this platform')
         if driver and version(f'{wheel[1]}.{wheel[2]}') > version(driver):
             return verdict('WONT_RUN', 'version_mismatch', f'wheel CUDA {wheel[1]}.{wheel[2]} exceeds driver CUDA {driver}')
+    if hint != 'unknown' and family(hint) != family(target):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', f'{family(hint)} block for a {family(target)} scenario')
+    if wrong_syntax(text, target, profile):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'explicit cross-shell syntax')
+    if not simple(text):
+        return verdict('UNKNOWN', detail='compound command, expansion, or redirection outside the rule set')
     flags = re.I if target in ('powershell', 'cmd') else 0
     rule = next((r for r in relevant if re.fullmatch(r['pattern'], text, flags)), None)
     if rule is None:

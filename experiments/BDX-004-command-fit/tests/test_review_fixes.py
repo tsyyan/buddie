@@ -21,6 +21,10 @@ class ShellFamilies(unittest.TestCase):
             with self.subTest(profile=pid, text=text):
                 self.assertEqual(grade(pid, tid, text, tag)['commands'][0]['reason'], reason)
 
+    def test_missing_python_module_precedes_the_tag(self):
+        self.assertEqual(grade('ubuntu2204-nosudo', 'python-venv', 'python3 -m venv .venv', 'powershell')
+                         ['commands'][0]['reason'], 'program_missing')
+
     def test_cross_family_tags_still_fail(self):
         for tag in ['bash', 'sh', 'zsh', 'shell', 'console', 'powershell']:
             self.assertEqual(grade('win11-cmd-nogpu', 'list-files', 'dir', tag)
@@ -37,6 +41,18 @@ class ShellFamilies(unittest.TestCase):
     def test_zsh_non_posix_syntax_is_unknown(self):
         for text in ['[[ -d output ]]', 'items=(one two)']:
             result = grade('macos-arm', 'list-files', text, 'zsh')
+            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+
+    def test_quoted_bashism_text_is_not_a_shell_failure(self):
+        for text in ["echo 'items=(one two)'", "echo 'use source here'", "echo 'x; [[ -d y ]]'"]:
+            result = grade('alpine-container', 'list-files', text, 'bash')
+            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+
+    def test_foreign_tokenizer_cannot_prove_a_shell_failure(self):
+        quoted = 'Write-Output ' + chr(34) + chr(96) + chr(34) * 2
+        for pid, shell, text in [('win11-pwsh-nvidia', 'powershell', quoted),
+                                 ('win11-cmd-nogpu', 'cmd', 'echo "unterminated')]:
+            result = grade(pid, 'list-files', text, shell)
             self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
 
 

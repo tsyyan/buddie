@@ -83,3 +83,9 @@ Counter/denominator regressions were observed failing before implementation. Ref
 UNKNOWN shares with bash/dash/pwsh: before 3/39; after original IDs 1/39; all current
 answers 1/44. The immutable before verdict snapshot and after report are checked in.
 The comparison reports parser availability and never drops unknown or broken answers.
+
+Final independent review reproduced two false-objection cases: sh regex checks inspected
+quoted literals, and shlex's foreign quoting rules were treated as authoritative. Added
+failing regressions and fixed both. Added a module-availability-before-tag regression too.
+Final suite: 53 tests pass with bash/dash/pwsh; eight profiles validate. Recorded UNKNOWN
+counts remain 3/39 before, 1/39 matched after, 1/44 expanded after. No deferred findings.

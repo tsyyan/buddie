@@ -31,6 +31,9 @@ Shell hints are families: bash/sh/zsh/shell/console are POSIX, separate from Pow
 is a shell failure only across families. OS/program failures take precedence over the tag. Parse the command
 using the profile's shell: sh uses dash -n plus explicit bashism checks; zsh accepts the POSIX-parseable subset
 and is UNKNOWN outside it. No answer text is executed.
+Quoted literal text is not evidence of a bashism. A failure in the judge's non-native tokenizer is UNKNOWN
+unless a target-shell syntax check establishes invalid syntax. Missing Python modules are availability
+failures and also precede a shell-tag mismatch.
 
 The judge may also use the cited base-command subsets and bounded forms in base_commands.py. They model the
 synthetic profile's userland (Linux coreutils/util-linux, Alpine BusyBox, macOS BSD, PowerShell core or cmd

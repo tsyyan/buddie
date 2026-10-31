@@ -142,7 +142,9 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   `Get-ChildItem`, `dir` and `set`; the availability list alone never makes arbitrary options FITS. No package's
   GNU-specific options are inferred on BSD or BusyBox, and privileged operations are not approved by a base list.
 - Bash uses `bash --noprofile --norc -n`; sh uses `dash -n`. Explicit checks also reject `[[ ]]`, arrays and
-  `source` on sh: dash's syntax parser alone treats `[[` as an ordinary command name. PowerShell uses a fixed
+  `source` on sh: dash's syntax parser alone treats `[[` as an ordinary command name. These checks ignore
+  quoted/escaped literal text. Non-native tokenizer failures stay UNKNOWN unless the target-shell parser
+  establishes a syntax error. PowerShell uses a fixed
   `pwsh -NoProfile -NonInteractive -Command` parser script: answer bytes go only to `ParseInput` through stdin.
   Cmd uses a small explicit syntax rule set. Missing parsers produce UNKNOWN. For zsh, POSIX text accepted by
   dash is supported; syntax outside that subset is UNKNOWN. Windows WSL launcher aliases are not started.
