@@ -38,3 +38,12 @@ installer state, and platform-independent outcomes.
   assumptions in index/task metadata, never as invented diagnostic observations.
 - Python 3.10 may be a target interpreter while buddie itself runs on Python 3.11+.
   The no-venv profile therefore has a separate 3.12 buddie_runtime.
+- Profiles complete: 1 test passed; 8 profile documents independently validated.
+- Tasks complete: 2 tests passed; 8 profiles validated; 24 tasks and 192 pairs.
+- Extraction complete: 7 tests passed; 8 profiles validated.
+- Tool complete: 13 tests passed; 8 profiles validated; catalog and schema compared to real code.
+- Judge complete: 26 tests ran, 1 skipped (no local POSIX parser); 8 profiles validated.
+- Recorded answers complete: 27 tests ran, 1 skipped; 55 answers across 16 complete pairs.
+- Ruling: OK retains the protocol's meaning of no proven WONT_RUN. UNKNOWN commands are
+  separately counted and `all_commands_decided` is false; consumers must retain these
+  fields to avoid counting unproven commands as fitting.
