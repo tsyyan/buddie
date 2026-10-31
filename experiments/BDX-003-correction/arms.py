@@ -173,9 +173,15 @@ class Client:
                     raise RuntimeError(f"HTTP {status} {ctype}: not a chat completion: {raw[:200]!r}") from e
             except urllib.error.HTTPError as e:
                 after = float(e.headers.get("Retry-After") or 0) or min(120.0, 5 * 2 ** attempt)
-                if e.code == 429 and after > self.max_wait:
-                    raise Stop(f"rate limit: retry after {after:.0f} s") from e
-                if e.code in (429, 500, 502, 503, 504) and attempt < 5:
+                if e.code == 429:
+                    body = e.read()[:300]
+                    # a quota or rate limit is the provider's, never the model's: it stops the provider (the unit
+                    # waits for it), it is never recorded as a failed run
+                    if after > self.max_wait or b"quota" in body.lower() or attempt >= 5:
+                        raise Stop(f"rate limit (HTTP 429): {body[:160]!r}") from e
+                    time.sleep(after)
+                    continue
+                if e.code in (500, 502, 503, 504) and attempt < 5:
                     time.sleep(after)
                     continue
                 raise RuntimeError(f"HTTP {e.code}: {e.read()[:300]!r}") from e
@@ -270,8 +276,17 @@ def main(argv=None) -> int:
     ap.add_argument("--max-wait", type=float, default=300)
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--no-temperature", action="store_true", help="for models that reject the parameter")
+    ap.add_argument("--drop-rate-limited", action="store_true",
+                    help="drop rows whose only result is a provider's HTTP 429 (recorded as failed runs before "
+                         "2026-10-31), so those arms run again")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
+    if a.drop_rate_limited:
+        from pathlib import Path
+        keep = [r for r in read_jsonl(a.out) if not str(r.get("error", "")).startswith("HTTP 429")]
+        dropped = len(read_jsonl(a.out)) - len(keep)
+        Path(a.out).write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in keep), encoding="utf-8")
+        print("dropped", dropped, "rate-limited rows", flush=True)
     units = read_json(a.units)["units"]
     eligible = {r["id"]: r for r in read_json(a.eligible)["rows"]}
     store = Store(a.store)

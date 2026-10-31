@@ -227,6 +227,20 @@ class Providers(unittest.TestCase):
             self.assertEqual(sorted(next(iter(p)) for p in by_unit.values()), ["groq", "groq", "ovh"])
 
 
+class RateLimit(unittest.TestCase):
+    def test_a_quota_429_stops_the_provider_and_is_not_a_failed_run(self):
+        import io
+        import urllib.error
+        from unittest import mock
+        err = urllib.error.HTTPError("u", 429, "Too Many Requests", {"Retry-After": "2"},
+                                     io.BytesIO(b'{"error": {"message": "You exceeded your current quota"}}'))
+        with mock.patch.dict("os.environ", {"GROQ_API_KEY": "k"}), \
+                mock.patch("urllib.request.urlopen", side_effect=err), mock.patch("time.sleep"):
+            c = run.Client("groq", "m", 6000, 10, 300, None)
+            with self.assertRaises(run.Stop):
+                c.chat([{"role": "user", "content": "x"}], None)
+
+
 class Judge(unittest.TestCase):
     def test_outcomes(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -11,3 +11,4 @@
   D-B +0.276 [0.149, 0.402] (n 87); C-A -0.886; B-A -0.721. Paired, OK, bad = not CORRECT: C-B -0.02 [-0.098, 0.039] (n 51).
   Mean input tokens per unit (ERROR): A 578, B 9,681, C 13,237, D 18,030; requests A 1.0, B 5.4, C 6.2, D 7.0.
 2026-10-31T08:11Z gemini-3.8-flash started (main.env PROVIDER=gemini)
+2026-10-31T08:50Z gemini-3.8-flash paused: the free tier answers 'You exceeded your current quota' (HTTP 429) almost at once (runs 41183576896, 41184441897: 4 rows, 1 unit; tool calling itself works). Before this fix, 429s were recorded as failed runs; arms.py now stops the provider on a quota 429, and --drop-rate-limited removes the rows written that way. The second model waits for the owner's decision.
