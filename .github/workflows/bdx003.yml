@@ -325,6 +325,16 @@ jobs:
           hooks=$(find "$h/.claude/plugins" -name hooks.json -path '*buddie*' | wc -l)
           test "$left" = 0 -a "$hooks" -gt 0 || { echo "::error::hookonly: $left skill/mcp files left, $hooks hooks.json"; exit 1; }
           echo "::notice title=BDX-003 product hookonly::taken out $n_skill SKILL.md and $n_mcp .mcp.json; hooks.json kept: $hooks"
+          # hookdisc: hooks plus the buddie-discovery skill (written for a client without buddie's MCP tools); the other
+          # skills and the MCP server taken out (PROTOCOL 2026-11-01, product run)
+          h="$RUNNER_TEMP/homes/hookdisc"; mkdir -p "$h"
+          HOME="$h" npx --yes "$CLAUDE_CLI" plugin marketplace add tsyyan/buddie >/dev/null
+          HOME="$h" npx --yes "$CLAUDE_CLI" plugin install buddie@buddie >/dev/null
+          find "$h/.claude/plugins" \( -name SKILL.md -o -name .mcp.json \) -path '*buddie*' -not -path '*buddie-discovery*' -delete
+          kept=$(find "$h/.claude/plugins" -name SKILL.md -path '*buddie-discovery*' | wc -l)
+          left=$(find "$h/.claude/plugins" \( -name SKILL.md -o -name .mcp.json \) -path '*buddie*' -not -path '*buddie-discovery*' | wc -l)
+          test "$kept" -gt 0 -a "$left" = 0 || { echo "::error::hookdisc: discovery skill $kept, others left $left"; exit 1; }
+          echo "::notice title=BDX-003 product hookdisc::buddie-discovery SKILL.md kept: $kept; other skills and .mcp.json taken out"
       - name: runs (resumes; stops after MINUTES)
         if: env.PRODUCT_RUN == '1'
         env:

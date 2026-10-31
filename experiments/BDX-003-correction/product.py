@@ -36,10 +36,12 @@ ASK_SUMMARY = ("Read the page at {url} and write a short paragraph (3 to 4 sente
 # what a user lets a session do without asking: read the web; in `with`, buddie's own tools as well
 BUDDIE_TOOLS = ("WebFetch mcp__plugin_buddie_buddie__snap mcp__plugin_buddie_buddie__source_text "
                 "mcp__plugin_buddie_buddie__verify_report")
-ALLOWED = {"without": "WebFetch", "with": BUDDIE_TOOLS, "hook": BUDDIE_TOOLS, "hookonly": "WebFetch"}
+ALLOWED = {"without": "WebFetch", "with": BUDDIE_TOOLS, "hook": BUDDIE_TOOLS, "hookonly": "WebFetch",
+           "hookdisc": "WebFetch"}
 # hook (first try): the release with its skills taken out of the installed copy; its MCP tools still led the model to
 # snap and verify before answering, so it is kept as an exploratory variant. hookonly: skills and MCP server taken
 # out, only the hooks left: nothing invites a check before the answer, the Stop hook still checks it (PROTOCOL).
+# hookdisc: hookonly plus the buddie-discovery skill, the one written for a client without buddie's MCP tools.
 
 
 def bad(row: dict) -> str | None:
@@ -47,7 +49,7 @@ def bad(row: dict) -> str | None:
     if row.get("error"):
         return row["error"]
     if row.get("is_error"):
-        return "result is_error"
+        return "result is_error: " + " ".join(row.get("texts") or [])[:160]
     if any(t.lstrip().startswith(("API Error", "Failed to authenticate", "Credit balance")) for t in row["texts"]):
         return "API error as the answer: " + next(t for t in row["texts"] if t.lstrip().startswith(
             ("API Error", "Failed to authenticate", "Credit balance")))[:160]
@@ -103,7 +105,7 @@ def run_one(task: str, unit: dict, condition: str, homes: Path, store: Path, mod
     work = homes / f"work-{condition}-{os.getpid()}"
     work.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, HOME=str(homes / condition))
-    if condition in ("with", "hook", "hookonly"):
+    if condition != "without":
         env["BUDDIE_STORES"] = str(store.resolve())
     cmd = ["npx", "--yes", CLI, "-p", prompt(task, unit), "--model", model, "--output-format", "stream-json",
            "--verbose", "--max-turns", str(max_turns), "--allowedTools", ALLOWED[condition]]

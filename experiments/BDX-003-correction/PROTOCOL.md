@@ -166,3 +166,8 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   called ToolSearch, snap, source_text and verify_report before answering (the MCP tools invite it), so `hook` did
   not test the hook alone. It stays as an exploratory variant; the planned comparison moves to **`hookonly`**: skills
   and the MCP server (`.mcp.json`) taken out of the installed copy, hooks kept, only WebFetch allowed.
+- 2026-11-01, decided by the owner before any `hookonly` run held (the chunk of run 41236533623 failed at the API in
+  2 s a run and is redone; its judge step failed on a name clash, fixed): a fourth condition, **`hookdisc`**:
+  `hookonly` plus the plugin's `buddie-discovery` skill, the one written for a client without buddie's MCP tools
+  (the other skills and `.mcp.json` taken out of the installed copy, WebFetch allowed). Compared with `hookonly`
+  (what the skill adds to the hook alone) and with `with` (the release as it ships), on the same units.

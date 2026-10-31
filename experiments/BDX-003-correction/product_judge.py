@@ -113,11 +113,12 @@ def main(argv=None) -> int:
     # paired, with minus without, on the same unit (rep 0): bad = WRONG (paragraph), a false quote left (summary)
     paired = {}
     for task, gold in sorted({(r["task"], r["gold"]) for r in rows}):
-        def bad(r):
+        def worse(r):
             return (r["outcome"] == "WRONG") if task == "paragraph" else (r["false_final"] > 0)
-        by_cond = {c: {r["unit"]: bad(r) for r in by[(task, gold, c)] if r["rep"] == 0}
-                   for c in ("without", "with", "hook", "hookonly")}
-        for earlier, later in (("without", "with"), ("without", "hookonly"), ("with", "hookonly"), ("without", "hook")):
+        by_cond = {c: {r["unit"]: worse(r) for r in by[(task, gold, c)] if r["rep"] == 0}
+                   for c in ("without", "with", "hook", "hookonly", "hookdisc")}
+        for earlier, later in (("without", "with"), ("without", "hookonly"), ("with", "hookonly"), ("without", "hookdisc"),
+                               ("hookonly", "hookdisc"), ("with", "hookdisc"), ("without", "hook")):
             a_, b_ = by_cond[earlier], by_cond[later]
             pairs = [(int(a_[u]), int(b_[u])) for u in a_.keys() & b_.keys()]
             if pairs:
