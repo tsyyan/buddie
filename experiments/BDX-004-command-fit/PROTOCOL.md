@@ -32,6 +32,11 @@ is a shell failure only across families. OS/program failures take precedence ove
 using the profile's shell: sh uses dash -n plus explicit bashism checks; zsh accepts the POSIX-parseable subset
 and is UNKNOWN outside it. No answer text is executed.
 
+The judge may also use the cited base-command subsets and bounded forms in base_commands.py. They model the
+synthetic profile's userland (Linux coreutils/util-linux, Alpine BusyBox, macOS BSD, PowerShell core or cmd
+builtins). They establish availability only; stronger observations and task constraints still apply, and
+unrecognized flags remain UNKNOWN. A missing observation overrides a base availability assumption.
+
 ## Audit
 A blind 20 % sample of judged commands is read by the owner (does WONT_RUN hold on that machine; would FITS run).
 

@@ -1,5 +1,6 @@
 """Extract likely runnable Markdown, retaining shell and answer order."""
 import re
+from base_commands import BASE_NAMES
 
 LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell',
              'pwsh': 'powershell', 'ps1': 'powershell', 'cmd': 'cmd', 'bat': 'cmd',
@@ -11,6 +12,7 @@ PROGRAMS = set(('python python3 py pip pip3 uv conda pipx node npm npx git curl 
                 'systemctl service rc-service sc launchctl icacls uname make cmake gcc '
                 'Get-ChildItem New-Item Remove-Item Write-Output Get-NetTCPConnection '
                 'Get-Service Restart-Service Invoke-WebRequest system_profiler').lower().split())
+PROGRAMS.update(BASE_NAMES)
 PROMPT = re.compile(r'^(?:\$\s+|PS(?:\s+[^>\n]*)?>\s*|[A-Za-z]:\\[^>\n]*>\s*)')
 FENCE = re.compile(r'^\s{0,3}(`{3,}|~{3,})\s*([^\s`]*)\s*$')
 

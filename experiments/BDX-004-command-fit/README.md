@@ -102,12 +102,19 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 - **UNKNOWN never means FITS.** `OK` requires every command to be FITS or INSTALLS. `UNDECIDED` means at least
   one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and
   `all_commands_decided` for analysis; empty answers remain ASKED or NO_COMMANDS, never OK.
-- Only an explicit complete task rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
+- Only an explicit complete task or base-command rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
   observation, incomplete observations, dynamic code, pipelines, compound commands and redirects stay UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.
   Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
   names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
   assuming that the original PATH and module lookup still apply. Node 20 rules require major version 20.
+- `base_commands.py` contains sourced availability subsets for GNU coreutils/util-linux plus tar on Linux,
+  BusyBox applets on Alpine, Apple's BSD userland, core PowerShell cmdlets and cmd builtins. Each list cites its
+  primary source in a comment. These are explicit synthetic-scenario assumptions, not new diagnostic observations
+  or guarantees about arbitrary installations. Observed missing programs override the assumptions. Complete,
+  bounded command-form rules support common uses such as `ls -la`, `mkdir -p output`, `rm -f temp.txt`, tar archives,
+  `Get-ChildItem`, `dir` and `set`; the availability list alone never makes arbitrary options FITS. No package's
+  GNU-specific options are inferred on BSD or BusyBox, and privileged operations are not approved by a base list.
 - Bash uses `bash --noprofile --norc -n`; sh uses `dash -n`. Explicit checks also reject `[[ ]]`, arrays and
   `source` on sh: dash's syntax parser alone treats `[[` as an ordinary command name. PowerShell uses a fixed
   `pwsh -NoProfile -NonInteractive -Command` parser script: answer bytes go only to `ParseInput` through stdin.

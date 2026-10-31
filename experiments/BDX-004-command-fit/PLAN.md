@@ -72,3 +72,8 @@ experiment suite now passes with those parsers. All eight profiles still validat
 
 UNDECIDED regression observed failing, then fixed. Updated the corpus's literal expected
 outcomes and both protocol/README; BROKEN still precedes UNKNOWN and empty text is not OK.
+
+Base-userland regressions observed failing without task-specific whitelist/assumptions, then
+fixed with cited availability sets and bounded command-form data. The complete 46-test suite
+passes; explicitly missing observations still override base assumptions and unsupported
+options/foreign userlands are not inferred as FITS. All eight profiles validate.

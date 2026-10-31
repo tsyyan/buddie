@@ -1,5 +1,6 @@
 """Read fixture observations without treating an unobserved value as absent."""
 import re
+from base_commands import programs as base_programs
 
 
 def observation(profile, category, name):
@@ -34,8 +35,6 @@ def program(profile, requirements, name, installed):
         return True, installed[name]
     if name in requirements.get('missing_programs', []):
         return False, None
-    if name.lower() in {p.lower() for p in requirements.get('assumed_programs', [])}:
-        return True, None
     if name in ('python', 'python3') or re.fullmatch(r'python3\.\d+', name):
         facts = python_facts(profile, name, name)
         if facts.get('version'):
@@ -56,4 +55,7 @@ def program(profile, requirements, name, installed):
             return True, obs['value'] if isinstance(obs['value'], str) else None
         if obs.get('reason') in ('not_found_on_path', 'not_found'):
             return False, None
+    if name.lower() in base_programs(profile, requirements) or name.lower() in {
+            p.lower() for p in requirements.get('assumed_programs', [])}:
+        return True, None
     return None, None

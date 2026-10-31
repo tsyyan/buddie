@@ -6,6 +6,7 @@ import re
 import shlex
 
 from commands import extract
+from base_commands import rule as base_rule
 from facts import observation, program, python_facts, value, version
 from syntax import family, syntax
 from tool import HERE, load_profile
@@ -110,6 +111,8 @@ def judge_command(command, profile, req, installed):
             return verdict('WONT_RUN', 'version_mismatch', f'wheel CUDA {wheel[1]}.{wheel[2]} exceeds driver CUDA {driver}')
     flags = re.I if target in ('powershell', 'cmd') else 0
     rule = next((r for r in relevant if re.fullmatch(r['pattern'], text, flags)), None)
+    if rule is None:
+        rule = base_rule(profile, req, name, text)
     if not rule:
         return verdict('UNKNOWN', detail='no complete task rule for this command form')
     if rule.get('needs_admin') and not sudo:
