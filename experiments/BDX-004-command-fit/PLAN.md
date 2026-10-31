@@ -54,3 +54,6 @@ installer state, and platform-independent outcomes.
   broken example now uses observed-missing conda rather than an unobserved Python alias.
 - Review fixes verified: 31 tests passed with Git Bash and pwsh available; all 8 profiles
   validated again. No deferred review findings. Broader repository tests run separately.
+- Final extraction check reproduced common curl/pip/ffmpeg/Docker version output as
+  spurious extra commands. Added a failing regression and filtered these output forms;
+  32 experiment tests now pass, with all 8 profiles independently validated.

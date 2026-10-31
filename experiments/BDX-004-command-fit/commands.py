@@ -39,7 +39,9 @@ def starts_program(line):
     """A bounded vocabulary filters prose/output; unknown programs with flags survive."""
     if not line:
         return False
-    if re.match(r'(?i)^(?:git version |Python \d|Successfully |Requirement already |Collecting |Downloading )', line):
+    if re.match(r'(?i)^(?:(?:git|docker|podman|ffmpeg) version |Python \d|'
+                r'curl \d+\.\d+[^ ]* \(|pip \d+\.\d+[^ ]* from |'
+                r'Successfully |Requirement already |Collecting |Downloading )', line):
         return False
     if line.startswith('& '):
         return starts_program(line[2:].lstrip())

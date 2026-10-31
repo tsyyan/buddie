@@ -56,3 +56,11 @@ class Extraction(unittest.TestCase):
             with self.subTest(text=text):
                 self.assertEqual(commands.extract(f'```{shell}\n{text}\n```'),
                                  [{'text': text, 'shell': shell}])
+
+    def test_common_version_output_is_not_an_extra_command(self):
+        text = ('```console\ncurl --version\ncurl 8.10.1 (x86_64-pc-linux-gnu)\n'
+                'ffmpeg -version\nffmpeg version 7.0 Copyright\n'
+                'python3 -m pip --version\npip 24.0 from /opt/python/site-packages/pip\n'
+                'docker --version\nDocker version 27.0.1, build abc\n```')
+        self.assertEqual([r['text'] for r in commands.extract(text)],
+                         ['curl --version', 'ffmpeg -version', 'python3 -m pip --version', 'docker --version'])
