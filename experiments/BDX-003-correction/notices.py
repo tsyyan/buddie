@@ -34,6 +34,7 @@ def lines(data: Path) -> list[tuple[str, str]]:
                  f"(no paragraph {c.get('no_paragraph')}, unquoted kept {c.get('unquoted_kept')}, "
                  f"replaced correct {c.get('replaced_correct')}, paraphrased {c.get('paraphrased')}), "
                  f"req {c['mean_requests']}, tok {c['mean_prompt_tokens']}/{c['mean_completion_tokens']}, "
+                 f"sent chars {c.get('mean_sent_chars')}, "
                  f"failed {c['failed_runs']}" for k, c in s["cells"].items()]
         for i in range(0, len(cells), 3):
             out.append((f"BDX-003 cells {i // 3 + 1}", " || ".join(cells[i:i + 3])))

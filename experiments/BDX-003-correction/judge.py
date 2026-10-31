@@ -107,7 +107,8 @@ def summarize(judged: list[dict]) -> dict:
             cell[o.lower()] = round(sum(r["outcome"] == o for r in ok) / n, 3) if n else None
         for d in REMOVED_AS:
             cell[d.lower()] = round(sum(r.get("removed_as") == d for r in ok) / n, 3) if n else None
-        for k in ("requests", "tool_calls", "prompt_tokens", "completion_tokens", "seconds", "feedback_rounds"):
+        for k in ("requests", "tool_calls", "prompt_tokens", "completion_tokens", "sent_chars", "seconds",
+                  "feedback_rounds"):
             vals = [r.get(k) or 0 for r in ok]
             cell["mean_" + k] = round(sum(vals) / n, 2) if n else None
         cell["flagged"] = round(sum(r["flagged"] for r in ok) / n, 3) if n else None
@@ -201,7 +202,8 @@ def main(argv=None) -> int:
     for r in read_jsonl(a.runs):
         u = units[r["unit"]]
         row = {k: r.get(k) for k in ("unit", "arm", "model", "provider", "rep", "requests", "tool_calls", "prompt_tokens",
-                                       "completion_tokens", "seconds", "feedback_rounds", "final")}
+                                       "completion_tokens", "sent_chars", "seconds", "feedback_rounds",
+                                       "final")}
         row["gold"] = u["gold"]
         if "error" in r:
             row["error"] = r["error"]

@@ -281,6 +281,7 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
     for _ in range(MAX_TOOL_STEPS + 1):
         msg, usage = client.chat(messages, [TOOL] if tools else None)
         rec["requests"] += 1
+        rec["sent_chars"] = rec.get("sent_chars", 0) + len(json.dumps(messages, ensure_ascii=False))
         for k in ("prompt_tokens", "completion_tokens"):
             rec[k] += int(usage.get(k) or 0)
         calls = msg.get("tool_calls") or []
@@ -299,6 +300,7 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
     messages.append({"role": "user", "content": "No more tool calls. Reply now with the paragraph only."})
     msg, usage = client.chat(messages, [TOOL] if tools else None)
     rec["requests"] += 1
+    rec["sent_chars"] = rec.get("sent_chars", 0) + len(json.dumps(messages, ensure_ascii=False))
     for k in ("prompt_tokens", "completion_tokens"):
         rec[k] += int(usage.get(k) or 0)
     if msg.get("tool_calls"):
@@ -307,7 +309,9 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
 
 
 def run_arm(client, store, unit: dict, arm: str, rounds: int) -> dict:
-    rec = {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "feedback_rounds": 0,
+    # sent_chars: what every request carried, counted here; a provider's usage can come back empty (seen: 0 tokens)
+    rec = {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "sent_chars": 0,
+           "feedback_rounds": 0,
            "buddie": []}
     ask = ASK_BC if arm in ("B", "C", "E") else ASK_A
     messages = [{"role": "system", "content": SYSTEM},
