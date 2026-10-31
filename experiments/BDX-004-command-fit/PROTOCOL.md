@@ -37,6 +37,16 @@ synthetic profile's userland (Linux coreutils/util-linux, Alpine BusyBox, macOS 
 builtins). They establish availability only; stronger observations and task constraints still apply, and
 unrecognized flags remain UNKNOWN. A missing observation overrides a base availability assumption.
 
+Report the share of UNKNOWN commands over **all extracted commands across all recorded answers**. Include
+UNKNOWNs in BROKEN answers; questions/prose have no commands. Record parser availability. When the answer corpus
+changes, report both the full current corpus and the original-ID subset with its original denominator.
+
+## Pre-run review corrections (2026-11-01)
+Added POSIX-family hints, OS/program reason precedence, UNDECIDED, cited base-userland data and five recorded
+review regressions. No model answers have been collected. With bash, dash and pwsh available, UNKNOWN changes
+from 3/39 (7.69%) at f59c325 to 1/39 (2.56%) for the original 55 answers, or 1/44 (2.27%) for all 60 current
+answers. See tests/unknown_before.json and tests/unknown_after.json. This is a fixture check, not an arm comparison.
+
 ## Audit
 A blind 20 % sample of judged commands is read by the owner (does WONT_RUN hold on that machine; would FITS run).
 

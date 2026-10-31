@@ -987,5 +987,107 @@
         }
       ]
     }
+  },
+  {
+    "id": "bash-on-macos",
+    "profile": "macos-arm",
+    "task": "list-files",
+    "kind": "tricky",
+    "answer": "```bash\nls -la\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "zsh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "bash-on-alpine",
+    "profile": "alpine-container",
+    "task": "make-directory",
+    "kind": "tricky",
+    "answer": "```bash\nmkdir -p output\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "alpine-double-brackets",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "tricky",
+    "answer": "```bash\n[[ -d output ]]\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "alpine-array",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "tricky",
+    "answer": "```bash\nitems=(one two)\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "powershell-on-cmd",
+    "profile": "win11-cmd-nogpu",
+    "task": "list-files",
+    "kind": "tricky",
+    "answer": "```powershell\nGet-ChildItem\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
   }
 ]

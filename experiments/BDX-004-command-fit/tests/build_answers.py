@@ -86,6 +86,19 @@ def main():
     ash = next(r for r in rows if r['id'] == 'bash-for-ash')
     ash.update(expected=expected('OK', ('FITS', None)), parser='sh', parser_probe='echo ok',
                without_parser=expected('UNDECIDED', ('UNKNOWN', None)))
+    for cid, pid, tid, text, target in [
+            ('bash-on-macos', 'macos-arm', 'list-files', 'ls -la', 'zsh'),
+            ('bash-on-alpine', 'alpine-container', 'make-directory', 'mkdir -p output', 'sh')]:
+        rows.append(dict(id=cid, profile=pid, task=tid, kind='tricky', answer=f'```bash\n{text}\n```',
+                         expected=expected('OK', ('FITS', None)), parser=target, parser_probe='echo ok',
+                         without_parser=expected('UNDECIDED', ('UNKNOWN', None))))
+    for cid, pid, tag, text in [
+            ('alpine-double-brackets', 'alpine-container', 'bash', '[[ -d output ]]'),
+            ('alpine-array', 'alpine-container', 'bash', 'items=(one two)'),
+            ('powershell-on-cmd', 'win11-cmd-nogpu', 'powershell', 'Get-ChildItem')]:
+        rows.append(dict(id=cid, profile=pid, task='list-files', kind='tricky',
+                         answer=f'```{tag}\n{text}\n```',
+                         expected=expected('BROKEN', ('WONT_RUN', 'wrong_shell_syntax'))))
     Path(__file__).with_name('answers.json').write_text(json.dumps(rows, indent=2) + '\n', encoding='utf-8')
 
 

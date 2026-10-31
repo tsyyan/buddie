@@ -9,6 +9,15 @@ import judge
 
 
 class Recorded(unittest.TestCase):
+    def test_review_cases_are_recorded_with_literal_expectations(self):
+        cases = json.loads((HERE / 'tests/answers.json').read_text(encoding='utf-8'))
+        by_id = {c['id']: c for c in cases}
+        for cid, status in [('bash-on-macos', 'FITS'), ('bash-on-alpine', 'FITS'),
+                            ('alpine-double-brackets', 'WONT_RUN'), ('alpine-array', 'WONT_RUN'),
+                            ('powershell-on-cmd', 'WONT_RUN')]:
+            self.assertIn(cid, by_id)
+            self.assertEqual(by_id[cid]['expected']['commands'][0]['status'], status)
+
     def test_recorded_answers_and_pair_coverage(self):
         self.assertTrue((HERE / 'tests/answers.json').exists())
         cases = json.loads((HERE / 'tests/answers.json').read_text(encoding='utf-8'))

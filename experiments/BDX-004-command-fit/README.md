@@ -1,7 +1,7 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
 Status: **starter set built** (2026-11-01). Eight synthetic profiles, 24 tasks, 192 eligible units,
-command extraction, a snapshot stand-in, a model-free judge and 55 human-written answer fixtures are present.
+command extraction, a snapshot stand-in, a model-free judge and 60 human-written answer fixtures are present.
 No model calls, provider code or experiment results. The experiment runs after BDX-003 is reported.
 
 ## Question
@@ -74,10 +74,36 @@ assumption, supplemental program assumptions, and anchored command rules (progra
 CUDA compatibility, version bounds and installation effects). A task can intentionally be impossible on a profile;
 asking about the machine or explaining a limitation is part of what later model answers may do.
 
-`tests/answers.json` has fitting, broken and question-only examples for **16 distinct pairs**, plus seven tricky
+`tests/answers.json` has fitting, broken and question-only examples for **16 distinct pairs**, plus twelve tricky
 answers. Expectations are human-labelled, including explicit alternatives when a parser is absent; the judge does
 not generate its own expected labels. `profiles/build.py`, `tasks/build.py` and `tests/build_answers.py` reproduce
 the checked-in data, without probing a machine or calling a model.
+
+The review additions include correct bash-fenced commands for macOS/zsh and Alpine/sh, Alpine `[[ ]]` and array
+failures, and a PowerShell block for a cmd-profile user. The cmd profile also has Windows PowerShell installed;
+the negative case concerns the user's selected cmd execution family, not absence of powershell.exe.
+
+## Recorded-command UNKNOWN share (2026-11-01)
+
+`recorded_stats.py` counts every extracted command across every recorded answer, including UNKNOWN commands
+inside BROKEN answers. Questions and prose contribute zero commands. It reports both the complete current corpus
+and the unchanged original answer IDs, so additions cannot conceal the matched comparison.
+
+| Corpus | Answers | All commands | UNKNOWN | Share |
+|---|---:|---:|---:|---:|
+| Before fixes, f59c325 | 55 | 39 | 3 | 7.69% |
+| After fixes, original IDs | 55 | 39 | 1 | 2.56% |
+| After fixes, expanded corpus | 60 | 44 | 1 | 2.27% |
+
+Measured with bash, dash and pwsh available on the same local Windows setup. The original zsh checker always
+returned UNKNOWN; the new checker accepts its POSIX subset through dash. The remaining UNKNOWN is the intentionally
+unsupported `python --imaginary`. These are synthetic regression-corpus measurements, not model experiment results.
+The actual before verdicts are saved in `tests/unknown_before.json`; the after report is `tests/unknown_after.json`.
+Missing parsers change the share and produce explicit parser-availability fields, never filtered denominators.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py
+```
 
 ## Following the diagnostic code
 

@@ -77,3 +77,9 @@ Base-userland regressions observed failing without task-specific whitelist/assum
 fixed with cited availability sets and bounded command-form data. The complete 46-test suite
 passes; explicitly missing observations still override base assumptions and unsupported
 options/foreign userlands are not inferred as FITS. All eight profiles validate.
+
+Added five hand-labelled recorded review cases (60 answers total) and recorded_stats.py.
+Counter/denominator regressions were observed failing before implementation. Reference
+UNKNOWN shares with bash/dash/pwsh: before 3/39; after original IDs 1/39; all current
+answers 1/44. The immutable before verdict snapshot and after report are checked in.
+The comparison reports parser availability and never drops unknown or broken answers.

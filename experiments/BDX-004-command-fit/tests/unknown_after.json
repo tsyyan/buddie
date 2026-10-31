@@ -1,0 +1,52 @@
+{
+  "baseline_commit": "f59c325117d190c1d0c05c9c8cd259904c78e171",
+  "before": {
+    "answers": 55,
+    "commands": 39,
+    "unknown_commands": 3,
+    "unknown_share": 0.07692307692307693
+  },
+  "after_all": {
+    "answers": 60,
+    "commands": 44,
+    "unknown_commands": 1,
+    "unknown_share": 0.022727272727272728,
+    "command_outcomes": {
+      "FITS": 19,
+      "WONT_RUN": 23,
+      "INSTALLS": 1,
+      "UNKNOWN": 1
+    },
+    "answer_outcomes": {
+      "OK": 19,
+      "BROKEN": 22,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 1
+    }
+  },
+  "after_original": {
+    "answers": 55,
+    "commands": 39,
+    "unknown_commands": 1,
+    "unknown_share": 0.02564102564102564,
+    "command_outcomes": {
+      "FITS": 17,
+      "WONT_RUN": 20,
+      "INSTALLS": 1,
+      "UNKNOWN": 1
+    },
+    "answer_outcomes": {
+      "OK": 17,
+      "BROKEN": 19,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 1
+    }
+  },
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  }
+}
