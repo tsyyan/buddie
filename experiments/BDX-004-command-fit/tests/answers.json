@@ -1,0 +1,980 @@
+[
+  {
+    "id": "01-fitting",
+    "profile": "win11-pwsh-nvidia",
+    "task": "python-version",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```powershell\npy -3.12 --version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "powershell",
+    "parser_probe": "Write-Output ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "01-broken",
+    "profile": "win11-pwsh-nvidia",
+    "task": "python-version",
+    "kind": "broken",
+    "answer": "Run:\n```powershell\npython3 --version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "01-question",
+    "profile": "win11-pwsh-nvidia",
+    "task": "python-version",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "02-fitting",
+    "profile": "win11-cmd-nogpu",
+    "task": "python-version",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```cmd\npython --version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "cmd",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "02-broken",
+    "profile": "win11-cmd-nogpu",
+    "task": "python-version",
+    "kind": "broken",
+    "answer": "Run:\n```cmd\npy -3.12 --version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "02-question",
+    "profile": "win11-cmd-nogpu",
+    "task": "python-version",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "03-fitting",
+    "profile": "macos-arm",
+    "task": "gpu-check",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```zsh\nsystem_profiler SPDisplaysDataType\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "zsh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "03-broken",
+    "profile": "macos-arm",
+    "task": "gpu-check",
+    "kind": "broken",
+    "answer": "Run:\n```zsh\nnvidia-smi\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_os"
+        }
+      ]
+    }
+  },
+  {
+    "id": "03-question",
+    "profile": "macos-arm",
+    "task": "gpu-check",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "04-fitting",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\npython3 -m venv .venv\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "04-broken",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "kind": "broken",
+    "answer": "Run:\n```bash\nconda create -n project python=3.12\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "04-question",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "05-fitting",
+    "profile": "ubuntu2204-nosudo",
+    "task": "python-version",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\npython3 --version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "05-broken",
+    "profile": "ubuntu2204-nosudo",
+    "task": "python-version",
+    "kind": "broken",
+    "answer": "Run:\n```bash\npython3.12 --version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "05-question",
+    "profile": "ubuntu2204-nosudo",
+    "task": "python-version",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "06-fitting",
+    "profile": "wsl-ubuntu",
+    "task": "pytorch-gpu",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\npython3 -m pip install torch --index-url https://download.pytorch.org/whl/cu122\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "06-broken",
+    "profile": "wsl-ubuntu",
+    "task": "pytorch-gpu",
+    "kind": "broken",
+    "answer": "Run:\n```bash\npython3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "version_mismatch"
+        }
+      ]
+    }
+  },
+  {
+    "id": "06-question",
+    "profile": "wsl-ubuntu",
+    "task": "pytorch-gpu",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "07-fitting",
+    "profile": "fedora40",
+    "task": "container-version",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\npodman --version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "07-broken",
+    "profile": "fedora40",
+    "task": "container-version",
+    "kind": "broken",
+    "answer": "Run:\n```bash\ndocker --version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "07-question",
+    "profile": "fedora40",
+    "task": "container-version",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "08-fitting",
+    "profile": "alpine-container",
+    "task": "session-variable",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```sh\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "08-broken",
+    "profile": "alpine-container",
+    "task": "session-variable",
+    "kind": "broken",
+    "answer": "Run:\n```sh\n$env:APP_MODE=\"development\"\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "08-question",
+    "profile": "alpine-container",
+    "task": "session-variable",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "09-fitting",
+    "profile": "win11-cmd-nogpu",
+    "task": "session-variable",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```cmd\nset APP_MODE=development\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "cmd",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "09-broken",
+    "profile": "win11-cmd-nogpu",
+    "task": "session-variable",
+    "kind": "broken",
+    "answer": "Run:\n```cmd\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "09-question",
+    "profile": "win11-cmd-nogpu",
+    "task": "session-variable",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "10-fitting",
+    "profile": "win11-pwsh-nvidia",
+    "task": "download-file",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```powershell\ncurl.exe -o data.txt https://example.org/data.txt\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "powershell",
+    "parser_probe": "Write-Output ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "10-broken",
+    "profile": "win11-pwsh-nvidia",
+    "task": "download-file",
+    "kind": "broken",
+    "answer": "Run:\n```powershell\nwget -O data.txt https://example.org/data.txt\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "10-question",
+    "profile": "win11-pwsh-nvidia",
+    "task": "download-file",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "11-fitting",
+    "profile": "ubuntu2204-nosudo",
+    "task": "install-git",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\ngit --version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "11-broken",
+    "profile": "ubuntu2204-nosudo",
+    "task": "install-git",
+    "kind": "broken",
+    "answer": "Run:\n```bash\nsudo apt install git\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "needs_admin"
+        }
+      ]
+    }
+  },
+  {
+    "id": "11-question",
+    "profile": "ubuntu2204-nosudo",
+    "task": "install-git",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "12-fitting",
+    "profile": "ubuntu2404-nvidia",
+    "task": "archive-create",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\ntar -czf data.tar.gz data\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "12-broken",
+    "profile": "ubuntu2404-nvidia",
+    "task": "archive-create",
+    "kind": "broken",
+    "answer": "Run:\n```bash\nwget --help\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "12-question",
+    "profile": "ubuntu2404-nvidia",
+    "task": "archive-create",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "13-fitting",
+    "profile": "ubuntu2404-nvidia",
+    "task": "service-restart",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\nsudo systemctl restart ssh\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "13-broken",
+    "profile": "ubuntu2404-nvidia",
+    "task": "service-restart",
+    "kind": "broken",
+    "answer": "Run:\n```bash\nsystemctl restart ssh\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "needs_admin"
+        }
+      ]
+    }
+  },
+  {
+    "id": "13-question",
+    "profile": "ubuntu2404-nvidia",
+    "task": "service-restart",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "14-fitting",
+    "profile": "fedora40",
+    "task": "install-ffmpeg",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```bash\nsudo dnf install ffmpeg\nffmpeg -version\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "INSTALLS",
+          "reason": null
+        },
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        },
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "14-broken",
+    "profile": "fedora40",
+    "task": "install-ffmpeg",
+    "kind": "broken",
+    "answer": "Run:\n```bash\nffmpeg -version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "14-question",
+    "profile": "fedora40",
+    "task": "install-ffmpeg",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "15-fitting",
+    "profile": "macos-arm",
+    "task": "session-variable",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```zsh\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "zsh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "15-broken",
+    "profile": "macos-arm",
+    "task": "session-variable",
+    "kind": "broken",
+    "answer": "Run:\n```zsh\n$env:APP_MODE=\"development\"\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "15-question",
+    "profile": "macos-arm",
+    "task": "session-variable",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "16-fitting",
+    "profile": "win11-pwsh-nvidia",
+    "task": "session-variable",
+    "kind": "fitting",
+    "answer": "Run these commands:\n```powershell\n$env:APP_MODE=\"development\"\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "powershell",
+    "parser_probe": "Write-Output ok",
+    "without_parser": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "16-broken",
+    "profile": "win11-pwsh-nvidia",
+    "task": "session-variable",
+    "kind": "broken",
+    "answer": "Run:\n```powershell\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "16-question",
+    "profile": "win11-pwsh-nvidia",
+    "task": "session-variable",
+    "kind": "question",
+    "answer": "Which operating system and shell are you using, and what Python version is installed?",
+    "expected": {
+      "status": "ASKED",
+      "commands": []
+    }
+  },
+  {
+    "id": "bash-for-powershell",
+    "profile": "win11-pwsh-nvidia",
+    "task": "session-variable",
+    "kind": "tricky",
+    "answer": "```bash\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bash-for-ash",
+    "profile": "alpine-container",
+    "task": "session-variable",
+    "kind": "tricky",
+    "answer": "```bash\nexport APP_MODE=development\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax"
+        }
+      ]
+    }
+  },
+  {
+    "id": "missing-venv-module",
+    "profile": "ubuntu2204-nosudo",
+    "task": "python-venv",
+    "kind": "tricky",
+    "answer": "```bash\npython3 -m venv .venv\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "explanation-only",
+    "profile": "win11-cmd-nogpu",
+    "task": "python-version",
+    "kind": "tricky",
+    "answer": "Python is a programming language.",
+    "expected": {
+      "status": "NO_COMMANDS",
+      "commands": []
+    }
+  },
+  {
+    "id": "not-environment-question",
+    "profile": "macos-arm",
+    "task": "gpu-check",
+    "kind": "tricky",
+    "answer": "Would you like me to help?",
+    "expected": {
+      "status": "NO_COMMANDS",
+      "commands": []
+    }
+  },
+  {
+    "id": "unknown-flags",
+    "profile": "win11-cmd-nogpu",
+    "task": "python-version",
+    "kind": "tricky",
+    "answer": "```cmd\npython --imaginary\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "installer-not-elevated",
+    "profile": "win11-cmd-nogpu",
+    "task": "install-ffmpeg",
+    "kind": "tricky",
+    "answer": "```cmd\nchoco install ffmpeg\nffmpeg -version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "needs_admin"
+        },
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    }
+  }
+]
