@@ -584,6 +584,22 @@ def test_the_cli_lists_explains_grants_and_collects(tmp_path):
     assert _cli(["--task", "x"], env).returncode == 2
 
 
+def test_grant_baseline_writes_the_template_once_and_never_over_a_file(tmp_path):
+    """/buddie:init offers it: the baseline categories granted, the sensitive ones not, an existing file left alone."""
+    config = tmp_path / "config"
+    env = dict(os.environ, XDG_CONFIG_HOME=str(config), APPDATA=str(config), PYTHONIOENCODING="utf-8")
+    wrote = _cli(["--grant-baseline"], env)
+    path = config / "buddie" / "environment.toml"
+    assert wrote.returncode == 0 and path.is_file() and "system.os" in wrote.stdout
+    assert path.read_text(encoding="utf-8") == dg.GRANT_TEMPLATE.format(path=path)
+    grants = _cli(["--grants"], env).stdout
+    assert "system.os" in grants and "development.project" not in grants.split("granted:")[1].splitlines()[0]
+    path.write_text('version = 1\nallow = ["system.os"]\nroots = []\n', encoding="utf-8")
+    again = _cli(["--grant-baseline"], env)
+    assert again.returncode == 1 and "not overwritten" in again.stderr
+    assert path.read_text(encoding="utf-8").count("allow") == 1 and "baseline" not in path.read_text(encoding="utf-8")
+
+
 def test_legacy_snapshots_and_freshness_are_unchanged(tmp_path):
     """No --category: environment-v0 exactly as before. With --category and --artifact: the same v0 inside the
     diagnostics document, and freshness reads either file to the same answer."""
