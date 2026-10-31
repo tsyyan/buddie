@@ -117,8 +117,24 @@ def source_text(store, url: str, query: str) -> str:
 
 # ---- buddie's feedback (arm C) -------------------------------------------------------------------------------
 
-def buddie_feedback(store, text: str) -> tuple[str | None, dict]:
-    """The hook's words when a quote does not hold, else None; and the receipt summary for the record."""
+# The hook's FIX as arm C ran it on gpt-oss-120b (buddie 2.0.6); arm C keeps it so its rows stay comparable.
+FIX_206 = ("Fix each item: copy a quote character for character from its page (buddie's source_text tool, after snap), "
+           "or correct the anchor (ready anchors are listed above when buddie could compute them). If an item cannot "
+           "be fixed, keep it and add a line starting with 'buddie:' that tells the reader what is unverified and why.")
+NEAR = re.compile(r" \(closest [0-9.]+(?::|; the page reads:) “.*”\)$", re.S)
+
+
+def _as_206(line: str, quotes: dict) -> str:
+    """A blocking quote line as buddie 2.0.6 wrote it: the near match cut to the quote's length, no sentence."""
+    m = re.match(r"quote (\S+) ", line)
+    near = quotes.get(m.group(1), {}).get("closest") if m else None
+    line = NEAR.sub("", line)
+    return line + (f" (closest {near['ratio']:.2f}: “{near['text'][:120]}”)" if near else "")
+
+
+def buddie_feedback(store, text: str, passage: bool = False) -> tuple[str | None, dict]:
+    """The hook's words when a quote does not hold, else None; and the receipt summary for the record.
+    passage=False (arm C, D): the 2.0.6 words; passage=True (arm E): the page's sentence around the near match."""
     from buddie.hook import FIX, RETURNED
     from buddie.verify import verify
     receipt = verify(text, store=store, fetch=False, github=None, repos=[], mandate=False, numbers="gap")
@@ -127,8 +143,12 @@ def buddie_feedback(store, text: str) -> tuple[str | None, dict]:
     quotes_blocking = [b for b in pred["blocking"] if b.startswith("quote ")]
     if not quotes_blocking:
         return None, record
+    if not passage:
+        by_id = {q.get("id"): q for q in pred.get("quotes", [])}
+        quotes_blocking = [_as_206(b, by_id) for b in quotes_blocking]
     body = "\n".join(["- " + b for b in quotes_blocking])
-    return (f"{RETURNED}\n{pred['line']}\n{body}\n{FIX}\nReply with the corrected paragraph only.", record)
+    return (f"{RETURNED}\n{pred['line']}\n{body}\n{FIX if passage else FIX_206}\n"
+            "Reply with the corrected paragraph only.", record)
 
 
 # ---- the chat API --------------------------------------------------------------------------------------------
@@ -229,13 +249,13 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
 def run_arm(client, store, unit: dict, arm: str, rounds: int) -> dict:
     rec = {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "feedback_rounds": 0,
            "buddie": []}
-    ask = ASK_BC if arm in ("B", "C") else ASK_A
+    ask = ASK_BC if arm in ("B", "C", "E") else ASK_A
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": f"Paragraph:\n\n{unit['paragraph']}\n\n{ask}"}]
     text = answer(client, store, messages, arm != "A", rec)
-    if arm in ("C", "D"):
+    if arm in ("C", "D", "E"):
         for _ in range(rounds):
-            fb, receipt = buddie_feedback(store, text)
+            fb, receipt = buddie_feedback(store, text, passage=arm == "E")
             rec["buddie"].append(receipt)
             if fb is None:
                 break
@@ -243,7 +263,7 @@ def run_arm(client, store, unit: dict, arm: str, rounds: int) -> dict:
             messages += [{"role": "assistant", "content": text}, {"role": "user", "content": fb}]
             text = answer(client, store, messages, True, rec)
         else:
-            rec["buddie"].append(buddie_feedback(store, text)[1])
+            rec["buddie"].append(buddie_feedback(store, text, passage=arm == "E")[1])
     rec["final"] = text
     return rec
 
@@ -299,7 +319,7 @@ def main(argv=None) -> int:
     providers = a.provider.split(",")
     if set(providers) - set(PROVIDERS):
         ap.error(f"unknown provider in --provider {a.provider!r}")
-    if set(a.arms.split(",")) - {"A", "B", "C", "D"}:
+    if set(a.arms.split(",")) - {"A", "B", "C", "D", "E"}:
         ap.error(f"unknown arm in --arms {a.arms!r}")
     if a.pool:
         return run_pool(a, units, eligible, store)

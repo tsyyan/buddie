@@ -120,6 +120,18 @@ class ArmC(unittest.TestCase):
             fb, rec = run.buddie_feedback(s, UNIT_OK["paragraph"])
             self.assertIsNone(fb)
 
+    def test_arm_c_keeps_the_2_0_6_words_and_arm_e_shows_the_sentence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            s = store_with_page(tmp)
+            c, _ = run.buddie_feedback(s, UNIT_ERR["paragraph"])
+            e, _ = run.buddie_feedback(s, UNIT_ERR["paragraph"], passage=True)
+            self.assertIn("(closest 0.92: “s fully funded through 20”)", c)
+            self.assertIn(run.FIX_206, c)
+            self.assertNotIn("the page reads", c)
+            self.assertIn("the page reads: “The committee said the plan is fully funded through 2027 and "
+                          "construction will start in the spring.”", e)
+            self.assertNotIn(run.FIX_206, e)
+
     def test_loop_feeds_back_until_the_quote_holds(self):
         with tempfile.TemporaryDirectory() as tmp:
             s = store_with_page(tmp)

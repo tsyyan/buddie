@@ -77,7 +77,8 @@ def judge(unit: dict, final: str, text: str, min_sim: float, min_overlap: float 
             "length_ratio": round(len(final or "") / max(1, len(unit["paragraph"])), 2)}
 
 
-PAIRS = (("B", "C"), ("A", "C"), ("A", "B"), ("A", "D"), ("B", "D"))  # D: added after pilot 1 (PROTOCOL.md)
+PAIRS = (("B", "C"), ("A", "C"), ("A", "B"), ("A", "D"), ("B", "D"),  # D: added after pilot 1 (PROTOCOL.md)
+         ("C", "E"), ("B", "E"))  # E: added after the gpt-oss main run (PROTOCOL.md, 2026-10-31)
 
 
 def bootstrap_diff(pairs: list[tuple[int, int]], iters: int = 4000, seed: int = 7) -> list[float] | None:

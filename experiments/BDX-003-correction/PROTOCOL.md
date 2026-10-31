@@ -30,6 +30,9 @@ label still holds). Every arm, buddie in arm C and the judge read that one snaps
   or turn it into a paraphrase.
 - **C** B plus buddie: after each answer buddie checks the paragraph against the snapshot; when a quotation does not
   hold, the hook's own text (`buddie/hook.py` RETURNED, FIX) with the failing items goes back, at most 2 rounds.
+- **D** (added after pilot 1) A's instruction, the tool, buddie's feedback as in C.
+- **E** (added after the gpt-oss main run) C with the improved feedback: each failing quote carries the page's
+  sentence around the near match (`closest.passage`, buddie after 2.0.6).
 
 ## Outcomes (judged without buddie: `common.in_text`, `judge.py`)
 
@@ -104,3 +107,14 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   eligible units have such quotes (E011:F044 OK, 779 characters; E011:F053 ERROR, 996). The limit is now 2,000. Found
   from arm A's rows (pass-through, so arm-neutral), not from a difference between arms; the judge re-reads every run,
   no model answer is redone, and eligibility (which does not use this pattern) is unchanged.
+- 2026-10-31, after the `openai/gpt-oss-120b` main run (146 units, arms A–D), decided by the owner. That run's
+  primary result stands as recorded (main-log.txt). Two changes for what follows:
+  1. **Arm E**: arm C with buddie's improved feedback. The failing quote line now shows the page's whole sentence
+     around the near match (from similarity 0.75), instead of the near match cut to the quote's length, and FIX
+     points to it. Arms C and D keep the 2.0.6 words exactly (`arms.FIX_206`, `arms._as_206`), so their rows stay
+     comparable with the finished run. Secondary comparisons E−C (does the passage help; and its cost in requests
+     and tokens) and E−B on paired units; the primary endpoint stays C−B. Arm E runs on gpt-oss-120b over the same
+     146 units, the A–D rows are not redone.
+  2. **Second model**: `gemini-3.1-pro-preview` on a paid Gemini key replaces `gemini-3.8-flash` on the free tier
+     (whose daily quota did not allow the run). First a 5-unit measurement of tokens per unit, then the run over the
+     146 units within the key's token budget; which arms it runs is recorded here before it starts.
