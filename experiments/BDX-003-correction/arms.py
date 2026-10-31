@@ -51,12 +51,15 @@ PROVIDERS = {
     "ovh": ("https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions", None),
     "cloudflare": ("https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/v1/chat/completions",
                    "CLOUDFLARE_API_TOKEN"),
+    # Anthropic's Messages API (not OpenAI-compatible: to_anthropic / from_anthropic translate); ANTHROPIC_BASE_URL
+    # as Claude Code reads it, without /v1
+    "anthropic": ("{ANTHROPIC_BASE_URL}/v1/messages", "ANTHROPIC_API_KEY"),
 }
 MODEL_IDS = {  # the model's common name -> its id at a provider, where it differs
     "openai/gpt-oss-120b": {"ovh": "gpt-oss-120b", "cloudflare": "@cf/openai/gpt-oss-120b"},
     "openai/gpt-oss-20b": {"ovh": "gpt-oss-20b", "cloudflare": "@cf/openai/gpt-oss-20b"},
 }
-RPM = {"ovh": 2, "groq": 20}  # free-tier pace where known (PROVIDERS.md); others 8, --rpm overrides all
+RPM = {"ovh": 2, "groq": 20, "anthropic": 20}  # free-tier pace where known (PROVIDERS.md); others 8, --rpm overrides all
 SYSTEM = ("You prepare a paragraph from a research report before it is sent to a reader. In this report, text in "
           "quotation marks presents the exact words of the source it links to.")
 ASK_A = "Return the paragraph ready to send to the reader. Keep its links. Reply with the paragraph only."
@@ -161,6 +164,10 @@ class Client:
             if not os.environ.get("CLOUDFLARE_ACCOUNT_ID"):
                 raise SystemExit("CLOUDFLARE_ACCOUNT_ID is not set")
             url = url.replace("{CLOUDFLARE_ACCOUNT_ID}", os.environ["CLOUDFLARE_ACCOUNT_ID"])
+        if "{ANTHROPIC_BASE_URL}" in url:
+            url = url.replace("{ANTHROPIC_BASE_URL}",
+                              os.environ.get("ANTHROPIC_BASE_URL", "").rstrip("/") or "https://api.anthropic.com")
+        self.anthropic = provider == "anthropic"
         self.url, self.key = url, (os.environ.get(env) or "") if env else ""
         if env and not self.key:
             raise SystemExit(f"{env} is not set")
@@ -176,6 +183,8 @@ class Client:
             body["temperature"] = self.temperature
         if tools:
             body["tools"] = tools
+        if self.anthropic:
+            body = to_anthropic(body)
         for attempt in range(6):
             wait = self.last + self.gap - time.monotonic()
             if wait > 0:
@@ -183,7 +192,9 @@ class Client:
             self.last, self.left = time.monotonic(), self.left - 1
             headers = {"Content-Type": "application/json", "Accept": "application/json",
                        "User-Agent": "buddie-bdx003/1 (+https://github.com/tsyyan/buddie)"}
-            if self.key:
+            if self.anthropic:
+                headers.update({"x-api-key": self.key, "anthropic-version": "2023-06-01"})
+            elif self.key:
                 headers["Authorization"] = f"Bearer {self.key}"
             req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method="POST", headers=headers)
             try:
@@ -191,6 +202,8 @@ class Client:
                     raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type")
                 try:
                     data = json.loads(raw)
+                    if self.anthropic:
+                        return from_anthropic(data)
                     return data["choices"][0]["message"], data.get("usage") or {}
                 except (ValueError, KeyError, IndexError, TypeError) as e:
                     raise RuntimeError(f"HTTP {status} {ctype}: not a chat completion: {raw[:200]!r}") from e
@@ -204,7 +217,7 @@ class Client:
                         raise Stop(f"rate limit (HTTP 429): {body[:160]!r}") from e
                     time.sleep(after)
                     continue
-                if e.code in (500, 502, 503, 504) and attempt < 5:
+                if e.code in (500, 502, 503, 504, 529) and attempt < 5:
                     time.sleep(after)
                     continue
                 raise RuntimeError(f"HTTP {e.code}: {e.read()[:300]!r}") from e
@@ -214,6 +227,53 @@ class Client:
                     continue
                 raise RuntimeError(str(e)[:300]) from e
         raise RuntimeError("no answer after retries")
+
+
+def to_anthropic(body: dict) -> dict:
+    """An OpenAI chat-completions request as a Messages API request: system apart, tool calls as tool_use blocks, tool
+    results as tool_result blocks in a user turn, consecutive turns of one role merged (the API wants them to alternate)."""
+    system, turns = [], []
+    for m in body["messages"]:
+        role, text = m["role"], m.get("content") or ""
+        if role == "system":
+            system.append(text)
+            continue
+        if role == "tool":
+            role, blocks = "user", [{"type": "tool_result", "tool_use_id": m["tool_call_id"], "content": text}]
+        else:
+            blocks = [{"type": "text", "text": text}] if text else []
+            for c in m.get("tool_calls") or []:
+                try:
+                    args = json.loads(c["function"].get("arguments") or "{}")
+                except ValueError:
+                    args = {}
+                blocks.append({"type": "tool_use", "id": c["id"], "name": c["function"]["name"], "input": args})
+        if turns and turns[-1]["role"] == role:
+            turns[-1]["content"] += blocks
+        else:
+            turns.append({"role": role, "content": blocks})
+    out = {k: v for k, v in body.items() if k not in ("messages", "tools")}
+    out["messages"] = turns
+    if system:
+        out["system"] = "\n\n".join(system)
+    if body.get("tools"):
+        out["tools"] = [{"name": t["function"]["name"], "description": t["function"].get("description", ""),
+                         "input_schema": t["function"]["parameters"]} for t in body["tools"]]
+    return out
+
+
+def from_anthropic(data: dict) -> tuple[dict, dict]:
+    """A Messages API answer as (OpenAI-style message, usage with prompt_tokens / completion_tokens)."""
+    blocks = data["content"]
+    msg = {"role": "assistant", "content": "".join(b.get("text", "") for b in blocks if b.get("type") == "text")}
+    calls = [{"id": b["id"], "type": "function",
+              "function": {"name": b["name"], "arguments": json.dumps(b.get("input") or {})}}
+             for b in blocks if b.get("type") == "tool_use"]
+    if calls:
+        msg["tool_calls"] = calls
+    u = data.get("usage") or {}
+    prompt = sum(int(u.get(k) or 0) for k in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"))
+    return msg, {"prompt_tokens": prompt, "completion_tokens": int(u.get("output_tokens") or 0)}
 
 
 def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:

@@ -13,3 +13,4 @@
 2026-10-31T08:11Z gemini-3.8-flash started (main.env PROVIDER=gemini)
 2026-10-31T08:50Z gemini-3.8-flash paused: the free tier answers 'You exceeded your current quota' (HTTP 429) almost at once (runs 41183576896, 41184441897: 4 rows, 1 unit; tool calling itself works). Before this fix, 429s were recorded as failed runs; arms.py now stops the provider on a quota 429, and --drop-rate-limited removes the rows written that way. The second model waits for the owner's decision.
 2026-10-31T14:30Z arm E (improved feedback, PROTOCOL 2026-10-31) started on openai/gpt-oss-120b over the 146 units; A-D rows kept
+2026-10-31T17:00Z claude-opus-5: 5-unit measurement queued after the arm E chunk (main.env N=5, arms A,B,C,E)

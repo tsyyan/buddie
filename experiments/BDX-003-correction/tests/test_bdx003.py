@@ -5,6 +5,7 @@ arm C (with a scripted model) and the judge. Run from the experiment directory:
 """
 from __future__ import annotations
 
+import json
 import os
 import sys
 import tempfile
@@ -339,3 +340,32 @@ class Judge(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Anthropic(unittest.TestCase):
+    def test_a_tool_round_trip_becomes_alternating_messages_api_turns(self):
+        body = {"model": "m", "max_tokens": 10, "tools": [run.TOOL], "messages": [
+            {"role": "system", "content": "sys"},
+            {"role": "user", "content": "check it"},
+            {"role": "assistant", "content": "", "tool_calls": [
+                {"id": "t1", "type": "function", "function": {"name": "source_text", "arguments": '{"url": "u"}'}}]},
+            {"role": "tool", "tool_call_id": "t1", "content": "page text"},
+            {"role": "user", "content": "No more tool calls."}]}
+        out = run.to_anthropic(body)
+        self.assertEqual(out["system"], "sys")
+        self.assertEqual([t["role"] for t in out["messages"]], ["user", "assistant", "user"])
+        self.assertEqual(out["messages"][1]["content"],
+                         [{"type": "tool_use", "id": "t1", "name": "source_text", "input": {"url": "u"}}])
+        self.assertEqual([b["type"] for b in out["messages"][2]["content"]], ["tool_result", "text"])
+        self.assertEqual(out["tools"][0]["name"], "source_text")
+        self.assertIn("properties", out["tools"][0]["input_schema"])
+
+    def test_an_answer_with_a_tool_call_reads_like_a_chat_completion(self):
+        msg, usage = run.from_anthropic({"content": [
+            {"type": "text", "text": "Let me look."},
+            {"type": "tool_use", "id": "t2", "name": "source_text", "input": {"url": "u", "query": "q"}}],
+            "usage": {"input_tokens": 100, "cache_read_input_tokens": 20, "output_tokens": 7}})
+        self.assertEqual(msg["content"], "Let me look.")
+        self.assertEqual(msg["tool_calls"][0]["function"]["name"], "source_text")
+        self.assertEqual(json.loads(msg["tool_calls"][0]["function"]["arguments"]), {"url": "u", "query": "q"})
+        self.assertEqual(usage, {"prompt_tokens": 120, "completion_tokens": 7})

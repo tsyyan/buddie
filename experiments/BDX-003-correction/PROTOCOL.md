@@ -118,3 +118,7 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   2. **Second model**: `gemini-3.1-pro-preview` on a paid Gemini key replaces `gemini-3.8-flash` on the free tier
      (whose daily quota did not allow the run). First a 5-unit measurement of tokens per unit, then the run over the
      146 units within the key's token budget; which arms it runs is recorded here before it starts.
+- 2026-10-31, decided by the owner before any answer of it was recorded: the second model is `claude-opus-5`
+  (Anthropic Messages API, key `ANTHROPIC_API_KEY`; `arms.to_anthropic` / `from_anthropic` translate the requests),
+  instead of `gemini-3.1-pro-preview`. Arms A, B, C and E (D is not repeated). First a 5-unit measurement of tokens
+  per unit, then the 146 units within the key's budget of about 15M tokens.
