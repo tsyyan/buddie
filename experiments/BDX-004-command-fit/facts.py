@@ -52,6 +52,9 @@ def program(profile, requirements, name, installed):
         return True, installed[name]
     if name in requirements.get('missing_programs', []):
         return False, None
+    if name in ('brew', 'winget', 'choco'):
+        obs = observation(profile, 'software.package_managers', name)
+        return (True, obs.get('value')) if obs.get('status') == 'observed' else (False, None)
     if name in ('python', 'python3') or re.fullmatch(r'python3\.\d+', name):
         facts = python_facts(profile, name, name)
         if facts.get('version'):

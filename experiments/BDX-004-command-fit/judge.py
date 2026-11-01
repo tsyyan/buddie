@@ -16,6 +16,7 @@ from tool import HERE, load_profile
 from installations import intent as install_intent, uncertain, pending
 
 PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
+MANAGER_DISTROS = json.loads((HERE / 'package_manager_distros.json').read_text(encoding='utf-8'))
 
 
 def load_task(task):
@@ -76,9 +77,9 @@ def judge_simple(command, profile, req, installed, venvs):
     elevated = value(profile, 'system.permissions', 'elevated')
     platform = profile['document']['collector']['platform']
     sudo = tokens[0] == 'sudo'
+    sudo_missing = False
     if sudo:
-        if program(profile, req, 'sudo', installed)[0] is False:
-            return verdict('WONT_RUN', 'program_missing', 'sudo not found on the scenario PATH')
+        sudo_missing = program(profile, req, 'sudo', installed)[0] is False
         tokens = tokens[1:]
         text = re.sub(r'^sudo\s+', '', text)
         if not tokens or tokens[0].startswith('-'):
@@ -91,6 +92,12 @@ def judge_simple(command, profile, req, installed, venvs):
     relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
     if name in PROGRAM_PLATFORMS and platform not in PROGRAM_PLATFORMS[name]:
         return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
+    distro = value(profile, 'system.os', 'distribution_id')
+    observed_manager = observation(profile, 'software.package_managers', name).get('status') == 'observed'
+    if name in MANAGER_DISTROS and (platform != 'linux' or distro not in MANAGER_DISTROS[name]) and not observed_manager:
+        return verdict('WONT_RUN', 'wrong_os', f'{name} is not a package manager for this distribution')
+    if sudo_missing:
+        return verdict('WONT_RUN', 'program_missing', 'sudo not found on the scenario PATH')
     if name in ('nvidia-smi', 'nvcc') and observation(profile, 'software.gpu_stack', 'cuda_driver').get('reason') == 'not_applicable_on_platform':
         return verdict('WONT_RUN', 'wrong_os', 'NVIDIA/CUDA tools are not applicable on this platform')
     if relevant and all(platform not in r['os'] for r in relevant):

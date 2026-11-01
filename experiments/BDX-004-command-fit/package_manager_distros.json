@@ -1,0 +1,9 @@
+{
+  "apt": ["ubuntu", "debian", "linuxmint"],
+  "apt-get": ["ubuntu", "debian", "linuxmint"],
+  "dnf": ["fedora", "rhel", "centos", "rocky", "almalinux"],
+  "yum": ["fedora", "rhel", "centos", "rocky", "almalinux"],
+  "apk": ["alpine"],
+  "pacman": ["arch", "manjaro"],
+  "zypper": ["opensuse", "opensuse-leap", "opensuse-tumbleweed", "sles"]
+}
