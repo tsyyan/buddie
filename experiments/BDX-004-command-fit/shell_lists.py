@@ -55,9 +55,10 @@ def lex(text, shell='sh'):
     return tokens
 
 
-def split_list(text, shell):
+def split_list(text, shell, separators=None):
     """(simple text, following connector); nested expressions remain opaque."""
-    separators = {';', '\n', '&&', '||'} if family(shell) == 'posix' else {';', '\n'}
+    if separators is None:
+        separators = {';', '\n', '&&', '||'} if family(shell) == 'posix' else {';', '\n'}
     if family(shell) not in ('posix', 'powershell'):
         return [(text, '')], False
     out, depth, start, found = [], 0, 0, False

@@ -235,6 +235,18 @@ def judge_command(command, profile, req, installed, venvs):
             return judge_structure(command, nodes[0], profile, req, installed, venvs, parsed)
         return judge_sequence(command, [(n['text'], n['after']) for n in nodes], profile, req, installed, venvs, parsed)
     parts, is_list = split_list(command['text'], req['shell'])
+    if not is_list:
+        stages, pipeline = split_list(command['text'], req['shell'], {'|'})
+        if pipeline and stages:
+            parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+            children = [judge_command(dict(text=text, shell=command['shell']), profile, req,
+                                      dict(installed), set(venvs)) for text, _ in stages]
+            # Pipeline stages run in separate contexts: export only uncertain intent.
+            if parsed is not False:
+                for child in all_commands(children):
+                    uncertain(installed, child.get('install_attempts', []))
+                venvs.clear()
+            return aggregate(command, children, parsed)
     if not is_list or not parts:
         result = judge_simple(command, profile, req, installed, venvs)
         if result['status'] in ('UNKNOWN', 'FITS', 'INSTALLS') and (attempt := install_intent(command['text'], req['shell'])):

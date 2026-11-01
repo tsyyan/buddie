@@ -10,7 +10,13 @@ LINUX_COREUTILS = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo h
 LINUX_UTIL_LINUX = frozenset(('lsblk', 'findmnt'))
 # tar is a separate GNU package on these Linux scenarios:
 # https://www.gnu.org/software/tar/manual/
-LINUX_EXTRA = frozenset(('tar',))
+LINUX_EXTRA = frozenset(('tar', 'ps'))
+# GNU grep, sed, gawk and findutils xargs; coreutils supplies sort/cut/head/tail/wc:
+# https://www.gnu.org/software/grep/manual/ https://www.gnu.org/software/sed/manual/
+# https://www.gnu.org/software/gawk/manual/ https://www.gnu.org/software/findutils/manual/
+# BSD equivalents: https://github.com/apple-oss-distributions/text_cmds
+# BusyBox applets: https://busybox.net/downloads/BusyBox.html
+PIPE_USERLAND = frozenset('grep awk sed sort head tail wc xargs cut ps'.split())
 # Selected BusyBox applets assumed enabled in the Alpine scenario; BusyBox builds are configurable:
 # https://busybox.net/downloads/BusyBox.html
 ALPINE_BUSYBOX = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar'.split())
@@ -27,13 +33,14 @@ POSIX_BUILTINS = frozenset(('export', 'echo', 'printf', 'pwd', 'cd', 'set', '.',
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/
 POWERSHELL_CORE = frozenset(n.lower() for n in (
     'Get-ChildItem', 'New-Item', 'Remove-Item', 'Get-Content', 'Get-Location', 'Set-Location',
-    'Copy-Item', 'Move-Item', 'Write-Output', 'Get-Process', 'Get-Date'))
+    'Copy-Item', 'Move-Item', 'Write-Output', 'Get-Process', 'Get-Date', 'Select-Object',
+    'Where-Object', 'Sort-Object', 'Measure-Object', 'Format-List', 'Format-Table', 'Out-String'))
 # Command-shell builtins (not all Win32 executables, and not PowerShell cmdlets):
 # https://learn.microsoft.com/windows-server/administration/windows-commands/cmd
 # https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands
 CMD_BUILTINS = frozenset('dir mkdir md rmdir rd del erase set echo cd chdir copy move type ver'.split())
 BASE_NAMES = (LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA | ALPINE_BUSYBOX | MACOS_BSD |
-              POSIX_BUILTINS | POWERSHELL_CORE | CMD_BUILTINS)
+              POSIX_BUILTINS | POWERSHELL_CORE | CMD_BUILTINS | PIPE_USERLAND)
 
 # The lists above establish availability. These bounded forms retain known effects;
 # other forms can FITS when syntax parses and no stronger task constraint is broken.
@@ -93,12 +100,12 @@ def programs(profile, requirements):
     if shell != 'posix':
         return frozenset()
     if platform == 'darwin':
-        return MACOS_BSD | POSIX_BUILTINS
+        return MACOS_BSD | POSIX_BUILTINS | PIPE_USERLAND
     if platform == 'linux':
         distribution = profile['document']['categories'].get('system.os', {}).get('observations', {}).get(
             'distribution_id', {}).get('value')
         return (ALPINE_BUSYBOX if distribution == 'alpine' else
-                LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA) | POSIX_BUILTINS
+                LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA) | POSIX_BUILTINS | PIPE_USERLAND
     return frozenset()
 
 

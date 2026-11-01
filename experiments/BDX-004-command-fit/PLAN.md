@@ -178,3 +178,13 @@ Recorded 16 pilot-shaped answers with literal expected verdicts. Paired 123-case
 parents UNKNOWN 16/128 to 9/128, leaves 18/149 to 10/149, offered/selected counts unchanged (250/128).
 README/PROTOCOL updated; historical snapshots retained. Full suite 121 tests passes with bash/dash/pwsh
 and on default PATH (51 parser-dependent skips); all eight profiles validate. No new pilot/model calls.
+
+## Last correction before pilot 4
+
+Fast-forwarded to 73bdc3a, preserving the owner's simplified design, pilot-3 material and pilot-4 settings.
+Read all ten whole answers. Added literal human-labelled outcome/rationale records preserving each answer's
+bytes and source-line/hash; captured all 133 recorded profile/answer cases before changing judge code.
+Plan: stage-wise pipelines/base userland; distro manager applicability; richer audience/table/inline labels;
+whole-answer regressions, paired measurements and documentation. No model calls or workflow/settings changes.
+Pipeline tests failed before implementation; stages now retain individual verdicts with the worst folded
+to the parent, preserving list precedence and quoting. Pipeline effects do not establish successful setup.
