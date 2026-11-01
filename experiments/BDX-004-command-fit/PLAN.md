@@ -151,3 +151,6 @@ Independent review found six boundary cases: inline instructions in headings, bo
 neutral subheadings, correlated OS alternatives, manager-only targeting, explicitly invoked unfamiliar
 executables, and matching explanations without commands. Added regressions, observed failures, then fixed
 them. Full suite now passes 105 tests with all parsers; metrics remain unchanged and all profiles validate.
+Default-PATH verification exposed an invalid fixture fallback: UNKNOWN installation cannot establish a
+program for later verification, so missing parsers do not always mean UNDECIDED. Replaced that fabricated
+expectation with a parser-dependent outcome skip, after still checking selection/count metadata.
