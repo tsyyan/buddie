@@ -75,7 +75,7 @@ def main(argv=None) -> int:
                         f"{c['text'][:70]!r} ({(c.get('detail') or '')[:50]})")
         multi = sum(len({c.get('shell') for c in r["verdict"]["commands"]}) > 1 for r in ok)
         print(f"::notice title=BDX-004 shape::{multi} of {len(ok)} answers have blocks for more than one shell; "
-              f"commands per answer {sum(len(jd.leaf_commands(r['verdict']['commands'])) for r in ok) / max(1, len(ok)):.1f}")
+              f"commands per answer {sum(len(list(jd.leaf_commands(r["verdict"]["commands"]))) for r in ok) / max(1, len(ok)):.1f}")
         rng = random.Random(3)
         for g, items in sorted(groups.items()):
             rng.shuffle(items)
