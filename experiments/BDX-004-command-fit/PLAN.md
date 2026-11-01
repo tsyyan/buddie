@@ -119,3 +119,11 @@ hidden by BROKEN parent lists; added separate parent/leaf shares and recursive a
 decidability. Reference shares: original IDs unchanged 1/44; expanded parents 6/60 and
 leaves 8/81. Snapshots and README/PROTOCOL record both denominators and parser availability.
 Full suite passes 76 tests with bash/dash/pwsh; every profile validates before this commit.
+
+Push encountered concurrent remote 2bd7873 (PROTOCOL v1 only). Rebased the four unpublished
+commits without force-pushing; preserved the remote protocol at each conflict and reran
+61/67/74/76 tests plus profile checks before each rebase continuation. Added list/control
+and metric details back into v1 without changing arms/endpoints/models/audit. Its new
+installed-tag override is beyond this request and conflicts with the earlier negative
+case; asked the owner asynchronously and, absent new direction, retained current selection
+and explicitly recorded this pre-registration follow-up in README/PROTOCOL/PR.

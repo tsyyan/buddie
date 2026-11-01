@@ -56,6 +56,24 @@ Shell rules:
 - Base userland (`base_commands.py`, cited sources) establishes availability only; an observation that a program is
   missing overrides it; unrecognized flags stay UNKNOWN.
 
+Lists/control implementation details:
+- POSIX lists split on unquoted &&, ||, semicolons and newlines; PowerShell statements split on unquoted
+  semicolons and newlines. Preserve multiline quotes and unfinished connectors before extraction. Child verdicts
+  are retained, and complete-list syntax is checked without executing answer text.
+- Extract nested/incomplete if/elif/else/fi, for/while/until/do/done and case/esac as one command. Judge conditions
+  and bodies recursively and take the worst potential branch. This is a static audit, not a branch prediction.
+  Dynamic headers/pattern substitutions and unsupported grammar are UNKNOWN, never silently NO_COMMANDS.
+- A recognized successful venv creation establishes that literal venv's activation script within the answer.
+  Compatible source/dot activation then FITS; source is not supported by sh. Do not export new conditional setup
+  or uncertain OR effects. Removal, relocation, overwriting or unknown side effects invalidate existence proofs,
+  including possible deletion along a conditional path. All state resets between answers.
+- Parser stdin preserves LF bytes on Windows too. Tokenizer uncertainty remains UNKNOWN; quoted literal text
+  is not proof of a bashism.
+
+Open implementation follow-up: the installed-tagged-shell selection policy above was added concurrently in
+2bd7873. This lists/control pass retains the existing per-profile target-shell selection; the explicit-tag
+override is not implemented by this pass. Resolve that policy/implementation gap before judge registration.
+
 ## Endpoints
 
 - **Primary**: share of BROKEN answers, B − A, paired by unit, all 192 units, 95 % paired bootstrap interval (4000
@@ -97,6 +115,13 @@ false objections is reported as unreliable and left out of the gate proposal.
   answers are simpler than a model's, so the pilot above measures UNKNOWN on real ones.
 - 2026-11-01, owner: a tagged block is judged in its own shell when that shell is observed on the profile (above);
   command lists and control structures are judged part by part.
+- 2026-11-01, lists/control implementation: 76 recorded answers, with parent and recursive leaf expectations.
+  With bash/dash/pwsh, the matched original 60 answers stay 1/44 UNKNOWN (2.27%). The expanded corpus has
+  6/60 UNKNOWN extracted parent units (10.00%) and 8/81 UNKNOWN leaf verdicts (9.88%), including deliberate
+  dynamic-pattern, failed/removed-setup and branch-uncertainty guard cases. UNKNOWN children of BROKEN parents
+  are included in the leaf denominator. See tests/lists_before.json and tests/lists_after.json; these are
+  synthetic fixture checks, not arm results. Record parser availability and both parent/leaf denominators;
+  answer all_commands_decided checks the entire tree rather than hiding UNKNOWN below a BROKEN parent.
 
 ## Changes after data
 

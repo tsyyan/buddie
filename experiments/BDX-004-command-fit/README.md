@@ -151,6 +151,10 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 
 ## Judge limits
 
+PROTOCOL v1 was added concurrently in 2bd7873. Its observed-tagged-shell override is an open implementation
+follow-up: this pass keeps the existing per-profile target-shell choice while adding lists/control/state.
+That gap is recorded in PROTOCOL and must be resolved before judge registration; no pilot/model calls were made.
+
 - **UNKNOWN never means FITS.** `OK` requires every command to be FITS or INSTALLS. `UNDECIDED` means at least
   one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and
   `all_commands_decided` for analysis; empty answers remain ASKED or NO_COMMANDS, never OK.
