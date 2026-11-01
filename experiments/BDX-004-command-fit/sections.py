@@ -29,7 +29,9 @@ def identify_flat(label):
 def identify(label):
     label = unicodedata.normalize('NFKC', label).replace('\u2011', '-').replace('**', '')
     # A named broad Linux audience is not narrowed by examples in parentheses.
-    if re.match(r'^\W*(?:\d\W*)?Linux\b(?:\s*$|\s*\()', label, re.I):
+    linux_parent = re.match(r'^\W*(?:\d\W*)?Linux\b(?:\s*$|\s*\()', label, re.I)
+    examples = re.search(r'\b(?:most distros|systemd|sysv|older distributions|such as)\b|e\.g\.', label, re.I)
+    if linux_parent and ('(' not in label or examples):
         return {'os': ['linux']}
     # Enumerations are unions of correlated systems, including WSL as one member.
     enumeration = re.search(r'\(([^()]*(?:Linux|macOS|WSL)[^()]*)\)', label, re.I)

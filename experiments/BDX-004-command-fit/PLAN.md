@@ -200,3 +200,6 @@ UNKNOWN parents 34/200 (17%) to 53/212 (25%); leaves 35/221 to 54/248. Reported 
 including the 30 new/18 removed selected instructions and the material-only share; no pilot-4 success claim.
 Full suite passes 136 tests with all parsers; default PATH passes with 61 parser-dependent skips. All eight
 profiles validate and the saved report reproduces exactly. Only experiment files changed in this pass.
+Final targeted regression distinguishes explicit Linux (Debian/Ubuntu) restrictions from broad Linux
+headings with examples. It failed first, then the complete suite passed 137 tests; all profiles validate
+and the saved paired report is unchanged.

@@ -7,6 +7,12 @@ from test_judge import HERE, judge, grade
 
 
 class Pipelines(unittest.TestCase):
+    def test_explicit_linux_distro_parentheses_remain_constraints(self):
+        import sections
+        text = '## Linux (Debian/Ubuntu)\nRun `sudo apt install git`.'
+        self.assertEqual(sections.select(text, judge.load_profile('alpine-container'))['commands_for_profile'], 0)
+        self.assertEqual(sections.select(text, judge.load_profile('ubuntu2404-nvidia'))['commands_for_profile'], 1)
+
     def test_inline_only_alternatives_are_hedged_sections(self):
         import sections
         text = 'Install with `sudo apt install inxi` (Debian/Ubuntu) or `sudo dnf install inxi` (Fedora).'
