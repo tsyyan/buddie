@@ -1089,5 +1089,506 @@
         }
       ]
     }
+  },
+  {
+    "id": "list-posix",
+    "profile": "ubuntu2404-nvidia",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```bash\nls && mkdir output; rm -f temp.txt\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "list-powershell",
+    "profile": "win11-pwsh-nvidia",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```powershell\nGet-ChildItem; Get-Location\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "powershell",
+    "parser_probe": "Write-Output ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "venv-and-source",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```bash\npython3 -m venv .venv &&\nsource .venv/bin/activate\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "venv-and-dot",
+    "profile": "alpine-container",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```sh\npython3 -m venv .venv; . .venv/bin/activate\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "venv-source-zsh",
+    "profile": "macos-arm",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```zsh\npython3 -m venv .venv && source .venv/bin/activate\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "zsh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "list-broken-and-unknown",
+    "profile": "ubuntu2404-nvidia",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```bash\nls; python3 --imaginary; conda --version\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "UNKNOWN",
+      "WONT_RUN"
+    ]
+  },
+  {
+    "id": "control-if",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\nif [ -d output ]; then ls; else mkdir output; fi\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "control-for",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\nfor item in one two; do ls && mkdir output; done\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "control-while",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\nwhile false; do ls; done\n```",
+    "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS"
+    ]
+  },
+  {
+    "id": "control-case",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\ncase value in value) ls ;; other) conda --version ;; esac\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "WONT_RUN"
+    ]
+  },
+  {
+    "id": "control-unknown",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\nif true; then python3 --imaginary; fi\n```",
+    "expected": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "control-dynamic-pattern",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```sh\ncase value in `conda --version`) ls ;; esac\n```",
+    "expected": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "venv-removed",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```bash\npython3 -m venv .venv; rm -f .venv/bin/activate; source .venv/bin/activate\n```",
+    "expected": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "multiline-literal",
+    "profile": "ubuntu2404-nvidia",
+    "task": "list-files",
+    "kind": "lists-control",
+    "answer": "```bash\necho \"first\nconda --version\nlast\"\n```",
+    "expected": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "venv-failed-before-source",
+    "profile": "ubuntu2204-nosudo",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```bash\npython3 -m venv .venv && source .venv/bin/activate\n```",
+    "expected": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "parser": "bash",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "BROKEN",
+      "commands": [
+        {
+          "status": "WONT_RUN",
+          "reason": "program_missing"
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "WONT_RUN",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "control-branch-state",
+    "profile": "alpine-container",
+    "task": "python-venv",
+    "kind": "lists-control",
+    "answer": "```sh\nif true; then python3 -m venv .venv; . .venv/bin/activate; else . .venv/bin/activate; fi\n```",
+    "expected": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "sh",
+    "parser_probe": "echo ok",
+    "without_parser": {
+      "status": "UNDECIDED",
+      "commands": [
+        {
+          "status": "UNKNOWN",
+          "reason": null
+        }
+      ]
+    },
+    "expected_leaf_statuses": [
+      "FITS",
+      "FITS",
+      "FITS",
+      "UNKNOWN"
+    ]
   }
 ]

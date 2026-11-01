@@ -9,6 +9,22 @@ import judge
 
 
 class Recorded(unittest.TestCase):
+    def test_list_and_control_records_have_literal_child_expectations(self):
+        cases = json.loads((HERE / 'tests/answers.json').read_text(encoding='utf-8'))
+        ids = {c['id'] for c in cases}
+        self.assertTrue({'list-posix', 'list-powershell', 'venv-and-source', 'venv-and-dot',
+                         'control-if', 'control-for', 'control-while', 'control-case'} <= ids)
+        from judge import leaf_commands
+        for case in cases:
+            if 'expected_leaf_statuses' not in case:
+                continue
+            if judge.syntax(case['parser'], case['parser_probe']) is None:
+                continue
+            with self.subTest(case=case['id']):
+                result = judge.judge_answer(case['answer'], case['profile'], case['task'])
+                self.assertEqual([r['status'] for r in leaf_commands(result['commands'])],
+                                 case['expected_leaf_statuses'])
+
     def test_review_cases_are_recorded_with_literal_expectations(self):
         cases = json.loads((HERE / 'tests/answers.json').read_text(encoding='utf-8'))
         by_id = {c['id']: c for c in cases}

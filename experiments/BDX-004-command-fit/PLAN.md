@@ -112,3 +112,10 @@ dynamic case-pattern false FITS, and stale venv proofs after mutations. Fixed lo
 extraction and invalidated proofs through modeled mutations/unknown effects/conditional
 paths; dynamic patterns stay UNKNOWN. Also kept incomplete quoted structures intact.
 All 74 tests pass with bash/dash/pwsh; all profiles validate. No review findings deferred.
+
+Added sixteen literal recorded list/control/state cases, including parent and recursive
+leaf expectations (76 total answers). A failing metric regression exposed UNKNOWN leaves
+hidden by BROKEN parent lists; added separate parent/leaf shares and recursive answer
+decidability. Reference shares: original IDs unchanged 1/44; expanded parents 6/60 and
+leaves 8/81. Snapshots and README/PROTOCOL record both denominators and parser availability.
+Full suite passes 76 tests with bash/dash/pwsh; every profile validates before this commit.

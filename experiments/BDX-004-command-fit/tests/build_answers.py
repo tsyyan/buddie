@@ -99,6 +99,50 @@ def main():
         rows.append(dict(id=cid, profile=pid, task='list-files', kind='tricky',
                          answer=f'```{tag}\n{text}\n```',
                          expected=expected('BROKEN', ('WONT_RUN', 'wrong_shell_syntax'))))
+    # Literal expectations for parent and recursively evaluated child commands.
+    list_cases = [
+        ('list-posix', 'ubuntu2404-nvidia', 'list-files', 'bash',
+         'ls && mkdir output; rm -f temp.txt', 'FITS', None, ['FITS'] * 3),
+        ('list-powershell', 'win11-pwsh-nvidia', 'list-files', 'powershell',
+         'Get-ChildItem; Get-Location', 'FITS', None, ['FITS'] * 2),
+        ('venv-and-source', 'ubuntu2404-nvidia', 'python-venv', 'bash',
+         'python3 -m venv .venv &&\nsource .venv/bin/activate', 'FITS', None, ['FITS'] * 2),
+        ('venv-and-dot', 'alpine-container', 'python-venv', 'sh',
+         'python3 -m venv .venv; . .venv/bin/activate', 'FITS', None, ['FITS'] * 2),
+        ('venv-source-zsh', 'macos-arm', 'python-venv', 'zsh',
+         'python3 -m venv .venv && source .venv/bin/activate', 'FITS', None, ['FITS'] * 2),
+        ('list-broken-and-unknown', 'ubuntu2404-nvidia', 'list-files', 'bash',
+         'ls; python3 --imaginary; conda --version', 'WONT_RUN', 'program_missing', ['FITS', 'UNKNOWN', 'WONT_RUN']),
+        ('control-if', 'alpine-container', 'list-files', 'sh',
+         'if [ -d output ]; then ls; else mkdir output; fi', 'FITS', None, ['FITS'] * 3),
+        ('control-for', 'alpine-container', 'list-files', 'sh',
+         'for item in one two; do ls && mkdir output; done', 'FITS', None, ['FITS'] * 2),
+        ('control-while', 'alpine-container', 'list-files', 'sh',
+         'while false; do ls; done', 'FITS', None, ['FITS'] * 2),
+        ('control-case', 'alpine-container', 'list-files', 'sh',
+         'case value in value) ls ;; other) conda --version ;; esac', 'WONT_RUN', 'program_missing', ['FITS', 'WONT_RUN']),
+        ('control-unknown', 'alpine-container', 'list-files', 'sh',
+         'if true; then python3 --imaginary; fi', 'UNKNOWN', None, ['FITS', 'UNKNOWN']),
+        ('control-dynamic-pattern', 'alpine-container', 'list-files', 'sh',
+         'case value in `conda --version`) ls ;; esac', 'UNKNOWN', None, ['FITS', 'UNKNOWN']),
+        ('venv-removed', 'ubuntu2404-nvidia', 'python-venv', 'bash',
+         'python3 -m venv .venv; rm -f .venv/bin/activate; source .venv/bin/activate',
+         'UNKNOWN', None, ['FITS', 'FITS', 'UNKNOWN']),
+        ('multiline-literal', 'ubuntu2404-nvidia', 'list-files', 'bash',
+         'echo "first\nconda --version\nlast"', 'UNKNOWN', None, ['UNKNOWN']),
+        ('venv-failed-before-source', 'ubuntu2204-nosudo', 'python-venv', 'bash',
+         'python3 -m venv .venv && source .venv/bin/activate', 'WONT_RUN', 'program_missing', ['WONT_RUN', 'UNKNOWN']),
+        ('control-branch-state', 'alpine-container', 'python-venv', 'sh',
+         'if true; then python3 -m venv .venv; . .venv/bin/activate; else . .venv/bin/activate; fi',
+         'UNKNOWN', None, ['FITS', 'FITS', 'FITS', 'UNKNOWN']),
+    ]
+    for cid, pid, tid, shell, text, verdict, reason, leaves in list_cases:
+        status = 'BROKEN' if verdict == 'WONT_RUN' else 'UNDECIDED' if verdict == 'UNKNOWN' else 'OK'
+        no_parser = expected('BROKEN', ('WONT_RUN', reason)) if verdict == 'WONT_RUN' else expected('UNDECIDED', ('UNKNOWN', None))
+        rows.append(dict(id=cid, profile=pid, task=tid, kind='lists-control',
+                         answer=f'```{shell}\n{text}\n```', expected=expected(status, (verdict, reason)),
+                         parser=shell, parser_probe='Write-Output ok' if shell == 'powershell' else 'echo ok',
+                         without_parser=no_parser, expected_leaf_statuses=leaves))
     Path(__file__).with_name('answers.json').write_text(json.dumps(rows, indent=2) + '\n', encoding='utf-8')
 
 

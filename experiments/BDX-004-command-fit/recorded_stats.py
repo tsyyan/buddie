@@ -4,7 +4,7 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from judge import judge_answer
+from judge import judge_answer, leaf_commands
 from syntax import syntax
 from tool import HERE
 
@@ -14,21 +14,29 @@ def summarize(cases):
     answers = [judge_answer(c['answer'], c['profile'], c['task']) for c in cases]
     counts = Counter(row['status'] for answer in answers for row in answer['commands'])
     total = sum(counts.values())
+    leaves = Counter(row['status'] for answer in answers for row in leaf_commands(answer['commands']))
+    leaf_total = sum(leaves.values())
     return dict(answers=len(answers), commands=total, unknown_commands=counts['UNKNOWN'],
                 unknown_share=counts['UNKNOWN'] / total if total else None,
+                leaf_commands=leaf_total, unknown_leaf_commands=leaves['UNKNOWN'],
+                unknown_leaf_share=leaves['UNKNOWN'] / leaf_total if leaf_total else None,
+                leaf_outcomes=dict(leaves),
                 command_outcomes=dict(counts), answer_outcomes=dict(Counter(a['status'] for a in answers)))
 
 
 def compare(cases, baseline):
     """Report all current answers and also the unchanged original set to expose denominator changes."""
     before = Counter(c['status'] for r in baseline['rows'] for c in r['commands'])
+    before_leaves = Counter(c['status'] for r in baseline['rows'] for c in leaf_commands(r['commands']))
     total = sum(before.values())
     original_ids = {r['id'] for r in baseline['rows']}
     if not original_ids <= {r['id'] for r in cases}:
         raise ValueError('current corpus omits baseline answer IDs')
     return dict(baseline_commit=baseline['commit'],
                 before=dict(answers=len(baseline['rows']), commands=total, unknown_commands=before['UNKNOWN'],
-                            unknown_share=before['UNKNOWN'] / total if total else None),
+                            unknown_share=before['UNKNOWN'] / total if total else None,
+                            leaf_commands=sum(before_leaves.values()), unknown_leaf_commands=before_leaves['UNKNOWN'],
+                            unknown_leaf_share=before_leaves['UNKNOWN'] / sum(before_leaves.values()) if before_leaves else None),
                 after_all=summarize(cases),
                 after_original=summarize([c for c in cases if c['id'] in original_ids]),
                 parsers_available={s: syntax(s, ':') is not None for s in ('bash', 'sh', 'powershell')})

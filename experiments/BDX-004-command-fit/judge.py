@@ -177,6 +177,20 @@ def judge_simple(command, profile, req, installed, venvs):
 RANK = {'FITS': 0, 'INSTALLS': 1, 'UNKNOWN': 2, 'WONT_RUN': 3}
 
 
+def all_commands(rows):
+    for row in rows:
+        yield row
+        yield from all_commands(row.get('commands', []))
+
+
+def leaf_commands(rows):
+    for row in rows:
+        if row.get('commands'):
+            yield from leaf_commands(row['commands'])
+        else:
+            yield row
+
+
 def aggregate(command, children, parsed):
     worst = max(children, key=lambda c: RANK[c['status']])
     result = dict(command, status=worst['status'], reason=worst['reason'],
@@ -289,8 +303,9 @@ def judge_answer(answer, profile, task):
                                                r'Windows|macOS|Linux|machine|computer|version|admin|package manager)\b', answer)
         status = 'ASKED' if question else 'NO_COMMANDS'
     return dict(profile=p['id'], task=t['id'], status=status, commands=rows,
-                all_commands_decided=bool(rows) and all(r['status'] != 'UNKNOWN' for r in rows),
-                unknown_commands=sum(r['status'] == 'UNKNOWN' for r in rows))
+                all_commands_decided=bool(rows) and all(r['status'] != 'UNKNOWN' for r in all_commands(rows)),
+                unknown_commands=sum(r['status'] == 'UNKNOWN' for r in leaf_commands(rows)),
+                unknown_constructs=sum(r['status'] == 'UNKNOWN' and bool(r.get('commands')) for r in all_commands(rows)))
 
 
 def main():

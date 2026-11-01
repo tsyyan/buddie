@@ -1,7 +1,7 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
 Status: **starter set built** (2026-11-01). Eight synthetic profiles, 24 tasks, 192 eligible units,
-command extraction, a snapshot stand-in, a model-free judge and 60 human-written answer fixtures are present.
+command extraction, a snapshot stand-in, a model-free judge and 76 human-written answer fixtures are present.
 No model calls, provider code or experiment results. The experiment runs after BDX-003 is reported.
 
 ## Question
@@ -62,7 +62,10 @@ python experiments/BDX-004-command-fit/judge.py --profile win11-cmd-nogpu --task
 ```
 
 `--profile` and `--task` take IDs. The answer file is UTF-8 Markdown. The CLI prints JSON with the answer status,
-each extracted command's status/reason/detail, `unknown_commands` and `all_commands_decided`. Python callers use
+each extracted command's status/reason/detail, `unknown_commands` and `all_commands_decided`. List/control
+parents retain child verdicts in `commands`; `unknown_commands` counts UNKNOWN leaves and `unknown_constructs`
+counts UNKNOWN parents. `all_commands_decided` checks the entire tree, including UNKNOWN children of a BROKEN
+parent. Python callers use
 `judge_answer(markdown, profile_id_or_row, task_id_or_object)`. To replay a tool call, import `tool.py` from this
 directory and use `environment_snapshot(arguments, profile_id_or_row)`. It returns a document, or raises
 `ValueError` for a tool error. `TOOL` is the chat API function schema copied from `buddie/mcp.py`;
@@ -74,7 +77,7 @@ assumption, supplemental program assumptions, and anchored command rules (progra
 CUDA compatibility, version bounds and installation effects). A task can intentionally be impossible on a profile;
 asking about the machine or explaining a limitation is part of what later model answers may do.
 
-`tests/answers.json` has fitting, broken and question-only examples for **16 distinct pairs**, plus twelve tricky
+`tests/answers.json` has fitting, broken and question-only examples for **16 distinct pairs**, plus 28 tricky
 answers. Expectations are human-labelled, including explicit alternatives when a parser is absent; the judge does
 not generate its own expected labels. `profiles/build.py`, `tasks/build.py` and `tests/build_answers.py` reproduce
 the checked-in data, without probing a machine or calling a model.
@@ -83,7 +86,7 @@ The review additions include correct bash-fenced commands for macOS/zsh and Alpi
 failures, and a PowerShell block for a cmd-profile user. The cmd profile also has Windows PowerShell installed;
 the negative case concerns the user's selected cmd execution family, not absence of powershell.exe.
 
-## Recorded-command UNKNOWN share (2026-11-01)
+## Earlier shell-family review measurement (2026-11-01)
 
 `recorded_stats.py` counts every extracted command across every recorded answer, including UNKNOWN commands
 inside BROKEN answers. Questions and prose contribute zero commands. It reports both the complete current corpus
@@ -103,6 +106,29 @@ Missing parsers change the share and produce explicit parser-availability fields
 
 ```sh
 python experiments/BDX-004-command-fit/recorded_stats.py
+```
+
+## Lists/control follow-up UNKNOWN share (2026-11-01)
+
+The preceding table and unknown_before/after files preserve the earlier review's historical measurement.
+For this follow-up, tests/lists_before.json captures actual verdicts at 5e4c330 with bash/dash/pwsh available;
+tests/lists_after.json reports the same parser setup after adding sixteen hand-labelled list/control/state cases.
+
+| Corpus | Answers | Extracted units | UNKNOWN parents/units | Share | Leaf verdicts | UNKNOWN leaves | Leaf share |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Before, 5e4c330 | 60 | 44 | 1 | 2.27% | 44 | 1 | 2.27% |
+| After, original IDs | 60 | 44 | 1 | 2.27% | 44 | 1 | 2.27% |
+| After, expanded corpus | 76 | 60 | 6 | 10.00% | 81 | 8 | 9.88% |
+
+An extracted control structure or command list is one parent unit; its status is its worst child status.
+The recursive leaf view also counts UNKNOWN child verdicts under BROKEN parents, and explicit UNKNOWN leaves
+for unmodeled subconstructs. No UNKNOWN is hidden by a WONT_RUN sibling. The new guard examples deliberately
+include dynamic patterns, unsupported literal forms, removed/failed venv setup and uncertain branches; the
+expanded numerator therefore grows. The matched original-corpus share is unchanged. These are fixture checks,
+not evidence about model performance. Parser-dependent expected outcomes remain explicit in answers.json.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/lists_before.json
 ```
 
 ## Following the diagnostic code
@@ -180,5 +206,5 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   not a general CUDA compatibility oracle. The judge does not infer toolkit presence from the driver's CUDA ceiling.
 - Extraction recognizes the documented shell fences and inline commands with a bounded program vocabulary or
   clear executable/flag shape. Arbitrary output can resemble commands; unusual prose, multi-line language constructs,
-  heredocs, escaped quotes and programs outside that vocabulary may need audit. The blind audit in PROTOCOL.md
+  heredocs, unsupported control grammar, complex expansions and programs outside that vocabulary may need audit. The blind audit in PROTOCOL.md
   is still necessary. These fixtures are test material, not measured model performance.

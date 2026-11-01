@@ -1,0 +1,73 @@
+{
+  "baseline_commit": "5e4c330efd84f80dd2181406c5ac68a7eb9b8203",
+  "before": {
+    "answers": 60,
+    "commands": 44,
+    "unknown_commands": 1,
+    "unknown_share": 0.022727272727272728,
+    "leaf_commands": 44,
+    "unknown_leaf_commands": 1,
+    "unknown_leaf_share": 0.022727272727272728
+  },
+  "after_all": {
+    "answers": 76,
+    "commands": 60,
+    "unknown_commands": 6,
+    "unknown_share": 0.1,
+    "leaf_commands": 81,
+    "unknown_leaf_commands": 8,
+    "unknown_leaf_share": 0.09876543209876543,
+    "leaf_outcomes": {
+      "FITS": 46,
+      "WONT_RUN": 26,
+      "INSTALLS": 1,
+      "UNKNOWN": 8
+    },
+    "command_outcomes": {
+      "FITS": 27,
+      "WONT_RUN": 26,
+      "INSTALLS": 1,
+      "UNKNOWN": 6
+    },
+    "answer_outcomes": {
+      "OK": 27,
+      "BROKEN": 25,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 6
+    }
+  },
+  "after_original": {
+    "answers": 60,
+    "commands": 44,
+    "unknown_commands": 1,
+    "unknown_share": 0.022727272727272728,
+    "leaf_commands": 44,
+    "unknown_leaf_commands": 1,
+    "unknown_leaf_share": 0.022727272727272728,
+    "leaf_outcomes": {
+      "FITS": 19,
+      "WONT_RUN": 23,
+      "INSTALLS": 1,
+      "UNKNOWN": 1
+    },
+    "command_outcomes": {
+      "FITS": 19,
+      "WONT_RUN": 23,
+      "INSTALLS": 1,
+      "UNKNOWN": 1
+    },
+    "answer_outcomes": {
+      "OK": 19,
+      "BROKEN": 22,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 1
+    }
+  },
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  }
+}

@@ -5,6 +5,21 @@ import recorded_stats
 
 
 class RecordedStats(unittest.TestCase):
+    def test_broken_parent_does_not_hide_unknown_leaves(self):
+        if judge.syntax('bash', ':') is None:
+            self.skipTest('bash parser absent')
+        case = dict(id='compound', profile='ubuntu2404-nvidia', task='list-files',
+                    answer='```bash\nls; python3 --imaginary; conda --version\n```')
+        summary = recorded_stats.summarize([case])
+        self.assertEqual(summary['commands'], 1)
+        self.assertEqual(summary['unknown_commands'], 0)
+        self.assertEqual(summary['leaf_commands'], 3)
+        self.assertEqual(summary['unknown_leaf_commands'], 1)
+        self.assertAlmostEqual(summary['unknown_leaf_share'], 1 / 3)
+        result = judge.judge_answer(case['answer'], case['profile'], case['task'])
+        self.assertFalse(result['all_commands_decided'])
+        self.assertEqual(result['unknown_commands'], 1)
+
     def test_denominator_is_commands_not_answers(self):
         cases = [
             dict(id='good', profile='win11-cmd-nogpu', task='session-variable',
