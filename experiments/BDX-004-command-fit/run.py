@@ -130,7 +130,7 @@ def main(argv=None) -> int:
     ap.add_argument("--pilot", type=int, help="the judge-validation pilot: n units stratified by profile")
     ap.add_argument("--n", type=int, help="the first n units in seeded order (default: all)")
     ap.add_argument("--seed", type=int, default=20261101)
-    ap.add_argument("--exclude-pilot-seed", type=int, action="append", default=[],
+    ap.add_argument("--exclude-pilot-seed", type=lambda v: [int(x) for x in v.split(",")], default=[],
                     help="leave out the units an earlier pilot with this seed drew (a repeated pilot uses others)")
     ap.add_argument("--arms", default="A,B,C,D")
     ap.add_argument("--provider", required=True)
@@ -144,8 +144,12 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     pairs = [tuple(p) for p in json.loads(Path(a.units).read_text(encoding="utf-8"))["pairs"]]
     if a.pilot:
-        used = {u for s in a.exclude_pilot_seed for u in pilot_units(pairs, a.pilot, s)}
-        units = pilot_units([p for p in pairs if p not in used], a.pilot, a.seed)
+        used, left = set(), list(pairs)
+        for s in a.exclude_pilot_seed:  # in order: each earlier pilot drew from what the ones before it left
+            drawn = pilot_units(left, a.pilot, s)
+            used |= set(drawn)
+            left = [p for p in left if p not in used]
+        units = pilot_units(left, a.pilot, a.seed)
     else:
         units = sorted(pairs)
         random.Random(a.seed).shuffle(units)
