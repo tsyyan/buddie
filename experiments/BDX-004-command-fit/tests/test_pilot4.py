@@ -42,3 +42,26 @@ class ForeignCmdlets(unittest.TestCase):
             with patch.object(judge, 'syntax', return_value=True):
                 self.assertNotEqual(grade('ubuntu2404-nvidia', 'list-files', text)['reason'], 'wrong_shell_syntax')
 
+
+class DistroUserland(unittest.TestCase):
+    def test_distribution_specific_network_and_service_tools(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            for pid, text in [('ubuntu2404-nvidia', 'service ssh status'), ('wsl-ubuntu', 'ss -ltnp'),
+                              ('wsl-ubuntu', 'nc -z localhost 8000'), ('fedora40', 'ncat -z localhost 8000'),
+                              ('alpine-container', 'nc -z localhost 8000'), ('macos-arm', 'nc -z localhost 8000')]:
+                with self.subTest(profile=pid, command=text):
+                    self.assertEqual(grade(pid, 'port-process', text)['commands'][0]['status'], 'FITS')
+
+    def test_unshipped_and_explicitly_missing_tools_are_not_assumed(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            for pid, text in [('macos-arm', 'service ssh status'), ('alpine-container', 'ss -ltnp'),
+                              ('ubuntu2404-nvidia', 'ncat -z localhost 8000')]:
+                self.assertEqual(grade(pid, 'port-process', text)['commands'][0]['status'], 'UNKNOWN')
+            p = judge.load_profile('wsl-ubuntu')
+            p['document']['categories']['software.tools']['observations']['nc'] = dict(status='unavailable', reason='not_found_on_path', value=None)
+            self.assertEqual(judge.judge_answer('Run `nc -z localhost 8000`.', p, 'port-process')['reason'], 'program_missing')
+
+    def test_new_service_alias_does_not_bypass_admin(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            self.assertEqual(grade('ubuntu2204-nosudo', 'service-restart', 'service ssh restart')['reason'], 'needs_admin')
+

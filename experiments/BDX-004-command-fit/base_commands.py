@@ -10,13 +10,32 @@ LINUX_COREUTILS = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo h
 LINUX_UTIL_LINUX = frozenset(('lsblk', 'findmnt'))
 # tar is a separate GNU package on these Linux scenarios:
 # https://www.gnu.org/software/tar/manual/
-LINUX_EXTRA = frozenset(('tar', 'ps'))
+LINUX_EXTRA = frozenset(('tar',))
 # GNU grep, sed, gawk and findutils xargs; coreutils supplies sort/cut/head/tail/wc:
 # https://www.gnu.org/software/grep/manual/ https://www.gnu.org/software/sed/manual/
 # https://www.gnu.org/software/gawk/manual/ https://www.gnu.org/software/findutils/manual/
 # BSD equivalents: https://github.com/apple-oss-distributions/text_cmds
 # BusyBox applets: https://busybox.net/downloads/BusyBox.html
 PIPE_USERLAND = frozenset('grep awk sed sort head tail wc xargs cut ps'.split())
+# Selected package-backed scenario assumptions, not claims about every minimal image.
+# Ubuntu service (init-system-helpers), ss (iproute2), nc (netcat-openbsd), ps (procps):
+# https://manpages.ubuntu.com/manpages/noble/man8/service.8.html
+# https://manpages.ubuntu.com/manpages/noble/man8/ss.8.html
+# https://manpages.ubuntu.com/manpages/noble/man1/nc_openbsd.1.html
+# https://manpages.ubuntu.com/manpages/noble/man1/ps.1.html
+# Fedora equivalents: initscripts-service, iproute, nmap-ncat (nc/ncat), procps-ng:
+# https://packages.fedoraproject.org/pkgs/initscripts/initscripts-service/
+# https://packages.fedoraproject.org/pkgs/iproute/iproute/
+# https://packages.fedoraproject.org/pkgs/nmap/nmap-ncat/
+# https://packages.fedoraproject.org/pkgs/procps-ng/procps-ng/
+# Alpine BusyBox config enables NC, PS, NETSTAT; it does not supply ss/service/ncat:
+# https://raw.githubusercontent.com/alpinelinux/aports/3.20-stable/main/busybox/busyboxconfig
+DISTRO_TOOLS = {
+    'ubuntu': frozenset(('service', 'ss', 'nc', 'ps')),
+    'debian': frozenset(('service', 'ss', 'nc', 'ps')),
+    'fedora': frozenset(('service', 'ss', 'nc', 'ncat', 'ps')),
+    'alpine': frozenset(('nc', 'ps', 'netstat', 'ip', 'pgrep', 'pidof', 'kill')),
+}
 # Selected BusyBox applets assumed enabled in the Alpine scenario; BusyBox builds are configurable:
 # https://busybox.net/downloads/BusyBox.html
 ALPINE_BUSYBOX = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar'.split())
@@ -24,7 +43,9 @@ ALPINE_BUSYBOX = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo he
 # https://github.com/apple-oss-distributions/file_cmds
 # https://github.com/apple-oss-distributions/shell_cmds
 # https://github.com/apple-oss-distributions/libarchive (bsdtar)
-MACOS_BSD = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar'.split())
+# Apple's network_cmds supplies nc and netstat; shell_cmds supplies process utilities:
+# https://github.com/apple-oss-distributions/network_cmds
+MACOS_BSD = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar nc netstat'.split())
 # POSIX shell builtins used by the profiles:
 # https://pubs.opengroup.org/onlinepubs/9799919799/utilities/contents.html
 POSIX_BUILTINS = frozenset(('export', 'echo', 'printf', 'pwd', 'cd', 'set', '.', 'true', 'false', ':', 'test', '['))
@@ -41,7 +62,8 @@ POWERSHELL_CORE = frozenset(n.lower() for n in (
 # https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands
 CMD_BUILTINS = frozenset('dir mkdir md rmdir rd del erase set echo cd chdir copy move type ver'.split())
 BASE_NAMES = (LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA | ALPINE_BUSYBOX | MACOS_BSD |
-              POSIX_BUILTINS | POWERSHELL_CORE | CMD_BUILTINS | PIPE_USERLAND)
+              POSIX_BUILTINS | POWERSHELL_CORE | CMD_BUILTINS | PIPE_USERLAND |
+              frozenset().union(*DISTRO_TOOLS.values()))
 
 # The lists above establish availability. These bounded forms retain known effects;
 # other forms can FITS when syntax parses and no stronger task constraint is broken.
@@ -106,7 +128,7 @@ def programs(profile, requirements):
         distribution = profile['document']['categories'].get('system.os', {}).get('observations', {}).get(
             'distribution_id', {}).get('value')
         return (ALPINE_BUSYBOX if distribution == 'alpine' else
-                LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA) | POSIX_BUILTINS | PIPE_USERLAND
+                LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA) | POSIX_BUILTINS | PIPE_USERLAND | DISTRO_TOOLS.get(distribution, frozenset())
     return frozenset()
 
 
@@ -114,6 +136,8 @@ def rule(profile, requirements, name, text):
     """Return a complete base-command rule, never a default FITS for arbitrary flags."""
     shell = family(requirements['shell'])
     key = name.lower() if shell in ('powershell', 'cmd') else name
+    if key in ('service', 'rc-service') and re.fullmatch(r'[\w-]+ [\w.-]+ (?:start|stop|restart|reload)', text):
+        return dict(program=name, effect='FITS', needs_admin=True)
     forms = POWERSHELL_FORMS if shell == 'powershell' else CMD_FORMS if shell == 'cmd' else POSIX_FORMS
     pattern = TAR_FORM if key == 'tar' else forms.get(key)
     if (key in programs(profile, requirements) or key == 'tar') and pattern and re.fullmatch(

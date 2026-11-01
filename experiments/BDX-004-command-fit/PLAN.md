@@ -214,3 +214,6 @@ task/answer file proofs, then paired measurements/docs/PR. No model calls, run s
 Initial executable/cmdlet regressions failed first. Normalization now preserves original command text
 and syntax checks while retaining version/OS/module/admin constraints. PowerShell call syntax is parsed
 as invocation; POSIX-only cmdlet shapes use selected official verbs without rejecting ordinary hyphenated tools.
+Userland regressions failed first, then passed with sourced per-distro service/socket/netcat assumptions.
+Unknown distributions do not inherit these sets; explicit missing observations still win. Service restart
+aliases retain admin checks. macOS/Alpine do not acquire an unshipped service or ss by a blanket Linux list.
