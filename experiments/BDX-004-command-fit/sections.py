@@ -10,7 +10,7 @@ from syntax import family
 DATA = json.loads(Path(__file__).with_name('section_targets.json').read_text(encoding='utf-8'))
 
 
-def identify(label):
+def identify_flat(label):
     """Aliases are data; alternatives within an axis are OR, distinct axes are AND."""
     out = {}
     for row in DATA['labels']:
@@ -23,7 +23,23 @@ def identify(label):
     return out
 
 
+def identify(label):
+    # Keep correlated alternatives (Windows / Ubuntu) separate, while aliases
+    # differing in one axis (Debian/Ubuntu) can share the same constraint row.
+    clauses = re.split(r'\s*(?:/|\bor\b)\s*(?![^()]*\))', label, flags=re.I)
+    targets = [identify_flat(c) for c in clauses]
+    if len(targets) > 1 and all(targets):
+        axes = set().union(*targets)
+        differing = [a for a in axes if len({tuple(t.get(a, [])) for t in targets}) > 1]
+        if len(differing) > 1:
+            return {'any_of': targets}
+    return identify_flat(label)
+
+
 def merge(parent, child):
+    if 'any_of' in parent or 'any_of' in child:
+        return {'any_of': [merge(p, c) for p in parent.get('any_of', [parent])
+                           for c in child.get('any_of', [child])]}
     out = dict(parent)
     for axis, values in child.items():
         out[axis] = sorted(set(out[axis]) & set(values)) if axis in out else list(values)
@@ -31,16 +47,22 @@ def merge(parent, child):
 
 
 def identity(target):
+    if 'any_of' in target:
+        return json.dumps(target, sort_keys=True)
     for axis in ('runtime', 'distro', 'os', 'package_manager', 'shell'):
         if axis in target:
             fields = {axis: target[axis]}
             if axis != 'shell' and 'shell' in target:
                 fields['shell'] = target['shell']
+            if axis == 'os' and 'package_manager' in target:
+                fields['package_manager'] = target['package_manager']
             return json.dumps(fields, sort_keys=True)
     return None
 
 
 def matches(target, profile):
+    if 'any_of' in target:
+        return any(matches(t, profile) for t in target['any_of'])
     platform = profile['document']['collector']['platform']
     for axis, wanted in target.items():
         if not wanted:
@@ -82,6 +104,7 @@ def label(line):
 def partition(answer):
     """Headings scope by depth; unrecognized child headings inherit, peers end that scope."""
     sections, declared, stack, flat, buffer = [], [], [], None, []
+    prose, command_groups, flat_depth = set(), set(), 2
     opened, block, block_context = None, [], None
 
     def context():
@@ -94,6 +117,7 @@ def partition(answer):
         block_target = DATA['block_tags'].get(tag, {})
         combined = merge(target, block_target)
         if commands:
+            command_groups.add(group)
             if group is None and block_target:
                 group = identity(block_target)
             for command in commands:
@@ -101,6 +125,8 @@ def partition(answer):
                     command['shell'] = target['shell'][0]
             sections.append(dict(label=name or tag or 'shared', targets=combined, group=group, labelled=labelled,
                                  commands=commands))
+        elif tag is None and group is not None and any(line.strip() for line in lines):
+            prose.add(group)
 
     for line in answer.splitlines():
         fence = FENCE.match(line)
@@ -118,11 +144,15 @@ def partition(answer):
         found = label(line)
         if found:
             level, title, rest = found
-            target = identify(title)
+            target = identify(re.sub(r'`+[^`]*`+', '', title))
             if level or target:
                 flush(buffer, context())
                 buffer = []
                 if level:
+                    if flat is not None and not target and level > flat_depth:
+                        if '`' in title:
+                            buffer.append(title)
+                        continue
                     flat = None
                     while stack and stack[-1][0] >= level:
                         stack.pop()
@@ -134,8 +164,12 @@ def partition(answer):
                     parent = stack[-1][1:] if stack else ({}, '', None)
                     combined = merge(parent[0], target)
                     flat = (combined, title, identity(combined))
+                    flat_depth = max(2, stack[-1][0] + 1) if stack else 2
                 if target:
-                    declared.append(combined)
+                    declared.append(dict(targets=combined, group=identity(combined), label=title))
+                # Headings can themselves contain an instruction to run code.
+                if '`' in title:
+                    buffer.append(title)
                 if rest:
                     buffer.append(rest)
                 continue
@@ -143,7 +177,11 @@ def partition(answer):
     if opened:
         flush(block, block_context, opened[1])
     flush(buffer, context())
-    return sections, declared
+    for entry in declared:
+        if entry['group'] in prose and entry['group'] not in command_groups:
+            sections.append(dict(label=entry['label'], targets=entry['targets'], group=entry['group'],
+                                 labelled=True, commands=[]))
+    return sections, [entry['targets'] for entry in declared]
 
 
 def select(answer, profile):
@@ -156,7 +194,7 @@ def select(answer, profile):
     groups = {p['group'] for p in parts if p['group']}
     if not groups:
         groups = {identity(t) for t in labels}
-    hedged = len(groups) > 1 or any(len(t.get('os', [])) > 1 for t in labels)
+    hedged = len(groups) > 1 or any(len(t.get('os', [])) > 1 or len(t.get('any_of', [])) > 1 for t in labels)
     commands = []
     for part in parts:
         part['applies'] = applicable and matches(part['targets'], profile)

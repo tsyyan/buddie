@@ -6,6 +6,35 @@ import sections
 
 
 class Sections(unittest.TestCase):
+    def test_manager_alternatives_are_hedged(self):
+        text = '## apt\n```bash\nsudo apt install git\n```\n## dnf\n```bash\nsudo dnf install git\n```'
+        self.assertEqual(sections.select(text, judge.load_profile('ubuntu2404-nvidia'))['targeting'], 'HEDGED')
+
+    def test_mixed_axis_alternatives_are_disjunctive(self):
+        result = judge.judge_answer('## Windows / Ubuntu\n```\ndir\n```', 'win11-cmd-nogpu', 'list-files')
+        self.assertEqual(result['status'], 'OK')
+        self.assertEqual(result['commands_for_profile'], 1)
+
+    def test_neutral_heading_does_not_erase_an_inline_instruction(self):
+        result = judge.judge_answer('### Run `conda --version`', 'macos-arm', 'python-version')
+        self.assertEqual((result['status'], result['reason']), ('BROKEN', 'program_missing'))
+        self.assertEqual(result['commands_total'], 1)
+
+    def test_bold_audience_survives_neutral_setup_subheading(self):
+        text = ('**Windows**\n### Setup\n```\nconda --version\n```\n'
+                '**macOS**\n### Setup\n```\nls -la\n```')
+        result = judge.judge_answer(text, 'macos-arm', 'list-files')
+        self.assertEqual(result['commands_for_profile'], 1)
+        self.assertEqual(result['commands'][0]['text'], 'ls -la')
+
+    def test_matching_explanation_without_commands_is_a_section(self):
+        text = ('## macOS\nCUDA is unavailable on this platform.\n'
+                '## Windows\n```\nnvidia-smi --help\n```')
+        result = judge.judge_answer(text, 'macos-arm', 'gpu-check')
+        self.assertEqual(result['status'], 'NO_COMMANDS')
+        self.assertEqual(result['targeting'], 'HEDGED')
+        self.assertEqual(result['commands_for_profile'], 0)
+
     def test_mapping_covers_os_distro_manager_runtime_and_shell(self):
         for label, axis, values in [('On macOS', 'os', ['darwin']),
                 ('Windows (PowerShell)', 'shell', ['powershell']),

@@ -121,8 +121,6 @@ def block_commands(lines, shell):
 
 def inline_command(candidate, prefix):
     """Inline references need an invocation, not merely a familiar tool or path name."""
-    if not starts_program(candidate):
-        return False
     if re.search(r"(?i)\b(?:do not|don't|never)\s+(?:run|type|execute)\b[^.!?]*$", prefix):
         return False
     instructed = bool(re.search(r'(?i)\b(?:run|type|execute)(?:\s+(?:the|this|following|command|commands))*\s*:?\s*$', prefix))
@@ -133,6 +131,10 @@ def inline_command(candidate, prefix):
     if not tokens:
         return False
     first = tokens[0].strip('"\'')
+    if instructed:
+        return bool(re.match(r'^(?:\.{0,2}[/\\]|[A-Za-z]:[/\\]|[A-Za-z_][\w.+-]*(?:$|\s))', first))
+    if not starts_program(candidate):
+        return False
     if '/' in first or '\\' in first:
         name = re.split(r'[/\\]', first)[-1].lower()
         if name not in PROGRAMS and not re.search(r'\.(?:exe|bat|cmd|ps1|sh)$', name):

@@ -8,6 +8,10 @@ import commands
 
 
 class Extraction(unittest.TestCase):
+    def test_explicit_unknown_executable_directives_are_retained(self):
+        self.assertEqual([c['text'] for c in commands.extract('Run `./configure`. Execute `my-tool`.')],
+                         ['./configure', 'my-tool'])
+
     def test_inline_names_values_and_paths_are_not_instructions(self):
         text = ('The tools are `git`, `node` and `python3`. Version `20.18.0` is a value. '
                 'Open `/tmp/project` or `C:\\Program Files\\Git`. The setting is `APP_MODE=dev`.')

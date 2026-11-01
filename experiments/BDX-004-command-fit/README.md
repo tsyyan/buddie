@@ -262,6 +262,11 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
 Inline code is an instruction only when its sentence directly says to run/type/execute it, or it contains
 a program and at least one argument. Plain tool names, versions, settings and directory/file references are
 not commands. An explicit "do not run" instruction is not an instruction to execute that code.
+Explicit instructions retain unfamiliar executables (including `./configure`) for judgment rather than
+silently discarding them. Neutral child headings preserve a bold/colon audience and may themselves contain
+inline commands. Mixed alternatives such as Windows / Ubuntu keep their OS/distro/manager constraints
+separate. A matching explanatory section with no commands counts as applicable (NO_COMMANDS or ASKED);
+it does not become a wrong_os failure just because another platform has commands.
 
 ## Running
 

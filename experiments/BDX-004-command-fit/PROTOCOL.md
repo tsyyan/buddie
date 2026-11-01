@@ -145,7 +145,11 @@ false objections is reported as unreliable and left out of the gate proposal.
 ## Pilot-1 rule implementation (before registration)
 
 Audience mappings are data in section_targets.json. Labels and fence tags constrain OS/distro/package manager/
-runtime/shell; aliases within an axis are alternatives and different axes are conjunctive. Heading depth scopes
+runtime/shell; aliases within an axis are alternatives and different axes are conjunctive. Explicit mixed-system
+alternatives (Windows / Ubuntu) preserve separate correlated constraints rather than intersecting them.
+Matching command-free explanations are applicable sections; neutral child headings retain bold/colon scopes
+and inline instructions. TARGETED/HEDGED distinguishes package-manager alternatives such as apt versus dnf.
+Heading depth scopes
 subheadings; generic verification peers are shared only after some targeted section applies. Only selected
 sections establish setup state. No applicable section yields answer BROKEN/wrong_os with no fabricated command.
 TARGETED/HEDGED and commands_total/commands_for_profile are emitted on every answer; counts are extracted parent
