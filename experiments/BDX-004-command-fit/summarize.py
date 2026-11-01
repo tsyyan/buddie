@@ -46,11 +46,16 @@ def main(argv=None) -> int:
         cs = Counter(c["status"] for c in leaves)
         reasons = Counter(c["reason"] for c in leaves if c["status"] == "WONT_RUN")
         n = len(rs)
+        targeting = dict(Counter(r['verdict'].get('targeting', 'UNRECORDED') for r in rs))
+        measured = [r['verdict'] for r in rs if 'commands_total' in r['verdict'] and 'commands_for_profile' in r['verdict']]
+        audience = (f"; targeting {targeting}; offered {sum(v['commands_total'] for v in measured) / len(measured):.1f}, "
+                    f"for profile {sum(v['commands_for_profile'] for v in measured) / len(measured):.1f} "
+                    f"({len(measured)}/{n} measured)" if measured else f"; targeting {targeting}; audience counts UNRECORDED")
         cells.append(f"{model} | {arm}: n {n}; answers " + ", ".join(f"{k} {v / n:.2f}" for k, v in sorted(st.items()))
                      + f"; commands {len(leaves)}: " + ", ".join(f"{k} {v}" for k, v in sorted(cs.items()))
                      + f" (UNKNOWN {cs['UNKNOWN'] / max(1, len(leaves)):.2f}); WONT_RUN reasons {dict(reasons)}"
                      + f"; tool calls {sum(r['tool_calls'] for r in rs) / n:.2f}, requests "
-                     f"{sum(r['requests'] for r in rs) / n:.2f}, sent chars {sum(r['sent_chars'] for r in rs) / n:.0f}")
+                     f"{sum(r['requests'] for r in rs) / n:.2f}, sent chars {sum(r['sent_chars'] for r in rs) / n:.0f}" + audience)
     paired = []
     models = {r["model"] for r in ok}
     for model in sorted(models):

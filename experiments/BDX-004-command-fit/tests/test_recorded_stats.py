@@ -5,6 +5,16 @@ import recorded_stats
 
 
 class RecordedStats(unittest.TestCase):
+    def test_offered_and_selected_counts_are_distinct(self):
+        case = dict(id='selection', profile='macos-arm', task='install-git',
+                    answer='## Windows\n```powershell\nwinget install Git.Git\n```')
+        summary = recorded_stats.summarize([case])
+        self.assertEqual(summary['commands_total'], 1)
+        self.assertEqual(summary['commands_for_profile'], 0)
+        self.assertEqual(summary['commands'], 0)
+        self.assertIsNone(summary['unknown_share'])
+        self.assertEqual(summary['answer_outcomes'], {'BROKEN': 1})
+
     def test_broken_parent_does_not_hide_unknown_leaves(self):
         if judge.syntax('bash', ':') is None:
             self.skipTest('bash parser absent')

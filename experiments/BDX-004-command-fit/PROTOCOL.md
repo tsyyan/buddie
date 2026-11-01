@@ -70,9 +70,9 @@ Lists/control implementation details:
 - Parser stdin preserves LF bytes on Windows too. Tokenizer uncertainty remains UNKNOWN; quoted literal text
   is not proof of a bashism.
 
-Open implementation follow-up: the installed-tagged-shell selection policy above was added concurrently in
-2bd7873. This lists/control pass retains the existing per-profile target-shell selection; the explicit-tag
-override is not implemented by this pass. Resolve that policy/implementation gap before judge registration.
+The installed-tagged-shell follow-up from 2bd7873 was implemented in 103b913. Audience selection now precedes
+command validation; observed alternate shells use explicit alternate task rules or bounded base/generic rules,
+without borrowing the default shell's task forms or builtin assumptions.
 
 ## Endpoints
 
@@ -150,3 +150,9 @@ subheadings; generic verification peers are shared only after some targeted sect
 sections establish setup state. No applicable section yields answer BROKEN/wrong_os with no fabricated command.
 TARGETED/HEDGED and commands_total/commands_for_profile are emitted on every answer; counts are extracted parent
 units after inline filtering, before/after audience selection. No new model calls or pilot results in this fix.
+The synthetic check contains 88 distinct hand-written answers / 107 profile cases, including 12 realistic
+multi-system answers. With bash/dash/pwsh, UNKNOWN parents change from 25/237 (10.55%) before b036dd5 to
+6/109 (5.50%) after; leaves from 27/258 (10.47%) to 8/130 (6.15%). Offered commands change 237 to 231 because
+six inline references are excluded; 122 other-audience instructions are then filtered. Before/after snapshots
+are tests/sections_before.json and tests/sections_after.json. This does not qualify or register a new pilot;
+repeat the judge-validation pilot on 40 other units separately as specified above.

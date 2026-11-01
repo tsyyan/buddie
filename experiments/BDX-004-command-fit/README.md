@@ -1,8 +1,10 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
-Status: **starter set built** (2026-11-01). Eight synthetic profiles, 24 tasks, 192 eligible units,
-command extraction, a snapshot stand-in, a model-free judge and 76 human-written answer fixtures are present.
-No model calls, provider code or experiment results. The experiment runs after BDX-003 is reported.
+Status: **pre-registration judge correction** (2026-11-01). Eight synthetic profiles, 24 tasks, 192 eligible units,
+command extraction, a snapshot stand-in and the model-free judge are present. The recorded corpus has 76 earlier
+answers plus 12 realistic multi-system answers (31 profile checks): 88 distinct answers, 107 profile-answer cases.
+Judge-validation pilot 1 failed; its model answers remain separate from these synthetic fixtures. This correction
+uses offline fixtures only, leaves the existing model runner/workflow unchanged, and does not rerun the pilot.
 
 ## Question
 
@@ -151,9 +153,8 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 
 ## Judge limits
 
-PROTOCOL v1 was added concurrently in 2bd7873. Its observed-tagged-shell override is an open implementation
-follow-up: this pass keeps the existing per-profile target-shell choice while adding lists/control/state.
-The subsequent 103b913 update implemented observed tagged-shell selection. Core alternate-shell commands can
+PROTOCOL v1 was added in 2bd7873. The subsequent 103b913 update implemented observed tagged-shell selection.
+Core alternate-shell commands can
 now be established by their bounded base forms; default-shell task forms are not borrowed for another shell.
 
 ## Pilot-1 audience sections
@@ -170,6 +171,33 @@ Responses include `targeting` (TARGETED for one audience, HEDGED for several), `
 parent units offered), `commands_for_profile` (selected units), and section applicability metadata. Repeated
 verification subheadings for one audience do not make it HEDGED. Counts exclude inline references filtered by
 the invocation rule, and retain list/control parent units consistently with the earlier metrics.
+
+The 12 hand-written examples in `tests/multi_section_answers.json` include brew/winget/apt/dnf alternatives,
+headings, bold/colon labels, WSL/Alpine, nested verification steps, package-manager-only labels, shared checks,
+and unavailable audiences. Node 20 verification accepts both `node --version` and `node -v` while keeping its
+major-version constraint. `summarize.py` reports targeting and offered/selected command counts per arm; old run
+rows without these fields are UNRECORDED, not silently relabelled TARGETED.
+
+### Offline pilot-shape UNKNOWN comparison
+
+The same 107 profile-answer cases were judged before (b036dd5, actual verdicts captured before changes) and after,
+with bash, dash and pwsh available. This is a synthetic regression comparison, not a repeated model pilot.
+
+| View | Before | After |
+|---|---:|---:|
+| Extracted commands offered | 237 | 231 |
+| Parent units judged for the profile | 237 | 109 |
+| UNKNOWN parent units / judged units | 25/237 (10.55%) | 6/109 (5.50%) |
+| UNKNOWN leaf verdicts / judged leaves | 27/258 (10.47%) | 8/130 (6.15%) |
+
+Six inline references are no longer commands; 122 offered instructions belong to other audiences and are excluded
+from judgment. Answers without applicable instructions remain BROKEN/wrong_os, not missing denominator rows.
+The new multi-system subset has 0/50 UNKNOWN judged commands across its 31 profile checks; guarded UNKNOWN cases
+in the earlier corpus remain. Evidence is in tests/sections_before.json and tests/sections_after.json.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/sections_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json
+```
 
 ## Judge limits (continued)
 

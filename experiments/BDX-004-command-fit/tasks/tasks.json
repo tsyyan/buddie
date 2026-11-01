@@ -2781,7 +2781,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -2829,7 +2829,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -2880,7 +2880,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -2930,7 +2930,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -2982,7 +2982,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -3030,7 +3030,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -3080,7 +3080,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],
@@ -3130,7 +3130,7 @@
             }
           },
           {
-            "pattern": "node --version",
+            "pattern": "node (?:--version|-v)",
             "program": "node",
             "effect": "FITS",
             "installs": [],

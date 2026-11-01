@@ -65,6 +65,16 @@ class Arms(unittest.TestCase):
         self.assertEqual(len(units), 40)
         self.assertEqual(len({p for p, _ in units}), 8)
 
+    def test_d_does_not_feedback_a_foreign_os_alternative(self):
+        answer = ('## macOS\n```bash\ngit --version\n```\n'
+                  '## Windows (PowerShell)\n```powershell\nwinget install Git.Git\n```')
+        c = Scripted([answer])
+        result = run.run_arm(c, 'macos-arm', run.tasks()['install-git'], 'D', 2)
+        self.assertEqual(result['feedback_rounds'], 0)
+        self.assertEqual(result['verdict']['targeting'], 'HEDGED')
+        self.assertEqual(result['verdict']['commands_total'], 2)
+        self.assertEqual(result['verdict']['commands_for_profile'], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

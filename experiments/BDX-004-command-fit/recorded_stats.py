@@ -17,6 +17,9 @@ def summarize(cases):
     leaves = Counter(row['status'] for answer in answers for row in leaf_commands(answer['commands']))
     leaf_total = sum(leaves.values())
     return dict(answers=len(answers), commands=total, unknown_commands=counts['UNKNOWN'],
+                commands_total=sum(a['commands_total'] for a in answers),
+                commands_for_profile=sum(a['commands_for_profile'] for a in answers),
+                targeting=dict(Counter(a['targeting'] for a in answers)),
                 unknown_share=counts['UNKNOWN'] / total if total else None,
                 leaf_commands=leaf_total, unknown_leaf_commands=leaves['UNKNOWN'],
                 unknown_leaf_share=leaves['UNKNOWN'] / leaf_total if leaf_total else None,
@@ -34,6 +37,8 @@ def compare(cases, baseline):
         raise ValueError('current corpus omits baseline answer IDs')
     return dict(baseline_commit=baseline['commit'],
                 before=dict(answers=len(baseline['rows']), commands=total, unknown_commands=before['UNKNOWN'],
+                            commands_total=sum(r.get('commands_total', len(r['commands'])) for r in baseline['rows']),
+                            commands_for_profile=total,
                             unknown_share=before['UNKNOWN'] / total if total else None,
                             leaf_commands=sum(before_leaves.values()), unknown_leaf_commands=before_leaves['UNKNOWN'],
                             unknown_leaf_share=before_leaves['UNKNOWN'] / sum(before_leaves.values()) if before_leaves else None),
@@ -46,10 +51,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--answers', type=Path, default=HERE / 'tests/answers.json')
     parser.add_argument('--baseline', type=Path, default=HERE / 'tests/unknown_before.json')
+    parser.add_argument('--multi-section', type=Path, help='additional audience fixtures with per-profile checks')
     parser.add_argument('--out', type=Path)
     args = parser.parse_args()
-    report = compare(json.loads(args.answers.read_text(encoding='utf-8')),
-                     json.loads(args.baseline.read_text(encoding='utf-8')))
+    cases = json.loads(args.answers.read_text(encoding='utf-8'))
+    extra = []
+    if args.multi_section:
+        extra = [dict(id=c['id'] + ':' + check['profile'], profile=check['profile'], task=c['task'], answer=c['answer'])
+                 for c in json.loads(args.multi_section.read_text(encoding='utf-8')) for check in c['checks']]
+    report = compare(cases + extra, json.loads(args.baseline.read_text(encoding='utf-8')))
+    if extra:
+        report['after_existing'] = summarize(cases)
+        report['after_multi_section'] = summarize(extra)
     text = json.dumps(report, indent=2) + '\n'
     if args.out:
         args.out.write_text(text, encoding='utf-8')

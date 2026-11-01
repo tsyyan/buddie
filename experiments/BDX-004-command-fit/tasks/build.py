@@ -116,7 +116,7 @@ def requirements(task, profile):
                             admin=pm in ('apt', 'dnf', 'apk', 'choco'),
                             **({'installed_versions': {'node': '20.0.0'}} if target == 'node20' else {}))]
         table[task].append(rule(('node' if target == 'node20' else target) +
-                                (r' -version' if target == 'ffmpeg' else r' --version'),
+                                (r' -version' if target == 'ffmpeg' else r' (?:--version|-v)' if target == 'node20' else r' --version'),
                                 'node' if target == 'node20' else target,
                                 **({'min_version': '20.0', 'major_version': 20} if target == 'node20' else {})))
     # These are scenario assumptions: the diagnostics catalog cannot observe these programs.

@@ -142,3 +142,8 @@ scope commands and state, no matching section gives BROKEN/wrong_os, and targeti
 are emitted. Updated old cross-family fixtures to the new no-applicable-section outcome;
 primitive reason-order tests still exercise validation directly after selection. Observed
 alternate shells use bounded base rules without borrowing default-shell task assumptions.
+Validated the twelve multi-OS answers against 31 literal profile outcomes. Node -v tests
+failed first, then passed after adding that bounded Node 20 verification form. Added offline
+runner integration (no foreign-section feedback), targeting/read-count summaries and paired
+metrics. Same 107 cases: parent UNKNOWN 25/237 to 6/109; leaf UNKNOWN 27/258 to 8/130.
+The full suite passes 99 tests with all parsers, and all eight profiles validate.
