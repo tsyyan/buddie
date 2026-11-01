@@ -25,5 +25,8 @@ never files, paths, environment variables or the network, and only when asked. R
 sh "${CLAUDE_PLUGIN_ROOT}/hooks/run.sh" snapshot --grant-baseline
 ```
 
-It writes their grants file with the baseline categories only (never over an existing one); the sensitive ones
-(storage, containers, a project, a repository) stay off unless they add them to that file.
+It writes their grants file with the baseline categories only (never over an existing one). Then ask once more,
+separately, whether buddie may also ask the local Docker daemon whether it answers (`development.containers`): useful
+before suggesting `docker run`, but on Linux the daemon's socket is root-equivalent. Only if they agree, add
+`"development.containers"` to the `allow` list of the file `snapshot --grants` names. The other sensitive categories
+(storage, a project, a repository) stay off unless they add them themselves.
