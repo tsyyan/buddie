@@ -154,6 +154,14 @@ false objections is reported as unreliable and left out of the gate proposal.
     missing (apt on macOS, sudo on Alpine as root) is program_missing / wrong_os before needs_admin.
   The judge is fixed and the pilot repeated on 40 further units (pilot 3).
 
+- 2026-11-02, judge-validation pilot 3 (run 41346301829, 40 units used by neither earlier pilot): **failed**,
+  closer. UNKNOWN 35 % (limit 25 %); 28 of 34 answers hedged across systems. Remaining false objections come from
+  sections the judge does not see: headings for several systems at once ("Unix-like shells (Linux, macOS, WSL)"),
+  commands in tables under a system heading, labels inside a sentence ("Install with `sudo apt install inxi`
+  (Debian/Ubuntu)"); remaining UNKNOWN mostly pipelines (`ps -ef | grep sshd`) and package managers of another
+  distribution read as unobserved instead of wrong_os. Ten whole answers are kept as judge material in
+  tests/pilot/pilot3_answers.jsonl (run 41346616739, same units; not results).
+
 ## Changes after data
 
 (none)
