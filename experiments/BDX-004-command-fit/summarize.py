@@ -31,6 +31,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("runs")
     ap.add_argument("--sheet")
+    ap.add_argument("--examples", type=int, default=0, help="per verdict reason, this many judged commands as notices")
     a = ap.parse_args(argv)
     rows = [json.loads(x) for x in Path(a.runs).read_text(encoding="utf-8").splitlines() if x.strip()]
     ok = [r for r in rows if "verdict" in r]
@@ -63,6 +64,22 @@ def main(argv=None) -> int:
     lines = notes + paired + cells
     for i in range(0, len(lines), 2):
         print("::notice title=BDX-004 " + str(i // 2 + 1) + "::" + " || ".join(lines[i:i + 2]))
+    if a.examples:  # what the owner would read in the sheet, when the artifact cannot be fetched
+        groups = defaultdict(list)
+        for r in ok:
+            shells = {c.get("shell") for c in r["verdict"]["commands"]}
+            for c in jd.leaf_commands(r["verdict"]["commands"]):
+                if c["status"] in ("WONT_RUN", "UNKNOWN"):
+                    groups[f"{c['status']} {c.get('reason') or ''}".strip()].append(
+                        f"{r['profile']}/{r['task']} [{c.get('shell')}; answer shells {len(shells)}] "
+                        f"{c['text'][:70]!r} ({(c.get('detail') or '')[:50]})")
+        multi = sum(len({c.get('shell') for c in r["verdict"]["commands"]}) > 1 for r in ok)
+        print(f"::notice title=BDX-004 shape::{multi} of {len(ok)} answers have blocks for more than one shell; "
+              f"commands per answer {sum(len(jd.leaf_commands(r['verdict']['commands'])) for r in ok) / max(1, len(ok)):.1f}")
+        rng = random.Random(3)
+        for g, items in sorted(groups.items()):
+            rng.shuffle(items)
+            print(f"::notice title=BDX-004 examples {g} ({len(items)})::" + " || ".join(items[:a.examples]))
     if a.sheet:
         with open(a.sheet, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)

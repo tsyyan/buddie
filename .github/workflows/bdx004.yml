@@ -57,7 +57,7 @@ jobs:
         run: |
           cd experiments/BDX-004-command-fit
           test -s "data/$OUT" || exit 0
-          python summarize.py "data/$OUT" --sheet "data/${OUT%.jsonl}-commands.csv"
+          python summarize.py "data/$OUT" --sheet "data/${OUT%.jsonl}-commands.csv" --examples 8
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2, as BDX-003
         if: always()
         with:
