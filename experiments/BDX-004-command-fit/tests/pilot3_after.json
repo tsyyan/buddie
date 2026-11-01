@@ -1,0 +1,150 @@
+{
+  "baseline_commit": "73bdc3a",
+  "before": {
+    "answers": 133,
+    "commands": 200,
+    "unknown_commands": 34,
+    "commands_total": 415,
+    "commands_for_profile": 200,
+    "unknown_share": 0.17,
+    "leaf_commands": 221,
+    "unknown_leaf_commands": 35,
+    "unknown_leaf_share": 0.1583710407239819
+  },
+  "after_all": {
+    "answers": 133,
+    "commands": 212,
+    "unknown_commands": 53,
+    "commands_total": 455,
+    "commands_for_profile": 212,
+    "targeting": {
+      "TARGETED": 94,
+      "HEDGED": 39
+    },
+    "unknown_share": 0.25,
+    "leaf_commands": 248,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.21774193548387097,
+    "leaf_outcomes": {
+      "FITS": 137,
+      "WONT_RUN": 34,
+      "INSTALLS": 23,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 102,
+      "WONT_RUN": 34,
+      "INSTALLS": 23,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 65,
+      "BROKEN": 36,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 14
+    }
+  },
+  "after_original": {
+    "answers": 133,
+    "commands": 212,
+    "unknown_commands": 53,
+    "commands_total": 455,
+    "commands_for_profile": 212,
+    "targeting": {
+      "TARGETED": 94,
+      "HEDGED": 39
+    },
+    "unknown_share": 0.25,
+    "leaf_commands": 248,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.21774193548387097,
+    "leaf_outcomes": {
+      "FITS": 137,
+      "WONT_RUN": 34,
+      "INSTALLS": 23,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 102,
+      "WONT_RUN": 34,
+      "INSTALLS": 23,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 65,
+      "BROKEN": 36,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 14
+    }
+  },
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  },
+  "after_existing": {
+    "answers": 102,
+    "commands": 162,
+    "unknown_commands": 53,
+    "commands_total": 284,
+    "commands_for_profile": 162,
+    "targeting": {
+      "TARGETED": 92,
+      "HEDGED": 10
+    },
+    "unknown_share": 0.3271604938271605,
+    "leaf_commands": 198,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.2727272727272727,
+    "leaf_outcomes": {
+      "FITS": 109,
+      "WONT_RUN": 33,
+      "INSTALLS": 2,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 74,
+      "WONT_RUN": 33,
+      "INSTALLS": 2,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 40,
+      "BROKEN": 30,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 14
+    }
+  },
+  "after_multi_section": {
+    "answers": 31,
+    "commands": 50,
+    "unknown_commands": 0,
+    "commands_total": 171,
+    "commands_for_profile": 50,
+    "targeting": {
+      "HEDGED": 29,
+      "TARGETED": 2
+    },
+    "unknown_share": 0.0,
+    "leaf_commands": 50,
+    "unknown_leaf_commands": 0,
+    "unknown_leaf_share": 0.0,
+    "leaf_outcomes": {
+      "INSTALLS": 21,
+      "FITS": 28,
+      "WONT_RUN": 1
+    },
+    "command_outcomes": {
+      "INSTALLS": 21,
+      "FITS": 28,
+      "WONT_RUN": 1
+    },
+    "answer_outcomes": {
+      "OK": 25,
+      "BROKEN": 6
+    }
+  }
+}

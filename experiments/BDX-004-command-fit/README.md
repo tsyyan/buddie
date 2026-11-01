@@ -1,10 +1,11 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
-Status: **pre-registration pilot-2 judge correction** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
+Status: **last judge correction before pilot 4** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
 command extraction, a snapshot stand-in and the model-free judge are present. The recorded corpus has 76 earlier
-answers plus 12 realistic multi-system answers (31 profile checks) and 16 pilot-2-shaped answers:
-104 distinct answers, 123 profile-answer cases. Judge-validation pilots 1 and 2 failed; its model answers remain separate from these synthetic fixtures. This correction
-uses offline fixtures only, leaves the existing model runner/workflow unchanged, and does not rerun the pilot.
+answers, 12 realistic multi-system answers (31 profile checks), 16 pilot-2-shaped answers and ten whole
+pilot-3 answers supplied as judge material: 114 distinct answers, 133 profile-answer cases.
+Judge-validation pilots 1–3 failed. This pass uses only the supplied recordings and offline tests, preserves
+the simplified A/B/C design and pilot-4 settings, and makes no model calls or new pilot run.
 
 ## Question
 
@@ -31,7 +32,11 @@ was recorded. A task is what a person asks with no word about their machine ("se
 | A | the task only |
 | B | the task and the tool `environment_snapshot`, answered from the profile (granted categories only) |
 | C | the task and the profile's snapshot in the first message |
-| D | B, then the judge's objections to its commands as feedback, at most 2 rounds (the candidate gate) |
+| D | Deferred; snapshot plus command feedback is considered only after B or C shows benefit |
+
+The current protocol asks for commands for this person's machine, with asking or explicit audience labels
+when the system is unknown. OK-answer share is the primary endpoint; A/B/C and the smaller stratified audit
+follow PROTOCOL.md. The runner and pilot-4 settings were preserved in this correction.
 
 Judged without a model (`judge.py`): every command of the answer is FITS, INSTALLS (it installs what is missing),
 WONT_RUN (with a reason) or UNKNOWN; an answer is OK (all commands FITS/INSTALLS), UNDECIDED (UNKNOWN but no
@@ -207,7 +212,7 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
 - FITS means program present (observed or base/scenario userland), target-shell syntax parses, and no task
   constraint is broken. Task patterns describe additional constraints/effects, not a command whitelist. Unknown
   flags of a present program FITS; this does not prove option semantics or task success. Unobserved programs,
-  missing parsers, dynamic code, unsupported pipelines and redirects remain UNKNOWN.
+  missing parsers, dynamic code, unsupported pipeline stage forms and redirects remain UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.
   Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
   names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
@@ -242,7 +247,8 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
   result. POSIX `source DIR/bin/activate` or `. DIR/bin/activate` then FITS when the profile shell supports it;
   source is rejected for sh. The POSIX activate-venv task explicitly declares .venv as existing; other unknown
   paths stay UNKNOWN. activate.fish/activate.csh require the matching shell observation. Unsupported paths
-  cannot bypass the existence check. Windows executable activation scripts remain outside this source/dot rule.
+  cannot bypass the existence check. The whole pilot-3 Windows example also requires literal task-declared
+  .venv\Scripts\activate.bat / Activate.ps1 paths; these are extracted and validated in their own shell.
   Interpreter options before -m preserve module constraints; bounded venv options preserve creation proofs.
   Modeled rm/mv/cp operations affecting the venv or its activation script invalidate the proof. Unknown
   commands can change cwd/files and also invalidate it; potential deletion in a conditional path is retained
@@ -252,7 +258,9 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
   `commands` and takes the worst: WONT_RUN > UNKNOWN > INSTALLS > FITS. Complete-list syntax is also checked
   by the profile parser. No answer text is executed. Effects flow through successful sequential/AND steps;
   a failed or unknown AND predecessor cannot establish setup. OR alternatives use separate state, and
-  proven effects are not exported from an OR-containing list (only pending install intent). Unsupported actual pipelines remain UNKNOWN.
+  proven effects are not exported from an OR-containing list (only pending install intent). POSIX/PowerShell pipelines split on unquoted top-level |, judge each stage, and fold the worst verdict.
+  Stages use independent setup state; only pending installation intent can flow out. No pipeline is executed
+  and no dataflow/stream contents or external script success is inferred.
 - POSIX if/elif/else/fi, for/while/until/do/done and case/esac structures are extracted intact, including
   nested and incomplete structures. The complete text is syntax-checked by the profile shell (dash for sh),
   then conditions and body commands are judged recursively. The worst potential branch wins; this is a
@@ -311,4 +319,60 @@ Snapshots: tests/pilot2_before.json and tests/pilot2_after.json. Earlier measure
 
 ```sh
 python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot2_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json
+```
+
+## Last iteration before pilot 4 (2026-11-02)
+
+The ten supplied whole answers in tests/pilot/pilot3_answers.jsonl are each recorded in
+`tests/pilot3_answers.json`, with a literal human-labelled outcome, rationale, source line and UTF-8 text hash.
+Tests verify exact source text, including its truncation; no missing continuation is invented. They are judge
+regression material, not arm results. The owner’s simplified protocol (A/B/C, D deferred, OK primary) and
+pilot-4 settings are preserved. This implementation neither launches pilot 4 nor registers the experiment.
+
+Audience fixes include multi-system unions (Unix-like Linux/macOS/WSL), table command columns and OS/shell
+rows, a command’s immediate parenthesized audience, and Git Bash/MSYS2 only with an explicit shell observation.
+WSL guest instructions can refine a Windows-host heading. Broad Linux headings are not narrowed by distro
+examples. Standalone audience comments can constrain commands in a fence, while quoted strings and whole
+control structures remain intact. Interpretation-table headers and explicitly introduced sample-output
+fences are not commands. Tables retain pipeline bars inside inline-code cells.
+
+`package_manager_distros.json` defines native distro-manager families; foreign apt/dnf/apk/pacman/zypper
+commands are wrong_os before sudo/admin objections. An explicitly observed additional manager can still
+run. brew on Linux and winget/choco on Windows require observations; otherwise program_missing.
+The base userland adds sourced grep/awk/sed/sort/head/tail/wc/xargs/cut/ps and core PowerShell pipeline cmdlets.
+NVM install attempts and Node’s bundled npm establish only pending availability, never successful setup/version.
+
+| Whole material | Expected outcome |
+|---|---|
+| 01 Windows venv activation | OK |
+| 02 Alpine GPU alternatives | BROKEN (missing sudo/tools) |
+| 03 Alpine ffmpeg | BROKEN (no Alpine section) |
+| 04 WSL GPU probes | UNDECIDED (unobserved optional tools) |
+| 05 WSL service probes | UNDECIDED (unobserved service/init tools) |
+| 06 Windows Node/NVM | UNDECIDED (unproved setup/version) |
+| 07 macOS Git | UNDECIDED (Xcode/placeholder remote arguments) |
+| 08 macOS port/process | UNDECIDED (sudo/PID placeholders) |
+| 09 Ubuntu without sudo, Git | BROKEN (sudo absent) |
+| 10 Fedora Node/NVM | UNDECIDED (unproved setup/version) |
+
+Paired measurement of **all 133 recorded cases**, at 73bdc3a and this implementation, with bash/dash/pwsh:
+
+| Metric | Before | After |
+|---|---:|---:|
+| Offered parent commands | 415 | 455 |
+| Selected/judged parents | 200 | 212 |
+| UNKNOWN parents | 34/200 (17.00%) | 53/212 (25.00%) |
+| UNKNOWN recursive leaves | 35/221 (15.84%) | 54/248 (21.77%) |
+
+The UNKNOWN share **increases**. The ten whole answers introduce 30 newly extracted selected instructions,
+20 UNKNOWN, and remove 18 earlier extractions; three matched false WONT_RUN commands become UNKNOWN and
+one UNKNOWN becomes FITS. The earlier 123-case corpus is otherwise unchanged. On the deliberately problematic
+ten-answer subset alone, UNKNOWN parents are 25/72 (34.72%) to 44/84 (52.38%); outcomes change from
+7 BROKEN / 3 UNDECIDED to 1 OK / 3 BROKEN / 6 UNDECIDED. The missing observations are retained as uncertainty
+rather than invented presence. These counts do not demonstrate a successful pilot-4 judge check.
+
+Before/after snapshots are tests/pilot3_before.json and tests/pilot3_after.json. Reproduce:
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot3_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot3_answers.json
 ```

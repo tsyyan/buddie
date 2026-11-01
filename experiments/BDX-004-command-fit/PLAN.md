@@ -195,3 +195,8 @@ source hashes; fixed a Windows locale copy error and regenerated only those hist
 archived 73bdc3a code. Whole-answer outcomes require Windows activation paths, output-fence exclusion,
 and weak NVM/Node/npm install intent too. Review reproduced and fixed comment scopes breaking quoted/control
 units and Git Bash losing its selected shell at validation. No important review findings remain.
+All ten material outcomes pass (1 OK, 3 BROKEN, 6 UNDECIDED). Saved paired report over all 133 cases:
+UNKNOWN parents 34/200 (17%) to 53/212 (25%); leaves 35/221 to 54/248. Reported the increase explicitly,
+including the 30 new/18 removed selected instructions and the material-only share; no pilot-4 success claim.
+Full suite passes 136 tests with all parsers; default PATH passes with 61 parser-dependent skips. All eight
+profiles validate and the saved report reproduces exactly. Only experiment files changed in this pass.

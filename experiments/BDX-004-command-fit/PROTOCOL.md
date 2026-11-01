@@ -64,12 +64,14 @@ Shell rules:
 Lists/control implementation details:
 - POSIX lists split on unquoted &&, ||, semicolons and newlines; PowerShell statements split on unquoted
   semicolons and newlines. Preserve multiline quotes and unfinished connectors before extraction. Child verdicts
-  are retained, and complete-list syntax is checked without executing answer text.
+  are retained, and complete-list syntax is checked without executing answer text. POSIX/PowerShell pipelines
+  split on top-level unquoted |; stages are judged individually and take the worst verdict. Pipeline stage
+  setup is isolated; only pending install intent is exported, with no execution or dataflow inference.
 - Extract nested/incomplete if/elif/else/fi, for/while/until/do/done and case/esac as one command. Judge conditions
   and bodies recursively and take the worst potential branch. This is a static audit, not a branch prediction.
   Dynamic headers/pattern substitutions and unsupported grammar are UNKNOWN, never silently NO_COMMANDS.
 - A recognized successful venv creation establishes that literal venv's activation script within its section.
-  POSIX activate-venv tasks also declare .venv as existing; fish/csh activation scripts require that shell observed.
+  Activate-venv tasks also declare .venv as existing, including literal Windows bat/ps1 paths; fish/csh activation scripts require that shell observed.
   Compatible source/dot activation then FITS; source is not supported by sh. Do not export new conditional setup
   or uncertain OR effects. Removal, relocation, overwriting or unknown side effects invalidate existence proofs,
   including possible deletion along a conditional path. State resets between answers and declared audience sections; neutral child headings retain scope.
@@ -215,3 +217,23 @@ bash/dash/pwsh availability before/after: UNKNOWN parents 16/128 (12.50%) to 9/1
 18/149 (12.08%) to 10/149 (6.71%). Both include UNKNOWNs beneath BROKEN parents; offered counts stay 250.
 See tests/pilot2_before.json (94fa8a1), tests/pilot2_after.json and README reproduction command. This is an
 offline synthetic comparison, not a new pilot or registration. Pilot 3 on 40 further units remains separate.
+
+## Pilot-3 material correction (before pilot 4, 2026-11-02)
+
+Implemented the owner’s last judge iteration while preserving the simplified design and pilot-4 settings.
+Ten whole source answers are recorded verbatim as tests/pilot3_answers.json with expected outcomes and
+rationales, source line and UTF-8 text hashes. The original source/truncation stays unchanged. Audience
+unions, table columns/rows, immediate suffix labels, observed Git Bash/MSYS2, and syntax-safe comment labels
+select only applicable instructions; explicit sample output and interpretation headers are excluded.
+Pipeline stages receive separate verdicts and fold to the worst; sourced base userland includes the common
+filters. Foreign distro managers are wrong_os; optional brew/winget/choco require observed availability.
+
+All 133 recorded profile/answer cases, with identical bash/dash/pwsh availability: UNKNOWN parents
+34/200 (17.00%) before 73bdc3a to 53/212 (25.00%) after; UNKNOWN leaves 35/221 (15.84%) to
+54/248 (21.77%). Offered counts are 415 to 455. On the ten material answers, 30 new selected instructions
+(20 UNKNOWN) replace 18 older extractions; three matched WONT_RUN become UNKNOWN, one UNKNOWN becomes FITS.
+Their outcomes change 7 BROKEN/3 UNDECIDED to 1 OK/3 BROKEN/6 UNDECIDED; their parent UNKNOWN share is
+25/72 (34.72%) to 44/84 (52.38%). Missing tool/setup/privilege observations remain UNKNOWN. The increase
+is reported explicitly rather than discarded or treated as success. See pilot3_before.json/pilot3_after.json
+and the README reproduction command. This is offline judge regression material, not pilot-4 results or
+registration; the planned fresh pilot remains separate.
