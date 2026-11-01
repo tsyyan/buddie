@@ -54,7 +54,9 @@ Shell rules:
 - Command lists (`&&`, `||`, `;`) and control structures (`if`, `for`, `while`, `case`) are judged part by part; the
   list takes its worst part (WONT_RUN > UNKNOWN > INSTALLS > FITS).
 - Base userland (`base_commands.py`, cited sources) establishes availability only; an observation that a program is
-  missing overrides it; unrecognized flags stay UNKNOWN.
+  missing overrides it; unrecognized flags of a present program FITS when syntax parses and no task constraint
+  is broken. Patterns add constraints/effects, not a whitelist. FITS concerns machine fit, not option semantics
+  or successful completion of the requested task.
 
 Lists/control implementation details:
 - POSIX lists split on unquoted &&, ||, semicolons and newlines; PowerShell statements split on unquoted
@@ -63,10 +65,11 @@ Lists/control implementation details:
 - Extract nested/incomplete if/elif/else/fi, for/while/until/do/done and case/esac as one command. Judge conditions
   and bodies recursively and take the worst potential branch. This is a static audit, not a branch prediction.
   Dynamic headers/pattern substitutions and unsupported grammar are UNKNOWN, never silently NO_COMMANDS.
-- A recognized successful venv creation establishes that literal venv's activation script within the answer.
+- A recognized successful venv creation establishes that literal venv's activation script within its section.
+  POSIX activate-venv tasks also declare .venv as existing; fish/csh activation scripts require that shell observed.
   Compatible source/dot activation then FITS; source is not supported by sh. Do not export new conditional setup
   or uncertain OR effects. Removal, relocation, overwriting or unknown side effects invalidate existence proofs,
-  including possible deletion along a conditional path. All state resets between answers.
+  including possible deletion along a conditional path. State resets between answers and declared audience sections; neutral child headings retain scope.
 - Parser stdin preserves LF bytes on Windows too. Tokenizer uncertainty remains UNKNOWN; quoted literal text
   is not proof of a bashism.
 
@@ -173,3 +176,22 @@ multi-system answers. With bash/dash/pwsh, UNKNOWN parents change from 25/237 (1
 six inline references are excluded; 122 other-audience instructions are then filtered. Before/after snapshots
 are tests/sections_before.json and tests/sections_after.json. This does not qualify or register a new pilot;
 repeat the judge-validation pilot on 40 other units separately as specified above.
+
+## Pilot-2 rule implementation (before registration)
+
+FITS is based on known program availability, parsed shell syntax and additive task constraints. Extra options
+do not erase version, GPU/CUDA, module, OS or privilege constraints. Unfamiliar flags are not validated as an
+application CLI. Unsupported dynamic constructs remain UNKNOWN; no suggested command is executed.
+
+Install intent for apt/dnf/apk/brew/winget/choco/pip/npm/conda suppresses later program_missing for its literal
+package within the same section, even if the install is UNKNOWN. Only recognized successful effect rules
+prove presence; other forms record pending uncertainty. This includes conditional/OR attempts but excludes
+syntax-rejected constructs. Other decisive constraints still apply. macOS sudo permission is UNKNOWN unless
+explicitly missing; missing program/OS reasons precede admin. Source/dot activation requires a task-declared
+or created venv; unknown paths and unobserved fish/csh variants cannot pass via the generic fallback.
+
+Sixteen new literal recorded answers plus the earlier corpus make 123 profile/answer cases. Identical
+bash/dash/pwsh availability before/after: UNKNOWN parents 16/128 (12.50%) to 9/128 (7.03%); recursive leaves
+18/149 (12.08%) to 10/149 (6.71%). Both include UNKNOWNs beneath BROKEN parents; offered counts stay 250.
+See tests/pilot2_before.json (94fa8a1), tests/pilot2_after.json and README reproduction command. This is an
+offline synthetic comparison, not a new pilot or registration. Pilot 3 on 40 further units remains separate.

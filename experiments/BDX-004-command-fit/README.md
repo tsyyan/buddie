@@ -1,9 +1,9 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
-Status: **pre-registration judge correction** (2026-11-01). Eight synthetic profiles, 24 tasks, 192 eligible units,
+Status: **pre-registration pilot-2 judge correction** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
 command extraction, a snapshot stand-in and the model-free judge are present. The recorded corpus has 76 earlier
-answers plus 12 realistic multi-system answers (31 profile checks): 88 distinct answers, 107 profile-answer cases.
-Judge-validation pilot 1 failed; its model answers remain separate from these synthetic fixtures. This correction
+answers plus 12 realistic multi-system answers (31 profile checks) and 16 pilot-2-shaped answers:
+104 distinct answers, 123 profile-answer cases. Judge-validation pilots 1 and 2 failed; its model answers remain separate from these synthetic fixtures. This correction
 uses offline fixtures only, leaves the existing model runner/workflow unchanged, and does not rerun the pilot.
 
 ## Question
@@ -155,7 +155,7 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 
 PROTOCOL v1 was added in 2bd7873. The subsequent 103b913 update implemented observed tagged-shell selection.
 Core alternate-shell commands can
-now be established by their bounded base forms; default-shell task forms are not borrowed for another shell.
+now be established by known presence and parsed syntax; default-shell task forms are not borrowed for another shell.
 
 ## Pilot-1 audience sections
 
@@ -204,8 +204,10 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
 - **UNKNOWN never means FITS.** `OK` requires every command to be FITS or INSTALLS. `UNDECIDED` means at least
   one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and
   `all_commands_decided` for analysis; empty answers remain ASKED or NO_COMMANDS, never OK.
-- Only an explicit complete task or base-command rule can produce FITS or INSTALLS. Unrecognized flags, programs with no
-  observation, incomplete observations, dynamic code, unsupported pipelines and redirects stay UNKNOWN.
+- FITS means program present (observed or base/scenario userland), target-shell syntax parses, and no task
+  constraint is broken. Task patterns describe additional constraints/effects, not a command whitelist. Unknown
+  flags of a present program FITS; this does not prove option semantics or task success. Unobserved programs,
+  missing parsers, dynamic code, unsupported pipelines and redirects remain UNKNOWN.
   Missing-on-PATH reports concern the suggested bare program lookup, not whether software is installed elsewhere.
   Unlisted Python aliases stay UNKNOWN: the collector deduplicates interpreters by realpath. Quoted executable
   names and command wrappers survive extraction; environment-changing wrappers remain UNKNOWN rather than
@@ -213,10 +215,10 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
 - `base_commands.py` contains sourced availability subsets for GNU coreutils/util-linux plus tar on Linux,
   BusyBox applets on Alpine, Apple's BSD userland, core PowerShell cmdlets and cmd builtins. Each list cites its
   primary source in a comment. These are explicit synthetic-scenario assumptions, not new diagnostic observations
-  or guarantees about arbitrary installations. Observed missing programs override the assumptions. Complete,
-  bounded command-form rules support common uses such as `ls -la`, `mkdir -p output`, `rm -f temp.txt`, tar archives,
-  `Get-ChildItem`, `dir` and `set`; the availability list alone never makes arbitrary options FITS. No package's
-  GNU-specific options are inferred on BSD or BusyBox, and privileged operations are not approved by a base list.
+  or guarantees about arbitrary installations. Observed missing programs override the assumptions. Known
+  effect rules support common uses such as `ls -la`, `mkdir -p output`, `rm -f temp.txt`, tar archives,
+  `Get-ChildItem`, `dir` and `set`; availability plus parsed syntax can approve unfamiliar options. Their semantics are not
+  validated, and task-specific privilege constraints still apply.
 - Bash uses `bash --noprofile --norc -n`; sh uses `dash -n`. Explicit checks also reject `[[ ]]`, arrays and
   `source` on sh: dash's syntax parser alone treats `[[` as an ordinary command name. These checks ignore
   quoted/escaped literal text. Non-native tokenizer failures stay UNKNOWN unless the target-shell parser
@@ -228,12 +230,20 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
   only across POSIX, PowerShell and cmd families. The profile's shell determines the syntax check, not the tag.
   OS applicability and observed program availability are checked before a family mismatch. Cross-shell idioms are rejected even
   without a parser. Windows PowerShell 5.1 does not acquire PowerShell 7's `&&` syntax from the host parser.
-- Earlier recognized INSTALLS commands make their programs available to later commands in the same answer,
+- Earlier recognized INSTALLS commands make their programs available to later commands in the same section,
   assuming successful installation; failed/unknown installers do not. State resets between answers. Downloads,
   package repository availability, privileges outside the stated scenario, service state and file existence are
-  not verified. Literal `python -m venv DIR` (including observed python3/py forms) also records DIR after a FITS
+  not verified. An unfamiliar literal install form records pending intent: subsequent uses are at worst
+  UNKNOWN for availability, even if the snapshot previously said missing. This does not override OS, version,
+  syntax or admin failures. Only bounded successful effect rules prove presence; dry-runs/download-only forms
+  never prove it. Pending intent survives valid uncertain branches/AND predecessors, but not rejected syntax.
+  State resets between declared audience sections; neutral child verification headings retain it.
+  Literal `python -m venv DIR` (including observed python3/py forms) also records DIR after a FITS
   result. POSIX `source DIR/bin/activate` or `. DIR/bin/activate` then FITS when the profile shell supports it;
-  source is rejected for sh. Unknown/pre-existing paths remain UNKNOWN; state resets between answers.
+  source is rejected for sh. The POSIX activate-venv task explicitly declares .venv as existing; other unknown
+  paths stay UNKNOWN. activate.fish/activate.csh require the matching shell observation. Unsupported paths
+  cannot bypass the existence check. Windows executable activation scripts remain outside this source/dot rule.
+  Interpreter options before -m preserve module constraints; bounded venv options preserve creation proofs.
   Modeled rm/mv/cp operations affecting the venv or its activation script invalidate the proof. Unknown
   commands can change cwd/files and also invalidate it; potential deletion in a conditional path is retained
   conservatively even though new conditional setup is not exported.
@@ -242,7 +252,7 @@ python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/
   `commands` and takes the worst: WONT_RUN > UNKNOWN > INSTALLS > FITS. Complete-list syntax is also checked
   by the profile parser. No answer text is executed. Effects flow through successful sequential/AND steps;
   a failed or unknown AND predecessor cannot establish setup. OR alternatives use separate state, and
-  effects are not exported from an OR-containing list. Unsupported actual pipelines remain UNKNOWN.
+  proven effects are not exported from an OR-containing list (only pending install intent). Unsupported actual pipelines remain UNKNOWN.
 - POSIX if/elif/else/fi, for/while/until/do/done and case/esac structures are extracted intact, including
   nested and incomplete structures. The complete text is syntax-checked by the profile shell (dash for sh),
   then conditions and body commands are judged recursively. The worst potential branch wins; this is a
@@ -275,3 +285,30 @@ it does not become a wrong_os failure just because another platform has commands
 | `run.py` | the arms A-D against a model (`client.py`: the BDX-003 chat client, copied), rows to `data/*.jsonl` |
 | `summarize.py` | rows to numbers (GitHub notices) and a sheet of every judged command for the owner |
 | `run.env` | what a push to `experiment/bdx-004-run` runs (job `run` in `.github/workflows/bdx004.yml`) |
+
+## Pilot-2 rule correction and offline measurement (2026-11-02)
+
+Program/OS checks precede admin objections. On macOS sudo privilege stays UNKNOWN because the snapshot cannot
+observe admin group membership; an explicit missing sudo still yields program_missing. sudo on Alpine is
+program_missing even when the process is root, and apt on macOS is wrong_os. The profile documents stay unchanged.
+
+`tests/pilot2_answers.json` records 16 pilot-shaped answers: curl -L -o, chmod +x, nvcc -V, unknown flags,
+sudo ordering, unmatched/uncertain installs followed by verification, pip install, existing/created venvs,
+and absent fish/csh shells. Separate regression tests cover extra CUDA/interpreter flags, dry-run effects,
+conditional/OR intent, rejected list syntax and unsupported activation paths. No model answers were fetched
+or regenerated and no pilot was rerun.
+
+With bash/dash/pwsh, the same 123 recorded profile/answer cases at 94fa8a1 versus this implementation:
+
+| Metric | Before | After |
+|---|---:|---:|
+| UNKNOWN parent commands | 16/128 (12.50%) | 9/128 (7.03%) |
+| UNKNOWN recursive leaves | 18/149 (12.08%) | 10/149 (6.71%) |
+
+Both sides include every recorded answer, including BROKEN answers and UNKNOWN children; offered commands
+stay 250, selected parents 128. These synthetic tests do not establish that the real pilot now passes.
+Snapshots: tests/pilot2_before.json and tests/pilot2_after.json. Earlier measurement tables are historical.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot2_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json
+```

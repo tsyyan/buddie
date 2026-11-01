@@ -52,9 +52,12 @@ def main():
     parser.add_argument('--answers', type=Path, default=HERE / 'tests/answers.json')
     parser.add_argument('--baseline', type=Path, default=HERE / 'tests/unknown_before.json')
     parser.add_argument('--multi-section', type=Path, help='additional audience fixtures with per-profile checks')
+    parser.add_argument('--extra-answers', type=Path, action='append', default=[], help='additional recorded answer files')
     parser.add_argument('--out', type=Path)
     args = parser.parse_args()
     cases = json.loads(args.answers.read_text(encoding='utf-8'))
+    for path in args.extra_answers:
+        cases.extend(json.loads(path.read_text(encoding='utf-8')))
     extra = []
     if args.multi_section:
         extra = [dict(id=c['id'] + ':' + check['profile'], profile=check['profile'], task=c['task'], answer=c['answer'])

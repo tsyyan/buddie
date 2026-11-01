@@ -174,3 +174,7 @@ unsupported activation paths bypassing existence proof, and syntax-rejected list
 Fixed each; generic installer forms now establish only pending intent, including dry-runs/download-only.
 Bounded successful effects still prove installation, and bounded venv options preserve creation proofs.
 Windows executable activation remains outside the requested source/dot change; existing_venvs data is POSIX-only.
+Recorded 16 pilot-shaped answers with literal expected verdicts. Paired 123-case measurement at 94fa8a1:
+parents UNKNOWN 16/128 to 9/128, leaves 18/149 to 10/149, offered/selected counts unchanged (250/128).
+README/PROTOCOL updated; historical snapshots retained. Full suite 121 tests passes with bash/dash/pwsh
+and on default PATH (51 parser-dependent skips); all eight profiles validate. No new pilot/model calls.
