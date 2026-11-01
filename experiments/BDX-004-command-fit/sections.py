@@ -2,10 +2,13 @@
 import json
 from pathlib import Path
 import re
+import unicodedata
 
-from commands import extract, FENCE
+from commands import extract, FENCE, table_cells, inline_rows
 from facts import observation, value
 from syntax import family
+from shell_lists import lex
+from control import has_control, complete as control_complete
 
 DATA = json.loads(Path(__file__).with_name('section_targets.json').read_text(encoding='utf-8'))
 
@@ -24,16 +27,34 @@ def identify_flat(label):
 
 
 def identify(label):
+    label = unicodedata.normalize('NFKC', label).replace('\u2011', '-').replace('**', '')
+    # A named broad Linux audience is not narrowed by examples in parentheses.
+    if re.match(r'^\W*(?:\d\W*)?Linux\b(?:\s*$|\s*\()', label, re.I):
+        return {'os': ['linux']}
+    # Enumerations are unions of correlated systems, including WSL as one member.
+    enumeration = re.search(r'\(([^()]*(?:Linux|macOS|WSL)[^()]*)\)', label, re.I)
+    if enumeration and re.search(r',|\band\b|&', enumeration[1], re.I):
+        parts = [identify_flat(s) for s in re.split(r',|\band\b|&', enumeration[1], flags=re.I)]
+        if len(parts) > 1 and all(parts):
+            return {'any_of': parts}
+    if re.search(r'git\s*bash|msys2', label, re.I):
+        target = next(r['targets'] for r in DATA['labels'] if r['id'] == 'git-bash')
+        return {'any_of': [target, {'os': ['linux'], 'runtime': ['wsl']}]} if re.search(r'\bwsl\b', label, re.I) else dict(target)
     # Keep correlated alternatives (Windows / Ubuntu) separate, while aliases
     # differing in one axis (Debian/Ubuntu) can share the same constraint row.
-    clauses = re.split(r'\s*(?:/|\bor\b)\s*(?![^()]*\))', label, flags=re.I)
+    clauses = re.split(r'\s*(?:/|\bor\b|\band\b|&|,)\s*(?![^()]*\))', label, flags=re.I)
     targets = [identify_flat(c) for c in clauses]
     if len(targets) > 1 and all(targets):
         axes = set().union(*targets)
         differing = [a for a in axes if len({tuple(t.get(a, [])) for t in targets}) > 1]
         if len(differing) > 1:
             return {'any_of': targets}
-    return identify_flat(label)
+    out = identify_flat(label)
+    if 'runtime' in out and ('darwin' in out.get('os', []) or re.search(r'\blinux\b.*\bwsl\b', label, re.I)):
+        out.pop('runtime')
+        if re.search(r'\bmacos\b', label, re.I):
+            out['os'] = sorted(set(out.get('os', [])) | {'darwin'})
+    return out
 
 
 def merge(parent, child):
@@ -41,6 +62,8 @@ def merge(parent, child):
         return {'any_of': [merge(p, c) for p in parent.get('any_of', [parent])
                            for c in child.get('any_of', [child])]}
     out = dict(parent)
+    if child.get('runtime') == ['wsl'] and parent.get('os') == ['windows']:
+        out.pop('os')  # The named WSL guest has Linux facts, despite a Windows host heading.
     for axis, values in child.items():
         out[axis] = sorted(set(out[axis]) & set(values)) if axis in out else list(values)
     return out
@@ -73,6 +96,8 @@ def matches(target, profile):
             return False
         if axis == 'runtime' and value(profile, 'system.os', 'runtime_context') not in wanted:
             return False
+        if axis == 'observed_shell' and not any(observation(profile, 'system.shell', name).get('status') == 'observed' for name in wanted):
+            return False
         if axis == 'package_manager' and not any(
                 observation(profile, 'software.package_managers', name).get('status') == 'observed' for name in wanted):
             return False
@@ -81,6 +106,8 @@ def matches(target, profile):
             for name in ('bash', 'zsh', 'pwsh', 'powershell', 'cmd'):
                 if observation(profile, 'system.shell', name).get('status') == 'observed':
                     available.add('powershell' if name == 'pwsh' else family(name))
+            if any(observation(profile, 'system.shell', n).get('status') == 'observed' for n in ('git_bash', 'git-bash', 'msys2')):
+                available.add('posix')
             if not available.intersection(wanted):
                 return False
     return True
@@ -107,15 +134,14 @@ def partition(answer):
     prose, command_groups, flat_depth = set(), set(), 2
     scopes = {}
     opened, block, block_context = None, [], None
+    previous_text, output_block = '', False
 
     def context():
         return flat if flat is not None else stack[-1][1:] if stack else ({}, '', None)
 
-    def flush(lines, ctx, tag=None):
+    def append_commands(commands, ctx, block_target, tag, scope_id=None):
         target, name, group = ctx
         labelled = group is not None
-        commands = extract('\n'.join(lines))
-        block_target = DATA['block_tags'].get(tag, {})
         combined = merge(target, block_target)
         if commands:
             command_groups.add(group)
@@ -125,8 +151,56 @@ def partition(answer):
                 if command['shell'] == 'unknown' and len(target.get('shell', [])) == 1:
                     command['shell'] = target['shell'][0]
             sections.append(dict(label=name or tag or 'shared', targets=combined, group=group, labelled=labelled,
-                                 scope=scopes.get(id(target), 'shared'), commands=commands))
-        elif tag is None and group is not None and any(line.strip() for line in lines):
+                                 scope=scopes.get(id(target), 'shared') if scope_id is None else scope_id, commands=commands))
+    def flush(lines, ctx, tag=None):
+        target, name, group = ctx
+        if tag is not None:
+            # System labels in shell comments constrain only subsequent commands in
+            # this fence; ordinary comments remain part of the intact syntax unit.
+            active, chunk = target, []
+            marker = FENCE.match(lines[0])[1] if lines and FENCE.match(lines[0]) else '```'
+            body = lines[1:-1] if lines and FENCE.match(lines[-1]) else lines[1:]
+            def emit():
+                append_commands(extract(marker + tag + '\n' + '\n'.join(chunk) + '\n' + marker),
+                                (active, name, group), DATA['block_tags'].get(tag, {}), tag,
+                                scopes.get(id(target), 'shared') if active == target else (scopes.get(id(target), 'shared'), identity(active)))
+            for line in body:
+                comment = re.match(r'^\s*#\s*(.+)$', line)
+                audience = identify(comment[1]) if comment else {}
+                prefix = '\n'.join(chunk)
+                tokens = lex(prefix, tag or 'sh')
+                intact = (not tokens or tokens[-1].closed) and (not has_control(prefix) or control_complete(prefix))
+                if audience and intact:
+                    emit()
+                    chunk = []
+                    active = merge(target, audience)
+                else:
+                    chunk.append(line)
+            emit()
+            return
+        command_columns, audience_column = set(), None
+        for line_index, line in enumerate(lines):
+            cells = table_cells(line)
+            entries = [(line, False, target)]
+            if cells is not None:
+                headers = {i for i, c in enumerate(cells) if re.fullmatch(r'(?:activation\s+)?commands?', c.strip('* '), re.I)}
+                if headers:
+                    command_columns = headers
+                    audience_column = next((i for i, c in enumerate(cells) if re.fullmatch(r'(?:OS|system|shell(?:\s*/\s*prompt)?)', c.strip('* '), re.I)), None)
+                    continue
+                if line_index + 1 < len(lines) and re.fullmatch(r'\s*\|?[\s:|-]+\|?\s*', lines[line_index + 1]):
+                    command_columns, audience_column = set(), None
+                    continue
+                row_target = identify(cells[audience_column]) if audience_column is not None and audience_column < len(cells) else {}
+                entries = [(cell, i in command_columns, merge(target, row_target)) for i, cell in enumerate(cells)]
+            for text, force, enclosing in entries:
+                for command in inline_rows(text, force):
+                    audience = identify(command.pop('audience') or '')
+                    local = merge(enclosing, audience)
+                    local_group = identity(local) if audience else group
+                    append_commands([command], (local, name, local_group), {}, None,
+                                    scopes.get(id(target), 'shared'))
+        if group is not None and any(line.strip() for line in lines):
             prose.add(group)
 
     for line in answer.splitlines():
@@ -134,14 +208,19 @@ def partition(answer):
         if opened:
             block.append(line)
             if fence and fence[1][0] == opened[0][0] and len(fence[1]) >= len(opened[0]) and not fence[2]:
-                flush(block, block_context, opened[1])
+                if not output_block:
+                    flush(block, block_context, opened[1])
                 opened, block = None, []
             continue
         if fence:
+            output_block = not fence[2] and bool(re.search(r'(?i)(?:typical|expected|example|sample) output|output (?:will|would|should) look|you should see (?:output|something)', previous_text))
+            previous_text = ''
             flush(buffer, context())
             buffer = []
             opened, block, block_context = (fence[1], fence[2].lower()), [line], context()
             continue
+        if line.strip():
+            previous_text = line.strip()
         found = label(line)
         if found:
             level, title, rest = found
@@ -177,7 +256,8 @@ def partition(answer):
                 continue
         buffer.append(line)
     if opened:
-        flush(block, block_context, opened[1])
+        if not output_block:
+            flush(block, block_context, opened[1])
     flush(buffer, context())
     for entry in declared:
         if entry['group'] in prose and entry['group'] not in command_groups:

@@ -31,10 +31,11 @@ POSIX_BUILTINS = frozenset(('export', 'echo', 'printf', 'pwd', 'cd', 'set', '.',
 # Core Management and Utility module cmdlets; names stored case-insensitively:
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.management/
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.security/set-executionpolicy
 POWERSHELL_CORE = frozenset(n.lower() for n in (
     'Get-ChildItem', 'New-Item', 'Remove-Item', 'Get-Content', 'Get-Location', 'Set-Location',
     'Copy-Item', 'Move-Item', 'Write-Output', 'Get-Process', 'Get-Date', 'Select-Object',
-    'Where-Object', 'Sort-Object', 'Measure-Object', 'Format-List', 'Format-Table', 'Out-String'))
+    'Where-Object', 'Sort-Object', 'Measure-Object', 'Format-List', 'Format-Table', 'Out-String', 'Set-ExecutionPolicy'))
 # Command-shell builtins (not all Win32 executables, and not PowerShell cmdlets):
 # https://learn.microsoft.com/windows-server/administration/windows-commands/cmd
 # https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands

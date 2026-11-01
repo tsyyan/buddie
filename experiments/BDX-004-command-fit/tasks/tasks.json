@@ -303,7 +303,9 @@
           "Invoke-WebRequest",
           "icacls"
         ],
-        "existing_venvs": [],
+        "existing_venvs": [
+          ".venv"
+        ],
         "missing_programs": [],
         "commands": [
           {
@@ -334,7 +336,9 @@
           "sc",
           "icacls"
         ],
-        "existing_venvs": [],
+        "existing_venvs": [
+          ".venv"
+        ],
         "missing_programs": [],
         "commands": [
           {

@@ -188,3 +188,10 @@ Plan: stage-wise pipelines/base userland; distro manager applicability; richer a
 whole-answer regressions, paired measurements and documentation. No model calls or workflow/settings changes.
 Pipeline tests failed before implementation; stages now retain individual verdicts with the worst folded
 to the parent, preserving list precedence and quoting. Pipeline effects do not establish successful setup.
+Manager regressions passed with per-distribution data and explicit observations for optional managers.
+Section regressions then failed first and passed after unions, table command columns/row audiences,
+trailing inline labels and observed Git Bash/MSYS2 support. Whole material is preserved as UTF-8 with
+source hashes; fixed a Windows locale copy error and regenerated only those historical baseline rows from
+archived 73bdc3a code. Whole-answer outcomes require Windows activation paths, output-fence exclusion,
+and weak NVM/Node/npm install intent too. Review reproduced and fixed comment scopes breaking quoted/control
+units and Git Bash losing its selected shell at validation. No important review findings remain.

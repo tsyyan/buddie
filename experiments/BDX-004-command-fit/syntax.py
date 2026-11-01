@@ -57,6 +57,8 @@ def parser(shell):
 def syntax(shell, text):
     """True/False if parsed, None when no applicable parser can be used."""
     if shell == 'cmd':
+        if re.fullmatch(r'(?:\.\\)?[\w.-]+\\Scripts\\activate(?:\.bat)?', text, re.I):
+            return True
         # Only these explicit forms are decided. Cmd has no parse-only API.
         if re.search(r'(?i)^(?:export |source |\$env:)', text):
             return False

@@ -103,6 +103,12 @@ def judge_simple(command, profile, req, installed, venvs):
     if relevant and all(platform not in r['os'] for r in relevant):
         return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
     found, found_version = program(profile, req, name, installed)
+    activation = venv_rule(tokens, target)
+    if activation and activation.get('activation_target'):
+        if activation['activation_target'] != target:
+            return verdict('WONT_RUN', 'wrong_shell_syntax', 'activation script is for a different shell')
+        if activation.get('activates_venv') in venvs:
+            found = True
     if found is False:
         return verdict('WONT_RUN', 'program_missing', f'{name} not found on the scenario PATH')
     if name in ('py', 'python', 'python3') or re.fullmatch(r'python3\.\d+', name):
@@ -132,7 +138,7 @@ def judge_simple(command, profile, req, installed, venvs):
     rule = next((r for r in relevant if re.fullmatch(r['pattern'], text, flags)), None)
     if rule is None:
         rule = base_rule(profile, req, name, text)
-    special = venv_rule(tokens, target)
+    special = activation
     if special:
         rule = special
     if not rule:
@@ -339,7 +345,7 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
 
 
 # the shell a tagged block runs in, by family, when the profile observes it (system.shell)
-OBSERVED_SHELLS = {'powershell': ('pwsh', 'powershell'), 'cmd': ('cmd',), 'posix': ('bash', 'zsh', 'sh', 'fish')}
+OBSERVED_SHELLS = {'powershell': ('pwsh', 'powershell'), 'cmd': ('cmd',), 'posix': ('bash', 'zsh', 'sh', 'fish', 'git_bash', 'git-bash', 'msys2')}
 
 
 def other_shell(command, profile, req):
@@ -350,7 +356,7 @@ def other_shell(command, profile, req):
         return None
     for name in OBSERVED_SHELLS.get(family(hint), ()):
         if observation(profile, 'system.shell', name).get('status') == 'observed':
-            return 'powershell' if family(hint) == 'powershell' else name
+            return 'powershell' if family(hint) == 'powershell' else 'bash' if name in ('git_bash', 'git-bash', 'msys2') else name
     return None
 
 

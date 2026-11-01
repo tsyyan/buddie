@@ -61,7 +61,7 @@ class Pilot2(unittest.TestCase):
                               ('choco install ffmpeg -y', 'ffmpeg'), ('pip install torch', 'torch'),
                               ('npm install -g typescript', 'typescript'), ('conda install ffmpeg', 'ffmpeg')]:
             with self.subTest(text=text):
-                self.assertEqual(intent(text, 'bash')['installs'], [package])
+                self.assertEqual(intent(text, 'bash')['installs'], [package, 'npm'] if package == 'node' else [package])
 
     def test_unmatched_install_suppresses_missing_afterwards_even_if_uncertain(self):
         for pid, text in [('ubuntu2404-nvidia', 'sudo apt install -y ffmpeg'),

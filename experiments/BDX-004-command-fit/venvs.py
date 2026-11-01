@@ -22,6 +22,12 @@ def activation(tokens):
 
 
 def rule(tokens, shell):
+    if shell in ('cmd', 'powershell') and len(tokens) == 1:
+        script = tokens[0].strip('"\'').replace('\\', '/')
+        match = re.fullmatch(r'(?:\./)?([\w.-]+)/Scripts/activate(?:\.(bat|ps1))?', script, re.I)
+        if match:
+            return dict(program=tokens[0], effect='FITS', requires_path=True,
+                        activates_venv=directory(match[1]), activation_target='powershell' if match[2] and match[2].lower() == 'ps1' else 'cmd')
     args = python_args(tokens)
     if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]) and args[:2] == ['-m', 'venv']:
         operands, valid, skip = [], True, False

@@ -5,7 +5,7 @@ from base_commands import BASE_NAMES
 from control import complete as control_complete, has_control
 from shell_lists import lex
 
-LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell',
+LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'fish': 'fish', 'csh': 'csh', 'powershell': 'powershell',
              'pwsh': 'powershell', 'ps1': 'powershell', 'cmd': 'cmd', 'bat': 'cmd',
              'console': 'posix', 'shell': 'posix', '': 'unknown'}
 PROGRAMS = set(('python python3 py pip pip3 uv conda pipx node npm npx git curl curl.exe wget '
@@ -16,6 +16,7 @@ PROGRAMS = set(('python python3 py pip pip3 uv conda pipx node npm npx git curl 
                 'Get-ChildItem New-Item Remove-Item Write-Output Get-NetTCPConnection '
                 'Get-Service Restart-Service Invoke-WebRequest system_profiler').lower().split())
 PROGRAMS.update(BASE_NAMES)
+PROGRAMS.add('nvm')
 PROMPT = re.compile(r'^(?:\$\s+|PS(?:\s+[^>\n]*)?>\s*|[A-Za-z]:\\[^>\n]*>\s*)')
 FENCE = re.compile(r'^\s{0,3}(`{3,}|~{3,})\s*([^\s`]*)\s*$')
 
@@ -51,6 +52,8 @@ def starts_program(line):
     """A bounded vocabulary filters prose/output; unknown programs with flags survive."""
     if not line:
         return False
+    if re.fullmatch(r'(?:\.\\)?[\w.-]+\\Scripts\\activate(?:\.bat|\.ps1)?', line, re.I):
+        return True
     if re.match(r'(?i)^(?:(?:git|docker|podman|ffmpeg) version |Python \d|'
                 r'curl \d+\.\d+[^ ]* \(|pip \d+\.\d+[^ ]* from |'
                 r'Successfully |Requirement already |Collecting |Downloading )', line):
@@ -73,7 +76,7 @@ def starts_program(line):
     return (first.lower() in PROGRAMS or re.match(r'^python3\.\d+$', first) is not None or
             re.match(r'^\$env:\w+\s*=', line, re.I) is not None or
             re.match(r'^(?:\.?\.?[/\\]|[A-Za-z]:[/\\])\S+', first) is not None or
-            re.match(r'^[a-z][\w.+-]*\s+--?[\w]', line) is not None)
+            re.match(r'^[A-Za-z][\w.+-]*\s+--?[\w]', line) is not None)
 
 
 def block_commands(lines, shell):
@@ -164,3 +167,34 @@ def extract(answer):
     if opened and language in LANGUAGES:
         out.extend(block_commands(lines, LANGUAGES[language]))
     return out
+
+
+def table_cells(line):
+    """Markdown delimiters outside backtick spans; pipeline bars stay inside cells."""
+    if not line.lstrip().startswith('|'):
+        return None
+    cells, start, fence, i = [], 0, '', 0
+    while i < len(line):
+        if line[i] == '`':
+            end = i + 1
+            while end < len(line) and line[end] == '`':
+                end += 1
+            mark = line[i:end]
+            fence = '' if fence == mark else mark if not fence else fence
+            i = end
+            continue
+        if line[i] == '|' and not fence and (not i or line[i - 1] != '\\'):
+            cells.append(line[start:i].strip())
+            start = i + 1
+        i += 1
+    cells.append(line[start:].strip())
+    return cells[1:-1] if not cells[-1] else cells[1:]
+
+
+def inline_rows(line, force=False):
+    """Retain a local trailing audience label for the surrounding section parser."""
+    for match in re.finditer(r'(?<!`)(`+)([^`\n]+)\1(?!`)', line):
+        candidate = PROMPT.sub('', match[2].strip())
+        if inline_command(candidate, line[:match.start()]) or force and (starts_program(candidate) or re.match(r'^[A-Za-z_][\w.-]*(?:\s|$)', candidate)):
+            suffix = re.match(r'\s*\(([^)]+)\)', line[match.end():])
+            yield dict(text=candidate, shell='unknown', audience=suffix[1] if suffix else None)

@@ -195,6 +195,64 @@
           "posix"
         ]
       }
+    },
+    {
+      "id": "arch",
+      "pattern": "\\b(?:arch|manjaro)\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "arch",
+          "manjaro"
+        ],
+        "package_manager": [
+          "pacman"
+        ]
+      }
+    },
+    {
+      "id": "suse",
+      "pattern": "\\b(?:opensuse|suse|zypper)\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "package_manager": [
+          "zypper"
+        ]
+      }
+    },
+    {
+      "id": "git-bash",
+      "pattern": "\\bgit\\s*bash\\b|\\bmsys2\\b",
+      "targets": {
+        "observed_shell": [
+          "git_bash",
+          "git-bash",
+          "msys2"
+        ]
+      }
+    },
+    {
+      "id": "fish",
+      "pattern": "\\bfish\\b",
+      "targets": {
+        "observed_shell": [
+          "fish"
+        ]
+      }
+    },
+    {
+      "id": "csh",
+      "pattern": "\\b(?:csh|tcsh)\\b",
+      "targets": {
+        "observed_shell": [
+          "csh",
+          "tcsh"
+        ]
+      }
     }
   ],
   "block_tags": {
@@ -246,6 +304,17 @@
     "console": {
       "shell": [
         "posix"
+      ]
+    },
+    "fish": {
+      "observed_shell": [
+        "fish"
+      ]
+    },
+    "csh": {
+      "observed_shell": [
+        "csh",
+        "tcsh"
       ]
     }
   }

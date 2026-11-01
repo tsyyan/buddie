@@ -23,6 +23,8 @@ def intent(text, shell):
             return None
         tokens = ['pip'] + args[2:]
     manager = tokens[0].lower()
+    if manager == 'nvm' and len(tokens) >= 3 and tokens[1] == 'install':
+        return dict(manager='nvm', installs=['node', 'npm'], needs_admin=False)
     if manager not in MANAGERS:
         return None
     action = next((i for i, t in enumerate(tokens[1:], 1) if t in ('install', 'add')), None)
@@ -45,6 +47,8 @@ def intent(text, shell):
         if '@' in package:
             package = package.split('@')[0]
         packages.append(package)
+        if package == 'node':
+            packages.append('npm')  # Node distributions bundle npm; success remains unproved.
     return dict(manager=manager, installs=packages,
                 needs_admin=manager in ('apt', 'apt-get', 'dnf', 'apk', 'choco')) if packages else None
 

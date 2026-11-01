@@ -128,7 +128,7 @@ def requirements(task, profile):
     if pid in ('ubuntu2404-nvidia', 'ubuntu2204-nosudo', 'fedora40'):
         assumed += ['ss', 'systemctl']
     return dict(shell=shell, sudo=profile['assumptions']['sudo'], assumed_programs=assumed,
-                existing_venvs=['.venv'] if task == 'activate-venv' and not win else [],
+                existing_venvs=['.venv'] if task == 'activate-venv' else [],
                 missing_programs=['sudo'] if noadmin or alpine else [], commands=table[task])
 
 

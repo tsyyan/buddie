@@ -20,4 +20,3 @@ class PackageManagers(unittest.TestCase):
         p['document']['categories']['software.package_managers']['observations']['brew'] = dict(status='observed', value='4.0')
         with patch.object(judge, 'syntax', return_value=True):
             self.assertIn(judge.judge_answer('Run `brew install git`.', p, 'install-git')['commands'][0]['status'], ('FITS', 'INSTALLS'))
-

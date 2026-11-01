@@ -6010,7 +6010,7 @@
           "commands": 1
         },
         {
-          "label": "GitвЂЇBash / MSYS2 / WSL on Windows",
+          "label": "Git Bash / MSYS2 / WSL on Windows",
           "targets": {
             "os": [],
             "runtime": [
@@ -6032,6 +6032,19 @@
           },
           "applies": true,
           "commands": 3
+        },
+        {
+          "label": "1. Unix‑like shells (Linux, macOS, WSL)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "runtime": [
+              "wsl"
+            ]
+          },
+          "applies": false,
+          "commands": 0
         },
         {
           "label": "Command Prompt (`cmd.exe`)",
@@ -6213,33 +6226,6 @@
       "reason": "program_missing",
       "commands": [
         {
-          "text": "sudo apt update",
-          "shell": "bash",
-          "section": "1. Ubuntu / DebianвЂ‘based Linux",
-          "section_id": 0,
-          "status": "WONT_RUN",
-          "reason": "program_missing",
-          "detail": "sudo not found on the scenario PATH"
-        },
-        {
-          "text": "sudo apt install -y ffmpeg",
-          "shell": "bash",
-          "section": "1. Ubuntu / DebianвЂ‘based Linux",
-          "section_id": 0,
-          "status": "WONT_RUN",
-          "reason": "program_missing",
-          "detail": "sudo not found on the scenario PATH"
-        },
-        {
-          "text": "ffmpeg -version",
-          "shell": "bash",
-          "section": "1. Ubuntu / DebianвЂ‘based Linux",
-          "section_id": 0,
-          "status": "WONT_RUN",
-          "reason": "program_missing",
-          "detail": "ffmpeg not found on the scenario PATH"
-        },
-        {
           "text": "sudo pacman -Sy ffmpeg",
           "shell": "bash",
           "section": "3. Arch Linux / Manjaro",
@@ -6269,37 +6255,26 @@
       ],
       "targeting": "HEDGED",
       "commands_total": 20,
-      "commands_for_profile": 6,
+      "commands_for_profile": 3,
       "sections": [
         {
-          "label": "1. Ubuntu / DebianвЂ‘based Linux",
+          "label": "1. Ubuntu / Debian‑based Linux",
           "targets": {
-            "any_of": [
-              {
-                "os": [
-                  "linux"
-                ],
-                "distro": [
-                  "ubuntu"
-                ],
-                "package_manager": [
-                  "apt"
-                ],
-                "shell": [
-                  "posix"
-                ]
-              },
-              {
-                "os": [
-                  "linux"
-                ],
-                "shell": [
-                  "posix"
-                ]
-              }
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
             ]
           },
-          "applies": true,
+          "applies": false,
           "commands": 3
         },
         {
@@ -6364,7 +6339,7 @@
           "commands": 2
         },
         {
-          "label": "a. Chocolatey (commandвЂ‘line package manager)",
+          "label": "a. Chocolatey (command‑line package manager)",
           "targets": {
             "os": [
               "windows"
@@ -6405,29 +6380,14 @@
         {
           "label": "*If you need a newer build than the one in the Ubuntu repos, you can use the **ppa",
           "targets": {
-            "any_of": [
-              {
-                "os": [
-                  "linux"
-                ],
-                "distro": [
-                  "ubuntu"
-                ],
-                "package_manager": [
-                  "apt"
-                ]
-              },
-              {
-                "os": [
-                  "linux"
-                ],
-                "distro": [
-                  "ubuntu"
-                ],
-                "package_manager": [
-                  "apt"
-                ]
-              }
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
             ]
           },
           "applies": false,
@@ -6611,9 +6571,63 @@
       "reason": null,
       "commands": [
         {
+          "text": "sudo systemctl status sshd",
+          "shell": "bash",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "program availability unobserved"
+        },
+        {
+          "text": "sudo systemctl is-active sshd",
+          "shell": "bash",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "program availability unobserved"
+        },
+        {
+          "text": "sudo ss -tlnp | grep ':22'",
+          "shell": "bash",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "compound command, expansion, or redirection outside the rule set"
+        },
+        {
+          "text": "sudo netstat -tlnp | grep ':22'",
+          "shell": "bash",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "compound command, expansion, or redirection outside the rule set"
+        },
+        {
+          "text": "systemctl status/is-active",
+          "shell": "unknown",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "program availability unobserved"
+        },
+        {
+          "text": "sudo systemctl status ssh",
+          "shell": "unknown",
+          "section": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
+          "section_id": 0,
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "program availability unobserved"
+        },
+        {
           "text": "sudo service sshd status",
           "shell": "bash",
-          "section": "2пёЏвѓЈ Linux (SysV init, older distributions such as CentOSвЂЇ6, DebianвЂЇ7, etc.)",
+          "section": "2️⃣ Linux (SysV init, older distributions such as CentOS 6, Debian 7, etc.)",
           "section_id": 1,
           "status": "UNKNOWN",
           "reason": null,
@@ -6622,7 +6636,7 @@
         {
           "text": "sudo service ssh status",
           "shell": "bash",
-          "section": "2пёЏвѓЈ Linux (SysV init, older distributions such as CentOSвЂЇ6, DebianвЂЇ7, etc.)",
+          "section": "2️⃣ Linux (SysV init, older distributions such as CentOS 6, Debian 7, etc.)",
           "section_id": 1,
           "status": "UNKNOWN",
           "reason": null,
@@ -6631,7 +6645,7 @@
         {
           "text": "sudo netstat -tlnp | grep ':22'",
           "shell": "bash",
-          "section": "2пёЏвѓЈ Linux (SysV init, older distributions such as CentOSвЂЇ6, DebianвЂЇ7, etc.)",
+          "section": "2️⃣ Linux (SysV init, older distributions such as CentOS 6, Debian 7, etc.)",
           "section_id": 1,
           "status": "UNKNOWN",
           "reason": null,
@@ -6640,48 +6654,61 @@
       ],
       "targeting": "HEDGED",
       "commands_total": 17,
-      "commands_for_profile": 3,
+      "commands_for_profile": 9,
       "sections": [
         {
-          "label": "1пёЏвѓЈ Linux (systemdвЂ‘based, e.g., UbuntuвЂЇ20.04+, DebianвЂЇ10+, CentOSвЂЇ7+, Fedora, RHELвЂЇ8+, etc.)",
+          "label": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
           "targets": {
             "os": [
               "linux"
             ],
             "distro": [
-              "fedora"
+              "debian",
+              "fedora",
+              "ubuntu"
             ],
             "package_manager": [
+              "apt",
               "dnf"
             ],
             "shell": [
               "posix"
             ]
           },
-          "applies": false,
+          "applies": true,
           "commands": 4
         },
         {
-          "label": "1пёЏвѓЈ Linux (systemdвЂ‘based, e.g., UbuntuвЂЇ20.04+, DebianвЂЇ10+, CentOSвЂЇ7+, Fedora, RHELвЂЇ8+, etc.)",
+          "label": "1️⃣ Linux (systemd‑based, e.g., Ubuntu 20.04+, Debian 10+, CentOS 7+, Fedora, RHEL 8+, etc.)",
           "targets": {
             "os": [
               "linux"
             ],
             "distro": [
-              "fedora"
+              "debian",
+              "fedora",
+              "ubuntu"
             ],
             "package_manager": [
+              "apt",
               "dnf"
             ]
           },
-          "applies": false,
+          "applies": true,
           "commands": 2
         },
         {
-          "label": "2пёЏвѓЈ Linux (SysV init, older distributions such as CentOSвЂЇ6, DebianвЂЇ7, etc.)",
+          "label": "2️⃣ Linux (SysV init, older distributions such as CentOS 6, Debian 7, etc.)",
           "targets": {
             "os": [
               "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
             ],
             "shell": [
               "posix"
@@ -6691,7 +6718,7 @@
           "commands": 3
         },
         {
-          "label": "3пёЏвѓЈ macOS (including macOS Ventura, Monterey, etc.)",
+          "label": "3️⃣ macOS (including macOS Ventura, Monterey, etc.)",
           "targets": {
             "os": [
               "darwin"
@@ -6704,7 +6731,7 @@
           "commands": 3
         },
         {
-          "label": "3пёЏвѓЈ macOS (including macOS Ventura, Monterey, etc.)",
+          "label": "3️⃣ macOS (including macOS Ventura, Monterey, etc.)",
           "targets": {
             "os": [
               "darwin"
@@ -6714,7 +6741,7 @@
           "commands": 2
         },
         {
-          "label": "4пёЏвѓЈ Windows 10/11 (OpenSSH Server installed as a Windows Service)",
+          "label": "4️⃣ Windows 10/11 (OpenSSH Server installed as a Windows Service)",
           "targets": {
             "os": [
               "windows"
@@ -6727,7 +6754,7 @@
           "commands": 3
         },
         {
-          "label": "5пёЏвѓЈ Quick вЂњoneвЂ‘linerвЂќ that works on most Linux/macOS systems with `systemctl` or `service`",
+          "label": "5️⃣ Quick “one‑liner” that works on most Linux/macOS systems with `systemctl` or `service`",
           "targets": {
             "os": [
               "darwin",
@@ -6739,7 +6766,7 @@
         }
       ],
       "all_commands_decided": false,
-      "unknown_commands": 3,
+      "unknown_commands": 9,
       "unknown_constructs": 0
     },
     {
@@ -6868,7 +6895,7 @@
           "commands": 3
         },
         {
-          "label": "1пёЏвѓЈ Use **nvm** (Node Version Manager) вЂ“ works on macOS, Linux, and Windows (viaвЂЇnvmвЂ‘windows)",
+          "label": "1️⃣ Use **nvm** (Node Version Manager) – works on macOS, Linux, and Windows (via nvm‑windows)",
           "targets": {
             "os": [
               "darwin",
@@ -6880,7 +6907,7 @@
           "commands": 0
         },
         {
-          "label": "Windows (usingвЂЇ**nvmвЂ‘windows**)",
+          "label": "Windows (using **nvm‑windows**)",
           "targets": {
             "os": [
               "windows"
@@ -6928,7 +6955,7 @@
         {
           "text": "xcode-select --install",
           "shell": "bash",
-          "section": "2пёЏвѓЈ macOS",
+          "section": "2️⃣ macOS",
           "section_id": 4,
           "status": "UNKNOWN",
           "reason": null,
@@ -6962,7 +6989,7 @@
           "detail": "program present, syntax parses, no task constraint broken"
         },
         {
-          "text": "git clone <remoteвЂ‘url>",
+          "text": "git clone <remote‑url>",
           "shell": "bash",
           "section": "bash",
           "section_id": "shared",
@@ -6971,7 +6998,7 @@
           "detail": "compound command, expansion, or redirection outside the rule set"
         },
         {
-          "text": "git remote add origin <remoteвЂ‘url>",
+          "text": "git remote add origin <remote‑url>",
           "shell": "bash",
           "section": "bash",
           "section_id": "shared",
@@ -7035,7 +7062,7 @@
           "commands": 2
         },
         {
-          "label": "2пёЏвѓЈ macOS",
+          "label": "2️⃣ macOS",
           "targets": {
             "os": [
               "darwin"
@@ -7048,7 +7075,7 @@
           "commands": 1
         },
         {
-          "label": "Debian/UbuntuвЂ‘based (apt)",
+          "label": "Debian/Ubuntu‑based (apt)",
           "targets": {
             "os": [
               "linux"
@@ -7100,7 +7127,7 @@
           "commands": 1
         },
         {
-          "label": "3пёЏвѓЈ Linux",
+          "label": "3️⃣ Linux",
           "targets": {
             "os": [
               "linux"
@@ -7143,7 +7170,7 @@
           "commands": 4
         },
         {
-          "label": "1пёЏвѓЈ Windows",
+          "label": "1️⃣ Windows",
           "targets": {
             "os": [
               "windows"
@@ -7294,7 +7321,7 @@
           "commands": 1
         },
         {
-          "label": "5. Putting it together (oneвЂ‘liner that works on most Linux boxes)",
+          "label": "5. Putting it together (one‑liner that works on most Linux boxes)",
           "targets": {
             "os": [
               "linux"
@@ -7307,7 +7334,7 @@
           "commands": 1
         },
         {
-          "label": "5. Putting it together (oneвЂ‘liner that works on most Linux boxes)",
+          "label": "5. Putting it together (one‑liner that works on most Linux boxes)",
           "targets": {
             "os": [
               "linux"
@@ -7317,7 +7344,7 @@
           "commands": 1
         },
         {
-          "label": "5. Putting it together (oneвЂ‘liner that works on most Linux boxes)",
+          "label": "5. Putting it together (one‑liner that works on most Linux boxes)",
           "targets": {
             "os": [
               "linux"
@@ -7330,7 +7357,7 @@
           "commands": 1
         },
         {
-          "label": "5. Putting it together (oneвЂ‘liner that works on most Linux boxes)",
+          "label": "5. Putting it together (one‑liner that works on most Linux boxes)",
           "targets": {
             "os": [
               "linux"
@@ -7375,7 +7402,7 @@
         {
           "text": "sudo zypper install -y git",
           "shell": "bash",
-          "section": "3пёЏвѓЈ Linux",
+          "section": "3️⃣ Linux",
           "section_id": 5,
           "status": "WONT_RUN",
           "reason": "program_missing",
@@ -7384,7 +7411,7 @@
         {
           "text": "sudo pacman -Sy --noconfirm git",
           "shell": "bash",
-          "section": "3пёЏвѓЈ Linux",
+          "section": "3️⃣ Linux",
           "section_id": 5,
           "status": "WONT_RUN",
           "reason": "program_missing",
@@ -7427,7 +7454,7 @@
           "detail": "program present, syntax parses, no task constraint broken"
         },
         {
-          "text": "git remote add origin https://github.com/yourвЂ‘username/yourвЂ‘repo.git",
+          "text": "git remote add origin https://github.com/your‑username/your‑repo.git",
           "shell": "bash",
           "section": "bash",
           "section_id": "shared",
@@ -7522,7 +7549,7 @@
       "commands_for_profile": 18,
       "sections": [
         {
-          "label": "A. Using **winget** (builtвЂ‘in on WindowsвЂЇ10вЂЇ2004+ / WindowsвЂЇ11)",
+          "label": "A. Using **winget** (built‑in on Windows 10 2004+ / Windows 11)",
           "targets": {
             "os": [
               "windows"
@@ -7570,7 +7597,7 @@
           "commands": 1
         },
         {
-          "label": "2пёЏвѓЈ macOS",
+          "label": "2️⃣ macOS",
           "targets": {
             "os": [
               "darwin"
@@ -7583,7 +7610,7 @@
           "commands": 1
         },
         {
-          "label": "2пёЏвѓЈ macOS",
+          "label": "2️⃣ macOS",
           "targets": {
             "os": [
               "darwin"
@@ -7651,7 +7678,7 @@
           "commands": 1
         },
         {
-          "label": "3пёЏвѓЈ Linux",
+          "label": "3️⃣ Linux",
           "targets": {
             "os": [
               "linux"
@@ -7664,7 +7691,7 @@
           "commands": 1
         },
         {
-          "label": "3пёЏвѓЈ Linux",
+          "label": "3️⃣ Linux",
           "targets": {
             "os": [
               "linux"
@@ -7727,7 +7754,7 @@
           "commands": 2
         },
         {
-          "label": "1пёЏвѓЈ Windows",
+          "label": "1️⃣ Windows",
           "targets": {
             "os": [
               "windows"
@@ -7751,7 +7778,7 @@
         {
           "text": "curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -",
           "shell": "bash",
-          "section": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "section": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "section_id": 3,
           "status": "UNKNOWN",
           "reason": null,
@@ -7760,7 +7787,7 @@
         {
           "text": "sudo dnf install -y nodejs",
           "shell": "bash",
-          "section": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "section": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "section_id": 3,
           "status": "FITS",
           "reason": null,
@@ -7772,7 +7799,7 @@
         {
           "text": "node -v",
           "shell": "bash",
-          "section": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "section": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "section_id": 3,
           "status": "UNKNOWN",
           "reason": null,
@@ -7781,7 +7808,7 @@
         {
           "text": "npm -v",
           "shell": "bash",
-          "section": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "section": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "section_id": 3,
           "status": "WONT_RUN",
           "reason": "program_missing",
@@ -7793,7 +7820,7 @@
       "commands_for_profile": 4,
       "sections": [
         {
-          "label": "1. Using **nvm** (Node Version Manager) вЂ“ works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
+          "label": "1. Using **nvm** (Node Version Manager) – works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
           "targets": {
             "os": [
               "linux"
@@ -7809,7 +7836,7 @@
           "commands": 1
         },
         {
-          "label": "1. Using **nvm** (Node Version Manager) вЂ“ works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
+          "label": "1. Using **nvm** (Node Version Manager) – works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
           "targets": {
             "os": [
               "linux"
@@ -7825,7 +7852,7 @@
           "commands": 2
         },
         {
-          "label": "1. Using **nvm** (Node Version Manager) вЂ“ works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
+          "label": "1. Using **nvm** (Node Version Manager) – works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
           "targets": {
             "os": [
               "linux"
@@ -7841,7 +7868,7 @@
           "commands": 1
         },
         {
-          "label": "1. Using **nvm** (Node Version Manager) вЂ“ works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
+          "label": "1. Using **nvm** (Node Version Manager) – works on macOS, Linux, and WSL (Windows Subsystem for Linux)",
           "targets": {
             "os": [
               "linux"
@@ -7857,7 +7884,7 @@
           "commands": 2
         },
         {
-          "label": "2. macOS вЂ“ Homebrew (if you prefer a package manager)",
+          "label": "2. macOS – Homebrew (if you prefer a package manager)",
           "targets": {
             "os": [
               "darwin"
@@ -7873,7 +7900,7 @@
           "commands": 3
         },
         {
-          "label": "2. macOS вЂ“ Homebrew (if you prefer a package manager)",
+          "label": "2. macOS – Homebrew (if you prefer a package manager)",
           "targets": {
             "os": [
               "darwin"
@@ -7889,7 +7916,7 @@
           "commands": 2
         },
         {
-          "label": "3. Ubuntu / Debian (apt) вЂ“ using the official NodeSource repository",
+          "label": "3. Ubuntu / Debian (apt) – using the official NodeSource repository",
           "targets": {
             "os": [
               "linux"
@@ -7909,7 +7936,7 @@
           "commands": 2
         },
         {
-          "label": "3. Ubuntu / Debian (apt) вЂ“ using the official NodeSource repository",
+          "label": "3. Ubuntu / Debian (apt) – using the official NodeSource repository",
           "targets": {
             "os": [
               "linux"
@@ -7929,7 +7956,7 @@
           "commands": 2
         },
         {
-          "label": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "label": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "targets": {
             "os": [
               "linux"
@@ -7948,7 +7975,7 @@
           "commands": 2
         },
         {
-          "label": "4. Fedora / CentOS / RHEL вЂ“ using the NodeSource repo (rpm)",
+          "label": "4. Fedora / CentOS / RHEL – using the NodeSource repo (rpm)",
           "targets": {
             "os": [
               "linux"
@@ -7980,7 +8007,7 @@
           "commands": 2
         },
         {
-          "label": "5. Windows вЂ“ using the official MSI installer",
+          "label": "5. Windows – using the official MSI installer",
           "targets": {
             "os": [
               "windows"
@@ -7990,7 +8017,7 @@
           "commands": 0
         },
         {
-          "label": "6. Windows вЂ“ using **nvm-windows** (if you want version switching)",
+          "label": "6. Windows – using **nvm-windows** (if you want version switching)",
           "targets": {
             "os": [
               "windows"
