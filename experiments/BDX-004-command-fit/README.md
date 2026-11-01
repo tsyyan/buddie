@@ -212,3 +212,11 @@ That gap is recorded in PROTOCOL and must be resolved before judge registration;
   clear executable/flag shape. Arbitrary output can resemble commands; unusual prose, multi-line language constructs,
   heredocs, unsupported control grammar, complex expansions and programs outside that vocabulary may need audit. The blind audit in PROTOCOL.md
   is still necessary. These fixtures are test material, not measured model performance.
+
+## Running
+
+| Path | What |
+|---|---|
+| `run.py` | the arms A-D against a model (`client.py`: the BDX-003 chat client, copied), rows to `data/*.jsonl` |
+| `summarize.py` | rows to numbers (GitHub notices) and a sheet of every judged command for the owner |
+| `run.env` | what a push to `experiment/bdx-004-run` runs (job `run` in `.github/workflows/bdx004.yml`) |

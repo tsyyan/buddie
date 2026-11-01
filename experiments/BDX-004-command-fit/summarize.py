@@ -1,0 +1,82 @@
+"""BDX-004 rows (run.py) in numbers, as GitHub notices (at most 10 a step), and a sheet of every judged command for
+the owner's reading (the pilot) or the blind audit.
+
+    python summarize.py data/pilot.jsonl --sheet data/pilot-commands.csv
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import random
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import judge as jd  # noqa: E402
+
+
+def bootstrap(pairs, iters=4000, seed=7):
+    if len(pairs) < 5:
+        return None
+    rng = random.Random(seed)
+    stats = sorted(sum(b - a for a, b in (pairs[rng.randrange(len(pairs))] for _ in pairs)) / len(pairs)
+                   for _ in range(iters))
+    return [round(stats[int(0.025 * iters)], 3), round(stats[int(0.975 * iters) - 1], 3)]
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("runs")
+    ap.add_argument("--sheet")
+    a = ap.parse_args(argv)
+    rows = [json.loads(x) for x in Path(a.runs).read_text(encoding="utf-8").splitlines() if x.strip()]
+    ok = [r for r in rows if "verdict" in r]
+    notes = [f"{len(rows)} rows, {len(rows) - len(ok)} failed; per arm {dict(Counter(r['arm'] for r in ok))}"]
+    by = defaultdict(list)
+    for r in ok:
+        by[(r["model"], r["arm"])].append(r)
+    cells = []
+    for (model, arm), rs in sorted(by.items()):
+        st = Counter(r["verdict"]["status"] for r in rs)
+        leaves = [c for r in rs for c in jd.leaf_commands(r["verdict"]["commands"])]
+        cs = Counter(c["status"] for c in leaves)
+        reasons = Counter(c["reason"] for c in leaves if c["status"] == "WONT_RUN")
+        n = len(rs)
+        cells.append(f"{model} | {arm}: n {n}; answers " + ", ".join(f"{k} {v / n:.2f}" for k, v in sorted(st.items()))
+                     + f"; commands {len(leaves)}: " + ", ".join(f"{k} {v}" for k, v in sorted(cs.items()))
+                     + f" (UNKNOWN {cs['UNKNOWN'] / max(1, len(leaves)):.2f}); WONT_RUN reasons {dict(reasons)}"
+                     + f"; tool calls {sum(r['tool_calls'] for r in rs) / n:.2f}, requests "
+                     f"{sum(r['requests'] for r in rs) / n:.2f}, sent chars {sum(r['sent_chars'] for r in rs) / n:.0f}")
+    paired = []
+    models = {r["model"] for r in ok}
+    for model in sorted(models):
+        cell = {(r["profile"], r["task"], r["arm"]): r["verdict"]["status"] == "BROKEN" for r in ok if r["model"] == model}
+        for x, y in (("A", "B"), ("A", "C"), ("B", "D"), ("A", "D")):
+            pairs = [(int(cell[(p, t, x)]), int(cell[(p, t, y)])) for (p, t, arm) in cell if arm == x
+                     and (p, t, y) in cell]
+            if pairs:
+                paired.append(f"{model} | {y}-{x} BROKEN: n {len(pairs)}, diff "
+                              f"{sum(b - a for a, b in pairs) / len(pairs):.3f}, ci {bootstrap(pairs)}")
+    lines = notes + paired + cells
+    for i in range(0, len(lines), 2):
+        print("::notice title=BDX-004 " + str(i // 2 + 1) + "::" + " || ".join(lines[i:i + 2]))
+    if a.sheet:
+        with open(a.sheet, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["profile", "task", "arm", "answer_status", "shell", "command", "verdict", "reason", "detail",
+                        "owner: holds? (y/n)", "owner note"])
+            for r in ok:
+                for c in jd.leaf_commands(r["verdict"]["commands"]):
+                    w.writerow([r["profile"], r["task"], r["arm"], r["verdict"]["status"], c.get("shell"), c["text"],
+                                c["status"], c.get("reason"), c.get("detail"), "", ""])
+                if not r["verdict"]["commands"]:
+                    w.writerow([r["profile"], r["task"], r["arm"], r["verdict"]["status"], "", r["final"][:300],
+                                "", "", "", "", ""])
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
