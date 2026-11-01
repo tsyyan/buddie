@@ -35,8 +35,8 @@ CMD_BUILTINS = frozenset('dir mkdir md rmdir rd del erase set echo cd chdir copy
 BASE_NAMES = (LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA | ALPINE_BUSYBOX | MACOS_BSD |
               POSIX_BUILTINS | POWERSHELL_CORE | CMD_BUILTINS)
 
-# The lists above establish availability only. FITS still requires one of these complete
-# forms, a successful profile-shell syntax check and any stronger task constraints.
+# The lists above establish availability. These bounded forms retain known effects;
+# other forms can FITS when syntax parses and no stronger task constraint is broken.
 # Operands deliberately exclude options, expansions, globs and quoting we cannot model.
 OPERAND = r'[A-Za-z0-9_./][A-Za-z0-9_./-]*'
 POSIX_FORMS = {

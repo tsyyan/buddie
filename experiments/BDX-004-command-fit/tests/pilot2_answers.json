@@ -1,0 +1,216 @@
+[
+  {
+    "id": "pilot2-curl-options",
+    "profile": "ubuntu2404-nvidia",
+    "task": "download-file",
+    "answer": "```\ncurl -L -o data.txt https://example.org/data.txt\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-chmod-options",
+    "profile": "macos-arm",
+    "task": "permissions",
+    "answer": "```\nchmod +x script.sh\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-nvcc-options",
+    "profile": "ubuntu2404-nvidia",
+    "task": "cuda-toolkit",
+    "answer": "```\nnvcc -V\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-unknown-flags",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "answer": "```\nls --imaginary\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-sudo-macos",
+    "profile": "macos-arm",
+    "task": "permissions",
+    "answer": "```\nsudo chmod +x script.sh\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-sudo-apt-macos",
+    "profile": "macos-arm",
+    "task": "install-git",
+    "answer": "```\nsudo apt install git\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "wrong_os"
+    ]
+  },
+  {
+    "id": "pilot2-sudo-alpine",
+    "profile": "alpine-container",
+    "task": "install-git",
+    "answer": "```\nsudo apk add git\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "program_missing"
+    ]
+  },
+  {
+    "id": "pilot2-version-nonwhitelist",
+    "profile": "win11-cmd-nogpu",
+    "task": "install-node20",
+    "answer": "```\nnode --imaginary\n```",
+    "parser": "cmd",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "program_missing"
+    ]
+  },
+  {
+    "id": "pilot2-venv-existing",
+    "profile": "ubuntu2404-nvidia",
+    "task": "activate-venv",
+    "answer": "```\nsource .venv/bin/activate\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-venv-existing-dot",
+    "profile": "alpine-container",
+    "task": "activate-venv",
+    "answer": "```\n. .venv/bin/activate\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-venv-fish-absent",
+    "profile": "ubuntu2404-nvidia",
+    "task": "activate-venv",
+    "answer": "```\nsource .venv/bin/activate.fish\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-venv-csh-absent",
+    "profile": "macos-arm",
+    "task": "activate-venv",
+    "answer": "```\nsource .venv/bin/activate.csh\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  },
+  {
+    "id": "pilot2-install-unmatched",
+    "profile": "ubuntu2404-nvidia",
+    "task": "install-ffmpeg",
+    "answer": "```\nsudo apt install -y ffmpeg\nffmpeg -version\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS",
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "pilot2-install-uncertain",
+    "profile": "macos-arm",
+    "task": "install-ffmpeg",
+    "answer": "```\nsudo brew install ffmpeg\nffmpeg -version\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "pilot2-venv-created",
+    "profile": "ubuntu2404-nvidia",
+    "task": "python-venv",
+    "answer": "```\npython3 -m venv env\nsource env/bin/activate\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS",
+      "FITS"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "pilot2-pip-install",
+    "profile": "ubuntu2404-nvidia",
+    "task": "pytorch-gpu",
+    "answer": "```\npython3 -m pip install torch\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ]
+  }
+]

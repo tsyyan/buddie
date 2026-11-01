@@ -723,15 +723,15 @@
     "parser": "bash",
     "parser_probe": "echo ok",
     "without_parser": {
-      "status": "BROKEN",
+      "status": "UNDECIDED",
       "commands": [
         {
           "status": "UNKNOWN",
           "reason": null
         },
         {
-          "status": "WONT_RUN",
-          "reason": "program_missing"
+          "status": "UNKNOWN",
+          "reason": null
         }
       ]
     }

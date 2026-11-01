@@ -1,6 +1,7 @@
 """Literal installation intent; packages are evidence of an attempt, not of success."""
 import re
 import shlex
+from facts import python_args
 
 ALIASES = {'nodejs': 'node', 'node@20': 'node', 'git.git': 'git',
            'gyan.ffmpeg': 'ffmpeg', 'openjs.nodejs': 'node', 'openjs.nodejs.lts': 'node'}
@@ -17,9 +18,7 @@ def intent(text, shell):
     if not tokens:
         return None
     if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]):
-        args = tokens[1:]
-        if args and re.fullmatch(r'-\d+\.\d+', args[0]):
-            args = args[1:]
+        args = python_args(tokens)
         if args[:2] != ['-m', 'pip']:
             return None
         tokens = ['pip'] + args[2:]

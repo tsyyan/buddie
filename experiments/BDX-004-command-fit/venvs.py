@@ -2,6 +2,7 @@
 from pathlib import PurePosixPath
 import re
 from shell_lists import lex
+from facts import python_args
 
 
 def directory(text):
@@ -21,13 +22,24 @@ def activation(tokens):
 
 
 def rule(tokens, shell):
-    args = tokens[1:]
-    if tokens[0] == 'py' and args and re.fullmatch(r'-\d+\.\d+', args[0]):
-        args = args[1:]
-    if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]) and len(args) == 3 and args[:2] == ['-m', 'venv']:
-        if path := directory(args[2]):
+    args = python_args(tokens)
+    if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]) and args[:2] == ['-m', 'venv']:
+        operands, valid, skip = [], True, False
+        for arg in args[2:]:
+            if skip:
+                skip = False
+            elif arg == '--prompt':
+                skip = True
+            elif arg in ('--system-site-packages', '--symlinks', '--copies', '--clear', '--upgrade', '--without-pip', '--upgrade-deps') or arg.startswith('--prompt='):
+                continue
+            elif arg.startswith('-'):
+                valid = False
+            else:
+                operands.append(arg)
+        if valid and not skip and len(operands) == 1 and (path := directory(operands[0])):
             return dict(program=tokens[0], effect='FITS', python_module='venv', creates_venv=path)
-    if shell in ('bash', 'sh', 'zsh') and (path := activation(tokens)):
+    if shell in ('bash', 'sh', 'zsh') and len(tokens) == 2 and tokens[0] in ('source', '.') and re.search(r'/bin/activate(?:\.(fish|csh))?$', tokens[1]):
+        path = activation(tokens)
         suffix = tokens[1].rsplit('.', 1)[-1]
         return dict(program=tokens[0], effect='FITS', activates_venv=path, requires_path=True,
                     activation_shell=suffix if suffix in ('fish', 'csh') else None)

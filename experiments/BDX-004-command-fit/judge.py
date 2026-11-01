@@ -6,7 +6,7 @@ import re
 import shlex
 
 from base_commands import rule as base_rule
-from facts import observation, program, python_facts, value, version
+from facts import observation, program, python_facts, python_args, value, version
 from syntax import family, non_posix, syntax
 from shell_lists import split_list
 from venvs import invalidate as invalidate_venvs, parser_text, rule as venv_rule
@@ -102,9 +102,7 @@ def judge_simple(command, profile, req, installed, venvs):
         py = python_facts(profile, name, text)
         if py.get('version_mismatch'):
             return verdict('WONT_RUN', 'version_mismatch', 'requested Python launcher version is not listed')
-        args = tokens[1:]
-        if name == 'py' and args and re.fullmatch(r'-\d+\.\d+', args[0]):
-            args = args[1:]
+        args = python_args(tokens)
         module = args[1] if len(args) >= 2 and args[0] == '-m' else None
         if module in ('venv', 'pip') and py.get(module) is False:
             return verdict('WONT_RUN', 'program_missing', f'Python {module} module unavailable')
@@ -142,7 +140,12 @@ def judge_simple(command, profile, req, installed, venvs):
             rule.pop('daemon', None)
         attempt = install_intent(text, target)
         if attempt:
-            rule.update(effect='INSTALLS', **attempt)
+            # An unfamiliar form can run without proving that binaries were installed
+            # (dry-run, download-only, local npm prefix, etc.). Only bounded effect
+            # rules promote presence; every literal attempt still records uncertainty.
+            rule['needs_admin'] = attempt['needs_admin']
+        if wheel and any(r.get('cuda_wheel') for r in relevant):
+            rule.update(cuda_wheel=True, nvidia=True)
     if rule.get('needs_admin') and not sudo:
         if elevated is False:
             return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
@@ -235,6 +238,7 @@ def judge_command(command, profile, req, installed, venvs):
     if not is_list or not parts:
         result = judge_simple(command, profile, req, installed, venvs)
         if result['status'] in ('UNKNOWN', 'FITS', 'INSTALLS') and (attempt := install_intent(command['text'], req['shell'])):
+            result['install_attempts'] = attempt['installs']
             uncertain(installed, attempt['installs'])
         if result['status'] == 'UNKNOWN':
             venvs.clear()  # unmodeled code may change cwd or the filesystem
@@ -266,6 +270,8 @@ def judge_structure(command, node, profile, req, installed, venvs, parsed):
                              reason=None, detail='dynamic header or unmodeled empty structure'))
     if parsed is not False:
         venvs.intersection_update(surviving & condition_survivors)
+        for child in all_commands(children):
+            uncertain(installed, child.get('install_attempts', []))
     return aggregate(command, children, parsed)
 
 
@@ -287,7 +293,8 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
         child = judge_command(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
         # Intent is weaker than installation success and survives an undecided AND predecessor.
         uncertain(programs, pending(child_programs))
-        uncertain(installed, pending(child_programs))
+        if parsed is not False:
+            uncertain(installed, pending(child_programs))
         children.append(child)
         surviving &= child_venvs
         if after == '||':
@@ -307,6 +314,8 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
         venvs.update(created)
     elif parsed is not False:
         venvs.intersection_update(surviving)
+        for child in all_commands(children):
+            uncertain(installed, child.get('install_attempts', []))
     return aggregate(command, children, parsed)
 
 

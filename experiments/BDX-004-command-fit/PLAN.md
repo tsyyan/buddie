@@ -169,3 +169,8 @@ proof of presence), scoped to the declared audience, including an undecided AND 
 successful installs establish presence; task versions still need evidence. Activation tasks explicitly
 declare .venv as existing; literal creation and mutation rules remain. fish/csh script variants require
 an observed shell. Full suite passes 113 tests with all parsers; all eight profiles validate.
+Review regressions reproduced CUDA options bypassing GPU checks, Python options hiding a missing module,
+unsupported activation paths bypassing existence proof, and syntax-rejected lists leaking pending intent.
+Fixed each; generic installer forms now establish only pending intent, including dry-runs/download-only.
+Bounded successful effects still prove installation, and bounded venv options preserve creation proofs.
+Windows executable activation remains outside the requested source/dot change; existing_venvs data is POSIX-only.

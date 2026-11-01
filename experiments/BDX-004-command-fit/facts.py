@@ -29,6 +29,19 @@ def python_facts(profile, program, text):
     return next((i for i in interpreters if i.get('found_via') == program + ' on PATH'), {})
 
 
+def python_args(tokens):
+    """Skip interpreter options; never read -m inside script/-c arguments as a module."""
+    args = tokens[1:]
+    if tokens[0] == 'py' and args and re.fullmatch(r'-\d+\.\d+', args[0]):
+        args = args[1:]
+    i = 0
+    while i < len(args):
+        if args[i] in ('-m', '-c', '--') or not args[i].startswith('-'):
+            return args[i:]
+        i += 2 if args[i] in ('-W', '-X') else 1
+    return []
+
+
 def program(profile, requirements, name, installed):
     """(on PATH / not found on PATH / unknown, version); scoped to the fixture."""
     if name in installed:

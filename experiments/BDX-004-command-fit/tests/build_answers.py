@@ -52,7 +52,7 @@ def main():
         no_parser = expected('UNDECIDED', ('UNKNOWN', None))
         if n == 14:
             fit = expected('OK', ('INSTALLS', None), ('FITS', None))
-            no_parser = expected('BROKEN', ('UNKNOWN', None), ('WONT_RUN', 'program_missing'))
+            no_parser = expected('UNDECIDED', ('UNKNOWN', None), ('UNKNOWN', None))
         rows.append(dict(id=f'{n:02}-fitting', profile=pid, task=tid, kind='fitting',
                          answer=f'Run these commands:\n```{shell}\n{good}\n```',
                          expected=fit, parser=shell, parser_probe='echo ok' if shell != 'powershell' else 'Write-Output ok',
