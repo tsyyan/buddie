@@ -203,7 +203,8 @@ Over MCP the local server's `environment_snapshot` tool takes the same: `{"categ
 | `software.package_managers` | baseline | uv, pipx, conda, npm, yarn, pnpm, cargo, brew, apt, dnf, pacman, zypper, apk | uv to cargo, brew | uv to cargo, winget, choco |
 | `software.gpu_stack` | baseline | `/proc/driver/nvidia`; `nvidia-smi -q -d COMPUTE` (driver, CUDA); `nvcc`; `/opt/rocm` | Metal family; CUDA and ROCm not applicable | `nvidia-smi`; `nvcc`; ROCm not probed |
 | `software.tools` | baseline, named | `--version` of catalog tools (git, curl, cmake, gcc, ffmpeg, ollama, kubectl, and more) | the same | the same |
-| `development.containers` | sensitive | docker and podman clients; `docker --context default version` | the same | the same |
+| `software.containers` | baseline | `docker --version`, `podman --version`: the clients only, no daemon is asked | the same | the same |
+| `development.containers` | sensitive | docker and podman clients; `docker --context default version` (the local daemon) | the same | the same |
 | `development.project` | sensitive, path | manifests at the top of a granted directory; `requires-python`, `.python-version`, `engines.node`, `.nvmrc`, `go.mod` | the same | the same |
 | `development.repository` | sensitive, path | HEAD, clean or dirty, origin (as the v0 repository facts) | the same | the same |
 
@@ -323,7 +324,7 @@ atomic picture of the machine.
 |---|---|---|
 | Local LLM | `system.os`, `hardware.cpu`, `hardware.gpu`, `hardware.memory`, `software.python`, `software.gpu_stack` | GPU vendor and memory, driver and CUDA versions, Python version and venv support |
 | Python project | `software.python`, `development.project` (with the project's directory granted) | which interpreters are there, pip and venv, the project's `requires-python` |
-| Docker | `system.os`, `hardware.cpu`, `development.containers` | client present, the local daemon answering or not |
+| Docker | `system.os`, `hardware.cpu`, `software.containers`; `development.containers` when the daemon matters | client present (baseline); the local daemon answering or not (sensitive) |
 
 Abridged, from a Windows 11 machine with the baseline granted:
 
