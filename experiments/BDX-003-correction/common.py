@@ -114,3 +114,26 @@ def append_jsonl(path: Path, row: dict) -> None:
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, "a", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def stratified(rows: list, cell, outcome, per_cell: int, seed: int = 11) -> list:
+    """The audit sample (PROTOCOL 2026-11-02): per cell (model and arm, or condition) up to per_cell rows, taken
+    round-robin across the cell's outcomes so a rare outcome is read too; seeded, in the input order otherwise."""
+    import random
+    from collections import defaultdict
+    rng = random.Random(seed)
+    cells = defaultdict(lambda: defaultdict(list))
+    for r in rows:
+        cells[cell(r)][outcome(r)].append(r)
+    picked = []
+    for c in sorted(cells, key=str):
+        groups = [g[:] for _, g in sorted(cells[c].items(), key=lambda kv: str(kv[0]))]
+        for g in groups:
+            rng.shuffle(g)
+        take = []
+        while len(take) < per_cell and any(groups):
+            for g in groups:
+                if g and len(take) < per_cell:
+                    take.append(g.pop())
+        picked += take
+    return picked

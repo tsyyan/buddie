@@ -27,7 +27,7 @@ import random
 import re
 from collections import defaultdict
 
-from common import best_span, in_text, norm, page_text, quoted_spans, read_json, read_jsonl, similarity, write_json
+from common import stratified, best_span, in_text, norm, page_text, quoted_spans, read_json, read_jsonl, similarity, write_json
 
 FLAG = re.compile(r"^\s*buddie:|\bunverified\b|could not (?:be )?verif|cannot verify|not (?:be )?verified", re.I | re.M)
 WORDS = re.compile(r"\w{4,}")
@@ -166,20 +166,31 @@ def markdown(s: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def blind_sheet(judged: list[dict], units: dict, path_csv, path_key, seed: int = 11) -> None:
-    """A sheet for a person to audit outcomes without seeing the arm; the key maps rows back."""
+def blind_sheet(judged: list[dict], units: dict, path_csv, path_key, seed: int = 11, path_sample=None,
+                per_cell: int = 7) -> None:
+    """A sheet for a person to audit outcomes without seeing the arm; the key maps rows back. path_sample: the
+    audit sample of PROTOCOL 2026-11-02, up to per_cell rows per model and arm across outcomes, same row numbers."""
     rows = [r for r in judged if "error" not in r]
     random.Random(seed).shuffle(rows)
-    key = []
+    key, lines = [], []
+    for i, r in enumerate(rows, 1):
+        u = units[r["unit"]]
+        lines.append([i, u["url"], u["quote"], r["final"], r["outcome"], "", ""])
+        key.append({"row": i, "unit": r["unit"], "arm": r["arm"], "model": r["model"], "rep": r["rep"],
+                    "check": hashlib.sha256((r["final"] or "").encode()).hexdigest()[:12]})
+    head = ["row", "source_url", "original_quote", "final_paragraph", "auto_outcome", "your_outcome", "note"]
     with open(path_csv, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["row", "source_url", "original_quote", "final_paragraph", "auto_outcome", "your_outcome", "note"])
-        for i, r in enumerate(rows, 1):
-            u = units[r["unit"]]
-            w.writerow([i, u["url"], u["quote"], r["final"], r["outcome"], "", ""])
-            key.append({"row": i, "unit": r["unit"], "arm": r["arm"], "model": r["model"], "rep": r["rep"],
-                        "check": hashlib.sha256((r["final"] or "").encode()).hexdigest()[:12]})
+        w.writerow(head)
+        w.writerows(lines)
     write_json(path_key, key)
+    if path_sample:
+        numbered = [dict(r, _row=i) for i, r in enumerate(rows, 1)]
+        sample = stratified(numbered, lambda r: (r["model"], r["arm"]), lambda r: r["outcome"], per_cell, seed)
+        with open(path_sample, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(head)
+            w.writerows(sorted((lines[r["_row"] - 1] for r in sample), key=lambda x: x[0]))
 
 
 def main(argv=None) -> int:
@@ -217,7 +228,7 @@ def main(argv=None) -> int:
     s = summarize(judged)
     write_json(out / "summary.json", s)
     (out / "summary.md").write_text(markdown(s), encoding="utf-8")
-    blind_sheet(judged, units, out / "audit_sheet.csv", out / "audit_key.json")
+    blind_sheet(judged, units, out / "audit_sheet.csv", out / "audit_key.json", path_sample=out / "audit_sample.csv")
     print(markdown(s))
     return 0
 

@@ -175,3 +175,14 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   25 ERROR and 15 OK paragraphs (the first of the seeded plan's 50 and 25, so every run kept so far is in it), in four
   conditions (without, with, hookonly, hookdisc). Smaller than planned because a run with buddie costs about 104k
   input tokens, not the 53-79k the calibration chunk suggested.
+- 2026-11-02, decided by the owner before the remaining runs (claude-opus-5 API, about 110 units; product OK
+  paragraphs to 15 per condition) and before any audit:
+  1. **Audit sample** instead of a flat 20 %: the owner reads, blind to arm and condition, up to 7 rows per model and
+     arm of the API runs (gpt-oss A-E, claude-opus-5 A-E; about 70 rows) and up to 7 rows per product condition (at
+     most 35), each cell taken round-robin across the judge's outcomes so a rare outcome is read too (seed 11;
+     `judge.py` and `product_judge.py` write `audit_sample.csv` beside the full sheets, with the same row numbers).
+     Reported: agreement per outcome; a cell where the judge is wrong in more than 1 row of 7 is named in the report
+     with its rows. The audit is read after the last run and before any conclusion is published.
+  2. **What closes the run**: claude-opus-5 on all 146 units in arms A-E; product OK paragraphs 15 per condition
+     (without, with, hookonly, hookdisc). Then the report; no further arms or conditions are added to BDX-003 (cost
+     variants go to a separate experiment).

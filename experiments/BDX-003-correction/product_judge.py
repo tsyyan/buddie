@@ -28,7 +28,7 @@ import csv
 import hashlib
 import random
 
-from common import best_span, in_text, page_text, quoted_spans, read_json, read_jsonl, write_json  # noqa: E402
+from common import stratified, best_span, in_text, page_text, quoted_spans, read_json, read_jsonl, write_json  # noqa: E402
 from judge import FLAG, bootstrap_diff  # noqa: E402
 from product import bad  # noqa: E402
 
@@ -65,25 +65,36 @@ def summary(texts: list[str], page: str) -> dict:
             "false_shown": len(shown), "false_final": 0 if flagged else len(final), "flagged": flagged}
 
 
-def audit_sheet(rows: list[dict], latest: dict, units: dict, path_csv, path_key, seed: int = 11) -> None:
-    """Every judged run for the owner's blind audit (PROTOCOL: read the first 20 %): what the reader saw, the target
-    quote and the source's words (the unit's evidence), the judge's outcome; no condition. The key maps rows back."""
+def audit_sheet(rows: list[dict], latest: dict, units: dict, path_csv, path_key, seed: int = 11,
+                path_sample=None, per_cell: int = 7) -> None:
+    """Every judged run for the owner's blind audit: what the reader saw, the target quote and the source's words
+    (the unit's evidence), the judge's outcome; no condition. The key maps rows back. path_sample: the audit sample
+    of PROTOCOL 2026-11-02, up to per_cell rows per condition across outcomes (at most 35), same row numbers."""
     rows = list(rows)
     random.Random(seed).shuffle(rows)
-    key = []
+    key, lines = [], []
+    for i, r in enumerate(rows, 1):
+        u, run = units[r["unit"]], latest[(r["unit"], r["task"], r["condition"], r["rep"])]
+        shown = "\n---\n".join(run["texts"])
+        lines.append([i, r["task"], u["url"], u["quote"] if r["task"] == "paragraph" else "",
+                      u.get("evidence") or "", shown, r.get("outcome") or f"false_final {r.get('false_final')}",
+                      "", ""])
+        key.append({"row": i, "unit": r["unit"], "task": r["task"], "condition": r["condition"], "rep": r["rep"],
+                    "check": hashlib.sha256(shown.encode()).hexdigest()[:12]})
+    head = ["row", "task", "source_url", "quote_in_draft", "source_says", "what_the_reader_saw", "auto_outcome",
+            "your_outcome", "note"]
     with open(path_csv, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["row", "task", "source_url", "quote_in_draft", "source_says", "what_the_reader_saw",
-                    "auto_outcome", "your_outcome", "note"])
-        for i, r in enumerate(rows, 1):
-            u, run = units[r["unit"]], latest[(r["unit"], r["task"], r["condition"], r["rep"])]
-            shown = "\n---\n".join(run["texts"])
-            w.writerow([i, r["task"], u["url"], u["quote"] if r["task"] == "paragraph" else "",
-                        u.get("evidence") or "", shown, r.get("outcome") or f"false_final {r.get('false_final')}",
-                        "", ""])
-            key.append({"row": i, "unit": r["unit"], "task": r["task"], "condition": r["condition"], "rep": r["rep"],
-                        "check": hashlib.sha256(shown.encode()).hexdigest()[:12]})
+        w.writerow(head)
+        w.writerows(lines)
     write_json(path_key, key)
+    if path_sample:
+        numbered = [dict(r, _row=i) for i, r in enumerate(rows, 1)]
+        sample = stratified(numbered, lambda r: r["condition"], lambda r: r.get("outcome"), per_cell, seed)[:35]
+        with open(path_sample, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(head)
+            w.writerows(sorted((lines[r["_row"] - 1] for r in sample), key=lambda x: x[0]))
 
 
 def main(argv=None) -> int:
@@ -154,7 +165,8 @@ def main(argv=None) -> int:
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "judged.json", rows)
-    audit_sheet(rows, latest, units, out / "audit_sheet.csv", out / "audit_key.json")
+    audit_sheet(rows, latest, units, out / "audit_sheet.csv", out / "audit_key.json",
+                path_sample=out / "audit_sample.csv")
     write_json(out / "summary.json", {"cells": cells, "paired": paired})
     # GitHub shows 10 notices a step: the paired comparisons first, three to a notice, then the cells two to one
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "

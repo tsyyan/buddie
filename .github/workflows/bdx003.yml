@@ -380,6 +380,7 @@ jobs:
           name: bdx003-product-audit-${{ github.run_id }}
           path: |
             experiments/BDX-003-correction/product-data/judged/audit_sheet.csv
+            experiments/BDX-003-correction/product-data/judged/audit_sample.csv
             experiments/BDX-003-correction/product-data/judged/audit_key.json
             experiments/BDX-003-correction/product-data/judged/summary.json
           if-no-files-found: warn
