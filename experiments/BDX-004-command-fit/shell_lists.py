@@ -9,6 +9,7 @@ class Token:
     start: int
     end: int
     operator: bool = False
+    closed: bool = True
 
 
 def lex(text, shell='sh'):
@@ -50,7 +51,7 @@ def lex(text, shell='sh'):
             if char.isspace() or any(text.startswith(op, i) for op in operators):
                 break
             i += 1
-        tokens.append(Token(text[start:i], start, i))
+        tokens.append(Token(text[start:i], start, i, closed=quote is None))
     return tokens
 
 

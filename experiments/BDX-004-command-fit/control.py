@@ -117,6 +117,8 @@ class Parser:
                     self.i += 1
                     break
                 while self.peek() not in (')', None):
+                    if '$(' in self.peek() or '`' in self.peek() or self.peek() == '$':
+                        uncertain = True
                     self.i += 1  # patterns are data, not commands
                 self.expect(')')
                 body = self.sequence({'esac'}, {';;'}, depth)

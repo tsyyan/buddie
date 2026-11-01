@@ -71,3 +71,29 @@ class Lists(unittest.TestCase):
         result = judge.judge_answer(answer, 'ubuntu2404-nvidia', 'python-venv')
         self.assertEqual(result['commands'][0]['status'], 'WONT_RUN')
         self.assertEqual(result['commands'][1]['status'], 'UNKNOWN')
+
+    def test_multiline_quotes_do_not_create_commands_from_literal_data(self):
+        import commands
+        for shell, head in [('bash', 'echo'), ('powershell', 'Write-Output')]:
+            text = head + ' "first\nconda --version\nlast"'
+            self.assertEqual(commands.extract(f'```{shell}\n{text}\n```'), [{'text': text, 'shell': shell}])
+
+    def test_unfinished_and_line_is_joined_before_syntax_check(self):
+        self.require('bash')
+        text = 'python3 -m venv .venv &&\nsource .venv/bin/activate'
+        self.assertEqual(grade('ubuntu2404-nvidia', 'python-venv', text, 'bash')['status'], 'OK')
+
+    def test_mutations_and_unknown_commands_invalidate_venv_proofs(self):
+        self.require('bash')
+        for middle in ['rm -f .venv/bin/activate', 'mv .venv other', 'cp other .venv/bin/activate', 'cd other']:
+            text = 'python3 -m venv .venv; ' + middle + '; source .venv/bin/activate'
+            result = grade('ubuntu2404-nvidia', 'python-venv', text, 'bash')['commands'][0]
+            self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')
+
+    def test_list_mutation_invalidates_setup_from_an_earlier_block(self):
+        self.require('bash')
+        for middle in ['rm -f .venv/bin/activate; ls', 'rm -f .venv/bin/activate || ls']:
+            answer = ('```bash\npython3 -m venv .venv\n```\n```bash\n' + middle +
+                      '\n```\n```bash\nsource .venv/bin/activate\n```')
+            self.assertEqual(judge.judge_answer(answer, 'ubuntu2404-nvidia', 'python-venv')
+                             ['commands'][-1]['status'], 'UNKNOWN')

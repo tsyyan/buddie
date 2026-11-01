@@ -2,6 +2,7 @@
 import re
 from base_commands import BASE_NAMES
 from control import complete as control_complete, has_control
+from shell_lists import lex
 
 LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell',
              'pwsh': 'powershell', 'ps1': 'powershell', 'cmd': 'cmd', 'bat': 'cmd',
@@ -22,11 +23,12 @@ def uncomment(line, shell):
     """Remove shell comments without damaging quoted hashes or URL fragments."""
     if re.match(r'(?i)^(?:rem\b|::)', line):
         return ''
-    quote, escaped = None, False
-    for i, char in enumerate(line):
+    quote, escaped, out, i = None, False, [], 0
+    while i < len(line):
+        char = line[i]
         if escaped:
             escaped = False
-        elif char in ('`', '\\') and quote != "'":
+        elif char == ('`' if shell == 'powershell' else '\\') and quote != "'":
             escaped = True
         elif quote:
             if char == quote:
@@ -34,8 +36,14 @@ def uncomment(line, shell):
         elif char in ('"', "'"):
             quote = char
         elif char == '#' and shell != 'cmd' and (i == 0 or line[i - 1].isspace()):
-            return line[:i].rstrip()
-    return line.rstrip()
+            end = line.find('\n', i)
+            if end < 0:
+                break
+            i = end
+            continue
+        out.append(char)
+        i += 1
+    return ''.join(out).rstrip()
 
 
 def starts_program(line):
@@ -69,19 +77,29 @@ def starts_program(line):
 
 def block_commands(lines, shell):
     """Join physical continuations before deciding whether a line is command or output."""
-    pending, structure = '', ''
+    pending, structure, quote_open, join_newline = '', '', False, False
     for physical in lines:
-        prompted = PROMPT.match(physical.strip())
-        line = PROMPT.sub('', physical.strip())
-        line = uncomment(line, shell)
+        prompted = None if quote_open else PROMPT.match(physical.strip())
+        raw = physical.rstrip() if quote_open else PROMPT.sub('', physical.strip())
+        line = uncomment(pending + ('\n' if join_newline else '') + raw, shell)
+        pending, join_newline = '', False
         if not line:
+            continue
+        tokens = lex(line, shell)
+        quote_open = bool(tokens and not tokens[-1].closed)
+        if quote_open:
+            pending, join_newline = line, True
             continue
         marker = '^' if shell == 'cmd' else '`' if shell == 'powershell' else '\\'
         trailing = len(line) - len(line.rstrip(marker))
         continued = trailing % 2 == 1
-        pending += line[:-1].rstrip() + ' ' if continued else line
         if continued:
+            pending = line[:-1].rstrip() + ' '
             continue
+        if shell != 'cmd' and tokens and tokens[-1].operator and tokens[-1].text in ('&&', '||', '|'):
+            pending, join_newline = line, True
+            continue
+        pending = line
         if structure or (shell in ('bash', 'sh', 'zsh', 'posix', 'unknown') and has_control(pending)):
             structure += ('\n' if structure else '') + pending
             pending = ''
@@ -92,10 +110,12 @@ def block_commands(lines, shell):
         if prompted or starts_program(pending):
             yield {'text': pending.strip(), 'shell': shell}
         pending = ''
-    if pending and starts_program(pending):
-        yield {'text': pending.strip(), 'shell': shell}
     if structure:
+        if pending:
+            structure += '\n' + pending
         yield {'text': structure, 'shell': shell}
+    elif pending and starts_program(pending):
+        yield {'text': pending.strip(), 'shell': shell}
 
 
 def extract(answer):

@@ -106,3 +106,9 @@ if/loop/case parsing, intact extraction, whole-structure syntax and branch-local
 The parser consumes data only; dynamic/unsupported forms are UNKNOWN. Found and reproduced
 Windows CRLF stdin corrupting dash closing keywords; switched parser stdin to LF bytes.
 The complete suite now passes 67 tests with bash/dash/pwsh; eight profiles still validate.
+
+Independent review found and regressions reproduced multiline quote/connector splitting,
+dynamic case-pattern false FITS, and stale venv proofs after mutations. Fixed logical-line
+extraction and invalidated proofs through modeled mutations/unknown effects/conditional
+paths; dynamic patterns stay UNKNOWN. Also kept incomplete quoted structures intact.
+All 74 tests pass with bash/dash/pwsh; all profiles validate. No review findings deferred.

@@ -158,6 +158,9 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   not verified. Literal `python -m venv DIR` (including observed python3/py forms) also records DIR after a FITS
   result. POSIX `source DIR/bin/activate` or `. DIR/bin/activate` then FITS when the profile shell supports it;
   source is rejected for sh. Unknown/pre-existing paths remain UNKNOWN; state resets between answers.
+  Modeled rm/mv/cp operations affecting the venv or its activation script invalidate the proof. Unknown
+  commands can change cwd/files and also invalidate it; potential deletion in a conditional path is retained
+  conservatively even though new conditional setup is not exported.
 - POSIX lists split on unquoted `&&`, `||`, `;` and newlines; PowerShell statements split on unquoted `;`
   and newlines. Nested expansions and script blocks remain opaque. Each list keeps child verdicts under
   `commands` and takes the worst: WONT_RUN > UNKNOWN > INSTALLS > FITS. Complete-list syntax is also checked
@@ -170,6 +173,9 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   static audit of suggested commands, not a prediction of which branch executes. Each branch has its own
   copy of prior answer state, so setup in one branch cannot prove activation in another or after a loop/if.
   Dynamic headers and unsupported grammar remain UNKNOWN, never a default FITS or silently NO_COMMANDS.
+  Command substitution in case patterns is dynamic too and cannot be approved as inert pattern data.
+  Quote state and unfinished list operators are preserved across physical lines; quoted command-looking
+  text is not extracted as an instruction.
 - CUDA wheel tags use the task's explicit rule `wheel CUDA <= observed driver CUDA`; this is an experiment rule,
   not a general CUDA compatibility oracle. The judge does not infer toolkit presence from the driver's CUDA ceiling.
 - Extraction recognizes the documented shell fences and inline commands with a bounded program vocabulary or

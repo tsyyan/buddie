@@ -11,7 +11,8 @@ class Control(unittest.TestCase):
 
     def test_all_control_forms_are_extracted_even_incomplete(self):
         for text in ['if true; then ls; fi', 'for x in one; do ls; done',
-                     'while false; do ls; done', 'case value in value) ls ;; esac', 'if true; then']:
+                     'while false; do ls; done', 'case value in value) ls ;; esac', 'if true; then',
+                     'if true; then\necho "unterminated']:
             self.assertEqual(commands.extract(f'```sh\n{text}\n```'), [{'text': text, 'shell': 'sh'}])
 
     def test_control_syntax_and_children(self):
@@ -52,3 +53,19 @@ class Control(unittest.TestCase):
         text = 'for x in $(python3 --imaginary); do ls; done'
         result = grade('alpine-container', 'list-files', text, 'sh')
         self.assertNotEqual(result['status'], 'OK')
+
+    def test_dynamic_case_patterns_are_not_approved(self):
+        text = 'case value in `conda --version`) ls ;; esac'
+        self.assertEqual(grade('alpine-container', 'list-files', text, 'sh')['commands'][0]['status'], 'UNKNOWN')
+
+    def test_quoted_multiline_comments_in_control_are_literal(self):
+        text = 'if true; then\necho "first\n# conda --version\nlast"\nfi'
+        self.assertEqual(commands.extract(f'```sh\n{text}\n```'), [{'text': text, 'shell': 'sh'}])
+
+    def test_conditional_deletion_invalidates_an_existing_venv_proof(self):
+        if judge.syntax('sh', ':') is None:
+            self.skipTest('dash parser absent')
+        answer = ('```sh\npython3 -m venv .venv\nif true; then rm -f .venv/bin/activate; fi\n'
+                  '. .venv/bin/activate\n```')
+        result = judge.judge_answer(answer, 'alpine-container', 'python-venv')
+        self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')

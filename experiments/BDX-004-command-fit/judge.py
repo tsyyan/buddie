@@ -10,7 +10,7 @@ from base_commands import rule as base_rule
 from facts import observation, program, python_facts, value, version
 from syntax import family, non_posix, syntax
 from shell_lists import split_list
-from venvs import parser_text, rule as venv_rule
+from venvs import invalidate as invalidate_venvs, parser_text, rule as venv_rule
 from control import has_control, parse as parse_control
 from tool import HERE, load_profile
 
@@ -201,15 +201,21 @@ def judge_command(command, profile, req, installed, venvs):
         return judge_sequence(command, [(n['text'], n['after']) for n in nodes], profile, req, installed, venvs, parsed)
     parts, is_list = split_list(command['text'], req['shell'])
     if not is_list or not parts:
-        return judge_simple(command, profile, req, installed, venvs)
+        result = judge_simple(command, profile, req, installed, venvs)
+        if result['status'] == 'UNKNOWN':
+            venvs.clear()  # unmodeled code may change cwd or the filesystem
+        elif result['status'] in ('FITS', 'INSTALLS'):
+            invalidate_venvs(command['text'], req['shell'], venvs)
+        return result
     parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
     return judge_sequence(command, parts, profile, req, installed, venvs, parsed)
 
 
 def judge_structure(command, node, profile, req, installed, venvs, parsed):
     children = []
+    surviving, condition_survivors = set(venvs), set(venvs)
     for group in node['groups']:
-        programs, created = dict(installed), set(venvs)
+        programs, created = dict(installed), set(condition_survivors)
         for part in ('condition', 'body'):
             nodes = group[part]
             if nodes:
@@ -217,9 +223,15 @@ def judge_structure(command, node, profile, req, installed, venvs, parsed):
                 entry = dict(text=text, shell=command['shell'])
                 children.append(judge_sequence(entry, [(n['text'], n['after']) for n in nodes],
                                                profile, req, programs, created, parsed))
+                if part == 'condition':
+                    condition_survivors &= created
+        surviving &= created
     if node['uncertain'] or not children:
+        surviving.clear()
         children.append(dict(text=command['text'], shell=command['shell'], status='UNKNOWN',
                              reason=None, detail='dynamic header or unmodeled empty structure'))
+    if parsed is not False:
+        venvs.intersection_update(surviving & condition_survivors)
     return aggregate(command, children, parsed)
 
 
@@ -227,6 +239,7 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
     programs, created = dict(installed), set(venvs)
     has_or = any(after == '||' for _, after in parts)
     children, reachable, prior, alternatives = [], True, '', []
+    surviving = set(venvs)
     for text, after in parts:
         if prior in (';', '\n'):
             reachable = True
@@ -239,6 +252,7 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
             child_programs, child_venvs = programs, created
         child = judge_command(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
         children.append(child)
+        surviving &= child_venvs
         if after == '||':
             alternatives.append((dict(programs), set(created)))
         elif prior == '||' and alternatives:
@@ -252,7 +266,10 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
         prior = after
     if parsed is True and not has_or:
         installed.update(programs)
+        venvs.clear()
         venvs.update(created)
+    elif parsed is not False:
+        venvs.intersection_update(surviving)
     return aggregate(command, children, parsed)
 
 

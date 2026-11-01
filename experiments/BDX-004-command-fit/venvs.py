@@ -30,6 +30,40 @@ def rule(tokens, shell):
     return None
 
 
+def invalidate(text, shell, venvs):
+    """Modeled removal, relocation or overwriting invalidates activation-script proofs."""
+    import shlex
+    try:
+        tokens = shlex.split(text, posix=shell in ('bash', 'sh', 'zsh'))
+    except ValueError:
+        venvs.clear()
+        return
+    if tokens and tokens[0] == 'sudo':
+        tokens = tokens[1:]
+    if not tokens:
+        return
+    name, args = tokens[0].lower(), tokens[1:]
+    operands = [a for a in args if not a.startswith('-')]
+    if name in ('rm', 'rmdir', 'remove-item', 'del'):
+        affected = operands
+    elif name in ('mv', 'move-item'):
+        affected = operands
+    elif name in ('cp', 'copy-item'):
+        affected = operands[-1:]
+    else:
+        return
+    for path in affected:
+        path = path.replace('\\', '/').strip('"\'')
+        if '..' in PurePosixPath(path).parts:
+            venvs.clear()
+            return
+        path = str(PurePosixPath(path))
+        for root in set(venvs):
+            script = root + '/bin/activate'
+            if path == script or root == path or script.startswith(path.rstrip('/') + '/'):
+                venvs.discard(root)
+
+
 def parser_text(text, shell):
     """zsh's source builtin has the same syntax as dot for this literal activation subset."""
     if shell != 'zsh':
