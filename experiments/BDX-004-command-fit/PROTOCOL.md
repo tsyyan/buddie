@@ -123,6 +123,21 @@ false objections is reported as unreliable and left out of the gate proposal.
   synthetic fixture checks, not arm results. Record parser availability and both parent/leaf denominators;
   answer all_commands_decided checks the entire tree rather than hiding UNKNOWN below a BROKEN parent.
 
+- 2026-11-01, judge-validation pilot 1 (runs 41256702706 and 41257207065, arm A, gpt-oss-120b, 40 units; answers
+  kept apart): **failed**. UNKNOWN 43-50 % of commands (limit 25 %), and a systematic false objection: 30 of 33
+  answers give commands for several systems (brew, winget, apt and dnf side by side; 14 commands per answer), and the
+  judge objected to every section meant for another system (82-86 % BROKEN). A person reads the section for their
+  machine. Before registration, so the rule changes (below) and the pilot is repeated on 40 other units:
+  - an answer is split into sections by the system or shell they say they are for (headings, labels such as
+    "On macOS", "Windows (PowerShell)", "Debian/Ubuntu", and block tags); only the section(s) for this profile are
+    judged; a section for another system is no objection;
+  - an answer with sections, none of them for this profile, is BROKEN (wrong_os); an answer without sections is
+    judged whole, as before;
+  - new secondary outcome: TARGETED (the answer is for one system) vs HEDGED (sections for several), per arm, with the
+    number of commands a person must read;
+  - inline code is a command only when the text tells the person to run it, or when it has a program and an
+    argument; values, paths and lone names are not commands.
+
 ## Changes after data
 
 (none)
