@@ -13,6 +13,7 @@ from venvs import invalidate as invalidate_venvs, parser_text, rule as venv_rule
 from control import has_control, parse as parse_control
 from sections import select as select_sections
 from tool import HERE, load_profile
+from installations import intent as install_intent, uncertain, pending
 
 PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
 
@@ -139,6 +140,9 @@ def judge_simple(command, profile, req, installed, venvs):
                 rule[key] = values[0]
         if name in ('docker', 'podman') and '--version' in tokens:
             rule.pop('daemon', None)
+        attempt = install_intent(text, target)
+        if attempt:
+            rule.update(effect='INSTALLS', **attempt)
     if rule.get('needs_admin') and not sudo:
         if elevated is False:
             return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
@@ -146,6 +150,8 @@ def judge_simple(command, profile, req, installed, venvs):
             return verdict('UNKNOWN', detail='elevation unobserved')
     if rule.get('requires_path') and rule.get('activates_venv') not in venvs:
         return verdict('UNKNOWN', detail='the profile cannot establish that the activation script exists')
+    if rule.get('activation_shell') and observation(profile, 'system.shell', rule['activation_shell']).get('status') != 'observed':
+        return verdict('UNKNOWN', detail='activation script shell is not observed')
     if rule.get('nvidia'):
         adapters = value(profile, 'hardware.gpu', 'adapters')
         if adapters and not any(a.get('vendor') == 'NVIDIA' for a in adapters):
@@ -228,6 +234,8 @@ def judge_command(command, profile, req, installed, venvs):
     parts, is_list = split_list(command['text'], req['shell'])
     if not is_list or not parts:
         result = judge_simple(command, profile, req, installed, venvs)
+        if result['status'] in ('UNKNOWN', 'FITS', 'INSTALLS') and (attempt := install_intent(command['text'], req['shell'])):
+            uncertain(installed, attempt['installs'])
         if result['status'] == 'UNKNOWN':
             venvs.clear()  # unmodeled code may change cwd or the filesystem
         elif result['status'] in ('FITS', 'INSTALLS'):
@@ -277,6 +285,9 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
         else:
             child_programs, child_venvs = programs, created
         child = judge_command(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
+        # Intent is weaker than installation success and survives an undecided AND predecessor.
+        uncertain(programs, pending(child_programs))
+        uncertain(installed, pending(child_programs))
         children.append(child)
         surviving &= child_venvs
         if after == '||':
@@ -323,7 +334,11 @@ def judge_answer(answer, profile, task):
     rows, installed, venvs = [], {}, set()
     req = t['requirements'][p['id']]
     scope = select_sections(answer, p)
+    section = None
     for command in scope['commands']:
+        if command['section_id'] != section:
+            installed, venvs = {}, set(req.get('existing_venvs', []))
+            section = command['section_id']
         alt = other_shell(command, p, req)
         if alt is None:
             rows.append(judge_command(command, p, req, installed, venvs))

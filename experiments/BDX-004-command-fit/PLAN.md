@@ -164,3 +164,8 @@ then measurements, documentation and PR update. No provider/model calls or workf
 First regressions failed as expected, then 109 tests passed: fallback FITS requires known presence and
 parsed syntax; version/admin/GPU constraints survive unmatched forms. Missing sudo is program_missing;
 macOS sudo permission is UNKNOWN. Updated literal recorded expectations for the new semantics.
+Second-step regressions failed first, then passed: installation intent has a weaker pending state (no
+proof of presence), scoped to the declared audience, including an undecided AND predecessor. Ordinary
+successful installs establish presence; task versions still need evidence. Activation tasks explicitly
+declare .venv as existing; literal creation and mutation rules remain. fish/csh script variants require
+an observed shell. Full suite passes 113 tests with all parsers; all eight profiles validate.

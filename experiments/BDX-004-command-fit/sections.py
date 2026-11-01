@@ -105,6 +105,7 @@ def partition(answer):
     """Headings scope by depth; unrecognized child headings inherit, peers end that scope."""
     sections, declared, stack, flat, buffer = [], [], [], None, []
     prose, command_groups, flat_depth = set(), set(), 2
+    scopes = {}
     opened, block, block_context = None, [], None
 
     def context():
@@ -124,7 +125,7 @@ def partition(answer):
                 if command['shell'] == 'unknown' and len(target.get('shell', [])) == 1:
                     command['shell'] = target['shell'][0]
             sections.append(dict(label=name or tag or 'shared', targets=combined, group=group, labelled=labelled,
-                                 commands=commands))
+                                 scope=scopes.get(id(target), 'shared'), commands=commands))
         elif tag is None and group is not None and any(line.strip() for line in lines):
             prose.add(group)
 
@@ -166,6 +167,7 @@ def partition(answer):
                     flat = (combined, title, identity(combined))
                     flat_depth = max(2, stack[-1][0] + 1) if stack else 2
                 if target:
+                    scopes[id(combined)] = len(declared)
                     declared.append(dict(targets=combined, group=identity(combined), label=title))
                 # Headings can themselves contain an instruction to run code.
                 if '`' in title:
@@ -199,7 +201,7 @@ def select(answer, profile):
     for part in parts:
         part['applies'] = applicable and matches(part['targets'], profile)
         if part['applies']:
-            commands.extend(dict(c, section=part['label']) for c in part['commands'])
+            commands.extend(dict(c, section=part['label'], section_id=part.get('scope', 'shared')) for c in part['commands'])
     return dict(sections=parts, has_sections=has_sections, applicable=applicable,
                 targeting='HEDGED' if hedged else 'TARGETED', commands=commands,
                 commands_total=sum(len(p['commands']) for p in parts), commands_for_profile=len(commands))

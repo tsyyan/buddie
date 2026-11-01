@@ -32,6 +32,10 @@ def python_facts(profile, program, text):
 def program(profile, requirements, name, installed):
     """(on PATH / not found on PATH / unknown, version); scoped to the fixture."""
     if name in installed:
+        if isinstance(installed[name], dict) and installed[name].get('pending'):
+            # A preceding uncertain install defeats absence, but does not prove presence.
+            known, ver = program(profile, requirements, name, {})
+            return (True, ver) if known is True else (None, None)
         return True, installed[name]
     if name in requirements.get('missing_programs', []):
         return False, None

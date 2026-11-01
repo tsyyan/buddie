@@ -13,8 +13,10 @@ def directory(text):
 
 
 def activation(tokens):
-    if len(tokens) == 2 and tokens[0] in ('source', '.') and tokens[1].endswith('/bin/activate'):
-        return directory(tokens[1][:-len('/bin/activate')])
+    if len(tokens) == 2 and tokens[0] in ('source', '.'):
+        match = re.fullmatch(r'(.+)/bin/activate(?:\.(fish|csh))?', tokens[1])
+        if match:
+            return directory(match[1])
     return None
 
 
@@ -26,7 +28,9 @@ def rule(tokens, shell):
         if path := directory(args[2]):
             return dict(program=tokens[0], effect='FITS', python_module='venv', creates_venv=path)
     if shell in ('bash', 'sh', 'zsh') and (path := activation(tokens)):
-        return dict(program=tokens[0], effect='FITS', activates_venv=path, requires_path=True)
+        suffix = tokens[1].rsplit('.', 1)[-1]
+        return dict(program=tokens[0], effect='FITS', activates_venv=path, requires_path=True,
+                    activation_shell=suffix if suffix in ('fish', 'csh') else None)
     return None
 
 

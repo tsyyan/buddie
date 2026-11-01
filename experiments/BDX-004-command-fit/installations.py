@@ -1,0 +1,59 @@
+"""Literal installation intent; packages are evidence of an attempt, not of success."""
+import re
+import shlex
+
+ALIASES = {'nodejs': 'node', 'node@20': 'node', 'git.git': 'git',
+           'gyan.ffmpeg': 'ffmpeg', 'openjs.nodejs': 'node', 'openjs.nodejs.lts': 'node'}
+MANAGERS = {'apt', 'apt-get', 'dnf', 'apk', 'brew', 'winget', 'choco', 'pip', 'pip3', 'npm', 'conda'}
+
+
+def intent(text, shell):
+    try:
+        tokens = shlex.split(text, posix=shell in ('bash', 'sh', 'zsh'))
+    except ValueError:
+        return None
+    if tokens[:1] == ['sudo']:
+        tokens = tokens[1:]
+    if not tokens:
+        return None
+    if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]):
+        args = tokens[1:]
+        if args and re.fullmatch(r'-\d+\.\d+', args[0]):
+            args = args[1:]
+        if args[:2] != ['-m', 'pip']:
+            return None
+        tokens = ['pip'] + args[2:]
+    manager = tokens[0].lower()
+    if manager not in MANAGERS:
+        return None
+    action = next((i for i, t in enumerate(tokens[1:], 1) if t in ('install', 'add')), None)
+    if action is None or tokens[action] == 'add' and manager != 'apk':
+        return None
+    packages, skip = [], False
+    for token in tokens[action + 1:]:
+        if skip:
+            skip = False
+            continue
+        if token.startswith('-'):
+            # --id is winget's package operand; the other options below take values.
+            skip = token in ('--version', '--prefix', '--target', '-t', '-r', '--requirement',
+                             '--index-url', '--extra-index-url', '-i', '-n', '--name', '-c', '--channel')
+            continue
+        if not re.fullmatch(r'[A-Za-z0-9_.@+-]+(?:[=<>!~]+[A-Za-z0-9_.+-]+)?', token):
+            continue
+        package = re.split(r'[=<>!~]', token)[0]
+        package = ALIASES.get(package.lower(), package)
+        if '@' in package:
+            package = package.split('@')[0]
+        packages.append(package)
+    return dict(manager=manager, installs=packages,
+                needs_admin=manager in ('apt', 'apt-get', 'dnf', 'apk', 'choco')) if packages else None
+
+
+def uncertain(installed, names):
+    for name in names:
+        installed.setdefault(name, {'pending': True})
+
+
+def pending(installed):
+    return {name: v for name, v in installed.items() if isinstance(v, dict) and v.get('pending')}
