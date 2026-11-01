@@ -135,7 +135,7 @@ def inline_command(candidate, prefix):
         return False
     first = tokens[0].strip('"\'')
     if instructed:
-        return bool(re.match(r'^(?:\.{0,2}[/\\]|[A-Za-z]:[/\\]|[A-Za-z_][\w.+-]*(?:$|\s))', first))
+        return starts_program(candidate) or bool(re.match(r'^(?:\.{0,2}[/\\]|[A-Za-z]:[/\\]|[A-Za-z_][\w.+-]*(?:$|\s))', first))
     if not starts_program(candidate):
         return False
     if '/' in first or '\\' in first:

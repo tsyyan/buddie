@@ -203,3 +203,14 @@ profiles validate and the saved report reproduces exactly. Only experiment files
 Final targeted regression distinguishes explicit Linux (Debian/Ubuntu) restrictions from broad Linux
 headings with examples. It failed first, then the complete suite passed 137 tests; all profiles validate
 and the saved paired report is unchanged.
+
+## Pilot-4 remaining forms
+
+Owner reports run 41357808790 had 25.7% UNKNOWN and no false objections. No new protocol history or raw
+pilot-4 answers were on the branch at start (45f4317); the 18 new literal records are hand-written from
+the supplied forms, not claimed as original model responses. Captured all 151 cases before code changes
+with bash/dash/pwsh. Plan: absolute executable identity/cmdlets, sourced distribution userland, bounded
+task/answer file proofs, then paired measurements/docs/PR. No model calls, run settings or workflow edits.
+Initial executable/cmdlet regressions failed first. Normalization now preserves original command text
+and syntax checks while retaining version/OS/module/admin constraints. PowerShell call syntax is parsed
+as invocation; POSIX-only cmdlet shapes use selected official verbs without rejecting ordinary hyphenated tools.

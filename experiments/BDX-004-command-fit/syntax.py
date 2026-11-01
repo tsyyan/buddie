@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+from executables import normalize as normalize_executable
 
 # The script is constant. Answer bytes are read from stdin only by ParseInput.
 PS_PARSE = ('$t=$null; $e=$null; $s=[Console]::In.ReadToEnd(); '
@@ -57,6 +58,9 @@ def parser(shell):
 def syntax(shell, text):
     """True/False if parsed, None when no applicable parser can be used."""
     if shell == 'cmd':
+        _, normalized, path = normalize_executable(text, shell)
+        if path and re.match(r'^[A-Za-z]:[/\\]|^\\\\', path):
+            text = normalized
         if re.fullmatch(r'(?:\.\\)?[\w.-]+\\Scripts\\activate(?:\.bat)?', text, re.I):
             return True
         # Only these explicit forms are decided. Cmd has no parse-only API.

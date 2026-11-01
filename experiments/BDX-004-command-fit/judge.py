@@ -14,6 +14,7 @@ from control import has_control, parse as parse_control
 from sections import select as select_sections
 from tool import HERE, load_profile
 from installations import intent as install_intent, uncertain, pending
+from executables import normalize as normalize_executable, cmdlet
 
 PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
 MANAGER_DISTROS = json.loads((HERE / 'package_manager_distros.json').read_text(encoding='utf-8'))
@@ -84,9 +85,10 @@ def judge_simple(command, profile, req, installed, venvs):
         text = re.sub(r'^sudo\s+', '', text)
         if not tokens or tokens[0].startswith('-'):
             return verdict('UNKNOWN', detail='sudo options are not modeled')
-    name = tokens[0]
-    if name.lower().endswith('.exe'):
-        name = name[:-4]
+    name, text, executable_path = normalize_executable(text, target)
+    if target == 'powershell' and tokens[0] == '&':
+        tokens = tokens[1:]
+    tokens[0] = name
     if name.lower().startswith('$env:'):
         name = '$env:APP_MODE'
     relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
@@ -111,6 +113,9 @@ def judge_simple(command, profile, req, installed, venvs):
             found = True
     if found is False:
         return verdict('WONT_RUN', 'program_missing', f'{name} not found on the scenario PATH')
+    if family(target) == 'posix' and found is not True and cmdlet(name) and not any(
+            observation(profile, 'system.shell', s).get('status') == 'observed' for s in ('pwsh', 'powershell')):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'PowerShell cmdlet in a POSIX-only scenario')
     if name in ('py', 'python', 'python3') or re.fullmatch(r'python3\.\d+', name):
         py = python_facts(profile, name, text)
         if py.get('version_mismatch'):

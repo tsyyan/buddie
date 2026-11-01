@@ -2,6 +2,7 @@
 import re
 import shlex
 from facts import python_args
+from executables import normalize as normalize_executable
 
 ALIASES = {'nodejs': 'node', 'node@20': 'node', 'git.git': 'git',
            'gyan.ffmpeg': 'ffmpeg', 'openjs.nodejs': 'node', 'openjs.nodejs.lts': 'node'}
@@ -17,6 +18,10 @@ def intent(text, shell):
         tokens = tokens[1:]
     if not tokens:
         return None
+    normalized_name, _, _ = normalize_executable(re.sub(r'^sudo\s+', '', text), shell)
+    if shell == 'powershell' and tokens[0] == '&':
+        tokens = tokens[1:]
+    tokens[0] = normalized_name
     if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]):
         args = python_args(tokens)
         if args[:2] != ['-m', 'pip']:

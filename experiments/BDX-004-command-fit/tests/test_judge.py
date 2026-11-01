@@ -110,7 +110,8 @@ class Judge(unittest.TestCase):
                 ('PYTHONPATH=. python3 -m venv .venv', 'ubuntu2204-nosudo', 'python-venv', 'bash'),
                 ('& nvidia-smi', 'win11-pwsh-nvidia', 'gpu-check', 'powershell')]:
             result = grade(pid, tid, text, shell)
-            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+            expected = 'FITS' if shell == 'powershell' and judge.syntax(shell, 'Get-ChildItem') is not None else 'UNKNOWN'
+            self.assertEqual(result['commands'][0]['status'], expected)
 
     def test_question_only_and_explanation(self):
         for text in ['Which operating system and shell are you using?', 'What Python version is installed?',
