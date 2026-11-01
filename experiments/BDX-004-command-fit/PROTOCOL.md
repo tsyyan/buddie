@@ -29,11 +29,14 @@ The same model, system prompt and task in every arm; arm order randomized per un
 | A | the task only |
 | B | the task, and the tool `environment_snapshot` (`tool_schema.json`) answered by `tool.py` from the profile: the requested categories, those outside the profile's grants as `denied` |
 | C | the task, with the profile's snapshot of the task's categories in the first message |
-| D | arm B, then, while the judge finds a WONT_RUN command, its objections as feedback (at most 2 rounds) |
+| D | *deferred* (2026-11-02): arm B, then the judge's objections as feedback, the candidate gate; run only if C − A or B − A shows the snapshot helps |
 
-System prompt (all arms): "You help a person with their own computer. When the answer involves commands, give the
-exact commands for them to run." Arm D's feedback lists each WONT_RUN command with its reason and the profile facts
-it rests on, in the hook's form ("buddie sent this text back ..."); UNKNOWN commands are not fed back.
+System prompt (all arms; 2026-11-02, before registration): "You help a person with their own computer. Answer for
+this person's machine. When the answer involves commands, give the exact commands for them to run. If you do not
+know their system, ask, or say which system your commands are for." A person asking for help expects commands for
+their machine; an answer for several systems at once stays possible and is measured (HEDGED), but it is no longer
+what the prompt invites. Arm D's feedback, when it runs, lists each WONT_RUN command with its reason and the profile
+facts it rests on, in the hook's form ("buddie sent this text back ..."); UNKNOWN commands are not fed back.
 
 ## Outcomes (judge.py, no model; no answer text is ever executed)
 
@@ -79,15 +82,18 @@ without borrowing the default shell's task forms or builtin assumptions.
 
 ## Endpoints
 
-- **Primary**: share of BROKEN answers, B − A, paired by unit, all 192 units, 95 % paired bootstrap interval (4000
-  resamples, seed 7, as in BDX-003).
-- **Secondary**: C − A (the snapshot given, not asked for); D − B (what the gate adds); D − A; in B, the share of
-  units where the model called the tool and the categories it asked; ASKED and UNDECIDED shares per arm; input tokens
-  and requests per unit; BROKEN by profile and by reason.
+- **Primary** (2026-11-02, before registration): share of **OK** answers (commands for this machine, every one FITS
+  or INSTALLS), B − A, paired by unit, all 192 units, 95 % paired bootstrap interval (4000 resamples, seed 7, as in
+  BDX-003). OK rather than BROKEN, so that an answer that only asks (ASKED) or says nothing runnable does not count as
+  a success.
+- **Secondary**: C − A (the snapshot given, not asked for: what knowing the machine is worth at most); in B, the share
+  of units where the model called the tool and the categories it asked; BROKEN, ASKED, UNDECIDED and HEDGED shares
+  per arm; commands a person must read (offered, and for their machine); input tokens and requests per unit; BROKEN
+  by profile and by reason; D − B if D runs.
 - **Judge reliability**: from the audit, the share of WONT_RUN verdicts a person on that machine could in fact run
   (false objections), per reason.
 
-Expectations, stated before data, not tested as hypotheses beyond the intervals: B below A; C at or below B; D below
+Expectations, stated before data, not tested as hypotheses beyond the intervals: OK higher in B than A; C at or above
 B; false objections under 10 % of WONT_RUN verdicts. A gate (`commands` in the hook) is proposed for the plugin only
 if D − B is below zero and false objections stay under 10 %.
 
@@ -102,11 +108,11 @@ pilot's answers are kept apart and never pooled; judge changes after registratio
 ## Models
 
 `openai/gpt-oss-120b` through the free providers of BDX-003 (one provider per unit, never split), and
-`claude-opus-5` if a paid budget remains after BDX-003. Each model is run on all four arms.
+`claude-opus-5` if a paid budget remains after BDX-003. Each model is run on arms A, B, C (D only as stated above).
 
 ## Audit
 
-A blind 20 % sample of judged commands, stratified by verdict, is read by the owner: does a WONT_RUN hold on that
+A blind sample of judged commands, up to 10 per arm and verdict (round-robin across reasons, seed 11), is read by the owner: does a WONT_RUN hold on that
 machine, would a FITS run. Disagreements are reported per verdict and reason; a reason class with more than 10 %
 false objections is reported as unreliable and left out of the gate proposal.
 
@@ -161,6 +167,12 @@ false objections is reported as unreliable and left out of the gate proposal.
   (Debian/Ubuntu)"); remaining UNKNOWN mostly pipelines (`ps -ef | grep sshd`) and package managers of another
   distribution read as unobserved instead of wrong_os. Ten whole answers are kept as judge material in
   tests/pilot/pilot3_answers.jsonl (run 41346616739, same units; not results).
+
+- 2026-11-02, owner, before registration: the design is simplified (system prompt that asks for commands for this
+  person's machine; primary endpoint on OK answers; arms A, B, C, with D deferred; a smaller stratified audit). The
+  judge gets one more iteration on the pilot-3 material (pipelines, another distribution's package manager as
+  wrong_os, multi-system headings, tables, inline labels), then pilot 4 on 40 units no earlier pilot used, with the
+  new system prompt.
 
 ## Changes after data
 

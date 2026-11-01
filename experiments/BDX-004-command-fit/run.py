@@ -28,8 +28,9 @@ import client as cl  # noqa: E402
 import judge as jd  # noqa: E402
 import tool as tl  # noqa: E402
 
-SYSTEM = ("You help a person with their own computer. When the answer involves commands, give the exact commands "
-          "for them to run.")
+SYSTEM = ("You help a person with their own computer. Answer for this person's machine. When the answer involves "
+          "commands, give the exact commands for them to run. If you do not know their system, ask, or say which "
+          "system your commands are for.")  # PROTOCOL 2026-11-02
 TOOL = json.loads((HERE / "tool_schema.json").read_text(encoding="utf-8"))
 MAX_TOOL_STEPS = 6
 RETURNED = ("buddie (a plugin that checks claims against evidence, without a model) sent this answer back: the "
