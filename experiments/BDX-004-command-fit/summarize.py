@@ -32,6 +32,8 @@ def main(argv=None) -> int:
     ap.add_argument("runs")
     ap.add_argument("--sheet")
     ap.add_argument("--examples", type=int, default=0, help="per verdict reason, this many judged commands as notices")
+    ap.add_argument("--dump", type=int, default=0,
+                    help="this many whole answers with a WONT_RUN or UNKNOWN command, as notices (a step shows 10)")
     a = ap.parse_args(argv)
     rows = [json.loads(x) for x in Path(a.runs).read_text(encoding="utf-8").splitlines() if x.strip()]
     ok = [r for r in rows if "verdict" in r]
@@ -66,7 +68,7 @@ def main(argv=None) -> int:
             if pairs:
                 paired.append(f"{model} | {y}-{x} BROKEN: n {len(pairs)}, diff "
                               f"{sum(b - a for a, b in pairs) / len(pairs):.3f}, ci {bootstrap(pairs)}")
-    lines = notes + paired + cells
+    lines = [] if a.dump else notes + paired + cells  # a dump step has its own 10 notices
     for i in range(0, len(lines), 2):
         print("::notice title=BDX-004 " + str(i // 2 + 1) + "::" + " || ".join(lines[i:i + 2]))
     if a.examples:  # what the owner would read in the sheet, when the artifact cannot be fetched
@@ -85,6 +87,15 @@ def main(argv=None) -> int:
         for g, items in sorted(groups.items()):
             rng.shuffle(items)
             print(f"::notice title=BDX-004 examples {g} ({len(items)})::" + " || ".join(items[:a.examples]))
+    if a.dump:  # whole answers, so a judge fix can be made from what models write
+        picked = [r for r in ok if any(c["status"] in ("WONT_RUN", "UNKNOWN")
+                                       for c in jd.leaf_commands(r["verdict"]["commands"]))]
+        random.Random(5).shuffle(picked)
+        for r in picked[:a.dump]:
+            bad = [f"{c['status']} {c.get('reason') or ''} `{c['text'][:60]}`" for c in jd.leaf_commands(
+                r["verdict"]["commands"]) if c["status"] in ("WONT_RUN", "UNKNOWN")][:6]
+            print(f"::notice title=BDX-004 answer {r['profile']}/{r['task']}::verdicts: {'; '.join(bad)} ===== "
+                  + r["final"][:5000].replace("\r", "").replace("\n", " ⏎ "))
     if a.sheet:
         with open(a.sheet, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)
