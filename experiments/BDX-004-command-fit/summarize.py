@@ -18,6 +18,16 @@ sys.path.insert(0, str(HERE))
 import judge as jd  # noqa: E402
 
 
+# Why a command is UNKNOWN (PROTOCOL 2026-11-02): the profile does not say (a data gap, a property of what the person
+# granted and of the machine) or the judge cannot read the command (a judge gap, what the pilot limits to 25 %)
+DATA_GAP = ("unobserved", "not established", "not observed", "placeholder", "establish that", "does not establish")
+
+
+def unknown_cause(command: dict) -> str:
+    detail = (command.get("detail") or "").lower()
+    return "data" if any(k in detail for k in DATA_GAP) else "judge"
+
+
 def bootstrap(pairs, iters=4000, seed=7):
     if len(pairs) < 5:
         return None
@@ -55,7 +65,10 @@ def main(argv=None) -> int:
                     f"({len(measured)}/{n} measured)" if measured else f"; targeting {targeting}; audience counts UNRECORDED")
         cells.append(f"{model} | {arm}: n {n}; answers " + ", ".join(f"{k} {v / n:.2f}" for k, v in sorted(st.items()))
                      + f"; commands {len(leaves)}: " + ", ".join(f"{k} {v}" for k, v in sorted(cs.items()))
-                     + f" (UNKNOWN {cs['UNKNOWN'] / max(1, len(leaves)):.2f}); WONT_RUN reasons {dict(reasons)}"
+                     + f" (UNKNOWN {cs['UNKNOWN'] / max(1, len(leaves)):.2f}: judge gap "
+                     f"{sum(unknown_cause(c) == 'judge' for c in leaves if c['status'] == 'UNKNOWN') / max(1, len(leaves)):.2f}, "
+                     f"data gap {sum(unknown_cause(c) == 'data' for c in leaves if c['status'] == 'UNKNOWN') / max(1, len(leaves)):.2f})"
+                     + f"; WONT_RUN reasons {dict(reasons)}"
                      + f"; tool calls {sum(r['tool_calls'] for r in rs) / n:.2f}, requests "
                      f"{sum(r['requests'] for r in rs) / n:.2f}, sent chars {sum(r['sent_chars'] for r in rs) / n:.0f}" + audience)
     paired = []

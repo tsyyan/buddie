@@ -103,8 +103,10 @@ if D − B is below zero and false objections stay under 10 %.
 
 Arm A only, model `openai/gpt-oss-120b` (free tier, as BDX-003), 40 units drawn stratified by profile (5 per profile,
 seed recorded). The owner reads every judged command (a check of the judge, not of the arms).
-The judge passes when UNKNOWN is at most 25 % of extracted commands and no reason class shows a systematic false
-objection. Failing that, the judge is fixed from these answers and the pilot is repeated on 40 other units. The
+The judge passes when no reason class shows a systematic false objection and the UNKNOWN commands the judge itself
+cannot read (a *judge gap*: a form, construct or parse it does not model) are at most 25 % of extracted commands
+(owner, 2026-11-02, before registration). UNKNOWN because the profile does not say (a *data gap*: unobserved or
+ungranted facts, which no arm can supply either) is reported apart, per arm (`summarize.unknown_cause`). Failing that, the judge is fixed from these answers and the pilot is repeated on 40 other units. The
 pilot's answers are kept apart and never pooled; judge changes after registration go to "Changes after data".
 
 ## Models
@@ -181,6 +183,14 @@ false objections is reported as unreliable and left out of the gate proposal.
   executable identities, distribution-shipped service/socket tools and PowerShell cmdlets on POSIX-only profiles.
   The follow-up below uses hand-written records of the supplied forms; no raw pilot-4 answers were supplied
   on this branch and no new model/pilot run is made by this correction.
+
+- 2026-11-02, pilots 4 and 5 (runs 41357808790 and 41361267278; machine-specific prompt, arm A): every one of
+  their 23 WONT_RUN verdicts holds when read (nvidia-smi or nvcc without NVIDIA, conda or python absent, sudo absent,
+  `source` in sh): no false objection class remains. UNKNOWN 25.7 % (pilot 4) and 64 % (pilot 5); pilot 5's units
+  lean on container tasks, where the baseline said nothing about Docker or Podman. Two changes before registration:
+  the UNKNOWN criterion splits judge gaps from data gaps (above), and the profiles follow buddie's new baseline
+  category `software.containers` (client versions; PR #89), the daemon (`development.containers`) staying ungranted.
+  Pilot 5 is repeated on its 32 units with both, to measure the judge gap.
 
 ## Changes after data
 
