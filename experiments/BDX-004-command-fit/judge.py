@@ -16,6 +16,7 @@ from tool import HERE, load_profile
 from installations import intent as install_intent, uncertain, pending
 from executables import normalize as normalize_executable, cmdlet, placeholder
 from file_proofs import seed as seed_files, known as known_file, provide as provide_file
+from containers import needs_daemon, default_target
 
 PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
 MANAGER_DISTROS = json.loads((HERE / 'package_manager_distros.json').read_text(encoding='utf-8'))
@@ -158,8 +159,6 @@ def judge_simple(command, profile, req, installed, venvs):
             values = [r.get(key) for r in relevant]
             if values and all(v == values[0] for v in values) and values[0] is not None:
                 rule[key] = values[0]
-        if name in ('docker', 'podman') and '--version' in tokens:
-            rule.pop('daemon', None)
         attempt = install_intent(text, target)
         if attempt:
             # An unfamiliar form can run without proving that binaries were installed
@@ -168,6 +167,11 @@ def judge_simple(command, profile, req, installed, venvs):
             rule['needs_admin'] = attempt['needs_admin']
         if wheel and any(r.get('cuda_wheel') for r in relevant):
             rule.update(cuda_wheel=True, nvidia=True)
+    if name == 'docker':
+        required = needs_daemon(tokens)
+        if required is None:
+            return verdict('UNKNOWN', detail='Docker command daemon requirements outside classifier')
+        rule = dict(rule, daemon=required)
     if rule.get('needs_admin') and not sudo:
         if elevated is False:
             return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
@@ -190,6 +194,10 @@ def judge_simple(command, profile, req, installed, venvs):
         if py.get(rule['python_module']) is not True:
             return verdict('UNKNOWN', detail='Python module availability unobserved')
     if rule.get('daemon'):
+        if 'development.containers' not in profile['granted'] or profile['document']['categories'].get('development.containers', {}).get('status') == 'denied':
+            return verdict('UNKNOWN', detail='daemon not granted (development.containers)')
+        if not default_target(tokens):
+            return verdict('UNKNOWN', detail='selected daemon context/host not observed')
         daemon = value(profile, 'development.containers', 'docker_daemon')
         if not daemon or not daemon.get('reachable'):
             return verdict('UNKNOWN', detail='Docker daemon availability not established')

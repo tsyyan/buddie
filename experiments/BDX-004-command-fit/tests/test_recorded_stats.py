@@ -5,6 +5,18 @@ import recorded_stats
 
 
 class RecordedStats(unittest.TestCase):
+    def test_unknown_causes_use_recursive_leaf_denominator(self):
+        from test_container_baseline import with_docker
+        from unittest.mock import patch
+        case = dict(id='causes', profile=with_docker(), task='container-version',
+                    answer='```bash\ndocker ps; python3 --version > output.txt\n```')
+        with patch.object(judge, 'syntax', return_value=True):
+            summary = recorded_stats.summarize([case])
+        self.assertEqual(summary['unknown_causes'], {'data': 1, 'judge': 1})
+        self.assertEqual(summary['unknown_cause_share'], {'data': 0.5, 'judge': 0.5})
+        self.assertEqual(summary['leaf_commands'], 2)
+        self.assertEqual(summary['commands'], 1)
+
     def test_offered_and_selected_counts_are_distinct(self):
         case = dict(id='selection', profile='macos-arm', task='install-git',
                     answer='## Windows\n```powershell\nwinget install Git.Git\n```')

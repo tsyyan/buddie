@@ -20,7 +20,7 @@ import judge as jd  # noqa: E402
 
 # Why a command is UNKNOWN (PROTOCOL 2026-11-02): the profile does not say (a data gap, a property of what the person
 # granted and of the machine) or the judge cannot read the command (a judge gap, what the pilot limits to 25 %)
-DATA_GAP = ("unobserved", "not established", "not observed", "placeholder", "establish that", "does not establish")
+DATA_GAP = ("unobserved", "not established", "not observed", "placeholder", "establish that", "does not establish", "not granted")
 
 
 def unknown_cause(command: dict) -> str:

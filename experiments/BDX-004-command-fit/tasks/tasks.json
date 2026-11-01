@@ -3329,6 +3329,7 @@
     "categories": [
       "system.os",
       "system.shell",
+      "software.containers",
       "development.containers"
     ],
     "applies_to": "all",
@@ -3614,7 +3615,7 @@
     "categories": [
       "system.os",
       "system.shell",
-      "development.containers"
+      "software.containers"
     ],
     "applies_to": "all",
     "shell_dependent": false,

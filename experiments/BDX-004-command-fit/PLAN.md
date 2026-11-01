@@ -242,3 +242,10 @@ for mixed/all-missing observations rather than forcing collected. Dynamic catalo
 the category distinction without probing the host. Client lookup now uses only software.containers.
 Merge validation: all 160 experiment tests pass with native parsers, 98 diagnostics tests pass (1 skip),
 and all eight profiles pass problems(). Next: task category/daemon rules, cause-split measurements and docs.
+Task version requests now ask only baseline clients; run requests also ask the still-sensitive daemon
+category. Daemon-dependent Docker forms are classified independently of task patterns. A present client
+does not prove daemon access: denied grants yield UNKNOWN with daemon not granted and a data-gap cause;
+known missing clients retain program_missing. Review reproduced/fixed global-option/group bypasses,
+client-only help false gaps and default-target reachability leaking to other contexts/hosts. Unclassified
+Docker CLI forms remain judge gaps. Recorded stats uses summarize.unknown_cause on recursive leaves,
+including UNKNOWN leaves of BROKEN parents. All 169 experiment tests pass; all eight profiles validate.

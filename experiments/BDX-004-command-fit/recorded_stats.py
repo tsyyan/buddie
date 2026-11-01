@@ -7,6 +7,15 @@ from pathlib import Path
 from judge import judge_answer, leaf_commands
 from syntax import syntax
 from tool import HERE
+from summarize import unknown_cause
+
+
+def cause_split(leaves):
+    """Use the pilot summarizer's classifier and all recursive leaves as denominator."""
+    rows = list(leaves)
+    counts = Counter(unknown_cause(row) for row in rows if row['status'] == 'UNKNOWN')
+    return dict(unknown_causes={kind: counts[kind] for kind in ('data', 'judge')},
+                unknown_cause_share={kind: counts[kind] / len(rows) if rows else None for kind in ('data', 'judge')})
 
 
 def summarize(cases):
@@ -16,7 +25,8 @@ def summarize(cases):
     total = sum(counts.values())
     leaves = Counter(row['status'] for answer in answers for row in leaf_commands(answer['commands']))
     leaf_total = sum(leaves.values())
-    return dict(answers=len(answers), commands=total, unknown_commands=counts['UNKNOWN'],
+    return dict(**cause_split(row for answer in answers for row in leaf_commands(answer['commands'])),
+                answers=len(answers), commands=total, unknown_commands=counts['UNKNOWN'],
                 commands_total=sum(a['commands_total'] for a in answers),
                 commands_for_profile=sum(a['commands_for_profile'] for a in answers),
                 targeting=dict(Counter(a['targeting'] for a in answers)),
@@ -36,7 +46,8 @@ def compare(cases, baseline):
     if not original_ids <= {r['id'] for r in cases}:
         raise ValueError('current corpus omits baseline answer IDs')
     return dict(baseline_commit=baseline['commit'],
-                before=dict(answers=len(baseline['rows']), commands=total, unknown_commands=before['UNKNOWN'],
+                before=dict(**cause_split(c for r in baseline['rows'] for c in leaf_commands(r['commands'])),
+                            answers=len(baseline['rows']), commands=total, unknown_commands=before['UNKNOWN'],
                             commands_total=sum(r.get('commands_total', len(r['commands'])) for r in baseline['rows']),
                             commands_for_profile=total,
                             unknown_share=before['UNKNOWN'] / total if total else None,
