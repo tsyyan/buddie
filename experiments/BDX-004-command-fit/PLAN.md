@@ -127,3 +127,13 @@ and metric details back into v1 without changing arms/endpoints/models/audit. It
 installed-tag override is beyond this request and conflicts with the earlier negative
 case; asked the owner asynchronously and, absent new direction, retained current selection
 and explicitly recorded this pre-registration follow-up in README/PROTOCOL/PR.
+
+## Pilot-1 sections correction
+
+Fast-forwarded to remote b036dd5 and read the failed pilot's recorded rule change. This
+pass makes no model calls and does not change run settings/workflows. Plan: (1) stricter
+inline extraction, (2) data-backed section scope/targeting/counts, (3) twelve realistic
+multi-system answers, bounded verification forms, measurements and docs. Review after code.
+Captured pre-change results for 76 existing plus 31 profile checks on 12 new answers:
+107 profile-answer cases, 237 parent commands, 25 UNKNOWN (tests/sections_before.json).
+Inline regressions failed first; the complete suite now passes 85 tests with all parsers.

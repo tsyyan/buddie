@@ -1,0 +1,309 @@
+[
+  {
+    "id": "git-four-headings",
+    "task": "install-git",
+    "answer": "Choose the instructions for your system; you do not need to run every alternative.\n\n## On macOS\n```bash\nbrew install git\ngit --version\n```\n\n## Windows (PowerShell)\n```powershell\nwinget install Git.Git\ngit --version\n```\n\n## Debian/Ubuntu\n```bash\nsudo apt install git\ngit --version\n```\n\n## Fedora\n```bash\nsudo dnf install git\ngit --version\n```",
+    "checks": [
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "fedora40",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "ffmpeg-bold",
+    "task": "install-ffmpeg",
+    "answer": "Choose the instructions for your system; you do not need to run every alternative.\n\n**macOS (Homebrew)**\n```bash\nbrew install ffmpeg\nffmpeg -version\n```\n\n**Windows (PowerShell)**\n```powershell\nwinget install Gyan.FFmpeg\nffmpeg -version\n```\n\n**Debian/Ubuntu (apt)**\n```bash\nsudo apt install ffmpeg\nffmpeg -version\n```\n\n**Fedora (dnf)**\n```bash\nsudo dnf install ffmpeg\nffmpeg -version\n```",
+    "checks": [
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "fedora40",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "node20-colon",
+    "task": "install-node20",
+    "answer": "Choose the instructions for your system; you do not need to run every alternative.\n\nOn macOS:\n```bash\nbrew install node@20\nnode -v\n```\n\nWindows (PowerShell):\n```powershell\nwinget install OpenJS.NodeJS --version 20.18.0\nnode -v\n```\n\nDebian/Ubuntu:\n```bash\nsudo apt install nodejs=20.18.0\nnode -v\n```\n\nFedora:\n```bash\nsudo dnf install nodejs-20.18.0\nnode -v\n```",
+    "checks": [
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "fedora40",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "nested-linux-alpine",
+    "task": "install-ffmpeg",
+    "answer": "Pick a package manager for your distribution.\n\n## Linux\n### Debian or Ubuntu\n```bash\nsudo apt install ffmpeg\nffmpeg -version\n```\n### Fedora\n```bash\nsudo dnf install ffmpeg\nffmpeg -version\n```\n### Alpine\n```sh\napk add ffmpeg\nffmpeg -version\n```\n## macOS\n```zsh\nbrew install ffmpeg\nffmpeg -version\n```",
+    "checks": [
+      {
+        "profile": "alpine-container",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "fedora40",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "wsl-only-label",
+    "task": "install-git",
+    "answer": "**WSL (Ubuntu):**\n```bash\nsudo apt install git\ngit --version\n```\n\n**Fedora:**\n```bash\nsudo dnf install git\ngit --version\n```",
+    "checks": [
+      {
+        "profile": "wsl-ubuntu",
+        "status": "OK",
+        "commands_total": 4,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "BROKEN",
+        "commands_total": 4,
+        "commands_for_profile": 0,
+        "targeting": "HEDGED",
+        "reason": "wrong_os"
+      }
+    ]
+  },
+  {
+    "id": "manager-labels",
+    "task": "install-git",
+    "answer": "Choose the instructions for your system; you do not need to run every alternative.\n\nHomebrew:\n```bash\nbrew install git\ngit --version\n```\n\nwinget (PowerShell):\n```powershell\nwinget install Git.Git\ngit --version\n```\n\napt:\n```bash\napt install git\ngit --version\n```\n\ndnf:\n```bash\nsudo dnf install git\ngit --version\n```",
+    "checks": [
+      {
+        "profile": "ubuntu2204-nosudo",
+        "status": "BROKEN",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED",
+        "reason": "needs_admin"
+      },
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 8,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "shell-alternatives",
+    "task": "list-files",
+    "answer": "Use one of these shells, not both.\n\n## PowerShell\n```powershell\nGet-ChildItem\n```\n## Command Prompt (cmd)\n```cmd\ndir\n```",
+    "checks": [
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 2,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-cmd-nogpu",
+        "status": "OK",
+        "commands_total": 2,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "macos-arm",
+        "status": "BROKEN",
+        "commands_total": 2,
+        "commands_for_profile": 0,
+        "targeting": "HEDGED",
+        "reason": "wrong_os"
+      }
+    ]
+  },
+  {
+    "id": "block-tag-alternatives",
+    "task": "list-files",
+    "answer": "In a POSIX shell:\n```bash\nls\n```\nOr in PowerShell:\n```powershell\nGet-ChildItem\n```",
+    "checks": [
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 2,
+        "commands_for_profile": 1,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 2,
+        "commands_for_profile": 1,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "one-system-subheadings",
+    "task": "install-git",
+    "answer": "## Ubuntu\n### Install Git\n```bash\nsudo apt install git\n```\n### Verify\nRun `git --version` to confirm installation.\nThe executable is named `git`.",
+    "checks": [
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 2,
+        "commands_for_profile": 2,
+        "targeting": "TARGETED"
+      },
+      {
+        "profile": "macos-arm",
+        "status": "BROKEN",
+        "commands_total": 2,
+        "commands_for_profile": 0,
+        "targeting": "TARGETED",
+        "reason": "wrong_os"
+      }
+    ]
+  },
+  {
+    "id": "no-alpine-section",
+    "task": "install-git",
+    "answer": "## Windows (PowerShell)\n```powershell\nwinget install Git.Git\ngit --version\n```\n## Fedora\n```bash\nsudo dnf install git\ngit --version\n```",
+    "checks": [
+      {
+        "profile": "alpine-container",
+        "status": "BROKEN",
+        "commands_total": 4,
+        "commands_for_profile": 0,
+        "targeting": "HEDGED",
+        "reason": "wrong_os"
+      }
+    ]
+  },
+  {
+    "id": "inline-platforms",
+    "task": "install-git",
+    "answer": "On macOS:\nRun `brew install git`. Verify with `git --version`.\nThe command's name is `git`; a typical path is `/opt/homebrew/bin/git`.\n\nWindows (PowerShell):\nExecute `winget install Git.Git`, then run `git --version`.\n`Git.Git` is a package ID, not another instruction.",
+    "checks": [
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 4,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "win11-pwsh-nvidia",
+        "status": "OK",
+        "commands_total": 4,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      }
+    ]
+  },
+  {
+    "id": "shared-verification",
+    "task": "install-git",
+    "answer": "## macOS\n```bash\nbrew install git\n```\n## Debian/Ubuntu\n```bash\nsudo apt install git\n```\n## Verify installation\nRun `git --version`.\nUse the preceding instructions for your OS.",
+    "checks": [
+      {
+        "profile": "macos-arm",
+        "status": "OK",
+        "commands_total": 3,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "ubuntu2404-nvidia",
+        "status": "OK",
+        "commands_total": 3,
+        "commands_for_profile": 2,
+        "targeting": "HEDGED"
+      },
+      {
+        "profile": "fedora40",
+        "status": "BROKEN",
+        "commands_total": 3,
+        "commands_for_profile": 0,
+        "targeting": "HEDGED",
+        "reason": "wrong_os"
+      }
+    ]
+  }
+]

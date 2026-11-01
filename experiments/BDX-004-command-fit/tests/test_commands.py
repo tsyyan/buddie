@@ -8,6 +8,21 @@ import commands
 
 
 class Extraction(unittest.TestCase):
+    def test_inline_names_values_and_paths_are_not_instructions(self):
+        text = ('The tools are `git`, `node` and `python3`. Version `20.18.0` is a value. '
+                'Open `/tmp/project` or `C:\\Program Files\\Git`. The setting is `APP_MODE=dev`.')
+        self.assertEqual(commands.extract(text), [])
+
+    def test_inline_directive_or_program_with_argument(self):
+        text = ('Run `git`. Type `python3`. Execute `node`. '
+                '`git --version` reports its version. Do not run `rm`.')
+        self.assertEqual([r['text'] for r in commands.extract(text)],
+                         ['git', 'python3', 'node', 'git --version'])
+
+    def test_inline_run_context_does_not_turn_a_directory_into_a_command(self):
+        self.assertEqual(commands.extract('Run `git` from `/tmp/project`. The file is `data.txt`.'),
+                         [{'text': 'git', 'shell': 'unknown'}])
+
     def test_prompts_comments_output_and_continuations(self):
         text = ('```bash\n$ python3 -m pip install \\\n  requests # comment\n'
                 'Successfully installed requests\n# ignore\necho "#literal"\n```\n'

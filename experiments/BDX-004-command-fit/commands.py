@@ -1,5 +1,6 @@
 """Extract likely runnable Markdown, retaining shell and answer order."""
 import re
+import shlex
 from base_commands import BASE_NAMES
 from control import complete as control_complete, has_control
 from shell_lists import lex
@@ -118,6 +119,27 @@ def block_commands(lines, shell):
         yield {'text': pending.strip(), 'shell': shell}
 
 
+def inline_command(candidate, prefix):
+    """Inline references need an invocation, not merely a familiar tool or path name."""
+    if not starts_program(candidate):
+        return False
+    if re.search(r"(?i)\b(?:do not|don't|never)\s+(?:run|type|execute)\b[^.!?]*$", prefix):
+        return False
+    instructed = bool(re.search(r'(?i)\b(?:run|type|execute)(?:\s+(?:the|this|following|command|commands))*\s*:?\s*$', prefix))
+    try:
+        tokens = shlex.split(candidate, posix=False)
+    except ValueError:
+        return instructed
+    if not tokens:
+        return False
+    first = tokens[0].strip('"\'')
+    if '/' in first or '\\' in first:
+        name = re.split(r'[/\\]', first)[-1].lower()
+        if name not in PROGRAMS and not re.search(r'\.(?:exe|bat|cmd|ps1|sh)$', name):
+            return False
+    return instructed or len(tokens) >= 2
+
+
 def extract(answer):
     """Return {'text', 'shell'} rows; extraction never runs answer text."""
     out, opened, lines, language = [], None, [], ''
@@ -135,7 +157,7 @@ def extract(answer):
         else:
             for match in re.finditer(r'(?<!`)(`+)([^`\n]+)\1(?!`)', line):
                 candidate = PROMPT.sub('', match[2].strip())
-                if starts_program(candidate):
+                if inline_command(candidate, line[:match.start()]):
                     out.append({'text': candidate, 'shell': 'unknown'})
     if opened and language in LANGUAGES:
         out.extend(block_commands(lines, LANGUAGES[language]))

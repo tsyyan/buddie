@@ -213,6 +213,10 @@ That gap is recorded in PROTOCOL and must be resolved before judge registration;
   heredocs, unsupported control grammar, complex expansions and programs outside that vocabulary may need audit. The blind audit in PROTOCOL.md
   is still necessary. These fixtures are test material, not measured model performance.
 
+Inline code is an instruction only when its sentence directly says to run/type/execute it, or it contains
+a program and at least one argument. Plain tool names, versions, settings and directory/file references are
+not commands. An explicit "do not run" instruction is not an instruction to execute that code.
+
 ## Running
 
 | Path | What |
