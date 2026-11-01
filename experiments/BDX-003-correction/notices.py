@@ -30,6 +30,10 @@ def lines(data: Path) -> list[tuple[str, str]]:
                 out.append((f"BDX-003 errors {model}", " || ".join(e[:400] for e in last)))
     if (data / "judged" / "summary.json").exists():
         s = read_json(data / "judged" / "summary.json")
+        pl = [f"{k}: n {p['n']}, diff {p['diff']}, ci {p['ci95']}, only-earlier-bad {p['only_a_bad']}, "
+              f"only-later-bad {p['only_b_bad']}" for k, p in s["paired"].items()]
+        for i in range(0, len(pl), 6):  # first: GitHub shows 10 notices a step
+            out.append((f"BDX-003 paired {i // 6 + 1}", " || ".join(pl[i:i + 6])))
         cells = [f"{k}: n {c['n']}, correct {c['correct']}, wrong {c['wrong']}, removed {c['removed']} "
                  f"(no paragraph {c.get('no_paragraph')}, unquoted kept {c.get('unquoted_kept')}, "
                  f"replaced correct {c.get('replaced_correct')}, paraphrased {c.get('paraphrased')}), "
@@ -38,10 +42,7 @@ def lines(data: Path) -> list[tuple[str, str]]:
                  f"failed {c['failed_runs']}" for k, c in s["cells"].items()]
         for i in range(0, len(cells), 3):
             out.append((f"BDX-003 cells {i // 3 + 1}", " || ".join(cells[i:i + 3])))
-        out.append(("BDX-003 paired", " || ".join(
-            f"{k}: n {p['n']}, diff {p['diff']}, ci {p['ci95']}, only-earlier-bad {p['only_a_bad']}, "
-            f"only-later-bad {p['only_b_bad']}" for k, p in s["paired"].items())))
-    return out[:12]
+    return out[:10]
 
 
 if __name__ == "__main__":
