@@ -130,6 +130,8 @@ def main(argv=None) -> int:
     ap.add_argument("--pilot", type=int, help="the judge-validation pilot: n units stratified by profile")
     ap.add_argument("--n", type=int, help="the first n units in seeded order (default: all)")
     ap.add_argument("--seed", type=int, default=20261101)
+    ap.add_argument("--exclude-pilot-seed", type=int, action="append", default=[],
+                    help="leave out the units an earlier pilot with this seed drew (a repeated pilot uses others)")
     ap.add_argument("--arms", default="A,B,C,D")
     ap.add_argument("--provider", required=True)
     ap.add_argument("--model", required=True)
@@ -142,7 +144,8 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     pairs = [tuple(p) for p in json.loads(Path(a.units).read_text(encoding="utf-8"))["pairs"]]
     if a.pilot:
-        units = pilot_units(pairs, a.pilot, a.seed)
+        used = {u for s in a.exclude_pilot_seed for u in pilot_units(pairs, a.pilot, s)}
+        units = pilot_units([p for p in pairs if p not in used], a.pilot, a.seed)
     else:
         units = sorted(pairs)
         random.Random(a.seed).shuffle(units)
