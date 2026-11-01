@@ -100,3 +100,9 @@ recorded cases and measurements. All changes stay in this experiment directory.
 Captured the current 60-answer/44-command baseline at 5e4c330: 1 UNKNOWN with bash,
 dash and pwsh available (tests/lists_before.json). List/state tests were observed failing
 before implementation. Full suite now passes 61 tests with those parsers; profiles validate.
+
+Control regressions were observed failing before implementation. Added bounded recursive
+if/loop/case parsing, intact extraction, whole-structure syntax and branch-local evaluation.
+The parser consumes data only; dynamic/unsupported forms are UNKNOWN. Found and reproduced
+Windows CRLF stdin corrupting dash closing keywords; switched parser stdin to LF bytes.
+The complete suite now passes 67 tests with bash/dash/pwsh; eight profiles still validate.

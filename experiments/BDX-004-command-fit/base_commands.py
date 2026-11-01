@@ -21,7 +21,7 @@ ALPINE_BUSYBOX = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo he
 MACOS_BSD = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar'.split())
 # POSIX shell builtins used by the profiles:
 # https://pubs.opengroup.org/onlinepubs/9799919799/utilities/contents.html
-POSIX_BUILTINS = frozenset(('export', 'echo', 'printf', 'pwd', 'cd', 'set', '.'))
+POSIX_BUILTINS = frozenset(('export', 'echo', 'printf', 'pwd', 'cd', 'set', '.', 'true', 'false', ':', 'test', '['))
 # Core Management and Utility module cmdlets; names stored case-insensitively:
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.management/
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/
@@ -40,6 +40,9 @@ BASE_NAMES = (LINUX_COREUTILS | LINUX_UTIL_LINUX | LINUX_EXTRA | ALPINE_BUSYBOX 
 # Operands deliberately exclude options, expansions, globs and quoting we cannot model.
 OPERAND = r'[A-Za-z0-9_./][A-Za-z0-9_./-]*'
 POSIX_FORMS = {
+    'true': r'true', 'false': r'false', ':': r':',
+    'test': rf'test (?:-[def] {OPERAND}|{OPERAND} = {OPERAND})',
+    '[': rf'\[ (?:-[def] {OPERAND}|{OPERAND} = {OPERAND}) \]',
     'ls': rf'ls(?: -[alh1]+)?(?: {OPERAND})?',
     'mkdir': rf'mkdir(?: -p)? {OPERAND}',
     'rm': rf'rm(?: -[f]+)? {OPERAND}',

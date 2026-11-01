@@ -164,6 +164,12 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
   by the profile parser. No answer text is executed. Effects flow through successful sequential/AND steps;
   a failed or unknown AND predecessor cannot establish setup. OR alternatives use separate state, and
   effects are not exported from an OR-containing list. Unsupported actual pipelines remain UNKNOWN.
+- POSIX if/elif/else/fi, for/while/until/do/done and case/esac structures are extracted intact, including
+  nested and incomplete structures. The complete text is syntax-checked by the profile shell (dash for sh),
+  then conditions and body commands are judged recursively. The worst potential branch wins; this is a
+  static audit of suggested commands, not a prediction of which branch executes. Each branch has its own
+  copy of prior answer state, so setup in one branch cannot prove activation in another or after a loop/if.
+  Dynamic headers and unsupported grammar remain UNKNOWN, never a default FITS or silently NO_COMMANDS.
 - CUDA wheel tags use the task's explicit rule `wheel CUDA <= observed driver CUDA`; this is an experiment rule,
   not a general CUDA compatibility oracle. The judge does not infer toolkit presence from the driver's CUDA ceiling.
 - Extraction recognizes the documented shell fences and inline commands with a bounded program vocabulary or

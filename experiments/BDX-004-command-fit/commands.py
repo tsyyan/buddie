@@ -1,6 +1,7 @@
 """Extract likely runnable Markdown, retaining shell and answer order."""
 import re
 from base_commands import BASE_NAMES
+from control import complete as control_complete, has_control
 
 LANGUAGES = {'bash': 'bash', 'sh': 'sh', 'zsh': 'zsh', 'powershell': 'powershell',
              'pwsh': 'powershell', 'ps1': 'powershell', 'cmd': 'cmd', 'bat': 'cmd',
@@ -47,6 +48,8 @@ def starts_program(line):
         return False
     if line.startswith('& '):
         return starts_program(line[2:].lstrip())
+    if has_control(line):
+        return True
     if re.match(r'^(?:\[\[\s|[A-Za-z_]\w*=\()', line):
         return True  # Keep shell constructs so incompatible profiles can reject them.
     assignment = re.match(r'^[A-Za-z_]\w*=(?:"[^"\n]*"|\x27[^\x27\n]*\x27|[^\s]+)\s+(.+)$', line)
@@ -66,7 +69,7 @@ def starts_program(line):
 
 def block_commands(lines, shell):
     """Join physical continuations before deciding whether a line is command or output."""
-    pending = ''
+    pending, structure = '', ''
     for physical in lines:
         prompted = PROMPT.match(physical.strip())
         line = PROMPT.sub('', physical.strip())
@@ -79,11 +82,20 @@ def block_commands(lines, shell):
         pending += line[:-1].rstrip() + ' ' if continued else line
         if continued:
             continue
+        if structure or (shell in ('bash', 'sh', 'zsh', 'posix', 'unknown') and has_control(pending)):
+            structure += ('\n' if structure else '') + pending
+            pending = ''
+            if control_complete(structure):
+                yield {'text': structure, 'shell': shell}
+                structure = ''
+            continue
         if prompted or starts_program(pending):
             yield {'text': pending.strip(), 'shell': shell}
         pending = ''
     if pending and starts_program(pending):
         yield {'text': pending.strip(), 'shell': shell}
+    if structure:
+        yield {'text': structure, 'shell': shell}
 
 
 def extract(answer):

@@ -11,6 +11,7 @@ from facts import observation, program, python_facts, value, version
 from syntax import family, non_posix, syntax
 from shell_lists import split_list
 from venvs import parser_text, rule as venv_rule
+from control import has_control, parse as parse_control
 from tool import HERE, load_profile
 
 
@@ -188,10 +189,41 @@ def aggregate(command, children, parsed):
 
 
 def judge_command(command, profile, req, installed, venvs):
+    if family(req['shell']) == 'posix' and has_control(command['text']):
+        parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+        try:
+            nodes = parse_control(command['text'])
+        except ValueError:
+            child = dict(command, status='UNKNOWN', reason=None, detail='structure outside the bounded parser subset')
+            return aggregate(command, [child], parsed)
+        if len(nodes) == 1 and nodes[0]['kind'] != 'simple':
+            return judge_structure(command, nodes[0], profile, req, installed, venvs, parsed)
+        return judge_sequence(command, [(n['text'], n['after']) for n in nodes], profile, req, installed, venvs, parsed)
     parts, is_list = split_list(command['text'], req['shell'])
     if not is_list or not parts:
         return judge_simple(command, profile, req, installed, venvs)
     parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+    return judge_sequence(command, parts, profile, req, installed, venvs, parsed)
+
+
+def judge_structure(command, node, profile, req, installed, venvs, parsed):
+    children = []
+    for group in node['groups']:
+        programs, created = dict(installed), set(venvs)
+        for part in ('condition', 'body'):
+            nodes = group[part]
+            if nodes:
+                text = ''.join(n['text'] + n['after'] for n in nodes)
+                entry = dict(text=text, shell=command['shell'])
+                children.append(judge_sequence(entry, [(n['text'], n['after']) for n in nodes],
+                                               profile, req, programs, created, parsed))
+    if node['uncertain'] or not children:
+        children.append(dict(text=command['text'], shell=command['shell'], status='UNKNOWN',
+                             reason=None, detail='dynamic header or unmodeled empty structure'))
+    return aggregate(command, children, parsed)
+
+
+def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
     programs, created = dict(installed), set(venvs)
     has_or = any(after == '||' for _, after in parts)
     children, reachable, prior, alternatives = [], True, '', []
@@ -205,7 +237,7 @@ def judge_command(command, profile, req, installed, venvs):
             child_programs, child_venvs = dict(installed), set(venvs)
         else:
             child_programs, child_venvs = programs, created
-        child = judge_simple(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
+        child = judge_command(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
         children.append(child)
         if after == '||':
             alternatives.append((dict(programs), set(created)))

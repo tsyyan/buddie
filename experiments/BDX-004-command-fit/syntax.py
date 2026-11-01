@@ -75,7 +75,8 @@ def syntax(shell, text):
     for key in ('BASH_ENV', 'ENV', 'SHELLOPTS', 'BASHOPTS', 'CDPATH'):
         env.pop(key, None)
     try:
-        result = subprocess.run(argv, input=text + '\n', text=True, encoding='utf-8',
+        # Binary stdin preserves LF: Windows text-mode CRLF turns fi into the word fi\r for dash.
+        result = subprocess.run(argv, input=(text + '\n').encode('utf-8'),
                                 capture_output=True, timeout=8, env=env)
     except (OSError, subprocess.TimeoutExpired, UnicodeError):
         return None
