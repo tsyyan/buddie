@@ -224,3 +224,7 @@ Review findings were independently reproduced and fixed: global placeholder path
 curl without a single URL/output pair, attached PS call operators, service force-reload admin checks.
 Also covered unquoted operators hidden in paths and empty call-operator crashes. All 18 new literal
 recordings pass; the full suite passes 157 tests with bash/dash/pwsh, and all eight profiles validate.
+Paired 151-case report keeps offered/selected parents fixed (476/233): UNKNOWN parents 71/233 (30.47%)
+to 53/233 (22.75%); leaves 72/269 to 54/269. Default-PATH suite passes with 72 parser-dependent skips.
+README/PROTOCOL distinguish these offline counts from the owner-reported 25.7% pilot-4 figure; no rerun,
+new qualification or registration is claimed. Saved before/after snapshots reproduce exactly.

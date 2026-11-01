@@ -176,6 +176,12 @@ false objections is reported as unreliable and left out of the gate proposal.
   wrong_os, multi-system headings, tables, inline labels), then pilot 4 on 40 units no earlier pilot used, with the
   new system prompt.
 
+- 2026-11-02, owner reports judge-validation pilot 4 (run 41357808790): 25.7% UNKNOWN (limit 25%) and
+  no false objection. Remaining forms are literal file execution with task/answer existence evidence, absolute
+  executable identities, distribution-shipped service/socket tools and PowerShell cmdlets on POSIX-only profiles.
+  The follow-up below uses hand-written records of the supplied forms; no raw pilot-4 answers were supplied
+  on this branch and no new model/pilot run is made by this correction.
+
 ## Changes after data
 
 (none)
@@ -237,3 +243,24 @@ Their outcomes change 7 BROKEN/3 UNDECIDED to 1 OK/3 BROKEN/6 UNDECIDED; their p
 is reported explicitly rather than discarded or treated as success. See pilot3_before.json/pilot3_after.json
 and the README reproduction command. This is offline judge regression material, not pilot-4 results or
 registration; the planned fresh pilot remains separate.
+
+## Pilot-4 remaining-form correction (before registration, 2026-11-02)
+
+Absolute executable paths use the normal program’s availability and task constraints, while original text
+is syntax-checked and retained in output. Literal placeholders never establish presence. Direct file
+execution requires task-provided or bounded successful earlier-command evidence for the exact path; the
+permissions task declares script.sh. File/venv state shares conservative branch, scope and mutation rules.
+No host filesystem or suggested program is inspected/executed. Program basenames also drive mutation
+invalidation, preventing stale proofs after absolute rm/mv/cd commands.
+
+Sourced per-distro userland adds service and nc/ncat/ss/process tools where assumed by these scenarios;
+unlisted tools remain uncertain and missing observations still win. Admin constraints survive service
+mutator aliases. A conventional PowerShell cmdlet in a POSIX-only profile receives wrong_shell_syntax;
+normal observed programs and observed alternative shells retain their existing treatment.
+
+Eighteen new hand-written cases with literal expectations make 151 recorded profile/answer cases. With
+bash/dash/pwsh available on both sides, UNKNOWN parents are 71/233 (30.47%) at 45f4317 versus 53/233 (22.75%)
+after; recursive leaves 72/269 (26.77%) versus 54/269 (20.07%). Offered/selected parent counts stay 476/233.
+All BROKEN answers and UNKNOWN children are retained. Evidence: tests/pilot4_before.json, pilot4_after.json,
+pilot4_answers.json and README reproduction command. This is an offline corpus check, distinct from the
+owner-reported pilot-4 percentage; no fresh pilot qualification or registration is claimed.

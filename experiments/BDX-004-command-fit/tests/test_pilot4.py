@@ -74,7 +74,7 @@ class DistroUserland(unittest.TestCase):
                 with self.subTest(profile=pid, command=text):
                     self.assertEqual(grade(pid, 'port-process', text)['commands'][0]['status'], 'FITS')
 
-    def test_unshipped_and_explicitly_missing_tools_are_not_assumed(self):
+    def test_unlisted_and_explicitly_missing_tools_are_not_assumed(self):
         with patch.object(judge, 'syntax', return_value=True):
             for pid, text in [('macos-arm', 'service ssh status'), ('alpine-container', 'ss -ltnp'),
                               ('ubuntu2404-nvidia', 'ncat -z localhost 8000')]:

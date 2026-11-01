@@ -43,7 +43,8 @@ ALPINE_BUSYBOX = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo he
 # https://github.com/apple-oss-distributions/file_cmds
 # https://github.com/apple-oss-distributions/shell_cmds
 # https://github.com/apple-oss-distributions/libarchive (bsdtar)
-# Apple's network_cmds supplies nc and netstat; shell_cmds supplies process utilities:
+# Apple's network_cmds supplies nc/netstat; adv_cmds supplies ps:
+# https://github.com/apple-oss-distributions/adv_cmds
 # https://github.com/apple-oss-distributions/network_cmds
 MACOS_BSD = frozenset('ls mkdir rm cp mv cat chmod touch pwd printf echo head tail du df uname whoami tar nc netstat'.split())
 # POSIX shell builtins used by the profiles:

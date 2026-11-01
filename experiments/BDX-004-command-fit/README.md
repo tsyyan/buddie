@@ -1,11 +1,13 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
-Status: **last judge correction before pilot 4** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
+Status: **pilot-4 remaining-form correction** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
 command extraction, a snapshot stand-in and the model-free judge are present. The recorded corpus has 76 earlier
 answers, 12 realistic multi-system answers (31 profile checks), 16 pilot-2-shaped answers and ten whole
-pilot-3 answers supplied as judge material: 114 distinct answers, 133 profile-answer cases.
-Judge-validation pilots 1–3 failed. This pass uses only the supplied recordings and offline tests, preserves
-the simplified A/B/C design and pilot-4 settings, and makes no model calls or new pilot run.
+pilot-3 answers supplied as judge material, plus 18 hand-written pilot-4-shaped records:
+132 distinct answers, 151 profile-answer cases.
+Pilots 1–3 failed; the owner reports pilot 4 was at 25.7% UNKNOWN with no false objection.
+This pass uses only existing recordings and offline tests, preserves
+the simplified A/B/C design and run settings, and makes no model calls or new pilot run.
 
 ## Question
 
@@ -375,4 +377,47 @@ Before/after snapshots are tests/pilot3_before.json and tests/pilot3_after.json.
 
 ```sh
 python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot3_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot3_answers.json
+```
+
+## Pilot-4 remaining forms (2026-11-02)
+
+The owner reports run 41357808790 had 25.7% UNKNOWN (25% limit) and no false objection. Its raw answers were
+not supplied on this branch. `tests/pilot4_answers.json` therefore contains **18 hand-written cases based on
+the supplied forms**, with literal expected verdicts; they are not labelled as original model responses.
+
+- Absolute executable names (including quoted Windows paths and PowerShell’s spaced or attached `&` call
+  operator) resolve to their basename for program/version/OS/module/admin checks. Original text is preserved
+  for display and shell parsing. An absolute path cannot bypass those constraints. Unquoted shell operators
+  are never erased as path prefixes. Placeholder paths such as /full/path/to remain UNKNOWN.
+- Direct POSIX file execution FITS only with task/answer evidence for the exact literal file. The permissions
+  task declares script.sh as provided. Bounded successful touch/chmod/cp commands and a single literal curl
+  URL/output pair can establish evidence; help, missing URLs, ambiguous outputs and unmodeled forms cannot.
+  File evidence shares section/branch/reset/mutation rules with venv evidence. Absolute rm/cd/mv identities
+  invalidate proofs too. Conditional, failed or unknown setup cannot establish a file outside its branch.
+  This follows the requested existence rule; contents, interpreter/shebang and executable mode are not probed.
+- `base_commands.py` cites primary package/manpage/config sources for Ubuntu/Debian service, ss, nc, ps;
+  Fedora service, ss, nc/ncat, ps; Alpine BusyBox nc/ps/netstat and related applets; macOS BSD nc/netstat.
+  These are explicit package-backed scenario assumptions, not a claim that every minimal image installs
+  every package. Unlisted tools remain UNKNOWN and explicit missing observations override the base sets.
+  Standard service mutators, including force-reload, retain admin constraints.
+- Conventional PowerShell Verb-Noun cmdlets on POSIX-only profiles give wrong_shell_syntax. Normal observed
+  POSIX programs and hyphenated tools such as nvidia-smi/apt-get are not rejected merely for their names.
+  Existing audience selection and observed alternative-shell behavior are preserved.
+
+With identical bash/dash/pwsh availability, all **151 recorded profile/answer cases**, before 45f4317 and after:
+
+| Metric | Before | After |
+|---|---:|---:|
+| Offered extracted parents | 476 | 476 |
+| Selected/judged parents | 233 | 233 |
+| UNKNOWN parents | 71/233 (30.47%) | 53/233 (22.75%) |
+| UNKNOWN recursive leaves | 72/269 (26.77%) | 54/269 (20.07%) |
+
+BROKEN answers and UNKNOWN children remain included; no denominator is filtered for parser availability.
+Questions/prose contribute zero commands. The 18 new cases expect 10 OK, 4 BROKEN and 4 UNDECIDED answers.
+This is a paired offline regression comparison, not a rerun of pilot 4 or proof that a fresh pilot passes.
+Snapshots: tests/pilot4_before.json and tests/pilot4_after.json. Historical tables above remain historical.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot4_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot3_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot4_answers.json
 ```
