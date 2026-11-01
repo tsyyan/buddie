@@ -24,6 +24,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import csv
+import hashlib
+import random
+
 from common import best_span, in_text, page_text, quoted_spans, read_json, read_jsonl, write_json  # noqa: E402
 from judge import FLAG, bootstrap_diff  # noqa: E402
 from product import bad  # noqa: E402
@@ -59,6 +63,27 @@ def summary(texts: list[str], page: str) -> dict:
     flagged = bool(quoting) and any(FLAG.search(t) for t in texts[quoting[-1]:])
     return {"quotes": len(quoted_spans(_body(texts[quoting[-1]]))) if quoting else 0,
             "false_shown": len(shown), "false_final": 0 if flagged else len(final), "flagged": flagged}
+
+
+def audit_sheet(rows: list[dict], latest: dict, units: dict, path_csv, path_key, seed: int = 11) -> None:
+    """Every judged run for the owner's blind audit (PROTOCOL: read the first 20 %): what the reader saw, the target
+    quote and the source's words (the unit's evidence), the judge's outcome; no condition. The key maps rows back."""
+    rows = list(rows)
+    random.Random(seed).shuffle(rows)
+    key = []
+    with open(path_csv, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["row", "task", "source_url", "quote_in_draft", "source_says", "what_the_reader_saw",
+                    "auto_outcome", "your_outcome", "note"])
+        for i, r in enumerate(rows, 1):
+            u, run = units[r["unit"]], latest[(r["unit"], r["task"], r["condition"], r["rep"])]
+            shown = "\n---\n".join(run["texts"])
+            w.writerow([i, r["task"], u["url"], u["quote"] if r["task"] == "paragraph" else "",
+                        u.get("evidence") or "", shown, r.get("outcome") or f"false_final {r.get('false_final')}",
+                        "", ""])
+            key.append({"row": i, "unit": r["unit"], "task": r["task"], "condition": r["condition"], "rep": r["rep"],
+                        "check": hashlib.sha256(shown.encode()).hexdigest()[:12]})
+    write_json(path_key, key)
 
 
 def main(argv=None) -> int:
@@ -129,6 +154,7 @@ def main(argv=None) -> int:
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "judged.json", rows)
+    audit_sheet(rows, latest, units, out / "audit_sheet.csv", out / "audit_key.json")
     write_json(out / "summary.json", {"cells": cells, "paired": paired})
     # GitHub shows 10 notices a step: the paired comparisons first, three to a notice, then the cells two to one
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "

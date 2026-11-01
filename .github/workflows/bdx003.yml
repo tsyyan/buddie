@@ -305,6 +305,21 @@ jobs:
           path: experiments/BDX-003-correction/product-data
           key: bdx003-product-${{ github.run_id }}
           restore-keys: bdx003-product-
+      - name: the key's balance (one small request; a 402 turns the chunk into judging only)
+        if: env.PRODUCT_RUN == '1'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd experiments/BDX-003-correction
+          python - <<'PY'
+          import os, arms
+          try:
+              arms.Client("anthropic", os.environ["MODEL"], 60, 1, 30, None).chat([{"role": "user", "content": "Reply OK."}], None)
+              print("::notice title=BDX-003 product balance::the key answers")
+          except BaseException as e:  # noqa: BLE001
+              print(f"::warning title=BDX-003 product balance::{str(e)[:200]} - this chunk only judges")
+              open(os.environ["GITHUB_ENV"], "a").write("PRODUCT_RUN=judge\n")
+          PY
       - name: two Claude Code homes, without and with buddie
         if: env.PRODUCT_RUN == '1'
         run: |
@@ -358,4 +373,14 @@ jobs:
         with:
           path: experiments/BDX-003-correction/product-data
           key: bdx003-product-${{ github.run_id }}
+      - name: the audit sheet for the owner (what the reader saw, the judge's outcome; no page snapshots)
+        if: always() && (env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge')
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: bdx003-product-audit-${{ github.run_id }}
+          path: |
+            experiments/BDX-003-correction/product-data/judged/audit_sheet.csv
+            experiments/BDX-003-correction/product-data/judged/audit_key.json
+            experiments/BDX-003-correction/product-data/judged/summary.json
+          if-no-files-found: warn
 
