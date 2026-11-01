@@ -64,8 +64,8 @@ def program(profile, requirements, name, installed):
         return (False, None) if obs.get('reason') == 'not_found_on_path' else (None, None)
     mapping = {'py': ('software.python', 'py_launcher_versions'),
                'nvidia-smi': ('software.gpu_stack', 'cuda_driver'),
-               'docker': ('development.containers', 'docker_client'),
-               'podman': ('development.containers', 'podman_client')}
+               'docker': ('software.containers', 'docker_client'),
+               'podman': ('software.containers', 'podman_client')}
     search = [mapping[name]] if name in mapping else [
         ('software.tools', name), ('software.package_managers', name),
         ('software.runtimes', name), ('system.shell', name)]

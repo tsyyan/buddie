@@ -18,7 +18,9 @@
       "software.runtimes",
       "software.package_managers",
       "software.gpu_stack",
-      "software.tools"
+      "software.tools",
+      "software.containers",
+      "development.containers"
     ],
     "rejected": [],
     "tools": [
@@ -56,6 +58,7 @@
       "hardware.cpu",
       "hardware.gpu",
       "hardware.memory",
+      "software.containers",
       "software.gpu_stack",
       "software.package_managers",
       "software.python",
@@ -1116,6 +1119,50 @@
           "concerns": "runtime"
         }
       }
+    },
+    "software.containers": {
+      "status": "unavailable",
+      "reason": "nothing_observed",
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "docker_client",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "podman_client",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        }
+      ],
+      "observations": {
+        "docker_client": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "docker_client",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "podman_client": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "podman_client",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        }
+      }
+    },
+    "development.containers": {
+      "status": "denied",
+      "reason": "not_granted",
+      "tier": "sensitive",
+      "methods": [],
+      "observations": {}
     }
   },
   "supplied": {},

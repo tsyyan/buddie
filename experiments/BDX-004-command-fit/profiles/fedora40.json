@@ -19,6 +19,7 @@
       "software.package_managers",
       "software.gpu_stack",
       "software.tools",
+      "software.containers",
       "development.containers"
     ],
     "rejected": [],
@@ -54,10 +55,10 @@
     "grants": "active",
     "policy": "absent",
     "effective": [
-      "development.containers",
       "hardware.cpu",
       "hardware.gpu",
       "hardware.memory",
+      "software.containers",
       "software.gpu_stack",
       "software.package_managers",
       "software.python",
@@ -1098,10 +1099,10 @@
         }
       }
     },
-    "development.containers": {
+    "software.containers": {
       "status": "partial",
       "reason": null,
-      "tier": "sensitive",
+      "tier": "baseline",
       "methods": [
         {
           "method": "docker_client",
@@ -1134,6 +1135,13 @@
           "concerns": "runtime"
         }
       }
+    },
+    "development.containers": {
+      "status": "denied",
+      "reason": "not_granted",
+      "tier": "sensitive",
+      "methods": [],
+      "observations": {}
     }
   },
   "supplied": {},

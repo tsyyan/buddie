@@ -228,3 +228,17 @@ Paired 151-case report keeps offered/selected parents fixed (476/233): UNKNOWN p
 to 53/233 (22.75%); leaves 72/269 to 54/269. Default-PATH suite passes with 72 parser-dependent skips.
 README/PROTOCOL distinguish these offline counts from the owner-reported 25.7% pilot-4 figure; no rerun,
 new qualification or registration is claimed. Saved before/after snapshots reproduce exactly.
+
+## Container-client baseline integration
+
+Fast-forwarded to b9d5856 (owner's pilots 4/5 history and UNKNOWN cause classifier), then merged
+feat/container-clients-baseline at ddf798e without conflicts. The four imported non-experiment files are
+the requested PR-89 integration; all follow-up edits stay in this experiment. No PR is merged to main.
+Current fixtures explicitly provide Podman 5.2 on Fedora and no Docker client; preserve that inventory,
+including Alpine's separate host-engine marker. Captured 167 before-migration recorded cases (151 earlier
+plus 16 literal client-version cases). Regenerated all eight profiles with attempted/granted baseline
+clients and denied/ungranted daemon categories. Follow the real collector's partial/unavailable statuses
+for mixed/all-missing observations rather than forcing collected. Dynamic catalog/stand-in tests prove
+the category distinction without probing the host. Client lookup now uses only software.containers.
+Merge validation: all 160 experiment tests pass with native parsers, 98 diagnostics tests pass (1 skip),
+and all eight profiles pass problems(). Next: task category/daemon rules, cause-split measurements and docs.

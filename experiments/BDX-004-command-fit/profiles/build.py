@@ -27,6 +27,10 @@ SPECS = [
     ('alpine-container', 'linux', 'Alpine Linux', '3.20', 'x86_64', 'sh',
      '3.12.7', 'apk', None, None, None, True),
 ]
+# Preserve the scenario's explicit client inventory. A Docker-host runtime marker
+# does not imply that a Docker client is installed inside the guest/container.
+CLIENTS = {spec[0]: {'docker_client': None, 'podman_client': '5.2.0' if spec[0] == 'fedora40' else None}
+           for spec in SPECS}
 
 
 def category(cid, values):
@@ -139,16 +143,13 @@ def build(spec):
     if toolkit:
         tool_versions['nvcc'] = toolkit
     put('software.tools', {n: p(tool_versions.get(n), 'tool:' + n) for n in probes.TOOLS})
-    put('development.containers', dict(docker_client=p(None, 'docker_client'),
-                                      podman_client=p('5.2.0' if pm == 'dnf' else None, 'podman_client')))
-    granted = BASE + (['development.containers'] if pm == 'dnf' else [])
-    # Unrequested sensitive categories are omitted in real collection too.
-    if pm != 'dnf':
-        cats.pop('development.containers')
+    put('software.containers', {name: p(version, name) for name, version in CLIENTS[pid].items()})
+    cats['development.containers'] = dict(status='denied', reason='not_granted', tier='sensitive', methods=[], observations={})
+    granted = BASE
     doc = dict(format=dg.FORMAT, collector=dict(buddie=__version__, policy='absent', platform=platform),
                request=dict(id=pid.replace('-', ''), categories=list(cats), rejected=[],
                             tools=list(probes.TOOLS), rejected_tools=[], path_given=False),
-               authorization=dict(grants='active', policy='absent', effective=sorted(cats)),
+               authorization=dict(grants='active', policy='absent', effective=sorted(granted)),
                started_at=STAMP, finished_at=STAMP, observations_concern='runtime', categories=cats,
                supplied={}, limitations=[], scopes=dg.scopes(False), snapshot=None)
     assert not dg.problems(doc), (pid, dg.problems(doc))
