@@ -13,7 +13,7 @@ class Lists(unittest.TestCase):
         for text, status, children in [
                 ('ls && mkdir output; rm -f temp.txt', 'FITS', ['FITS'] * 3),
                 ('ls || conda --version', 'WONT_RUN', ['FITS', 'WONT_RUN']),
-                ('ls; python3 --imaginary', 'UNKNOWN', ['FITS', 'UNKNOWN'])]:
+                ('ls; unobserved-tool --help', 'UNKNOWN', ['FITS', 'UNKNOWN'])]:
             with self.subTest(text=text):
                 result = grade('ubuntu2404-nvidia', 'list-files', text, 'bash')['commands'][0]
                 self.assertEqual(result['status'], status)

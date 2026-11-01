@@ -1,0 +1,5736 @@
+{
+  "commit": "94fa8a1",
+  "rows": [
+    {
+      "id": "01-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "01-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "python3 not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "01-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "02-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python --version",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "02-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "py not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "02-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "03-fitting",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "system_profiler SPDisplaysDataType",
+          "shell": "zsh",
+          "section": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "zsh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "03-broken",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [
+        {
+          "text": "nvidia-smi",
+          "shell": "zsh",
+          "section": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_os",
+          "detail": "NVIDIA/CUDA tools are not applicable on this platform"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "zsh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "03-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "04-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "04-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "conda create -n project python=3.12",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "04-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "05-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "05-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "conda --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "05-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "06-fitting",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu122",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "06-broken",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "status": "BROKEN",
+      "reason": "version_mismatch",
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "version_mismatch",
+          "detail": "wheel CUDA 12.4 exceeds driver CUDA 12.2"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "06-question",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "07-fitting",
+      "profile": "fedora40",
+      "task": "container-version",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "podman --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "07-broken",
+      "profile": "fedora40",
+      "task": "container-version",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "docker --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "docker not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "07-question",
+      "profile": "fedora40",
+      "task": "container-version",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "08-fitting",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "sh",
+          "section": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "08-broken",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "sh",
+          "section": "sh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "08-question",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "09-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "set APP_MODE=development",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "09-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "09-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "10-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "curl.exe -o data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "10-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "wget -O data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "10-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "11-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "11-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "11-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "12-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "tar -czf data.tar.gz data",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "12-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "wget --help",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "12-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "13-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo systemctl restart ssh",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "13-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "systemctl restart ssh",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "13-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "14-fitting",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "section": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "14-broken",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "14-question",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "15-fitting",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "zsh",
+          "section": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "zsh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "15-broken",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "zsh",
+          "section": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "zsh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "15-question",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "16-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "16-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "16-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "status": "ASKED",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "bash-for-powershell",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "bash-for-ash",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "missing-venv-module",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-venv",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "Python venv module unavailable"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "explanation-only",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "status": "NO_COMMANDS",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "not-environment-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "status": "NO_COMMANDS",
+      "reason": null,
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 0,
+      "commands_for_profile": 0,
+      "sections": [],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "unknown-flags",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python --imaginary",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "installer-not-elevated",
+      "profile": "win11-cmd-nogpu",
+      "task": "install-ffmpeg",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "choco install ffmpeg",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "cmd",
+          "section": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "cmd",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "bash-on-macos",
+      "profile": "macos-arm",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "ls -la",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "bash-on-alpine",
+      "profile": "alpine-container",
+      "task": "make-directory",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "mkdir -p output",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "alpine-double-brackets",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "[[ -d output ]]",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "alpine-array",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "BROKEN",
+      "reason": "wrong_shell_syntax",
+      "commands": [
+        {
+          "text": "items=(one two)",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "powershell-on-cmd",
+      "profile": "win11-cmd-nogpu",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "list-posix",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "ls && mkdir output; rm -f temp.txt",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "mkdir output",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "rm -f temp.txt",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "list-powershell",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "Get-ChildItem; Get-Location",
+          "shell": "powershell",
+          "section": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "Get-ChildItem",
+              "shell": "powershell",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "Get-Location",
+              "shell": "powershell",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "powershell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "venv-and-source",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv .venv &&\nsource .venv/bin/activate",
+          "shell": "bash",
+          "section": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "venv-and-dot",
+      "profile": "alpine-container",
+      "task": "python-venv",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv .venv; . .venv/bin/activate",
+          "shell": "sh",
+          "section": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": ". .venv/bin/activate",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "venv-source-zsh",
+      "profile": "macos-arm",
+      "task": "python-venv",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv .venv && source .venv/bin/activate",
+          "shell": "zsh",
+          "section": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "zsh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "zsh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "zsh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "list-broken-and-unknown",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "ls; python3 --imaginary; conda --version",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "python3 --imaginary",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "no complete task rule for this command form"
+            },
+            {
+              "text": "conda --version",
+              "shell": "bash",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "conda not found on the scenario PATH"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-if",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "if [ -d output ]; then ls; else mkdir output; fi",
+          "shell": "sh",
+          "section": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "[ -d output ];",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "[ -d output ]",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "ls;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "mkdir output;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "mkdir output",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-for",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "for item in one two; do ls && mkdir output; done",
+          "shell": "sh",
+          "section": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls&&mkdir output;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                },
+                {
+                  "text": "mkdir output",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-while",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "while false; do ls; done",
+          "shell": "sh",
+          "section": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "false;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "false",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "ls;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-case",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "case value in value) ls ;; other) conda --version ;; esac",
+          "shell": "sh",
+          "section": "sh",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "conda --version",
+              "shell": "sh",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "conda --version",
+                  "shell": "sh",
+                  "status": "WONT_RUN",
+                  "reason": "program_missing",
+                  "detail": "conda not found on the scenario PATH"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-unknown",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "if true; then python3 --imaginary; fi",
+          "shell": "sh",
+          "section": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "true;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "true",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "python3 --imaginary;",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "python3 --imaginary",
+                  "shell": "sh",
+                  "status": "UNKNOWN",
+                  "reason": null,
+                  "detail": "no complete task rule for this command form"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 2
+    },
+    {
+      "id": "control-dynamic-pattern",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "case value in `conda --version`) ls ;; esac",
+          "shell": "sh",
+          "section": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "case value in `conda --version`) ls ;; esac",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "dynamic header or unmodeled empty structure"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 1
+    },
+    {
+      "id": "venv-removed",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv .venv; rm -f .venv/bin/activate; source .venv/bin/activate",
+          "shell": "bash",
+          "section": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "rm -f .venv/bin/activate",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "the profile cannot establish that the activation script exists"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 1
+    },
+    {
+      "id": "multiline-literal",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "echo \"first\nconda --version\nlast\"",
+          "shell": "bash",
+          "section": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "venv-failed-before-source",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-venv",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv && source .venv/bin/activate",
+          "shell": "bash",
+          "section": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "Python venv module unavailable"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "the profile cannot establish that the activation script exists"
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "bash",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "control-branch-state",
+      "profile": "alpine-container",
+      "task": "python-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "if true; then python3 -m venv .venv; . .venv/bin/activate; else . .venv/bin/activate; fi",
+          "shell": "sh",
+          "section": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "true;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "true",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "python3 -m venv .venv;. .venv/bin/activate;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "python3 -m venv .venv",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                },
+                {
+                  "text": ". .venv/bin/activate",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": ". .venv/bin/activate;",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": ". .venv/bin/activate",
+                  "shell": "sh",
+                  "status": "UNKNOWN",
+                  "reason": null,
+                  "detail": "the profile cannot establish that the activation script exists"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "sh",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 2
+    },
+    {
+      "id": "git-four-headings:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "section": "On macOS",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "On macOS",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "git-four-headings:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "git-four-headings:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "section": "Debian/Ubuntu",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "Debian/Ubuntu",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "git-four-headings:fedora40",
+      "profile": "fedora40",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "ffmpeg-bold:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install ffmpeg",
+          "shell": "bash",
+          "section": "macOS (Homebrew)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "macOS (Homebrew)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS (Homebrew)",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu (apt)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora (dnf)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "ffmpeg-bold:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "winget install Gyan.FFmpeg",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS (Homebrew)",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu (apt)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora (dnf)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "ffmpeg-bold:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "section": "Debian/Ubuntu (apt)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "Debian/Ubuntu (apt)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS (Homebrew)",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu (apt)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Fedora (dnf)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "ffmpeg-bold:fedora40",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "section": "Fedora (dnf)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "Fedora (dnf)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS (Homebrew)",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu (apt)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora (dnf)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "node20-colon:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-node20",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install node@20",
+          "shell": "bash",
+          "section": "On macOS",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "section": "On macOS",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "node20-colon:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-node20",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "winget install OpenJS.NodeJS --version 20.18.0",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "node20-colon:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-node20",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install nodejs=20.18.0",
+          "shell": "bash",
+          "section": "Debian/Ubuntu",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "section": "Debian/Ubuntu",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "node20-colon:fedora40",
+      "profile": "fedora40",
+      "task": "install-node20",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo dnf install nodejs-20.18.0",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "nested-linux-alpine:alpine-container",
+      "profile": "alpine-container",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "apk add ffmpeg",
+          "shell": "sh",
+          "section": "Alpine",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "sh",
+          "section": "Alpine",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "Debian or Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Alpine",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "alpine"
+            ],
+            "package_manager": [
+              "apk"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "nested-linux-alpine:fedora40",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "section": "Fedora",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "Debian or Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Alpine",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "alpine"
+            ],
+            "package_manager": [
+              "apk"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "wsl-only-label:wsl-ubuntu",
+      "profile": "wsl-ubuntu",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "section": "WSL (Ubuntu)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "WSL (Ubuntu)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 4,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "WSL (Ubuntu)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "runtime": [
+              "wsl"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "wsl-only-label:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "HEDGED",
+      "commands_total": 4,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "WSL (Ubuntu)",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "runtime": [
+              "wsl"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "manager-labels:ubuntu2204-nosudo",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "apt install git",
+          "shell": "bash",
+          "section": "apt",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "apt",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "Homebrew",
+          "targets": {
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "winget (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "package_manager": [
+              "winget"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "apt",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "dnf",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "manager-labels:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "section": "Homebrew",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "section": "Homebrew",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 8,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "Homebrew",
+          "targets": {
+            "package_manager": [
+              "brew"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "winget (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "package_manager": [
+              "winget"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "apt",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "dnf",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shell-alternatives:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "section": "PowerShell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "dir",
+          "shell": "cmd",
+          "section": "Command Prompt (cmd)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "PowerShell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "Command Prompt (cmd)",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shell-alternatives:win11-cmd-nogpu",
+      "profile": "win11-cmd-nogpu",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "section": "PowerShell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "dir",
+          "shell": "cmd",
+          "section": "Command Prompt (cmd)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "PowerShell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "Command Prompt (cmd)",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shell-alternatives:macos-arm",
+      "profile": "macos-arm",
+      "task": "list-files",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "HEDGED",
+      "commands_total": 2,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "PowerShell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "Command Prompt (cmd)",
+          "targets": {
+            "shell": [
+              "cmd"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "block-tag-alternatives:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "ls",
+          "shell": "bash",
+          "section": "In a POSIX shell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 2,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "In a POSIX shell",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "Or in PowerShell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "block-tag-alternatives:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "section": "Or in PowerShell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 2,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "In a POSIX shell",
+          "targets": {
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "Or in PowerShell",
+          "targets": {
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "one-system-subheadings:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "section": "Ubuntu",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "section": "Ubuntu",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "one-system-subheadings:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "no-alpine-section:alpine-container",
+      "profile": "alpine-container",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "HEDGED",
+      "commands_total": 4,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Fedora",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "fedora"
+            ],
+            "package_manager": [
+              "dnf"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "inline-platforms:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "unknown",
+          "section": "On macOS",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "section": "On macOS",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 4,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "inline-platforms:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "section": "Windows (PowerShell)",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 4,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "On macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ]
+          },
+          "applies": false,
+          "commands": 2
+        },
+        {
+          "label": "Windows (PowerShell)",
+          "targets": {
+            "os": [
+              "windows"
+            ],
+            "shell": [
+              "powershell"
+            ]
+          },
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shared-verification:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "section": "macOS",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 3,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shared-verification:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "section": "Debian/Ubuntu",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "HEDGED",
+      "commands_total": 3,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": true,
+          "commands": 1
+        },
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "shared-verification:fedora40",
+      "profile": "fedora40",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "wrong_os",
+      "commands": [],
+      "targeting": "HEDGED",
+      "commands_total": 3,
+      "commands_for_profile": 0,
+      "sections": [
+        {
+          "label": "macOS",
+          "targets": {
+            "os": [
+              "darwin"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "Debian/Ubuntu",
+          "targets": {
+            "os": [
+              "linux"
+            ],
+            "distro": [
+              "debian",
+              "ubuntu"
+            ],
+            "package_manager": [
+              "apt"
+            ],
+            "shell": [
+              "posix"
+            ]
+          },
+          "applies": false,
+          "commands": 1
+        },
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": false,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-curl-options",
+      "profile": "ubuntu2404-nvidia",
+      "task": "download-file",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "curl -L -o data.txt https://example.org/data.txt",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-chmod-options",
+      "profile": "macos-arm",
+      "task": "permissions",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "chmod +x script.sh",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-nvcc-options",
+      "profile": "ubuntu2404-nvidia",
+      "task": "cuda-toolkit",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "nvcc -V",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-unknown-flags",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "ls --imaginary",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-sudo-macos",
+      "profile": "macos-arm",
+      "task": "permissions",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "sudo chmod +x script.sh",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-sudo-apt-macos",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-sudo-alpine",
+      "profile": "alpine-container",
+      "task": "install-git",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "sudo apk add git",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-version-nonwhitelist",
+      "profile": "win11-cmd-nogpu",
+      "task": "install-node20",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "node --imaginary",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-venv-existing",
+      "profile": "ubuntu2404-nvidia",
+      "task": "activate-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "source .venv/bin/activate",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "the profile cannot establish that the activation script exists"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-venv-existing-dot",
+      "profile": "alpine-container",
+      "task": "activate-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": ". .venv/bin/activate",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "the profile cannot establish that the activation script exists"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-venv-fish-absent",
+      "profile": "ubuntu2404-nvidia",
+      "task": "activate-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "source .venv/bin/activate.fish",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-venv-csh-absent",
+      "profile": "macos-arm",
+      "task": "activate-venv",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "source .venv/bin/activate.csh",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-install-unmatched",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-ffmpeg",
+      "status": "BROKEN",
+      "reason": "program_missing",
+      "commands": [
+        {
+          "text": "sudo apt install -y ffmpeg",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-install-uncertain",
+      "profile": "macos-arm",
+      "task": "install-ffmpeg",
+      "status": "BROKEN",
+      "reason": "needs_admin",
+      "commands": [
+        {
+          "text": "sudo brew install ffmpeg",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-venv-created",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "status": "OK",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m venv env",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "source env/bin/activate",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 2,
+      "commands_for_profile": 2,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 2
+        }
+      ],
+      "all_commands_decided": true,
+      "unknown_commands": 0,
+      "unknown_constructs": 0
+    },
+    {
+      "id": "pilot2-pip-install",
+      "profile": "ubuntu2404-nvidia",
+      "task": "pytorch-gpu",
+      "status": "UNDECIDED",
+      "reason": null,
+      "commands": [
+        {
+          "text": "python3 -m pip install torch",
+          "shell": "unknown",
+          "section": "shared",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ],
+      "targeting": "TARGETED",
+      "commands_total": 1,
+      "commands_for_profile": 1,
+      "sections": [
+        {
+          "label": "shared",
+          "targets": {},
+          "applies": true,
+          "commands": 1
+        }
+      ],
+      "all_commands_decided": false,
+      "unknown_commands": 1,
+      "unknown_constructs": 0
+    }
+  ],
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  }
+}

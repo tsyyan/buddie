@@ -577,7 +577,7 @@
       "commands": [
         {
           "status": "WONT_RUN",
-          "reason": "needs_admin"
+          "reason": "program_missing"
         }
       ]
     }
@@ -955,10 +955,10 @@
     "kind": "tricky",
     "answer": "```cmd\npython --imaginary\n```",
     "expected": {
-      "status": "UNDECIDED",
+      "status": "OK",
       "commands": [
         {
-          "status": "UNKNOWN",
+          "status": "FITS",
           "reason": null
         }
       ]
@@ -1281,7 +1281,7 @@
     },
     "expected_leaf_statuses": [
       "FITS",
-      "UNKNOWN",
+      "FITS",
       "WONT_RUN"
     ]
   },
@@ -1417,10 +1417,10 @@
     "kind": "lists-control",
     "answer": "```sh\nif true; then python3 --imaginary; fi\n```",
     "expected": {
-      "status": "UNDECIDED",
+      "status": "OK",
       "commands": [
         {
-          "status": "UNKNOWN",
+          "status": "FITS",
           "reason": null
         }
       ]
@@ -1438,7 +1438,7 @@
     },
     "expected_leaf_statuses": [
       "FITS",
-      "UNKNOWN"
+      "FITS"
     ]
   },
   {
@@ -1511,10 +1511,10 @@
     "kind": "lists-control",
     "answer": "```bash\necho \"first\nconda --version\nlast\"\n```",
     "expected": {
-      "status": "UNDECIDED",
+      "status": "OK",
       "commands": [
         {
-          "status": "UNKNOWN",
+          "status": "FITS",
           "reason": null
         }
       ]
@@ -1531,7 +1531,7 @@
       ]
     },
     "expected_leaf_statuses": [
-      "UNKNOWN"
+      "FITS"
     ]
   },
   {

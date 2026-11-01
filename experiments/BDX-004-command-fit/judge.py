@@ -14,6 +14,8 @@ from control import has_control, parse as parse_control
 from sections import select as select_sections
 from tool import HERE, load_profile
 
+PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
+
 
 def load_task(task):
     if isinstance(task, dict):
@@ -71,12 +73,11 @@ def judge_simple(command, profile, req, installed, venvs):
     if not tokens:
         return verdict('UNKNOWN', detail='empty command')
     elevated = value(profile, 'system.permissions', 'elevated')
+    platform = profile['document']['collector']['platform']
     sudo = tokens[0] == 'sudo'
     if sudo:
-        if req.get('sudo') is False:
-            return verdict('WONT_RUN', 'needs_admin', 'sudo unavailable in this scenario')
-        if req.get('sudo') is not True:
-            return verdict('UNKNOWN', detail='sudo access unobserved')
+        if program(profile, req, 'sudo', installed)[0] is False:
+            return verdict('WONT_RUN', 'program_missing', 'sudo not found on the scenario PATH')
         tokens = tokens[1:]
         text = re.sub(r'^sudo\s+', '', text)
         if not tokens or tokens[0].startswith('-'):
@@ -86,8 +87,9 @@ def judge_simple(command, profile, req, installed, venvs):
         name = name[:-4]
     if name.lower().startswith('$env:'):
         name = '$env:APP_MODE'
-    platform = profile['document']['collector']['platform']
     relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
+    if name in PROGRAM_PLATFORMS and platform not in PROGRAM_PLATFORMS[name]:
+        return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
     if name in ('nvidia-smi', 'nvcc') and observation(profile, 'software.gpu_stack', 'cuda_driver').get('reason') == 'not_applicable_on_platform':
         return verdict('WONT_RUN', 'wrong_os', 'NVIDIA/CUDA tools are not applicable on this platform')
     if relevant and all(platform not in r['os'] for r in relevant):
@@ -112,6 +114,8 @@ def judge_simple(command, profile, req, installed, venvs):
             return verdict('WONT_RUN', 'wrong_os', 'CUDA is not applicable on this platform')
         if driver and version(f'{wheel[1]}.{wheel[2]}') > version(driver):
             return verdict('WONT_RUN', 'version_mismatch', f'wheel CUDA {wheel[1]}.{wheel[2]} exceeds driver CUDA {driver}')
+    if sudo and (platform == 'darwin' or req.get('sudo') is not True):
+        return verdict('UNKNOWN', detail='sudo access unobserved; snapshot does not establish group membership')
     if hint != 'unknown' and family(hint) != family(target):
         return verdict('WONT_RUN', 'wrong_shell_syntax', f'{family(hint)} block for a {family(target)} scenario')
     if wrong_syntax(text, target, profile):
@@ -126,7 +130,15 @@ def judge_simple(command, profile, req, installed, venvs):
     if special:
         rule = special
     if not rule:
-        return verdict('UNKNOWN', detail='no complete task rule for this command form')
+        # Patterns identify special effects, not the universe of runnable forms.
+        rule = dict(effect='FITS')
+        # Program-wide task constraints survive options not covered by a pattern.
+        for key in ('min_version', 'major_version', 'needs_admin', 'nvidia', 'daemon'):
+            values = [r.get(key) for r in relevant]
+            if values and all(v == values[0] for v in values) and values[0] is not None:
+                rule[key] = values[0]
+        if name in ('docker', 'podman') and '--version' in tokens:
+            rule.pop('daemon', None)
     if rule.get('needs_admin') and not sudo:
         if elevated is False:
             return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
@@ -171,7 +183,7 @@ def judge_simple(command, profile, req, installed, venvs):
                        installs=rule['installs'])
     if rule.get('creates_venv'):
         venvs.add(rule['creates_venv'])
-    return verdict('FITS', detail='explicit task rule, program and syntax checks satisfied')
+    return verdict('FITS', detail='program present, syntax parses, no task constraint broken')
 
 
 RANK = {'FITS': 0, 'INSTALLS': 1, 'UNKNOWN': 2, 'WONT_RUN': 3}

@@ -25,7 +25,7 @@ class Control(unittest.TestCase):
                 ('case value in value) ls ;; other) mkdir output ;; esac', 'FITS'),
                 ('if [ -d output ]; then ls; fi', 'FITS'),
                 ('if true; then conda --version; fi', 'WONT_RUN'),
-                ('if true; then python3 --imaginary; fi', 'UNKNOWN'),
+                ('if true; then unobserved-tool --help; fi', 'UNKNOWN'),
                 ('if true; then', 'WONT_RUN'),
                 ('if [[ -d output ]]; then ls; fi', 'WONT_RUN')]:
             with self.subTest(text=text):
@@ -50,7 +50,7 @@ class Control(unittest.TestCase):
         self.assertEqual(result['status'], 'BROKEN')
 
     def test_dynamic_headers_are_not_approved(self):
-        text = 'for x in $(python3 --imaginary); do ls; done'
+        text = 'for x in $(unobserved-tool --help); do ls; done'
         result = grade('alpine-container', 'list-files', text, 'sh')
         self.assertNotEqual(result['status'], 'OK')
 

@@ -60,7 +60,7 @@ class ShellFamilies(unittest.TestCase):
     def test_quoted_bashism_text_is_not_a_shell_failure(self):
         for text in ["echo 'items=(one two)'", "echo 'use source here'", "echo 'x; [[ -d y ]]'"]:
             result = grade('alpine-container', 'list-files', text, 'bash')
-            self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+            self.assertEqual(result['commands'][0]['status'], 'FITS' if judge.syntax('sh', ':') is not None else 'UNKNOWN')
 
     def test_foreign_tokenizer_cannot_prove_a_shell_failure(self):
         quoted = 'Write-Output ' + chr(34) + chr(96) + chr(34) * 2
@@ -72,14 +72,14 @@ class ShellFamilies(unittest.TestCase):
 
 class AnswerOutcomes(unittest.TestCase):
     def test_unknown_only_and_mixed_answers_are_undecided(self):
-        for text in ['python --imaginary', 'python --version\npython --imaginary']:
+        for text in ['unobserved-tool --help', 'python --version\nunobserved-tool --help']:
             result = grade('win11-cmd-nogpu', 'python-version', text, 'cmd')
             self.assertEqual(result['status'], 'UNDECIDED')
             self.assertEqual(result['unknown_commands'], 1)
             self.assertFalse(result['all_commands_decided'])
 
     def test_broken_takes_precedence_over_unknown(self):
-        result = grade('win11-cmd-nogpu', 'python-version', 'python --imaginary\nconda --version', 'cmd')
+        result = grade('win11-cmd-nogpu', 'python-version', 'unobserved-tool --help\nconda --version', 'cmd')
         self.assertEqual(result['status'], 'BROKEN')
         self.assertEqual(result['unknown_commands'], 1)
 

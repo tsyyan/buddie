@@ -43,6 +43,9 @@ def invalidate(text, shell, venvs):
     if not tokens:
         return
     name, args = tokens[0].lower(), tokens[1:]
+    if name in ('cd', 'chdir', 'set-location'):
+        venvs.clear()
+        return
     operands = [a for a in args if not a.startswith('-')]
     if name in ('rm', 'rmdir', 'remove-item', 'del'):
         affected = operands

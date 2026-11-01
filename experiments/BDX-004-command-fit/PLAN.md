@@ -154,3 +154,13 @@ them. Full suite now passes 105 tests with all parsers; metrics remain unchanged
 Default-PATH verification exposed an invalid fixture fallback: UNKNOWN installation cannot establish a
 program for later verification, so missing parsers do not always mean UNDECIDED. Replaced that fabricated
 expectation with a parser-dependent outcome skip, after still checking selection/count metadata.
+
+## Pilot-2 correction
+
+Fast-forwarded to 94fa8a1, preserving the owner's pilot-2 settings/history. Captured 123 profile/answer
+cases before changing code (107 existing plus 16 new pilot-shaped cases), with bash/dash/pwsh available.
+Plan: availability/syntax and sudo ordering; section-local uncertain installations and task-proven venvs;
+then measurements, documentation and PR update. No provider/model calls or workflow changes.
+First regressions failed as expected, then 109 tests passed: fallback FITS requires known presence and
+parsed syntax; version/admin/GPU constraints survive unmatched forms. Missing sudo is program_missing;
+macOS sudo permission is UNKNOWN. Updated literal recorded expectations for the new semantics.

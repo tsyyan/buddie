@@ -21,7 +21,7 @@ class Judge(unittest.TestCase):
     def test_proven_failures_do_not_need_host_parsers(self):
         cases = [
             ('macos-arm', 'gpu-check', 'nvidia-smi', 'wrong_os'),
-            ('ubuntu2204-nosudo', 'install-git', 'sudo apt install git', 'needs_admin'),
+            ('ubuntu2204-nosudo', 'install-git', 'sudo apt install git', 'program_missing'),
             ('ubuntu2204-nosudo', 'python-venv', 'python3 -m venv .venv', 'program_missing'),
             ('wsl-ubuntu', 'pytorch-gpu', 'python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124', 'version_mismatch'),
             ('win11-pwsh-nvidia', 'python-venv', 'python3 -m venv .venv', 'program_missing'),
@@ -48,7 +48,7 @@ class Judge(unittest.TestCase):
         self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
         self.assertFalse(result['all_commands_decided'])
         self.assertEqual(grade('win11-cmd-nogpu', 'python-version', 'python --imaginary-flag')
-                         ['commands'][0]['status'], 'UNKNOWN')
+                         ['commands'][0]['status'], 'FITS')
         self.assertEqual(grade('win11-cmd-nogpu', 'list-files', 'totally-new --help')
                          ['commands'][0]['status'], 'UNKNOWN')
 
@@ -85,10 +85,10 @@ class Judge(unittest.TestCase):
         result = judge.judge_answer(answer, p, 'install-node20')
         self.assertEqual([r['status'] for r in result['commands']], ['INSTALLS', 'FITS'])
 
-    def test_powershell_curl_alias_is_not_assumed_native_curl(self):
+    def test_powershell_present_curl_form_is_runnable(self):
         result = grade('win11-pwsh-nvidia', 'download-file',
                        'curl -o data.txt https://example.org/data.txt', 'powershell')
-        self.assertEqual(result['commands'][0]['status'], 'UNKNOWN')
+        self.assertEqual(result['commands'][0]['status'], 'FITS' if judge.syntax('powershell', 'Get-ChildItem') is not None else 'UNKNOWN')
 
     def test_unlisted_python_alias_is_not_proven_absent(self):
         for alias in ['python', 'python3.12']:

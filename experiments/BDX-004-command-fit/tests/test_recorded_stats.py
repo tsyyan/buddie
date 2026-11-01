@@ -19,7 +19,7 @@ class RecordedStats(unittest.TestCase):
         if judge.syntax('bash', ':') is None:
             self.skipTest('bash parser absent')
         case = dict(id='compound', profile='ubuntu2404-nvidia', task='list-files',
-                    answer='```bash\nls; python3 --imaginary; conda --version\n```')
+                    answer='```bash\nls; unobserved-tool --help; conda --version\n```')
         summary = recorded_stats.summarize([case])
         self.assertEqual(summary['commands'], 1)
         self.assertEqual(summary['unknown_commands'], 0)
@@ -35,7 +35,7 @@ class RecordedStats(unittest.TestCase):
             dict(id='good', profile='win11-cmd-nogpu', task='session-variable',
                  answer='```cmd\nset APP_MODE=development\n```'),
             dict(id='mixed', profile='win11-cmd-nogpu', task='python-version',
-                 answer='```cmd\npython --imaginary\nconda --version\n```'),
+                 answer='```cmd\nunobserved-tool --help\nconda --version\n```'),
             dict(id='question', profile='win11-cmd-nogpu', task='python-version',
                  answer='Which operating system do you use?')]
         summary = recorded_stats.summarize(cases)

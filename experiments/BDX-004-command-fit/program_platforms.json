@@ -1,0 +1,4 @@
+{
+  "apt": ["linux"], "apt-get": ["linux"], "dnf": ["linux"], "apk": ["linux"],
+  "winget": ["windows"], "choco": ["windows"]
+}
