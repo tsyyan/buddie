@@ -105,17 +105,16 @@ buddie snapshot: diagnostics of 3 categories (grants active, policy absent; thes
 Abridged from a run of buddie 2.0.0: the lines shown are unedited, and the machine's other observed values are left
 out. `diagnostics.json` holds the full document, with the method and time of each value.
 
-Nothing is observed until you grant it. To grant the low-sensitivity categories (operating system and shells,
-privilege level, CPU, memory, GPU and its driver, Python and other runtimes, package managers, catalog tools, Docker
-and Podman clients), write the grants file buddie reads; it is yours to edit or delete:
+Nothing is observed until you grant it. The grants file is yours to edit or delete; the template grants the
+low-sensitivity categories (OS, shells, CPU, memory, GPU and driver, runtimes, package managers, tools, Docker and
+Podman clients):
 
 ```bash
 buddie snapshot --grant-template          # prints the file and where it goes (baseline only)
 buddie snapshot --grants                  # what is granted now
 ```
 
-Sensitive categories (whether the Docker daemon answers, disk usage, a project's manifests, a repository's state) are
-added to that file one by one, the path-scoped ones with the directories they may read.
+Sensitive categories (the Docker daemon, disk usage, a project, a repository) are added to it one by one.
 
 A category you have not granted is reported as denied, and its collector never runs. A value buddie cannot read is
 marked unavailable, with the reason. Diagnostics is read-only and installs nothing; it gives the agent better facts,
