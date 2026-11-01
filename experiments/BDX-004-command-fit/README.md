@@ -153,7 +153,25 @@ No host policy, grants file, filesystem path, network or hardware is consulted b
 
 PROTOCOL v1 was added concurrently in 2bd7873. Its observed-tagged-shell override is an open implementation
 follow-up: this pass keeps the existing per-profile target-shell choice while adding lists/control/state.
-That gap is recorded in PROTOCOL and must be resolved before judge registration; no pilot/model calls were made.
+The subsequent 103b913 update implemented observed tagged-shell selection. Core alternate-shell commands can
+now be established by their bounded base forms; default-shell task forms are not borrowed for another shell.
+
+## Pilot-1 audience sections
+
+`section_targets.json` maps label aliases and block tags to OS, distro, package manager, runtime and shell
+constraints. `sections.py` scopes markdown headings by depth; unrecognized child headings inherit their parent,
+while peer headings end that scope. Standalone bold/colon labels (including commands on the same line) are
+supported. A code block's tag refines its enclosing audience; a POSIX tag does not mean Linux only.
+
+Only applicable sections enter the command judge or establish install/venv state. Generic shared verification
+steps apply after a matching targeted section. No declared section applies: BROKEN with answer reason wrong_os
+and zero judged commands. No recognized audience labels or tags: judge the whole answer as before.
+Responses include `targeting` (TARGETED for one audience, HEDGED for several), `commands_total` (all extracted
+parent units offered), `commands_for_profile` (selected units), and section applicability metadata. Repeated
+verification subheadings for one audience do not make it HEDGED. Counts exclude inline references filtered by
+the invocation rule, and retain list/control parent units consistently with the earlier metrics.
+
+## Judge limits (continued)
 
 - **UNKNOWN never means FITS.** `OK` requires every command to be FITS or INSTALLS. `UNDECIDED` means at least
   one UNKNOWN and no WONT_RUN. BROKEN takes precedence when both occur. Keep `unknown_commands` and

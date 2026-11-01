@@ -82,6 +82,8 @@ def main():
     ]
     for cid, pid, tid, answer, want in extras:
         rows.append(dict(id=cid, profile=pid, task=tid, kind='tricky', answer=answer, expected=want))
+    only_posix = next(r for r in rows if r['id'] == 'bash-for-powershell')
+    only_posix['expected'] = dict(expected('BROKEN'), reason='wrong_os')
     # A bash fence is a POSIX-family hint, not a demand that Alpine run bash itself.
     ash = next(r for r in rows if r['id'] == 'bash-for-ash')
     ash.update(expected=expected('OK', ('FITS', None)), parser='sh', parser_probe='echo ok',
@@ -99,9 +101,11 @@ def main():
                          answer=f'```{tag}\n{text}\n```',
                          expected=expected('BROKEN', ('WONT_RUN', 'wrong_shell_syntax'))))
     # PROTOCOL v1 (owner, 2026-11-01): Windows PowerShell is on this machine, so a PowerShell block is no wrong shell;
-    # the task has no PowerShell requirements for it yet, so the command is undecided
+    # the cited core PowerShell base rule proves this command even without a task-specific alternate form.
     rows.append(dict(id='powershell-on-cmd', profile='win11-cmd-nogpu', task='list-files', kind='tricky',
-                     answer='```powershell\nGet-ChildItem\n```', expected=expected('UNDECIDED', ('UNKNOWN', None))))
+                     answer='```powershell\nGet-ChildItem\n```', expected=expected('OK', ('FITS', None)),
+                     parser='powershell', parser_probe='Write-Output ok',
+                     without_parser=expected('UNDECIDED', ('UNKNOWN', None))))
     # Literal expectations for parent and recursively evaluated child commands.
     list_cases = [
         ('list-posix', 'ubuntu2404-nvidia', 'list-files', 'bash',

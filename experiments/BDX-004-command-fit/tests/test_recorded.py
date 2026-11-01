@@ -30,7 +30,7 @@ class Recorded(unittest.TestCase):
         by_id = {c['id']: c for c in cases}
         for cid, status in [('bash-on-macos', 'FITS'), ('bash-on-alpine', 'FITS'),
                             ('alpine-double-brackets', 'WONT_RUN'), ('alpine-array', 'WONT_RUN'),
-                            ('powershell-on-cmd', 'UNKNOWN')]:  # PROTOCOL v1: observed other shell
+                            ('powershell-on-cmd', 'FITS')]:  # observed other shell and bounded base form
             self.assertIn(cid, by_id)
             self.assertEqual(by_id[cid]['expected']['commands'][0]['status'], status)
 
@@ -47,6 +47,8 @@ class Recorded(unittest.TestCase):
                     expected = case['without_parser']
                 result = judge.judge_answer(case['answer'], case['profile'], case['task'])
                 self.assertEqual(result['status'], expected['status'])
+                if 'reason' in expected:
+                    self.assertEqual(result['reason'], expected['reason'])
                 self.assertEqual([dict(status=r['status'], reason=r['reason']) for r in result['commands']],
                                  expected['commands'])
         complete = [p for p, kinds in pairs.items() if {'fitting', 'broken', 'question'} <= kinds]

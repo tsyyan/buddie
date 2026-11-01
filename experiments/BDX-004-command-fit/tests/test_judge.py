@@ -35,7 +35,7 @@ class Judge(unittest.TestCase):
 
     def test_shell_mismatch_and_syntax(self):
         self.assertEqual(grade('win11-pwsh-nvidia', 'session-variable', 'export APP_MODE=development', 'bash')
-                         ['commands'][0]['reason'], 'wrong_shell_syntax')
+                         ['reason'], 'wrong_os')  # pilot-1: no section applies to this profile
         if judge.syntax('sh', ':') is not None:
             self.assertEqual(grade('alpine-container', 'session-variable', 'export APP_MODE=development', 'bash')
                              ['commands'][0]['status'], 'FITS')

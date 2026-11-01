@@ -141,3 +141,12 @@ false objections is reported as unreliable and left out of the gate proposal.
 ## Changes after data
 
 (none)
+
+## Pilot-1 rule implementation (before registration)
+
+Audience mappings are data in section_targets.json. Labels and fence tags constrain OS/distro/package manager/
+runtime/shell; aliases within an axis are alternatives and different axes are conjunctive. Heading depth scopes
+subheadings; generic verification peers are shared only after some targeted section applies. Only selected
+sections establish setup state. No applicable section yields answer BROKEN/wrong_os with no fabricated command.
+TARGETED/HEDGED and commands_total/commands_for_profile are emitted on every answer; counts are extracted parent
+units after inline filtering, before/after audience selection. No new model calls or pilot results in this fix.

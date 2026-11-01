@@ -137,3 +137,8 @@ multi-system answers, bounded verification forms, measurements and docs. Review 
 Captured pre-change results for 76 existing plus 31 profile checks on 12 new answers:
 107 profile-answer cases, 237 parent commands, 25 UNKNOWN (tests/sections_before.json).
 Inline regressions failed first; the complete suite now passes 85 tests with all parsers.
+Section regressions failed first, then passed: audience aliases live in JSON, labels/tags
+scope commands and state, no matching section gives BROKEN/wrong_os, and targeting/counts
+are emitted. Updated old cross-family fixtures to the new no-applicable-section outcome;
+primitive reason-order tests still exercise validation directly after selection. Observed
+alternate shells use bounded base rules without borrowing default-shell task assumptions.

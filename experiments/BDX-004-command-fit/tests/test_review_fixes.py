@@ -19,24 +19,30 @@ class ShellFamilies(unittest.TestCase):
             ('macos-arm', 'python-version', 'conda --version', 'cmd', 'program_missing'),
             ('win11-pwsh-nvidia', 'python-version', 'python3 --version', 'bash', 'program_missing')]:
             with self.subTest(profile=pid, text=text):
-                self.assertEqual(grade(pid, tid, text, tag)['commands'][0]['reason'], reason)
+                p = judge.load_profile(pid)
+                req = judge.load_task(tid)['requirements'][pid]
+                row = judge.judge_command(dict(text=text, shell=tag), p, req, {}, set())
+                self.assertEqual(row['reason'], reason)  # validation order, after section selection
 
     def test_missing_python_module_precedes_the_tag(self):
-        self.assertEqual(grade('ubuntu2204-nosudo', 'python-venv', 'python3 -m venv .venv', 'powershell')
-                         ['commands'][0]['reason'], 'program_missing')
+        p = judge.load_profile('ubuntu2204-nosudo')
+        req = judge.load_task('python-venv')['requirements'][p['id']]
+        self.assertEqual(judge.judge_command(dict(text='python3 -m venv .venv', shell='powershell'),
+                                           p, req, {}, set())['reason'], 'program_missing')
 
     def test_cross_family_tags_still_fail(self):
         for tag in ['bash', 'sh', 'zsh', 'shell', 'console']:
             self.assertEqual(grade('win11-cmd-nogpu', 'list-files', 'dir', tag)
-                             ['commands'][0]['reason'], 'wrong_shell_syntax')
+                             ['reason'], 'wrong_os')
 
     def test_a_block_for_an_observed_other_shell_is_not_a_wrong_shell(self):
         # PROTOCOL v1: the cmd profile has Windows PowerShell, the PowerShell profile has cmd
         for pid, tag, text in [('win11-cmd-nogpu', 'powershell', 'Get-ChildItem'), ('win11-pwsh-nvidia', 'cmd', 'dir')]:
             row = grade(pid, 'list-files', text, tag)['commands'][0]
-            self.assertEqual((row['status'], row['reason']), ('UNKNOWN', None))
+            expected = 'UNKNOWN' if tag == 'powershell' and judge.syntax('powershell', 'Get-ChildItem') is None else 'FITS'
+            self.assertEqual((row['status'], row['reason']), (expected, None))
         self.assertEqual(grade('alpine-container', 'list-files', 'Get-ChildItem', 'powershell')
-                         ['commands'][0]['reason'], 'wrong_shell_syntax')
+                         ['reason'], 'wrong_os')
 
     def test_sh_bashisms_survive_extraction_and_fail(self):
         for text in ['[[ -d output ]]', 'items=(one two)', 'source .venv/bin/activate']:

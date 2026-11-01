@@ -879,12 +879,8 @@
     "answer": "```bash\nexport APP_MODE=development\n```",
     "expected": {
       "status": "BROKEN",
-      "commands": [
-        {
-          "status": "WONT_RUN",
-          "reason": "wrong_shell_syntax"
-        }
-      ]
+      "commands": [],
+      "reason": "wrong_os"
     }
   },
   {
@@ -1081,6 +1077,17 @@
     "kind": "tricky",
     "answer": "```powershell\nGet-ChildItem\n```",
     "expected": {
+      "status": "OK",
+      "commands": [
+        {
+          "status": "FITS",
+          "reason": null
+        }
+      ]
+    },
+    "parser": "powershell",
+    "parser_probe": "Write-Output ok",
+    "without_parser": {
       "status": "UNDECIDED",
       "commands": [
         {

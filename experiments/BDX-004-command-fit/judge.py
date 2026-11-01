@@ -5,13 +5,13 @@ from pathlib import Path
 import re
 import shlex
 
-from commands import extract
 from base_commands import rule as base_rule
 from facts import observation, program, python_facts, value, version
 from syntax import family, non_posix, syntax
 from shell_lists import split_list
 from venvs import invalidate as invalidate_venvs, parser_text, rule as venv_rule
 from control import has_control, parse as parse_control
+from sections import select as select_sections
 from tool import HERE, load_profile
 
 
@@ -310,23 +310,34 @@ def judge_answer(answer, profile, task):
         raise ValueError('task does not apply to this profile')
     rows, installed, venvs = [], {}, set()
     req = t['requirements'][p['id']]
-    for command in extract(answer):
+    scope = select_sections(answer, p)
+    for command in scope['commands']:
         alt = other_shell(command, p, req)
         if alt is None:
             rows.append(judge_command(command, p, req, installed, venvs))
         elif alt in t.get('alternate_requirements', {}).get(p['id'], {}):
             rows.append(judge_command(command, p, t['alternate_requirements'][p['id']][alt], installed, venvs))
-        else:  # PROTOCOL v1: a block for a shell the machine has is not a wrong shell; without its rules, undecided
-            rows.append(dict(command, status='UNKNOWN', reason=None,
-                             detail=f'{alt} is on this machine; the task has no requirements for it'))
-    if rows:
+        else:
+            # Only base/generic rules prove forms for an observed alternative shell; do not borrow
+            # the default shell's task forms or builtin assumptions.
+            alternate = dict(req, shell=alt, commands=[], assumed_programs=[])
+            rows.append(judge_command(command, p, alternate, installed, venvs))
+    if scope['has_sections'] and not scope['applicable']:
+        status = 'BROKEN'
+    elif rows:
         status = ('BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else
                   'UNDECIDED' if any(r['status'] == 'UNKNOWN' for r in rows) else 'OK')
     else:
         question = '?' in answer and re.search(r'(?i)\b(?:operating system|OS|shell|Python|GPU|driver|sudo|'
                                                r'Windows|macOS|Linux|machine|computer|version|admin|package manager)\b', answer)
         status = 'ASKED' if question else 'NO_COMMANDS'
-    return dict(profile=p['id'], task=t['id'], status=status, commands=rows,
+    reason = ('wrong_os' if scope['has_sections'] and not scope['applicable'] else
+              next((r['reason'] for r in rows if r['status'] == 'WONT_RUN'), None))
+    return dict(profile=p['id'], task=t['id'], status=status, reason=reason, commands=rows,
+                targeting=scope['targeting'], commands_total=scope['commands_total'],
+                commands_for_profile=scope['commands_for_profile'],
+                sections=[dict(label=s['label'], targets=s['targets'], applies=s['applies'],
+                               commands=len(s['commands'])) for s in scope['sections']],
                 all_commands_decided=bool(rows) and all(r['status'] != 'UNKNOWN' for r in all_commands(rows)),
                 unknown_commands=sum(r['status'] == 'UNKNOWN' for r in leaf_commands(rows)),
                 unknown_constructs=sum(r['status'] == 'UNKNOWN' and bool(r.get('commands')) for r in all_commands(rows)))
