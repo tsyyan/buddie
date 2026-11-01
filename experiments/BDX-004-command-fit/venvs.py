@@ -3,6 +3,8 @@ from pathlib import PurePosixPath
 import re
 from shell_lists import lex
 from facts import python_args
+from file_proofs import PREFIX as FILE_PREFIX
+from executables import normalize
 
 
 def directory(text):
@@ -56,7 +58,8 @@ def invalidate(text, shell, venvs):
     """Modeled removal, relocation or overwriting invalidates activation-script proofs."""
     import shlex
     try:
-        tokens = shlex.split(text, posix=shell in ('bash', 'sh', 'zsh'))
+        _, normalized, _ = normalize(re.sub(r'^sudo\s+', '', text), shell)
+        tokens = shlex.split(normalized, posix=shell in ('bash', 'sh', 'zsh'))
     except ValueError:
         venvs.clear()
         return
@@ -84,6 +87,11 @@ def invalidate(text, shell, venvs):
             return
         path = str(PurePosixPath(path))
         for root in set(venvs):
+            if root.startswith(FILE_PREFIX):
+                file = root[len(FILE_PREFIX):]
+                if path == file or file.startswith(path.rstrip('/') + '/'):
+                    venvs.discard(root)
+                continue
             script = root + '/bin/activate'
             if path == script or root == path or script.startswith(path.rstrip('/') + '/'):
                 venvs.discard(root)

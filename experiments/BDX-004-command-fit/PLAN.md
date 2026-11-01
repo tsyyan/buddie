@@ -217,3 +217,10 @@ as invocation; POSIX-only cmdlet shapes use selected official verbs without reje
 Userland regressions failed first, then passed with sourced per-distro service/socket/netcat assumptions.
 Unknown distributions do not inherit these sets; explicit missing observations still win. Service restart
 aliases retain admin checks. macOS/Alpine do not acquire an unshipped service or ss by a blanket Linux list.
+File execution regressions failed before task-provided/answer-created file evidence was added. Evidence
+uses the existing branch/section-local proof set, with explicit marker keys; no filesystem is consulted.
+Deletion, cwd changes and uncertain effects invalidate it, and conditional/failed setup cannot escape.
+Review findings were independently reproduced and fixed: global placeholder paths, absolute mutations,
+curl without a single URL/output pair, attached PS call operators, service force-reload admin checks.
+Also covered unquoted operators hidden in paths and empty call-operator crashes. All 18 new literal
+recordings pass; the full suite passes 157 tests with bash/dash/pwsh, and all eight profiles validate.

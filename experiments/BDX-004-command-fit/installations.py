@@ -11,7 +11,8 @@ MANAGERS = {'apt', 'apt-get', 'dnf', 'apk', 'brew', 'winget', 'choco', 'pip', 'p
 
 def intent(text, shell):
     try:
-        tokens = shlex.split(text, posix=shell in ('bash', 'sh', 'zsh'))
+        invocation = re.sub(r'^\s*&(?!&)\s*', '', text) if shell == 'powershell' else text
+        tokens = shlex.split(invocation, posix=shell in ('bash', 'sh', 'zsh'))
     except ValueError:
         return None
     if tokens[:1] == ['sudo']:
@@ -19,8 +20,6 @@ def intent(text, shell):
     if not tokens:
         return None
     normalized_name, _, _ = normalize_executable(re.sub(r'^sudo\s+', '', text), shell)
-    if shell == 'powershell' and tokens[0] == '&':
-        tokens = tokens[1:]
     tokens[0] = normalized_name
     if re.fullmatch(r'python(?:3(?:\.\d+)?)?|py', tokens[0]):
         args = python_args(tokens)

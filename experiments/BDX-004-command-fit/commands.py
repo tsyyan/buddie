@@ -58,8 +58,8 @@ def starts_program(line):
                 r'curl \d+\.\d+[^ ]* \(|pip \d+\.\d+[^ ]* from |'
                 r'Successfully |Requirement already |Collecting |Downloading )', line):
         return False
-    if line.startswith('& '):
-        return starts_program(line[2:].lstrip())
+    if line.startswith('&') and not line.startswith('&&'):
+        return starts_program(line[1:].lstrip())
     if has_control(line):
         return True
     if re.match(r'^(?:\[\[\s|[A-Za-z_]\w*=\()', line):

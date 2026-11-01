@@ -26,6 +26,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -57,6 +58,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -91,6 +93,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -124,6 +127,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -157,6 +161,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -190,6 +195,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -223,6 +229,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -254,6 +261,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -303,6 +311,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -336,6 +345,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -372,6 +382,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -407,6 +418,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -442,6 +454,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -477,6 +490,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -512,6 +526,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -545,6 +560,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [
           ".venv"
         ],
@@ -596,6 +612,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -627,6 +644,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -661,6 +679,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -694,6 +713,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -727,6 +747,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -760,6 +781,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -793,6 +815,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -824,6 +847,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -873,6 +897,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -903,6 +928,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -936,6 +962,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -968,6 +995,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1000,6 +1028,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1032,6 +1061,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1064,6 +1094,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1094,6 +1125,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1144,6 +1176,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1190,6 +1223,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1239,6 +1273,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1287,6 +1322,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1335,6 +1371,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1383,6 +1420,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1431,6 +1469,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1477,6 +1516,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1542,6 +1582,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1572,6 +1613,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1605,6 +1647,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1647,6 +1690,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1679,6 +1723,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1711,6 +1756,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1743,6 +1789,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1773,6 +1820,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1822,6 +1870,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1851,6 +1900,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1883,6 +1933,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1914,6 +1965,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -1945,6 +1997,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -1976,6 +2029,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2007,6 +2061,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2036,6 +2091,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -2084,6 +2140,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2128,6 +2185,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2175,6 +2233,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2221,6 +2280,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2267,6 +2327,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -2313,6 +2374,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2359,6 +2421,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2403,6 +2466,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -2466,6 +2530,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2510,6 +2575,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2557,6 +2623,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2603,6 +2670,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2649,6 +2717,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -2695,6 +2764,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2741,6 +2811,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2785,6 +2856,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -2849,6 +2921,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2898,6 +2971,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -2950,6 +3024,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3001,6 +3076,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3052,6 +3128,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3103,6 +3180,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3154,6 +3232,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3203,6 +3282,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3270,6 +3350,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3301,6 +3382,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3335,6 +3417,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3368,6 +3451,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3401,6 +3485,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3434,6 +3519,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3467,6 +3553,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3498,6 +3585,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3547,6 +3635,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3577,6 +3666,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3610,6 +3700,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3642,6 +3733,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3674,6 +3766,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3706,6 +3799,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3738,6 +3832,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3768,6 +3863,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3815,6 +3911,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3845,6 +3942,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3878,6 +3976,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3909,6 +4008,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -3940,6 +4040,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -3971,6 +4072,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4002,6 +4104,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4031,6 +4134,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4077,6 +4181,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4107,6 +4212,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4140,6 +4246,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4171,6 +4278,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4202,6 +4310,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4233,6 +4342,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4264,6 +4374,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4293,6 +4404,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4339,6 +4451,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4367,6 +4480,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4398,6 +4512,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4428,6 +4543,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4458,6 +4574,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4488,6 +4605,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4518,6 +4636,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4546,6 +4665,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4592,6 +4712,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4622,6 +4743,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4655,6 +4777,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4687,6 +4810,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4719,6 +4843,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4751,6 +4876,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4783,6 +4909,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4813,6 +4940,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -4861,6 +4989,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4891,6 +5020,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4924,6 +5054,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4956,6 +5087,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -4988,6 +5120,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5020,6 +5153,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5052,6 +5186,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5082,6 +5217,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5130,6 +5266,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5170,6 +5307,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5213,6 +5351,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5255,6 +5394,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5297,6 +5437,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5339,6 +5480,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5381,6 +5523,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5421,6 +5564,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5478,6 +5622,9 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [
+          "script.sh"
+        ],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5505,6 +5652,9 @@
           "netstat",
           "sc",
           "icacls"
+        ],
+        "provided_files": [
+          "script.sh"
         ],
         "existing_venvs": [],
         "missing_programs": [],
@@ -5537,6 +5687,9 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [
+          "script.sh"
+        ],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5567,6 +5720,9 @@
           ".",
           "ss",
           "systemctl"
+        ],
+        "provided_files": [
+          "script.sh"
         ],
         "existing_venvs": [],
         "missing_programs": [],
@@ -5599,6 +5755,9 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [
+          "script.sh"
+        ],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5629,6 +5788,9 @@
           "chmod",
           "source",
           "."
+        ],
+        "provided_files": [
+          "script.sh"
         ],
         "existing_venvs": [],
         "missing_programs": [],
@@ -5661,6 +5823,9 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [
+          "script.sh"
+        ],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5689,6 +5854,9 @@
           "chmod",
           "source",
           "."
+        ],
+        "provided_files": [
+          "script.sh"
         ],
         "existing_venvs": [],
         "missing_programs": [
@@ -5737,6 +5905,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5765,6 +5934,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5796,6 +5966,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5826,6 +5997,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5856,6 +6028,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5886,6 +6059,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5916,6 +6090,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -5944,6 +6119,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -5990,6 +6166,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6018,6 +6195,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6059,6 +6237,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6089,6 +6268,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6119,6 +6299,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6149,6 +6330,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6179,6 +6361,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6207,6 +6390,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6252,6 +6436,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6282,6 +6467,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6315,6 +6501,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6347,6 +6534,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6379,6 +6567,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6411,6 +6600,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6443,6 +6633,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6473,6 +6664,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6520,6 +6712,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6550,6 +6743,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6583,6 +6777,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6615,6 +6810,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6647,6 +6843,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6679,6 +6876,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6711,6 +6909,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6741,6 +6940,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6788,6 +6988,7 @@
           "Invoke-WebRequest",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6818,6 +7019,7 @@
           "sc",
           "icacls"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6851,6 +7053,7 @@
           "launchctl",
           "lsof"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6883,6 +7086,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6915,6 +7119,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"
@@ -6947,6 +7152,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -6979,6 +7185,7 @@
           "ss",
           "systemctl"
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [],
         "commands": [
@@ -7009,6 +7216,7 @@
           "source",
           "."
         ],
+        "provided_files": [],
         "existing_venvs": [],
         "missing_programs": [
           "sudo"

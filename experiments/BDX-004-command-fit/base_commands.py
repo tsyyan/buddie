@@ -136,7 +136,7 @@ def rule(profile, requirements, name, text):
     """Return a complete base-command rule, never a default FITS for arbitrary flags."""
     shell = family(requirements['shell'])
     key = name.lower() if shell in ('powershell', 'cmd') else name
-    if key in ('service', 'rc-service') and re.fullmatch(r'[\w-]+ [\w.-]+ (?:start|stop|restart|reload)', text):
+    if key in ('service', 'rc-service') and re.fullmatch(r'[\w-]+ [\w.-]+ (?:start|stop|restart|reload|force-reload|try-restart|condrestart|reload-or-restart|reload-or-try-restart|--full-restart)', text):
         return dict(program=name, effect='FITS', needs_admin=True)
     forms = POWERSHELL_FORMS if shell == 'powershell' else CMD_FORMS if shell == 'cmd' else POSIX_FORMS
     pattern = TAR_FORM if key == 'tar' else forms.get(key)

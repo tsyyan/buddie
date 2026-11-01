@@ -7,6 +7,25 @@ from test_judge import HERE, grade, judge
 
 
 class ExecutablePaths(unittest.TestCase):
+    def test_placeholder_executable_path_is_not_an_observed_program_path(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            self.assertEqual(grade('ubuntu2404-nvidia', 'cuda-toolkit', '/full/path/to/nvcc --version')['commands'][0]['status'], 'UNKNOWN')
+
+    def test_attached_powershell_call_operator_keeps_executable_identity(self):
+        result = grade('win11-pwsh-nvidia', 'cuda-toolkit', '&"C:\\Tools\\nvcc.exe" --version', 'powershell')
+        self.assertEqual(result['reason'], 'program_missing')
+
+    def test_path_normalization_does_not_erase_unquoted_shell_operators(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            row = grade('win11-cmd-nogpu', 'install-git', 'C:\\tools&other\\git.exe --version')['commands'][0]
+            self.assertNotEqual(row['status'], 'FITS')
+
+    def test_empty_powershell_invocation_does_not_crash(self):
+        p = judge.load_profile('win11-pwsh-nvidia')
+        req = judge.load_task('list-files')['requirements'][p['id']]
+        row = judge.judge_command(dict(text='&', shell='powershell'), p, req, {}, set())
+        self.assertIn(row['status'], ('UNKNOWN', 'WONT_RUN'))
+
     def test_absolute_executable_uses_program_rules(self):
         for pid, task, text, status, reason in [
                 ('ubuntu2404-nvidia', 'cuda-toolkit', '/usr/local/cuda/bin/nvcc -V', 'FITS', None),
@@ -44,6 +63,9 @@ class ForeignCmdlets(unittest.TestCase):
 
 
 class DistroUserland(unittest.TestCase):
+    def test_service_force_reload_needs_admin(self):
+        self.assertEqual(grade('ubuntu2204-nosudo', 'service-restart', 'service ssh force-reload')['reason'], 'needs_admin')
+
     def test_distribution_specific_network_and_service_tools(self):
         with patch.object(judge, 'syntax', return_value=True):
             for pid, text in [('ubuntu2404-nvidia', 'service ssh status'), ('wsl-ubuntu', 'ss -ltnp'),
@@ -64,4 +86,58 @@ class DistroUserland(unittest.TestCase):
     def test_new_service_alias_does_not_bypass_admin(self):
         with patch.object(judge, 'syntax', return_value=True):
             self.assertEqual(grade('ubuntu2204-nosudo', 'service-restart', 'service ssh restart')['reason'], 'needs_admin')
+
+
+class FileExecution(unittest.TestCase):
+    def test_pilot_shaped_recordings_have_literal_expected_outcomes(self):
+        cases = json.loads((HERE / 'tests/pilot4_answers.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(cases), 18)
+        for case in cases:
+            with self.subTest(case=case['id']):
+                if 'FITS' in case['expected_statuses'] and judge.syntax(case['parser'], 'echo ok') is None:
+                    self.skipTest('success outcome needs profile parser')
+                result = judge.judge_answer(case['answer'], case['profile'], case['task'])
+                self.assertEqual([r['status'] for r in result['commands']], case['expected_statuses'])
+                self.assertEqual([r['reason'] for r in result['commands']], case['expected_reasons'])
+
+    def test_absolute_mutations_invalidate_file_and_venv_proofs(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            self.assertEqual(grade('ubuntu2404-nvidia', 'permissions', '/bin/rm -f script.sh\n./script.sh')['commands'][-1]['status'], 'UNKNOWN')
+            result = grade('ubuntu2404-nvidia', 'python-venv', 'python3 -m venv .venv\n/bin/rm -f .venv/bin/activate\nsource .venv/bin/activate')
+            self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')
+
+    def test_curl_requires_a_single_literal_url_and_output_pair(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            for first in ('curl -o local.sh', 'curl -o local.sh -o other.sh https://example.org/file'):
+                result = grade('ubuntu2404-nvidia', 'download-file', first + '\n./local.sh')
+                self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')
+
+    def test_task_or_earlier_command_provides_the_file(self):
+        for tid, text, expected in [('permissions', './script.sh', ['FITS']),
+                                    ('list-files', './script.sh', ['UNKNOWN']),
+                                    ('list-files', 'touch local.sh\n./local.sh', ['FITS', 'FITS']),
+                                    ('permissions', 'chmod +x /opt/tools/script.sh\n/opt/tools/script.sh', ['FITS', 'FITS'])]:
+            with self.subTest(text=text), patch.object(judge, 'syntax', return_value=True):
+                self.assertEqual([r['status'] for r in grade('ubuntu2404-nvidia', tid, text)['commands']], expected)
+
+    def test_placeholder_and_removed_files_never_gain_presence(self):
+        task = copy.deepcopy(judge.load_task('permissions'))
+        task['requirements']['ubuntu2404-nvidia']['provided_files'] = ['/full/path/to/script.sh']
+        with patch.object(judge, 'syntax', return_value=True):
+            self.assertEqual(judge.judge_answer('Run `/full/path/to/script.sh`.', 'ubuntu2404-nvidia', task)['commands'][0]['status'], 'UNKNOWN')
+            result = grade('ubuntu2404-nvidia', 'permissions', 'rm -f script.sh\n./script.sh')
+            self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')
+
+    def test_conditional_and_failed_creation_do_not_escape(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            for first in ('if true; then touch local.sh; fi', 'unobserved-tool --help && touch local.sh'):
+                result = grade('ubuntu2404-nvidia', 'list-files', first + '\n./local.sh')
+                self.assertEqual(result['commands'][-1]['status'], 'UNKNOWN')
+
+    def test_downloaded_literal_output_can_provide_a_file(self):
+        with patch.object(judge, 'syntax', return_value=True):
+            for first, expected in [('curl -fLo local.sh https://example.org/script.sh', 'FITS'),
+                                    ('curl --help -o local.sh', 'UNKNOWN')]:
+                result = grade('ubuntu2404-nvidia', 'download-file', first + '\n./local.sh')
+                self.assertEqual(result['commands'][-1]['status'], expected)
 

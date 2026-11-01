@@ -5,12 +5,14 @@ import re
 def normalize(text, shell):
     """Return (program, rule text, supplied path); keep original bytes for syntax/output."""
     stripped = text.lstrip()
-    if shell == 'powershell' and stripped.startswith('& '):
+    if shell == 'powershell' and stripped.startswith('&') and not stripped.startswith('&&'):
         stripped = stripped[1:].lstrip()
     match = re.match(r'''(?:"[^"]*"|'[^']*'|[^\s]+)''', stripped)
     if not match:
         return '', text, None
     raw = match[0]
+    if raw[0] not in ('"', "'") and re.search(r'[;&|<>`(){}]', raw):
+        return raw, text, None  # Never turn shell operators into erased path prefixes.
     token = raw[1:-1] if len(raw) >= 2 and raw[0] in ('"', "'") and raw[-1] == raw[0] else raw
     windows = bool(re.match(r'^[A-Za-z]:[/\\]|^\\\\', token))
     absolute = windows or token.startswith('/')
@@ -32,3 +34,7 @@ CMDLET_VERBS = frozenset('Get Set Write Read New Remove Select Where Format Out 
 def cmdlet(name):
     parts = name.split('-', 1)
     return len(parts) == 2 and parts[0].lower() in CMDLET_VERBS and bool(re.fullmatch(r'[A-Za-z][A-Za-z0-9]*', parts[1]))
+
+
+def placeholder(path):
+    return bool(re.search(r'(?:^|/)path/to(?:/|$)|(?:^|/)full/path/to(?:/|$)|\.\.\.|[<>]', path.replace('\\', '/')))

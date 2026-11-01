@@ -14,7 +14,8 @@ from control import has_control, parse as parse_control
 from sections import select as select_sections
 from tool import HERE, load_profile
 from installations import intent as install_intent, uncertain, pending
-from executables import normalize as normalize_executable, cmdlet
+from executables import normalize as normalize_executable, cmdlet, placeholder
+from file_proofs import seed as seed_files, known as known_file, provide as provide_file
 
 PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
 MANAGER_DISTROS = json.loads((HERE / 'package_manager_distros.json').read_text(encoding='utf-8'))
@@ -67,7 +68,8 @@ def judge_simple(command, profile, req, installed, venvs):
         return dict(command, status=status, reason=reason, detail=detail, **extra)
 
     try:
-        tokens = shlex.split(text, posix=target in ('bash', 'sh', 'zsh'))
+        invocation = re.sub(r'^\s*&(?!&)\s*', '', text) if target == 'powershell' else text
+        tokens = shlex.split(invocation, posix=target in ('bash', 'sh', 'zsh'))
     except ValueError:
         # shlex does not implement PowerShell backtick or cmd quotation rules.
         if syntax(target, text) is False:
@@ -86,9 +88,9 @@ def judge_simple(command, profile, req, installed, venvs):
         if not tokens or tokens[0].startswith('-'):
             return verdict('UNKNOWN', detail='sudo options are not modeled')
     name, text, executable_path = normalize_executable(text, target)
-    if target == 'powershell' and tokens[0] == '&':
-        tokens = tokens[1:]
     tokens[0] = name
+    if executable_path and placeholder(executable_path):
+        return verdict('UNKNOWN', detail='placeholder executable path is not evidence of a file')
     if name.lower().startswith('$env:'):
         name = '$env:APP_MODE'
     relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
@@ -105,6 +107,8 @@ def judge_simple(command, profile, req, installed, venvs):
     if relevant and all(platform not in r['os'] for r in relevant):
         return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
     found, found_version = program(profile, req, name, installed)
+    if executable_path and family(target) == 'posix' and known_file(executable_path, venvs):
+        found = True
     activation = venv_rule(tokens, target)
     if activation and activation.get('activation_target'):
         if activation['activation_target'] != target:
@@ -274,6 +278,7 @@ def judge_command(command, profile, req, installed, venvs):
             venvs.clear()  # unmodeled code may change cwd or the filesystem
         elif result['status'] in ('FITS', 'INSTALLS'):
             invalidate_venvs(command['text'], req['shell'], venvs)
+            provide_file(command['text'], req['shell'], venvs)
         return result
     parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
     return judge_sequence(command, parts, profile, req, installed, venvs, parsed)
@@ -376,7 +381,7 @@ def judge_answer(answer, profile, task):
     section = None
     for command in scope['commands']:
         if command['section_id'] != section:
-            installed, venvs = {}, set(req.get('existing_venvs', []))
+            installed, venvs = {}, set(req.get('existing_venvs', [])) | seed_files(req)
             section = command['section_id']
         alt = other_shell(command, p, req)
         if alt is None:
