@@ -186,3 +186,9 @@ judge. It checks that the effect holds with the real Stop hook; it is reported a
   2. **What closes the run**: claude-opus-5 on all 146 units in arms A-E; product OK paragraphs 15 per condition
      (without, with, hookonly, hookdisc). Then the report; no further arms or conditions are added to BDX-003 (cost
      variants go to a separate experiment).
+- 2026-11-02, decided by the owner: **BDX-003 is closed** with what was run. Deviation from the plan of 2026-11-02:
+  `claude-opus-5` covers 84 of the 146 units in arms A-E (51 ERROR, 33 OK; the first 84 in the seeded order, the same
+  units in every arm), not 146, because the key's balance ran out twice and the gateway counted about four times the
+  tokens the answers reported. The `openai/gpt-oss-120b` run (146 units, A-E) and the product run (25 ERROR, 14-15 OK
+  paragraphs per condition) are complete. Nothing more is run; the audit sample is read from the last judged data,
+  then the report.
