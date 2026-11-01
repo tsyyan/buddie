@@ -287,14 +287,38 @@ def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
     return aggregate(command, children, parsed)
 
 
+# the shell a tagged block runs in, by family, when the profile observes it (system.shell)
+OBSERVED_SHELLS = {'powershell': ('pwsh', 'powershell'), 'cmd': ('cmd',), 'posix': ('bash', 'zsh', 'sh', 'fish')}
+
+
+def other_shell(command, profile, req):
+    """The observed shell a block is tagged for, when its family is not the scenario's (PROTOCOL v1, 2026-11-01):
+    such a block is judged in that shell, not as a wrong shell. None when the families agree or none is observed."""
+    hint = command.get('shell', 'unknown')
+    if hint == 'unknown' or family(hint) == family(req['shell']):
+        return None
+    for name in OBSERVED_SHELLS.get(family(hint), ()):
+        if observation(profile, 'system.shell', name).get('status') == 'observed':
+            return 'powershell' if family(hint) == 'powershell' else name
+    return None
+
+
 def judge_answer(answer, profile, task):
     """OK requires all FITS/INSTALLS; undecided commands cannot establish success."""
     p, t = load_profile(profile), load_task(task)
     if p['id'] not in t['requirements']:
         raise ValueError('task does not apply to this profile')
     rows, installed, venvs = [], {}, set()
+    req = t['requirements'][p['id']]
     for command in extract(answer):
-        rows.append(judge_command(command, p, t['requirements'][p['id']], installed, venvs))
+        alt = other_shell(command, p, req)
+        if alt is None:
+            rows.append(judge_command(command, p, req, installed, venvs))
+        elif alt in t.get('alternate_requirements', {}).get(p['id'], {}):
+            rows.append(judge_command(command, p, t['alternate_requirements'][p['id']][alt], installed, venvs))
+        else:  # PROTOCOL v1: a block for a shell the machine has is not a wrong shell; without its rules, undecided
+            rows.append(dict(command, status='UNKNOWN', reason=None,
+                             detail=f'{alt} is on this machine; the task has no requirements for it'))
     if rows:
         status = ('BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else
                   'UNDECIDED' if any(r['status'] == 'UNKNOWN' for r in rows) else 'OK')

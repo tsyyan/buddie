@@ -1081,11 +1081,11 @@
     "kind": "tricky",
     "answer": "```powershell\nGet-ChildItem\n```",
     "expected": {
-      "status": "BROKEN",
+      "status": "UNDECIDED",
       "commands": [
         {
-          "status": "WONT_RUN",
-          "reason": "wrong_shell_syntax"
+          "status": "UNKNOWN",
+          "reason": null
         }
       ]
     }

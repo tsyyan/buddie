@@ -26,9 +26,17 @@ class ShellFamilies(unittest.TestCase):
                          ['commands'][0]['reason'], 'program_missing')
 
     def test_cross_family_tags_still_fail(self):
-        for tag in ['bash', 'sh', 'zsh', 'shell', 'console', 'powershell']:
+        for tag in ['bash', 'sh', 'zsh', 'shell', 'console']:
             self.assertEqual(grade('win11-cmd-nogpu', 'list-files', 'dir', tag)
                              ['commands'][0]['reason'], 'wrong_shell_syntax')
+
+    def test_a_block_for_an_observed_other_shell_is_not_a_wrong_shell(self):
+        # PROTOCOL v1: the cmd profile has Windows PowerShell, the PowerShell profile has cmd
+        for pid, tag, text in [('win11-cmd-nogpu', 'powershell', 'Get-ChildItem'), ('win11-pwsh-nvidia', 'cmd', 'dir')]:
+            row = grade(pid, 'list-files', text, tag)['commands'][0]
+            self.assertEqual((row['status'], row['reason']), ('UNKNOWN', None))
+        self.assertEqual(grade('alpine-container', 'list-files', 'Get-ChildItem', 'powershell')
+                         ['commands'][0]['reason'], 'wrong_shell_syntax')
 
     def test_sh_bashisms_survive_extraction_and_fail(self):
         for text in ['[[ -d output ]]', 'items=(one two)', 'source .venv/bin/activate']:

@@ -30,7 +30,7 @@ class Recorded(unittest.TestCase):
         by_id = {c['id']: c for c in cases}
         for cid, status in [('bash-on-macos', 'FITS'), ('bash-on-alpine', 'FITS'),
                             ('alpine-double-brackets', 'WONT_RUN'), ('alpine-array', 'WONT_RUN'),
-                            ('powershell-on-cmd', 'WONT_RUN')]:
+                            ('powershell-on-cmd', 'UNKNOWN')]:  # PROTOCOL v1: observed other shell
             self.assertIn(cid, by_id)
             self.assertEqual(by_id[cid]['expected']['commands'][0]['status'], status)
 

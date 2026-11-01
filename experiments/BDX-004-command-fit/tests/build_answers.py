@@ -94,11 +94,14 @@ def main():
                          without_parser=expected('UNDECIDED', ('UNKNOWN', None))))
     for cid, pid, tag, text in [
             ('alpine-double-brackets', 'alpine-container', 'bash', '[[ -d output ]]'),
-            ('alpine-array', 'alpine-container', 'bash', 'items=(one two)'),
-            ('powershell-on-cmd', 'win11-cmd-nogpu', 'powershell', 'Get-ChildItem')]:
+            ('alpine-array', 'alpine-container', 'bash', 'items=(one two)')]:
         rows.append(dict(id=cid, profile=pid, task='list-files', kind='tricky',
                          answer=f'```{tag}\n{text}\n```',
                          expected=expected('BROKEN', ('WONT_RUN', 'wrong_shell_syntax'))))
+    # PROTOCOL v1 (owner, 2026-11-01): Windows PowerShell is on this machine, so a PowerShell block is no wrong shell;
+    # the task has no PowerShell requirements for it yet, so the command is undecided
+    rows.append(dict(id='powershell-on-cmd', profile='win11-cmd-nogpu', task='list-files', kind='tricky',
+                     answer='```powershell\nGet-ChildItem\n```', expected=expected('UNDECIDED', ('UNKNOWN', None))))
     # Literal expectations for parent and recursively evaluated child commands.
     list_cases = [
         ('list-posix', 'ubuntu2404-nvidia', 'list-files', 'bash',
