@@ -138,6 +138,19 @@ false objections is reported as unreliable and left out of the gate proposal.
   - inline code is a command only when the text tells the person to run it, or when it has a program and an
     argument; values, paths and lone names are not commands.
 
+- 2026-11-01, judge-validation pilot 2 (run 41338667507, arm A, gpt-oss-120b, 40 units other than pilot 1's): **failed
+  again**. Sections work (22 of 37 answers hedged; 3.7 of 7.9 offered commands judged for the profile), but UNKNOWN is
+  47 % of commands and three objections are systematic:
+  - UNKNOWN for ordinary runnable commands with no task-specific rule (`curl -L -o`, `chmod +x`, `pip install torch`,
+    `nvcc -V`): FITS is to mean *runs on this machine* (program present, syntax parses, no task constraint broken),
+    not *matches a task pattern*; task rules add constraints (versions, GPU, admin), they are not a whitelist;
+  - a verification after an install (`ffmpeg -version` after `sudo apt install ffmpeg`) is program_missing when the
+    install step was not recognized: an install command for a program, recognized or UNKNOWN, makes the later use of
+    that program UNKNOWN at worst, never program_missing;
+  - `sudo` on macOS reads as unavailable: an administrator account on macOS has sudo; and a command whose program is
+    missing (apt on macOS, sudo on Alpine as root) is program_missing / wrong_os before needs_admin.
+  The judge is fixed and the pilot repeated on 40 further units (pilot 3).
+
 ## Changes after data
 
 (none)
