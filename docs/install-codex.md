@@ -8,7 +8,7 @@ newer: `python3` on macOS and Linux, `python` on Windows.
 This repository is also a Codex marketplace: Codex reads `.agents/plugins/marketplace.json` and the plugin's
 `.codex-plugin/plugin.json`. (`.claude-plugin/marketplace.json` is Claude Code's: it points at the compact plugin on
 `plugin-stable`, which has no Codex manifest.) The marketplace follows `main`; to stay on a release, add it pinned:
-`codex plugin marketplace add tsyyan/buddie@v2.0.6`.
+`codex plugin marketplace add tsyyan/buddie@v2.0.7`.
 
 ```bash
 codex plugin marketplace add tsyyan/buddie
