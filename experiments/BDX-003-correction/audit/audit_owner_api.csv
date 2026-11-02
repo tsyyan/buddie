@@ -1,0 +1,71 @@
+row,auto_outcome,owner_outcome,owner_note
+36,WRONG,CORRECT,Quote restored to match source_says; only quotation marks and apostrophes differ.
+42,WRONG,WRONG,Opening changed: providing instead of Provide. Sections joined without marking omissions.
+63,WRONG,WRONG,Phrase remains in quotation marks; source_says explicitly states it is absent.
+89,CORRECT,CORRECT,"Plural form restored in the final text, matching source_says."
+97,CORRECT,CORRECT,"Entire target quote appears verbatim on the page, including the middle sentence."
+118,REMOVED,REMOVED,Target phrase replaced with an unquoted paraphrase.
+135,CORRECT,CORRECT,"Final quote is a verbatim excerpt of source_says, including lawfully."
+141,CORRECT,CORRECT,Inaccurate short phrase replaced with the original wording from source_says.
+142,REMOVED,REMOVED,Inaccurate target quote is absent; the idea is expressed without quotation marks.
+165,CORRECT,CORRECT,Verbatim excerpt of source_says.
+191,CORRECT,CORRECT,a camera restored; the entire final quote was found in the article’s conclusion.
+201,WRONG,WRONG,"Quote retained, but source_says states it is absent from the cited sources."
+212,WRONG,WRONG,"Quote retained, but source_says states it is absent from the cited sources."
+213,REMOVED,CORRECT,Original long quote replaced with a verbatim excerpt of Wikipedia’s paraphrase. Not Artaud’s direct speech.
+268,REMOVED,REMOVED,Text is no longer presented as a direct quotation.
+271,WRONG,WRONG,"Quote remains. A warning is present, but FLAGGED applies only to the Claude Code sheet."
+307,CORRECT,CORRECT,Target quote matches source_says verbatim.
+310,CORRECT,CORRECT,Inserted difficult removed; the remaining words match source_says.
+324,CORRECT,CORRECT,have embraced and foreign language restored to match source_says.
+352,WRONG,WRONG,Quote remains; source_says states that the page does not contain these words.
+367,REMOVED,CORRECT,typically restored. Opening matches source_says; the excerpt does not show the continuation.
+369,REMOVED,REMOVED,Target passage rendered as an unquoted paraphrase.
+376,CORRECT,CORRECT,Target words match; nested quotation mark formatting does not change the text.
+431,CORRECT,CORRECT,Target quote matches source_says verbatim.
+452,REMOVED,REMOVED,Inaccurate quote replaced with an unquoted definition.
+453,CORRECT,CORRECT,Target quote matches source_says verbatim.
+458,WRONG,WRONG,providing instead of Provide; separate sections joined without marking omissions.
+460,CORRECT,CORRECT,Two excerpts quoted verbatim separately. He adds and the loss of message context distort attribution.
+461,CORRECT,CORRECT,automating and enabling restored; the lead-in’s grammar does not affect the quote’s verbatim accuracy.
+466,REMOVED,REMOVED,Inaccurate target quote replaced with a paraphrase.
+494,CORRECT,CORRECT,Inserted difficult removed; the words match source_says.
+499,WRONG,WRONG,he replaces they inside quotation marks; the original wording is changed.
+512,REMOVED,REMOVED,Target phrase presented without quotation marks.
+537,WRONG,WRONG,shocks replaces the original shock inside quotation marks; brackets do not mark this change.
+562,CORRECT,CORRECT,Target passage appears verbatim in source_says.
+577,CORRECT,CORRECT,Target passage appears verbatim in source_says.
+586,CORRECT,CORRECT,"heeded replaced with listened to, matching source_says."
+592,WRONG,WRONG,pioneering replaces the original pioneered: the quote is not verbatim.
+594,CORRECT,CORRECT,"heeded replaced with listened to, matching source_says."
+596,WRONG,WRONG,he replaces they inside quotation marks; this is not the source’s verbatim text.
+624,CORRECT,CORRECT,Target passage appears verbatim in source_says.
+669,CORRECT,CORRECT,Extra initial I removed; the two target sentences match source_says. The excerpt omits the added ending.
+688,CORRECT,CORRECT,Get and with PAXHUB restored; the target quote matches.
+689,WRONG,WRONG,"give free consent instead of give consent freely: similar meaning, but words are rearranged."
+707,WRONG,WRONG,pardon people instead of who pardon their fellow men; the quote is not verbatim.
+740,WRONG,WRONG,shocks remains instead of the original shock. Removing brackets did not fix the error.
+745,CORRECT,CORRECT,Original word order restored: give consent freely.
+804,WRONG,WRONG,"Quote remains. A warning is present, but FLAGGED applies only to the Claude Code sheet."
+812,REMOVED,REMOVED,Target quote replaced with an unquoted paraphrase.
+815,REMOVED,CORRECT,Inaccurate definition replaced with the verbatim wording given in source_says.
+835,WRONG,WRONG,automate / enable instead of the original automating / enabling; the quote is not verbatim.
+865,CORRECT,CORRECT,Target passage matches source_says verbatim.
+891,REMOVED,REMOVED,Target text is no longer in quotation marks; it is presented as a paraphrase.
+920,REMOVED,REMOVED,Target phrase replaced with an unquoted paraphrase.
+957,CORRECT,CORRECT,Target passage appears verbatim in source_says.
+966,CORRECT,CORRECT,Target quote matches source_says verbatim.
+982,REMOVED,REMOVED,Target phrase about spiritual feeling is no longer quoted. Other quotes were not assessed.
+999,CORRECT,CORRECT,Verbatim continuous excerpt of source_says. The continuation about lawfulness is moved to the explanation.
+1017,REMOVED,REMOVED,Fabricated target wording removed; a paraphrase and another short excerpt remain.
+1026,WRONG,CORRECT,"Target quote restored to match source_says, including the introduction to the message."
+1052,CORRECT,CORRECT,Target passage appears verbatim in source_says. The adjacent quote remains inaccurate: are instead of is.
+1055,WRONG,WRONG,Quote remains; source_says states that these words are absent from the pages.
+1057,WRONG,WRONG,"Omission of and all that is marked, but the before Basie is removed without a mark."
+1087,CORRECT,CORRECT,Target quote matches source_says verbatim.
+1096,REMOVED,CORRECT,Exact opening excerpt remains quoted. The rest of the original long quote is now a paraphrase.
+1100,WRONG,WRONG,Another version of the same refrain replaces the original in quotation marks; the source does not support it.
+1102,CORRECT,CORRECT,"Original wording restored, including the typo iterated; checked against the page."
+1104,REMOVED,CORRECT,Target verse replaced with a verbatim excerpt of the source’s paraphrase. The adjacent verse is unsupported by this excerpt.
+1130,WRONG,WRONG,Target quote remains; source_says states that the cited pages do not contain it.
+1133,CORRECT,CORRECT,Target words match; only nested quotation mark formatting differs.
