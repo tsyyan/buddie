@@ -31,10 +31,12 @@ def names(kind):
     if kind == 'mcpb':
         return RUNTIME + LEGAL + ['RELEASE_NOTES.md', 'manifest.json', 'run.py', 'assets/icon.png']
     return RUNTIME + LEGAL + ['RELEASE_NOTES.md', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json',
-                             'run.py', 'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png',
+                             'run.py', 'hooks/claude-code.json', 'hooks/codex.json', 'hooks/run.sh', 'assets/icon.png',
                              'skills/buddie/SKILL.md', 'skills/verbatim/SKILL.md', 'skills/environment/SKILL.md',
                              'skills/buddie-discovery/SKILL.md', 'skills/buddie-discovery/references/reporting.md',
-                             'commands/check.md', 'commands/init.md', 'commands/status.md', 'commands/wait.md']
+                             'commands/check.md', 'commands/init.md', 'commands/status.md', 'commands/wait.md',
+                             '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json', 'gemini-extension.json',
+                             'GEMINI.md', '.github/plugin/plugin.json']
 
 
 def write(tmp_path, kind, entries, special=None):
