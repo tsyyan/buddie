@@ -12,7 +12,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
-PUBLISHERS = ("pypi", "mcp-registry", "github-release")
+PUBLISHERS = ("pypi", "mcp-registry", "github-release", "image")
 PROMOTER = "plugin-stable"  # the distribution branch: included in all, also recoverable on its own
 ORDER = ("candidate", "authorize", *PUBLISHERS, PROMOTER)
 
@@ -122,7 +122,8 @@ def test_every_publisher_needs_authorize(name):
 def test_what_can_write_is_only_in_jobs_that_need_authorize():
     """Every job holding a publishing permission or tool depends on authorize."""
     writers = {n for n, j in JOBS.items()
-               if re.search(r"id-token: write|contents: write|pypi-publish|mcp-publisher|release_publish.py github",
+               if re.search(r"id-token: write|contents: write|packages: write|pypi-publish|mcp-publisher|"
+                            r"release_publish.py github|docker push",
                             j["block"])}
     assert writers == set(PUBLISHERS) | {PROMOTER}
     assert all("authorize" in JOBS[n]["needs"] for n in writers)
@@ -148,6 +149,7 @@ def test_a_manual_candidate_build_publishes_nothing(only):
     ("pypi", {"pypi"}),
     ("mcp-registry", {"mcp-registry"}),          # recovery: PyPI skipped, registry runs
     ("github-release", {"github-release"}),      # recovery: PyPI skipped, release runs
+    ("image", {"image"}),                        # recovery: PyPI skipped, image runs
 ])
 def test_an_authorized_publish_runs_the_chosen_stages_and_no_candidate(only, stages):
     results = _run("workflow_dispatch", _dispatch(only))

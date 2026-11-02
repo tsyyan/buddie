@@ -182,6 +182,17 @@ jobs:
           python3 -c "import json; r=json.load(open('ssrf.json'))['result']; e=r['structuredContent']['snapshots'][0]['error']; assert 'not a public address' in e, r"
       - if: always()
         run: docker logs buddie || true
+      - name: the release image (packaging/docker/Dockerfile) from a wheel of this commit answers MCP over stdio
+        run: |
+          v=$(python3 -c "import re; print(re.search(r'__version__ = \"(.+?)\"', open('buddie/__init__.py').read())[1])")
+          mkdir -p ctx/dist && pip wheel -q --no-deps -w ctx/dist .
+          docker build -f packaging/docker/Dockerfile --build-arg VERSION="$v" -t buddie:release ctx
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | docker run -i --rm buddie:release > out.jsonl
+          python3 -c "import json; r=[json.loads(l) for l in open('out.jsonl') if l.strip()]; t={x['name'] for x in r[-1]['result']['tools']}; assert {'verify_report','snap','source_text'} <= t, t; print(sorted(t))"
+          test "$(docker run --rm buddie:release --version)" = "buddie $v"
 
   gate:
     # The one required status check. Fail-closed: on a pull request it passes only when full validation ran (the PR
