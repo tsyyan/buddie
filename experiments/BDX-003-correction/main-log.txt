@@ -26,3 +26,4 @@
 2026-11-02 owner topped up the key (10M tokens): the last runs of BDX-003 (claude-opus-5 API on the remaining units, arms A-E; product OK paragraphs to 15 per condition), as recorded in PROTOCOL 2026-11-02.
 2026-11-02 run 41357813202: the 10M top-up ran out again. claude-opus-5 API now 84 of 146 units per arm (51 ERROR, 33 OK); product OK paragraphs 14-15 per condition. Opus ERROR WRONG: A 1.0, B 0.196, C 0.118, D 0.373, E 0.098; OK CORRECT: A 1.0, B 0.758, C 0.758, D 0.727, E 0.758. Product OK CORRECT: with 0.929 (n 14), hookonly 0.357 (14), hookdisc 0.333 (15).
 2026-11-02 BDX-003 closed by the owner: claude-opus-5 at 84 of 146 units (balance), gpt-oss and the product run complete. Final judging only.
+2026-11-02 audit read by the owner (105 rows): API agree 63/70, product 31/35; REPORT.md written.
