@@ -172,11 +172,11 @@ def main(argv=None) -> int:
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
           f"skipped for an unreadable snapshot {skipped}; why failed {dict(why)}")
     pl = [f"{k}: {p}" for k, p in paired.items()]
-    for i in range(0, len(pl), 3):
-        print(f"::notice title=BDX-003 product paired {i // 3 + 1}::" + " || ".join(pl[i:i + 3]))
+    for i in range(0, len(pl), 5):
+        print(f"::notice title=BDX-003 product paired {i // 5 + 1}::" + " || ".join(pl[i:i + 5]))
     cl = [f"{k}: {c}" for k, c in cells.items()]
-    for i in range(0, len(cl), 2):
-        print(f"::notice title=BDX-003 product cells {i // 2 + 1}::" + " || ".join(cl[i:i + 2]))
+    for i in range(0, len(cl), 3):
+        print(f"::notice title=BDX-003 product cells {i // 3 + 1}::" + " || ".join(cl[i:i + 3]))
     return 0
 
 
