@@ -76,7 +76,7 @@ jobs:
           python3 ../scripts/catalog_bump.py "$FILE" "$V"
           if [ "${{ matrix.catalog }}" = kilo ]; then
             # Kilo reviews require its derived catalog to match MCP.yaml.
-            npm ci --prefix bin --ignore-scripts --no-audit --no-fund
+            npm ci --prefix bin --no-audit --no-fund
             (cd bin && npx --no-install tsx generate-mcps-marketplace.ts)
             python3 ../scripts/catalog_bump.py mcps/marketplace.yaml "$V" --check
           fi
