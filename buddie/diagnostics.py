@@ -130,6 +130,11 @@ REGISTRY: dict[str, Module] = {m.id: m for m in (
     Module("software.tools", BASELINE, "versions of named tools from a fixed catalog",
            tuple(probes.TOOLS), {f"tool:{n}": P for n in probes.TOOLS}, scope="tools", collector="software_tools",
            limits="only catalog names are run, each with its fixed version argument"),
+    # the clients' own --version, like any tool's: no daemon is contacted (whether one answers is
+    # development.containers, sensitive: on Linux the daemon's socket is root-equivalent)
+    Module("software.containers", BASELINE, "Docker and Podman clients present, and their versions (no daemon asked)",
+           ("docker_client", "podman_client"), {"docker_client": P, "podman_client": P},
+           collector="software_containers", limits="each client's --version only; the daemon is not contacted"),
     Module("development.containers", SENSITIVE, "Docker and Podman clients; whether the local Docker daemon answers",
            ("docker_client", "docker_daemon", "podman_client"),
            {"docker_client": P, "docker_daemon": P, "podman_client": P}, collector="development_containers",
@@ -232,7 +237,8 @@ GRANT_TEMPLATE = """# buddie environment diagnostics: what a local agent may ask
 # ([environment] allow) is the limit an agent cannot change.
 version = 1
 
-# "baseline": OS, shells, privilege level, CPU, memory, GPU, Python, runtimes, package managers, GPU stack, catalog tools.
+# "baseline": OS, shells, privilege level, CPU, memory, GPU, Python, runtimes, package managers, GPU stack, catalog tools,
+# container clients (docker/podman --version; no daemon is asked).
 # Sensitive categories are named one by one: hardware.storage, development.containers, development.project,
 # development.repository.
 allow = ["baseline"]
