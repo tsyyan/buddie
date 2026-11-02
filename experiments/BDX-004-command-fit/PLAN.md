@@ -254,3 +254,7 @@ unknown_cause: judge 6/285 (2.11%) unchanged; data 62/285 (21.75%) to 48/285 (16
 data gaps resolve to known absence; no fresh pilot run is claimed. Native-parser tests pass 169, default
 PATH passes with 73 skips. Core diagnostics tests passed 98 with one skip at the merge. Imported core/docs
 bytes still match PR #89 exactly; follow-up changes are experiment-only. Saved measurements reproduce.
+Final migration regression reproduced a new false absence after Docker package aliases (docker.io,
+docker-ce-cli). Mapped literal package aliases to weak Docker install intent; later versions/daemon
+queries remain UNKNOWN, never assumed installed. All 170 experiment tests pass with native parsers;
+all profiles validate and the saved 167-case cause report is unchanged.

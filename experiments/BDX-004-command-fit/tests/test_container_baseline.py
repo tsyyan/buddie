@@ -19,6 +19,15 @@ def with_docker():
 
 
 class ContainerBaseline(unittest.TestCase):
+    def test_container_package_aliases_preserve_pending_installation(self):
+        for package in ('docker.io', 'docker-ce-cli'):
+            with self.subTest(package=package), patch.object(judge, 'syntax', return_value=True):
+                answer = '```bash\nsudo apt install ' + package + '\ndocker --version\ndocker ps\n```'
+                rows = judge.judge_answer(answer, 'ubuntu2404-nvidia', 'container-run')['commands']
+                self.assertEqual([r['status'] for r in rows], ['FITS', 'UNKNOWN', 'UNKNOWN'])
+                self.assertIsNone(rows[1]['reason'])
+                self.assertIn('daemon not granted', rows[2]['detail'])
+
     def test_recorded_client_versions_follow_the_regenerated_inventory(self):
         cases = json.loads((HERE / 'tests/container_answers.json').read_text(encoding='utf-8'))
         self.assertEqual(len(cases), 16)

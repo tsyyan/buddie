@@ -5,7 +5,9 @@ from facts import python_args
 from executables import normalize as normalize_executable
 
 ALIASES = {'nodejs': 'node', 'node@20': 'node', 'git.git': 'git',
-           'gyan.ffmpeg': 'ffmpeg', 'openjs.nodejs': 'node', 'openjs.nodejs.lts': 'node'}
+           'gyan.ffmpeg': 'ffmpeg', 'openjs.nodejs': 'node', 'openjs.nodejs.lts': 'node',
+           'docker.io': 'docker', 'docker-ce': 'docker', 'docker-ce-cli': 'docker',
+           'docker-desktop': 'docker', 'docker.dockerdesktop': 'docker', 'moby-cli': 'docker'}
 MANAGERS = {'apt', 'apt-get', 'dnf', 'apk', 'brew', 'winget', 'choco', 'pip', 'pip3', 'npm', 'conda'}
 
 

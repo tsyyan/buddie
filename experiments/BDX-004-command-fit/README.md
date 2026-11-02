@@ -442,6 +442,8 @@ tasks ask software.containers; container-run also asks development.containers fo
 Client program lookup uses only software.containers, never old sensitive client fields. A known-missing
 client is program_missing. A present Docker client permits --version but does not prove ps/run access:
 those commands remain UNKNOWN with daemon not granted when the sensitive category is denied.
+Literal Docker package aliases (docker.io/docker-ce-cli/Desktop variants) preserve pending install intent;
+they suppress a later missing-client objection without proving installation or daemon access.
 
 Docker global options and command groups cannot bypass that check. Client-only help/context queries do
 not need daemon access; unclassified CLI forms stay judge gaps. Default-daemon evidence, if explicitly
