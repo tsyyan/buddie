@@ -14,21 +14,30 @@ model.
 With the buddie plugin nothing needs installing: its MCP server has the three tools this skill uses, `snap`,
 `source_text` and `verify_report`.
 
-Without the plugin, the same steps run from a shell after `pip install buddie==2.0.7` (a pinned release from PyPI):
+Without the plugin, the same steps run from a shell after `pip install buddie==2.0.8` (a pinned release from PyPI):
 `buddie-verbatim snap URL`, `buddie-verbatim text URL --grep 'regex'` and `buddie-verbatim check REPORT.md --fetch`.
 
 ## Workflow
 
+**A text that already has its quotes** (your draft, a report you received, a paragraph to send on): skip steps 1–2.
+Call `verify_report` on it first: it fetches and snapshots every linked page itself. Then fix only the items under
+`to fix`, from the passage each item quotes from the page (step 4), and check the fixed text once more. Open
+`source_text` only for an item whose passage is not enough to fix it.
+
+**Writing from sources:**
+
 1. **Snapshot sources before reading.** Call `snap` with the URLs. It stores the bytes under their SHA-256 with the
    fetch time. A 403 or a failed fetch is recorded too. Do not quote such a page; say "source unavailable".
-2. **Read and quote from the snapshot.** `source_text` with `grep` shows the visible text around the matches, and
-   without `grep` the whole text. Copy quotes from there, character for character.
+2. **Read and quote from the snapshot.** `source_text` with `grep` shows the visible text around the first matches
+   (`matches_total` says how many there were); prefer it to reading the whole text. Copy quotes from there,
+   character for character.
 3. **Bind each quote to its link.** Put the quote in `“…”`, `«…»` or `"…"`, with its source right after it in the same
    sentence (`[text](url)`, a bare URL or a footnote `[^1]`). The check uses that link, not other links in the
    paragraph. Mark omissions inside a quote with `…`.
 4. **Check before answering.** Call `verify_report` with your answer as `text`. `FAIL` means a quote is not on its
-   page. For each one, copy the quote from the `closest` passage the receipt gives (similarity ≥ 0.9 usually means a
-   wrong digit or word), or drop the quotation marks and mark the sentence as a paraphrase. Do not leave a source
+   page. For each one, copy the quote from the passage the item gives ("the page reads: …"; similarity ≥ 0.9 usually
+   means a wrong digit or word), or drop the quotation marks and mark the sentence as a paraphrase. Fix only the
+   items listed; do not re-read or re-check the quotes that were found. Do not leave a source
    that could not be read, or a quote with no link, unmentioned.
 5. **Report it.** Put the receipt's `predicate.line` under the answer, copied from the tool's result, for example
    `buddie PASS: quotes 12/12 found`. Never write that line yourself. List anything that was not found.

@@ -102,6 +102,7 @@ Then each stage downloads the **candidate's artifact** (never a new build) and c
 | `pypi` | PyPI's JSON API for the version: absent в†’ upload; exactly the candidate's files в†’ done, no upload; any other file в†’ **stop** | the wheel and the sdist (not the bundle) | trusted publishing from environment `pypi` (GitHub's OIDC token, no PyPI token stored), `skip-existing` | PyPI serves exactly the candidate's two files | **bytes**: PyPI publishes each file's SHA-256 |
 | `mcp-registry` | PyPI serves the candidate's files; the registry's entry for the version, if any, must name the same server, version, repository and PyPI package as `server.json`, else **stop** | `server.json` as `io.github.tsyyan/buddie` | `mcp-publisher` v1.8.1, its download checked against its release's SHA-256; GitHub OIDC proves the namespace | the entry matches `server.json` | **metadata only**: the registry stores no digest. It points clients at `buddie==X.Y.Z` on PyPI, whose bytes the `pypi` check covers |
 | `github-release` | PyPI serves the candidate's files; the tag names the candidate's commit | a release with the CHANGELOG section, the three files, `release-manifest.json` and `SHA256SUMS` | finds the published release by tag, else the one draft for the tag, else creates a draft; re-reads it by id; uploads only missing files; checks every asset; publishes; reads it back by tag | every asset is the candidate's, by SHA-256 | **bytes**: GitHub's asset `digest`, or the asset downloaded and hashed when GitHub gives none |
+| `image` | PyPI serves the candidate's files | `ghcr.io/tsyyan/buddie:X.Y.Z`: the candidate's wheel in `packaging/docker/Dockerfile`, MCP over stdio by default | builds from the candidate's wheel (`pip install --no-index`), starts it and asks for its tools, pushes; a tag already on GHCR is left as it is | `tools/list` answers and `--version` is the version | **the wheel's bytes**, not the image's: the base image is pulled at build time, so a rebuild is another image (its digest goes to the run summary) |
 
 The registry and the release start only after PyPI succeeded (or, for a stage run alone, after checking that PyPI
 already serves the candidate's files): neither announces a version people cannot install. GitHub's API does not
@@ -121,6 +122,7 @@ full publication or a recovery of one stage:
 | `only: pypi` | `authorize`, then the `pypi` job asks again |
 | `only: mcp-registry` (recovery) | `authorize` |
 | `only: github-release` (recovery) | `authorize` |
+| `only: image` (recovery) | `authorize` |
 | `authorize` rejected, failed or cancelled | no stage runs |
 
 Before this, only the `pypi` job named the environment, so a recovery run of the registry or the release (which

@@ -9,8 +9,9 @@
   buddie snapshot --category ID ... [--task TEXT] [--tool NAME ...] [--root DIR] [--json FILE]
                                     diagnostics: the granted categories of this machine (OS, CPU, memory, GPU,
                                     Python, runtimes, ...), environment-diagnostics-v1 (docs/environment.md)
-  buddie snapshot --list | --grants | --grant-template
-                                    the categories; what is granted; a grants file to save and edit
+  buddie snapshot --list | --grants | --grant-template | --grant-baseline
+                                    the categories; what is granted; a grants file to save and edit; write that
+                                    file (baseline only) where buddie reads it, unless one is there
   buddie freshness ci --repo OWNER/REPO (--pr N | --commit SHA) --evidence SHA [--check NAME] [--json FILE]
   buddie freshness repo --commit SHA [--root DIR] [--artifact PATH=SHA256 ...] [--snapshot FILE] [--json FILE]
                                     whether evidence is bound to the revision a claim is about (docs/freshness.md):
@@ -296,8 +297,19 @@ def cmd_snapshot(args) -> int:
     """An environment snapshot (buddie/environment.py). Advice, not enforcement: it gates nothing, and nothing reads it
     back as evidence. Exit 0 with a snapshot (unavailable facts included), 2 when the input cannot be used."""
     from buddie import environment
-    if args.list or args.grants or args.grant_template:
+    if args.list or args.grants or args.grant_template or args.grant_baseline:
         from buddie import diagnostics
+        if args.grant_baseline:  # /buddie:init offers it, after the person has seen what it lets an agent observe
+            path = diagnostics.grants_location()
+            if path.exists():
+                print(f"{path} exists; not overwritten. What it grants: buddie snapshot --grants", file=sys.stderr)
+                return 1
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(diagnostics.GRANT_TEMPLATE.format(path=path), encoding="utf-8")
+            base = sorted(m.id for m in diagnostics.REGISTRY.values() if m.tier == diagnostics.BASELINE)
+            print(f"wrote {path}: granted the baseline categories ({', '.join(base)}); sensitive ones stay off. "
+                  "Edit or delete the file to change it.")
+            return 0
         if args.grant_template:
             print(diagnostics.GRANT_TEMPLATE.format(path=diagnostics.grants_location()), end="")
         elif args.grants:
@@ -477,6 +489,11 @@ def _receipt_version(name: str) -> str:
         raise argparse.ArgumentTypeError(str(error)) from error
 
 
+def cmd_wait(args) -> int:
+    from buddie import wait
+    return wait.main(args.target, timeout=args.timeout * 60, grace=args.grace * 60, fail_fast=not args.all)
+
+
 def cmd_profiles(args) -> int:
     """The verification profiles and the modules and checks each one resolves to (buddie/profiles.py)."""
     from buddie import profiles
@@ -573,6 +590,9 @@ def main(argv: list[str] | None = None) -> int:
                     help="what your grants file (your intent; an agent running as you can edit it) and the protected "
                          "policy (a ceiling it cannot) allow; they govern --category only")
     sn.add_argument("--grant-template", action="store_true", help="print a grants file to save and edit")
+    sn.add_argument("--grant-baseline", action="store_true",
+                    help="write that file, granting the baseline categories only, where buddie reads it; "
+                         "refused when a grants file is already there")
     sn.set_defaults(func=cmd_snapshot)
     fr = sub.add_parser("freshness", help="whether evidence is bound to the revision a claim is about")
     fr.add_argument("what", choices=("ci", "repo"))
@@ -631,6 +651,16 @@ def main(argv: list[str] | None = None) -> int:
     po.add_argument("what", choices=("show", "check", "template"))
     po.add_argument("--repo", action="append", help="repo whose buddie.toml to judge (default: around cwd)")
     po.set_defaults(func=cmd_policy)
+    w = sub.add_parser("wait", help="wait for CI on a commit or a PR, then print one line with a ci: anchor",
+                       description="Polls GitHub (BUDDIE_GITHUB_TOKEN raises the rate limit), prints nothing while it "
+                                   "waits, and ends with one line and a ready anchor. Run it in the background. "
+                                   "Exit 0 success, 1 failure, 3 undecided.")
+    w.add_argument("target", help="OWNER/REPO@SHA (the checks on a commit) or OWNER/REPO#N (on a PR's head commit)")
+    w.add_argument("--timeout", type=float, default=30, help="minutes before giving up as pending (default 30)")
+    w.add_argument("--grace", type=float, default=5,
+                   help="minutes to wait for the first check to appear (default 5)")
+    w.add_argument("--all", action="store_true", help="wait for every check, not only until the first one fails")
+    w.set_defaults(func=cmd_wait)
     sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
     sub.add_parser("profiles", help="the verification profiles and what each checks").set_defaults(func=cmd_profiles)
     sub.add_parser("receipt-schema", help="the JSON Schema of receipt-v1").set_defaults(func=cmd_receipt_schema)

@@ -19,13 +19,13 @@ from pathlib import Path
 RUNTIME = frozenset('''
 buddie/__init__.py buddie/__main__.py buddie/anchors.py buddie/chains.py
 buddie/cli.py buddie/config.py buddie/context.py buddie/core.py buddie/decisions.py
-buddie/diagnostics.py buddie/effects.py buddie/environment.py buddie/event.py
+buddie/diagnostics.py buddie/effects.py buddie/env_anchors.py buddie/environment.py buddie/event.py
 buddie/evidence.py buddie/feedback.py buddie/findings.py buddie/freshness.py
 buddie/github_report.py buddie/github_sources.py buddie/hook.py buddie/journal.py
 buddie/logbook.py buddie/mandate.py buddie/mcp.py buddie/modules.py buddie/patterns.py
 buddie/policy.py buddie/probes.py buddie/profiles.py buddie/promises.py buddie/receipts.py
 buddie/remote.py buddie/repair.py buddie/resolved.py buddie/runner.py buddie/stores.py
-buddie/suggest.py buddie/summary.py buddie/trace.py buddie/verify.py buddie/winacl.py
+buddie/suggest.py buddie/summary.py buddie/trace.py buddie/verify.py buddie/wait.py buddie/winacl.py
 buddie/verbatim/__init__.py buddie/verbatim/__main__.py buddie/verbatim/access.py
 buddie/verbatim/check.py buddie/verbatim/cli.py buddie/verbatim/numbers.py
 buddie/verbatim/report.py buddie/verbatim/store.py buddie/verbatim/textlayer.py
@@ -38,9 +38,10 @@ DIST = {'METADATA', 'WHEEL', 'entry_points.txt', 'top_level.txt', 'RECORD',
 MCPB = LEGAL | {'RELEASE_NOTES.md', 'manifest.json', 'run.py', 'assets/icon.png'}
 PLUGIN = LEGAL | {'RELEASE_NOTES.md', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json', 'run.py',
                   'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png', 'skills/buddie/SKILL.md',
-                  'skills/verbatim/SKILL.md', 'skills/buddie-discovery/SKILL.md',
+                  'skills/verbatim/SKILL.md', 'skills/environment/SKILL.md', 'skills/buddie-discovery/SKILL.md',
                   'skills/buddie-discovery/references/reporting.md',
-                  'commands/check.md', 'commands/init.md', 'commands/status.md'}
+                  'commands/check.md', 'commands/init.md', 'commands/status.md',
+                  'commands/wait.md'}
 VERSION = r'\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?'
 PLAIN = re.compile(r'[A-Za-z0-9_-][A-Za-z0-9._-]*|\.[A-Za-z0-9_-][A-Za-z0-9._-]*')
 RESERVED = {'CON', 'PRN', 'AUX', 'NUL'} | {f'{p}{n}' for p in ('COM', 'LPT') for n in range(1, 10)}

@@ -13,7 +13,8 @@ repository it talks about is not known in advance. Each anchor is resolved again
 
 pr:, ci: and run: anchors (a PR's state, checks on a commit, a command and its output) are judged by effects.py
 against GitHub and the session transcript given in ctx; choice:<id>=<step> (what the person picked on a summary card)
-by summary.py against the hook's journal.
+by summary.py against the hook's journal; env:CATEGORY.OBSERVATION=VALUE (a fact about this machine) by
+env_anchors.py against what buddie observes here, under the person's grants (ctx["environment"]).
 """
 from __future__ import annotations
 
@@ -66,7 +67,7 @@ def _bare(line: str, start: int) -> tuple[str, int] | None:
         end = start + len(cand)
     if not cand or (RUN_TEMPLATE.search(cand) if cand.startswith("run:") else TEMPLATE.search(cand)):
         return None
-    ok = (FILE_SHA.match(cand) or FILE_AT.match(cand) or FACT.match(cand) or cand.startswith("choice:")
+    ok = (FILE_SHA.match(cand) or FILE_AT.match(cand) or FACT.match(cand) or cand.startswith(("choice:", "env:"))
           or effects.PR.match(cand) or effects.CI.match(cand) or effects.RUN.match(cand))
     return (cand, end) if ok else None
 
@@ -228,6 +229,9 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
     if anchor.startswith("choice:"):
         from buddie.summary import check_choice
         return check_choice(anchor, ctx)
+    if anchor.startswith("env:"):
+        from buddie import env_anchors
+        return env_anchors.check(anchor, (ctx or {}).get("environment"))
     out = {"anchor": anchor}
     if m := FILE_SHA.match(anchor):
         refused = None
@@ -265,13 +269,19 @@ def check_one(anchor: str, repos: list[Path], cache: dict, ctx: dict | None = No
     if FACT.match(anchor):
         return dict(out, status=UNCHECKABLE,
                     why="fact= is not checked: computing it would run the repo's own code (tools/anchors.py)")
-    return dict(out, status=BROKEN, why="not an anchor: expected path#sha256, path@commit, fact=value, pr:, ci:, run: or choice:")
+    return dict(out, status=BROKEN, why="not an anchor: expected path#sha256, path@commit, fact=value, pr:, ci:, run:, "
+                                        "choice: or env:")
 
 
 def check_text(text: str, repos: list[Path], ctx: dict | None = None, keep=None) -> list[dict]:
     """ctx for effect anchors: {"github": a GET function or None (offline), "transcript": the session jsonl}.
     keep: which anchors to check (a function of the anchor's text; verify passes the selected modules'), else all."""
     results, cache, ctx = [], {}, ctx if ctx is not None else {}
+    if ctx.get("environment", True) is True:  # True or absent: observe now; False: no machine; a dict: given
+        wanted = [a for a in ANCHOR.findall(text) if a.startswith("env:") and (keep is None or keep(a))]
+        if wanted:  # one collection for every env: anchor of the text, under the person's grants
+            from buddie import env_anchors
+            ctx["environment"] = env_anchors.observe(wanted, ctx.get("collect"))
     for number, line in enumerate(text.splitlines(), 1):
         for anchor in ANCHOR.findall(line):
             if keep is None or keep(anchor):
@@ -320,4 +330,17 @@ def find_repos(cwd: Path) -> list[Path]:
     top = runner.git_text(cwd, "rev-parse", "--show-toplevel")
     if top is not None and top.strip():
         return [Path(top.strip())]
-    return sorted(p for p in cwd.iterdir() if (p / ".git").exists()) if cwd.is_dir() else []
+    try:
+        children = list(cwd.iterdir()) if cwd.is_dir() else []
+    except OSError:  # an unreadable cwd: no repos, not a failed check
+        return []
+    return sorted(p for p in children if _has_git(p))
+
+
+def _has_git(directory: Path) -> bool:
+    """Whether `directory/.git` exists; False for one the user may not look into (/tmp holds such directories:
+    systemd-private-*, other users' files), which raised PermissionError and failed the whole check."""
+    try:
+        return (directory / ".git").exists()
+    except OSError:
+        return False

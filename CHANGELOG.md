@@ -1,5 +1,51 @@
 # Changelog
 
+## Unreleased
+
+- Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
+  failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
+- Packaging: `scripts/dist_package.py` builds one package for Claude Code, Codex, Gemini CLI and Copilot CLI (each
+  client's own manifest and hook file, versions written from one place); CI installs it in all four. Published on the
+  branch `dist-next` for testing; `plugin-stable` is unchanged.
+- Catalog entries follow releases: `catalogs.yml` updates the Cline and Kilo entries to each published version
+  (`scripts/catalog_bump.py`; needs the `CATALOG_TOKEN` secret).
+- **Container image** on each release: `ghcr.io/tsyyan/buddie:X.Y.Z`, the candidate's own wheel, MCP over stdio by
+  default (`docker run -i --rm ghcr.io/tsyyan/buddie:X.Y.Z`), for catalogs that run servers in containers.
+- **Facts about the machine are checked.** An anchor `⚓ env:CATEGORY.OBSERVATION=VALUE` (`env:system.os.version=24.04`,
+  `env:software.python.interpreters=3.12`) is judged by the new `environment` module against what buddie observes
+  now, under the person's grants: `HOLDS`, `BROKEN` with the observed value, or `UNCHECKABLE` when not granted or not
+  observed. One collection per text; the remote server observes no machine. In the `developer` and `complete`
+  profiles. receipt-v1 gains the check `env_anchor` and the module `environment` (appended to both enums).
+- **`buddie wait`** (`/buddie:wait` in Claude Code): waits for CI on a PR's head or a commit without the agent
+  polling in its own turns, prints nothing meanwhile and ends with one line and a ready `ci:` anchor; the first failed
+  check ends it by default (`--all` waits for every one). Run in the background, the agent is woken when it exits.
+  Exit 0 success, 1 failure, 3 undecided (pending at the timeout, no checks, GitHub out of reach).
+
+Smaller tool results and one check for a written text (the cost side of BDX-003; measured on a fixed fixture, the
+effect on agents is BDX-005's question):
+
+- `verify_report`'s text is concise by default: the summary line, the items to fix, what was not checked. The whole
+  receipt stays the structured result; `detail: "full"` puts it in the text as before. Fixture: 6.7 KB → 1.0 KB on a
+  FAIL with two items, 2.5 KB → 0.1 KB on a PASS.
+- `source_text` with `grep` merges overlapping windows and shows at most 8 passages and 4,000 characters
+  (`max_matches`, `max_chars`; `matches_total` and `truncated` say what was left out). Was 50 windows with no total:
+  fixture 18.3 KB → 4.3 KB. Without `grep`, `offset` and `next_offset` page through a long text.
+- Skills: a text whose quotes are already written goes straight to `verify_report` (it fetches the linked pages
+  itself); only the items listed are fixed, from the passage each item gives.
+- Experiments: a spend ledger (`experiments/spend.py`) writes every request's usage when it comes back (input, cache
+  write, cache read and output apart, request id, dollars only with a price), keeps what a failed run spent, and
+  stops at a token budget; the product judge sums Claude Code's cost over every run, failed ones included.
+
+## buddie 2.0.8 (2026-11-02)
+
+Public release content is generated from `releases/2.0.8.json` and bound to the candidate.
+
+- `/buddie:init` offers environment diagnostics as a separate question and writes a baseline grants file only if the
+  person agrees (`buddie snapshot --grant-baseline`); the Docker daemon is a second, separate question.
+- `software.containers` (baseline): Docker and Podman client versions, no daemon contacted.
+- `environment` skill: ask `environment_snapshot` for what commands depend on before suggesting them.
+- Docs: a short account of diagnostics in `docs/environment.md`; BDX-003 results in `docs/research.md`.
+
 ## buddie 2.0.7 (2026-10-31)
 
 Public release content is generated from `releases/2.0.7.json` and bound to the candidate.

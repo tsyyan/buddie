@@ -46,6 +46,8 @@ REGISTRY: tuple[Module, ...] = (
     Module("execution", (Check.RUN_ANCHOR, Check.CHOICE_ANCHOR, Check.WORK_CLAIM), ("transcript", "journal", "mandate"),
            "what the session ran and decided: run: against the transcript, choice: against the journal, work claims "
            "against the queue"),
+    Module("environment", (Check.ENV_ANCHOR,), ("grants",),
+           "facts about this machine: env: anchors against what buddie observes here, under the person's grants"),
 )
 IDS = tuple(m.id for m in REGISTRY)
 

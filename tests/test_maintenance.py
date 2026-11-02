@@ -47,6 +47,8 @@ def test_the_plugin_stable_proposal_is_the_only_other_change():
     live = (ROOT / proposal["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
     # Owner-requested follow-up: include promotion in all after authorization. Undo its exact diff first so
     # the historical authorization baseline still detects any unrelated workflow change.
+    # Owner-reviewed follow-up (PR review): the release image stage. Undone first, as the newest change.
+    live = unapply(live, (MAINTENANCE / "proposals/release-image.patch").read_text(encoding="utf-8"))
     live = unapply(live, (MAINTENANCE / "proposals/plugin-stable-all.patch").read_text(encoding="utf-8"))
     live = unapply(live, (MAINTENANCE / "proposals/public-release-metadata.patch").read_text(encoding="utf-8"))
     base = unapply(live, patch)
@@ -63,6 +65,8 @@ def test_the_reviewed_authorization_proposal_is_exactly_what_landed():
     added = [line[1:] for line in patch.splitlines() if line.startswith("+") and not line.startswith("+++")]
     assert added == ["    environment: pypi"]
     live = (ROOT / source["workflow_path"]).read_bytes().replace(b"\r\n", b"\n").decode("utf-8")
+    # Owner-reviewed follow-up (PR review): the release image stage. Undone first, as the newest change.
+    live = unapply(live, (MAINTENANCE / "proposals/release-image.patch").read_text(encoding="utf-8"))
     live = unapply(live, (MAINTENANCE / "proposals/plugin-stable-all.patch").read_text(encoding="utf-8"))
     live = unapply(live, (MAINTENANCE / "proposals/public-release-metadata.patch").read_text(encoding="utf-8"))
     proposal = json.loads((MAINTENANCE / "proposals/plugin-stable.json").read_text(encoding="utf-8"))

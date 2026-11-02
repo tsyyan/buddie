@@ -40,6 +40,15 @@ which the compact package does not carry), so Codex users who want only releases
 2. Delete the merged branches: [branch cleanup](maintenance/branch-cleanup-2026-10-29.md).
 3. Release 2.0.5 so PyPI, the Registry, the `.mcpb` and `plugin-stable` carry the name `buddie` and the 23 KB icon.
 
+## Catalog entries follow releases (from 2.1.0)
+
+`.github/workflows/catalogs.yml` runs when a release is published (or by hand with a version already on PyPI) and
+points the Cline and Kilo entries at it with `scripts/catalog_bump.py`: only `buddie@X.Y.Z` and links into
+`/vX.Y.Z/` change, never to an older version. While the first PR from the fork is open, its branch gets one more
+commit; after it is merged, each release opens a new PR from upstream. It needs the repository secret
+`CATALOG_TOKEN` (owner: a token with contents write on the two forks; to open PRs upstream, public_repo); without it
+the workflow says so and does nothing. Marking a PR ready for review stays the owner's step.
+
 ## Where to expand (2026-10-29)
 
 Ordered by reach per hour of work. "Automatic" means a correct record elsewhere is enough.

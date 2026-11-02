@@ -303,14 +303,16 @@
     "run_anchor",
     "choice_anchor",
     "work_claim",
-    "other_anchor"
+    "other_anchor",
+    "env_anchor"
    ]
   },
   "module": {
    "enum": [
     "sources",
     "github",
-    "execution"
+    "execution",
+    "environment"
    ]
   },
   "finding": {

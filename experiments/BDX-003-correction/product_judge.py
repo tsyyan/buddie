@@ -1,0 +1,212 @@
+"""BDX-003 product run, judged without buddie (common.in_text against the run's snapshots), from what the reader saw:
+the assistant's text messages in order (product.py `texts`).
+
+paragraph (per run, the unit's target quotation):
+  every message that states the target (a quoted span at least --min-sim like it) is a statement, right or wrong.
+  CORRECT  the last statement is in the source
+  WRONG    the last statement is not, and nothing after it flags it
+  FLAGGED  the last statement is not, and a later message flags it (a `buddie:` line, "could not verify" ...)
+  REMOVED  no message states it
+  shown_wrong: a wrong statement reached the screen at some point (Claude Code shows every message).
+summary (per run, every quotation of 4+ words):
+  false_shown  quoted spans not in the source, in any message
+  false_final  those in the last message that quotes at all, unless a later message flags them
+Cells: per task, gold and condition; paired by unit: with-without, hook-without, hook-with (bootstrap, judge.bootstrap_diff).
+
+    python product_judge.py --units data/units.json --store data/store --runs data/product-runs.jsonl --out data/product
+"""
+from __future__ import annotations
+
+import argparse
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import csv
+import hashlib
+import random
+
+from common import stratified, best_span, in_text, page_text, quoted_spans, read_json, read_jsonl, write_json  # noqa: E402
+from judge import FLAG, bootstrap_diff  # noqa: E402
+from product import bad  # noqa: E402
+
+
+def _body(t: str) -> str:
+    return "\n".join(line for line in t.splitlines() if not line.strip().lower().startswith("buddie:"))
+
+
+def paragraph(unit: dict, texts: list[str], page: str, min_sim: float) -> dict:
+    last, last_i, shown_wrong = None, -1, False
+    for i, t in enumerate(texts):
+        span, sim = best_span(unit["quote"], _body(t))
+        if span is not None and sim >= min_sim:
+            ok = in_text(span, page)
+            shown_wrong |= not ok
+            last, last_i = ok, i
+    if last is None:
+        outcome = "REMOVED"
+    elif last:
+        outcome = "CORRECT"
+    else:
+        outcome = "FLAGGED" if any(FLAG.search(t) for t in texts[last_i:]) else "WRONG"
+    return {"outcome": outcome, "shown_wrong": shown_wrong}
+
+
+def summary(texts: list[str], page: str) -> dict:
+    def false(t):
+        return [s for s in quoted_spans(_body(t)) if len(s.split()) >= 4 and not in_text(s, page)]
+    shown = sorted({s for t in texts for s in false(t)})
+    quoting = [i for i, t in enumerate(texts) if any(len(s.split()) >= 4 for s in quoted_spans(_body(t)))]
+    final = false(texts[quoting[-1]]) if quoting else []
+    flagged = bool(quoting) and any(FLAG.search(t) for t in texts[quoting[-1]:])
+    return {"quotes": len(quoted_spans(_body(texts[quoting[-1]]))) if quoting else 0,
+            "false_shown": len(shown), "false_final": 0 if flagged else len(final), "flagged": flagged}
+
+
+def audit_sheet(rows: list[dict], latest: dict, units: dict, path_csv, path_key, seed: int = 11,
+                path_sample=None, per_cell: int = 7) -> None:
+    """Every judged run for the owner's blind audit: what the reader saw, the target quote and the source's words
+    (the unit's evidence), the judge's outcome; no condition. The key maps rows back. path_sample: the audit sample
+    of PROTOCOL 2026-11-02, up to per_cell rows per condition across outcomes (at most 35), same row numbers."""
+    rows = list(rows)
+    random.Random(seed).shuffle(rows)
+    key, lines = [], []
+    for i, r in enumerate(rows, 1):
+        u, run = units[r["unit"]], latest[(r["unit"], r["task"], r["condition"], r["rep"])]
+        shown = "\n---\n".join(run["texts"])
+        lines.append([i, r["task"], u["url"], u["quote"] if r["task"] == "paragraph" else "",
+                      u.get("evidence") or "", shown, r.get("outcome") or f"false_final {r.get('false_final')}",
+                      "", ""])
+        key.append({"row": i, "unit": r["unit"], "task": r["task"], "condition": r["condition"], "rep": r["rep"],
+                    "check": hashlib.sha256(shown.encode()).hexdigest()[:12]})
+    head = ["row", "task", "source_url", "quote_in_draft", "source_says", "what_the_reader_saw", "auto_outcome",
+            "your_outcome", "note"]
+    with open(path_csv, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(head)
+        w.writerows(lines)
+    write_json(path_key, key)
+    if path_sample:
+        numbered = [dict(r, _row=i) for i, r in enumerate(rows, 1)]
+        sample = stratified(numbered, lambda r: r["condition"], lambda r: r.get("outcome"), per_cell, seed)[:35]
+        with open(path_sample, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(head)
+            w.writerows(sorted((lines[r["_row"] - 1] for r in sample), key=lambda x: x[0]))
+
+
+def spending(runs: list[dict]) -> dict:
+    """Every run in the file, failed and redone ones too, by condition: what the experiment paid, not only what
+    the judged rows cost. cost_usd is Claude Code's own total_cost_usd (its price list, not a provider's bill)."""
+    out = {}
+    for r in runs:
+        c = out.setdefault(r.get("condition"), {"runs": 0, "failed": 0, "cost_usd": 0.0, "unpriced": 0,
+                                                 "uncached_input": 0, "cache_write": 0, "cache_read": 0,
+                                                 "output_tokens": 0})
+        c["runs"] += 1
+        c["failed"] += bool(bad(r))
+        if r.get("cost_usd") is None:
+            c["unpriced"] += 1
+        else:
+            c["cost_usd"] = round(c["cost_usd"] + r["cost_usd"], 4)
+        for k in ("uncached_input", "cache_write", "cache_read", "output_tokens"):
+            c[k] += int(r.get(k) or 0)
+    for c in out.values():
+        judged = c["runs"] - c["failed"]
+        c["usd_per_judged_run"] = round(c["cost_usd"] / judged, 4) if judged and not c["unpriced"] else None
+    return out
+
+
+def main(argv=None) -> int:
+    from buddie.verbatim.store import Store
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--units", required=True)
+    ap.add_argument("--store", required=True)
+    ap.add_argument("--runs", required=True)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--min-sim", type=float, default=0.6)
+    a = ap.parse_args(argv)
+    units = {u["id"]: u for u in read_json(Path(a.units))["units"]}
+    store = Store(Path(a.store))
+    rows, failed, skipped = [], defaultdict(int), 0
+    latest = {}
+    for r in read_jsonl(Path(a.runs)):  # a run redone after a failure: its last row counts
+        key = (r["unit"], r["task"], r["condition"], r["rep"])
+        if key not in latest or bad(latest[key]) or not bad(r):
+            latest[key] = r
+    why = defaultdict(int)
+    for r in latest.values():
+        if bad(r):
+            failed[(r["task"], r["gold"], r["condition"])] += 1
+            why[bad(r)[:60]] += 1
+            continue
+        _, page = page_text(store, r["url"])
+        if page is None:
+            skipped += 1
+            continue
+        j = paragraph(units[r["unit"]], r["texts"], page, a.min_sim) if r["task"] == "paragraph" \
+            else summary(r["texts"], page)
+        rows.append({**{k: r.get(k) for k in ("unit", "task", "gold", "condition", "rep", "turns", "hook_returns",
+                                               "input_tokens", "uncached_input", "cache_write", "cache_read",
+                                               "output_tokens", "cost_usd", "seconds", "denied")}, **j})
+    cells = {}
+    by = defaultdict(list)
+    for r in rows:
+        by[(r["task"], r["gold"], r["condition"])].append(r)
+    for (task, gold, cond), rs in sorted(by.items()):
+        n = len(rs)
+        c = {"n": n, "failed_runs": failed[(task, gold, cond)]}
+        if task == "paragraph":
+            for o in ("CORRECT", "WRONG", "FLAGGED", "REMOVED"):
+                c[o.lower()] = round(sum(r["outcome"] == o for r in rs) / n, 3)
+            c["shown_wrong"] = round(sum(r["shown_wrong"] for r in rs) / n, 3)
+        else:
+            c["runs_false_final"] = round(sum(r["false_final"] > 0 for r in rs) / n, 3)
+            c["runs_false_shown"] = round(sum(r["false_shown"] > 0 for r in rs) / n, 3)
+            c["mean_quotes"] = round(sum(r["quotes"] for r in rs) / n, 2)
+        for k in ("turns", "hook_returns", "input_tokens", "uncached_input", "cache_write", "cache_read",
+                  "output_tokens", "seconds"):
+            c["mean_" + k] = round(sum(r.get(k) or 0 for r in rs) / n, 1)
+        priced = [r["cost_usd"] for r in rs if r.get("cost_usd") is not None]
+        c["mean_cost_usd"] = round(sum(priced) / len(priced), 4) if priced else None  # None: no price, not free
+        cells[f"{task} | {gold} | {cond}"] = c
+    # paired, with minus without, on the same unit (rep 0): bad = WRONG (paragraph), a false quote left (summary)
+    paired = {}
+    for task, gold in sorted({(r["task"], r["gold"]) for r in rows}):
+        def worse(r):
+            return (r["outcome"] == "WRONG") if task == "paragraph" else (r["false_final"] > 0)
+        by_cond = {c: {r["unit"]: worse(r) for r in by[(task, gold, c)] if r["rep"] == 0}
+                   for c in ("without", "with", "hook", "hookonly", "hookdisc")}
+        for earlier, later in (("without", "with"), ("without", "hookonly"), ("with", "hookonly"), ("without", "hookdisc"),
+                               ("hookonly", "hookdisc"), ("with", "hookdisc"), ("without", "hook")):
+            a_, b_ = by_cond[earlier], by_cond[later]
+            pairs = [(int(a_[u]), int(b_[u])) for u in a_.keys() & b_.keys()]
+            if pairs:
+                paired[f"{task} | {gold} | {later}-{earlier}"] = {
+                    "n": len(pairs), "diff": round(sum(b - a for a, b in pairs) / len(pairs), 3),
+                    "ci": bootstrap_diff(pairs), f"only_{earlier}_bad": sum(a and not b for a, b in pairs),
+                    f"only_{later}_bad": sum(b and not a for a, b in pairs)}
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    write_json(out / "judged.json", rows)
+    audit_sheet(rows, latest, units, out / "audit_sheet.csv", out / "audit_key.json",
+                path_sample=out / "audit_sample.csv")
+    spent = spending(read_jsonl(Path(a.runs)))
+    write_json(out / "summary.json", {"cells": cells, "paired": paired, "spent": spent})
+    # GitHub shows 10 notices a step: the paired comparisons first, three to a notice, then the cells two to one
+    print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
+          f"skipped for an unreadable snapshot {skipped}; why failed {dict(why)}")
+    print("::notice title=BDX-003 product spent::" + " || ".join(f"{k}: {v}" for k, v in spent.items()))
+    pl = [f"{k}: {p}" for k, p in paired.items()]
+    for i in range(0, len(pl), 5):
+        print(f"::notice title=BDX-003 product paired {i // 5 + 1}::" + " || ".join(pl[i:i + 5]))
+    cl = [f"{k}: {c}" for k, c in cells.items()]
+    for i in range(0, len(cl), 3):
+        print(f"::notice title=BDX-003 product cells {i // 3 + 1}::" + " || ".join(cl[i:i + 3]))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

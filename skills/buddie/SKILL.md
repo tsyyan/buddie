@@ -14,6 +14,7 @@ be checked without a model, at both ends of the hand-off, and writes a receipt.
 | Anchor `⚓ path#sha256`, `⚓ path@commit` | the file or commit in the session's repositories (`fact=value` is never computed: `UNCHECKABLE`) | `BROKEN` |
 | Anchor `⚓ pr:OWNER/REPO#N=merged[@SHA]`, `⚓ ci:OWNER/REPO@SHA=success` | PR state and the checks on the commit, via the GitHub API | `BROKEN` |
 | Anchor `⚓ run:CMD => OUT` ("I ran it and got this") | a call with CMD and a result containing OUT in the session transcript | `BROKEN` |
+| Anchor `⚓ env:CATEGORY.OBSERVATION=VALUE` (a fact about this machine) | what buddie observes here now, under the person's grants (not granted: `UNCHECKABLE`) | `BROKEN` |
 
 Receipt outcome: `FAIL` (any `NOT_FOUND` or `BROKEN`), `GAPS` (something could not be checked: source unavailable,
 quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to check).
@@ -21,7 +22,8 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
 ## Executor: before handing in
 
 1. Snapshot sources before reading them: the `snap` tool (or `buddie-verbatim snap URL`). Copy quotes from `source_text`
-   (or `buddie-verbatim text URL --grep …`), not from a summary of the page.
+   with `grep` (or `buddie-verbatim text URL --grep …`), not from a summary of the page. A text whose quotes are
+   already written needs neither: `verify_report` fetches the linked pages itself (step 3).
 2. Write repo numbers and states with an anchor (`⚓ path@commit` for history, `⚓ path#sha256` for current bytes).
    "Merged", "CI is green", "tests passed" get an anchor too: `⚓ pr:octo/app#54=merged@9653a7c`,
    `⚓ ci:octo/app@dbf390f=success`, `⚓ run:pytest -q => 41 passed`. Copy OUT from the tool output, not from memory.
@@ -29,13 +31,22 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
    prose (`prose = "block"`), a final answer that claims work in prose with no anchor on the line is returned by the
    hook with ready anchors, and a `buddie:` line does not let it through; otherwise such lines are only counted
    (`prose_work` in the receipt).
-3. Before sending, call `verify_report` with the report text. Fix every `FAIL`. What cannot be fixed stays, with a line
+3. Before sending, call `verify_report` with the report text. Fix every `FAIL`, and only those: each item under
+   `to fix` gives the passage the page has; open `source_text` only when that is not enough. What cannot be fixed stays, with a line
    starting with `buddie:` that says what is unconfirmed and why. A broken `pr:`, `ci:` or `run:` anchor, or work claimed
    in prose in a final answer, cannot stay: correct or add the anchor, or remove the claim. A `buddie:` line written
    before any check does not cover a quote buddie finds not on its page, or an anchor or number it finds not to hold:
    the hook returns the text once, with what it found, and only then does the line count.
 4. Put the receipt's `predicate.line` at the end of the report, copied from the tool's result. Never write a receipt
    line yourself: when the tool is not available, say that nothing was checked.
+
+## Waiting for CI
+
+After a push, do not sleep and poll in your own turns. Start `/buddie:wait OWNER/REPO#N` (or `@SHA`) in the
+background: `sh "${CLAUDE_PLUGIN_ROOT}/hooks/run.sh" wait OWNER/REPO#N` as a background Bash command in Claude Code,
+`buddie wait OWNER/REPO#N` where buddie is installed with pip. It waits without output and ends with one line and a
+ready `ci:` anchor (the first failed check by default; `--all` waits for every check). Put that anchor in the
+report as it is.
 
 ## Orchestrator: when receiving a report
 

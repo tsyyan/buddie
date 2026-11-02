@@ -71,7 +71,7 @@ DIRECTORIES = {                        # directory -> the patterns its tracked f
     "commands": ("*.md",),
 }
 REQUIRED = EXACT + ("buddie/__init__.py", "buddie/cli.py", "buddie/mcp.py", "buddie/hook.py",
-                    "skills/buddie/SKILL.md", "skills/verbatim/SKILL.md")
+                    "skills/buddie/SKILL.md", "skills/verbatim/SKILL.md", "skills/environment/SKILL.md")
 NEVER = ("tests/", "experiments/", "results/", "evals/", "docs/", "scripts/", ".github/", "examples/",
          "integrations/", ".codex-plugin/", "PROVENANCE.json")  # asserted absent from every package
 IMAGES = {".png"}

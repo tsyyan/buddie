@@ -39,6 +39,7 @@ class Check(str, Enum):
     CHOICE_ANCHOR = "choice_anchor"
     WORK_CLAIM = "work_claim"          # step done, verdict, consent, next step, queue at a commit
     OTHER_ANCHOR = "other_anchor"      # text in an anchor's place that is no anchor form
+    ENV_ANCHOR = "env_anchor"          # env:CATEGORY.OBSERVATION=VALUE, against this machine (added in 2.0.9)
 
 
 class Fact(str, Enum):

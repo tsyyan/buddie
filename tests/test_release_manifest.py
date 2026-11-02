@@ -118,10 +118,10 @@ def _jobs(path: str) -> dict[str, str]:
 def test_a_tag_push_builds_a_candidate_and_publishes_nothing():
     release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
     jobs = _jobs("release.yml")
-    assert set(jobs) == {"candidate", "authorize", "pypi", "mcp-registry", "github-release", "plugin-stable"}
+    assert set(jobs) == {"candidate", "authorize", "pypi", "mcp-registry", "github-release", "image", "plugin-stable"}
     assert "uses: ./.github/workflows/release-candidate.yml" in jobs["candidate"]
     assert "if: github.event_name == 'workflow_dispatch' && inputs.candidate != ''" in jobs["authorize"]
-    for name in ("pypi", "mcp-registry", "github-release"):
+    for name in ("pypi", "mcp-registry", "github-release", "image"):
         job = jobs[name]
         # every publishing job needs authorize, and only runs when it succeeded
         assert re.search(r"needs: (authorize|\[authorize, pypi\])", job), name

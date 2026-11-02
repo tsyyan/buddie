@@ -1,0 +1,36 @@
+row,auto_outcome,owner_outcome,owner_note
+4,WRONG,WRONG,move / do instead of moved / did. The correction below concerns another quote; the target remains.
+6,REMOVED,REMOVED,Response only states that verification was unavailable; the target quote is absent.
+14,REMOVED,REMOVED,Target quote is absent; only a statement that verification was unavailable remains.
+17,CORRECT,CORRECT,Target quote matches source_says verbatim.
+19,FLAGGED,FLAGGED,"are instead of is; the inaccurate quote remains, followed by a buddie line stating it was not verified."
+24,CORRECT,WRONG,"Pronouns are adapted in brackets, but the text is not verbatim; the full ending was checked against the page."
+44,CORRECT,CORRECT,Target quote matches source_says verbatim.
+45,REMOVED,WRONG,Unsupported target text remains as separate quotations; no warning is given.
+50,FLAGGED,FLAGGED,automate / enable instead of automating / enabling; a later buddie line flags unverified quotes.
+57,FLAGGED,FLAGGED,Expansion of MDA omitted without a mark. A later buddie line flags unverified quotes.
+60,REMOVED,REMOVED,Only a buddie line remains; the target quote is absent.
+62,WRONG,WRONG,Original heeded remains in the upper text. The correct version below does not remove the inaccurate quote.
+70,WRONG,WRONG,"Quote remains. A general verification disclaimer follows, but there is no buddie line as required for FLAGGED."
+79,false_final 0,false_final 0,Response only declines because the page is inaccessible; there are no false quotes.
+83,REMOVED,REMOVED,Target text presented without quotation marks.
+87,CORRECT,CORRECT,Excerpts are verbatim; omission marked with an ellipsis. The context about receiving a message is removed.
+93,false_final 0,false_final 0,Both direct quotes were found verbatim on the TRB page; no false quotes remain.
+108,CORRECT,CORRECT,Target passage restored: respect for. Warnings concern the generalization and heading.
+114,CORRECT,CORRECT,Target quote matches source_says verbatim.
+116,FLAGGED,FLAGGED,"Quote remains, but a later buddie line explicitly states that the catalog does not contain the verse."
+120,CORRECT,CORRECT,Target passage restored: respect for; matches source_says.
+123,CORRECT,CORRECT,Target words match; a comma replaces the period to continue the writer’s sentence.
+137,FLAGGED,FLAGGED,Quote remains; later buddie lines explicitly state that it is absent from the catalog.
+142,REMOVED,REMOVED,Target quote converted to an unquoted paraphrase.
+144,REMOVED,REMOVED,Target text replaced with a paraphrase; the quote is absent from the final text.
+149,FLAGGED,FLAGGED,"Quote remains, followed by a buddie line stating that it could not be verified against the source."
+150,WRONG,WRONG,are instead of the original is; no warning about the unverified quote.
+151,FLAGGED,WRONG,"Expansion of MDA omitted without a mark. buddie comes BEFORE the quote, not after it as FLAGGED requires."
+156,FLAGGED,FLAGGED,Refrain remains; a later buddie line explicitly states that it is absent from the cited article.
+160,false_final 0,false_final 0,Response declines because of an access error; there are no direct quotes.
+162,WRONG,WRONG,passenger activity replaces the original introductory wording; an ellipsis does not mark word substitution.
+166,CORRECT,CORRECT,"Entire target quote found verbatim on the FGCU page, including the continuation beyond the excerpt."
+174,REMOVED,WRONG,Unsupported replacement grappled remains quoted above; the later note concerns a different verse.
+176,CORRECT,CORRECT,heeded replaced with listened to; the quote matches source_says.
+188,REMOVED,REMOVED,Target text rephrased and presented without quotation marks.
