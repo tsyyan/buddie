@@ -308,3 +308,8 @@ The paired 167-case corpus keeps selected parents at 249 and leaves at 285. UNKN
 leaves remain in the denominator. tests/containers_before.json, containers_after.json and README provide
 evidence/reproduction. These offline records are not model-run results or registration; the owner's
 pilot criterion, design and run settings remain unchanged. Neither PR is merged into main.
+- 2026-11-02, owner, after the report of arms A, B, C (REPORT.md): arm D runs on all 192 units, same model,
+  providers, seed and system prompt, `--rounds 2` (the default registered with run.py). Its condition at registration
+  ("run only if C - A or B - A shows the snapshot helps") is met by C - A on OK (+0.126 [0.066, 0.187]) and B - A on
+  BROKEN (-0.123 [-0.209, -0.037]). The rows of A, B and C are kept; their 14 still missing rows are not run again.
+  D - B (paired) is the comparison the gate proposal rests on; the blind audit still decides which reasons may gate.
