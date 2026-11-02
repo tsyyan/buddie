@@ -97,6 +97,10 @@ def reduce_stream(raw: str) -> dict:
             "turns": result.get("num_turns"), "subtype": result.get("subtype"),
             "input_tokens": sum(int(u.get(k) or 0) for k in ("input_tokens", "cache_creation_input_tokens",
                                                               "cache_read_input_tokens")),
+            # the same input apart: what was sent uncached, written to the cache, read from it (priced differently)
+            "uncached_input": int(u.get("input_tokens") or 0),
+            "cache_write": int(u.get("cache_creation_input_tokens") or 0),
+            "cache_read": int(u.get("cache_read_input_tokens") or 0),
             "output_tokens": int(u.get("output_tokens") or 0), "cost_usd": result.get("total_cost_usd")}
 
 

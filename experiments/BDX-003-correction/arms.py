@@ -41,7 +41,9 @@ import urllib.request
 
 from common import HERE, page_text, read_json, read_jsonl, append_jsonl
 
-sys.path.append(str(HERE.parent))  # experiments/endpoint_pool.py, for --pool
+sys.path.append(str(HERE.parent))  # experiments/endpoint_pool.py, for --pool; experiments/spend.py
+
+import spend  # noqa: E402
 
 PROVIDERS = {
     "github": ("https://models.github.ai/inference/chat/completions", "GITHUB_TOKEN"),
@@ -158,7 +160,7 @@ def buddie_feedback(store, text: str, passage: bool = False) -> tuple[str | None
 
 class Client:
     def __init__(self, provider: str, model: str, rpm: float, max_requests: int, max_wait: float,
-                 temperature: float | None):
+                 temperature: float | None, cache: bool = False):
         url, env = PROVIDERS[provider]
         if "{CLOUDFLARE_ACCOUNT_ID}" in url:
             if not os.environ.get("CLOUDFLARE_ACCOUNT_ID"):
@@ -173,7 +175,7 @@ class Client:
             raise SystemExit(f"{env} is not set")
         model = MODEL_IDS.get(model, {}).get(provider, model)
         self.model, self.gap, self.left, self.max_wait = model, 60.0 / rpm, max_requests, max_wait
-        self.temperature, self.last = temperature, 0.0
+        self.temperature, self.last, self.cache, self.provider = temperature, 0.0, cache, provider
 
     def chat(self, messages: list[dict], tools: list | None) -> tuple[dict, dict]:
         if self.left <= 0:
@@ -184,7 +186,13 @@ class Client:
         if tools:
             body["tools"] = tools
         if self.anthropic:
-            body = to_anthropic(body)
+            body = to_anthropic(body, cache=self.cache)
+        ledger = spend.current()
+        if ledger:
+            try:
+                ledger.check()
+            except spend.BudgetSpent as e:
+                raise Stop(str(e)) from e
         for attempt in range(6):
             wait = self.last + self.gap - time.monotonic()
             if wait > 0:
@@ -198,13 +206,18 @@ class Client:
                 headers["Authorization"] = f"Bearer {self.key}"
             req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method="POST", headers=headers)
             try:
+                t0 = time.monotonic()
                 with urllib.request.urlopen(req, timeout=180) as r:
                     raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type")
+                    rid = r.headers.get("request-id") or r.headers.get("x-request-id")
                 try:
                     data = json.loads(raw)
-                    if self.anthropic:
-                        return from_anthropic(data)
-                    return data["choices"][0]["message"], data.get("usage") or {}
+                    msg, usage = from_anthropic(data) if self.anthropic else \
+                        (data["choices"][0]["message"], data.get("usage") or {})
+                    if ledger:  # written now: a run that fails later still leaves what this request cost
+                        ledger.record(provider=self.provider, model=self.model, usage=usage, request_id=rid,
+                                      seconds=time.monotonic() - t0)
+                    return msg, usage
                 except (ValueError, KeyError, IndexError, TypeError) as e:
                     raise RuntimeError(f"HTTP {status} {ctype}: not a chat completion: {raw[:200]!r}") from e
             except urllib.error.HTTPError as e:
@@ -231,7 +244,7 @@ class Client:
         raise RuntimeError("no answer after retries")
 
 
-def to_anthropic(body: dict) -> dict:
+def to_anthropic(body: dict, cache: bool = False) -> dict:
     """An OpenAI chat-completions request as a Messages API request: system apart, tool calls as tool_use blocks, tool
     results as tool_result blocks in a user turn, consecutive turns of one role merged (the API wants them to alternate)."""
     system, turns = [], []
@@ -261,11 +274,17 @@ def to_anthropic(body: dict) -> dict:
     if body.get("tools"):
         out["tools"] = [{"name": t["function"]["name"], "description": t["function"].get("description", ""),
                          "input_schema": t["function"]["parameters"]} for t in body["tools"]]
+    if cache:  # --cache: the stable prefix (tools, system) and the conversation so far are cached for the next turn
+        if out.get("system"):
+            out["system"] = [{"type": "text", "text": out["system"], "cache_control": {"type": "ephemeral"}}]
+        last = next((b for t in reversed(turns) for b in reversed(t["content"])), None)
+        if last is not None:
+            last["cache_control"] = {"type": "ephemeral"}
     return out
 
 
 def from_anthropic(data: dict) -> tuple[dict, dict]:
-    """A Messages API answer as (OpenAI-style message, usage with prompt_tokens / completion_tokens)."""
+    """A Messages API answer as (OpenAI-style message, the Messages usage: input, cache write, cache read, output)."""
     blocks = data["content"]
     msg = {"role": "assistant", "content": "".join(b.get("text", "") for b in blocks if b.get("type") == "text")}
     calls = [{"id": b["id"], "type": "function",
@@ -274,8 +293,8 @@ def from_anthropic(data: dict) -> tuple[dict, dict]:
     if calls:
         msg["tool_calls"] = calls
     u = data.get("usage") or {}
-    prompt = sum(int(u.get(k) or 0) for k in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"))
-    return msg, {"prompt_tokens": prompt, "completion_tokens": int(u.get("output_tokens") or 0)}
+    keep = ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens")
+    return msg, {k: int(u.get(k) or 0) for k in keep}  # spend.split counts them apart
 
 
 def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
@@ -284,8 +303,7 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
         msg, usage = client.chat(messages, [TOOL] if tools else None)
         rec["requests"] += 1
         rec["sent_chars"] = rec.get("sent_chars", 0) + len(json.dumps(messages, ensure_ascii=False))
-        for k in ("prompt_tokens", "completion_tokens"):
-            rec[k] += int(usage.get(k) or 0)
+        spend.add(rec, usage)
         calls = msg.get("tool_calls") or []
         if not calls:
             return msg.get("content") or ""
@@ -303,18 +321,21 @@ def answer(client, store, messages: list[dict], tools: bool, rec: dict) -> str:
     msg, usage = client.chat(messages, [TOOL] if tools else None)
     rec["requests"] += 1
     rec["sent_chars"] = rec.get("sent_chars", 0) + len(json.dumps(messages, ensure_ascii=False))
-    for k in ("prompt_tokens", "completion_tokens"):
-        rec[k] += int(usage.get(k) or 0)
+    spend.add(rec, usage)
     if msg.get("tool_calls"):
         raise RuntimeError(f"still calling tools after {MAX_TOOL_STEPS} steps")
     return msg.get("content") or ""
 
 
-def run_arm(client, store, unit: dict, arm: str, rounds: int) -> dict:
+def new_rec() -> dict:
     # sent_chars: what every request carried, counted here; a provider's usage can come back empty (seen: 0 tokens)
-    rec = {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "sent_chars": 0,
-           "feedback_rounds": 0,
-           "buddie": []}
+    return {"requests": 0, "tool_calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "sent_chars": 0,
+            "feedback_rounds": 0, "buddie": []}
+
+
+def run_arm(client, store, unit: dict, arm: str, rounds: int, rec: dict | None = None) -> dict:
+    """One arm on one unit. Pass rec to keep what a run spent when it fails part way (the caller records it)."""
+    rec = new_rec() if rec is None else rec
     ask = ASK_BC if arm in ("B", "C", "E") else ASK_A
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": f"Paragraph:\n\n{unit['paragraph']}\n\n{ask}"}]
@@ -371,8 +392,21 @@ def main(argv=None) -> int:
     ap.add_argument("--pool", action="store_true",
                     help="all --provider endpoints at once, each at its own adaptive pace (experiments/endpoint_pool.py)")
     ap.add_argument("--minutes", type=float, help="with --pool: start no new unit after this many minutes")
+    ap.add_argument("--budget-tokens", type=int,
+                    help="stop before a request once the ledger (OUT.spend.jsonl, kept across resumes) holds this many")
+    ap.add_argument("--price", help="input,cache_write,cache_read,output in USD per million tokens (no price: no USD)")
+    ap.add_argument("--cache", action="store_true", help="anthropic: cache the system prompt and the conversation")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
+    spend.use(spend.Ledger(a.out + ".spend.jsonl", a.budget_tokens, spend.price(a.price)))
+    try:
+        return run(a, ap)
+    finally:
+        spend.use(None)
+
+
+def run(a, ap) -> int:
+    from buddie.verbatim.store import Store
     if a.drop_rate_limited:
         from pathlib import Path
         keep = [r for r in read_jsonl(a.out) if not str(r.get("error", "")).startswith(("HTTP 429", "HTTP 402"))]
@@ -393,7 +427,7 @@ def main(argv=None) -> int:
     for p in providers:
         try:
             clients[p] = Client(p, a.model, a.rpm or RPM.get(p, 8), a.max_requests, a.max_wait,
-                                None if a.no_temperature else a.temperature)
+                                None if a.no_temperature else a.temperature, **({"cache": True} if a.cache else {}))
         except SystemExit as e:
             print("provider", p, "left out:", e)
     if not clients:
@@ -420,12 +454,13 @@ def main(argv=None) -> int:
                         t0 = time.monotonic()
                         row = {"unit": unit["id"], "arm": arm, "model": a.model, "provider": prov, "rep": rep,
                                "seed": a.seed}
+                        rec = new_rec()
                         try:
-                            row |= run_arm(clients[prov], store, unit, arm, a.rounds)
+                            row |= run_arm(clients[prov], store, unit, arm, a.rounds, rec)
                         except Stop:
                             raise
                         except Exception as e:  # noqa: BLE001 - a failed run is a result: recorded, counted
-                            row |= {"error": str(e)[:300]}
+                            row |= rec | {"error": str(e)[:300]}  # with what it spent before it failed
                         row["seconds"] = round(time.monotonic() - t0, 2)
                         append_jsonl(a.out, row)
                         pinned[(unit["id"], a.model, rep)] = prov
@@ -438,6 +473,7 @@ def main(argv=None) -> int:
         if spent >= set(clients):
             print("every provider is spent")
             break
+    print("::notice title=spend::" + json.dumps(spend.current().totals()), flush=True)
     return 0
 
 
@@ -468,12 +504,13 @@ def run_pool(a, units: list[dict], eligible: dict, store) -> int:
             arm, t0 = job["todo"][0], time.monotonic()
             row = {"unit": job["unit"]["id"], "arm": arm, "model": a.model, "provider": name, "rep": job["rep"],
                    "seed": a.seed}
+            rec = new_rec()
             try:
-                row |= run_arm(client, store, job["unit"], arm, a.rounds)
+                row |= run_arm(client, store, job["unit"], arm, a.rounds, rec)
             except Spent:
                 raise
             except Exception as e:  # noqa: BLE001 - a failed run is a result: recorded, counted
-                row |= {"error": str(e)[:300]}
+                row |= rec | {"error": str(e)[:300]}  # with what it spent before it failed
             row["seconds"] = round(time.monotonic() - t0, 2)
             with pool.lock:
                 append_jsonl(a.out, row)
@@ -485,6 +522,7 @@ def run_pool(a, units: list[dict], eligible: dict, store) -> int:
     out = pool.run(jobs, work, started=lambda j: j["key"] in started, key=lambda j: j["key"], pinned=pinned,
                    deadline=deadline)
     print("pool:", json.dumps(out["endpoints"]), "| jobs left", len(out["left"]), flush=True)
+    print("::notice title=spend::" + json.dumps(spend.current().totals()), flush=True)
     return 0
 
 

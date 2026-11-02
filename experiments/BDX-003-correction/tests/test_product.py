@@ -34,6 +34,20 @@ class Stream(unittest.TestCase):
         self.assertEqual(r["tools"], ["mcp__plugin_buddie_buddie__snap"])
         self.assertEqual((r["hook_returns"], r["denied"], r["turns"]), (1, 1, 3))
         self.assertEqual((r["input_tokens"], r["output_tokens"]), (150, 9))
+        self.assertEqual((r["uncached_input"], r["cache_write"], r["cache_read"]), (100, 0, 50))
+
+
+class Spending(unittest.TestCase):
+    def test_failed_runs_count_and_unpriced_is_not_free(self):
+        runs = [{"condition": "with", "texts": ["a"], "turns": 3, "input_tokens": 10, "cost_usd": 0.5,
+                 "cache_read": 7},
+                {"condition": "with", "error": "API Error: 500", "texts": [], "cost_usd": 0.25},
+                {"condition": "without", "texts": ["a"], "turns": 1, "input_tokens": 10, "cost_usd": None}]
+        s = pj.spending(runs)
+        self.assertEqual((s["with"]["runs"], s["with"]["failed"], s["with"]["cost_usd"]), (2, 1, 0.75))
+        self.assertEqual(s["with"]["usd_per_judged_run"], 0.75)  # the failed run's cost is paid by the good one
+        self.assertEqual(s["with"]["cache_read"], 7)
+        self.assertIsNone(s["without"]["usd_per_judged_run"])
 
 
 class Judge(unittest.TestCase):

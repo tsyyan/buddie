@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+Smaller tool results and one check for a written text (the cost side of BDX-003; measured on a fixed fixture, the
+effect on agents is BDX-005's question).
+
+- `verify_report`'s text is concise by default: the summary line, the items to fix, what was not checked. The whole
+  receipt stays the structured result; `detail: "full"` puts it in the text as before. Fixture: 6.7 KB → 1.0 KB on a
+  FAIL with two items, 2.5 KB → 0.1 KB on a PASS.
+- `source_text` with `grep` merges overlapping windows and shows at most 8 passages and 4,000 characters
+  (`max_matches`, `max_chars`; `matches_total` and `truncated` say what was left out). Was 50 windows with no total:
+  fixture 18.3 KB → 4.3 KB. Without `grep`, `offset` and `next_offset` page through a long text.
+- Skills: a text whose quotes are already written goes straight to `verify_report` (it fetches the linked pages
+  itself); only the items listed are fixed, from the passage each item gives.
+- Experiments: a spend ledger (`experiments/spend.py`) writes every request's usage when it comes back (input, cache
+  write, cache read and output apart, request id, dollars only with a price), keeps what a failed run spent, and
+  stops at a token budget; the product judge sums Claude Code's cost over every run, failed ones included.
+
 ## buddie 2.0.8 (2026-11-02)
 
 Public release content is generated from `releases/2.0.8.json` and bound to the candidate.

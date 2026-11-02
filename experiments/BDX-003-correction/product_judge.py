@@ -97,6 +97,28 @@ def audit_sheet(rows: list[dict], latest: dict, units: dict, path_csv, path_key,
             w.writerows(sorted((lines[r["_row"] - 1] for r in sample), key=lambda x: x[0]))
 
 
+def spending(runs: list[dict]) -> dict:
+    """Every run in the file, failed and redone ones too, by condition: what the experiment paid, not only what
+    the judged rows cost. cost_usd is Claude Code's own total_cost_usd (its price list, not a provider's bill)."""
+    out = {}
+    for r in runs:
+        c = out.setdefault(r.get("condition"), {"runs": 0, "failed": 0, "cost_usd": 0.0, "unpriced": 0,
+                                                 "uncached_input": 0, "cache_write": 0, "cache_read": 0,
+                                                 "output_tokens": 0})
+        c["runs"] += 1
+        c["failed"] += bool(bad(r))
+        if r.get("cost_usd") is None:
+            c["unpriced"] += 1
+        else:
+            c["cost_usd"] = round(c["cost_usd"] + r["cost_usd"], 4)
+        for k in ("uncached_input", "cache_write", "cache_read", "output_tokens"):
+            c[k] += int(r.get(k) or 0)
+    for c in out.values():
+        judged = c["runs"] - c["failed"]
+        c["usd_per_judged_run"] = round(c["cost_usd"] / judged, 4) if judged and not c["unpriced"] else None
+    return out
+
+
 def main(argv=None) -> int:
     from buddie.verbatim.store import Store
     ap = argparse.ArgumentParser()
@@ -127,7 +149,8 @@ def main(argv=None) -> int:
         j = paragraph(units[r["unit"]], r["texts"], page, a.min_sim) if r["task"] == "paragraph" \
             else summary(r["texts"], page)
         rows.append({**{k: r.get(k) for k in ("unit", "task", "gold", "condition", "rep", "turns", "hook_returns",
-                                               "input_tokens", "output_tokens", "seconds", "denied")}, **j})
+                                               "input_tokens", "uncached_input", "cache_write", "cache_read",
+                                               "output_tokens", "cost_usd", "seconds", "denied")}, **j})
     cells = {}
     by = defaultdict(list)
     for r in rows:
@@ -143,8 +166,11 @@ def main(argv=None) -> int:
             c["runs_false_final"] = round(sum(r["false_final"] > 0 for r in rs) / n, 3)
             c["runs_false_shown"] = round(sum(r["false_shown"] > 0 for r in rs) / n, 3)
             c["mean_quotes"] = round(sum(r["quotes"] for r in rs) / n, 2)
-        for k in ("turns", "hook_returns", "input_tokens", "output_tokens", "seconds"):
+        for k in ("turns", "hook_returns", "input_tokens", "uncached_input", "cache_write", "cache_read",
+                  "output_tokens", "seconds"):
             c["mean_" + k] = round(sum(r.get(k) or 0 for r in rs) / n, 1)
+        priced = [r["cost_usd"] for r in rs if r.get("cost_usd") is not None]
+        c["mean_cost_usd"] = round(sum(priced) / len(priced), 4) if priced else None  # None: no price, not free
         cells[f"{task} | {gold} | {cond}"] = c
     # paired, with minus without, on the same unit (rep 0): bad = WRONG (paragraph), a false quote left (summary)
     paired = {}
@@ -167,10 +193,12 @@ def main(argv=None) -> int:
     write_json(out / "judged.json", rows)
     audit_sheet(rows, latest, units, out / "audit_sheet.csv", out / "audit_key.json",
                 path_sample=out / "audit_sample.csv")
-    write_json(out / "summary.json", {"cells": cells, "paired": paired})
+    spent = spending(read_jsonl(Path(a.runs)))
+    write_json(out / "summary.json", {"cells": cells, "paired": paired, "spent": spent})
     # GitHub shows 10 notices a step: the paired comparisons first, three to a notice, then the cells two to one
     print(f"::notice title=BDX-003 product judged::{len(rows)} rows judged; failed runs {dict(failed)}; "
           f"skipped for an unreadable snapshot {skipped}; why failed {dict(why)}")
+    print("::notice title=BDX-003 product spent::" + " || ".join(f"{k}: {v}" for k, v in spent.items()))
     pl = [f"{k}: {p}" for k, p in paired.items()]
     for i in range(0, len(pl), 5):
         print(f"::notice title=BDX-003 product paired {i // 5 + 1}::" + " || ".join(pl[i:i + 5]))

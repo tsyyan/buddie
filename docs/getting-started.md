@@ -91,7 +91,7 @@ git clone https://github.com/tsyyan/buddie
 |---|---|
 | `verify_report` | checks a report (text or file) and returns its receipt: v0, or v1 on request *(2.0)* |
 | `snap` | snapshots URLs into the store, so quotes can be taken from and checked against the same bytes |
-| `source_text` | the visible text of a snapshot, or the matches of a pattern with context: copy quotes from here |
+| `source_text` | the visible text of a snapshot (paged), or the first matches of a pattern with context: copy quotes from here |
 | `summary` | Claude Code only: the code-built summary of finished subagents, from the hook's journal |
 | `environment_snapshot` | *(2.0)* observes the parts of this machine a task needs (OS, CPU, memory, GPU, Python, runtimes, ...), only the categories you granted ([environment.md](environment.md#diagnostics)) |
 | `feedback_start` | checks a report and opens a verification feedback chain: feedback-v1 with bounded actions ([feedback.md](feedback.md#mcp)) |

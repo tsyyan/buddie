@@ -309,7 +309,16 @@ class EndpointClient:
         headers = {"Content-Type": "application/json", "Accept": "application/json", "User-Agent": self.user_agent}
         if self.key:
             headers["Authorization"] = f"Bearer {self.key}"
+        import spend  # experiments/spend.py: every request that came back is written to the ledger in use
+        ledger = spend.current()
         while True:
+            if ledger:
+                try:
+                    ledger.check()
+                except spend.BudgetSpent as e:
+                    with self.pace.lock:
+                        self.pace.spent = Spent(f"{self.ep.name}: {e}")
+                    raise self.pace.spent
             self.pace.acquire()
             t0 = self.pace.clock()
             try:
@@ -339,6 +348,11 @@ class EndpointClient:
             except (ValueError, KeyError, IndexError, TypeError) as e:
                 raise TransportError(f"HTTP {status}: not a chat completion: {raw[:200]!r}") from e
             self.pace.done(usage, rheaders, self.pace.clock() - t0)
+            if ledger:
+                h = rheaders or {}
+                ledger.record(provider=self.ep.name, model=self.model, usage=usage,
+                              request_id=h.get("x-request-id") or h.get("request-id"),
+                              seconds=self.pace.clock() - t0)
             return msg, usage
 
 

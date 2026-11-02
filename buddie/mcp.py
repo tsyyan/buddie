@@ -23,6 +23,10 @@ from buddie.receipts import CHECKS
 
 PROTOCOLS = ("2025-06-18", "2025-03-26", "2024-11-05")
 TEXT_LIMIT = 20000
+# source_text with grep: the matches a model is shown at most, and their text in all (overlapping windows merged);
+# more on request (max_matches, max_chars). Every match was 50 windows of ~320 characters with no total before 2.0.9.
+GREP_MATCHES = 8
+GREP_CHARS = 4000
 MAX_REPORT_BYTES = 16 * 2**20  # a report to verify: text or file
 
 _REPORT = {
@@ -38,7 +42,8 @@ FORMAT = (
     "buddie checks by code, without a model, only two things. "
     "1) Quotations: words inside “…”, «…» or \"…\", at least 12 characters, copied character for character from the page, "
     "with a Markdown link to that same page in the same sentence, e.g. " + QUOTE_EXAMPLE + " "
-    "Call snap with the URL first and copy the words from source_text, not from memory or a summary. "
+    "Call snap with the URL first and copy the words from source_text, not from memory or a summary; to check a text "
+    "whose quotes are already written, call verify_report on it directly (it fetches the linked pages itself). "
     "A paraphrase, a quote without a link and a link without a quote are not checked. "
     "2) Anchors: the sign ⚓ and then, in backticks, `pr:OWNER/REPO#N=merged@SHA` or `=open`, "
     "`ci:OWNER/REPO@SHA=success`, `path#sha256` or `path@commit` (a file in a repo checkout), "
@@ -96,6 +101,10 @@ TOOLS = [
             "receipt": {"type": "string", "enum": ["v0", "v1"], "default": "v0",
                         "description": "receipt contract of the result: v0 (default) or v1, which also says what was "
                                        "checked, what was not and why (scope, coverage)"},
+            "detail": {"type": "string", "enum": ["concise", "full"], "default": "concise",
+                       "description": "the text of the result: concise (the summary line and only the items to fix) "
+                                      "or full (the whole receipt as JSON). The structured result is the whole "
+                                      "receipt either way."},
         })},
     },
     {
@@ -109,7 +118,8 @@ TOOLS = [
     },
     {
         "name": "source_text",
-        "description": "Visible text of a snapshot (URL or sha256 prefix). With grep, only the matches with context. "
+        "description": "Visible text of a snapshot (URL or sha256 prefix). With grep, only the matches with context "
+                       "(the first few, overlapping ones merged; prefer grep to reading the whole page). "
                        "Copy quotes from here character for character, put them in quotation marks “…” or «…», and "
                        "link the snapshot's URL right after the quote in the same sentence.",
         "inputSchema": {"type": "object", "required": ["ref"], "properties": {
@@ -117,6 +127,12 @@ TOOLS = [
             "grep": {"type": "string", "description": "a regular expression: only the matches, each with context"},
             "context": {"type": "integer", "default": 160,
                         "description": "with grep, characters of text kept on each side of a match"},
+            "max_matches": {"type": "integer", "default": GREP_MATCHES,
+                            "description": "with grep, passages shown at most (matches_total says how many there were)"},
+            "max_chars": {"type": "integer", "default": GREP_CHARS,
+                          "description": "with grep, characters of passages in all"},
+            "offset": {"type": "integer", "default": 0,
+                       "description": "without grep, where in the text to start (next_offset continues a long page)"},
             "store": {"type": "string", "description": "snapshot store (default $VERBATIM_STORE or ./.verbatim)"}}},
     },
     {
@@ -266,6 +282,20 @@ def verify_report(args: dict) -> tuple[dict, bool]:
     return receipts.render(got, version), False, profiles.note(got.effective, got.coverage)
 
 
+def concise(receipt: dict) -> str:
+    """A v0 receipt as a model needs it to act: the items to fix and what could not be checked, nothing else."""
+    p = receipt["predicate"]
+    out = []
+    for key, head in (("blocking", "to fix"), ("gaps", "not checked"), ("unanchored", "counts without an anchor"),
+                      ("notes", "notes")):
+        items = p.get(key) or []
+        if items:
+            out.append(f"{head}:")
+            out += [f"- {x}" for x in items]
+    out.append("(the whole receipt is the structured result; detail \"full\" shows it here as JSON)")
+    return "\n".join(out)
+
+
 def snap(args: dict) -> tuple[dict, bool]:
     from buddie.verbatim.store import Store
     store, out = Store(args.get("store")), []
@@ -292,11 +322,45 @@ def source_text(args: dict, *, github_bundles: bool = True) -> tuple[dict, bool]
     head = {"url": entry.get("final_url"), "sha256": entry["sha256"], "fetched_at": entry.get("fetched_at"),
             "chars": len(visible)}
     if not args.get("grep"):
-        return dict(head, text=visible[:TEXT_LIMIT], truncated=len(visible) > TEXT_LIMIT), False
-    pad = int(args.get("context", 160))
-    hits = [{"offset": m.start(), "text": visible[max(0, m.start() - pad):m.end() + pad]}
-            for m in re.finditer(args["grep"], visible, re.I)][:50]
-    return dict(head, matches=hits), not hits
+        start = max(0, int(args.get("offset") or 0))
+        end = start + TEXT_LIMIT
+        out = dict(head, text=visible[start:end], truncated=len(visible) > end)
+        if start:
+            out["offset"] = start
+        if len(visible) > end:
+            out["next_offset"] = end
+        return out, False
+    return dict(head, **passages(visible, args["grep"], int(args.get("context", 160)),
+                                 int(args.get("max_matches") or GREP_MATCHES),
+                                 int(args.get("max_chars") or GREP_CHARS))), not re.search(args["grep"], visible, re.I)
+
+
+def passages(visible: str, pattern: str, pad: int, most: int, budget: int) -> dict:
+    """The matches of pattern with pad characters around each; overlapping windows merged into one passage, at most
+    `most` passages and `budget` characters of them. Offsets are into the visible text, so a quote copied from a
+    passage is checked against the whole snapshot, never against the passage."""
+    spans: list[list[int]] = []
+    total = 0
+    for m in re.finditer(pattern, visible, re.I):
+        total += 1
+        a, b = max(0, m.start() - pad), min(len(visible), m.end() + pad)
+        if spans and a <= spans[-1][1]:
+            spans[-1][1] = max(spans[-1][1], b)
+        else:
+            spans.append([a, b])
+    shown, used, cut = [], 0, False
+    for a, b in spans:
+        if len(shown) >= most or used >= budget:
+            cut = True
+            break
+        if b - a > budget - used:
+            b, cut = a + budget - used, True
+        shown.append({"offset": a, "text": visible[a:b]})
+        used += b - a
+    out = {"matches": shown, "matches_total": total}
+    if cut:
+        out["truncated"] = True  # ask with a narrower grep, or a larger max_matches / max_chars
+    return out
 
 
 def summary(args: dict) -> tuple[dict, bool]:
@@ -462,7 +526,10 @@ def handle(msg: dict, handlers: dict | None = None) -> dict | None:
             text = json.dumps(data, ensure_ascii=False, indent=1)
             if name == "verify_report" and not is_error:
                 from buddie import receipts
-                first = receipts.line(data) if data.get("predicateType") == receipts.V1 else data["predicate"]["line"]
+                v1 = data.get("predicateType") == receipts.V1
+                first = receipts.line(data) if v1 else data["predicate"]["line"]
+                if not v1 and (params.get("arguments") or {}).get("detail", "concise") != "full":
+                    text = concise(data)  # the whole receipt stays the structured result
                 text = first + "\n" + "".join(f"{n}\n" for n in note if n) + text
             elif name in ("feedback_start", "feedback_resolve") and not is_error:
                 text = data["receipt_line"] + "\n" + text
