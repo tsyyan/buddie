@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- **`buddie wait`** (`/buddie:wait` in Claude Code): waits for CI on a PR's head or a commit without the agent
+  polling in its own turns, prints nothing meanwhile and ends with one line and a ready `ci:` anchor; the first failed
+  check ends it by default (`--all` waits for every one). Run in the background, the agent is woken when it exits.
+  Exit 0 success, 1 failure, 3 undecided (pending at the timeout, no checks, GitHub out of reach).
 Smaller tool results and one check for a written text (the cost side of BDX-003; measured on a fixed fixture, the
 effect on agents is BDX-005's question).
 
