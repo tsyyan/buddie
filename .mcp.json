@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "buddie": {
+      "command": "python3",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/run.py",
+        "serve"
+      ],
+      "env": {
+        "CLAUDE_PLUGIN_OPTION_GITHUB_TOKEN": "${user_config.github_token}"
+      }
+    }
+  }
+}

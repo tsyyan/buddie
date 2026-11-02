@@ -1,0 +1,27 @@
+{
+  "name": "buddie",
+  "version": "2.0.8",
+  "description": "Checks AI agents' claims against primary evidence, without a model: quotes against snapshots of their pages, PR/CI and repository anchors, and the machine's environment only as the person grants it.",
+  "mcpServers": {
+    "buddie": {
+      "command": "python3",
+      "args": [
+        "-I",
+        "${extensionPath}${/}run.py",
+        "serve"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  },
+  "contextFileName": "GEMINI.md",
+  "settings": [
+    {
+      "name": "GitHub token",
+      "description": "Optional, for pr: and ci: anchors on private repositories or above 60 lookups an hour. buddie never reads an ambient GITHUB_TOKEN.",
+      "envVar": "BUDDIE_GITHUB_TOKEN",
+      "sensitive": true
+    }
+  ]
+}

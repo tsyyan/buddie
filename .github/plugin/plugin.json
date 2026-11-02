@@ -1,0 +1,30 @@
+{
+  "name": "buddie",
+  "description": "Checks AI agents' claims against primary evidence, without a model: quotes against snapshots of their pages, PR/CI and repository anchors, and the machine's environment only as the person grants it.",
+  "version": "2.0.8",
+  "author": {
+    "name": "tsyyan"
+  },
+  "homepage": "https://github.com/tsyyan/buddie",
+  "license": "Apache-2.0",
+  "keywords": [
+    "verification",
+    "citations",
+    "agents",
+    "mcp"
+  ],
+  "skills": "skills/",
+  "mcpServers": {
+    "buddie": {
+      "command": "python3",
+      "args": [
+        "-I",
+        "${PLUGIN_ROOT}/run.py",
+        "serve"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  }
+}
