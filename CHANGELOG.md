@@ -2,8 +2,14 @@
 
 ## Unreleased
 
+- **Facts about the machine are checked.** An anchor `⚓ env:CATEGORY.OBSERVATION=VALUE` (`env:system.os.version=24.04`,
+  `env:software.python.interpreters=3.12`) is judged by the new `environment` module against what buddie observes
+  now, under the person's grants: `HOLDS`, `BROKEN` with the observed value, or `UNCHECKABLE` when not granted or not
+  observed. One collection per text; the remote server observes no machine. In the `developer` and `complete`
+  profiles. receipt-v1 gains the check `env_anchor` and the module `environment` (appended to both enums).
+
 Smaller tool results and one check for a written text (the cost side of BDX-003; measured on a fixed fixture, the
-effect on agents is BDX-005's question).
+effect on agents is BDX-005's question):
 
 - `verify_report`'s text is concise by default: the summary line, the items to fix, what was not checked. The whole
   receipt stays the structured result; `detail: "full"` puts it in the text as before. Fixture: 6.7 KB → 1.0 KB on a

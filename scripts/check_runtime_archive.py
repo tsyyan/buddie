@@ -19,7 +19,7 @@ from pathlib import Path
 RUNTIME = frozenset('''
 buddie/__init__.py buddie/__main__.py buddie/anchors.py buddie/chains.py
 buddie/cli.py buddie/config.py buddie/context.py buddie/core.py buddie/decisions.py
-buddie/diagnostics.py buddie/effects.py buddie/environment.py buddie/event.py
+buddie/diagnostics.py buddie/effects.py buddie/env_anchors.py buddie/environment.py buddie/event.py
 buddie/evidence.py buddie/feedback.py buddie/findings.py buddie/freshness.py
 buddie/github_report.py buddie/github_sources.py buddie/hook.py buddie/journal.py
 buddie/logbook.py buddie/mandate.py buddie/mcp.py buddie/modules.py buddie/patterns.py

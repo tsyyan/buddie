@@ -188,6 +188,9 @@ for each value what it rests on and for each gap why. Nothing is installed or ch
    guess what was denied.
 3. **What comes back is versions and model names**, each with what it rests on, or a reason it is missing: no files,
    paths, environment variables, process lists, network, nothing kept after the call.
+4. **What the agent then tells you about your machine is checked.** It anchors each fact (below, "Anchoring a
+   machine fact"); `verify_report` and the hook observe the machine again under the same grants before the answer
+   reaches you, and a fact that does not hold sends the answer back.
 
 ```bash
 buddie snapshot --list
@@ -364,6 +367,30 @@ Abridged, from a Windows 11 machine with the baseline granted:
 Read it as: the GPU is a 4 GiB GTX 1650 (from `nvidia-smi` at its fixed place), the driver supports CUDA 13.2, the
 CUDA toolkit was not found on `PATH` (which is not the same as not installed), and the project was not looked at
 because it was not granted.
+
+### Anchoring a machine fact
+
+An answer can say what it assumed about the machine in a form buddie checks: the sign ⚓, then in backticks
+`env:CATEGORY.OBSERVATION=VALUE`, with a category and an observation from `buddie snapshot --list`.
+
+```markdown
+You have Ubuntu 24.04 ⚓ `env:system.os.version=24.04` and Python 3.12 ⚓ `env:software.python.interpreters=3.12`,
+so the bash block below applies ⚓ `env:system.shell.default=bash`.
+```
+
+`verify_report` (and the hook, before the answer leaves) collects the categories these anchors name, once per text,
+through the same grants and policy as `environment_snapshot`; the anchor grants nothing.
+
+| Result | When |
+|---|---|
+| `HOLDS` | the observation was made and has the value: equal ignoring case, or a version the claim is a prefix of, cut at a component (`3.12` holds for `3.12.3`, `3.1` does not); a list (Python interpreters, GPU adapters) holds when one item does |
+| `BROKEN` | the observation was made with another value (the message gives it), or the anchor names a category or observation buddie does not have |
+| `UNCHECKABLE` | not observed: not granted, unavailable (`not_found_on_path` is not "absent"), needs a directory, or no machine is observed here (the remote server) |
+
+The verdict is about the machine buddie's process runs on, as that process sees it (`concerns` in the row): in a
+container or WSL it is the guest. The check is the `environment` module (`env_anchor`), in the `developer` and
+`complete` profiles; receipt-v1 lists it like any other check. Provenance is `agent_writable`: an agent with your
+account can change what is on `PATH`.
 
 ### What diagnostics do not do
 

@@ -166,6 +166,7 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
                     fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
                     mandate: dict | None | bool = True, rev: str | None = None, github=None,
                     transcript: str | None = None, numbers: str = "gap", profile: str | None = None,
+                    environment=True,
                     checks=None, selection=None) -> tuple[dict, list[core.Finding], core.Coverage]:
     """assessment()'s receipt-v0, findings and coverage. profile, modules, checks: what to run (buddie/profiles.py:
     developer, research, complete, or custom with modules and/or checks); none of them: every check, as before
@@ -173,6 +174,7 @@ def assess_selected(text: str, modules=None, *, name: str = "report", repos: lis
     instead (the hook's effective one, which may hold no check: then none runs)."""
     got = assessment(text, modules, name=name, repos=repos, store=store, fetch=fetch, access=access, quotes=quotes,
                      now=now, mandate=mandate, rev=rev, github=github, transcript=transcript, numbers=numbers,
+                     environment=environment,
                      profile=profile, checks=checks, selection=selection)
     return got.receipt, list(got.findings), got.coverage
 
@@ -197,6 +199,7 @@ def assessment(text: str, modules=None, *, name: str = "report", repos: list[Pat
                fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
                mandate: dict | None | bool = True, rev: str | None = None, github=None,
                transcript: str | None = None, numbers: str = "gap", profile: str | None = None, checks=None,
+               environment=True,
                selection=None, requested=None) -> Assessment:
     """The Assessment of `text` under one reading of the protected policy (the event's inside the hook, its own
     outside), so the GitHub API asked and the one a finding's provenance names are the same. Arguments as
@@ -210,7 +213,8 @@ def assessment(text: str, modules=None, *, name: str = "report", repos: list[Pat
     with policy.held():
         receipt, found, covered, ran = _assess(text, selection, name=name, repos=repos, store=store, fetch=fetch,
                                                access=access, quotes=quotes, now=now, mandate=mandate, rev=rev,
-                                               github=github, transcript=transcript, numbers=numbers)
+                                               github=github, transcript=transcript, numbers=numbers,
+                                               environment=environment)
     return Assessment(receipt, tuple(found), covered, requested if requested is not None else selection, selection,
                       **ran)
 
@@ -218,14 +222,16 @@ def assessment(text: str, modules=None, *, name: str = "report", repos: list[Pat
 def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path] | None = None, store=None,
             fetch: bool = True, access: str | None = None, quotes: bool = True, now: str | None = None,
             mandate: dict | None | bool = True, rev: str | None = None, github=None,
-            transcript: str | None = None,
+            transcript: str | None = None, environment=True,
             numbers: str = "gap") -> tuple[dict, list[core.Finding], core.Coverage]:
     """The receipt for `text`, with the typed findings (core.Finding) its outcome comes from and the coverage
     (core.Coverage: what was not judged, and why); the findings stay internal, receipt-v0 is unchanged. repos: where state anchors are resolved (default: none, so they are UNCHECKABLE).
     mandate: claims about the course of work, judged by the config of the first repo with buddie.toml (True), by
     the given config (dict), or not at all (False/None); rev: the commit whose queue the claims are judged against.
     github: GET function for pr:/ci: anchors (effects.github_get; None leaves them UNCHECKABLE); transcript: the
-    Claude Code session jsonl for run: anchors. numbers: "gap" (a number NOT_FOUND in its readable source is a gap),
+    Claude Code session jsonl for run: anchors; environment: True observes this machine for env: anchors under the
+    person's grants, False leaves them UNCHECKABLE (the remote server), a dict is a diagnostics document to judge
+    them against. numbers: "gap" (a number NOT_FOUND in its readable source is a gap),
     "fail" (it blocks) or "off". selection: the profiles.Selection to run (None: every check); the checks it leaves
     out are not run, and Coverage names them with the claims of those kinds the text holds."""
     from datetime import datetime, timezone
@@ -249,7 +255,8 @@ def _assess(text: str, selection=None, *, name: str = "report", repos: list[Path
     before = frozenset(store.collected) if own_store else frozenset()
     q_results, skipped, vv = check_quotes(text, store=store, fetch=fetch, access=access, github=github) if quotes else ([], 0, None)
     keep = None if selected == mods.REGISTRY else (lambda a: fnd.anchor_check(a) in on)
-    a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript}, keep=keep)
+    a_results = anc.check_text(text, repos or [], {"github": github, "transcript": transcript,
+                                                   "environment": environment}, keep=keep)
     prose, prose_examples = eff.prose_work(text, anc.ANCHOR)
     # words in quotation marks with no link and no speaker are a term or an example, not a citation (134 of 164
     # unlinked "quotes" in lab's own reports): counted, not judged

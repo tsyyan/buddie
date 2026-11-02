@@ -9,7 +9,7 @@ grant a source, or change where evidence counts as coming from.
 
 | Profile | Modules | Checks | For |
 |---|---|---|---|
-| `developer` | `github`, `execution` | `file_anchor`, `commit_anchor`, `fact_anchor`, `pr_anchor`, `ci_anchor`, `run_anchor`, `choice_anchor`, `work_claim`, `other_anchor` | software work: repos, commits, PRs, CI, what the session ran, work claims |
+| `developer` | `github`, `execution`, `environment` | `file_anchor`, `commit_anchor`, `fact_anchor`, `pr_anchor`, `ci_anchor`, `run_anchor`, `choice_anchor`, `work_claim`, `other_anchor`, `env_anchor` | software work: repos, commits, PRs, CI, what the session ran, work claims, facts about this machine |
 | `research` | `sources` | `quote`, `number` | reports that cite sources: quotations and the numbers of cited sentences |
 | `complete` | all | all | everything buddie checks, the same as no profile |
 | `custom` | what you list | what you list | any other set |

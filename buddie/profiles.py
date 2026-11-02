@@ -3,7 +3,8 @@
 A profile is configuration, not an engine: it names which core.Check kinds verify.assess_selected runs, through
 the same module registry (buddie/modules.py) and the same code as every other check. The four:
 
-  developer   github, execution   repos, commits, PRs, CI, what the session ran and decided, work claims
+  developer   github, execution,  repos, commits, PRs, CI, what the session ran and decided, work claims, facts
+              environment         about this machine
   research    sources             quotations and the numbers of cited sentences
   complete    every module        what buddie runs without a profile
   custom      what is listed      `modules` and/or `checks`, at least one
@@ -28,7 +29,7 @@ from buddie import modules as mods
 from buddie.core import Check
 
 BUILT_IN = {
-    "developer": ("github", "execution"),
+    "developer": ("github", "execution", "environment"),
     "research": ("sources",),
     "complete": mods.IDS,
 }
