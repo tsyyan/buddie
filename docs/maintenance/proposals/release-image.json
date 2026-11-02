@@ -1,0 +1,7 @@
+{
+  "base_main": "1a6ea5cc98326b271888c715850c4f2b4bebd837",
+  "workflow_path": ".github/workflows/release.yml",
+  "patch": "release-image.patch",
+  "status": "PROPOSED in the release-image PR; requires the owner's review of release.yml before merge",
+  "expected_change": "Add the image stage (needs authorize and pypi as the registry and the release do; packages: write only there; in all and as only: image): the candidate's wheel built into packaging/docker/Dockerfile, started and asked for its tools, pushed to ghcr.io/OWNER/buddie:VERSION, a tag already there left as it is; every existing job, permission and environment unchanged"
+}

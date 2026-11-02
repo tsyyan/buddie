@@ -1,0 +1,74 @@
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -34,7 +34,7 @@ on:
+       only:
+         description: "all: publish and promote plugin-stable; or recover one stage"
+         type: choice
+-        options: [all, pypi, mcp-registry, github-release, plugin-stable]
++        options: [all, pypi, mcp-registry, github-release, image, plugin-stable]
+         default: all
+       create_branch:
+         description: "plugin-stable: allow its first promotion to create the branch"
+@@ -226,6 +226,62 @@ jobs:
+           python3 scripts/release_publish.py github-release rc --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" \
+             --sha "$GITHUB_SHA" --version "$V" --notes rc/metadata/release-notes.md
+ 
++  image:
++    # the candidate's own wheel in a container image on GHCR (packaging/docker/Dockerfile): MCP over stdio by default,
++    # for catalogs that run servers in containers. Built after PyPI serves the same wheel; a tag already pushed is
++    # left as it is (an image is not rebuilt byte for byte), and a new one is started and asked for its tools first
++    needs: [authorize, pypi]
++    if: >-
++      always() && needs.authorize.result == 'success'
++      && (needs.pypi.result == 'success' || needs.pypi.result == 'skipped')
++      && (inputs.only == 'all' || inputs.only == 'image')
++    runs-on: ubuntu-latest
++    permissions:
++      contents: read
++      packages: write
++      actions: read
++    env:
++      V: ${{ needs.authorize.outputs.version }}
++      IMAGE: ghcr.io/${{ github.repository_owner }}/buddie
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
++      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0
++        with:
++          name: release-candidate
++          path: rc/
++          run-id: ${{ inputs.candidate }}
++          github-token: ${{ github.token }}
++      - name: the candidate's files, unchanged, and on PyPI
++        run: |
++          python3 scripts/release_manifest.py verify rc --version "$V" --commit "$GITHUB_SHA"
++          curl -fsS "https://pypi.org/pypi/buddie/$V/json" -o pypi.json
++          python3 scripts/release_manifest.py pypi rc pypi.json
++      - name: log in to GHCR; an image already pushed for this version is kept
++        id: plan
++        env:
++          TOKEN: ${{ github.token }}
++        run: |
++          echo "$TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
++          if docker manifest inspect "$IMAGE:$V" > /dev/null 2>&1; then
++            echo "::notice::$IMAGE:$V is already on GHCR; left as it is"; echo "plan=skip" >> "$GITHUB_OUTPUT"
++          else
++            echo "plan=push" >> "$GITHUB_OUTPUT"
++          fi
++      - name: build from the candidate's wheel, start it, ask it for its tools, push
++        if: steps.plan.outputs.plan == 'push'
++        run: |
++          mkdir -p ctx/dist && cp "rc/dist/buddie-$V-py3-none-any.whl" ctx/dist/
++          docker build -f packaging/docker/Dockerfile --build-arg VERSION="$V" -t "$IMAGE:$V" ctx
++          printf '%s\n' \
++            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' \
++            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
++            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | docker run -i --rm "$IMAGE:$V" > out.jsonl
++          python3 -c "import json; r=[json.loads(l) for l in open('out.jsonl') if l.strip()]; t={x['name'] for x in r[-1]['result']['tools']}; assert {'verify_report','snap','source_text'} <= t, t; print(sorted(t))"
++          test "$(docker run --rm "$IMAGE:$V" --version)" = "buddie $V"
++          docker push "$IMAGE:$V"
++          digest=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:$V")
++          { echo "### image"; echo; echo "\`$digest\`"; } >> "$GITHUB_STEP_SUMMARY"
++
+   plugin-stable:
+     # the authorized candidate's compact plugin onto the distribution branch, in all or standalone; the commit,
+     # its source commit and package SHA-256 go to the run summary. A plain push: a moved branch rejects it
