@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
+  failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
+- Packaging: `scripts/dist_package.py` builds one package for Claude Code, Codex, Gemini CLI and Copilot CLI (each
+  client's own manifest and hook file, versions written from one place); CI installs it in all four. Published on the
+  branch `dist-next` for testing; `plugin-stable` is unchanged.
 - Catalog entries follow releases: `catalogs.yml` updates the Cline and Kilo entries to each published version
   (`scripts/catalog_bump.py`; needs the `CATALOG_TOKEN` secret).
 - **Container image** on each release: `ghcr.io/tsyyan/buddie:X.Y.Z`, the candidate's own wheel, MCP over stdio by

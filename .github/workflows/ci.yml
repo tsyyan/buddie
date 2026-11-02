@@ -194,6 +194,55 @@ jobs:
           python3 -c "import json; r=[json.loads(l) for l in open('out.jsonl') if l.strip()]; t={x['name'] for x in r[-1]['result']['tools']}; assert {'verify_report','snap','source_text'} <= t, t; print(sorted(t))"
           test "$(docker run --rm buddie:release --version)" = "buddie $v"
 
+  dist:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && (!github.event.pull_request.draft || contains(github.event.pull_request.labels.*.name, 'full-ci-required')))
+    # the multi-client package (scripts/dist_package.py) installed in each client, isolated homes, no credentials:
+    # Claude Code validates, installs and runs its Stop hook; Codex and Copilot install it from their marketplaces;
+    # Gemini installs the extension and connects to its MCP server
+    runs-on: ubuntu-latest
+    env:
+      CLAUDE_CLI: "@anthropic-ai/claude-code@2.1.310"
+      CODEX_CLI: "@openai/codex@0.166.0"
+      GEMINI_CLI: "@google/gemini-cli@0.66.0"
+      COPILOT_CLI: "@github/copilot@1.0.105"
+    steps:
+      - uses: actions/checkout@v4
+      - name: build the package tree
+        run: python3 scripts/dist_package.py tree --ref HEAD "$RUNNER_TEMP/dist"
+      - name: Claude Code
+        run: |
+          export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude"; mkdir -p "$CLAUDE_CONFIG_DIR"
+          npx --yes "$CLAUDE_CLI" plugin validate --strict "$RUNNER_TEMP/dist"
+          npx --yes "$CLAUDE_CLI" plugin marketplace add "$RUNNER_TEMP/dist"
+          npx --yes "$CLAUDE_CLI" plugin install buddie@buddie
+          root=$(python3 -c "import json,os; d=json.load(open(os.path.join(os.environ['CLAUDE_CONFIG_DIR'],'plugins','installed_plugins.json'))); print(d['plugins']['buddie@buddie'][0]['installPath'])")
+          set +e
+          printf '%s' '{"hook_event_name":"Stop","stop_hook_active":false,"cwd":"/tmp","last_assistant_message":"CI failed ⚓ `ci:tsyyan/buddie@169da519a6f4=failure`."}' \
+            | CLAUDE_PLUGIN_ROOT="$root" sh "$root/hooks/run.sh" hook 2> hook.err; code=$?
+          set -e
+          cat hook.err
+          test "$code" = 2 && grep -q "checks are success" hook.err
+      - name: Codex
+        run: |
+          export CODEX_HOME="$HOME/.codex-ci"; mkdir -p "$CODEX_HOME"
+          npx --yes "$CODEX_CLI" plugin marketplace add "$RUNNER_TEMP/dist"
+          npx --yes "$CODEX_CLI" plugin add buddie@buddie
+          test -f "$CODEX_HOME/plugins/cache/buddie/buddie/$(python3 -c 'import buddie; print(buddie.__version__)')/hooks/codex.json"
+      - name: Gemini CLI
+        run: |
+          export HOME="$RUNNER_TEMP/gemini-home"; mkdir -p "$HOME"
+          npm install -g "$GEMINI_CLI" --silent
+          echo y | gemini extensions install "$RUNNER_TEMP/dist" --consent --skip-settings
+          gemini mcp list < /dev/null 2>&1 | tee mcp.txt   # it prints the list on stderr
+          grep -q "buddie.*Connected" mcp.txt
+      - name: Copilot CLI
+        run: |
+          export HOME="$RUNNER_TEMP/copilot-home"; mkdir -p "$HOME"
+          npm install -g "$COPILOT_CLI" --silent
+          copilot plugin marketplace add "$RUNNER_TEMP/dist" < /dev/null
+          copilot plugin install buddie@buddie < /dev/null 2>&1 | tee cop.txt
+          grep -q "installed successfully" cop.txt
+
   gate:
     # The one required status check. Fail-closed: on a pull request it passes only when full validation ran (the PR
     # is ready, or a draft labeled full-ci-required) and every full job, the release candidate included,
@@ -201,7 +250,7 @@ jobs:
     name: gate
     runs-on: ubuntu-latest
     if: always()
-    needs: [fast, test, release-candidate, os, catalogs, docker]
+    needs: [fast, test, release-candidate, os, catalogs, docker, dist]
     steps:
       - name: enforce results for this event
         env:
@@ -213,6 +262,7 @@ jobs:
           OS: ${{ needs.os.result }}
           CATALOGS: ${{ needs.catalogs.result }}
           DOCKER: ${{ needs.docker.result }}
+          DIST: ${{ needs.dist.result }}
         run: |
           test "$FAST" = success || { echo "::error::fast checks: $FAST"; exit 1; }
           case "$EVENT_NAME" in
@@ -220,11 +270,11 @@ jobs:
               if [ "$FULL_REQUESTED" != true ]; then
                 echo "::error::draft PR: mark it ready for review (or label it full-ci-required) for full validation"; exit 1
               fi
-              for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER"; do
+              for result in "$TEST" "$RELEASE_CANDIDATE" "$OS" "$CATALOGS" "$DOCKER" "$DIST"; do
                 test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
               done ;;
             push)
-              for result in "$TEST" "$OS" "$CATALOGS" "$DOCKER"; do
+              for result in "$TEST" "$OS" "$CATALOGS" "$DOCKER" "$DIST"; do
                 test "$result" = success || { echo "::error::required full job: $result"; exit 1; }
               done
               test "$RELEASE_CANDIDATE" = skipped || { echo "::error::unexpected candidate rebuild: $RELEASE_CANDIDATE"; exit 1; } ;;

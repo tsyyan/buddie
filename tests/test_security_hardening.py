@@ -534,3 +534,21 @@ def test_unavailable_evidence_under_an_observed_only_policy_is_not_a_pass(tmp_pa
         ctx = resolved.resolve({"cwd": str(repo)})
         receipt, chosen, _ = hook.assess_for(TEXT, {"cwd": str(repo)}, ctx=ctx)
     assert receipt["predicate"]["outcome"] == "GAPS" and list(chosen) == [] and ran(marks) == {}
+
+
+def test_a_directory_the_user_may_not_enter_is_not_a_failed_check(tmp_path, monkeypatch):
+    """A hook started in /tmp met systemd-private-* directories it may not look into: `.git` there raised
+    PermissionError and the whole answer came back unchecked (found by CI job `dist`). Such a directory holds no repo
+    of the user's: it is skipped."""
+    import subprocess
+    (tmp_path / "locked").mkdir()
+    real = tmp_path / "work"
+    subprocess.run(["git", "init", "-q", str(real)], check=True)
+    original = Path.exists
+
+    def exists(self, *a, **k):
+        if self.parent.name == "locked":
+            raise PermissionError(13, "Permission denied", str(self))
+        return original(self, *a, **k)
+    monkeypatch.setattr(Path, "exists", exists)
+    assert [p.resolve() for p in anchors.find_repos(tmp_path)] == [real.resolve()]
