@@ -141,6 +141,9 @@ def main(argv=None) -> int:
     ap.add_argument("--max-requests", type=int, default=2000)
     ap.add_argument("--max-wait", type=float, default=180)
     ap.add_argument("--minutes", type=float, default=300)
+    ap.add_argument("--redo-errors", action="store_true",
+                    help="run again the units whose only rows are errors (a provider's failure, not an answer); the "
+                         "error rows stay in --out as the record")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     pairs = [tuple(p) for p in json.loads(Path(a.units).read_text(encoding="utf-8"))["pairs"]]
@@ -167,7 +170,7 @@ def main(argv=None) -> int:
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     rows = [json.loads(x) for x in out.read_text(encoding="utf-8").splitlines() if x.strip()] if out.exists() else []
-    done = {(r["profile"], r["task"], r["arm"], r["model"]) for r in rows}
+    done = {(r["profile"], r["task"], r["arm"], r["model"]) for r in rows if not (a.redo_errors and "error" in r)}
     deadline = time.monotonic() + a.minutes * 60
     for profile_id, task_id in units:
         order = list(arms)

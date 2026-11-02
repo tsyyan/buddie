@@ -47,7 +47,11 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     rows = [json.loads(x) for x in Path(a.runs).read_text(encoding="utf-8").splitlines() if x.strip()]
     ok = [r for r in rows if "verdict" in r]
-    notes = [f"{len(rows)} rows, {len(rows) - len(ok)} failed; per arm {dict(Counter(r['arm'] for r in ok))}"]
+    key = lambda r: (r["profile"], r["task"], r["arm"], r["model"])  # noqa: E731
+    answered = {key(r) for r in ok}
+    unanswered = {key(r) for r in rows if "verdict" not in r} - answered  # failed, and not redone since
+    notes = [f"{len(rows)} rows, {len(rows) - len(ok)} failed, {len(unanswered)} still without an answer; "
+             f"per arm {dict(Counter(r['arm'] for r in ok))}"]
     by = defaultdict(list)
     for r in ok:
         by[(r["model"], r["arm"])].append(r)
@@ -83,7 +87,7 @@ def main(argv=None) -> int:
                 if pairs:
                     paired.append(f"{model} | {y}-{x} {outcome}: n {len(pairs)}, diff "
                                   f"{sum(b - a for a, b in pairs) / len(pairs):.3f}, ci {bootstrap(pairs)}")
-    lines = [] if a.dump else notes + paired + cells  # a dump step has its own 10 notices
+    lines = [] if a.dump else paired + notes + cells  # a dump step has its own 10 notices
     for i in range(0, len(lines), 2):
         print("::notice title=BDX-004 " + str(i // 2 + 1) + "::" + " || ".join(lines[i:i + 2]))
     if a.examples:  # what the owner would read in the sheet, when the artifact cannot be fetched

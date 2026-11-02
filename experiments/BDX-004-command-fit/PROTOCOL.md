@@ -201,7 +201,12 @@ false objections is reported as unreliable and left out of the gate proposal.
 
 ## Changes after data
 
-(none)
+- 2026-11-02, owner, after the main run (runs 41366094586 and 41397458465) and before any rerun: 575 rows, 55 of them
+  a provider's error with no answer, one unit never started (A 10, B 17, C 29 missing of 192 each). The protocol said nothing on failed rows;
+  as in BDX-003, a failure at the provider is not an answer and those units are run again once (`--redo-errors`),
+  same model, arms and seed. The error rows stay in the record. Results are reported with the pairs after the rerun,
+  and the pre-rerun numbers are kept beside them: B-A OK +0.053 [-0.012, 0.124] (n 169), B-A BROKEN -0.118
+  [-0.201, -0.030], C-A OK +0.103 [0.039, 0.168] (n 155), C-A BROKEN -0.013 [-0.110, 0.077].
 
 ## Pilot-1 rule implementation (before registration)
 
