@@ -249,3 +249,8 @@ known missing clients retain program_missing. Review reproduced/fixed global-opt
 client-only help false gaps and default-target reachability leaking to other contexts/hosts. Unclassified
 Docker CLI forms remain judge gaps. Recorded stats uses summarize.unknown_cause on recursive leaves,
 including UNKNOWN leaves of BROKEN parents. All 169 experiment tests pass; all eight profiles validate.
+Paired 167-case report: recursive UNKNOWN total 68/285 (23.86%) to 54/285 (18.95%), split by the owner's
+unknown_cause: judge 6/285 (2.11%) unchanged; data 62/285 (21.75%) to 48/285 (16.84%). Fourteen client
+data gaps resolve to known absence; no fresh pilot run is claimed. Native-parser tests pass 169, default
+PATH passes with 73 skips. Core diagnostics tests passed 98 with one skip at the merge. Imported core/docs
+bytes still match PR #89 exactly; follow-up changes are experiment-only. Saved measurements reproduce.

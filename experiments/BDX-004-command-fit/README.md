@@ -1,13 +1,12 @@
 # BDX-004: do commands an agent suggests run on the user's machine?
 
-Status: **pilot-4 remaining-form correction** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
-command extraction, a snapshot stand-in and the model-free judge are present. The recorded corpus has 76 earlier
-answers, 12 realistic multi-system answers (31 profile checks), 16 pilot-2-shaped answers and ten whole
-pilot-3 answers supplied as judge material, plus 18 hand-written pilot-4-shaped records:
-132 distinct answers, 151 profile-answer cases.
-Pilots 1–3 failed; the owner reports pilot 4 was at 25.7% UNKNOWN with no false objection.
-This pass uses only existing recordings and offline tests, preserves
-the simplified A/B/C design and run settings, and makes no model calls or new pilot run.
+Status: **container-client baseline integration** (2026-11-02). Eight synthetic profiles, 24 tasks, 192 eligible units,
+command extraction, a snapshot stand-in and the model-free judge are present. The corpus contains 76 earlier
+records, 12 multi-system answers (31 profile checks), 16 pilot-2-shaped answers, ten whole pilot-3 answers,
+18 pilot-4-shaped records and 16 client-version records: 148 answer records, 167 profile/answer cases.
+The current pilot history and judge-gap criterion are in PROTOCOL.md. This pass uses existing recordings
+and offline tests, preserves the simplified A/B/C design and run settings, and makes no model calls or
+new pilot run.
 
 ## Question
 
@@ -155,7 +154,8 @@ buddie requires Python 3.11+. CUDA, GPU and container context keep the collector
 
 The stand-in preserves registry ordering, request rejection, category denial and metadata. It returns only named
 catalog tools. No fixture grants directory roots, so path-scoped categories are unavailable without a path and
-denied with one. Only Fedora grants `development.containers`; other profiles return that category denied.
+denied with one. All profiles grant baseline `software.containers` and deny `development.containers`
+with not_granted, including Fedora. The catalog and stand-in use the merged real registry dynamically.
 No host policy, grants file, filesystem path, network or hardware is consulted by the stand-in.
 
 ## Judge limits
@@ -420,4 +420,54 @@ Snapshots: tests/pilot4_before.json and tests/pilot4_after.json. Historical tabl
 
 ```sh
 python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/pilot4_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot3_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot4_answers.json
+```
+
+## Container-client baseline integration (2026-11-02)
+
+Merged feat/container-clients-baseline (PR #89, ddf798e) into this experiment branch; neither PR was merged
+into main. The imported core/docs files are unchanged from that branch. Follow-up edits are confined to
+this experiment, with no model calls, pilot runs or run/workflow setting changes.
+
+The regenerated eight profiles all attempt and grant software.containers. The explicit previous inventory
+has Podman 5.2.0 only on fedora40 and no installed Docker client; that mapping is preserved. Alpine’s Docker
+host-engine marker is not client presence inside the container. Both clients have fixed version-method
+records. As in buddie/diagnostics.py, Fedora’s one observed/one absent result has status partial; seven
+both-absent results have status unavailable/nothing_observed, with not_found_on_path observations. Forcing
+collected would misrepresent the real collector. Every profile passes problems(). development.containers
+is explicitly denied/not_granted with no observations or methods and is excluded from effective grants.
+
+The existing tool.py stand-in and catalog already derive capabilities from the registry; integration tests
+verify the new baseline category and denied daemon result, without host collection. container-version
+tasks ask software.containers; container-run also asks development.containers for daemon evidence.
+Client program lookup uses only software.containers, never old sensitive client fields. A known-missing
+client is program_missing. A present Docker client permits --version but does not prove ps/run access:
+those commands remain UNKNOWN with daemon not granted when the sensitive category is denied.
+
+Docker global options and command groups cannot bypass that check. Client-only help/context queries do
+not need daemon access; unclassified CLI forms stay judge gaps. Default-daemon evidence, if explicitly
+granted in a hypothetical profile, cannot establish another named context, host or config target. Podman
+client version/run behavior remains separate from Docker daemon access. This is static judgment; Docker
+is not invoked and no daemon is contacted.
+
+Added 16 literal version records (Docker and Podman for all eight profiles) in tests/container_answers.json.
+With identical bash/dash/pwsh availability, the same **167 recorded cases**, baseline b9d5856 versus after:
+
+| UNKNOWN measure | Before | After |
+|---|---:|---:|
+| Parent commands | 67/249 (26.91%) | 53/249 (21.29%) |
+| Recursive leaves, total | 68/285 (23.86%) | 54/285 (18.95%) |
+| Leaves: data gap | 62/285 (21.75%) | 48/285 (16.84%) |
+| Leaves: judge gap | 6/285 (2.11%) | 6/285 (2.11%) |
+
+The cause split calls summarize.unknown_cause directly (including not granted as a data gap). Its denominator
+is all recursive command leaves, including UNKNOWN children under BROKEN parents, matching summarize.py.
+Offered/selected parent counts stay 492/249. Fourteen formerly unobserved client queries now have explicit
+absence evidence; the judge-gap count is unchanged. These are offline regression measurements, not new
+pilot results or qualification. Historical snapshots retain their earlier schemas; the new report adds
+unknown_causes and unknown_cause_share on the leaf denominator.
+
+Evidence: tests/containers_before.json, tests/containers_after.json and tests/container_answers.json.
+
+```sh
+python experiments/BDX-004-command-fit/recorded_stats.py --baseline experiments/BDX-004-command-fit/tests/containers_before.json --multi-section experiments/BDX-004-command-fit/tests/multi_section_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot2_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot3_answers.json --extra-answers experiments/BDX-004-command-fit/tests/pilot4_answers.json --extra-answers experiments/BDX-004-command-fit/tests/container_answers.json
 ```

@@ -274,3 +274,25 @@ after; recursive leaves 72/269 (26.77%) versus 54/269 (20.07%). Offered/selected
 All BROKEN answers and UNKNOWN children are retained. Evidence: tests/pilot4_before.json, pilot4_after.json,
 pilot4_answers.json and README reproduction command. This is an offline corpus check, distinct from the
 owner-reported pilot-4 percentage; no fresh pilot qualification or registration is claimed.
+
+## Container-client baseline migration (before registration, 2026-11-02)
+
+Integrated feat/container-clients-baseline@ddf798e (PR #89) into the experiment branch only. Regenerated
+all eight profiles to grant/attempt software.containers and explicitly deny development.containers with
+not_granted. Preserve the stated inventory: Podman 5.2 on Fedora, no explicitly installed Docker client.
+Collector-accurate statuses are partial on Fedora and unavailable for both-absent profiles; all pass
+buddie.diagnostics.problems. No new private observations or invented client installations are introduced.
+
+Version tasks request baseline clients; daemon questions retain the sensitive category. Client facts
+never establish daemon access. Known missing clients remain program_missing; with a present client, ps/run
+and other daemon commands remain UNKNOWN with daemon not granted unless separately established. Other
+contexts/hosts/configs cannot borrow default-daemon evidence. Client-only help/version is separate, and
+unclassifiable CLI forms stay judge gaps. No Docker command or daemon query is executed by this judge.
+
+The paired 167-case corpus keeps selected parents at 249 and leaves at 285. UNKNOWN parents are
+67/249 (26.91%) before b9d5856 to 53/249 (21.29%) after. Recursive total UNKNOWN is 68/285 (23.86%) to
+54/285 (18.95%): summarize.unknown_cause data gaps 62/285 (21.75%) to 48/285 (16.84%), judge gaps
+6/285 (2.11%) unchanged. Fourteen absent-client results now resolve previous data gaps. All BROKEN/UNKNOWN
+leaves remain in the denominator. tests/containers_before.json, containers_after.json and README provide
+evidence/reproduction. These offline records are not model-run results or registration; the owner's
+pilot criterion, design and run settings remain unchanged. Neither PR is merged into main.
