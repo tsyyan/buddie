@@ -313,3 +313,7 @@ pilot criterion, design and run settings remain unchanged. Neither PR is merged 
   ("run only if C - A or B - A shows the snapshot helps") is met by C - A on OK (+0.126 [0.066, 0.187]) and B - A on
   BROKEN (-0.123 [-0.209, -0.037]). The rows of A, B and C are kept; their 14 still missing rows are not run again.
   D - B (paired) is the comparison the gate proposal rests on; the blind audit still decides which reasons may gate.
+- 2026-11-02, after arm D (run 41491361431, attempt 2; attempt 1 stopped in the run's own model-free tests when a
+  cold `pwsh` missed the parser's 8 s timeout, before any answer): D answered 169 of 192 units; the owner's rule for
+  provider failures (run again once) is applied to D's failed rows only. D before the rerun: D - B BROKEN -0.089
+  [-0.161, -0.018] (n 168), D - B OK -0.018 [-0.089, 0.054], D - A BROKEN -0.228 [-0.311, -0.144].
