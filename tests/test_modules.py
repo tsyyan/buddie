@@ -38,13 +38,14 @@ def receipt_of(repo, tmp_path, selected=None):
 # --- the registry -------------------------------------------------------------------------------------------------
 
 def test_the_ids_are_stable_and_every_check_has_exactly_one_module():
-    assert modules.IDS == ("sources", "github", "execution")
+    assert modules.IDS == ("sources", "github", "execution", "environment")
     owners = {c: [m.id for m in REGISTRY if c in m.checks] for c in Check}
     assert all(len(v) == 1 for v in owners.values()), owners
     assert {c: modules.module_of(c).id for c in Check} == {c: v[0] for c, v in owners.items()}
     assert owners[Check.QUOTE] == owners[Check.NUMBER] == ["sources"]
     assert {c for c, v in owners.items() if v == ["github"]} >= {Check.PR_ANCHOR, Check.CI_ANCHOR, Check.COMMIT_ANCHOR}
     assert {c for c, v in owners.items() if v == ["execution"]} >= {Check.RUN_ANCHOR, Check.WORK_CLAIM}
+    assert owners[Check.ENV_ANCHOR] == ["environment"]
 
 
 def test_selection_is_in_registry_order_whatever_the_order_asked():
@@ -57,7 +58,7 @@ def test_selection_is_in_registry_order_whatever_the_order_asked():
 def test_an_unknown_or_empty_selection_is_an_error_not_a_smaller_check(ids):
     with pytest.raises(UnknownModule) as got:
         modules.select(ids)
-    assert "known: sources, github, execution" in str(got.value)
+    assert "known: sources, github, execution, environment" in str(got.value)
 
 
 def test_a_finding_no_module_provides_is_an_error():
@@ -84,7 +85,8 @@ def test_a_module_left_out_is_not_run_and_coverage_says_so(repo, tmp_path):
     assert [a["anchor"] for a in pred["anchors"]] == [f"data.txt#{HELLO}"]  # the run: anchor is execution's
     assert {f.check for f in found} == {Check.FILE_ANCHOR}
     off = [s for s in covered.skipped if s.what.startswith("module:")]
-    assert [s.what for s in off] == ["module:sources", "module:execution"] and all(s.capability for s in off)
+    assert [s.what for s in off] == ["module:sources", "module:execution", "module:environment"]
+    assert all(s.capability for s in off)
     # every anchor checked held, but a module was off: the core outcome is GAPS, never PASS
     assert pred["outcome"] == "PASS" and core.outcome(found, covered) is core.Outcome.GAPS
 
@@ -93,7 +95,8 @@ def test_results_per_module_in_registry_order(repo, tmp_path):
     _, found, _ = receipt_of(repo, tmp_path, None)
     got = modules.results(found, modules.select(["execution", "github"]))
     assert [r.module for r in got] == list(modules.IDS)
-    sources, github, execution = got
+    sources, github, execution, environment = got
+    assert not environment.selected
     assert not sources.selected and sources.outcome is None
     assert github.outcome is core.Outcome.PASS and execution.selected
     assert {f.check for f in execution.findings} == {Check.RUN_ANCHOR}

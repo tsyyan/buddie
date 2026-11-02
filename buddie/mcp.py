@@ -47,7 +47,9 @@ FORMAT = (
     "A paraphrase, a quote without a link and a link without a quote are not checked. "
     "2) Anchors: the sign ⚓ and then, in backticks, `pr:OWNER/REPO#N=merged@SHA` or `=open`, "
     "`ci:OWNER/REPO@SHA=success`, `path#sha256` or `path@commit` (a file in a repo checkout), "
-    "`run:COMMAND => OUTPUT` (a command and what it printed), e.g. " + ANCHOR_EXAMPLE + ". "
+    "`run:COMMAND => OUTPUT` (a command and what it printed), "
+    "`env:CATEGORY.OBSERVATION=VALUE` (a fact about this machine, e.g. `env:system.os.version=24.04`), e.g. "
+    + ANCHOR_EXAMPLE + ". "
 )
 OUTCOMES = (
     "Outcomes: FAIL means a quote is not in its source or an anchor does not hold: fix each blocking item, or keep it "
@@ -80,12 +82,15 @@ _CHECK_OPTIONS = {
                                "claims), research (quotes and numbers), complete, or custom with modules "
                                "and/or checks. What a profile leaves out is not checked, and the result says"
                                " so"},
-    "modules": {"type": "array", "items": {"type": "string", "enum": ["sources", "github", "execution"]},
+    "modules": {"type": "array", "items": {"type": "string",
+                                           "enum": ["sources", "github", "execution", "environment"]},
                 "description": "custom: these verification modules: sources (quotes, numbers), github (repo "
-                               "anchors, pr:, ci:), execution (run:, choice:, work claims)"},
+                               "anchors, pr:, ci:), execution (run:, choice:, work claims), environment (env: "
+                               "anchors against this machine)"},
     "checks": {"type": "array", "items": {"type": "string"},
                "description": "custom: these checks (quote, number, file_anchor, commit_anchor, fact_anchor, "
-                              "pr_anchor, ci_anchor, run_anchor, choice_anchor, work_claim, other_anchor)"},
+                              "pr_anchor, ci_anchor, run_anchor, choice_anchor, work_claim, other_anchor, "
+                              "env_anchor)"},
 }
 
 TOOLS = [

@@ -191,7 +191,7 @@ def budgeted(tool):
 
 def verify_report(args: dict) -> tuple[dict, bool]:
     from buddie.effects import github_get
-    from buddie.verify import verify
+    from buddie.verify import assess_selected
     _only(args, {"text", "fetch", "numbers", "github"})
     if not args.get("text"):
         raise ValueError("give text")
@@ -201,9 +201,11 @@ def verify_report(args: dict) -> tuple[dict, bool]:
     # Local stores may contain authenticated private responses. Never replay them merely by a public caller's URL.
     token = SAVED_SOURCES.set(False)
     try:
-        receipt = verify(args["text"], name="report", repos=[], fetch=args.get("fetch", True), mandate=False,
-                         github=public_github(github_get) if args.get("github", True) else None,
-                         numbers=args.get("numbers", "gap"))
+        receipt = assess_selected(args["text"], name="report", repos=[], fetch=args.get("fetch", True),
+                                  mandate=False,
+                                  github=public_github(github_get) if args.get("github", True) else None,
+                                  numbers=args.get("numbers", "gap"),
+                                  environment=False)[0]  # the server is no machine of the caller's
     finally:
         SAVED_SOURCES.reset(token)
     return receipt, False
