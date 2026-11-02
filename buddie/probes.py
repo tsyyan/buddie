@@ -728,6 +728,13 @@ def software_tools(ctx) -> None:
         ctx.result(name, exe, basis, outcome, version(out), f"tool:{name}")
 
 
+def software_containers(ctx) -> None:
+    """The clients only (baseline): their --version, as for any tool; the daemon is development.containers."""
+    for name, program in (("docker_client", "docker"), ("podman_client", "podman")):
+        exe, basis, outcome, out = ctx.program(name, "container_client", program, (), ("--version",))
+        ctx.result(name, exe, basis, outcome, version(out), name)
+
+
 def development_containers(ctx) -> None:
     exe, basis, outcome, out = ctx.program("docker_client", "container_client", "docker", (), ("--version",))
     ctx.result("docker_client", exe, basis, outcome, version(out), "docker_client")
