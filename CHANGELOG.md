@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Docs: install guides for Gemini CLI and GitHub Copilot CLI; Codex now installs from `plugin-stable`
+  (`codex plugin marketplace add tsyyan/buddie@plugin-stable`) instead of following `main`.
 - Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
   failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
 - **One plugin for four clients.** The release's plugin, and so `plugin-stable`, now holds the manifests of Claude

@@ -5,13 +5,12 @@ newer: `python3` on macOS and Linux, `python` on Windows.
 
 ## As a plugin (recommended)
 
-This repository is also a Codex marketplace: Codex reads `.agents/plugins/marketplace.json` and the plugin's
-`.codex-plugin/plugin.json`. (`.claude-plugin/marketplace.json` is Claude Code's: it points at the compact plugin on
-`plugin-stable`, which has no Codex manifest.) The marketplace follows `main`; to stay on a release, add it pinned:
-`codex plugin marketplace add tsyyan/buddie@v2.0.8`.
+From 2.1.0 the released plugin on the branch `plugin-stable` is a Codex marketplace too: Codex reads
+`.agents/plugins/marketplace.json` and the plugin's `.codex-plugin/plugin.json`, and its hook file is
+`hooks/codex.json`. Add it pinned to that branch, so you get releases and not unreleased work on `main`:
 
 ```bash
-codex plugin marketplace add tsyyan/buddie
+codex plugin marketplace add tsyyan/buddie@plugin-stable
 ```
 
 ```bash
@@ -26,7 +25,7 @@ The plugin brings:
   plugin's folder);
 - **the skills** `buddie:buddie` and `buddie:verbatim`, which teach the agent to quote from snapshots and to state
   repo, PR and CI facts as anchors;
-- **a Stop hook** (`integrations/codex/hooks.json`): a final answer with a quote its source does not contain, or an
+- **a Stop hook** (`hooks/codex.json`; `integrations/codex/hooks.json` in the repository): a final answer with a quote its source does not contain, or an
   anchor that does not hold, is sent back to the model with the reasons before the turn ends. Codex runs plugin
   hooks only after you review and trust them: open `/hooks` in a session once after installing. The hook runs
   Python isolated (`python3 -I`), so a `PYTHONPATH` or user site-packages the project's environment sets loads no
@@ -35,6 +34,9 @@ The plugin brings:
 
 Plugins with hooks cannot be listed in the public plugin directory, so this plugin is installed from the
 marketplace above, not from the directory.
+
+Before 2.1.0 the marketplace was the repository root (`codex plugin marketplace add tsyyan/buddie`), which follows
+`main`. To move to the released branch, remove that marketplace and add the one above.
 
 ## As an MCP server only
 

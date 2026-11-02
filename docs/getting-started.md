@@ -38,7 +38,7 @@ is being prepared.
 ### Codex
 
 ```bash
-codex plugin marketplace add tsyyan/buddie
+codex plugin marketplace add tsyyan/buddie@plugin-stable
 ```
 
 ```bash
@@ -47,6 +47,12 @@ codex plugin add buddie@buddie
 
 Codex runs plugin hooks after you review them in `/hooks`. `run:` anchors stay unchecked there, because Codex's
 session log is not Claude Code's transcript. Setup and the MCP-only route: [install-codex.md](install-codex.md).
+
+### Gemini CLI and GitHub Copilot CLI
+
+From 2.1.0, `plugin-stable` is also a Gemini CLI extension and a Copilot CLI plugin: [install-gemini.md](install-gemini.md),
+[install-copilot.md](install-copilot.md). Both get the MCP tools and the guidance (`GEMINI.md`, the skills), without a
+gate: nothing holds an answer back automatically.
 
 ### Claude Desktop
 
