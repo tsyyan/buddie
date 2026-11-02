@@ -52,6 +52,25 @@ class Scripted:
         return self.replies.pop(0), {"prompt_tokens": 10, "completion_tokens": 5}
 
 
+class Spending(unittest.TestCase):
+    def test_a_run_that_fails_part_way_keeps_what_it_spent(self):
+        class Breaks:
+            n = 0
+
+            def chat(self, messages, tools):
+                Breaks.n += 1
+                if Breaks.n > 1:
+                    raise RuntimeError("HTTP 500: gone")
+                return {"content": "", "tool_calls": [{"id": "c", "function": {
+                    "name": "source_text", "arguments": "{}"}}]}, {"prompt_tokens": 40, "completion_tokens": 4}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            rec = run.new_rec()
+            with self.assertRaises(RuntimeError):
+                run.run_arm(Breaks(), Store(Path(tmp)), UNIT_OK, "B", 2, rec)
+        self.assertEqual((rec["requests"], rec["prompt_tokens"], rec["input"], rec["output"]), (1, 40, 40, 4))
+
+
 class Units(unittest.TestCase):
     def test_units_come_from_the_blind_labels_only(self):
         us = units_mod.build()
@@ -368,4 +387,17 @@ class Anthropic(unittest.TestCase):
         self.assertEqual(msg["content"], "Let me look.")
         self.assertEqual(msg["tool_calls"][0]["function"]["name"], "source_text")
         self.assertEqual(json.loads(msg["tool_calls"][0]["function"]["arguments"]), {"url": "u", "query": "q"})
-        self.assertEqual(usage, {"prompt_tokens": 120, "completion_tokens": 7})
+        self.assertEqual(usage, {"input_tokens": 100, "cache_creation_input_tokens": 0,
+                                 "cache_read_input_tokens": 20, "output_tokens": 7})
+        rec = {}
+        run.spend.add(rec, usage)  # cache reads are counted apart, and still in the old prompt_tokens sum
+        self.assertEqual((rec["input"], rec["cache_read"], rec["prompt_tokens"], rec["completion_tokens"]),
+                         (100, 20, 120, 7))
+
+    def test_cache_marks_the_system_prompt_and_the_last_block(self):
+        body = run.to_anthropic({"model": "m", "messages": [{"role": "system", "content": "S"},
+                                                             {"role": "user", "content": "U"}]}, cache=True)
+        self.assertEqual(body["system"][0]["cache_control"], {"type": "ephemeral"})
+        self.assertEqual(body["messages"][-1]["content"][-1]["cache_control"], {"type": "ephemeral"})
+        self.assertNotIn("cache_control", json.dumps(run.to_anthropic({"model": "m", "messages": [
+            {"role": "user", "content": "U"}]})))

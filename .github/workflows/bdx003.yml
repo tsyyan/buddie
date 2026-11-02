@@ -135,6 +135,7 @@ jobs:
             experiments/BDX-003-correction/data/units.json
             experiments/BDX-003-correction/data/eligible.json
             experiments/BDX-003-correction/data/runs.jsonl
+            experiments/BDX-003-correction/data/runs.jsonl.spend.jsonl
             experiments/BDX-003-correction/data/judged/
           if-no-files-found: warn
   report:
@@ -270,6 +271,7 @@ jobs:
             experiments/BDX-003-correction/data/units.json
             experiments/BDX-003-correction/data/eligible.json
             experiments/BDX-003-correction/data/runs.jsonl
+            experiments/BDX-003-correction/data/runs.jsonl.spend.jsonl
             experiments/BDX-003-correction/data/judged/
           if-no-files-found: warn
   product:
