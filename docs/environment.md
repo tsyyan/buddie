@@ -223,7 +223,8 @@ makes the call an error before anything is collected. A denied category says so 
 
 Your grants live in `environment.toml` in your user configuration directory (`%APPDATA%\buddie` on Windows,
 `$XDG_CONFIG_HOME/buddie` or `~/.config/buddie` elsewhere). `buddie snapshot --grants` shows where and what it
-allows; `buddie snapshot --grant-template` prints one to save:
+allows; `buddie snapshot --grant-template` prints one to save, and `buddie snapshot --grant-baseline` writes it
+there with the baseline only (never over an existing file; `/buddie:init` offers it after showing the categories):
 
 ```toml
 version = 1
