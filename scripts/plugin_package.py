@@ -41,7 +41,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "buddie-plugin-package-v1"
 MANIFEST = "plugin-manifest.json"
 NAME = "buddie"
-BUILDER = 4  # 3: canonical Discovery blobs relocated; 4: the package's marketplace comes from packaging/plugin
+BUILDER = 5  # 3: canonical Discovery blobs relocated; 4: the package's marketplace comes from packaging/plugin;
+#             5: one package for Claude Code, Codex, Gemini CLI and Copilot CLI (CLIENTS, _clients)
 DISCOVERY = {
     "integrations/agensi/SKILL.md": "skills/buddie-discovery/SKILL.md",
     "integrations/agensi/references/reporting.md": "skills/buddie-discovery/references/reporting.md",
@@ -51,6 +52,20 @@ DISCOVERY = {
 # from packaging/plugin instead, relocated byte for byte; the root's file never enters the package.
 MARKETPLACE = {"packaging/plugin/marketplace.json": ".claude-plugin/marketplace.json"}
 RELOCATIONS = {**DISCOVERY, **MARKETPLACE}
+# Builder 5: every other client that takes hooks and skills reads its own manifest at this one root. Repository file
+# -> its place in the package. Claude Code's hooks move to hooks/claude-code.json, named by plugin.json "hooks"
+# (merged with a default hooks/hooks.json, which the package no longer has): Claude Code, Gemini CLI and Copilot CLI
+# each read hooks/hooks.json, in three formats, and SessionStart is an event in two of them.
+CLIENTS = {
+    ".codex-plugin/plugin.json": ".codex-plugin/plugin.json",
+    "integrations/codex/hooks.json": "hooks/codex.json",
+    ".agents/plugins/marketplace.json": ".agents/plugins/marketplace.json",
+    "packaging/clients/gemini/gemini-extension.json": "gemini-extension.json",
+    "packaging/clients/gemini/GEMINI.md": "GEMINI.md",
+    "packaging/clients/copilot/plugin.json": ".github/plugin/plugin.json",
+}
+CLAUDE_HOOKS = "hooks/claude-code.json"
+VERSIONED = (".codex-plugin/plugin.json", "gemini-extension.json", ".github/plugin/plugin.json")
 CHANNEL = ".claude-plugin/marketplace.json"  # the repository channel, outside the package
 
 # the audited runtime: what the Claude Code plugin loads, starts or shows, and the files a reader of it needs
@@ -72,8 +87,8 @@ DIRECTORIES = {                        # directory -> the patterns its tracked f
 }
 REQUIRED = EXACT + ("buddie/__init__.py", "buddie/cli.py", "buddie/mcp.py", "buddie/hook.py",
                     "skills/buddie/SKILL.md", "skills/verbatim/SKILL.md", "skills/environment/SKILL.md")
-NEVER = ("tests/", "experiments/", "results/", "evals/", "docs/", "scripts/", ".github/", "examples/",
-         "integrations/", ".codex-plugin/", "PROVENANCE.json")  # asserted absent from every package
+NEVER = ("tests/", "experiments/", "results/", "evals/", "docs/", "scripts/", ".github/workflows/", "examples/",
+         "integrations/", "hooks/hooks.json", "PROVENANCE.json")  # asserted absent from every package
 IMAGES = {".png"}
 MAX_TEXT, MAX_IMAGE = 256 * 1024, 1024 * 1024
 MAX_FILES, MAX_BYTES = 128, 2 * 1024 * 1024
@@ -206,7 +221,9 @@ def _reference_problems(files: dict[str, bytes], version: str) -> list[str]:
     named = []
     for server in json.loads(files[".mcp.json"]).get("mcpServers", {}).values():
         named += [a[len(root):] for a in server.get("args", []) if isinstance(a, str) and a.startswith(root)]
-    for groups in json.loads(files["hooks/hooks.json"]).get("hooks", {}).values():
+    if plugin.get("hooks") != "./" + CLAUDE_HOOKS or CLAUDE_HOOKS not in files:
+        problems.append(f"plugin.json hooks must name ./{CLAUDE_HOOKS}, in the package")
+    for groups in json.loads(files.get(CLAUDE_HOOKS, b"{}")).get("hooks", {}).values():
         for group in groups:
             for hook in group.get("hooks", []):
                 named += re.findall(r"\$\{CLAUDE_PLUGIN_ROOT\}/([A-Za-z0-9._/-]+)", hook.get("command", ""))
@@ -234,6 +251,40 @@ def package_name(version: str) -> str:
     return f"{NAME}-plugin-{version}.zip"
 
 
+def _dump(obj: dict) -> bytes:
+    return (json.dumps(obj, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+
+
+def _clients(repo: Path, commit: str, files: dict[str, bytes], version: str) -> None:
+    """Builder 5, in place: the other clients' manifests and hook files (CLIENTS), Claude Code's hooks under their
+    own name, and every manifest's version the package's (packaging/clients/* carry 0.0.0)."""
+    entries = {p: (m, o) for p, m, o in tracked(repo, commit)}
+    missing = [p for p in CLIENTS if p not in entries]
+    if missing:
+        raise PackageError(f"missing client sources: {', '.join(missing)}")
+    if bad := [p for p in CLIENTS if entries[p][0] not in ("100644", "100755")]:
+        raise PackageError(f"client sources not regular files: {', '.join(bad)}")
+    blobs = _blobs(repo, [(p, *entries[p]) for p in CLIENTS])
+    for source, destination in CLIENTS.items():
+        files[destination] = blobs[source]
+    files[CLAUDE_HOOKS] = files.pop("hooks/hooks.json")
+    try:
+        claude = json.loads(files[".claude-plugin/plugin.json"])
+        claude["hooks"] = "./" + CLAUDE_HOOKS
+        files[".claude-plugin/plugin.json"] = _dump(claude)
+        for path in VERSIONED:
+            manifest = json.loads(files[path])
+            manifest["version"] = version
+            if path == ".codex-plugin/plugin.json":
+                manifest["hooks"] = "./hooks/codex.json"
+            files[path] = _dump(manifest)
+        gemini = json.loads(files["gemini-extension.json"])
+    except (ValueError, KeyError) as error:
+        raise PackageError(f"a client manifest is not JSON: {error}") from error
+    if gemini.get("contextFileName") not in files:
+        raise PackageError(f"gemini-extension.json names {gemini.get('contextFileName')}, which the package lacks")
+
+
 def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     """(ZIP bytes, manifest, files) for `ref`; PackageError with every reason it cannot be packaged."""
     commit = _git(repo, "rev-parse", "--verify", ref + "^{commit}").decode().strip()
@@ -245,6 +296,7 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     for original, destination in RELOCATIONS.items():
         files[destination] = files.pop(original)
     version = _version(files)
+    _clients(repo, commit, files, version)
     import release_notes as rn
     release_path = f"releases/{version}.json"
     entries = [e for e in tracked(repo, commit) if e[0] == release_path]
@@ -264,7 +316,7 @@ def build(repo: Path, ref: str) -> tuple[bytes, dict, dict[str, bytes]]:
     manifest = {
         "schema": SCHEMA, "name": NAME, "version": version, "commit": commit, "tree": tree, "builder": BUILDER,
         "selection": {"exact": list(EXACT), "directories": {d: list(p) for d, p in DIRECTORIES.items()},
-                      "relocations": RELOCATIONS},
+                      "relocations": RELOCATIONS, "clients": CLIENTS},
         "files": [{"path": p, "size": len(files[p]), "sha256": _sha256(files[p])} for p in sorted(files)],
         "file_count": len(files), "total_bytes": sum(map(len, files.values())),
         "package": {"path": package_name(version), "size": len(data), "sha256": _sha256(data),

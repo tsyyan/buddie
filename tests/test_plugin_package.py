@@ -40,6 +40,15 @@ def source(tmp: Path, files: dict[str, bytes], modes: dict[str, str] | None = No
     for original, destination in pp.RELOCATIONS.items():
         if destination in files and original not in files:
             files[original] = files.pop(destination)
+    # builder 5 back to its sources: a package's files make a source repository again
+    for original, destination in pp.CLIENTS.items():
+        if destination in files and original not in files:
+            files[original] = files.pop(destination)
+    if pp.CLAUDE_HOOKS in files and "hooks/hooks.json" not in files:
+        files["hooks/hooks.json"] = files.pop(pp.CLAUDE_HOOKS)
+        plugin = json.loads(files[".claude-plugin/plugin.json"])
+        plugin.pop("hooks", None)
+        files[".claude-plugin/plugin.json"] = (json.dumps(plugin, indent=2) + "\n").encode()
     if "buddie/__init__.py" in files:
         import re
         version = re.search(rb'__version__ = "([^"]+)"', files["buddie/__init__.py"]).group(1).decode()
@@ -108,17 +117,20 @@ def test_discovery_case_variant_cannot_collide_after_relocation():
 def test_the_package_is_the_runtime_and_nothing_else(head):
     data, manifest, files = head
     tracked = {p for p, _, _ in pp.tracked(ROOT, "HEAD")}
-    assert set(files) - {"RELEASE_NOTES.md"} - set(pp.RELOCATIONS.values()) <= tracked
+    built = set(pp.RELOCATIONS.values()) | set(pp.CLIENTS.values()) | {pp.CLAUDE_HOOKS}
+    assert set(files) - {"RELEASE_NOTES.md"} - built <= tracked
+    assert "hooks/hooks.json" not in files  # Gemini and Copilot read that path in their own formats
     assert not [p for p in files if p.startswith(pp.NEVER)]
     for path in pp.REQUIRED:
-        assert pp.RELOCATIONS.get(path, path) in files
+        assert (pp.CLAUDE_HOOKS if path == "hooks/hooks.json" else pp.RELOCATIONS.get(path, path)) in files
     # every runtime file of #61's inventory is in it, unchanged; the rest is listing, legal and the icon
     sys.path.insert(0, str(ROOT / "scripts"))
     import plugin_inventory as pi
-    runtime = {p for p in tracked if pi.category(p) == "runtime-required"}
+    runtime = {pp.CLAUDE_HOOKS if p == "hooks/hooks.json" else p
+               for p in tracked if pi.category(p) == "runtime-required"}
     assert runtime <= set(files)
     assert set(files) - runtime == {"README.md", "LICENSE", "NOTICE", "PRIVACY.md", "assets/icon.png", "RELEASE_NOTES.md",
-                                    *pp.RELOCATIONS.values()}
+                                    *pp.RELOCATIONS.values(), *pp.CLIENTS.values()} - runtime
     assert manifest["file_count"] == len(files) <= pp.MAX_FILES and manifest["total_bytes"] <= pp.MAX_BYTES
     assert max(len(b) for p, b in files.items() if not p.endswith(".png")) <= pp.MAX_TEXT
 
@@ -217,7 +229,7 @@ def test_versions_and_launcher_references_must_agree(head, tmp_path):
     with pytest.raises(pp.PackageError, match="plugin.json is version 9.9.9"):
         pp.build(source(tmp_path / "a", files), "HEAD")
     files = dict(head[2])
-    files["hooks/hooks.json"] = files["hooks/hooks.json"].replace(b"hooks/run.sh", b"hooks/gone.sh")
+    files[pp.CLAUDE_HOOKS] = files[pp.CLAUDE_HOOKS].replace(b"hooks/run.sh", b"hooks/gone.sh")
     with pytest.raises(pp.PackageError, match="names hooks/gone.sh"):
         pp.build(source(tmp_path / "b", files), "HEAD")
     assert pp.build(source(tmp_path / "c", with_version(head[2], "2.1.0")), "HEAD")[1]["version"] == "2.1.0"

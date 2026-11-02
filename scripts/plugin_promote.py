@@ -174,7 +174,8 @@ def promote(rc: Path, repo: Path, *, version: str, source: str, remote: str = "o
             raise Refused(f"{branch} holds {t['Buddie-Version']}, newer than {version}: no downgrade")
     date = git(repo, "show", "-s", "--format=%cI", source)
     message = (f"buddie {version} plugin, from {source[:12]}\n\n"
-               f"The compact Claude Code plugin of release candidate {version} (scripts/plugin_package.py).\n\n"
+               f"The plugin of release candidate {version} for Claude Code, Codex, Gemini CLI and Copilot CLI "
+               f"(scripts/plugin_package.py).\n\n"
                f"Buddie-Version: {version}\nSource-Commit: {source}\n"
                f"Package-SHA256: {record['package_sha256']}\nPlugin-Manifest-SHA256: {plugin_manifest_sha}\n")
     env = {"GIT_AUTHOR_NAME": IDENTITY[0], "GIT_AUTHOR_EMAIL": IDENTITY[1], "GIT_AUTHOR_DATE": date,

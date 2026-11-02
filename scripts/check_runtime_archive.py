@@ -37,11 +37,14 @@ DIST = {'METADATA', 'WHEEL', 'entry_points.txt', 'top_level.txt', 'RECORD',
         'licenses/LICENSE', 'licenses/NOTICE', 'licenses/PRIVACY.md'}
 MCPB = LEGAL | {'RELEASE_NOTES.md', 'manifest.json', 'run.py', 'assets/icon.png'}
 PLUGIN = LEGAL | {'RELEASE_NOTES.md', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json', 'run.py',
-                  'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png', 'skills/buddie/SKILL.md',
+                  'hooks/claude-code.json', 'hooks/codex.json', 'hooks/run.sh', 'assets/icon.png', 'skills/buddie/SKILL.md',
                   'skills/verbatim/SKILL.md', 'skills/environment/SKILL.md', 'skills/buddie-discovery/SKILL.md',
                   'skills/buddie-discovery/references/reporting.md',
                   'commands/check.md', 'commands/init.md', 'commands/status.md',
-                  'commands/wait.md'}
+                  'commands/wait.md',
+                  # the other clients' manifests (builder 5, docs/plugin-distribution.md)
+                  '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json', 'gemini-extension.json', 'GEMINI.md',
+                  '.github/plugin/plugin.json'}
 VERSION = r'\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?'
 PLAIN = re.compile(r'[A-Za-z0-9_-][A-Za-z0-9._-]*|\.[A-Za-z0-9_-][A-Za-z0-9._-]*')
 RESERVED = {'CON', 'PRN', 'AUX', 'NUL'} | {f'{p}{n}' for p in ('COM', 'LPT') for n in range(1, 10)}
