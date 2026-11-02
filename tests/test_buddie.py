@@ -151,6 +151,41 @@ def test_mcp_source_text(store):
     assert "14:59 UTC" in res["result"]["structuredContent"]["matches"][0]["text"]
 
 
+def test_mcp_verify_report_text_is_concise_unless_full(store):
+    concise, full = _rpc(*({"jsonrpc": "2.0", "id": i, "method": "tools/call", "params": {
+        "name": "verify_report", "arguments": {"text": BAD, "fetch": False, "repos": [], **extra}}}
+        for i, extra in ((1, {}), (2, {"detail": "full"}))))
+    text = concise["result"]["content"][0]["text"]
+    assert text.startswith("buddie FAIL") and "to fix:\n- quote" in text and "14:59" in text  # the page's words
+    assert '"predicate"' not in text and len(text) < len(full["result"]["content"][0]["text"]) / 2
+    assert concise["result"]["structuredContent"] == full["result"]["structuredContent"] | {
+        "predicate": concise["result"]["structuredContent"]["predicate"]}  # the structured receipt is whole
+    assert concise["result"]["structuredContent"]["predicate"]["quotes"]
+
+
+def test_passages_merge_overlaps_and_keep_to_the_budget():
+    text = ("x" * 50 + "needle") * 40
+    out = mcp.passages(text, "needle", 60, 8, 4000)
+    assert out["matches_total"] == 40 and len(out["matches"]) == 1  # windows that overlap are one passage
+    assert len(out["matches"][0]["text"]) == len(text)  # 2240 characters, under the budget
+    far = ("y" * 1000 + "needle") * 20
+    out = mcp.passages(far, "needle", 50, 3, 4000)
+    assert len(out["matches"]) == 3 and out["truncated"]
+    assert all(far[m["offset"]:m["offset"] + len(m["text"])] == m["text"] for m in out["matches"])
+    out = mcp.passages(far, "needle", 50, 30, 500)
+    assert sum(len(m["text"]) for m in out["matches"]) <= 500 and out["truncated"]
+    assert "truncated" not in mcp.passages("one needle here", "needle", 5, 8, 4000)
+
+
+def test_source_text_pages_a_long_text(store, monkeypatch):
+    monkeypatch.setattr(mcp, "TEXT_LIMIT", 100)
+    (first, second) = _rpc(*({"jsonrpc": "2.0", "id": i, "method": "tools/call", "params": {
+        "name": "source_text", "arguments": {"ref": URL, **extra}}} for i, extra in ((1, {}), (2, {"offset": 100}))))
+    a, b = first["result"]["structuredContent"], second["result"]["structuredContent"]
+    assert a["next_offset"] == 100 and len(a["text"]) == 100 and b["offset"] == 100
+    assert a["text"] + b["text"][:10] == (a["text"] + b["text"])[:110]
+
+
 def test_hook_blocks_fail_and_lets_disclosed_through(store, monkeypatch, tmp_path):
     monkeypatch.setenv("BUDDIE_FETCH", "0")
     event = {"hook_event_name": "PreToolUse", "tool_name": "mcp__hearthbot__reply", "cwd": str(tmp_path),
