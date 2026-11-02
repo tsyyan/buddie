@@ -238,6 +238,12 @@ jobs:
           test -s data/runs.jsonl || exit 0
           python judge.py --units data/units.json --store data/store --runs data/runs.jsonl --out data/judged
           cat data/judged/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - name: the owner's audit against the judge (PROTOCOL 2026-11-02)
+        if: always()
+        run: |
+          cd experiments/BDX-003-correction
+          test -s audit/audit_owner_api.csv -a -s data/judged/audit_key.json || exit 0
+          python audit_report.py --owner audit/audit_owner_api.csv --key data/judged/audit_key.json --by arm --title API
           python notices.py data
           python - <<'PY'
           import collections, os
@@ -368,6 +374,13 @@ jobs:
           test -s product-data/product-runs.jsonl || exit 0
           python product_judge.py --units data/units.json --store data/store --runs product-data/product-runs.jsonl \
             --out product-data/judged
+      - name: the owner's audit against the judge (PROTOCOL 2026-11-02)
+        if: always() && (env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge')
+        run: |
+          cd experiments/BDX-003-correction
+          test -s audit/audit_owner_product.csv -a -s product-data/judged/audit_key.json || exit 0
+          python audit_report.py --owner audit/audit_owner_product.csv --key product-data/judged/audit_key.json \
+            --by condition --title product
       - uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
         if: always() && (env.PRODUCT_RUN == '1' || env.PRODUCT_RUN == 'judge')
         with:
