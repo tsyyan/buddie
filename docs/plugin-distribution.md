@@ -20,7 +20,9 @@ claims Directory approval or full compliance.
 - the package's own marketplace, `packaging/plugin/marketplace.json` (source `./`), relocated byte for byte to
   `.claude-plugin/marketplace.json` (builder revision 4). The repository root's `.claude-plugin/marketplace.json` is the
   public Claude Code channel and points at `plugin-stable`; it never enters the package;
-- `hooks/hooks.json`, `hooks/run.sh`;
+- `hooks/run.sh`, and the repository's `hooks/hooks.json` renamed to `hooks/claude-code.json` (builder revision 5,
+  below);
+- the other clients' manifests (`CLIENTS`, builder revision 5, below);
 - `buddie/*.py`, `buddie/verbatim/*.py`, `skills/*/SKILL.md`, `commands/*.md`;
 - `assets/icon.png`, `README.md`, `LICENSE`, `NOTICE`, `PRIVACY.md`.
 
@@ -226,11 +228,11 @@ its exact commit has been validated.
 
 Retry, rollback and refusals: docs/release.md, section 3.
 
-## The multi-client package (`dist-next`, not yet promoted)
+## Every client from one package (builder revision 5)
 
-`scripts/dist_package.py` builds one package for every client that takes hooks and skills, from the compact plugin
-above plus each client's own manifest. `plugin-stable` stays the compact Claude Code plugin until it is switched
-over in a release, after Anthropic's directory review of it has ended.
+From builder revision 5 (buddie 2.1.0), the package `plugin_package.py` builds, and so the release's `rc/plugin` and
+`plugin-stable`, holds every client's manifest next to the compact Claude Code plugin. `release.yml` is unchanged:
+the same verified package is promoted. `scripts/dist_package.py` remains as a thin wrapper for `dist-next` trees.
 
 | Client | Reads | Hooks |
 |---|---|---|
@@ -250,8 +252,9 @@ Codex and Copilot CLI install it from its marketplaces; Gemini CLI installs the 
 server. What is not tested there: a Copilot or Gemini session (both need an account), and any Gemini or Copilot hook.
 
 ```bash
-python3 scripts/dist_package.py tree --ref HEAD ./dist          # a directory, as a branch would hold it
-gemini extensions install https://github.com/tsyyan/buddie --ref dist-next
-copilot plugin marketplace add tsyyan/buddie@dist-next
+python3 scripts/plugin_package.py build --ref HEAD --out ./out --tree ./dist   # a directory, as the branch holds it
+codex plugin marketplace add tsyyan/buddie@plugin-stable
+gemini extensions install https://github.com/tsyyan/buddie --ref plugin-stable
+copilot plugin marketplace add tsyyan/buddie@plugin-stable
 ```
 

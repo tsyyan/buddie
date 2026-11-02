@@ -6,9 +6,10 @@
   (`codex plugin marketplace add tsyyan/buddie@plugin-stable`) instead of following `main`.
 - Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
   failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
-- Packaging: `scripts/dist_package.py` builds one package for Claude Code, Codex, Gemini CLI and Copilot CLI (each
-  client's own manifest and hook file, versions written from one place); CI installs it in all four. Published on the
-  branch `dist-next` for testing; `plugin-stable` is unchanged.
+- **One plugin for four clients.** The release's plugin, and so `plugin-stable`, now holds the manifests of Claude
+  Code, Codex, Gemini CLI and Copilot CLI (builder revision 5: each client's own manifest and hook file, versions
+  written from one place; Claude Code's hooks move to `hooks/claude-code.json`, named by `plugin.json`). CI installs
+  the same package in all four. `scripts/dist_package.py` is now a wrapper.
 - Catalog entries follow releases: `catalogs.yml` updates the Cline and Kilo entries to each published version
   (`scripts/catalog_bump.py`; needs the `CATALOG_TOKEN` secret).
 - **Container image** on each release: `ghcr.io/tsyyan/buddie:X.Y.Z`, the candidate's own wheel, MCP over stdio by

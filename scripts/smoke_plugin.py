@@ -26,8 +26,8 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NEVER = ("tests/", "experiments/", "results/", "evals/", "docs/", "scripts/", ".github/", "examples/",
-         "integrations/", ".git/", ".codex-plugin/", "PROVENANCE.json")
+NEVER = ("tests/", "experiments/", "results/", "evals/", "docs/", "scripts/", ".github/workflows/", "examples/",
+         "integrations/", ".git/", "PROVENANCE.json")
 FAKE_TOKEN = "ghp_" + "S" * 36  # a fake, well-formed token: it must never be printed
 BAD_TOKEN = "ghp_has space\nand newline"
 KEEP_ENV = ("PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "HOME", "USERPROFILE", "COMSPEC", "PATHEXT")
@@ -108,7 +108,9 @@ def check_hooks(plugin: Path) -> list[str]:
     sh = shutil.which("sh")
     if not sh:
         return ["no sh on PATH: the hooks (sh run.sh) cannot be checked here"]
-    hooks = json.loads((plugin / "hooks/hooks.json").read_text(encoding="utf-8"))["hooks"]
+    named = json.loads((plugin / ".claude-plugin/plugin.json").read_text(encoding="utf-8")).get("hooks")
+    path = plugin / (named.removeprefix("./") if isinstance(named, str) else "hooks/hooks.json")
+    hooks = json.loads(path.read_text(encoding="utf-8"))["hooks"]
     problems = []
     with tempfile.TemporaryDirectory() as tmp:
         cwd = Path(tmp)
