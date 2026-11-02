@@ -1,0 +1,2 @@
+date_utc,pypi_last_week,pypi_last_day,release_downloads_total,release_downloads_latest,latest_tag,clones_14d,clone_uniques_14d,views_14d,view_uniques_14d,stars,forks,watchers,referrers,notes
+2026-11-02,800,17,181,22,v2.0.8,6158,711,558,126,0,0,0,github.com:10;glama.ai:1,"first row; stats branch created; pypistats last_month=0 (< last_week, likely pypistats lag)"
