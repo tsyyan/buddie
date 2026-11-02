@@ -225,3 +225,33 @@ its exact commit has been validated.
    `plugin-stable` and confirm the detected commit, or keep the current review as it is.
 
 Retry, rollback and refusals: docs/release.md, section 3.
+
+## The multi-client package (`dist-next`, not yet promoted)
+
+`scripts/dist_package.py` builds one package for every client that takes hooks and skills, from the compact plugin
+above plus each client's own manifest. `plugin-stable` stays the compact Claude Code plugin until it is switched
+over in a release, after Anthropic's directory review of it has ended.
+
+| Client | Reads | Hooks |
+|---|---|---|
+| Claude Code | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | `hooks/claude-code.json`, named by `plugin.json` `hooks` |
+| Codex | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json` | `hooks/codex.json`, named by its `plugin.json` |
+| Gemini CLI | `gemini-extension.json`, `GEMINI.md` | none |
+| Copilot CLI | `.github/plugin/plugin.json` (marketplace from `.claude-plugin/marketplace.json`) | none yet |
+
+There is no `hooks/hooks.json`: Claude Code, Gemini CLI and Copilot CLI each read a file at that path, in their own
+formats, and `SessionStart` is an event in two of them. Each client's hooks are named by its own manifest instead
+(Claude Code merges a `hooks` path with the default file; with no default file only the named one loads).
+
+Every manifest's version is written by the builder from `buddie/__init__.py`; the client sources under
+`packaging/clients/` carry `0.0.0`. The CI job `dist` installs the package on every change, in isolated homes and
+without credentials: Claude Code validates it strictly, installs it and runs its Stop hook on a false `ci:` anchor;
+Codex and Copilot CLI install it from its marketplaces; Gemini CLI installs the extension and connects to its MCP
+server. What is not tested there: a Copilot or Gemini session (both need an account), and any Gemini or Copilot hook.
+
+```bash
+python3 scripts/dist_package.py tree --ref HEAD ./dist          # a directory, as a branch would hold it
+gemini extensions install https://github.com/tsyyan/buddie --ref dist-next
+copilot plugin marketplace add tsyyan/buddie@dist-next
+```
+
