@@ -58,7 +58,8 @@ jobs:
           cd experiments/BDX-004-command-fit
           timeout --signal=INT "${MINUTES}m" python run.py --arms "$ARMS" --provider "$PROVIDER" --model "$MODEL" \
             ${PILOT:+--pilot "$PILOT"} ${N:+--n "$N"} ${SEED:+--seed "$SEED"} \
-            ${EXCLUDE_PILOT_SEED:+--exclude-pilot-seed "$EXCLUDE_PILOT_SEED"} --out "data/$OUT" || echo "run.py ended with $?"
+            ${EXCLUDE_PILOT_SEED:+--exclude-pilot-seed "$EXCLUDE_PILOT_SEED"} ${REDO_ERRORS:+--redo-errors} \
+            --out "data/$OUT" || echo "run.py ended with $?"
       - name: summary
         if: always()
         run: |
