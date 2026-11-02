@@ -1,5 +1,5 @@
-# After a release, point the Cline and Kilo catalog entries at it (scripts/catalog_bump.py): while the first PR from
-# the fork is open, its branch gets one more commit; once it is merged, a new branch from upstream and a new PR.
+# After a release, update the Cline/Kilo fork PR, or open a new PR from upstream after merge.
+# Kilo's generated marketplace.yaml must be regenerated from MCP.yaml in the same commit.
 # Needs the repository secret CATALOG_TOKEN: a fine-grained token of the forks' owner with contents: write on
 # tsyyan/marketplace and tsyyan/kilo-marketplace (classic: public_repo, to open PRs upstream). Without it this
 # workflow says so and stops; nothing else in the release depends on it.
@@ -33,7 +33,7 @@ jobs:
       - name: the version, on PyPI; the catalog's fork, branch, upstream and file
         id: what
         run: |
-          [ -n "$TOKEN" ] || { echo "::notice::no CATALOG_TOKEN secret: catalogs not updated"; echo "go=no" >> "$GITHUB_OUTPUT"; exit 0; }
+          [ -n "$TOKEN" ] || { echo "::warning::no CATALOG_TOKEN secret: delivery skipped"; echo "go=no" >> "$GITHUB_OUTPUT"; exit 0; }
           v="${INPUT#v}"
           [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::not a version: $INPUT"; exit 1; }
           curl -fsS "https://pypi.org/pypi/buddie/$v/json" > /dev/null || { echo "::error::buddie $v is not on PyPI"; exit 1; }
@@ -54,18 +54,43 @@ jobs:
           git clone -q "https://x-access-token:$TOKEN@github.com/$FORK" fork
           cd fork
           git config user.name "buddie release" && git config user.email "$owner@users.noreply.github.com"
+          new_pr=no
           if [ "$open" != 0 ]; then
             git checkout -q "$BRANCH"; target="$BRANCH"
           else
-            git remote add upstream "https://github.com/$UPSTREAM" && git fetch -q upstream
-            target="buddie-$V"; git checkout -q -b "$target" upstream/HEAD
+            target="buddie-$V"
+            # A retry may encounter a branch from an earlier partial delivery. Never overwrite it.
+            if git ls-remote --exit-code --heads origin "$target" > /dev/null; then
+              if [ "$(gh api "repos/$UPSTREAM/pulls?state=open&head=$owner:$target" --jq 'length')" = 0 ]; then
+                echo "::error::$FORK:$target exists without an open upstream PR; manual reconciliation required"
+                exit 1
+              fi
+              git checkout -q "$target"
+            else
+              git remote add upstream "https://github.com/$UPSTREAM"
+              git fetch -q upstream HEAD
+              git checkout -q -b "$target" FETCH_HEAD
+              new_pr=yes
+            fi
           fi
           python3 ../scripts/catalog_bump.py "$FILE" "$V"
-          if git diff --quiet; then echo "::notice::$UPSTREAM already names buddie $V"; exit 0; fi
-          git commit -qam "chore: update buddie listing to $V"
-          git push -q origin "$target"
-          if [ "$open" = 0 ]; then
-            gh pr create --repo "$UPSTREAM" --head "$owner:$target" --title "Update buddie to $V" \
-              --body "Updates the buddie entry to $V (https://github.com/tsyyan/buddie/releases/tag/v$V). Only the version pin and its links change."
+          if [ "${{ matrix.catalog }}" = kilo ]; then
+            # Kilo reviews require its derived catalog to match MCP.yaml.
+            npm ci --prefix bin --no-audit --no-fund
+            (cd bin && npx --no-install tsx generate-mcps-marketplace.ts)
+            python3 ../scripts/catalog_bump.py mcps/marketplace.yaml "$V" --check
           fi
-          echo "::notice::$UPSTREAM: buddie $V on $owner:$target"
+          git diff --check
+          if git diff --quiet; then
+            echo "::notice::$UPSTREAM already names buddie $V; no changes pushed"
+            exit 0
+          fi
+          git add "$FILE"
+          if [ "${{ matrix.catalog }}" = kilo ]; then git add mcps/marketplace.yaml; fi
+          git commit -m "chore: update buddie listing to $V"
+          git push -q origin "$target"
+          if [ "$new_pr" = yes ]; then
+            gh pr create --repo "$UPSTREAM" --head "$owner:$target" --title "Update buddie to $V" \
+              --body "Updates the buddie entry to $V (https://github.com/tsyyan/buddie/releases/tag/v$V). Kilo's generated marketplace is included when applicable."
+          fi
+          echo "::notice::$UPSTREAM: buddie $V delivered on $owner:$target"
