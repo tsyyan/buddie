@@ -13,7 +13,8 @@ A command written for another machine fails on the person's: `apt` on Windows, a
    and for questions that do not end in commands for the person to run.
 2. **Ask for what the commands need**, not everything: `{"categories": ["system.os", "system.shell"], "task": "..."}`;
    add `hardware.gpu` and `software.gpu_stack` for GPU work, `software.python` for Python environments,
-   `software.package_managers` for installs, `development.containers` for Docker. `{"list": true}` shows the
+   `software.package_managers` for installs, `software.containers` for Docker or Podman (add
+   `development.containers` only when it matters whether the daemon answers). `{"list": true}` shows the
    categories and what is granted.
 3. **Use what it says, and what it does not.** A `denied` category was not granted: do not guess it, say which
    commands depend on it, or ask the person. `unavailable` is not "absent": `not_found_on_path` means not found where
