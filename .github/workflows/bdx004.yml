@@ -42,6 +42,12 @@ jobs:
         run: python -m unittest discover -s experiments/BDX-004-command-fit/tests
       - name: settings (run.env)
         run: grep -E '^[A-Z_]+=' experiments/BDX-004-command-fit/run.env >> "$GITHUB_ENV"
+      - name: earlier chunks of this run (resumable)
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0, as BDX-003
+        with:
+          path: experiments/BDX-004-command-fit/data
+          key: bdx004-${{ env.OUT }}-${{ github.run_id }}
+          restore-keys: bdx004-${{ env.OUT }}-
       - name: arms
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -65,6 +71,11 @@ jobs:
           cd experiments/BDX-004-command-fit
           test -s "data/$OUT" || exit 0
           python summarize.py "data/$OUT" --dump 10
+      - uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0, as BDX-003
+        if: always()
+        with:
+          path: experiments/BDX-004-command-fit/data
+          key: bdx004-${{ env.OUT }}-${{ github.run_id }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2, as BDX-003
         if: always()
         with:

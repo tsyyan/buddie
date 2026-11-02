@@ -1,7 +1,8 @@
 # BDX-004 protocol
 
-Version 1, 2026-11-01. Written before any model answer. It is registered (this line gets the registration date and
-commit) when the judge-validation pilot below has passed and before the first answer of the experiment is recorded.
+Version 1, 2026-11-01. Written before any model answer. **Registered 2026-11-02**, with the commit that adds this
+line, after the judge-validation pilot passed (pilot 5 repeated, below) and before the first answer of the
+experiment is recorded.
 Every change after that is listed under "Changes after data", with its date and reason, as in BDX-003.
 
 ## Question
@@ -191,6 +192,12 @@ false objections is reported as unreliable and left out of the gate proposal.
   the UNKNOWN criterion splits judge gaps from data gaps (above), and the profiles follow buddie's new baseline
   category `software.containers` (client versions; PR #89), the daemon (`development.containers`) staying ungranted.
   Pilot 5 is repeated on its 32 units with both, to measure the judge gap.
+
+- 2026-11-02, pilot 5 repeated (run 41365863949; the same 32 units, profiles with `software.containers`): **passed**.
+  Judge gap 3 % of commands (limit 25 %); data gap 45 % (mostly `python` where only `python3` is observed, and Docker
+  daemon questions); its 19 WONT_RUN verdicts read: 18 hold (sudo, docker, podman, conda, wget absent; `source` in
+  sh), one is doubtful (`Get-Service` on macOS, in an answer whose Windows section the judge did not label). The
+  protocol is registered; the experiment runs `openai/gpt-oss-120b` on arms A, B, C over all 192 units.
 
 ## Changes after data
 
