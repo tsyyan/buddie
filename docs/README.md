@@ -8,6 +8,7 @@ Start with the [project overview and quick start](../README.md). For installatio
 | Install and configure Claude Code | [Claude Code](claude-code.md) |
 | Install in Claude Desktop | [Desktop bundle](install-claude-desktop.md) |
 | Install in Codex | [Codex](install-codex.md) |
+| Install in Gemini CLI or Copilot CLI | [Gemini CLI](install-gemini.md), [Copilot CLI](install-copilot.md) |
 | Inspect integrations and troubleshoot | [Integration audit](integrations.md) |
 | Host an HTTP MCP server | [Deployment](deploy.md) |
 | Run the examples; what is checked, the outcomes | [Verification](verification.md) |
