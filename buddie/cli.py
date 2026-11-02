@@ -9,8 +9,9 @@
   buddie snapshot --category ID ... [--task TEXT] [--tool NAME ...] [--root DIR] [--json FILE]
                                     diagnostics: the granted categories of this machine (OS, CPU, memory, GPU,
                                     Python, runtimes, ...), environment-diagnostics-v1 (docs/environment.md)
-  buddie snapshot --list | --grants | --grant-template
-                                    the categories; what is granted; a grants file to save and edit
+  buddie snapshot --list | --grants | --grant-template | --grant-baseline
+                                    the categories; what is granted; a grants file to save and edit; write that
+                                    file (baseline only) where buddie reads it, unless one is there
   buddie freshness ci --repo OWNER/REPO (--pr N | --commit SHA) --evidence SHA [--check NAME] [--json FILE]
   buddie freshness repo --commit SHA [--root DIR] [--artifact PATH=SHA256 ...] [--snapshot FILE] [--json FILE]
                                     whether evidence is bound to the revision a claim is about (docs/freshness.md):
@@ -296,8 +297,19 @@ def cmd_snapshot(args) -> int:
     """An environment snapshot (buddie/environment.py). Advice, not enforcement: it gates nothing, and nothing reads it
     back as evidence. Exit 0 with a snapshot (unavailable facts included), 2 when the input cannot be used."""
     from buddie import environment
-    if args.list or args.grants or args.grant_template:
+    if args.list or args.grants or args.grant_template or args.grant_baseline:
         from buddie import diagnostics
+        if args.grant_baseline:  # /buddie:init offers it, after the person has seen what it lets an agent observe
+            path = diagnostics.grants_location()
+            if path.exists():
+                print(f"{path} exists; not overwritten. What it grants: buddie snapshot --grants", file=sys.stderr)
+                return 1
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(diagnostics.GRANT_TEMPLATE.format(path=path), encoding="utf-8")
+            base = sorted(m.id for m in diagnostics.REGISTRY.values() if m.tier == diagnostics.BASELINE)
+            print(f"wrote {path}: granted the baseline categories ({', '.join(base)}); sensitive ones stay off. "
+                  "Edit or delete the file to change it.")
+            return 0
         if args.grant_template:
             print(diagnostics.GRANT_TEMPLATE.format(path=diagnostics.grants_location()), end="")
         elif args.grants:
@@ -573,6 +585,9 @@ def main(argv: list[str] | None = None) -> int:
                     help="what your grants file (your intent; an agent running as you can edit it) and the protected "
                          "policy (a ceiling it cannot) allow; they govern --category only")
     sn.add_argument("--grant-template", action="store_true", help="print a grants file to save and edit")
+    sn.add_argument("--grant-baseline", action="store_true",
+                    help="write that file, granting the baseline categories only, where buddie reads it; "
+                         "refused when a grants file is already there")
     sn.set_defaults(func=cmd_snapshot)
     fr = sub.add_parser("freshness", help="whether evidence is bound to the revision a claim is about")
     fr.add_argument("what", choices=("ci", "repo"))
