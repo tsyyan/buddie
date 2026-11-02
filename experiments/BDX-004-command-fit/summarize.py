@@ -74,14 +74,16 @@ def main(argv=None) -> int:
     paired = []
     models = {r["model"] for r in ok}
     for model in sorted(models):
-        cell = {(r["profile"], r["task"], r["arm"]): r["verdict"]["status"] == "BROKEN" for r in ok if r["model"] == model}
-        for x, y in (("A", "B"), ("A", "C"), ("B", "D"), ("A", "D")):
-            pairs = [(int(cell[(p, t, x)]), int(cell[(p, t, y)])) for (p, t, arm) in cell if arm == x
-                     and (p, t, y) in cell]
-            if pairs:
-                paired.append(f"{model} | {y}-{x} BROKEN: n {len(pairs)}, diff "
-                              f"{sum(b - a for a, b in pairs) / len(pairs):.3f}, ci {bootstrap(pairs)}")
-    lines = [] if a.dump else notes + paired + cells  # a dump step has its own 10 notices
+        for outcome in ("OK", "BROKEN"):  # OK share B-A is the registered primary, so it is printed first
+            cell = {(r["profile"], r["task"], r["arm"]): r["verdict"]["status"] == outcome
+                    for r in ok if r["model"] == model}
+            for x, y in (("A", "B"), ("A", "C"), ("B", "D"), ("A", "D")):
+                pairs = [(int(cell[(p, t, x)]), int(cell[(p, t, y)])) for (p, t, arm) in cell if arm == x
+                         and (p, t, y) in cell]
+                if pairs:
+                    paired.append(f"{model} | {y}-{x} {outcome}: n {len(pairs)}, diff "
+                                  f"{sum(b - a for a, b in pairs) / len(pairs):.3f}, ci {bootstrap(pairs)}")
+    lines = [] if a.dump else paired + notes + cells  # a dump step has its own 10 notices
     for i in range(0, len(lines), 2):
         print("::notice title=BDX-004 " + str(i // 2 + 1) + "::" + " || ".join(lines[i:i + 2]))
     if a.examples:  # what the owner would read in the sheet, when the artifact cannot be fetched
