@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Catalog entries follow releases: `catalogs.yml` updates the Cline and Kilo entries to each published version
+  (`scripts/catalog_bump.py`; needs the `CATALOG_TOKEN` secret).
 - **Facts about the machine are checked.** An anchor `⚓ env:CATEGORY.OBSERVATION=VALUE` (`env:system.os.version=24.04`,
   `env:software.python.interpreters=3.12`) is judged by the new `environment` module against what buddie observes
   now, under the person's grants: `HOLDS`, `BROKEN` with the observed value, or `UNCHECKABLE` when not granted or not

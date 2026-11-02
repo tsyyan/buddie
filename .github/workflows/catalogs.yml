@@ -1,0 +1,71 @@
+# After a release, point the Cline and Kilo catalog entries at it (scripts/catalog_bump.py): while the first PR from
+# the fork is open, its branch gets one more commit; once it is merged, a new branch from upstream and a new PR.
+# Needs the repository secret CATALOG_TOKEN: a fine-grained token of the forks' owner with contents: write on
+# tsyyan/marketplace and tsyyan/kilo-marketplace (classic: public_repo, to open PRs upstream). Without it this
+# workflow says so and stops; nothing else in the release depends on it.
+name: catalogs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "X.Y.Z already on PyPI"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        catalog: [cline, kilo]
+    env:
+      TOKEN: ${{ secrets.CATALOG_TOKEN }}
+      INPUT: ${{ inputs.version || github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+      - name: the version, on PyPI; the catalog's fork, branch, upstream and file
+        id: what
+        run: |
+          [ -n "$TOKEN" ] || { echo "::notice::no CATALOG_TOKEN secret: catalogs not updated"; echo "go=no" >> "$GITHUB_OUTPUT"; exit 0; }
+          v="${INPUT#v}"
+          [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::not a version: $INPUT"; exit 1; }
+          curl -fsS "https://pypi.org/pypi/buddie/$v/json" > /dev/null || { echo "::error::buddie $v is not on PyPI"; exit 1; }
+          python3 -c "import sys; sys.path.insert(0, 'scripts'); import catalog_bump as c; f, b, u, p = c.CATALOGS['${{ matrix.catalog }}']; print(f'fork={f}\nbranch={b}\nupstream={u}\nfile={p}')" >> "$GITHUB_OUTPUT"
+          { echo "version=$v"; echo "go=yes"; } >> "$GITHUB_OUTPUT"
+      - name: bump the open PR's branch, or open a new PR from upstream
+        if: steps.what.outputs.go == 'yes'
+        env:
+          V: ${{ steps.what.outputs.version }}
+          FORK: ${{ steps.what.outputs.fork }}
+          BRANCH: ${{ steps.what.outputs.branch }}
+          UPSTREAM: ${{ steps.what.outputs.upstream }}
+          FILE: ${{ steps.what.outputs.file }}
+          GH_TOKEN: ${{ secrets.CATALOG_TOKEN }}
+        run: |
+          owner="${FORK%%/*}"
+          open=$(gh api "repos/$UPSTREAM/pulls?state=open&head=$owner:$BRANCH" --jq 'length')
+          git clone -q "https://x-access-token:$TOKEN@github.com/$FORK" fork
+          cd fork
+          git config user.name "buddie release" && git config user.email "$owner@users.noreply.github.com"
+          if [ "$open" != 0 ]; then
+            git checkout -q "$BRANCH"; target="$BRANCH"
+          else
+            git remote add upstream "https://github.com/$UPSTREAM" && git fetch -q upstream
+            target="buddie-$V"; git checkout -q -b "$target" upstream/HEAD
+          fi
+          python3 ../scripts/catalog_bump.py "$FILE" "$V"
+          if git diff --quiet; then echo "::notice::$UPSTREAM already names buddie $V"; exit 0; fi
+          git commit -qam "chore: update buddie listing to $V"
+          git push -q origin "$target"
+          if [ "$open" = 0 ]; then
+            gh pr create --repo "$UPSTREAM" --head "$owner:$target" --title "Update buddie to $V" \
+              --body "Updates the buddie entry to $V (https://github.com/tsyyan/buddie/releases/tag/v$V). Only the version pin and its links change."
+          fi
+          echo "::notice::$UPSTREAM: buddie $V on $owner:$target"
