@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
+  failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
 - Packaging: `scripts/dist_package.py` builds one package for Claude Code, Codex, Gemini CLI and Copilot CLI (each
   client's own manifest and hook file, versions written from one place); CI installs it in all four. Published on the
   branch `dist-next` for testing; `plugin-stable` is unchanged.

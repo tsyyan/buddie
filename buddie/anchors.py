@@ -330,4 +330,17 @@ def find_repos(cwd: Path) -> list[Path]:
     top = runner.git_text(cwd, "rev-parse", "--show-toplevel")
     if top is not None and top.strip():
         return [Path(top.strip())]
-    return sorted(p for p in cwd.iterdir() if (p / ".git").exists()) if cwd.is_dir() else []
+    try:
+        children = list(cwd.iterdir()) if cwd.is_dir() else []
+    except OSError:  # an unreadable cwd: no repos, not a failed check
+        return []
+    return sorted(p for p in children if _has_git(p))
+
+
+def _has_git(directory: Path) -> bool:
+    """Whether `directory/.git` exists; False for one the user may not look into (/tmp holds such directories:
+    systemd-private-*, other users' files), which raised PermissionError and failed the whole check."""
+    try:
+        return (directory / ".git").exists()
+    except OSError:
+        return False
