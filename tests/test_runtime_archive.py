@@ -34,7 +34,7 @@ def names(kind):
                              'run.py', 'hooks/hooks.json', 'hooks/run.sh', 'assets/icon.png',
                              'skills/buddie/SKILL.md', 'skills/verbatim/SKILL.md', 'skills/environment/SKILL.md',
                              'skills/buddie-discovery/SKILL.md', 'skills/buddie-discovery/references/reporting.md',
-                             'commands/check.md', 'commands/init.md', 'commands/status.md']
+                             'commands/check.md', 'commands/init.md', 'commands/status.md', 'commands/wait.md']
 
 
 def write(tmp_path, kind, entries, special=None):

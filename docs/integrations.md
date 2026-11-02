@@ -24,7 +24,7 @@ Two kinds of integration, and the difference matters:
 |---|---|---|---|---|
 | Claude Code plugin: hooks | `.claude-plugin/plugin.json`, `hooks/hooks.json`, `hooks/run.sh` | `sh run.sh hook` (python3, python or `py -3`, isolated `-I`) | v0, in the journal | **enforced**: floors, `[evidence]`, one reading per event |
 | Claude Code plugin: MCP | `.mcp.json` | `python3 run.py serve` | v0; v1 with `receipt: "v1"` | not a gate |
-| Claude Code plugin: skills, commands | `skills/`, `commands/` | instructions for the agent: `/buddie:check`, `/buddie:init`, `/buddie:status` | (uses the CLI) | (as the CLI) |
+| Claude Code plugin: skills, commands | `skills/`, `commands/` | instructions for the agent: `/buddie:check`, `/buddie:init`, `/buddie:status`, `/buddie:wait` | (uses the CLI) | (as the CLI) |
 | Codex plugin: Stop hook | `.codex-plugin/plugin.json`, `integrations/codex/hooks.json` | `python3 -I run.py hook` (`python -I` on Windows) | v0, in the journal | **enforced**, as the Claude Code hook |
 | Codex plugin: MCP | `.codex-plugin/plugin.json` `mcpServers` | `python3 run.py serve`, `BUDDIE_DEFAULT_REPOS=none` | v0; v1 on request | not a gate |
 | Codex without the plugin | `integrations/codex/config.toml` | your `~/.codex/config.toml` table | as MCP | not a gate |

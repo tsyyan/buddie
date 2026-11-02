@@ -40,6 +40,14 @@ quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to
 4. Put the receipt's `predicate.line` at the end of the report, copied from the tool's result. Never write a receipt
    line yourself: when the tool is not available, say that nothing was checked.
 
+## Waiting for CI
+
+After a push, do not sleep and poll in your own turns. Start `/buddie:wait OWNER/REPO#N` (or `@SHA`) in the
+background: `sh "${CLAUDE_PLUGIN_ROOT}/hooks/run.sh" wait OWNER/REPO#N` as a background Bash command in Claude Code,
+`buddie wait OWNER/REPO#N` where buddie is installed with pip. It waits without output and ends with one line and a
+ready `ci:` anchor (the first failed check by default; `--all` waits for every check). Put that anchor in the
+report as it is.
+
 ## Orchestrator: when receiving a report
 
 1. Run the executor's report through `verify_report` yourself; do not rely on its receipt line. A check at the

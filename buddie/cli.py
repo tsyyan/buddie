@@ -489,6 +489,11 @@ def _receipt_version(name: str) -> str:
         raise argparse.ArgumentTypeError(str(error)) from error
 
 
+def cmd_wait(args) -> int:
+    from buddie import wait
+    return wait.main(args.target, timeout=args.timeout * 60, grace=args.grace * 60, fail_fast=not args.all)
+
+
 def cmd_profiles(args) -> int:
     """The verification profiles and the modules and checks each one resolves to (buddie/profiles.py)."""
     from buddie import profiles
@@ -646,6 +651,16 @@ def main(argv: list[str] | None = None) -> int:
     po.add_argument("what", choices=("show", "check", "template"))
     po.add_argument("--repo", action="append", help="repo whose buddie.toml to judge (default: around cwd)")
     po.set_defaults(func=cmd_policy)
+    w = sub.add_parser("wait", help="wait for CI on a commit or a PR, then print one line with a ci: anchor",
+                       description="Polls GitHub (BUDDIE_GITHUB_TOKEN raises the rate limit), prints nothing while it "
+                                   "waits, and ends with one line and a ready anchor. Run it in the background. "
+                                   "Exit 0 success, 1 failure, 3 undecided.")
+    w.add_argument("target", help="OWNER/REPO@SHA (the checks on a commit) or OWNER/REPO#N (on a PR's head commit)")
+    w.add_argument("--timeout", type=float, default=30, help="minutes before giving up as pending (default 30)")
+    w.add_argument("--grace", type=float, default=5,
+                   help="minutes to wait for the first check to appear (default 5)")
+    w.add_argument("--all", action="store_true", help="wait for every check, not only until the first one fails")
+    w.set_defaults(func=cmd_wait)
     sub.add_parser("modules", help="the verification modules and what each checks").set_defaults(func=cmd_modules)
     sub.add_parser("profiles", help="the verification profiles and what each checks").set_defaults(func=cmd_profiles)
     sub.add_parser("receipt-schema", help="the JSON Schema of receipt-v1").set_defaults(func=cmd_receipt_schema)

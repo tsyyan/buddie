@@ -19,7 +19,8 @@ The plugin brings four things:
   [`skills/verbatim`](../skills/verbatim/SKILL.md) for quoting from snapshots;
 - **commands** you run yourself: `/buddie:check [file or text]` checks a text now (your last answer by default),
   `/buddie:status` shows what is checked in this project and what was returned lately, `/buddie:init` turns on the
-  project's full checks (`buddie.toml`, starting in intro mode).
+  project's full checks (`buddie.toml`, starting in intro mode), `/buddie:wait OWNER/REPO#N` waits for CI in the
+  background and ends with a ready `ci:` anchor, so the agent spends no turns polling.
 
 The hook runs through `hooks/run.sh`, which starts the first of `python3`, `python` and `py -3` that is Python 3.11+,
 so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
