@@ -1,0 +1,54 @@
+# Throwaway probe (not for merge): which MCP launch line connects in Claude Code on Windows when the PATH holds
+# python.exe and py.exe (python.org install) but no python3 and no Git sh, as on a typical desktop.
+name: win-mcp-probe
+on:
+  push:
+    branches: [win-mcp-probe]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: install Claude Code
+        shell: pwsh
+        run: npm install -g @anthropic-ai/claude-code@2.1.310
+      - name: probe
+        shell: pwsh
+        run: |
+          $py = Split-Path (Get-Command python).Source
+          $node = Split-Path (Get-Command node).Source
+          $npm = Split-Path (Get-Command claude).Source
+          $root = (Get-Location).Path -replace '\\','/'
+          "where: python3=$((Get-Command python3 -ErrorAction SilentlyContinue).Source) sh=$((Get-Command sh -ErrorAction SilentlyContinue).Source) py=$((Get-Command py -ErrorAction SilentlyContinue).Source)"
+          $base = "C:\Windows\system32;C:\Windows;C:\Program Files\Git\cmd;$py;$py\Scripts;$node;$npm;C:\Windows\py.exe"
+          $cases = [ordered]@{
+            "python3"  = @{ command = "python3"; args = @("-I", "$root/run.py", "serve") }
+            "python"   = @{ command = "python"; args = @("-I", "$root/run.py", "serve") }
+            "sh"       = @{ command = "sh"; args = @("$root/hooks/run.sh", "serve") }
+            "bash"     = @{ command = "bash"; args = @("$root/hooks/run.sh", "serve") }
+            "py"       = @{ command = "py"; args = @("-3", "-I", "$root/run.py", "serve") }
+            "cmd-chain"= @{ command = "cmd"; args = @("/d", "/c", "python3 -I `"$root/run.py`" serve 2>NUL || python -I `"$root/run.py`" serve") }
+          }
+          foreach ($pathKind in @("desktop", "runner")) {
+            foreach ($name in $cases.Keys) {
+              $dir = Join-Path $env:RUNNER_TEMP "c-$pathKind-$name"; New-Item -ItemType Directory -Force $dir | Out-Null
+              $env:CLAUDE_CONFIG_DIR = $dir
+              $json = (@{ type = "stdio" } + $cases[$name]) | ConvertTo-Json -Compress
+              $saved = $env:PATH
+              if ($pathKind -eq "desktop") { $env:PATH = $base }
+              claude mcp add-json --scope user buddie $json | Out-Null
+              $out = (claude mcp list 2>&1 | Out-String)
+              $env:PATH = $saved
+              "=== $pathKind / $name : $($cases[$name].command) $($cases[$name].args -join ' ')"
+              $out
+            }
+          }
