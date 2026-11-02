@@ -176,6 +176,19 @@ buddie observes only the categories the request names **and you granted**, with 
 for each value what it rests on and for each gap why. Nothing is installed or changed. The design and threat model:
 [design/environment-diagnostics.md](design/environment-diagnostics.md).
 
+### In short
+
+1. **You decide what is visible.** Nothing is observed until it is granted. `/buddie:init` in Claude Code shows the
+   categories and, if you agree, writes your grants file with the baseline only (`buddie snapshot --grant-baseline`
+   does the same from a shell); a second, separate question covers the Docker daemon. Edit or delete the file at any
+   time; `buddie snapshot --grants` shows what it allows.
+2. **The agent asks only when commands depend on your machine.** buddie's `environment` skill tells it to call
+   `environment_snapshot` for the categories those commands need (OS and shell for a command line, GPU and CUDA for
+   PyTorch, Python for a virtual environment, Docker or Podman for containers) before suggesting them, and not to
+   guess what was denied.
+3. **What comes back is versions and model names**, each with what it rests on, or a reason it is missing: no files,
+   paths, environment variables, process lists, network, nothing kept after the call.
+
 ```bash
 buddie snapshot --list
 ```

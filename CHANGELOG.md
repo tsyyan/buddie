@@ -1,5 +1,15 @@
 # Changelog
 
+## buddie 2.0.8 (2026-11-02)
+
+Public release content is generated from `releases/2.0.8.json` and bound to the candidate.
+
+- `/buddie:init` offers environment diagnostics as a separate question and writes a baseline grants file only if the
+  person agrees (`buddie snapshot --grant-baseline`); the Docker daemon is a second, separate question.
+- `software.containers` (baseline): Docker and Podman client versions, no daemon contacted.
+- `environment` skill: ask `environment_snapshot` for what commands depend on before suggesting them.
+- Docs: a short account of diagnostics in `docs/environment.md`; BDX-003 results in `docs/research.md`.
+
 ## buddie 2.0.7 (2026-10-31)
 
 Public release content is generated from `releases/2.0.7.json` and bound to the candidate.

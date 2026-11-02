@@ -6,31 +6,31 @@ Verify the claim. Know the context. AI agent reliability toolkit.
 
 buddie checks agent reports against primary evidence with deterministic Core verification, actionable feedback, and permission-controlled local environment diagnostics.
 
-Install: `pip install buddie==2.0.7`.
+Install: `pip install buddie==2.0.8`.
 
-[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.7/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.7/release-notes.md)
+[Repository](https://github.com/tsyyan/buddie) | [Privacy](https://github.com/tsyyan/buddie/blob/v2.0.8/PRIVACY.md) | [Release notes](https://github.com/tsyyan/buddie/releases/download/v2.0.8/release-notes.md)
 
-# buddie 2.0.7
+# buddie 2.0.8
 
-2026-10-31
+2026-11-02
 
-A quote that is not on its page comes back with the page's own sentence to copy from.
+Environment diagnostics you can turn on in one step, Docker and Podman client versions in the baseline, and a skill that asks for the machine's facts before suggesting commands.
 
 ## Changes
 
-- When a quote is not found, the failing line shows the whole sentence of the page around the nearest match (from similarity 0.75), instead of the near match cut to the quote's length.
-- Receipts carry it as closest.passage (at most 480 characters); closest.text and closest.ratio are unchanged.
-- Below similarity 0.75 no text to copy is offered: such a quote is most likely not on the page at all.
-- The hook's fix instruction points to that sentence first and to the source_text tool second.
-- Hook decisions and exit codes are unchanged in all 819 recorded gate scenarios; only the failing quote line and the fix text differ.
+- /buddie:init offers the environment diagnostics as a separate question and, only if the person agrees, writes a grants file with the baseline categories; a second, separate question covers the Docker daemon.
+- New buddie snapshot --grant-baseline writes that grants file where buddie reads it, baseline only, never over an existing file.
+- New baseline category software.containers: docker --version and podman --version only, no daemon is contacted; asking the daemon stays development.containers, sensitive.
+- New environment skill: before suggesting commands for the person's own machine, ask environment_snapshot for the categories those commands depend on, and do not guess what was denied.
+- docs/environment.md opens its diagnostics section with a short account of who decides, when the agent asks and what comes back; docs/research.md reports BDX-003, whether buddie changes what reaches the reader.
 
 ## Upgrade
 
-Install buddie==2.0.7 or update the plugin. The Claude Code marketplace follows plugin-stable and receives this release after publication; no reinstall is needed.
+Install buddie==2.0.8 or update the plugin. The Claude Code marketplace follows plugin-stable and receives this release after publication; no reinstall is needed. Existing grants files keep working; development.containers in them still covers the clients too.
 
 ## Permissions
 
-No new runtime permissions or dependencies. Checks run locally without a model. Optional evidence checks request cited URLs and the GitHub API (api.github.com, or an administrator-approved Enterprise API); GitHub credentials stay optional. No report or transcript is sent to a Buddie collection service.
+No new runtime permissions or dependencies. Diagnostics observe only categories the person granted in their own grants file; the new baseline category runs two programs' --version. Checks run locally without a model. Optional evidence checks request cited URLs and the GitHub API (api.github.com, or an administrator-approved Enterprise API); GitHub credentials stay optional. No report or transcript is sent to a Buddie collection service.
 
 ## Security
 

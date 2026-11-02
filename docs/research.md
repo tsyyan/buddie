@@ -58,9 +58,29 @@ With the plugin the person got the truth in every trap run; without it, in none.
 against 1, about twice the price. These are four hand-made cases, two runs each, where the report is told to be passed
 on as written: they show what the gate does when a false claim is there, not how often agents make one.
 
+## Does buddie change what reaches the reader? (BDX-003)
+
+[BDX-003](../experiments/BDX-003-correction/REPORT.md) gave models a paragraph from those reports with one quotation
+that is (ERROR) or is not (OK) on its page, to prepare for a reader; outcomes judged without a model, 105 judged rows
+read blind by the owner (agreement 0.89-0.90). Closed 2026-11-02.
+
+| Where | False quotation still there | Difference |
+|---|---|---|
+| Claude Code, Claude Opus 5, the plugin (2.0.7) vs none, 25 ERROR paragraphs | **0.24** vs 0.88 | −0.64 [−0.80, −0.44], no paragraph worse |
+| API, not asked to check: buddie's feedback vs pass-through (gpt-oss-120b, 146 units; Opus 5, 84) | 0.54 vs 0.99; 0.37 vs 1.00 | −0.45; −0.63 |
+| API, asked to check: self-check + buddie vs self-check | 0.11 vs 0.28; 0.12 vs 0.20 | −0.145 [−0.24, −0.05]; −0.08 [−0.16, −0.02] |
+
+Asked to check, Opus dropped or paraphrased about a quarter of the *correct* quotations; buddie added nothing to that,
+and in Claude Code the plugin kept more correct quotations than no plugin (0.93 vs 0.67, n 14-15). The cost: about 8
+turns and 105k input tokens a paragraph against 1 turn and 11k, almost all of it the model checking before it
+answers; in 48 % of runs a false quotation was on screen before its correction. The errors were seeded from real
+reports: how often a model makes such errors on its own, with and without buddie, is not measured.
+
 ## Scope of these results
 
-- They measure how often reports misquote or misstate, and how often buddie's check is wrong, not whether buddie makes agents misstate less. That effect is not yet measured.
+- The E-sets measure how often reports misquote or misstate, and how often buddie's check is wrong. BDX-003 measures
+  how many seeded false quotations still reach the reader with and without buddie; whether buddie makes agents
+  misstate less in their own work is not yet measured.
 - The gates cost turns: in the E016 pilot (12 tasks with traps per configuration) a session took 6.1 turns on average
   without buddie and 15.1 and 12.6 with the 0.4 and 0.5 gates. That pilot did not measure the main effect: there were
   no false "done" claims in any configuration, traps were too easy. Whether buddie makes agents misstate less is not
