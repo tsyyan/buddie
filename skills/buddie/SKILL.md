@@ -14,6 +14,7 @@ be checked without a model, at both ends of the hand-off, and writes a receipt.
 | Anchor `⚓ path#sha256`, `⚓ path@commit` | the file or commit in the session's repositories (`fact=value` is never computed: `UNCHECKABLE`) | `BROKEN` |
 | Anchor `⚓ pr:OWNER/REPO#N=merged[@SHA]`, `⚓ ci:OWNER/REPO@SHA=success` | PR state and the checks on the commit, via the GitHub API | `BROKEN` |
 | Anchor `⚓ run:CMD => OUT` ("I ran it and got this") | a call with CMD and a result containing OUT in the session transcript | `BROKEN` |
+| Anchor `⚓ env:CATEGORY.OBSERVATION=VALUE` (a fact about this machine) | what buddie observes here now, under the person's grants (not granted: `UNCHECKABLE`) | `BROKEN` |
 
 Receipt outcome: `FAIL` (any `NOT_FOUND` or `BROKEN`), `GAPS` (something could not be checked: source unavailable,
 quote without a link, anchor in another repository), `PASS`, `EMPTY` (nothing to check).

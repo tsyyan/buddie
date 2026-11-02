@@ -87,6 +87,8 @@ def anchor_check(anchor: str) -> Check:
         return Check.RUN_ANCHOR
     if anchor.startswith("choice:"):
         return Check.CHOICE_ANCHOR
+    if anchor.startswith("env:"):
+        return Check.ENV_ANCHOR
     if anc.FILE_SHA.match(anchor):
         return Check.FILE_ANCHOR
     if anc.FILE_AT.match(anchor):
@@ -104,6 +106,7 @@ ANCHOR_EVIDENCE = {
     Check.CI_ANCHOR: ("github_api", Provenance.COLLECTOR_OBSERVED),  # github_provenance says so
     Check.RUN_ANCHOR: ("transcript", Provenance.CALLER_SUPPLIED),   # the session log the caller pointed to
     Check.CHOICE_ANCHOR: ("journal", Provenance.AGENT_WRITABLE),    # buddie's journal, a file on the same machine
+    Check.ENV_ANCHOR: ("environment", Provenance.AGENT_WRITABLE),  # programs and files the agent's user can change
 }
 
 

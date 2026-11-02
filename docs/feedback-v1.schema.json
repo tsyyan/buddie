@@ -97,7 +97,8 @@
        "run_anchor",
        "choice_anchor",
        "work_claim",
-       "other_anchor"
+       "other_anchor",
+       "env_anchor"
       ]
      }
     },
@@ -157,7 +158,8 @@
        "run_anchor",
        "choice_anchor",
        "work_claim",
-       "other_anchor"
+       "other_anchor",
+       "env_anchor"
       ]
      }
     },
@@ -216,7 +218,8 @@
          "run_anchor",
          "choice_anchor",
          "work_claim",
-         "other_anchor"
+         "other_anchor",
+         "env_anchor"
         ]
        },
        "subject_prefix": {
@@ -298,7 +301,8 @@
       "run_anchor",
       "choice_anchor",
       "work_claim",
-      "other_anchor"
+      "other_anchor",
+      "env_anchor"
      ]
     },
     "module": {
@@ -525,7 +529,8 @@
         "run_anchor",
         "choice_anchor",
         "work_claim",
-        "other_anchor"
+        "other_anchor",
+        "env_anchor"
        ]
       },
       "line": {

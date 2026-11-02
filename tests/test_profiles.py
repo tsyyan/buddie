@@ -26,7 +26,8 @@ HOLDS = f"`⚓ data.txt#{HELLO}`"
 BAD_Q = GOOD_Q.replace("14:59", "14:58") + " " + HOLDS
 BROKEN = "`⚓ data.txt#" + "0" * 12 + "`"
 ANCHORS = {Check.FILE_ANCHOR, Check.COMMIT_ANCHOR, Check.FACT_ANCHOR, Check.PR_ANCHOR, Check.CI_ANCHOR,
-           Check.RUN_ANCHOR, Check.CHOICE_ANCHOR, Check.OTHER_ANCHOR}
+           Check.RUN_ANCHOR, Check.CHOICE_ANCHOR, Check.OTHER_ANCHOR,
+           Check.ENV_ANCHOR}
 
 
 @pytest.fixture
@@ -72,7 +73,7 @@ def admin(tmp: Path, monkeypatch, text: str) -> None:
 
 def test_the_built_in_profiles_resolve_to_these_exact_sets():
     developer, research, complete = (profiles.resolve(n) for n in ("developer", "research", "complete"))
-    assert [m.id for m in developer.modules] == ["github", "execution"]
+    assert [m.id for m in developer.modules] == ["github", "execution", "environment"]
     assert developer.checks == ANCHORS | {Check.WORK_CLAIM}
     assert [m.id for m in research.modules] == ["sources"] and research.checks == {Check.QUOTE, Check.NUMBER}
     assert [m.id for m in complete.modules] == list(modules.IDS) and complete.checks == set(Check)

@@ -84,7 +84,8 @@ predicate
 
 Every list of checks is in `core.Check` order, each check once, whatever order a caller named them in:
 `quote, number, file_anchor, commit_anchor, fact_anchor, pr_anchor, ci_anchor, run_anchor, choice_anchor,
-work_claim, other_anchor`. `receipts.dumps()` gives canonical JSON (sorted keys, no spaces): the same receipt is the
+work_claim, other_anchor, env_anchor`. `env_anchor` (module `environment`) was added in 2.0.9, at the end so that the
+order of the others is unchanged; a consumer validating against the 2.0.8 schema rejects receipts from 2.0.9 on. `receipts.dumps()` gives canonical JSON (sorted keys, no spaces): the same receipt is the
 same bytes.
 
 ### Outcome: what the checks that ran established

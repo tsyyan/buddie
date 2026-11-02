@@ -21,6 +21,11 @@ A command written for another machine fails on the person's: `apt` on Windows, a
    buddie looked.
 4. **Write the commands for that machine**: its shell's syntax, its package manager, versions it can take. When a
    command installs what is missing, put the install first.
+5. **Anchor what you say about the machine**, so it is checked, not taken on your word: after the sentence, ⚓ and in
+   backticks `env:CATEGORY.OBSERVATION=VALUE` with the value the snapshot gave, e.g. "You have Python 3.12 ⚓
+   `env:software.python.interpreters=3.12` and bash ⚓ `env:system.shell.default=bash`". `verify_report` and the hook
+   observe the machine again under the same grants: a value that differs returns the text, a category not granted
+   stays unchecked.
 
 Nothing is granted until the person says so: `/buddie:init` offers the baseline categories, and
 `buddie snapshot --grants` shows what is granted. The snapshot is buddie's report of what it read, not proof of the
