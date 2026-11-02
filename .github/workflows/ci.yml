@@ -233,14 +233,14 @@ jobs:
           export HOME="$RUNNER_TEMP/gemini-home"; mkdir -p "$HOME"
           npm install -g "$GEMINI_CLI" --silent
           echo y | gemini extensions install "$RUNNER_TEMP/dist" --consent --skip-settings
-          gemini mcp list < /dev/null | tee mcp.txt
+          gemini mcp list < /dev/null 2>&1 | tee mcp.txt   # it prints the list on stderr
           grep -q "buddie.*Connected" mcp.txt
       - name: Copilot CLI
         run: |
           export HOME="$RUNNER_TEMP/copilot-home"; mkdir -p "$HOME"
           npm install -g "$COPILOT_CLI" --silent
           copilot plugin marketplace add "$RUNNER_TEMP/dist" < /dev/null
-          copilot plugin install buddie@buddie < /dev/null | tee cop.txt
+          copilot plugin install buddie@buddie < /dev/null 2>&1 | tee cop.txt
           grep -q "installed successfully" cop.txt
 
   gate:
