@@ -25,6 +25,12 @@ The plugin brings four things:
 The hook runs through `hooks/run.sh`, which starts the first of `python3`, `python` and `py -3` that is Python 3.11+,
 so it works on Linux, macOS and Windows (Claude Code runs hooks there in Git Bash).
 
+The MCP server is started by Claude Code itself, with the plugin's **Python command** setting (`python3` by
+default). Python from python.org on Windows has `python` and `py` but no `python3`: set the option to `python` in
+`/config` (or `/plugin configure buddie@buddie`) and restart Claude Code. On Windows, the hook checks this at session
+start and, when the command does not start Python 3.11+, tells you once per session which one does. The option is
+yours alone: Claude Code reads plugin options from your user settings and managed settings, never from a project's.
+
 Optional setting: a GitHub token for `pr:`/`ci:` anchors (the plugin asks for it and stores it as a secret; it is
 sent only to api.github.com, or to the GitHub API an administrator's protected policy names: never to one the
 environment names). Without it GitHub allows 60 lookups an hour and private repos can't be checked.

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Windows without `python3`:** the Claude Code plugin's MCP server starts with a new setting, *Python command*
+  (`python3` by default). Python from python.org on Windows has no `python3`, so the tools did not start there; set
+  it to `python` in `/config`. On Windows the hook says so at session start when the command does not work.
 - Fix: a check started in a directory that holds one the user may not enter (`/tmp` with `systemd-private-*`)
   failed as a whole with PermissionError while looking for repositories; such a directory is now skipped.
 - **One plugin for four clients.** The release's plugin, and so `plugin-stable`, now holds the manifests of Claude

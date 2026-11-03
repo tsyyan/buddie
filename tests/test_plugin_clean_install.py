@@ -29,7 +29,8 @@ def test_git_source_plugin_runs_mcp_and_hook_without_credentials(tmp_path):
     assert manifest["userConfig"]["github_token"]["required"] is False
     server = json.loads((installed / ".mcp.json").read_text(encoding="utf-8"))["mcpServers"]["buddie"]
     # Resolve the declared interpreter to this test's Python, as an installation's PATH would. Use its real args.
-    assert server["command"] == "python3"
+    assert server["command"] == "${user_config.python_command}"
+    assert manifest["userConfig"]["python_command"]["default"] == "python3"
     args = [a.replace("${CLAUDE_PLUGIN_ROOT}", str(installed)) for a in server["args"]]
     messages = [
         {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-06-18"}},

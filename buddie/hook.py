@@ -213,14 +213,52 @@ def beat(event: dict, **extra) -> None:
          **extra})
 
 
+def python_hint(platform: str | None = None) -> str | None:
+    """On Windows, a line for the person when the plugin's "Python command" (python3 by default) does not start
+    Python 3.11+: Python from python.org has python and py but no python3, so Claude Code cannot start the MCP
+    server, while this hook runs (hooks/run.sh falls back to python and py). None elsewhere, and when it works."""
+    if (platform or sys.platform) != "win32" or not os.environ.get("CLAUDE_PLUGIN_ROOT"):
+        return None
+    import shutil
+    import subprocess
+
+    def works(command: str) -> bool:
+        path = shutil.which(command)
+        if not path:
+            return False
+        try:
+            return subprocess.run([path, "-c", "import sys; sys.exit(sys.version_info < (3, 11))"],
+                                  stdin=subprocess.DEVNULL, capture_output=True, timeout=15).returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            return False
+
+    chosen = (os.environ.get("CLAUDE_PLUGIN_OPTION_PYTHON_COMMAND") or "python3").strip()
+    if works(chosen):
+        return None
+    better = next((c for c in ("python", "py") if c != chosen and works(c)), None)
+    advice = (f"set buddie's \"Python command\" to `{better}` in /config and restart Claude Code" if better
+              else "install Python 3.11 or newer, or set buddie's \"Python command\" in /config to one that starts it")
+    return f"buddie: its MCP tools cannot start, because `{chosen}` does not start Python 3.11+ here; {advice}."
+
+
 def session_start(event: dict, out=None) -> int:
     from buddie import promises
     from buddie.journal import entries, lessons
     beat(event, source=event.get("source"), exit=0)
+    context = []
     if os.environ.get("BUDDIE_LESSONS", "1") != "0":
         if text := lessons(entries(journal_paths()), skip_session=event.get("session_id")):
-            print(text, file=out or sys.stdout)
+            context.append(text)
     if text := promises.session_start(event):
+        context.append(text)
+    if hint := python_hint():
+        # stdout is either plain context or one JSON object: with a line for the person, the context goes inside it
+        reply = {"systemMessage": hint}
+        if context:
+            reply["hookSpecificOutput"] = {"hookEventName": "SessionStart", "additionalContext": "\n".join(context)}
+        print(json.dumps(reply, ensure_ascii=False), file=out or sys.stdout)
+        return 0
+    for text in context:
         print(text, file=out or sys.stdout)
     return 0
 
