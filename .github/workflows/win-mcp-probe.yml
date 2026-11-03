@@ -24,7 +24,12 @@ jobs:
       - name: probe
         shell: pwsh
         run: |
-          $py = Split-Path (Get-Command python).Source
+          # a python.org-like install: python.exe and py.exe, no python3.exe (setup-python adds one; drop it in a copy)
+          $src = Split-Path (Get-Command python).Source
+          $py = Join-Path $env:RUNNER_TEMP "py312"
+          Copy-Item -Recurse $src $py
+          Remove-Item (Join-Path $py "python3*.exe")
+          "copy has: $((Get-ChildItem $py -Filter 'python*.exe').Name -join ', ')"
           $node = Split-Path (Get-Command node).Source
           $npm = Split-Path (Get-Command claude).Source
           $root = (Get-Location).Path -replace '\\','/'
@@ -36,7 +41,7 @@ jobs:
             "sh"       = @{ command = "sh"; args = @("$root/hooks/run.sh", "serve") }
             "bash"     = @{ command = "bash"; args = @("$root/hooks/run.sh", "serve") }
             "py"       = @{ command = "py"; args = @("-3", "-I", "$root/run.py", "serve") }
-            "cmd-chain"= @{ command = "cmd"; args = @("/d", "/c", "python3 -I `"$root/run.py`" serve 2>NUL || python -I `"$root/run.py`" serve") }
+            "cmd-chain"= @{ command = "cmd"; args = @("/d", "/s", "/c", "python3 -I $root/run.py serve 2>NUL || python -I $root/run.py serve") }
           }
           foreach ($pathKind in @("desktop", "runner")) {
             foreach ($name in $cases.Keys) {
