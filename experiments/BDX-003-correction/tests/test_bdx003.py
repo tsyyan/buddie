@@ -272,6 +272,39 @@ class RateLimit(unittest.TestCase):
             with self.assertRaises(run.Stop):
                 c.chat([{"role": "user", "content": "x"}], None)
 
+    def test_a_short_429_is_waited_out_and_the_same_request_sent_again(self):
+        """The 429's body once overwrote the request's, so the retry failed with 'bytes is not JSON serializable'
+        and was recorded as a failed run (found in BDX-004, whose client is a copy)."""
+        import io
+        import urllib.error
+        from unittest import mock
+
+        class Reply(io.BytesIO):
+            status, headers = 200, {"Content-Type": "application/json"}
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+        sent = []
+
+        def urlopen(req, timeout):
+            sent.append(json.loads(req.data))
+            if len(sent) == 1:
+                raise urllib.error.HTTPError("u", 429, "Too Many Requests", {"Retry-After": "1"},
+                                             io.BytesIO(b'{"error": {"message": "tokens per minute"}}'))
+            return Reply(json.dumps({"choices": [{"message": {"content": "hi"}}], "usage": {}}).encode())
+
+        with mock.patch.dict("os.environ", {"GROQ_API_KEY": "k"}), \
+                mock.patch("urllib.request.urlopen", urlopen), mock.patch("time.sleep"):
+            c = run.Client("groq", "m", 6000, 10, 300, None)
+            msg, _ = c.chat([{"role": "user", "content": "x"}], None)
+        self.assertEqual(msg["content"], "hi")
+        self.assertEqual(len(sent), 2)
+        self.assertEqual(sent[0], sent[1])
+
 
 class PoolMode(unittest.TestCase):
     def test_arms_with_the_endpoint_pool(self):

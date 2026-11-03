@@ -223,11 +223,11 @@ class Client:
             except urllib.error.HTTPError as e:
                 after = float(e.headers.get("Retry-After") or 0) or min(120.0, 5 * 2 ** attempt)
                 if e.code == 429:
-                    body = e.read()[:300]
+                    said = e.read()[:300]  # not `body`: that is the request, sent again after the wait
                     # a quota or rate limit is the provider's, never the model's: it stops the provider (the unit
                     # waits for it), it is never recorded as a failed run
-                    if after > self.max_wait or b"quota" in body.lower() or attempt >= 5:
-                        raise Stop(f"rate limit (HTTP 429): {body[:160]!r}") from e
+                    if after > self.max_wait or b"quota" in said.lower() or attempt >= 5:
+                        raise Stop(f"rate limit (HTTP 429): {said[:160]!r}") from e
                     time.sleep(after)
                     continue
                 if e.code == 402:  # the account's balance: the provider's, never the model's (a Stop, not a failed run)
