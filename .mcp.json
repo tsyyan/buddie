@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "buddie": {
-      "command": "python3",
+      "command": "${user_config.python_command}",
       "args": [
         "${CLAUDE_PLUGIN_ROOT}/run.py",
         "serve"

@@ -37,6 +37,13 @@
       "description": "On: run: anchors are checked against the commands this session ran. Off: the hook never opens the session log; the final answer comes from the Stop event and run: anchors are reported as unchecked.",
       "default": true,
       "required": false
+    },
+    "python_command": {
+      "type": "string",
+      "title": "Python command",
+      "description": "The command that starts Python 3.11 or newer for buddie's MCP tools. python3 works on macOS, Linux and Microsoft Store Python; with Python from python.org on Windows set it to python (or py).",
+      "default": "python3",
+      "required": false
     }
   }
 }
