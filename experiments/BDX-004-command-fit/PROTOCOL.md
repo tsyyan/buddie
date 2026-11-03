@@ -317,3 +317,11 @@ pilot criterion, design and run settings remain unchanged. Neither PR is merged 
   cold `pwsh` missed the parser's 8 s timeout, before any answer): D answered 169 of 192 units; the owner's rule for
   provider failures (run again once) is applied to D's failed rows only. D before the rerun: D - B BROKEN -0.089
   [-0.161, -0.018] (n 168), D - B OK -0.018 [-0.089, 0.054], D - A BROKEN -0.228 [-0.311, -0.144].
+- 2026-11-03, a correction of fact, no change of design (proposed; the owner's ok pending): the rows recorded as "a
+  provider's error" in the entries above are all `TypeError: Object of type bytes is not JSON serializable`, raised
+  by `client.py` itself: on a 429 with a short `Retry-After` it overwrote the request body with the error body and
+  sent that, so the retry crashed and the unit was written as a failed run (runs 41366094586, 41428935062,
+  41491361431, 41544960710). The cause is still the provider's rate limit and no model answer was produced, so the
+  rule "run again once" applied as intended. Fixed with a test; the measurement is unchanged. After D's rerun: D - B
+  BROKEN -0.093 [-0.165, -0.022] (n 182), D - B OK 0.000 [-0.066, 0.066]. 22 units remain without an answer
+  (A 2, B 3, C 9, D 8); running them once more with the fixed client is the owner's decision.
