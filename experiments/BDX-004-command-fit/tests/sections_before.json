@@ -1,0 +1,2885 @@
+{
+  "commit": "b036dd5",
+  "answers": 107,
+  "counts": {
+    "FITS": 73,
+    "WONT_RUN": 116,
+    "INSTALLS": 23,
+    "UNKNOWN": 25
+  },
+  "commands": 237,
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  },
+  "rows": [
+    {
+      "id": "01-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "01-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "python3 not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "01-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "02-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python --version",
+          "shell": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "02-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "py -3.12 --version",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "py not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "02-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "03-fitting",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": [
+        {
+          "text": "system_profiler SPDisplaysDataType",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "03-broken",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": [
+        {
+          "text": "nvidia-smi",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_os",
+          "detail": "NVIDIA/CUDA tools are not applicable on this platform"
+        }
+      ]
+    },
+    {
+      "id": "03-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": []
+    },
+    {
+      "id": "04-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "04-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "conda create -n project python=3.12",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "04-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": []
+    },
+    {
+      "id": "05-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python3 --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "05-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "conda --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "conda not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "05-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "06-fitting",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu122",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "06-broken",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": [
+        {
+          "text": "python3 -m pip install torch --index-url https://download.pytorch.org/whl/cu124",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "version_mismatch",
+          "detail": "wheel CUDA 12.4 exceeds driver CUDA 12.2"
+        }
+      ]
+    },
+    {
+      "id": "06-question",
+      "profile": "wsl-ubuntu",
+      "task": "pytorch-gpu",
+      "commands": []
+    },
+    {
+      "id": "07-fitting",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": [
+        {
+          "text": "podman --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "07-broken",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": [
+        {
+          "text": "docker --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "docker not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "07-question",
+      "profile": "fedora40",
+      "task": "container-version",
+      "commands": []
+    },
+    {
+      "id": "08-fitting",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "08-broken",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "sh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "08-question",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "09-fitting",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "set APP_MODE=development",
+          "shell": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "09-broken",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "09-question",
+      "profile": "win11-cmd-nogpu",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "10-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": [
+        {
+          "text": "curl.exe -o data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "10-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": [
+        {
+          "text": "wget -O data.txt https://example.org/data.txt",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "10-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "download-file",
+      "commands": []
+    },
+    {
+      "id": "11-fitting",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "11-broken",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        }
+      ]
+    },
+    {
+      "id": "11-question",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": []
+    },
+    {
+      "id": "12-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": [
+        {
+          "text": "tar -czf data.tar.gz data",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "12-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": [
+        {
+          "text": "wget --help",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "wget not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "12-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "archive-create",
+      "commands": []
+    },
+    {
+      "id": "13-fitting",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": [
+        {
+          "text": "sudo systemctl restart ssh",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "13-broken",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": [
+        {
+          "text": "systemctl restart ssh",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        }
+      ]
+    },
+    {
+      "id": "13-question",
+      "profile": "ubuntu2404-nvidia",
+      "task": "service-restart",
+      "commands": []
+    },
+    {
+      "id": "14-fitting",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "14-broken",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "14-question",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": []
+    },
+    {
+      "id": "15-fitting",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "15-broken",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "15-question",
+      "profile": "macos-arm",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "16-fitting",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "$env:APP_MODE=\"development\"",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "16-broken",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "16-question",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": []
+    },
+    {
+      "id": "bash-for-powershell",
+      "profile": "win11-pwsh-nvidia",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        }
+      ]
+    },
+    {
+      "id": "bash-for-ash",
+      "profile": "alpine-container",
+      "task": "session-variable",
+      "commands": [
+        {
+          "text": "export APP_MODE=development",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "missing-venv-module",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "Python venv module unavailable"
+        }
+      ]
+    },
+    {
+      "id": "explanation-only",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": []
+    },
+    {
+      "id": "not-environment-question",
+      "profile": "macos-arm",
+      "task": "gpu-check",
+      "commands": []
+    },
+    {
+      "id": "unknown-flags",
+      "profile": "win11-cmd-nogpu",
+      "task": "python-version",
+      "commands": [
+        {
+          "text": "python --imaginary",
+          "shell": "cmd",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "installer-not-elevated",
+      "profile": "win11-cmd-nogpu",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "choco install ffmpeg",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        }
+      ]
+    },
+    {
+      "id": "bash-on-macos",
+      "profile": "macos-arm",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls -la",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "bash-on-alpine",
+      "profile": "alpine-container",
+      "task": "make-directory",
+      "commands": [
+        {
+          "text": "mkdir -p output",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "alpine-double-brackets",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "[[ -d output ]]",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "alpine-array",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "items=(one two)",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "explicit cross-shell syntax"
+        }
+      ]
+    },
+    {
+      "id": "powershell-on-cmd",
+      "profile": "win11-cmd-nogpu",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "powershell is on this machine; the task has no requirements for it"
+        }
+      ]
+    },
+    {
+      "id": "list-posix",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls && mkdir output; rm -f temp.txt",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "mkdir output",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "rm -f temp.txt",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "list-powershell",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem; Get-Location",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "Get-ChildItem",
+              "shell": "powershell",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "Get-Location",
+              "shell": "powershell",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "venv-and-source",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv &&\nsource .venv/bin/activate",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "venv-and-dot",
+      "profile": "alpine-container",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv; . .venv/bin/activate",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": ". .venv/bin/activate",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "venv-source-zsh",
+      "profile": "macos-arm",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv && source .venv/bin/activate",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "zsh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "zsh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "list-broken-and-unknown",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls; python3 --imaginary; conda --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "python3 --imaginary",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "no complete task rule for this command form"
+            },
+            {
+              "text": "conda --version",
+              "shell": "bash",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "conda not found on the scenario PATH"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-if",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "if [ -d output ]; then ls; else mkdir output; fi",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "[ -d output ];",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "[ -d output ]",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "ls;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "mkdir output;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "mkdir output",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-for",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "for item in one two; do ls && mkdir output; done",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls&&mkdir output;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                },
+                {
+                  "text": "mkdir output",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-while",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "while false; do ls; done",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "false;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "false",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "ls;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-case",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "case value in value) ls ;; other) conda --version ;; esac",
+          "shell": "sh",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "conda --version",
+              "shell": "sh",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "conda --version",
+                  "shell": "sh",
+                  "status": "WONT_RUN",
+                  "reason": "program_missing",
+                  "detail": "conda not found on the scenario PATH"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-unknown",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "if true; then python3 --imaginary; fi",
+          "shell": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "true;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "true",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "python3 --imaginary;",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "python3 --imaginary",
+                  "shell": "sh",
+                  "status": "UNKNOWN",
+                  "reason": null,
+                  "detail": "no complete task rule for this command form"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-dynamic-pattern",
+      "profile": "alpine-container",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "case value in `conda --version`) ls ;; esac",
+          "shell": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "ls",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "ls",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "case value in `conda --version`) ls ;; esac",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "dynamic header or unmodeled empty structure"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "venv-removed",
+      "profile": "ubuntu2404-nvidia",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv; rm -f .venv/bin/activate; source .venv/bin/activate",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "rm -f .venv/bin/activate",
+              "shell": "bash",
+              "status": "FITS",
+              "reason": null,
+              "detail": "explicit task rule, program and syntax checks satisfied"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "the profile cannot establish that the activation script exists"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "multiline-literal",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "echo \"first\nconda --version\nlast\"",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "venv-failed-before-source",
+      "profile": "ubuntu2204-nosudo",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "python3 -m venv .venv && source .venv/bin/activate",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "python3 -m venv .venv",
+              "shell": "bash",
+              "status": "WONT_RUN",
+              "reason": "program_missing",
+              "detail": "Python venv module unavailable"
+            },
+            {
+              "text": "source .venv/bin/activate",
+              "shell": "bash",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "the profile cannot establish that the activation script exists"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-branch-state",
+      "profile": "alpine-container",
+      "task": "python-venv",
+      "commands": [
+        {
+          "text": "if true; then python3 -m venv .venv; . .venv/bin/activate; else . .venv/bin/activate; fi",
+          "shell": "sh",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "worst verdict of constituent commands",
+          "commands": [
+            {
+              "text": "true;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "true",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": "python3 -m venv .venv;. .venv/bin/activate;",
+              "shell": "sh",
+              "status": "FITS",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": "python3 -m venv .venv",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                },
+                {
+                  "text": ". .venv/bin/activate",
+                  "shell": "sh",
+                  "status": "FITS",
+                  "reason": null,
+                  "detail": "explicit task rule, program and syntax checks satisfied"
+                }
+              ]
+            },
+            {
+              "text": ". .venv/bin/activate;",
+              "shell": "sh",
+              "status": "UNKNOWN",
+              "reason": null,
+              "detail": "worst verdict of constituent commands",
+              "commands": [
+                {
+                  "text": ". .venv/bin/activate",
+                  "shell": "sh",
+                  "status": "UNKNOWN",
+                  "reason": null,
+                  "detail": "the profile cannot establish that the activation script exists"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "git-four-headings:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "git-four-headings:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        }
+      ]
+    },
+    {
+      "id": "git-four-headings:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "dnf not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "git-four-headings:fedora40",
+      "profile": "fedora40",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apt not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "ffmpeg-bold:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "brew install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Gyan.FFmpeg",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "ffmpeg-bold:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "brew install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "winget install Gyan.FFmpeg",
+          "shell": "powershell",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        }
+      ]
+    },
+    {
+      "id": "ffmpeg-bold:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "brew install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "winget install Gyan.FFmpeg",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "dnf not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "ffmpeg-bold:fedora40",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "brew install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "winget install Gyan.FFmpeg",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apt not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "node20-colon:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-node20",
+      "commands": [
+        {
+          "text": "brew install node@20",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "winget install OpenJS.NodeJS --version 20.18.0",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo apt install nodejs=20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "sudo dnf install nodejs-20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "node20-colon:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-node20",
+      "commands": [
+        {
+          "text": "brew install node@20",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "winget install OpenJS.NodeJS --version 20.18.0",
+          "shell": "powershell",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "powershell",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "sudo apt install nodejs=20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "sudo dnf install nodejs-20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        }
+      ]
+    },
+    {
+      "id": "node20-colon:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-node20",
+      "commands": [
+        {
+          "text": "brew install node@20",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "winget install OpenJS.NodeJS --version 20.18.0",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install nodejs=20.18.0",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "sudo dnf install nodejs-20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "dnf not found on the scenario PATH"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "node20-colon:fedora40",
+      "profile": "fedora40",
+      "task": "install-node20",
+      "commands": [
+        {
+          "text": "brew install node@20",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "winget install OpenJS.NodeJS --version 20.18.0",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "node -v",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install nodejs=20.18.0",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apt not found on the scenario PATH"
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "node not found on the scenario PATH"
+        },
+        {
+          "text": "sudo dnf install nodejs-20.18.0",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "node"
+          ]
+        },
+        {
+          "text": "node -v",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "nested-linux-alpine:alpine-container",
+      "profile": "alpine-container",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "apk add ffmpeg",
+          "shell": "sh",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "brew install ffmpeg",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "nested-linux-alpine:fedora40",
+      "profile": "fedora40",
+      "task": "install-ffmpeg",
+      "commands": [
+        {
+          "text": "sudo apt install ffmpeg",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apt not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "ffmpeg not found on the scenario PATH"
+        },
+        {
+          "text": "sudo dnf install ffmpeg",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "ffmpeg"
+          ]
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "apk add ffmpeg",
+          "shell": "sh",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apk not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "sh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "brew install ffmpeg",
+          "shell": "zsh",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "ffmpeg -version",
+          "shell": "zsh",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "wsl-only-label:wsl-ubuntu",
+      "profile": "wsl-ubuntu",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "dnf not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "wsl-only-label:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "dnf not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "manager-labels:ubuntu2204-nosudo",
+      "profile": "ubuntu2204-nosudo",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "requires elevation or available sudo"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "manager-labels:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "apt install git",
+          "shell": "bash",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "shell-alternatives:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "dir",
+          "shell": "cmd",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "cmd is on this machine; the task has no requirements for it"
+        }
+      ]
+    },
+    {
+      "id": "shell-alternatives:win11-cmd-nogpu",
+      "profile": "win11-cmd-nogpu",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "powershell is on this machine; the task has no requirements for it"
+        },
+        {
+          "text": "dir",
+          "shell": "cmd",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "shell-alternatives:macos-arm",
+      "profile": "macos-arm",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "dir",
+          "shell": "cmd",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "cmd block for a posix scenario"
+        }
+      ]
+    },
+    {
+      "id": "block-tag-alternatives:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        }
+      ]
+    },
+    {
+      "id": "block-tag-alternatives:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "list-files",
+      "commands": [
+        {
+          "text": "ls",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "posix block for a powershell scenario"
+        },
+        {
+          "text": "Get-ChildItem",
+          "shell": "powershell",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "one-system-subheadings:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "one-system-subheadings:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        }
+      ]
+    },
+    {
+      "id": "no-alpine-section:alpine-container",
+      "profile": "alpine-container",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "winget install Git.Git",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "powershell",
+          "status": "WONT_RUN",
+          "reason": "wrong_shell_syntax",
+          "detail": "powershell block for a posix scenario"
+        },
+        {
+          "text": "sudo dnf install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "bash",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "inline-platforms:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "unknown",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "/opt/homebrew/bin/git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "inline-platforms:win11-pwsh-nvidia",
+      "profile": "win11-pwsh-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        },
+        {
+          "text": "git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "/opt/homebrew/bin/git",
+          "shell": "unknown",
+          "status": "UNKNOWN",
+          "reason": null,
+          "detail": "no complete task rule for this command form"
+        },
+        {
+          "text": "winget install Git.Git",
+          "shell": "unknown",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "shared-verification:macos-arm",
+      "profile": "macos-arm",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "needs_admin",
+          "detail": "sudo unavailable in this scenario"
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "shared-verification:ubuntu2404-nvidia",
+      "profile": "ubuntu2404-nvidia",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "INSTALLS",
+          "reason": null,
+          "detail": "recognized installation; subsequent commands assume success",
+          "installs": [
+            "git"
+          ]
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    },
+    {
+      "id": "shared-verification:fedora40",
+      "profile": "fedora40",
+      "task": "install-git",
+      "commands": [
+        {
+          "text": "brew install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "brew not found on the scenario PATH"
+        },
+        {
+          "text": "sudo apt install git",
+          "shell": "bash",
+          "status": "WONT_RUN",
+          "reason": "program_missing",
+          "detail": "apt not found on the scenario PATH"
+        },
+        {
+          "text": "git --version",
+          "shell": "unknown",
+          "status": "FITS",
+          "reason": null,
+          "detail": "explicit task rule, program and syntax checks satisfied"
+        }
+      ]
+    }
+  ]
+}

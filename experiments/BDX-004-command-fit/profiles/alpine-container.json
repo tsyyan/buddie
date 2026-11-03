@@ -1,0 +1,1185 @@
+{
+  "format": "https://github.com/tsyyan/buddie#environment-diagnostics-v1",
+  "collector": {
+    "buddie": "2.0.7",
+    "policy": "absent",
+    "platform": "linux"
+  },
+  "request": {
+    "id": "alpinecontainer",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "system.permissions",
+      "hardware.cpu",
+      "hardware.memory",
+      "hardware.gpu",
+      "software.python",
+      "software.runtimes",
+      "software.package_managers",
+      "software.gpu_stack",
+      "software.tools",
+      "software.containers",
+      "development.containers"
+    ],
+    "rejected": [],
+    "tools": [
+      "git",
+      "curl",
+      "wget",
+      "make",
+      "cmake",
+      "ninja",
+      "gcc",
+      "clang",
+      "gh",
+      "jq",
+      "ffmpeg",
+      "ollama",
+      "kubectl",
+      "helm",
+      "terraform",
+      "openssl",
+      "sqlite3",
+      "nvcc",
+      "rustup",
+      "git-lfs",
+      "pkg-config",
+      "gpg",
+      "tar"
+    ],
+    "rejected_tools": [],
+    "path_given": false
+  },
+  "authorization": {
+    "grants": "active",
+    "policy": "absent",
+    "effective": [
+      "hardware.cpu",
+      "hardware.gpu",
+      "hardware.memory",
+      "software.containers",
+      "software.gpu_stack",
+      "software.package_managers",
+      "software.python",
+      "software.runtimes",
+      "software.tools",
+      "system.os",
+      "system.permissions",
+      "system.shell"
+    ]
+  },
+  "started_at": "2026-11-01T00:00:00Z",
+  "finished_at": "2026-11-01T00:00:00Z",
+  "observations_concern": "runtime",
+  "categories": {
+    "system.os": {
+      "status": "collected",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "platform",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        },
+        {
+          "method": "os_release",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        },
+        {
+          "method": "runtime_markers",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "family": {
+          "status": "observed",
+          "value": "Linux",
+          "basis": "os_interface",
+          "method": "platform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "kernel": {
+          "status": "observed",
+          "value": "6.8.0",
+          "basis": "os_interface",
+          "method": "platform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "architecture": {
+          "status": "observed",
+          "value": "x86_64",
+          "basis": "os_interface",
+          "method": "platform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "name": {
+          "status": "observed",
+          "value": "Alpine Linux",
+          "basis": "os_interface",
+          "method": "os_release",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "version": {
+          "status": "observed",
+          "value": "3.20",
+          "basis": "os_interface",
+          "method": "os_release",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "runtime_context": {
+          "status": "observed",
+          "value": "container",
+          "basis": "os_interface",
+          "method": "runtime_markers",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "distribution_id": {
+          "status": "observed",
+          "value": "alpine",
+          "basis": "os_interface",
+          "method": "os_release",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "container_engine": {
+          "status": "observed",
+          "value": "docker",
+          "basis": "os_interface",
+          "method": "runtime_markers",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "system.shell": {
+      "status": "partial",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "shell_bash",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "shell_zsh",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "shell_fish",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "shell_pwsh",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "login_shell",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "bash": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "shell_bash",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "zsh": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "shell_zsh",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "fish": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "shell_fish",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "pwsh": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "shell_pwsh",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "default": {
+          "status": "observed",
+          "value": "ash",
+          "basis": "os_interface",
+          "method": "login_shell",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "system.permissions": {
+      "status": "collected",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "privilege",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "elevated": {
+          "status": "observed",
+          "value": true,
+          "basis": "os_interface",
+          "method": "privilege",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "scope": {
+          "status": "observed",
+          "value": "this process: a container's or WSL guest's root is not the host's",
+          "basis": "buddie",
+          "method": "privilege",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "hardware.cpu": {
+      "status": "collected",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "platform",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        },
+        {
+          "method": "cpuinfo",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "architecture": {
+          "status": "observed",
+          "value": "x86_64",
+          "basis": "os_interface",
+          "method": "platform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "logical_cores": {
+          "status": "observed",
+          "value": 8,
+          "basis": "os_interface",
+          "method": "platform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "model": {
+          "status": "observed",
+          "value": "Synthetic x86 CPU",
+          "basis": "os_interface",
+          "method": "cpuinfo",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "hardware.memory": {
+      "status": "collected",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "meminfo",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        },
+        {
+          "method": "cgroup_memory",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "total_bytes": {
+          "status": "observed",
+          "value": 17179869184,
+          "basis": "os_interface",
+          "method": "meminfo",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "available_bytes": {
+          "status": "observed",
+          "value": 8589934592,
+          "basis": "os_interface",
+          "method": "meminfo",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "cgroup_limit_bytes": {
+          "status": "observed",
+          "value": 2147483648,
+          "basis": "os_interface",
+          "method": "cgroup_memory",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "hardware.gpu": {
+      "status": "unavailable",
+      "reason": "nothing_observed",
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "sysfs_drm",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "adapters": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "sysfs_drm",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "none_found",
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.python": {
+      "status": "collected",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "own_interpreter",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        },
+        {
+          "method": "python_on_path",
+          "why": "synthetic_collector_attempt",
+          "outcome": "ok"
+        }
+      ],
+      "observations": {
+        "buddie_runtime": {
+          "status": "observed",
+          "value": {
+            "version": "3.12.7",
+            "implementation": "cpython",
+            "pip": true,
+            "venv": true
+          },
+          "basis": "buddie",
+          "method": "own_interpreter",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "interpreters": {
+          "status": "observed",
+          "value": [
+            {
+              "found_via": "python3 on PATH",
+              "version": "3.12.7",
+              "implementation": "cpython",
+              "bits": 64,
+              "pip": true,
+              "venv": true,
+              "ensurepip": true
+            }
+          ],
+          "basis": "path_program",
+          "method": "python_on_path",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.runtimes": {
+      "status": "unavailable",
+      "reason": "nothing_observed",
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "runtime_node",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "runtime_java",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "runtime_dotnet_runtimes",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "runtime_dotnet_sdks",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "runtime_go",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "runtime_rustc",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        }
+      ],
+      "observations": {
+        "node": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_node",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "java": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_java",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "dotnet_runtimes": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_dotnet_runtimes",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "dotnet_sdks": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_dotnet_sdks",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "go": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_go",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "rustc": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "runtime_rustc",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.package_managers": {
+      "status": "partial",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "pm_uv",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_pipx",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_conda",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_npm",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_yarn",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_pnpm",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_cargo",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_brew",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_apt",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_dnf",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_pacman",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_zypper",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "pm_apk",
+          "why": "synthetic_collector_attempt",
+          "outcome": "ok"
+        }
+      ],
+      "observations": {
+        "uv": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_uv",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "pipx": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_pipx",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "conda": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_conda",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "npm": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_npm",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "yarn": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_yarn",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "pnpm": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_pnpm",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "cargo": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_cargo",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "brew": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_brew",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "apt": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_apt",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "dnf": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_dnf",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "pacman": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_pacman",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "zypper": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "pm_zypper",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "apk": {
+          "status": "observed",
+          "value": "1.0.0",
+          "basis": "path_program",
+          "method": "pm_apk",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.gpu_stack": {
+      "status": "unavailable",
+      "reason": "nothing_observed",
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "nvidia_smi_query",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "nvcc",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "rocm_version",
+          "why": "synthetic_collector_attempt",
+          "outcome": "used"
+        }
+      ],
+      "observations": {
+        "nvidia_driver": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "nvidia_smi_query",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found",
+          "concerns": "runtime"
+        },
+        "cuda_driver": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "nvidia_smi_query",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found",
+          "concerns": "runtime"
+        },
+        "cuda_toolkit": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "nvcc",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "rocm": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "rocm_version",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found",
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.tools": {
+      "status": "partial",
+      "reason": null,
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "tool:git",
+          "why": "synthetic_collector_attempt",
+          "outcome": "ok"
+        },
+        {
+          "method": "tool:curl",
+          "why": "synthetic_collector_attempt",
+          "outcome": "ok"
+        },
+        {
+          "method": "tool:wget",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:make",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:cmake",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:ninja",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:gcc",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:clang",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:gh",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:jq",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:ffmpeg",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:ollama",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:kubectl",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:helm",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:terraform",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:openssl",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:sqlite3",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:nvcc",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:rustup",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:git-lfs",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:pkg-config",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:gpg",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "tool:tar",
+          "why": "synthetic_collector_attempt",
+          "outcome": "ok"
+        }
+      ],
+      "observations": {
+        "git": {
+          "status": "observed",
+          "value": "2.47.0",
+          "basis": "path_program",
+          "method": "tool:git",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "curl": {
+          "status": "observed",
+          "value": "8.10.1",
+          "basis": "path_program",
+          "method": "tool:curl",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        },
+        "wget": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:wget",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "make": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:make",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "cmake": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:cmake",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "ninja": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:ninja",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "gcc": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:gcc",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "clang": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:clang",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "gh": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:gh",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "jq": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:jq",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "ffmpeg": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:ffmpeg",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "ollama": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:ollama",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "kubectl": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:kubectl",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "helm": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:helm",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "terraform": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:terraform",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "openssl": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:openssl",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "sqlite3": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:sqlite3",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "nvcc": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:nvcc",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "rustup": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:rustup",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "git-lfs": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:git-lfs",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "pkg-config": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:pkg-config",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "gpg": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "tool:gpg",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "tar": {
+          "status": "observed",
+          "value": "1.35",
+          "basis": "path_program",
+          "method": "tool:tar",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": null,
+          "concerns": "runtime"
+        }
+      }
+    },
+    "software.containers": {
+      "status": "unavailable",
+      "reason": "nothing_observed",
+      "tier": "baseline",
+      "methods": [
+        {
+          "method": "docker_client",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        },
+        {
+          "method": "podman_client",
+          "why": "synthetic_collector_attempt",
+          "outcome": "not_found"
+        }
+      ],
+      "observations": {
+        "docker_client": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "docker_client",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        },
+        "podman_client": {
+          "status": "unavailable",
+          "value": null,
+          "basis": null,
+          "method": "podman_client",
+          "observed_at": "2026-11-01T00:00:00Z",
+          "reason": "not_found_on_path",
+          "concerns": "runtime"
+        }
+      }
+    },
+    "development.containers": {
+      "status": "denied",
+      "reason": "not_granted",
+      "tier": "sensitive",
+      "methods": [],
+      "observations": {}
+    }
+  },
+  "supplied": {},
+  "limitations": [],
+  "scopes": {
+    "diagnostics": {
+      "governed_by": "grants_and_policy",
+      "applies_to": "categories"
+    },
+    "legacy_snapshot": {
+      "requested": false,
+      "collected": false,
+      "governed_by": null,
+      "note": null
+    }
+  },
+  "snapshot": null
+}

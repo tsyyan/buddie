@@ -1,0 +1,146 @@
+[
+  {
+    "id": "containers-win11-pwsh-nvidia-docker",
+    "profile": "win11-pwsh-nvidia",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "powershell",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-win11-pwsh-nvidia-podman",
+    "profile": "win11-pwsh-nvidia",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "powershell",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-win11-cmd-nogpu-docker",
+    "profile": "win11-cmd-nogpu",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "cmd",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-win11-cmd-nogpu-podman",
+    "profile": "win11-cmd-nogpu",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "cmd",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-macos-arm-docker",
+    "profile": "macos-arm",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "zsh",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-macos-arm-podman",
+    "profile": "macos-arm",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "zsh",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-ubuntu2404-nvidia-docker",
+    "profile": "ubuntu2404-nvidia",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-ubuntu2404-nvidia-podman",
+    "profile": "ubuntu2404-nvidia",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-ubuntu2204-nosudo-docker",
+    "profile": "ubuntu2204-nosudo",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-ubuntu2204-nosudo-podman",
+    "profile": "ubuntu2204-nosudo",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-wsl-ubuntu-docker",
+    "profile": "wsl-ubuntu",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-wsl-ubuntu-podman",
+    "profile": "wsl-ubuntu",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-fedora40-docker",
+    "profile": "fedora40",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "bash",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-fedora40-podman",
+    "profile": "fedora40",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "bash",
+    "expected_status": "FITS",
+    "expected_reason": null
+  },
+  {
+    "id": "containers-alpine-container-docker",
+    "profile": "alpine-container",
+    "task": "container-version",
+    "answer": "```\ndocker --version\n```",
+    "parser": "sh",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  },
+  {
+    "id": "containers-alpine-container-podman",
+    "profile": "alpine-container",
+    "task": "container-version",
+    "answer": "```\npodman --version\n```",
+    "parser": "sh",
+    "expected_status": "WONT_RUN",
+    "expected_reason": "program_missing"
+  }
+]

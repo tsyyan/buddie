@@ -1,0 +1,321 @@
+{
+  "labels": [
+    {
+      "id": "macos",
+      "pattern": "\\b(?:macos|mac\\s*os(?:\\s*x)?|os\\s*x)\\b",
+      "targets": {
+        "os": [
+          "darwin"
+        ]
+      }
+    },
+    {
+      "id": "windows",
+      "pattern": "\\bwindows\\b|\\bwin(?:10|11)\\b",
+      "targets": {
+        "os": [
+          "windows"
+        ]
+      }
+    },
+    {
+      "id": "linux",
+      "pattern": "\\blinux\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ]
+      }
+    },
+    {
+      "id": "debian",
+      "pattern": "\\bdebian\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "debian",
+          "ubuntu"
+        ],
+        "package_manager": [
+          "apt"
+        ]
+      }
+    },
+    {
+      "id": "ubuntu",
+      "pattern": "\\bubuntu\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "ubuntu"
+        ],
+        "package_manager": [
+          "apt"
+        ]
+      }
+    },
+    {
+      "id": "fedora",
+      "pattern": "\\bfedora\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "fedora"
+        ],
+        "package_manager": [
+          "dnf"
+        ]
+      }
+    },
+    {
+      "id": "alpine",
+      "pattern": "\\balpine\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "alpine"
+        ],
+        "package_manager": [
+          "apk"
+        ]
+      }
+    },
+    {
+      "id": "wsl",
+      "pattern": "\\bwsl(?:\\s*2)?\\b|windows subsystem for linux",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "runtime": [
+          "wsl"
+        ]
+      }
+    },
+    {
+      "id": "brew",
+      "pattern": "\\b(?:homebrew|brew)\\b",
+      "targets": {
+        "package_manager": [
+          "brew"
+        ]
+      }
+    },
+    {
+      "id": "winget",
+      "pattern": "\\bwinget\\b",
+      "targets": {
+        "os": [
+          "windows"
+        ],
+        "package_manager": [
+          "winget"
+        ]
+      }
+    },
+    {
+      "id": "choco",
+      "pattern": "\\b(?:choco|chocolatey)\\b",
+      "targets": {
+        "os": [
+          "windows"
+        ],
+        "package_manager": [
+          "choco"
+        ]
+      }
+    },
+    {
+      "id": "apt",
+      "pattern": "\\bapt(?:-get)?\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "package_manager": [
+          "apt"
+        ]
+      }
+    },
+    {
+      "id": "dnf",
+      "pattern": "\\bdnf\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "package_manager": [
+          "dnf"
+        ]
+      }
+    },
+    {
+      "id": "apk",
+      "pattern": "\\bapk\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "package_manager": [
+          "apk"
+        ]
+      }
+    },
+    {
+      "id": "powershell",
+      "pattern": "\\b(?:powershell|pwsh|ps1)\\b",
+      "targets": {
+        "shell": [
+          "powershell"
+        ]
+      }
+    },
+    {
+      "id": "cmd",
+      "pattern": "\\bcmd\\b|\\bcommand\\s+prompt\\b",
+      "targets": {
+        "shell": [
+          "cmd"
+        ]
+      }
+    },
+    {
+      "id": "posix-shell",
+      "pattern": "\\b(?:bash|zsh|sh|posix)\\b",
+      "targets": {
+        "shell": [
+          "posix"
+        ]
+      }
+    },
+    {
+      "id": "arch",
+      "pattern": "\\b(?:arch|manjaro)\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "distro": [
+          "arch",
+          "manjaro"
+        ],
+        "package_manager": [
+          "pacman"
+        ]
+      }
+    },
+    {
+      "id": "suse",
+      "pattern": "\\b(?:opensuse|suse|zypper)\\b",
+      "targets": {
+        "os": [
+          "linux"
+        ],
+        "package_manager": [
+          "zypper"
+        ]
+      }
+    },
+    {
+      "id": "git-bash",
+      "pattern": "\\bgit\\s*bash\\b|\\bmsys2\\b",
+      "targets": {
+        "observed_shell": [
+          "git_bash",
+          "git-bash",
+          "msys2"
+        ]
+      }
+    },
+    {
+      "id": "fish",
+      "pattern": "\\bfish\\b",
+      "targets": {
+        "observed_shell": [
+          "fish"
+        ]
+      }
+    },
+    {
+      "id": "csh",
+      "pattern": "\\b(?:csh|tcsh)\\b",
+      "targets": {
+        "observed_shell": [
+          "csh",
+          "tcsh"
+        ]
+      }
+    }
+  ],
+  "block_tags": {
+    "bash": {
+      "shell": [
+        "posix"
+      ]
+    },
+    "sh": {
+      "shell": [
+        "posix"
+      ]
+    },
+    "zsh": {
+      "shell": [
+        "posix"
+      ]
+    },
+    "powershell": {
+      "shell": [
+        "powershell"
+      ]
+    },
+    "pwsh": {
+      "shell": [
+        "powershell"
+      ]
+    },
+    "ps1": {
+      "shell": [
+        "powershell"
+      ]
+    },
+    "cmd": {
+      "shell": [
+        "cmd"
+      ]
+    },
+    "bat": {
+      "shell": [
+        "cmd"
+      ]
+    },
+    "shell": {
+      "shell": [
+        "posix"
+      ]
+    },
+    "console": {
+      "shell": [
+        "posix"
+      ]
+    },
+    "fish": {
+      "observed_shell": [
+        "fish"
+      ]
+    },
+    "csh": {
+      "observed_shell": [
+        "csh",
+        "tcsh"
+      ]
+    }
+  }
+}

@@ -1,0 +1,260 @@
+[
+  {
+    "id": "pilot4-provided-script",
+    "profile": "ubuntu2404-nvidia",
+    "task": "permissions",
+    "answer": "```\n./script.sh\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-unprovided-script",
+    "profile": "ubuntu2404-nvidia",
+    "task": "list-files",
+    "answer": "```\n./script.sh\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-placeholder-script",
+    "profile": "ubuntu2404-nvidia",
+    "task": "permissions",
+    "answer": "```\n/full/path/to/script.sh\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-chmod-script",
+    "profile": "ubuntu2404-nvidia",
+    "task": "permissions",
+    "answer": "```\nchmod +x /opt/tools/script.sh\n/opt/tools/script.sh\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS",
+      "FITS"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-touch-script",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "answer": "```\ntouch local.sh\n./local.sh\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "FITS",
+      "FITS"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-removed-script",
+    "profile": "ubuntu2404-nvidia",
+    "task": "permissions",
+    "answer": "```\nrm -f script.sh\n./script.sh\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS",
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null,
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-absolute-nvcc",
+    "profile": "ubuntu2404-nvidia",
+    "task": "cuda-toolkit",
+    "answer": "```\n/usr/local/cuda/bin/nvcc --version\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-windows-nvcc",
+    "profile": "win11-pwsh-nvidia",
+    "task": "cuda-toolkit",
+    "answer": "```\n& \"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.4\\bin\\nvcc.exe\" --version\n```",
+    "parser": "powershell",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "program_missing"
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-mac-nvcc",
+    "profile": "macos-arm",
+    "task": "cuda-toolkit",
+    "answer": "```\n/usr/local/cuda/bin/nvcc -V\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "wrong_os"
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-ubuntu-service",
+    "profile": "ubuntu2404-nvidia",
+    "task": "service-status",
+    "answer": "```\nservice ssh status\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-wsl-service",
+    "profile": "wsl-ubuntu",
+    "task": "service-status",
+    "answer": "```\nservice ssh status\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-wsl-ss",
+    "profile": "wsl-ubuntu",
+    "task": "port-process",
+    "answer": "```\nss -ltnp\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-ubuntu-nc",
+    "profile": "ubuntu2404-nvidia",
+    "task": "port-process",
+    "answer": "```\nnc -z localhost 8000\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-fedora-ncat",
+    "profile": "fedora40",
+    "task": "port-process",
+    "answer": "```\nncat -z localhost 8000\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-alpine-nc",
+    "profile": "alpine-container",
+    "task": "port-process",
+    "answer": "```\nnc -z localhost 8000\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "FITS"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-mac-service",
+    "profile": "macos-arm",
+    "task": "service-status",
+    "answer": "```\nservice ssh status\n```",
+    "parser": "zsh",
+    "expected_statuses": [
+      "UNKNOWN"
+    ],
+    "expected_reasons": [
+      null
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-posix-write-output",
+    "profile": "alpine-container",
+    "task": "list-files",
+    "answer": "```\nWrite-Output hello\n```",
+    "parser": "sh",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "wrong_shell_syntax"
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  },
+  {
+    "id": "pilot4-posix-get-item",
+    "profile": "ubuntu2404-nvidia",
+    "task": "list-files",
+    "answer": "```\nGet-Item -Path .\n```",
+    "parser": "bash",
+    "expected_statuses": [
+      "WONT_RUN"
+    ],
+    "expected_reasons": [
+      "wrong_shell_syntax"
+    ],
+    "provenance": "hand-written from the owner-provided pilot-4 forms; no new model call"
+  }
+]

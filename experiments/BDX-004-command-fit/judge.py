@@ -1,0 +1,439 @@
+"""Conservative, model-free command fit judge; no suggested command is executed."""
+import argparse
+import json
+from pathlib import Path
+import re
+import shlex
+
+from base_commands import rule as base_rule
+from facts import observation, program, python_facts, python_args, value, version
+from syntax import family, non_posix, syntax
+from shell_lists import split_list
+from venvs import invalidate as invalidate_venvs, parser_text, rule as venv_rule
+from control import has_control, parse as parse_control
+from sections import select as select_sections
+from tool import HERE, load_profile
+from installations import intent as install_intent, uncertain, pending
+from executables import normalize as normalize_executable, cmdlet, placeholder
+from file_proofs import seed as seed_files, known as known_file, provide as provide_file
+from containers import needs_daemon, default_target
+
+PROGRAM_PLATFORMS = json.loads((HERE / 'program_platforms.json').read_text(encoding='utf-8'))
+MANAGER_DISTROS = json.loads((HERE / 'package_manager_distros.json').read_text(encoding='utf-8'))
+
+
+def load_task(task):
+    if isinstance(task, dict):
+        return task
+    tasks = json.loads((HERE / 'tasks/tasks.json').read_text(encoding='utf-8'))
+    found = next((t for t in tasks if t['id'] == task), None)
+    if found is None:
+        raise ValueError('unknown task')
+    return found
+
+
+def wrong_syntax(text, shell, profile):
+    """Recognize cross-shell idioms even when the relevant parser is absent."""
+    if shell in ('powershell', 'cmd') and re.match(r'^(?:export |source |\.[ ]+)', text):
+        return True
+    if shell != 'powershell' and re.match(r'\$env:', text, re.I):
+        return True
+    if shell in ('bash', 'sh', 'zsh') and re.match(r'set \w+=', text, re.I):
+        return True
+    if shell == 'sh' and non_posix(text):
+        return True
+    # Windows PowerShell 5.1 cannot parse PowerShell 7 pipeline-chain operators.
+    if shell == 'powershell' and value(profile, 'system.shell', 'pwsh') is None and ('&&' in text or '||' in text):
+        return True
+    return False
+
+
+def simple(text):
+    """Reject compounds, redirection and expansions before applying positive rules."""
+    quote = None
+    for char in text:
+        if quote:
+            if char == quote:
+                quote = None
+        elif char in ('"', "'"):
+            quote = char
+        elif char in ';&|<>`(){}':
+            return False
+    return quote is None and '$(' not in text
+
+
+def judge_simple(command, profile, req, installed, venvs):
+    text, hint, target = command['text'], command['shell'], req['shell']
+
+    def verdict(status, reason=None, detail=None, **extra):
+        return dict(command, status=status, reason=reason, detail=detail, **extra)
+
+    try:
+        invocation = re.sub(r'^\s*&(?!&)\s*', '', text) if target == 'powershell' else text
+        tokens = shlex.split(invocation, posix=target in ('bash', 'sh', 'zsh'))
+    except ValueError:
+        # shlex does not implement PowerShell backtick or cmd quotation rules.
+        if syntax(target, text) is False:
+            return verdict('WONT_RUN', 'wrong_shell_syntax', 'target shell parser rejected the command')
+        return verdict('UNKNOWN', detail='quotation cannot be modeled by this tokenizer')
+    if not tokens:
+        return verdict('UNKNOWN', detail='empty command')
+    elevated = value(profile, 'system.permissions', 'elevated')
+    platform = profile['document']['collector']['platform']
+    sudo = tokens[0] == 'sudo'
+    sudo_missing = False
+    if sudo:
+        sudo_missing = program(profile, req, 'sudo', installed)[0] is False
+        tokens = tokens[1:]
+        text = re.sub(r'^sudo\s+', '', text)
+        if not tokens or tokens[0].startswith('-'):
+            return verdict('UNKNOWN', detail='sudo options are not modeled')
+    name, text, executable_path = normalize_executable(text, target)
+    tokens[0] = name
+    if executable_path and placeholder(executable_path):
+        return verdict('UNKNOWN', detail='placeholder executable path is not evidence of a file')
+    if name.lower().startswith('$env:'):
+        name = '$env:APP_MODE'
+    relevant = [r for r in req['commands'] if r['program'].lower() == name.lower()]
+    if name in PROGRAM_PLATFORMS and platform not in PROGRAM_PLATFORMS[name]:
+        return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
+    distro = value(profile, 'system.os', 'distribution_id')
+    observed_manager = observation(profile, 'software.package_managers', name).get('status') == 'observed'
+    if name in MANAGER_DISTROS and (platform != 'linux' or distro not in MANAGER_DISTROS[name]) and not observed_manager:
+        return verdict('WONT_RUN', 'wrong_os', f'{name} is not a package manager for this distribution')
+    if sudo_missing:
+        return verdict('WONT_RUN', 'program_missing', 'sudo not found on the scenario PATH')
+    if name in ('nvidia-smi', 'nvcc') and observation(profile, 'software.gpu_stack', 'cuda_driver').get('reason') == 'not_applicable_on_platform':
+        return verdict('WONT_RUN', 'wrong_os', 'NVIDIA/CUDA tools are not applicable on this platform')
+    if relevant and all(platform not in r['os'] for r in relevant):
+        return verdict('WONT_RUN', 'wrong_os', f'{name} is not applicable on {platform}')
+    found, found_version = program(profile, req, name, installed)
+    if executable_path and family(target) == 'posix' and known_file(executable_path, venvs):
+        found = True
+    activation = venv_rule(tokens, target)
+    if activation and activation.get('activation_target'):
+        if activation['activation_target'] != target:
+            return verdict('WONT_RUN', 'wrong_shell_syntax', 'activation script is for a different shell')
+        if activation.get('activates_venv') in venvs:
+            found = True
+    if found is False:
+        return verdict('WONT_RUN', 'program_missing', f'{name} not found on the scenario PATH')
+    if family(target) == 'posix' and found is not True and cmdlet(name) and not any(
+            observation(profile, 'system.shell', s).get('status') == 'observed' for s in ('pwsh', 'powershell')):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'PowerShell cmdlet in a POSIX-only scenario')
+    if name in ('py', 'python', 'python3') or re.fullmatch(r'python3\.\d+', name):
+        py = python_facts(profile, name, text)
+        if py.get('version_mismatch'):
+            return verdict('WONT_RUN', 'version_mismatch', 'requested Python launcher version is not listed')
+        args = python_args(tokens)
+        module = args[1] if len(args) >= 2 and args[0] == '-m' else None
+        if module in ('venv', 'pip') and py.get(module) is False:
+            return verdict('WONT_RUN', 'program_missing', f'Python {module} module unavailable')
+    wheel = re.search(r'/whl/cu(\d{2})(\d)(?:\b|/)', text)
+    if wheel:
+        driver = value(profile, 'software.gpu_stack', 'cuda_driver')
+        if observation(profile, 'software.gpu_stack', 'cuda_driver').get('reason') == 'not_applicable_on_platform':
+            return verdict('WONT_RUN', 'wrong_os', 'CUDA is not applicable on this platform')
+        if driver and version(f'{wheel[1]}.{wheel[2]}') > version(driver):
+            return verdict('WONT_RUN', 'version_mismatch', f'wheel CUDA {wheel[1]}.{wheel[2]} exceeds driver CUDA {driver}')
+    if sudo and (platform == 'darwin' or req.get('sudo') is not True):
+        return verdict('UNKNOWN', detail='sudo access unobserved; snapshot does not establish group membership')
+    if hint != 'unknown' and family(hint) != family(target):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', f'{family(hint)} block for a {family(target)} scenario')
+    if wrong_syntax(text, target, profile):
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'explicit cross-shell syntax')
+    if not simple(text):
+        return verdict('UNKNOWN', detail='compound command, expansion, or redirection outside the rule set')
+    flags = re.I if target in ('powershell', 'cmd') else 0
+    rule = next((r for r in relevant if re.fullmatch(r['pattern'], text, flags)), None)
+    if rule is None:
+        rule = base_rule(profile, req, name, text)
+    special = activation
+    if special:
+        rule = special
+    if not rule:
+        # Patterns identify special effects, not the universe of runnable forms.
+        rule = dict(effect='FITS')
+        # Program-wide task constraints survive options not covered by a pattern.
+        for key in ('min_version', 'major_version', 'needs_admin', 'nvidia', 'daemon'):
+            values = [r.get(key) for r in relevant]
+            if values and all(v == values[0] for v in values) and values[0] is not None:
+                rule[key] = values[0]
+        attempt = install_intent(text, target)
+        if attempt:
+            # An unfamiliar form can run without proving that binaries were installed
+            # (dry-run, download-only, local npm prefix, etc.). Only bounded effect
+            # rules promote presence; every literal attempt still records uncertainty.
+            rule['needs_admin'] = attempt['needs_admin']
+        if wheel and any(r.get('cuda_wheel') for r in relevant):
+            rule.update(cuda_wheel=True, nvidia=True)
+    if name == 'docker':
+        required = needs_daemon(tokens)
+        if required is None:
+            return verdict('UNKNOWN', detail='Docker command daemon requirements outside classifier')
+        rule = dict(rule, daemon=required)
+    if rule.get('needs_admin') and not sudo:
+        if elevated is False:
+            return verdict('WONT_RUN', 'needs_admin', 'requires elevation or available sudo')
+        if elevated is None:
+            return verdict('UNKNOWN', detail='elevation unobserved')
+    if rule.get('requires_path') and rule.get('activates_venv') not in venvs:
+        return verdict('UNKNOWN', detail='the profile cannot establish that the activation script exists')
+    if rule.get('activation_shell') and observation(profile, 'system.shell', rule['activation_shell']).get('status') != 'observed':
+        return verdict('UNKNOWN', detail='activation script shell is not observed')
+    if rule.get('nvidia'):
+        adapters = value(profile, 'hardware.gpu', 'adapters')
+        if adapters and not any(a.get('vendor') == 'NVIDIA' for a in adapters):
+            return verdict('WONT_RUN', 'wrong_os', 'task requires an NVIDIA GPU')
+        if adapters is None:
+            return verdict('UNKNOWN', detail='GPU unobserved; none_found does not establish absence')
+    if rule.get('cuda_wheel') and value(profile, 'software.gpu_stack', 'cuda_driver') is None:
+        return verdict('UNKNOWN', detail='driver CUDA compatibility unobserved')
+    if rule.get('python_module'):
+        py = python_facts(profile, name, text)
+        if py.get(rule['python_module']) is not True:
+            return verdict('UNKNOWN', detail='Python module availability unobserved')
+    if rule.get('daemon'):
+        if 'development.containers' not in profile['granted'] or profile['document']['categories'].get('development.containers', {}).get('status') == 'denied':
+            return verdict('UNKNOWN', detail='daemon not granted (development.containers)')
+        if not default_target(tokens):
+            return verdict('UNKNOWN', detail='selected daemon context/host not observed')
+        daemon = value(profile, 'development.containers', 'docker_daemon')
+        if not daemon or not daemon.get('reachable'):
+            return verdict('UNKNOWN', detail='Docker daemon availability not established')
+    if rule.get('min_version') or rule.get('major_version') is not None:
+        if not found_version:
+            return verdict('UNKNOWN', detail='program version unobserved')
+        if rule.get('major_version') is not None and version(found_version)[0] != rule['major_version']:
+            return verdict('WONT_RUN', 'version_mismatch', 'program has the wrong major version')
+        if rule.get('min_version') and version(found_version) < version(rule['min_version']):
+            return verdict('WONT_RUN', 'version_mismatch', 'program below task minimum version')
+    if found is None:
+        return verdict('UNKNOWN', detail='program availability unobserved')
+    parsed = syntax(target, parser_text(command['text'], target))
+    if parsed is False:
+        return verdict('WONT_RUN', 'wrong_shell_syntax', 'syntax parser rejected the command')
+    if parsed is None:
+        return verdict('UNKNOWN', detail=f'{target} parser unavailable or form outside parser rules')
+    if rule['effect'] == 'INSTALLS':
+        for installed_name in rule['installs']:
+            installed[installed_name] = rule.get('installed_versions', {}).get(installed_name)
+        return verdict('INSTALLS', detail='recognized installation; subsequent commands assume success',
+                       installs=rule['installs'])
+    if rule.get('creates_venv'):
+        venvs.add(rule['creates_venv'])
+    return verdict('FITS', detail='program present, syntax parses, no task constraint broken')
+
+
+RANK = {'FITS': 0, 'INSTALLS': 1, 'UNKNOWN': 2, 'WONT_RUN': 3}
+
+
+def all_commands(rows):
+    for row in rows:
+        yield row
+        yield from all_commands(row.get('commands', []))
+
+
+def leaf_commands(rows):
+    for row in rows:
+        if row.get('commands'):
+            yield from leaf_commands(row['commands'])
+        else:
+            yield row
+
+
+def aggregate(command, children, parsed):
+    worst = max(children, key=lambda c: RANK[c['status']])
+    result = dict(command, status=worst['status'], reason=worst['reason'],
+                  detail='worst verdict of constituent commands', commands=children)
+    if parsed is False and worst['reason'] not in ('wrong_os', 'program_missing'):
+        result.update(status='WONT_RUN', reason='wrong_shell_syntax', detail='profile parser rejected the complete list')
+    elif parsed is None and result['status'] != 'WONT_RUN':
+        result.update(status='UNKNOWN', reason=None, detail='complete construct syntax not established')
+    return result
+
+
+def judge_command(command, profile, req, installed, venvs):
+    if family(req['shell']) == 'posix' and has_control(command['text']):
+        parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+        try:
+            nodes = parse_control(command['text'])
+        except ValueError:
+            child = dict(command, status='UNKNOWN', reason=None, detail='structure outside the bounded parser subset')
+            return aggregate(command, [child], parsed)
+        if len(nodes) == 1 and nodes[0]['kind'] != 'simple':
+            return judge_structure(command, nodes[0], profile, req, installed, venvs, parsed)
+        return judge_sequence(command, [(n['text'], n['after']) for n in nodes], profile, req, installed, venvs, parsed)
+    parts, is_list = split_list(command['text'], req['shell'])
+    if not is_list:
+        stages, pipeline = split_list(command['text'], req['shell'], {'|'})
+        if pipeline and stages:
+            parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+            children = [judge_command(dict(text=text, shell=command['shell']), profile, req,
+                                      dict(installed), set(venvs)) for text, _ in stages]
+            # Pipeline stages run in separate contexts: export only uncertain intent.
+            if parsed is not False:
+                for child in all_commands(children):
+                    uncertain(installed, child.get('install_attempts', []))
+                venvs.clear()
+            return aggregate(command, children, parsed)
+    if not is_list or not parts:
+        result = judge_simple(command, profile, req, installed, venvs)
+        if result['status'] in ('UNKNOWN', 'FITS', 'INSTALLS') and (attempt := install_intent(command['text'], req['shell'])):
+            result['install_attempts'] = attempt['installs']
+            uncertain(installed, attempt['installs'])
+        if result['status'] == 'UNKNOWN':
+            venvs.clear()  # unmodeled code may change cwd or the filesystem
+        elif result['status'] in ('FITS', 'INSTALLS'):
+            invalidate_venvs(command['text'], req['shell'], venvs)
+            provide_file(command['text'], req['shell'], venvs)
+        return result
+    parsed = syntax(req['shell'], parser_text(command['text'], req['shell']))
+    return judge_sequence(command, parts, profile, req, installed, venvs, parsed)
+
+
+def judge_structure(command, node, profile, req, installed, venvs, parsed):
+    children = []
+    surviving, condition_survivors = set(venvs), set(venvs)
+    for group in node['groups']:
+        programs, created = dict(installed), set(condition_survivors)
+        for part in ('condition', 'body'):
+            nodes = group[part]
+            if nodes:
+                text = ''.join(n['text'] + n['after'] for n in nodes)
+                entry = dict(text=text, shell=command['shell'])
+                children.append(judge_sequence(entry, [(n['text'], n['after']) for n in nodes],
+                                               profile, req, programs, created, parsed))
+                if part == 'condition':
+                    condition_survivors &= created
+        surviving &= created
+    if node['uncertain'] or not children:
+        surviving.clear()
+        children.append(dict(text=command['text'], shell=command['shell'], status='UNKNOWN',
+                             reason=None, detail='dynamic header or unmodeled empty structure'))
+    if parsed is not False:
+        venvs.intersection_update(surviving & condition_survivors)
+        for child in all_commands(children):
+            uncertain(installed, child.get('install_attempts', []))
+    return aggregate(command, children, parsed)
+
+
+def judge_sequence(command, parts, profile, req, installed, venvs, parsed):
+    programs, created = dict(installed), set(venvs)
+    has_or = any(after == '||' for _, after in parts)
+    children, reachable, prior, alternatives = [], True, '', []
+    surviving = set(venvs)
+    for text, after in parts:
+        if prior in (';', '\n'):
+            reachable = True
+            alternatives = []
+        if prior == '||':
+            programs, created, reachable = dict(installed), set(venvs), True
+        if not reachable:
+            child_programs, child_venvs = dict(installed), set(venvs)
+        else:
+            child_programs, child_venvs = programs, created
+        child = judge_command(dict(text=text, shell=command['shell']), profile, req, child_programs, child_venvs)
+        # Intent is weaker than installation success and survives an undecided AND predecessor.
+        uncertain(programs, pending(child_programs))
+        if parsed is not False:
+            uncertain(installed, pending(child_programs))
+        children.append(child)
+        surviving &= child_venvs
+        if after == '||':
+            alternatives.append((dict(programs), set(created)))
+        elif prior == '||' and alternatives:
+            for other_programs, other_venvs in alternatives:
+                programs = {name: version if version == other_programs[name] else None
+                            for name, version in programs.items() if name in other_programs}
+                created &= other_venvs
+            alternatives = []
+        if after == '&&' and child['status'] in ('WONT_RUN', 'UNKNOWN'):
+            reachable = False
+        prior = after
+    if parsed is True and not has_or:
+        installed.update(programs)
+        venvs.clear()
+        venvs.update(created)
+    elif parsed is not False:
+        venvs.intersection_update(surviving)
+        for child in all_commands(children):
+            uncertain(installed, child.get('install_attempts', []))
+    return aggregate(command, children, parsed)
+
+
+# the shell a tagged block runs in, by family, when the profile observes it (system.shell)
+OBSERVED_SHELLS = {'powershell': ('pwsh', 'powershell'), 'cmd': ('cmd',), 'posix': ('bash', 'zsh', 'sh', 'fish', 'git_bash', 'git-bash', 'msys2')}
+
+
+def other_shell(command, profile, req):
+    """The observed shell a block is tagged for, when its family is not the scenario's (PROTOCOL v1, 2026-11-01):
+    such a block is judged in that shell, not as a wrong shell. None when the families agree or none is observed."""
+    hint = command.get('shell', 'unknown')
+    if hint == 'unknown' or family(hint) == family(req['shell']):
+        return None
+    for name in OBSERVED_SHELLS.get(family(hint), ()):
+        if observation(profile, 'system.shell', name).get('status') == 'observed':
+            return 'powershell' if family(hint) == 'powershell' else 'bash' if name in ('git_bash', 'git-bash', 'msys2') else name
+    return None
+
+
+def judge_answer(answer, profile, task):
+    """OK requires all FITS/INSTALLS; undecided commands cannot establish success."""
+    p, t = load_profile(profile), load_task(task)
+    if p['id'] not in t['requirements']:
+        raise ValueError('task does not apply to this profile')
+    rows, installed, venvs = [], {}, set()
+    req = t['requirements'][p['id']]
+    scope = select_sections(answer, p)
+    section = None
+    for command in scope['commands']:
+        if command['section_id'] != section:
+            installed, venvs = {}, set(req.get('existing_venvs', [])) | seed_files(req)
+            section = command['section_id']
+        alt = other_shell(command, p, req)
+        if alt is None:
+            rows.append(judge_command(command, p, req, installed, venvs))
+        elif alt in t.get('alternate_requirements', {}).get(p['id'], {}):
+            rows.append(judge_command(command, p, t['alternate_requirements'][p['id']][alt], installed, venvs))
+        else:
+            # Only base/generic rules prove forms for an observed alternative shell; do not borrow
+            # the default shell's task forms or builtin assumptions.
+            alternate = dict(req, shell=alt, commands=[], assumed_programs=[])
+            rows.append(judge_command(command, p, alternate, installed, venvs))
+    if scope['has_sections'] and not scope['applicable']:
+        status = 'BROKEN'
+    elif rows:
+        status = ('BROKEN' if any(r['status'] == 'WONT_RUN' for r in rows) else
+                  'UNDECIDED' if any(r['status'] == 'UNKNOWN' for r in rows) else 'OK')
+    else:
+        question = '?' in answer and re.search(r'(?i)\b(?:operating system|OS|shell|Python|GPU|driver|sudo|'
+                                               r'Windows|macOS|Linux|machine|computer|version|admin|package manager)\b', answer)
+        status = 'ASKED' if question else 'NO_COMMANDS'
+    reason = ('wrong_os' if scope['has_sections'] and not scope['applicable'] else
+              next((r['reason'] for r in rows if r['status'] == 'WONT_RUN'), None))
+    return dict(profile=p['id'], task=t['id'], status=status, reason=reason, commands=rows,
+                targeting=scope['targeting'], commands_total=scope['commands_total'],
+                commands_for_profile=scope['commands_for_profile'],
+                sections=[dict(label=s['label'], targets=s['targets'], applies=s['applies'],
+                               commands=len(s['commands'])) for s in scope['sections']],
+                all_commands_decided=bool(rows) and all(r['status'] != 'UNKNOWN' for r in all_commands(rows)),
+                unknown_commands=sum(r['status'] == 'UNKNOWN' for r in leaf_commands(rows)),
+                unknown_constructs=sum(r['status'] == 'UNKNOWN' and bool(r.get('commands')) for r in all_commands(rows)))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--profile', required=True, help='profile id')
+    parser.add_argument('--task', required=True, help='task id')
+    parser.add_argument('--answer', required=True, type=Path)
+    args = parser.parse_args()
+    try:
+        result = judge_answer(args.answer.read_text(encoding='utf-8'), args.profile, args.task)
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == '__main__':
+    main()

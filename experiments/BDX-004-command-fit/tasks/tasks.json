@@ -1,0 +1,7242 @@
+[
+  {
+    "id": "python-venv",
+    "prompt": "Create a virtual environment for this project.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.python"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "py -3\\.12 -m venv \\.venv",
+            "program": "py",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python -m venv \\.venv",
+            "program": "python",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m venv \\.venv",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "venv"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "activate-venv",
+    "prompt": "Activate the virtual environment named .venv.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.python"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "\\.\\\\\\.venv\\\\Scripts\\\\Activate\\.ps1",
+            "program": "Activate.ps1",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "\\.venv\\\\Scripts\\\\activate(?:\\.bat)?",
+            "program": "activate.bat",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [
+          ".venv"
+        ],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "(?:source|\\.) \\.venv/bin/activate",
+            "program": "source",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "requires_path": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "install-requests",
+    "prompt": "Install requests into the current Python environment.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.python"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "py -3\\.12 -m pip install requests",
+            "program": "py",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python -m pip install requests",
+            "program": "python",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install requests",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "python-version",
+    "prompt": "Show the Python version I can use.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.python"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "py -3\\.12 --version",
+            "program": "py",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python --version",
+            "program": "python",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 --version",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "pytorch-gpu",
+    "prompt": "Install PyTorch with GPU acceleration if it is supported.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.python",
+      "hardware.gpu",
+      "software.gpu_stack"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "py -3\\.12 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "py",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "py -3\\.12 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "py",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cu\\d{3}",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip",
+            "cuda_wheel": true,
+            "nvidia": true
+          },
+          {
+            "pattern": "python3 -m pip install torch --index-url https://download\\.pytorch\\.org/whl/cpu",
+            "program": "python3",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "python_module": "pip"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "gpu-check",
+    "prompt": "Show my GPU and driver information.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "hardware.gpu",
+      "software.gpu_stack"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          },
+          {
+            "pattern": "system_profiler SPDisplaysDataType",
+            "program": "system_profiler",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "nvidia-smi(?: --query-gpu=name,memory.total --format=csv)?",
+            "program": "nvidia-smi",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ],
+            "nvidia": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cuda-toolkit",
+    "prompt": "Show the installed CUDA compiler version.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.gpu_stack",
+      "software.tools"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "nvcc --version",
+            "program": "nvcc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "install-ffmpeg",
+    "prompt": "Install ffmpeg so I can convert a video.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.package_managers",
+      "system.permissions"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "winget install Gyan.FFmpeg",
+            "program": "winget",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "choco install ffmpeg",
+            "program": "choco",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "brew install ffmpeg",
+            "program": "brew",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install ffmpeg",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apt install ffmpeg",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install ffmpeg",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "dnf install ffmpeg",
+            "program": "dnf",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apk add ffmpeg",
+            "program": "apk",
+            "effect": "INSTALLS",
+            "installs": [
+              "ffmpeg"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "ffmpeg -version",
+            "program": "ffmpeg",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "install-git",
+    "prompt": "Install Git for this project.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.package_managers",
+      "system.permissions"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "winget install Git.Git",
+            "program": "winget",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "choco install git",
+            "program": "choco",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "brew install git",
+            "program": "brew",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install git",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apt install git",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install git",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "dnf install git",
+            "program": "dnf",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apk add git",
+            "program": "apk",
+            "effect": "INSTALLS",
+            "installs": [
+              "git"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "git --version",
+            "program": "git",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "install-node20",
+    "prompt": "Install Node.js version 20.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.package_managers",
+      "software.runtimes",
+      "system.permissions"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "winget install OpenJS.NodeJS --version 20.18.0",
+            "program": "winget",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "choco install nodejs --version=20.18.0",
+            "program": "choco",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "brew install node@20",
+            "program": "brew",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install nodejs=20\\.[\\w.+~-]+",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apt install nodejs=20\\.[\\w.+~-]+",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "apt install nodejs=20\\.[\\w.+~-]+",
+            "program": "apt",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "dnf install nodejs-20\\.[\\w.+~-]+",
+            "program": "dnf",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "apk add nodejs=20\\.[\\w.+~-]+",
+            "program": "apk",
+            "effect": "INSTALLS",
+            "installs": [
+              "node"
+            ],
+            "needs_admin": true,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "installed_versions": {
+              "node": "20.0.0"
+            }
+          },
+          {
+            "pattern": "node (?:--version|-v)",
+            "program": "node",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "min_version": "20.0",
+            "major_version": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "container-run",
+    "prompt": "Run an ephemeral Alpine container.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.containers",
+      "development.containers"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "podman run --rm alpine(?::3\\.20)? echo hello",
+            "program": "podman",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": false
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "docker run --rm alpine(?::3\\.20)? echo hello",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ],
+            "daemon": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "container-version",
+    "prompt": "Show the container client version.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.containers"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "podman --version",
+            "program": "podman",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "docker --version",
+            "program": "docker",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "session-variable",
+    "prompt": "Set APP_MODE to development for this session.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "\\$env:APP_MODE\\s*=\\s*[\\'\\\"]development[\\'\\\"]",
+            "program": "$env:APP_MODE",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "set APP_MODE=development",
+            "program": "set",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "export APP_MODE=development",
+            "program": "export",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "show-variable",
+    "prompt": "Print APP_MODE from this session.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "(?:Write-Output|echo) \\$env:APP_MODE",
+            "program": "Write-Output",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "echo %APP_MODE%",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "echo \"?\\$APP_MODE\"?",
+            "program": "echo",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "port-process",
+    "prompt": "Find the process listening on port 8000.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "Get-NetTCPConnection -LocalPort 8000",
+            "program": "Get-NetTCPConnection",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "netstat -ano",
+            "program": "netstat",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "lsof -i :8000",
+            "program": "lsof",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ss -ltnp(?: [\\'\\\"]sport = :8000[\\'\\\"])?",
+            "program": "ss",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "ss -ltnp(?: [\\'\\\"]sport = :8000[\\'\\\"])?",
+            "program": "ss",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ss -ltnp(?: [\\'\\\"]sport = :8000[\\'\\\"])?",
+            "program": "ss",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ss -ltnp(?: [\\'\\\"]sport = :8000[\\'\\\"])?",
+            "program": "ss",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "ss -ltnp(?: [\\'\\\"]sport = :8000[\\'\\\"])?",
+            "program": "ss",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "archive-create",
+    "prompt": "Archive the folder data as data.tar.gz.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.tools"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "tar -czf data\\.tar\\.gz data",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "archive-extract",
+    "prompt": "Extract data.tar.gz into the current directory.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.tools"
+    ],
+    "applies_to": "all",
+    "shell_dependent": false,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "tar -xzf data\\.tar\\.gz",
+            "program": "tar",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "download-file",
+    "prompt": "Download https://example.org/data.txt to data.txt.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "software.tools"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl\\.exe -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "curl(?:\\.exe)? -o data\\.txt https://example\\.org/data\\.txt",
+            "program": "curl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          },
+          {
+            "pattern": "Invoke-WebRequest https://example\\.org/data\\.txt -OutFile data\\.txt",
+            "program": "Invoke-WebRequest",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "permissions",
+    "prompt": "Allow my user to execute script.sh.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "icacls script\\.sh /grant \"\\$\\{env:USERNAME\\}:RX\"",
+            "program": "icacls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "icacls script\\.sh /grant \"%USERNAME%:RX\"",
+            "program": "icacls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [
+          "script.sh"
+        ],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "chmod u\\+x script\\.sh",
+            "program": "chmod",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "service-status",
+    "prompt": "Show whether the SSH service is running.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "system.permissions"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "Get-Service sshd",
+            "program": "Get-Service",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "sc query sshd",
+            "program": "sc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "launchctl list",
+            "program": "launchctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl status sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "systemctl status sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl status sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl status sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "rc-service sshd status",
+            "program": "rc-service",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "service-restart",
+    "prompt": "Restart the SSH service.",
+    "categories": [
+      "system.os",
+      "system.shell",
+      "system.permissions"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "Restart-Service sshd",
+            "program": "Restart-Service",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "sc stop sshd",
+            "program": "sc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "windows"
+            ]
+          },
+          {
+            "pattern": "sc start sshd",
+            "program": "sc",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "windows"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "launchctl kickstart -k system/com.openssh.sshd",
+            "program": "launchctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl restart sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "systemctl restart sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl restart sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "systemctl restart sshd?",
+            "program": "systemctl",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "rc-service sshd restart",
+            "program": "rc-service",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": true,
+            "os": [
+              "linux"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "make-directory",
+    "prompt": "Create a folder named output.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "New-Item -ItemType Directory output",
+            "program": "New-Item",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "mkdir output",
+            "program": "mkdir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "list-files",
+    "prompt": "List files in the current directory.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "Get-ChildItem",
+            "program": "Get-ChildItem",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "dir",
+            "program": "dir",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "ls",
+            "program": "ls",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "remove-temp",
+    "prompt": "Delete the file temp.txt.",
+    "categories": [
+      "system.os",
+      "system.shell"
+    ],
+    "applies_to": "all",
+    "shell_dependent": true,
+    "requirements": {
+      "win11-pwsh-nvidia": {
+        "shell": "powershell",
+        "sudo": false,
+        "assumed_programs": [
+          "Get-ChildItem",
+          "New-Item",
+          "Remove-Item",
+          "Write-Output",
+          "echo",
+          "$env:APP_MODE",
+          "Get-NetTCPConnection",
+          "Get-Service",
+          "Restart-Service",
+          "Invoke-WebRequest",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "Remove-Item temp\\.txt",
+            "program": "Remove-Item",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "win11-cmd-nogpu": {
+        "shell": "cmd",
+        "sudo": false,
+        "assumed_programs": [
+          "set",
+          "echo",
+          "dir",
+          "del",
+          "mkdir",
+          "netstat",
+          "sc",
+          "icacls"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "del temp\\.txt",
+            "program": "del",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "macos-arm": {
+        "shell": "zsh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "system_profiler",
+          "launchctl",
+          "lsof"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2404-nvidia": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "ubuntu2204-nosudo": {
+        "shell": "bash",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "wsl-ubuntu": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "fedora40": {
+        "shell": "bash",
+        "sudo": true,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          ".",
+          "ss",
+          "systemctl"
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      },
+      "alpine-container": {
+        "shell": "sh",
+        "sudo": false,
+        "assumed_programs": [
+          "echo",
+          "export",
+          "mkdir",
+          "ls",
+          "rm",
+          "chmod",
+          "source",
+          "."
+        ],
+        "provided_files": [],
+        "existing_venvs": [],
+        "missing_programs": [
+          "sudo"
+        ],
+        "commands": [
+          {
+            "pattern": "rm temp\\.txt",
+            "program": "rm",
+            "effect": "FITS",
+            "installs": [],
+            "needs_admin": false,
+            "os": [
+              "windows",
+              "linux",
+              "darwin"
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

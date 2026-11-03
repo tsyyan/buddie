@@ -1,0 +1,190 @@
+{
+  "baseline_commit": "b9d5856",
+  "before": {
+    "unknown_causes": {
+      "data": 62,
+      "judge": 6
+    },
+    "unknown_cause_share": {
+      "data": 0.21754385964912282,
+      "judge": 0.021052631578947368
+    },
+    "answers": 167,
+    "commands": 249,
+    "unknown_commands": 67,
+    "commands_total": 492,
+    "commands_for_profile": 249,
+    "unknown_share": 0.26907630522088355,
+    "leaf_commands": 285,
+    "unknown_leaf_commands": 68,
+    "unknown_leaf_share": 0.23859649122807017
+  },
+  "after_all": {
+    "unknown_causes": {
+      "data": 48,
+      "judge": 6
+    },
+    "unknown_cause_share": {
+      "data": 0.16842105263157894,
+      "judge": 0.021052631578947368
+    },
+    "answers": 167,
+    "commands": 249,
+    "unknown_commands": 53,
+    "commands_total": 492,
+    "commands_for_profile": 249,
+    "targeting": {
+      "TARGETED": 128,
+      "HEDGED": 39
+    },
+    "unknown_share": 0.21285140562248997,
+    "leaf_commands": 285,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.18947368421052632,
+    "leaf_outcomes": {
+      "FITS": 155,
+      "WONT_RUN": 53,
+      "INSTALLS": 23,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 120,
+      "WONT_RUN": 53,
+      "INSTALLS": 23,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 76,
+      "BROKEN": 55,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 18
+    }
+  },
+  "after_original": {
+    "unknown_causes": {
+      "data": 48,
+      "judge": 6
+    },
+    "unknown_cause_share": {
+      "data": 0.16842105263157894,
+      "judge": 0.021052631578947368
+    },
+    "answers": 167,
+    "commands": 249,
+    "unknown_commands": 53,
+    "commands_total": 492,
+    "commands_for_profile": 249,
+    "targeting": {
+      "TARGETED": 128,
+      "HEDGED": 39
+    },
+    "unknown_share": 0.21285140562248997,
+    "leaf_commands": 285,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.18947368421052632,
+    "leaf_outcomes": {
+      "FITS": 155,
+      "WONT_RUN": 53,
+      "INSTALLS": 23,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 120,
+      "WONT_RUN": 53,
+      "INSTALLS": 23,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 76,
+      "BROKEN": 55,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 18
+    }
+  },
+  "parsers_available": {
+    "bash": true,
+    "sh": true,
+    "powershell": true
+  },
+  "after_existing": {
+    "unknown_causes": {
+      "data": 48,
+      "judge": 6
+    },
+    "unknown_cause_share": {
+      "data": 0.20425531914893616,
+      "judge": 0.02553191489361702
+    },
+    "answers": 136,
+    "commands": 199,
+    "unknown_commands": 53,
+    "commands_total": 321,
+    "commands_for_profile": 199,
+    "targeting": {
+      "TARGETED": 126,
+      "HEDGED": 10
+    },
+    "unknown_share": 0.2663316582914573,
+    "leaf_commands": 235,
+    "unknown_leaf_commands": 54,
+    "unknown_leaf_share": 0.2297872340425532,
+    "leaf_outcomes": {
+      "FITS": 127,
+      "WONT_RUN": 52,
+      "INSTALLS": 2,
+      "UNKNOWN": 54
+    },
+    "command_outcomes": {
+      "FITS": 92,
+      "WONT_RUN": 52,
+      "INSTALLS": 2,
+      "UNKNOWN": 53
+    },
+    "answer_outcomes": {
+      "OK": 51,
+      "BROKEN": 49,
+      "ASKED": 16,
+      "NO_COMMANDS": 2,
+      "UNDECIDED": 18
+    }
+  },
+  "after_multi_section": {
+    "unknown_causes": {
+      "data": 0,
+      "judge": 0
+    },
+    "unknown_cause_share": {
+      "data": 0.0,
+      "judge": 0.0
+    },
+    "answers": 31,
+    "commands": 50,
+    "unknown_commands": 0,
+    "commands_total": 171,
+    "commands_for_profile": 50,
+    "targeting": {
+      "HEDGED": 29,
+      "TARGETED": 2
+    },
+    "unknown_share": 0.0,
+    "leaf_commands": 50,
+    "unknown_leaf_commands": 0,
+    "unknown_leaf_share": 0.0,
+    "leaf_outcomes": {
+      "INSTALLS": 21,
+      "FITS": 28,
+      "WONT_RUN": 1
+    },
+    "command_outcomes": {
+      "INSTALLS": 21,
+      "FITS": 28,
+      "WONT_RUN": 1
+    },
+    "answer_outcomes": {
+      "OK": 25,
+      "BROKEN": 6
+    }
+  }
+}
