@@ -1,30 +1,53 @@
 name: Bug report
-description: Report incorrect behavior with a small, reproducible example.
+description: Report a reproducible error, crash, installation issue, or regression.
+title: "[Bug]: "
 body:
   - type: markdown
     attributes:
       value: |
-        For vulnerabilities, follow [SECURITY.md](https://github.com/tsyyan/buddie/blob/main/SECURITY.md).
-        Do not attach secrets, private transcripts, reports or snapshots. Use synthetic examples.
+        Thanks for reporting a problem in buddie. Search [existing issues](https://github.com/tsyyan/buddie/issues) before submitting.
+
+        **Public reports only:** do not post tokens, private repositories, transcripts, source snapshots, or personal information. Use synthetic data and redact all logs. For a vulnerability, follow [SECURITY.md](https://github.com/tsyyan/buddie/blob/main/SECURITY.md) instead.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Verification (quotes / numbers)
+        - Repository / GitHub (files / PR / CI)
+        - Execution / run anchors
+        - Environment diagnostics / grants
+        - Hooks / policy / profiles
+        - MCP / CLI / integrations
+        - Feedback / receipts / freshness
+        - Installation / packaging / update
+        - Other / not sure
+    validations:
+      required: true
   - type: input
     id: version
     attributes:
-      label: Version or commit
-      description: Include the output of buddie --version, or the commit SHA for a source checkout.
+      label: Buddie version or commit
+      description: Output of `buddie --version` or the commit SHA, if available.
+      placeholder: "2.0.8 / main @ <commit> / unknown"
     validations:
       required: true
   - type: input
     id: environment
     attributes:
-      label: Client, installation method and OS
-      placeholder: "Claude Code plugin / uvx / pip / MCPB / remote MCP; OS and Python version"
+      label: Client, installation method, OS, and Python version
+      placeholder: "Claude Code plugin; marketplace; Windows 11; Python 3.12"
     validations:
       required: true
   - type: textarea
-    id: reproduction
+    id: steps
     attributes:
-      label: Minimal reproduction
-      description: Include steps, a synthetic input and relevant configuration with credentials removed.
+      label: Steps to reproduce
+      description: Include a minimal synthetic example and the smallest relevant configuration (redacted).
+      placeholder: |
+        1. Configure ...
+        2. Run ...
+        3. Observe ...
     validations:
       required: true
   - type: textarea
@@ -37,6 +60,27 @@ body:
     id: actual
     attributes:
       label: Actual behavior
-      description: Include the error or relevant receipt excerpt after redacting sensitive data.
+      description: Include the exact error or a small sanitized receipt excerpt, if available.
     validations:
       required: true
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: Frequency
+      options:
+        - Every time
+        - Intermittent
+        - Once
+        - Not sure
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context (optional)
+      description: Logs, relevant configuration, related issues, or workaround. Only public, redacted material.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Safety check
+      options:
+        - label: I have removed secrets, private content, and personal information from this public issue.
+          required: true

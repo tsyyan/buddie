@@ -1,0 +1,88 @@
+name: Unexpected verification result
+description: Report a surprising PASS, FAIL, GAPS, EMPTY, missing check, or incorrect agent correction.
+title: "[Verification]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for **incorrect or surprising verifier behavior**, even if buddie did not crash.
+        A `PASS` does **not** mean that every claim in the entire answer is true: it only applies to checks that ran. See [verification](https://github.com/tsyyan/buddie/blob/main/docs/verification.md) and [limitations](https://github.com/tsyyan/buddie/blob/main/docs/limitations.md).
+
+        Use **synthetic examples only**. Never include private transcripts, receipts with sensitive URLs, credentials, or private source snapshots. Report security vulnerabilities privately via [SECURITY.md](https://github.com/tsyyan/buddie/blob/main/SECURITY.md).
+  - type: dropdown
+    id: result_type
+    attributes:
+      label: What seemed wrong?
+      options:
+        - False PASS (unsupported claim appeared verified)
+        - False FAIL (supported claim was rejected)
+        - Unexpected GAPS / EMPTY / UNKNOWN
+        - Important claim was not detected or checked
+        - Incorrect or missing evidence / source attribution
+        - Unexpected hook, policy, or feedback behavior
+        - Unexpected environment observation
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did it happen?
+      options:
+        - Claude Code Stop hook
+        - Claude Code outgoing-message hook
+        - Codex Stop hook
+        - Local MCP tool
+        - Remote MCP server
+        - CLI / CI
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Buddie version or commit
+      placeholder: "2.0.8 / main @ <commit> / unknown"
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Minimal synthetic claim and evidence
+      description: Provide the exact claim, anchor/link syntax, and a synthetic source or command output. No real secrets or private content.
+      placeholder: |
+        Claim: Tests passed: 41 passed ⚓ run:pytest -q => 41 passed
+        Synthetic transcript output: 40 passed, 1 failed
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed verdict and behavior
+      description: Paste a short sanitized output or receipt fragment, if possible. State whether the agent corrected, removed, or repeated the claim.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected verdict and why
+      description: Explain which evidence supports the expected outcome, or why the result should remain uncertain.
+    validations:
+      required: true
+  - type: textarea
+    id: settings
+    attributes:
+      label: Verification options and scope (if known)
+      description: Relevant profile, enabled modules, numbers mode, fetch/GitHub settings, grants, policy, and receipt version. Redact sensitive data.
+  - type: input
+    id: platform
+    attributes:
+      label: Client and OS (optional)
+      placeholder: "Codex CLI, Ubuntu 24.04"
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Safety check
+      options:
+        - label: This public issue contains no secrets, private reports, or sensitive source material.
+          required: true
