@@ -1,8 +1,8 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
-  - name: Security reporting
+  - name: Security vulnerability (private reporting instructions)
     url: https://github.com/tsyyan/buddie/blob/main/SECURITY.md
-    about: Read the reporting policy before sharing vulnerability information.
-  - name: Installation and documentation
+    about: Do not disclose exploit details or secrets in a public issue.
+  - name: Getting started and troubleshooting
     url: https://github.com/tsyyan/buddie/blob/main/docs/README.md
-    about: Client guides, evidence checks, privacy and troubleshooting.
+    about: Read installation guides, limitations, and troubleshooting before reporting.

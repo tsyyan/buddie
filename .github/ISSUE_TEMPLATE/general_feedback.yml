@@ -1,0 +1,53 @@
+name: General feedback / usability / docs
+description: Share onboarding friction, confusing behavior, documentation gaps, or other non-security feedback.
+title: "[Feedback]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Not sure if something is a bug or a feature request? You can describe it here.
+        For security vulnerabilities, use [private reporting instructions](https://github.com/tsyyan/buddie/blob/main/SECURITY.md), not a public issue. Please redact personal and private data.
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Feedback topic
+      options:
+        - Installation / onboarding
+        - Confusing UI or messages
+        - Documentation or examples
+        - Unexpected workflow / unclear limitations
+        - Accessibility / usability
+        - Compatibility or integration question
+        - General suggestion / other
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: What were you trying to do?
+      description: A brief description of the goal and where you got stuck.
+    validations:
+      required: true
+  - type: textarea
+    id: friction
+    attributes:
+      label: What was confusing, inconvenient, or missing?
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: What would make this easier? (optional)
+      description: Suggestions, documentation corrections, or an example of more helpful wording.
+  - type: input
+    id: version
+    attributes:
+      label: Buddie version, client, or documentation page (optional)
+      placeholder: "v2.0.8 / Claude Code / docs/install-codex.md"
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I checked that this public issue contains no secrets or private user data.
+          required: true
